@@ -134,6 +134,137 @@
       </div>
     </div>
 
+    <!-- SQ-11 大陆十六环陆行鸟巡礼与幻影背心秘境跑道 (基于 Godot chocobo_circuit_route.gd / service.gd / reward.gd 实机规范) -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-950/40 via-slate-900/90 to-yellow-950/40 border border-amber-500/50 shadow-xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-500/30 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🐤</span>
+          <h3 class="text-base sm:text-lg font-bold text-amber-300">SQ-11 大陆十六环陆行鸟巡礼与幻影背心秘境跑道 (Chocobo Circuit & Mirage Vest)</h3>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <n-tag type="warning" size="small" round strong>全域 16 环顺序传感器</n-tag>
+          <n-tag type="info" size="small" round>后山饲养所试炼</n-tag>
+          <n-tag type="success" size="small" round>终极防具：幻影背心 (Item 2095)</n-tag>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        实机大地图巡礼核心玩法（<code>chocobo_circuit_route.gd</code> / <code>chocobo_circuit_service.gd</code>）：骑乘陆行鸟从后山西林起点出发，按<strong>严格单调升序</strong>依次穿越遍布大陆的 16 个地脉打卡圈（每个光环判定半径 <code>RADIUS = 24.0px</code>）。无物理阻挡，完成闭环后即可向后山饲养员领取附带【幻影物理免伤分身】的神兵级防具<strong>【幻影背心】</strong>（<code>2095</code>）。
+      </p>
+
+      <!-- 架构三柱石 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-800/40 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-400">🏁 16 环单调递增打卡序列</span>
+            <n-tag size="tiny" type="warning">MONOTONIC</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400">
+            <strong>判定半径：</strong><code>RADIUS = 24.0px</code> (入圈边沿触发)
+          </div>
+          <p class="text-[10px] text-gray-400 leading-relaxed">
+            打卡点 01 与 16 均位于后山西林 <code>(920, 760)</code>，必须在完整穿越 02~15 号外环地标后返回，方可被判定为闭环。逆向或跳步无法激活。
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-yellow-800/40 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-yellow-400">🎽 幻影背心 (Item 2095)</span>
+            <n-tag size="tiny" type="success">MIRAGE VEST</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400">
+            <strong>战术特性：</strong>入战自备幻影分身，免疫下一次物理攻击
+          </div>
+          <p class="text-[10px] text-gray-400 leading-relaxed">
+            专属领奖旗标 <code>chocobo_circuit_reward_claimed</code>，受容量上限（9999）守卫与 <code>_commit_gift</code> 原子事务保护，绝不重入多发。
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-800/40 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-400">🦅 黑陆行鸟越山空行体系</span>
+            <n-tag size="tiny" type="info">black_chocobo</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400">
+            <strong>特殊能力：</strong>飞跃普通黄鸟无法翻越的峻岭
+          </div>
+          <p class="text-[10px] text-gray-400 leading-relaxed">
+            实机搭载 <code>black_chocobo_state.gd</code> 与视觉组件，限定安全着陆于森林地块，配合世界树与北方山体探索。
+          </p>
+        </div>
+      </div>
+
+      <!-- 交互演练台：陆行鸟 16 环全域巡礼打卡推演台 -->
+      <div class="p-4 rounded-xl bg-slate-950/90 border border-amber-500/40 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/20 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🗺️</span>
+            <span class="font-bold text-amber-300">陆行鸟 16 环全域巡礼打卡推演台 (Chocobo Circuit Simulator)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetChocoboCircuit">
+              🔄 重新起跑
+            </n-button>
+            <n-button size="tiny" secondary type="success" :disabled="currentChocoboStep < 16" @click="claimMirageVest">
+              {{ isVestClaimed ? '✅ 幻影背心已领取' : '🎁 模拟向饲养员领奖' }}
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 步进滑动条 -->
+        <div>
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="text-gray-300 font-bold">
+              当前巡礼进度: <span class="text-amber-400 font-mono">环号 #{{ currentChocoboStep }} / 16</span>
+              <span v-if="currentChocoboStep === 16" class="text-emerald-400 ml-2 font-bold">🎉 16 环全域闭环达成！</span>
+            </span>
+            <span class="text-gray-400 text-[11px]">滑动模拟骑乘穿圈</span>
+          </div>
+          <n-slider v-model:value="currentChocoboStep" :min="1" :max="16" :step="1" />
+        </div>
+
+        <!-- 当前检查点详情卡 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-slate-900/80 p-3 rounded-lg border border-slate-800 text-xs">
+          <div>
+            <span class="text-gray-400 text-[10px] block">打卡点序列 & 坐标:</span>
+            <div class="font-bold text-amber-300 text-sm font-mono mt-0.5">
+              #{{ activeCheckpoint.index }} · {{ activeCheckpoint.coords }}
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">半径: 24.0px 光环</div>
+          </div>
+
+          <div>
+            <span class="text-gray-400 text-[10px] block">现代大陆地标:</span>
+            <div class="font-bold text-gray-200 mt-0.5">
+              {{ activeCheckpoint.label }}
+            </div>
+            <div class="text-[10px] text-cyan-400 mt-0.5">别名: {{ activeCheckpoint.alias }}</div>
+          </div>
+
+          <div class="md:col-span-2">
+            <span class="text-gray-400 text-[10px] block">环境描述与地貌特征:</span>
+            <div class="text-gray-300 text-[11px] mt-0.5 leading-relaxed">
+              {{ activeCheckpoint.desc }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 16 环微缩雷达点阵 -->
+        <div class="grid grid-cols-4 sm:grid-cols-8 gap-1.5 pt-1">
+          <div
+            v-for="cp in chocoboCheckpoints"
+            :key="cp.index"
+            class="p-1.5 rounded text-center cursor-pointer transition-all border text-[10px]"
+            :class="currentChocoboStep >= cp.index ? 'bg-amber-950/60 border-amber-500/60 text-amber-300' : 'bg-slate-900/40 border-slate-800 text-gray-500'"
+            @click="currentChocoboStep = cp.index"
+          >
+            <div class="font-mono font-bold">#{{ cp.index }}</div>
+            <div class="truncate text-[9px]">{{ cp.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 宁静村居民深度会话与可选回应系统 (基于 Godot NPC_OPTIONAL_INTERACTION_DESIGN_2026-10-23.md) -->
     <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-slate-900/90 to-teal-950/40 border border-emerald-500/40 shadow-xl space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-800/40 pb-2.5">
@@ -342,5 +473,50 @@ const filteredSidequests = computed(() => {
 const resetSearch = () => {
   activeFilter.value = 'all'
   searchKeyword.value = ''
+}
+
+// ================= 陆行鸟 16 环全域巡礼模拟器 (chocobo_circuit_route.gd) =================
+interface ChocoboCheckpoint {
+  index: number
+  coords: string
+  label: string
+  alias: string
+  desc: string
+}
+
+const chocoboCheckpoints: ChocoboCheckpoint[] = [
+  { index: 1, coords: '(920, 760)', label: '后山西林起点', alias: '幻影村西林', desc: '后山饲养所林地起跑线，开始环岛计时。' },
+  { index: 2, coords: '(1200, 520)', label: '晨辉道路西侧', alias: '晨辉荒野峡谷', desc: '沿晨辉王城通往北方的平原大道西侧隘口。' },
+  { index: 3, coords: '(1536, 192)', label: '秘法都北侧通道', alias: '沃尔斯山隘', desc: '穿越沃尔斯群山北麓狭窄的冰霜石廊。' },
+  { index: 4, coords: '(2320, 192)', label: '织造城东北角', alias: '卡纳克熔岩桥', desc: '经火山熔岩桥外缘，绕过织造工坊外墙。' },
+  { index: 5, coords: '(2336, 640)', label: '东岸大陆', alias: '雅辛古半岛', desc: '抵达极东海岸线悬崖，眺望无尽外海。' },
+  { index: 6, coords: '(2320, 1152)', label: '帝都东岸', alias: '帝国外港边缘', desc: '南方帝国要塞外缘浅滩与平原交界处。' },
+  { index: 7, coords: '(2320, 1632)', label: '鬼子岛北侧大陆', alias: '孤岛对岸', desc: '面对鬼子岛的南部陆地凸角。' },
+  { index: 8, coords: '(1760, 1680)', label: '人鱼湾南方边缘', alias: '沉睡大陆边缘', desc: '人鱼湾海潮翻涌的金色沙滩南岸。' },
+  { index: 9, coords: '(1280, 1712)', label: '世界树南方边缘', alias: '沉睡大陆边缘', desc: '遥望参天世界树古老根须蔓延地界。' },
+  { index: 10, coords: '(896, 1720)', label: '南湖东侧', alias: '沉睡大陆边缘', desc: '平缓宽阔的南方内陆淡水湖东岸。' },
+  { index: 11, coords: '(256, 1720)', label: '南湖西南角', alias: '沉睡大陆边缘', desc: '大陆极西南端拐角，需绕过巨型岩盘。' },
+  { index: 12, coords: '(280, 1260)', label: '沙月城西侧', alias: '沉睡大陆边缘', desc: '穿越沙月荒漠绿洲西侧的流动沙丘。' },
+  { index: 13, coords: '(280, 672)', label: '影乡西侧', alias: '沉睡大陆边缘', desc: '迷雾笼罩的影之部族隐秘森林外缘。' },
+  { index: 14, coords: '(600, 640)', label: '西山南缘', alias: '沉睡大陆边缘', desc: '西侧断崖巨岩南侧的山麓通道。' },
+  { index: 15, coords: '(800, 448)', label: '北部山体南缘', alias: '北之山外圈', desc: '北之山脉南坡，准备折返终点。' },
+  { index: 16, coords: '(920, 760)', label: '西林归还点', alias: '终点归还', desc: '重返后山饲养所林地，完成 16 环全域闭环！' }
+]
+
+const currentChocoboStep = ref(1)
+const isVestClaimed = ref(false)
+
+const activeCheckpoint = computed(() => {
+  return chocoboCheckpoints.find(c => c.index === currentChocoboStep.value) || chocoboCheckpoints[0]
+})
+
+const resetChocoboCircuit = () => {
+  currentChocoboStep.value = 1
+  isVestClaimed.value = false
+}
+
+const claimMirageVest = () => {
+  if (currentChocoboStep.value < 16) return
+  isVestClaimed.value = true
 }
 </script>
