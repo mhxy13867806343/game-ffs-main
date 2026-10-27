@@ -75,7 +75,7 @@ export const mainStoryBeatsList: MainStoryBeat[] = [
     residentNpcId: 'npc_t_high_priest',
     hasResidentMarker: true,
     coords: '(960, 620)',
-    details: '抵达古老神殿，向高阶祭司长探寻晶石律动失衡的真相。',
+    details: '抵达古老神殿，向高阶祭司长探寻晶石律动失衡的真相。达成此节拍后正式解禁大地图东侧隘口【始源风穴·风祀台 (loc_wind_altar 720,200)】古代神殿探索路线。',
     guardStatus: '受神殿机关浮层与转场加载门禁保护'
   },
   {
@@ -186,7 +186,7 @@ export const mainStoryBeatsList: MainStoryBeat[] = [
     residentNpcId: 'npc_l_scout',
     hasResidentMarker: true,
     coords: '(1380, 420)',
-    details: '联手苍岚迎战受雇于黑市的偷猎斥候，保护尚在孵化的幼龙蛋。',
+    details: '联手苍岚迎战受雇于黑市的偷猎斥候，保护尚在孵化的幼龙蛋。达成此节拍后正式解禁大地图极北【北溟之巅·北之洞窟 1~3F (loc_north_cave 1200,180)】纯净安全探索大典路线。',
     guardStatus: '受过场动画与对白锁定瞬时阻断保护'
   },
   {
