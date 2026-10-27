@@ -189,6 +189,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-north-cave-roaming-boss-2026-10-27',
+    version: 'v2.2.186',
+    date: '2026-10-27',
+    title: '北窟三层纯净安全探索大典与游荡首领全域遭遇强度缩放工作台实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⚡',
+    tagType: 'warning',
+    description: '对齐 Godot 引擎 2026-10 最新实机规范：完成北溟之巅北之洞窟 (North Cave 1~3F) 纯净安全科考大典实装，并上线首领全域游荡遭遇与强度缩放工作台 (Roaming Boss Scaling Studio)。',
+    highlights: [
+      '北窟三层安全探索路线大典 (north_cave_route.gd / sites.gd / visit.gd)：挂载龙骑士节拍门禁 ch02_restore_trust，世界入口 (1200,180) 与南侧安全返场 (1232,268，东移 32px 避门碰撞)；涵盖风口、回廊、晶腔三层门禁拓扑与风口岩台/回廊岩体/晶腔蓝晶簇三大景物调查点',
+      '纯净安全探索保障：HUD 明确标定“安全探索 · 无战斗”，严格零遭遇战、零陷阱惩罚；离场原路撤离特权保护',
+      '游荡首领遭遇与缩放工作台 (roaming_boss_rules.json)：实装阿斯托斯、加兰多、远古魔偶、吸血鬼、利奇、提亚马特等候选项，支持最低区域等级与 3~5 级浮动加成计算',
+      '非递推幂律守恒测算：每 640px 触发 25% 概率检定，HP 与奖励按 S^1.3 幂律增长、速度按 S^0.35 增长、AP 按 S^0.5 增长，严格遵守“始终由 DataLoader 原模板单向缩放、绝不叠乘旧实例”的设计铁律',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '魔物与游荡首领测算', path: '/vble/monsters', icon: '👾' },
+      { label: '地宫与秘境导览', path: '/vble/dungeons', icon: '🏰' },
+      { label: '战斗法则与试炼', path: '/vble/battle-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-puzzle-participant-decrypt-2026-10-27',
     version: 'v2.2.185',
     date: '2026-10-27',
