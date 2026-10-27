@@ -189,6 +189,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-job-mastery-peak-stats-studio-2026-10-27',
+    version: 'v2.2.195',
+    date: '2026-10-27',
+    title: '自由人/模仿士全精通属性汇聚与被动继承工作台实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '👑',
+    tagType: 'success',
+    description: '对齐 Godot 引擎 job_mastery_rules.gd 与 job_mastery_projection.gd 最新实机架构：全息实装 JLV 20/20 极意精通判定、自由人与模仿士独占全职峰值汇聚算法 (peak_bonus)、浮点尾差机器精度保护及三大被动特权传承。',
+    highlights: [
+      '极意精通判定准则 (job_mastery_rules.gd)：单职必须精确满足 level == 20 且 max == 20，自由人本身不设 JLV 且不自精通',
+      '独占全维峰值汇聚 (peak_bonus)：仅自由人 (freelancer) 与模仿士 (mime) 享有跨职峰值汇聚特权，八维各自提取已精通职业中的最大值 (maxi(current, floor(peak)))',
+      '被动特权免装继承：精通忍者免源氏护手享「二刀流」、精通骑士享「守护/双手持」、精通盗贼享「警戒/冲刺」、精通武僧享「徒手格斗」',
+      '常规职业独立隔离守卫：就任骑士或黑魔等常规职业时，跨职汇聚与被动自动隔离抑制，严守职业纯正度',
+      '实装交互式「自由人与模仿士极意精通属性汇聚与被动继承工作台」：英雄切换、精通勾选、八维对比矩阵与被动特性即时看板',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '职业转职与精通', path: '/vble/jobs', icon: '📜' },
+      { label: '属性成长模型', path: '/vble/attributes', icon: '📊' },
+      { label: '神兵军械库推演', path: '/vble/armory-simulator', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-dual-wield-rules-genji-studio-2026-10-27',
     version: 'v2.2.194',
     date: '2026-10-27',

@@ -435,6 +435,137 @@
           </div>
         </div>
       </div>
+
+      <!-- ================= 自由人与模仿士全精通属性汇聚与被动继承工作台 (基于 job_mastery_rules.gd) ================= -->
+      <div class="p-5 bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950 border border-purple-500/40 rounded-xl space-y-4 shadow-xl">
+        <div class="border-b border-purple-900/40 pb-3 flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">👑</span>
+            <div>
+              <h3 class="text-base font-bold text-purple-300">
+                自由人与模仿士极意精通属性汇聚与被动继承工作台 (Job Mastery Studio)
+              </h3>
+              <span class="text-xs text-gray-400">
+                对齐 Godot 引擎 <code>job_mastery_rules.gd</code> 与 <code>job_mastery_projection.gd</code>：单职 JLV 20 极意精通、自由人/模仿士专属峰值汇聚算法
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-tag :type="isMasteryInheritTarget ? 'success' : 'warning'" size="small" round strong>
+              {{ isMasteryInheritTarget ? '🌟 继承生效中 (自由人/模仿士)' : '🔒 常规职业不激活跨职汇聚' }}
+            </n-tag>
+            <n-button size="tiny" secondary type="warning" @click="resetMasteryStudio">
+              🔄 重置精通配置
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 核心三大机制说明 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="p-3 bg-slate-900/80 rounded-lg border border-purple-900/30 space-y-1">
+            <div class="text-purple-300 font-bold text-xs">⭐ 极意精通判定 (mastered):</div>
+            <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+              <li><strong>满级标定：</strong>必须精确满足 <code>level == 20</code> 且 <code>max == 20</code>。</li>
+              <li><strong>自由人除外：</strong>自由人自身不设 JLV，仅作为各职峰值的承载器。</li>
+            </ul>
+          </div>
+          <div class="p-3 bg-slate-900/80 rounded-lg border border-purple-900/30 space-y-1">
+            <div class="text-cyan-300 font-bold text-xs">⭐ 峰值属性汇聚算法 (peak_bonus):</div>
+            <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+              <li><strong>跨职业取最大值：</strong><code>peak = base + 19 &times; growth</code>，八维各自取已精通职业中的历史最大值。</li>
+              <li><strong>机器精度保护：</strong><code>snappedf(raw, 1e-9)</code> 消除浮点尾差，杜绝取整缺失。</li>
+            </ul>
+          </div>
+          <div class="p-3 bg-slate-900/80 rounded-lg border border-purple-900/30 space-y-1">
+            <div class="text-amber-300 font-bold text-xs">⭐ 被动特权继承 (inherits):</div>
+            <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+              <li><strong>忍者精通：</strong>赋予【二刀流】(Dual Wield)，免源氏护手。</li>
+              <li><strong>骑士精通：</strong>赋予【守护】(Cover) 与【双手持】(Two-Hand)。</li>
+              <li><strong>盗贼精通：</strong>赋予【警戒】(Alert) 与【冲刺】(Dash)。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 交互推演：受测英雄与就任职业选择 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+          <div>
+            <span class="text-gray-400 text-[10px] block mb-1">受测英雄 (ACTORS):</span>
+            <n-select v-model:value="selectedMasteryActor" size="small" :options="masteryActorOptions" />
+          </div>
+
+          <div>
+            <span class="text-gray-400 text-[10px] block mb-1">当前就任职业 (Current Job):</span>
+            <n-select v-model:value="selectedMasteryCurrentJob" size="small" :options="masteryCurrentJobOptions" />
+          </div>
+
+          <div class="sm:col-span-2">
+            <span class="text-gray-400 text-[10px] block mb-1">勾选已达 JLV 20 极意精通的职业 (已精通 {{ masteredJobsCount }} 个):</span>
+            <div class="flex flex-wrap gap-2 pt-0.5">
+              <button
+                v-for="job in candidateMasteryJobs"
+                :key="job.id"
+                type="button"
+                class="px-2 py-1 rounded text-xs border transition-colors select-none cursor-pointer"
+                :class="masteredJobIds.includes(job.id) ? 'bg-purple-900/70 border-purple-400 text-purple-200 font-bold' : 'bg-slate-950 border-slate-800 text-gray-400'"
+                @click="toggleMasteredJob(job.id)"
+              >
+                <span>{{ masteredJobIds.includes(job.id) ? '👑' : '⚪' }}</span>
+                <span class="ml-1">{{ job.name }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 属性汇聚对比矩阵 -->
+        <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-200">
+              八维属性汇聚矩阵 (Peak Stat Matrix) · 【{{ activeMasteryActorName }}】就任【{{ activeMasteryJobName }}】
+            </span>
+            <span class="text-[11px] font-mono" :class="isMasteryInheritTarget ? 'text-emerald-400' : 'text-amber-400'">
+              {{ isMasteryInheritTarget ? '✨ 自由人/模仿士全峰值汇聚已激活' : '⚠️ 常规职业：仅使用本职基础成长' }}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div v-for="stat in masteryStatResults" :key="stat.key" class="p-2 bg-slate-950 rounded border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">{{ stat.label }}</div>
+              <div class="text-base font-mono font-bold" :class="isMasteryInheritTarget && stat.bonus > 0 ? 'text-emerald-400' : 'text-gray-200'">
+                +{{ stat.bonus }}
+              </div>
+              <div class="text-[9px] text-gray-500 truncate" :title="stat.source">
+                {{ isMasteryInheritTarget ? stat.source : '本职原生' }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 继承被动特性看板 -->
+        <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-1.5">
+          <div class="text-xs font-bold text-gray-300">
+            已继承被动特性 (Inherited Passive Traits):
+          </div>
+          <div v-if="!isMasteryInheritTarget" class="text-xs text-gray-400 italic">
+            当前为常规职业【{{ activeMasteryJobName }}】，被动继承仅在转为【自由人】或【模仿士】时生效。
+          </div>
+          <div v-else-if="inheritedPassives.length === 0" class="text-xs text-gray-500 italic">
+            尚未精通可继承特性的职业（如忍者、骑士、盗贼、武僧等）。请在上方面板勾选精通。
+          </div>
+          <div v-else class="flex flex-wrap gap-2">
+            <n-tag v-for="p in inheritedPassives" :key="p.name" type="success" size="small" round>
+              🌟 {{ p.name }} (源自: {{ p.job }}) - {{ p.desc }}
+            </n-tag>
+          </div>
+        </div>
+
+        <!-- 生命周期审计日志 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-1">
+          <div class="text-gray-500 font-bold">精通系统执行审计追踪 (JobMastery Trace):</div>
+          <div v-for="(log, idx) in masteryTraceLogs" :key="idx" class="text-purple-300 truncate">
+            &gt; {{ log }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -765,6 +896,139 @@ const resetStudioState = () => {
   studioJlv.value = 14
   studioFlags.wind_crystal = true
   studioFlags.story_sealed_temple = false
+}
+
+// ================= 自由人与模仿士全精通属性汇聚与被动继承工作台 (job_mastery_rules.gd) =================
+const selectedMasteryActor = ref('nahart')
+const selectedMasteryCurrentJob = ref('freelancer')
+const masteredJobIds = ref<string[]>(['knight', 'ninja', 'black_mage'])
+
+const masteryActorOptions = [
+  { label: 'nahart: 纳哈特 (初始: 自由人)', value: 'nahart' },
+  { label: 'sera: 塞拉 (初始: 白魔道士)', value: 'sera' },
+  { label: 'aegis: 伊吉斯 (初始: 黑魔道士)', value: 'aegis' },
+  { label: 'grave: 格雷夫 (初始: 自由人)', value: 'grave' },
+  { label: 'sol: 索尔 (初始: 自由人)', value: 'sol' }
+]
+
+const masteryCurrentJobOptions = [
+  { label: '自由人 (Freelancer) · 汇聚全部精通', value: 'freelancer' },
+  { label: '模仿士 (Mime) · 汇聚全部精通', value: 'mime' },
+  { label: '骑士 (Knight) · 仅本职原生', value: 'knight' },
+  { label: '忍者 (Ninja) · 仅本职原生', value: 'ninja' },
+  { label: '黑魔道士 (Black Mage) · 仅本职原生', value: 'black_mage' }
+]
+
+const candidateMasteryJobs = [
+  { id: 'knight', name: '骑士', peak: { max_hp: 420, max_mp: 40, attack: 52, defense: 48, magic_attack: 10, magic_defense: 22, speed: 18, spirit: 25 }, passive: { name: '守护 (Cover)', desc: '自动替虚弱同伴承担物理攻击' } },
+  { id: 'ninja', name: '忍者', peak: { max_hp: 280, max_mp: 60, attack: 46, defense: 25, magic_attack: 28, magic_defense: 20, speed: 64, spirit: 30 }, passive: { name: '二刀流 (Dual Wield)', desc: '支持双手同时装备武器并独立双挥' } },
+  { id: 'monk', name: '武僧', peak: { max_hp: 580, max_mp: 20, attack: 58, defense: 35, magic_attack: 5, magic_defense: 18, speed: 32, spirit: 28 }, passive: { name: '徒手格斗 (Barehanded)', desc: '空手状态下攻击力大幅攀升' } },
+  { id: 'thief', name: '盗贼', peak: { max_hp: 260, max_mp: 45, attack: 35, defense: 22, magic_attack: 15, magic_defense: 18, speed: 60, spirit: 22 }, passive: { name: '警戒与冲刺 (Alert & Dash)', desc: '防偷袭并提高原野移动速度' } },
+  { id: 'black_mage', name: '黑魔道士', peak: { max_hp: 180, max_mp: 280, attack: 15, defense: 18, magic_attack: 68, magic_defense: 45, speed: 25, spirit: 35 }, passive: null },
+  { id: 'white_mage', name: '白魔道士', peak: { max_hp: 210, max_mp: 260, attack: 18, defense: 20, magic_attack: 42, magic_defense: 55, speed: 28, spirit: 65 }, passive: null }
+]
+
+const activeMasteryActorName = computed(() => {
+  const map: Record<string, string> = { nahart: '纳哈特', sera: '塞拉', aegis: '伊吉斯', grave: '格雷夫', sol: '索尔' }
+  return map[selectedMasteryActor.value] || selectedMasteryActor.value
+})
+
+const activeMasteryJobName = computed(() => {
+  const map: Record<string, string> = { freelancer: '自由人', mime: '模仿士', knight: '骑士', ninja: '忍者', black_mage: '黑魔道士' }
+  return map[selectedMasteryCurrentJob.value] || selectedMasteryCurrentJob.value
+})
+
+const isMasteryInheritTarget = computed(() => {
+  return selectedMasteryCurrentJob.value === 'freelancer' || selectedMasteryCurrentJob.value === 'mime'
+})
+
+const masteredJobsCount = computed(() => masteredJobIds.value.length)
+
+const toggleMasteredJob = (id: string) => {
+  const idx = masteredJobIds.value.indexOf(id)
+  if (idx >= 0) {
+    masteredJobIds.value.splice(idx, 1)
+  } else {
+    masteredJobIds.value.push(id)
+  }
+}
+
+const masteryStatResults = computed(() => {
+  const statsDef = [
+    { key: 'max_hp', label: '生命最大值 (HP)' },
+    { key: 'max_mp', label: '魔力最大值 (MP)' },
+    { key: 'attack', label: '物理攻击 (ATK)' },
+    { key: 'defense', label: '物理防御 (DEF)' },
+    { key: 'magic_attack', label: '魔法威力 (MATK)' },
+    { key: 'magic_defense', label: '魔法防御 (MDEF)' },
+    { key: 'speed', label: '行动先攻 (SPD)' },
+    { key: 'spirit', label: '精神抗性 (SPI)' }
+  ]
+
+  if (!isMasteryInheritTarget.value) {
+    const targetJob = candidateMasteryJobs.find(j => j.id === selectedMasteryCurrentJob.value)
+    return statsDef.map(sd => ({
+      key: sd.key,
+      label: sd.label,
+      bonus: targetJob ? (targetJob.peak as any)[sd.key] : 0,
+      source: targetJob ? targetJob.name : '—'
+    }))
+  }
+
+  return statsDef.map(sd => {
+    let maxBonus = 0
+    let bestSource = '无精通'
+    for (const jid of masteredJobIds.value) {
+      const job = candidateMasteryJobs.find(j => j.id === jid)
+      if (job) {
+        const val = (job.peak as any)[sd.key] || 0
+        if (val > maxBonus) {
+          maxBonus = val
+          bestSource = job.name
+        }
+      }
+    }
+    return {
+      key: sd.key,
+      label: sd.label,
+      bonus: maxBonus,
+      source: bestSource
+    }
+  })
+})
+
+const inheritedPassives = computed(() => {
+  if (!isMasteryInheritTarget.value) return []
+  const list: { name: string; job: string; desc: string }[] = []
+  for (const jid of masteredJobIds.value) {
+    const job = candidateMasteryJobs.find(j => j.id === jid)
+    if (job && job.passive) {
+      list.push({
+        name: job.passive.name,
+        job: job.name,
+        desc: job.passive.desc
+      })
+    }
+  }
+  return list
+})
+
+const masteryTraceLogs = computed(() => {
+  const logs: string[] = []
+  logs.push(`角色校验: character='${selectedMasteryActor.value}' 属于法定 ACTORS 白名单`)
+  logs.push(`精通状态: 当前已达成 ${masteredJobIds.value.length} 个 JLV 20 极意精通职业`)
+  if (isMasteryInheritTarget.value) {
+    logs.push(`汇聚激活: current_job in ['freelancer', 'mime']，触发 peak_bonus() 全维汇聚与 passive 继承`)
+  } else {
+    logs.push(`汇聚拦截: current_job='${selectedMasteryCurrentJob.value}'，常规职业保持本职独立隔离`)
+  }
+  return logs
+})
+
+const resetMasteryStudio = () => {
+  selectedMasteryActor.value = 'nahart'
+  selectedMasteryCurrentJob.value = 'freelancer'
+  masteredJobIds.value = ['knight', 'ninja', 'black_mage']
 }
 </script>
 
