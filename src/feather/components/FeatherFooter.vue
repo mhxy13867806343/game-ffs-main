@@ -20,9 +20,15 @@
         <router-link to="/vble" class="hover:text-cyan-400 transition-colors">最终幻想：时空之轮</router-link>
       </div>
     </div>
-    <div class="content-container mt-6 pt-6 border-t border-[#111827] flex flex-col sm:flex-row items-center justify-between text-[11px] text-gray-600 gap-2">
+    <div class="content-container mt-6 pt-6 border-t border-[#111827] flex flex-col sm:flex-row items-center justify-between text-[11px] text-gray-600 gap-3">
       <div>原创单机游戏企划 · 纯单机离线游玩 · 无需联网 · 无课金抽卡</div>
+      <!-- 社交一键分享组件 -->
+      <SocialShareBar mode="inline" :show-label="false" />
       <div>集成于 GAME FFS 统一游戏中心 (Hash 路由)</div>
     </div>
   </footer>
 </template>
+
+<script setup lang="ts">
+import SocialShareBar from '@/components/SocialShareBar.vue'
+</script>

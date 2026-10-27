@@ -10,6 +10,9 @@ import './assets/styles/global.css'
 import './assets/styles/vble.css'
 import './assets/styles/feather.css'
 
+// 引入 overtrue share.js 社交分享样式
+import 'social-share.js/dist/css/share.min.css'
+
 // 通用代码高亮与字体样式
 import 'vfonts/Lato.css'
 import 'vfonts/FiraCode.css'

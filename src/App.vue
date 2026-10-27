@@ -15,6 +15,9 @@
               <div class="flex-1 w-full flex flex-col">
                 <router-view :search-query="searchKeyword" />
               </div>
+
+              <!-- 全局悬浮一键分享组件 (所有页面全覆盖，基于 overtrue/share.js) -->
+              <SocialShareBar mode="floating" />
             </div>
           </n-message-provider>
         </n-notification-provider>
@@ -28,6 +31,7 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { darkTheme, type GlobalThemeOverrides } from 'naive-ui'
 import AppHeader from '@/components/AppHeader.vue'
+import SocialShareBar from '@/components/SocialShareBar.vue'
 import { gameList, docList } from '@/data/games'
 
 const route = useRoute()

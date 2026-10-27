@@ -53,5 +53,6 @@ declare module 'vue' {
     NTooltip: typeof import('naive-ui')['NTooltip']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SocialShareBar: typeof import('./components/SocialShareBar.vue')['default']
   }
 }
