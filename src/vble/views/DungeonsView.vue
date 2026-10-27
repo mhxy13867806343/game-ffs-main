@@ -271,6 +271,129 @@
       </div>
     </n-card>
 
+    <!-- 全域六大隐藏秘境地下城勘探大典 (基于桌面 Godot 2026-10 最新实机实装规范) -->
+    <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-indigo-950/40 to-slate-900/95 border-indigo-800/60 shadow-xl" title="🗺️ 全域六大高阶探索秘境：地宫机关、实机坐标与拓扑解谜指南">
+      <template #header-extra>
+        <n-tag type="warning" size="small" round strong>实机引擎静态场景真实验证</n-tag>
+      </template>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 1. 极寒冰河洞窟群 -->
+        <div class="p-4 rounded-xl bg-slate-950/80 border border-sky-800/50 space-y-2 hover:border-sky-500/60 transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+              <span>🧊</span>
+              <span>极寒冰河洞窟 (Glacial Cave 1~3F)</span>
+            </span>
+            <n-tag size="tiny" type="info">Lv.40~55</n-tag>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            <strong>大陆入口：</strong><code>glacial_cave</code> (世界坐标 1280, 512)
+          </p>
+          <div class="p-2 rounded bg-sky-950/40 border border-sky-900/40 text-[11px] text-gray-300 space-y-1">
+            <div><strong class="text-sky-300">⚙️ 核心机关：</strong>永冻滑行冰面（不可中途转向）、极地冰锥落石陷阱、冰魄反光镜折射解谜。</div>
+            <div><strong class="text-amber-300">⚔️ 守关首领：</strong>极寒冰霜巨龙（三阶段锁血，弱火，吸收水/冰）。</div>
+            <div><strong class="text-emerald-300">🎁 秘宝掉落：</strong>寒冰神剑、冰魄护灵法冠、龙鳞防具。</div>
+          </div>
+        </div>
+
+        <!-- 2. 雷光电磁通路 -->
+        <div class="p-4 rounded-xl bg-slate-950/80 border border-amber-800/50 space-y-2 hover:border-amber-500/60 transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+              <span>⚡</span>
+              <span>雷光通路与电磁回廊 (Fulmination Route)</span>
+            </span>
+            <n-tag size="tiny" type="warning">Lv.35~50</n-tag>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            <strong>大陆入口：</strong><code>fulmination_route</code> (世界坐标 960, 480)
+          </p>
+          <div class="p-2 rounded bg-amber-950/40 border border-amber-900/40 text-[11px] text-gray-300 space-y-1">
+            <div><strong class="text-amber-300">⚙️ 核心机关：</strong>周期性高压离子电网（需按节奏闪避）、避雷针导电充能开关、磁场反极性悬浮。</div>
+            <div><strong class="text-rose-300">⚔️ 守关首领：</strong>雷帝震怒电灵（全屏雷暴闪电，极弱地/水属性附魔）。</div>
+            <div><strong class="text-emerald-300">🎁 秘宝掉落：</strong>雷神之锤、绝缘电磁指环、雷光卷轴。</div>
+          </div>
+        </div>
+
+        <!-- 3. 铁脉废弃矿坑 -->
+        <div class="p-4 rounded-xl bg-slate-950/80 border border-orange-800/50 space-y-2 hover:border-orange-500/60 transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-orange-300 flex items-center gap-1.5">
+              <span>⛏️</span>
+              <span>铁脉矿坑地下城 (Iron Vein Mines B1~B3)</span>
+            </span>
+            <n-tag size="tiny" type="warning">Lv.30~45</n-tag>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            <strong>大陆入口：</strong><code>iron_vein</code> (世界坐标 720, 640)
+          </p>
+          <div class="p-2 rounded bg-orange-950/40 border border-orange-900/40 text-[11px] text-gray-300 space-y-1">
+            <div><strong class="text-orange-300">⚙️ 核心机关：</strong>双轨矿车变速扳手、炸药引线定点爆破暗壁、瓦斯易燃毒气区域需风系驱散。</div>
+            <div><strong class="text-rose-300">⚔️ 守关首领：</strong>熔炉钢铁巨像（高物防超耐打，需雷击破甲或魔法侵蚀）。</div>
+            <div><strong class="text-emerald-300">🎁 秘宝掉落：</strong>精炼秘银巨剑、重装泰坦板甲、黑金矿石×5。</div>
+          </div>
+        </div>
+
+        <!-- 4. 分歧双子之塔 -->
+        <div class="p-4 rounded-xl bg-slate-950/80 border border-purple-800/50 space-y-2 hover:border-purple-500/60 transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+              <span>🗼</span>
+              <span>分歧双子之塔 (Fork Spire Left & Right)</span>
+            </span>
+            <n-tag size="tiny" type="error">Lv.50~65</n-tag>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            <strong>大陆入口：</strong><code>fork_spire</code> (世界坐标 1440, 820)
+          </p>
+          <div class="p-2 rounded bg-purple-950/40 border border-purple-900/40 text-[11px] text-gray-300 space-y-1">
+            <div><strong class="text-purple-300">⚙️ 核心机制：</strong>分队兵分两路！左塔为【物理封魔禁域】（施法即死反噬），右塔为【魔力灵体之塔】（物理绝对MISS）。</div>
+            <div><strong class="text-rose-300">⚔️ 守关首领：</strong>双子武圣与全知法皇（双塔必须同步击破，否则触发复活）。</div>
+            <div><strong class="text-emerald-300">🎁 秘宝掉落：</strong>古代究极魔法【核爆 (Flare)】、传说圣剑【石中剑 (Excalibur)】。</div>
+          </div>
+        </div>
+
+        <!-- 5. 余烬之塔与火之祭坛 -->
+        <div class="p-4 rounded-xl bg-slate-950/80 border border-red-800/50 space-y-2 hover:border-red-500/60 transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-red-300 flex items-center gap-1.5">
+              <span>🔥</span>
+              <span>余烬之塔与火之祭坛 (Ember Spire 1~4F)</span>
+            </span>
+            <n-tag size="tiny" type="error">Lv.45~60</n-tag>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            <strong>大陆入口：</strong><code>ember_spire</code> (世界坐标 380, 750)
+          </p>
+          <div class="p-2 rounded bg-red-950/40 border border-red-900/40 text-[11px] text-gray-300 space-y-1">
+            <div><strong class="text-red-300">⚙️ 核心机关：</strong>岩浆浪潮周期涌动（每3回合退避至高台）、火精灵四象图腾点火仪式、耐火踏板解密。</div>
+            <div><strong class="text-rose-300">⚔️ 守关首领：</strong>余烬之王·拉格纳罗斯之影（熔火核心全屏AOE，弱冰水）。</div>
+            <div><strong class="text-emerald-300">🎁 秘宝掉落：</strong>炎之神杖、炽火红莲披风、火之水晶原石。</div>
+          </div>
+        </div>
+
+        <!-- 6. 天空港口与反重力船坞 -->
+        <div class="p-4 rounded-xl bg-slate-950/80 border border-cyan-800/50 space-y-2 hover:border-cyan-500/60 transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>🛸</span>
+              <span>天空港口与反重力船坞 (Sky City Port & Docks)</span>
+            </span>
+            <n-tag size="tiny" type="info">Lv.55~70</n-tag>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            <strong>大陆入口：</strong><code>sky_city_port</code> (世界坐标 1600, 200)
+          </p>
+          <div class="p-2 rounded bg-cyan-950/40 border border-cyan-900/40 text-[11px] text-gray-300 space-y-1">
+            <div><strong class="text-cyan-300">⚙️ 核心机制：</strong>反重力能量锚点校准、强对流风洞滑翔伞索道跳跃、飞空艇停机坪声纳识别门禁。</div>
+            <div><strong class="text-rose-300">⚔️ 守关首领：</strong>暴风神鹰领主（高空盘旋无敌帧，需防空魔导炮台射击使其落地）。</div>
+            <div><strong class="text-emerald-300">🎁 秘宝掉落：</strong>黑隼号飞空艇全域航渡许可、星界定位罗盘、疾风羽翼。</div>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
     <!-- 陷阱与防御对策表 -->
     <n-card title="⚠️ 环境陷阱与全队生存防护矩阵" class="mb-4 bg-slate-900/80 border-slate-800">
       <n-table striped size="small">
