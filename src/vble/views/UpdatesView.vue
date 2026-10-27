@@ -189,6 +189,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-teachings-target-switch-wind-altar-2026-10-27',
+    version: 'v2.2.183',
+    date: '2026-10-27',
+    title: '秘传绝技推演工坊、显式目标背包切换与风祀台路线全域合龙',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⚡',
+    tagType: 'success',
+    description: '全面集成 Godot 研发团队 D03/D08/D09/D13 最新成果：上线秘传绝技伤害模拟工坊、随身背包显式目标切换系统、飞空艇前置机动道具库以及风祀台古代遗迹环境声学路线。',
+    highlights: [
+      '秘传绝技伤害模拟研习所：收录 16 卷圣所庇护、米西迪亚时空禁咒、东洋五遁忍法与青魔法拟态，搭载实战双防特攻推演引擎',
+      '随身背包显式目标切换工作台 (D09 item_page_target_switch)：支持页内目标同伴快捷循环切换、药剂实伤治疗与负面状态净化',
+      '飞空艇前置机动道具全典 (PRE_AIRSHIP_ITEMS)：回地图卷轴(301)、传送羽毛(302)、职业探索卷轴(303) 与 airship_obtained 动态守卫',
+      '风祀台古代神殿秘境 (wind_altar_route.gd)：世界入口 (720,200) 与安全返场 (800,180) 闭环，搭载 draft1.ogg 环境声学与无战斗安全探索',
+      '魔物图鉴已知常驻物理减伤与全状态免疫 (D03)：支持 0.8x 机械物理减伤与 status_immunities=["*"] 自动转译为「免疫：全部状态」'
+    ],
+    relatedLinks: [
+      { label: '秘传绝技推演工坊', path: '/vble/teachings', icon: '⚡' },
+      { label: '全域道具与背包模拟', path: '/vble/items', icon: '🧪' },
+      { label: '地宫与风祀台导览', path: '/vble/dungeons', icon: '🏰' }
+    ]
+  },
+  {
     id: 'up-godot-architecture-sprint-2026-10-27',
     version: 'v2.2.182',
     date: '2026-10-27',
