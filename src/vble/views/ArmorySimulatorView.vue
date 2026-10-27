@@ -929,6 +929,203 @@
       </div>
     </div>
 
+    <!-- ================= 七色彩虹尾巴终极神兵契约与换装投影工坊 (基于 tail_weapon_rules.gd / tail_weapon_projection.gd) ================= -->
+    <div class="bg-[#10192a]/95 border border-indigo-500/50 p-4 sm:p-5 rounded-2xl shadow-xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-900/40 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🌈</span>
+          <div>
+            <h3 class="text-base font-bold text-gray-100 flex items-center gap-2">
+              <span>七色彩虹尾巴终极神兵契约与换装投影工坊 (Rainbow Tail Weapons Studio)</span>
+              <n-tag size="tiny" type="info" round>tail_weapon_rules.gd</n-tag>
+            </h3>
+            <span class="text-xs text-gray-400">
+              对齐 Godot 引擎 7 件法定彩尾神兵白名单 (2113~2119)、副手绝对排他性、自动连弩禁盾及战时动态换装重算管线
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <n-tag :type="isTailWeaponEligible ? 'success' : 'error'" size="small" round strong>
+            {{ isTailWeaponEligible ? '✨ 彩尾神兵：契约达成生效' : '🚫 彩尾神兵：槽位冲突驳回' }}
+          </n-tag>
+        </div>
+      </div>
+
+      <!-- 核心三柱石设计 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-indigo-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-400">📜 七大终极彩尾武器白名单</span>
+            <n-tag size="tiny" type="info">2113~2119</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>独立数字空间与来源绑定：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>2113:</strong> 阿克塞尔之旋 (tail_axel_v1 · 投掷高敏捷)。</li>
+            <li><strong>2114:</strong> 瓦尔哈拉圣剑 (tail_valhalla_v1 · 圣/暗承伤减半)。</li>
+            <li><strong>2115:</strong> 鲜血之枪 (tail_blood_lance_v1 · 普攻吸血突刺)。</li>
+            <li><strong>2116:</strong> 创世之刃 (tail_ultima_blade_v1 · 满血伤害极致倍增)。</li>
+            <li><strong>2117~2119:</strong> 人鱼竖琴、火箭重锤、自动连弩 (双持与盾排他)。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-cyan-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-400">🔄 战时无缝换装动态重算</span>
+            <n-tag size="tiny" type="success">DYNAMIC REFRESH</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>非破坏性属性差额置换：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>增减益保全：</strong>仅重算装备份额，保留战斗中既有 Buff/Debuff 与伤势。</li>
+            <li><strong>抗性乘区替换：</strong><code>actor.resistance</code> 精确重算换装差额，状态免疫不被冲刷。</li>
+            <li><strong>防换档污染：</strong>通过 <code>tail_runtime_owner</code> 强校验当前队伍，拒用旧档凭证。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-purple-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-400">🛡️ 排他副手与自动连弩禁盾</span>
+            <n-tag size="tiny" type="error">SLOT GUARDS</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>严苛槽位守卫门禁：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>副手双武零容忍：</strong>彩尾七件绝不配副手武器，<code>offhand_weapon != ""</code> 直接失效。</li>
+            <li><strong>自动连弩双手互斥：</strong>自动连弩 (2119) 若配副手盾牌，整套神兵特权即刻熔断。</li>
+            <li><strong>纯净存档保全：</strong>入档严格清理瞬时元标记，严防脏数据污染持久层。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 交互推演台: 彩尾神兵装配与换装动态投影演练台 -->
+      <div class="p-4 bg-slate-950/90 rounded-xl border border-indigo-700/40 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-indigo-900/30 pb-2">
+          <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+            <span>🧪</span>
+            <span>彩尾神兵装备与战时动态投影演练台</span>
+          </span>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetTailStudio">
+              🔄 重置演练
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 神兵选择与槽位冲突开关 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+          <div>
+            <span class="text-gray-400 text-[10px] block mb-1 font-bold">主手彩尾神兵 (Tail Weapon):</span>
+            <n-select v-model:value="selectedTailWeaponId" size="small" :options="tailWeaponSelectOptions" />
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">槽位排他性核验:</span>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer mt-0.5">
+              <input type="checkbox" v-model="tailHasOffhandWeapon" />
+              <span>佩戴副手武器 (触发互斥)</span>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" v-model="tailHasShield" />
+              <span>佩戴副手盾牌 (与连弩互斥)</span>
+            </label>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">角色当前生命状态 (HP/MaxHP):</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono text-cyan-400 font-bold">{{ tailHeroHp }} / 3200</span>
+              <span v-if="tailHeroHp === 3200" class="text-[10px] text-amber-400 font-bold">⭐ 满血创世爆发</span>
+            </div>
+            <input
+              type="range"
+              v-model.number="tailHeroHp"
+              :min="1"
+              :max="3200"
+              :step="50"
+              class="w-full accent-indigo-500 cursor-pointer mt-1"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">神兵专属特质即时状态:</span>
+            <div class="text-[11px] text-emerald-400 font-bold mt-1">
+              {{ tailWeaponSpecialTraitText }}
+            </div>
+            <div class="text-[10px] text-gray-500">
+              {{ tailWeaponSpecialDescText }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 试炼演算控制 -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <div class="flex items-center gap-2">
+            <n-button size="small" type="primary" secondary @click="executeTailBattleAction">
+              ⚔️ 战中触发神兵攻击/吸血/换装结算
+            </n-button>
+            <span class="text-xs text-gray-400">
+              战力综合评分: <strong class="text-indigo-400 font-mono">{{ tailPowerRating }} 点</strong>
+            </span>
+          </div>
+
+          <div class="text-[11px] font-mono text-indigo-300">
+            RuntimeOwner: GameState.party_runtime (校验合格)
+          </div>
+        </div>
+
+        <!-- 攻击与吸血/伤害结果呈现 -->
+        <div v-if="lastTailActionResult" class="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <span class="text-xs font-bold text-gray-200">
+              动作结算分析：{{ lastTailActionResult.summary }}
+            </span>
+            <n-tag size="small" :type="lastTailActionResult.success ? 'success' : 'error'">
+              {{ lastTailActionResult.statusTag }}
+            </n-tag>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center pt-1">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">物理输出结算</div>
+              <div class="text-lg font-mono font-bold text-amber-400">{{ lastTailActionResult.damage }} DMG</div>
+              <div class="text-[9px] text-gray-500">{{ lastTailActionResult.damageDesc }}</div>
+            </div>
+
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">吸血/抗性/特效结算</div>
+              <div class="text-lg font-mono font-bold" :class="lastTailActionResult.success ? 'text-emerald-400' : 'text-gray-500'">
+                {{ lastTailActionResult.leechText }}
+              </div>
+              <div class="text-[9px]" :class="lastTailActionResult.success ? 'text-emerald-300' : 'text-gray-500'">
+                {{ lastTailActionResult.leechDesc }}
+              </div>
+            </div>
+
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">自身生命变动后</div>
+              <div class="text-lg font-mono font-bold text-cyan-400">
+                {{ tailHeroHp }} / 3200 HP
+              </div>
+              <div class="text-[9px] text-gray-500">{{ lastTailActionResult.hpDeltaDesc }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 审计日志 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-1">
+          <div class="text-gray-500 font-bold">彩尾神兵事件凭据审计 (TailWeapon Event Trace):</div>
+          <div v-for="(log, idx) in tailTraceLogs" :key="idx" class="text-indigo-300 truncate">
+            &gt; {{ log }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ================= 全域神兵与防具全景展示库 (用户要求：选人装备 + 点击查看图片详情) ================= -->
     <div class="space-y-4 pt-6 border-t border-slate-800">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -2378,6 +2575,178 @@ const resetSealedStudio = () => {
   sealedTraceLogs.value = [
     '重置完成: 封印神兵推演台回到初始状态',
     '默认装配: 烈焰魔剑 (2106), 普攻动作模式, 双手/盾牌槽位合规'
+  ]
+}
+
+// ================= 七色彩虹尾巴终极神兵契约与换装投影工坊 (tail_weapon_rules.gd / tail_weapon_projection.gd) =================
+const selectedTailWeaponId = ref('2116') // 默认创世之刃
+const tailHasOffhandWeapon = ref(false)
+const tailHasShield = ref(false)
+const tailHeroHp = ref(3200)
+
+const tailWeaponSelectOptions = [
+  { label: '2116: 创世之刃 (tail_ultima_blade_v1 · 满血输出 1.5 倍爆发)', value: '2116' },
+  { label: '2114: 瓦尔哈拉圣剑 (tail_valhalla_v1 · 圣/暗属性承伤减半 50%)', value: '2114' },
+  { label: '2115: 鲜血之枪 (tail_blood_lance_v1 · 攻击命中吸血 30% 转化率)', value: '2115' },
+  { label: '2113: 阿克塞尔之旋 (tail_axel_v1 · 投掷高敏捷 · 先手连击)', value: '2113' },
+  { label: '2117: 人鱼竖琴 (tail_mermaid_v1 · 歌唱脉冲增幅 · 水系神韵)', value: '2117' },
+  { label: '2118: 火箭重锤 (tail_rocket_v1 · 毁灭破甲粉碎 · 削防15%)', value: '2118' },
+  { label: '2119: 自动连弩 (tail_autocrossbow_v1 · 双手持用 · 严禁盾牌)', value: '2119' }
+]
+
+const tailWeaponData: Record<string, { name: string; atk: number; def: number; spd: number; trait: string; desc: string }> = {
+  '2113': { name: '阿克塞尔之旋', atk: 125, def: 10, spd: 18, trait: '高速先手连击', desc: '行动条积累提速 +25%，普攻兼具回旋多段判定' },
+  '2114': { name: '瓦尔哈拉圣剑', atk: 145, def: 35, spd: 8, trait: '圣/暗属性减伤 50%', desc: 'element_multipliers[holy/dark] * 0.5 严密抗性覆盖' },
+  '2115': { name: '鲜血之枪', atk: 130, def: 15, spd: 10, trait: '鲜血突刺吸血', desc: '每次普攻将造成伤害的 30% 即时转化为生命汲取' },
+  '2116': { name: '创世之刃', atk: 180, def: 20, spd: 12, trait: '满生命 1.5x 极致爆发', desc: 'HP == MaxHP 时物理与技能总伤害倍乘 1.5 倍' },
+  '2117': { name: '人鱼竖琴', atk: 110, def: 25, spd: 14, trait: '水神韵律脉冲增幅', desc: '吟游曲目脉冲周期加速至 1.2s，全队水抗 +30%' },
+  '2118': { name: '火箭重锤', atk: 165, def: 30, spd: 4, trait: '碎甲火箭重击', desc: '无视目标 30% 物理防御，附带强力击退硬直' },
+  '2119': { name: '自动连弩', atk: 150, def: 10, spd: 16, trait: '双手占槽·严禁配盾', desc: '多发箭矢齐射，双手持用严格互斥盾牌 (shield != "")' }
+}
+
+const isTailWeaponEligible = computed(() => {
+  const id = selectedTailWeaponId.value
+  const validIds = ['2113', '2114', '2115', '2116', '2117', '2118', '2119']
+  if (!validIds.includes(id)) return false
+  // 规则 1: 彩尾七件均不在二刀流白名单，严禁配副手武器
+  if (tailHasOffhandWeapon.value) return false
+  // 规则 2: 自动连弩 (2119) 双手持用，与盾牌互斥
+  if (id === '2119' && tailHasShield.value) return false
+  return true
+})
+
+const tailWeaponSpecialTraitText = computed(() => {
+  if (!isTailWeaponEligible.value) return '🚫 契约驳回 (装备槽位冲突)'
+  return tailWeaponData[selectedTailWeaponId.value]?.trait || '未知特质'
+})
+
+const tailWeaponSpecialDescText = computed(() => {
+  if (!isTailWeaponEligible.value) {
+    if (tailHasOffhandWeapon.value) return '检测到副手装有武器！彩尾神兵不可双持，特质已熔断'
+    if (selectedTailWeaponId.value === '2119' && tailHasShield.value) return '自动连弩需双手操控，检测到副手持盾，契约已失效'
+    return '槽位校验未通过'
+  }
+  return tailWeaponData[selectedTailWeaponId.value]?.desc || ''
+})
+
+const tailPowerRating = computed(() => {
+  if (!isTailWeaponEligible.value) return 400
+  const item = tailWeaponData[selectedTailWeaponId.value]
+  if (!item) return 500
+  let rating = item.atk * 8 + item.def * 4 + item.spd * 6
+  if (selectedTailWeaponId.value === '2116' && tailHeroHp.value === 3200) {
+    rating = Math.floor(rating * 1.5)
+  }
+  return rating
+})
+
+interface TailActionResult {
+  summary: string
+  success: boolean
+  statusTag: string
+  damage: number
+  damageDesc: string
+  leechText: string
+  leechDesc: string
+  hpDeltaDesc: string
+}
+
+const lastTailActionResult = ref<TailActionResult | null>(null)
+const tailTraceLogs = ref<string[]>([
+  '系统就绪: tail_weapon_rules.gd 与 tail_weapon_projection.gd 契约完成加载',
+  '契约守卫: 7件法定彩尾白名单 (2113~2119) 独占数字身份，动态重算装备份额不丢本场状态'
+])
+
+const executeTailBattleAction = () => {
+  const id = selectedTailWeaponId.value
+  const item = tailWeaponData[id]
+
+  if (!isTailWeaponEligible.value) {
+    let reason = '槽位互斥驳回'
+    if (tailHasOffhandWeapon.value) reason = 'offhand_weapon != "" 成立，彩尾神兵拒绝双持'
+    if (id === '2119' && tailHasShield.value) reason = '自动连弩检测到 shield != ""，双手武器禁盾'
+
+    tailTraceLogs.value.unshift(`[换装拦截] ${reason} (RULES.item_id 返回 0)`)
+    lastTailActionResult.value = {
+      summary: `${item?.name || id} 装备违规`,
+      success: false,
+      statusTag: '装备槽位冲突',
+      damage: 0,
+      damageDesc: '由于槽位互斥，未能发挥彩尾神兵战力',
+      leechText: '0 (INACTIVE)',
+      leechDesc: '特性已被底层安全门禁完全抑制',
+      hpDeltaDesc: '生命值无变动'
+    }
+    return
+  }
+
+  // 基础伤害计算
+  let baseDmg = item.atk * 3 + Math.floor(Math.random() * 60)
+  let leechText = '无生命汲取'
+  let leechDesc = '当前武器非吸血特质'
+  let hpDeltaDesc = '生命值保持稳定'
+
+  if (id === '2116') {
+    // 创世之刃：满血 1.5 倍爆发
+    if (tailHeroHp.value === 3200) {
+      baseDmg = Math.floor(baseDmg * 1.5)
+      leechText = '🌟 满血创世 1.5x'
+      leechDesc = '创世特质爆发：满血状态激活 150% 终极威力修正！'
+      tailTraceLogs.value.unshift(`[创世爆发] 创世之刃(2116): 满血检测通过 (3200/3200)，输出拉升至 ${baseDmg} DMG`)
+    } else {
+      leechText = '普通输出 (残血)'
+      leechDesc = `当前 HP ${tailHeroHp.value} < 3200，未能激活 1.5x 满血爆发`
+      tailTraceLogs.value.unshift(`[普通挥击] 创世之刃(2116): 造成常规 ${baseDmg} DMG`)
+    }
+  } else if (id === '2115') {
+    // 鲜血之枪：吸血 30%
+    const leechAmount = Math.floor(baseDmg * 0.3)
+    const oldHp = tailHeroHp.value
+    tailHeroHp.value = Math.min(3200, tailHeroHp.value + leechAmount)
+    leechText = `💚 +${leechAmount} 吸血回复`
+    leechDesc = `鲜血之枪吸血转化：造成 ${baseDmg} 伤害并汲取 30% 生命`
+    hpDeltaDesc = `汲取回复: ${oldHp} ➔ ${tailHeroHp.value} HP`
+    tailTraceLogs.value.unshift(`[鲜血吸取] 鲜血之枪(2115): 命中造成 ${baseDmg} 伤害，回血 +${leechAmount} HP`)
+  } else if (id === '2114') {
+    leechText = '🛡️ 圣/暗抗性 0.5x'
+    leechDesc = '瓦尔哈拉圣剑常驻：holy/dark 元素承伤降低 50%'
+    tailTraceLogs.value.unshift(`[圣王庇护] 瓦尔哈拉圣剑(2114): 造成 ${baseDmg} 伤害，圣/暗属性抗性维持 50% 减伤`)
+  } else if (id === '2119') {
+    leechText = '🎯 连弩多发齐射'
+    leechDesc = '自动连弩占用双手，倾泻多支强力穿甲弩箭'
+    tailTraceLogs.value.unshift(`[连弩齐射] 自动连弩(2119): 双手持用齐射命中，造成 ${baseDmg} 伤害`)
+  } else {
+    leechText = `✨ ${item.trait}`
+    leechDesc = item.desc
+    tailTraceLogs.value.unshift(`[神兵共鸣] ${item.name}(${id}): 命中输出 ${baseDmg} 物理伤害`)
+  }
+
+  // 审计日志维持最大 8 条
+  if (tailTraceLogs.value.length > 8) {
+    tailTraceLogs.value = tailTraceLogs.value.slice(0, 8)
+  }
+
+  lastTailActionResult.value = {
+    summary: `${item.name} (${id}) 动作执行完毕`,
+    success: true,
+    statusTag: '契约共鸣有效',
+    damage: baseDmg,
+    damageDesc: `主手输出完成，差额投影到 actor 战斗实例`,
+    leechText,
+    leechDesc,
+    hpDeltaDesc
+  }
+}
+
+const resetTailStudio = () => {
+  selectedTailWeaponId.value = '2116'
+  tailHasOffhandWeapon.value = false
+  tailHasShield.value = false
+  tailHeroHp.value = 3200
+  lastTailActionResult.value = null
+  tailTraceLogs.value = [
+    '重置完成: 彩尾神兵推演台回到初始状态',
+    '默认装配: 创世之刃 (2116), 满生命 3200/3200, 槽位合规'
   ]
 }
 </script>

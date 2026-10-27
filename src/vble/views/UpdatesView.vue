@@ -189,6 +189,32 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-tail-weapon-rules-projection-studio-2026-10-27',
+    version: 'v2.2.199',
+    date: '2026-10-27',
+    title: '七色彩虹尾巴终极神兵契约与换装动态投影工坊全息实装',
+    category: 'equipment',
+    categoryName: '实机演进',
+    icon: '🌈',
+    tagType: 'success',
+    description: '对齐 Godot 引擎 tail_weapon_rules.gd 与 tail_weapon_projection.gd 最新实机架构：全息实装七大终极彩尾武器白名单 (2113~2119)、副手双武绝对排他性、自动连弩双手排盾门禁、战中换装动态重算属性差额不冲刷现有状态，以及瓦尔哈拉圣剑圣暗承伤减半 50% 与创世之刃满血 1.5 倍终极爆发。',
+    highlights: [
+      '七大彩尾神兵白名单 (tail_weapon_rules.gd)：阿克塞尔之旋(2113)、瓦尔哈拉圣剑(2114)、鲜血之枪(2115)、创世之刃(2116)、人鱼竖琴(2117)、火箭重锤(2118)、自动连弩(2119) 独占专属数字空间',
+      '副手排他与双手连弩禁盾：彩尾武器严禁双持 (offhand_weapon != "")，自动连弩必须腾空副手盾牌槽位 (weapon == "2119" && shield != "")，违规即刻驳回',
+      '战时无缝换装动态重算 (tail_weapon_projection.gd)：仅置换装备份额，保留战斗中既有 Buff/Debuff 与伤势，精算抗性乘区差额，杜绝跨存档幽灵继承 (tail_runtime_owner 强校验)',
+      '瓦尔哈拉圣剑常驻减伤：element_multipliers[holy/dark] * 0.5 严密覆盖圣与暗属性 50% 伤害减免',
+      '创世之刃满血极意爆发：HP == MaxHP (3200/3200) 时物理与技能总伤害爆发提升 1.5 倍',
+      '鲜血之枪即时汲取：普攻造成的 30% 伤害即时转化为施法者生命回复',
+      '实装交互推演工坊：神兵切换、副手双武/盾牌互斥开关、满血/残血滑块调节、战中换装执行与吸血/抗性审计追踪',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '神兵军械库推演', path: '/vble/armory-simulator', icon: '⚔️' },
+      { label: '装备与工坊图鉴', path: '/vble/equipment', icon: '🛡️' },
+      { label: '职业转职与精通', path: '/vble/jobs', icon: '📜' }
+    ]
+  },
+  {
     id: 'up-mysidia-magic-effects-personal-cost-2026-10-27',
     version: 'v2.2.198',
     date: '2026-10-27',
