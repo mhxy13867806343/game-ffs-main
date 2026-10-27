@@ -635,6 +635,153 @@
         </div>
       </n-card>
 
+      <!-- NG+ 多周目跃迁架构与继承预算推演台 (基于 new_game_plus.gd) -->
+      <n-card hoverable class="border border-emerald-900/60 bg-[#091812]/90 rounded-xl md:col-span-2" title="🔄 NG+ 多周目跃迁架构与继承预算推演台 (New Game+ Inheritance Studio)">
+        <div class="space-y-4 text-xs leading-relaxed">
+          <p class="text-gray-300">
+            对齐 Godot 引擎 <code>new_game_plus.gd</code> 实机规约：从已通关存档发起新周目跃迁，等级回到 Lv.1 (41HP/15MP)，完整继承职业熟练度 (JLV/JP/AP) 与已购魔法库，剧情道具安全注销 (保留力量护腕2125)，支持金币/代币平滑转接与梦魇难度挑战。
+          </p>
+
+          <!-- 核心三大架构设计 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="p-3 bg-slate-900/80 rounded border border-emerald-900/30 space-y-1">
+              <div class="text-emerald-300 font-bold">⭐ 准入资格与事务备份防坏档:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>双星认证：</strong><code>clear_star == true</code> 且 <code>ng_plus_eligible == true</code>。</li>
+                <li><strong>SAVEPOINT 安全保护：</strong>SQL 事务与 <code>player_magic.json</code> 预留回滚备份。</li>
+                <li><strong>周目安全跃迁：</strong><code>cycle_index = cycle + 1</code>，防止大数溢出。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-emerald-900/30 space-y-1">
+              <div class="text-cyan-300 font-bold">⭐ 基础重置与专属初始速度:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>基线数值：</strong>重置为 Lv.1, HP 41/41, MP 15/15, ATK 10, DEF 10, Spirit 10。</li>
+                <li><strong>专属身手差异：</strong>纳哈特 12, 塞拉 10, 埃癸斯 9, 格雷夫 8, 索尔 7。</li>
+                <li><strong>剧情道具清除：</strong>铜项链154与残卷清除，力量护腕2125沿装备库继承。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-amber-900/30 space-y-1">
+              <div class="text-amber-300 font-bold">⭐ 职业极意与魔法全量保留:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>JLV/JP/AP 零抹除：</strong>各职业熟练度与已精通进度完整跨周目结转。</li>
+                <li><strong>已购魔法免重购：</strong>白黑时全系已购法术直接在第一章即可调用。</li>
+                <li><strong>梦魇模式 (Nightmare):</strong> 跃迁时可自选开启高难怪群修正。</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 交互推演台: NG+ 周目跃迁试算 -->
+          <div class="p-4 bg-slate-950/90 rounded-xl border border-emerald-700/40 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-900/30 pb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-emerald-400 font-bold text-sm">🧪 NG+ 周目跃迁与通关继承推演台</span>
+                <n-tag size="tiny" type="success" round>New Game+ Studio</n-tag>
+              </div>
+              <div class="flex items-center gap-2">
+                <n-button size="tiny" secondary type="warning" @click="resetNgPlusStudio">
+                  🔄 重置参数
+                </n-button>
+              </div>
+            </div>
+
+            <!-- 控制面板 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+              <div class="space-y-1">
+                <div class="text-gray-400 text-[10px] font-bold">通关凭证状态 (Clear Certificate):</div>
+                <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer mt-1">
+                  <input type="checkbox" v-model="ngHasClearStar" />
+                  <span>持有通关星标 (clear_star)</span>
+                </label>
+                <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer">
+                  <input type="checkbox" v-model="ngIsEligible" />
+                  <span>拥有 NG+ 继承资质 (eligible)</span>
+                </label>
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-gray-400 text-[10px] font-bold">当前周目与通关次数 (Cycle / Clears):</div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-mono text-cyan-400 font-bold">第 {{ ngCurrentCycle }} 周目 · {{ ngClearCount }} 次通关</span>
+                </div>
+                <div class="flex items-center gap-1 mt-1">
+                  <n-button size="tiny" secondary @click="ngClearCount = Math.max(1, ngClearCount - 1); ngCurrentCycle = ngClearCount">-1</n-button>
+                  <n-button size="tiny" secondary @click="ngClearCount += 1; ngCurrentCycle = ngClearCount">+1</n-button>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-gray-400 text-[10px] font-bold">携带金币与赌场代币 (Gold / Tokens):</div>
+                <div class="text-xs font-mono text-amber-400 font-bold">{{ ngGold }} G · {{ ngTokens }} 代币</div>
+                <div class="flex items-center gap-1 mt-1">
+                  <n-button size="tiny" secondary @click="ngGold += 500">+500G</n-button>
+                  <n-button size="tiny" secondary @click="ngTokens += 50">+50代币</n-button>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-gray-400 text-[10px] font-bold">周目跃迁挑战选择:</div>
+                <label class="flex items-center gap-1.5 text-xs text-rose-300 cursor-pointer mt-1">
+                  <input type="checkbox" v-model="ngNightmareMode" />
+                  <span>开启【梦魇模式】(Nightmare Mode)</span>
+                </label>
+                <div class="text-[10px] text-gray-500">怪群强度拉升，全Boss附带二阶段狂暴</div>
+              </div>
+            </div>
+
+            <!-- 执行跃迁 -->
+            <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
+                <div class="flex items-center gap-2">
+                  <n-button size="small" type="primary" secondary @click="executeNgPlusTransition">
+                    🚀 发起周目跃迁 (Begin New Game+)
+                  </n-button>
+                  <span class="text-xs text-gray-400">
+                    跃迁后周目: <strong class="text-emerald-400 font-mono text-sm">第 {{ ngCurrentCycle + 1 }} 周目</strong>
+                  </span>
+                </div>
+
+                <div class="text-[11px] font-mono text-emerald-300">
+                  SAVEPOINT: new_game_plus_start (受事务保护)
+                </div>
+              </div>
+
+              <!-- 跃迁结算结果 -->
+              <div v-if="lastNgPlusResult" class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center pt-1">
+                <div class="p-2 bg-slate-950 rounded border border-slate-800">
+                  <div class="text-[10px] text-gray-400">周目与通关状态</div>
+                  <div class="text-lg font-mono font-bold" :class="lastNgPlusResult.success ? 'text-emerald-400' : 'text-rose-400'">
+                    {{ lastNgPlusResult.cycleText }}
+                  </div>
+                  <div class="text-[9px] text-gray-500">{{ lastNgPlusResult.cycleDesc }}</div>
+                </div>
+
+                <div class="p-2 bg-slate-950 rounded border border-slate-800">
+                  <div class="text-[10px] text-gray-400">队伍数值基线与速度</div>
+                  <div class="text-lg font-mono font-bold text-cyan-400">{{ lastNgPlusResult.statsText }}</div>
+                  <div class="text-[9px] text-cyan-300">{{ lastNgPlusResult.statsDesc }}</div>
+                </div>
+
+                <div class="p-2 bg-slate-950 rounded border border-slate-800">
+                  <div class="text-[10px] text-gray-400">传承资产与难度模式</div>
+                  <div class="text-lg font-mono font-bold text-amber-400">{{ lastNgPlusResult.assetsText }}</div>
+                  <div class="text-[9px] text-amber-300">{{ lastNgPlusResult.assetsDesc }}</div>
+                </div>
+              </div>
+
+              <!-- 审计追踪 -->
+              <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-1">
+                <div class="text-gray-500 font-bold">多周目跃迁审计日志 (NewGamePlus Trace):</div>
+                <div v-for="(log, idx) in ngPlusTraceLogs" :key="idx" class="text-emerald-300 truncate">
+                  &gt; {{ log }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </n-card>
+
       <!-- 探索菜单独立露营快捷管线与休整恢复架构 -->
       <n-card hoverable class="border border-emerald-900/60 bg-[#0a1c17]/90 rounded-xl md:col-span-2" title="⛺ 探索菜单独立露营快捷管线与休整恢复架构 (Dedicated Camping Shortcut)">
         <div class="space-y-3 text-xs leading-relaxed">
@@ -1717,6 +1864,84 @@ const resetMysidiaStudio = () => {
   mysidiaTraceLogs.value = [
     '重置完成: 米西迪亚秘术演练台已恢复初始状态',
     '默认设置: mysidia_arise, 友方目标, 佩戴 Item 2121 白魔圣物'
+  ]
+}
+
+// ================= NG+ 多周目跃迁架构与继承预算推演台 (new_game_plus.gd) =================
+const ngHasClearStar = ref(true)
+const ngIsEligible = ref(true)
+const ngCurrentCycle = ref(1)
+const ngClearCount = ref(1)
+const ngGold = ref(2400)
+const ngTokens = ref(120)
+const ngNightmareMode = ref(false)
+
+interface NgPlusResult {
+  success: boolean
+  cycleText: string
+  cycleDesc: string
+  statsText: string
+  statsDesc: string
+  assetsText: string
+  assetsDesc: string
+}
+
+const lastNgPlusResult = ref<NgPlusResult | null>(null)
+const ngPlusTraceLogs = ref<string[]>([
+  '系统就绪: new_game_plus.gd 跃迁模型加载完成',
+  '契约守卫: 双星认证 (clear_star + eligible)、属性基准重置、职业与已购魔法全量结转'
+])
+
+const executeNgPlusTransition = () => {
+  if (!ngHasClearStar.value || !ngIsEligible.value) {
+    ngPlusTraceLogs.value.unshift('[跃迁驳回] 存档未满足双星认证 (clear_star == true && ng_plus_eligible == true)')
+    lastNgPlusResult.value = {
+      success: false,
+      cycleText: '资格校验受阻',
+      cycleDesc: '当前存档不具备 NG+ 资格，请先击败最终首领生成通关凭证',
+      statsText: '维持现状',
+      statsDesc: '未执行 SQL 属性重置',
+      assetsText: '无资产转移',
+      assetsDesc: '未写入周目资产预算'
+    }
+    return
+  }
+
+  const nextCycle = ngCurrentCycle.value + 1
+  ngCurrentCycle.value = nextCycle
+  ngClearCount.value += 1
+
+  ngPlusTraceLogs.value.unshift(`[周目跃迁] 成功跃迁至第 ${nextCycle} 周目！SAVEPOINT 释放，职业/魔法历史继承完成`)
+  ngPlusTraceLogs.value.unshift('[属性重置] 全员归零至 Lv.1 (HP 41/MP 15)，速度基线赋予：纳12 塞10 埃9 格8 索7')
+  ngPlusTraceLogs.value.unshift(`[剧情收回] 铜项链154/残卷注销，力量护腕2125保留，金币结转 ${ngGold.value}G`)
+
+  if (ngPlusTraceLogs.value.length > 8) {
+    ngPlusTraceLogs.value = ngPlusTraceLogs.value.slice(0, 8)
+  }
+
+  lastNgPlusResult.value = {
+    success: true,
+    cycleText: `第 ${nextCycle} 周目 (${ngNightmareMode.value ? '梦魇模式' : '常规模式'})`,
+    cycleDesc: `累计通关 ${ngClearCount.value} 次，已更新 cycle_index = ${nextCycle}`,
+    statsText: 'Lv.1 (41HP/15MP)',
+    statsDesc: '保留全职业熟练度 (JLV/JP/AP) 与已学魔法库',
+    assetsText: `${ngGold.value}G + ${ngTokens.value} 代币`,
+    assetsDesc: '继承金币/代币，重要装备沿用，关键剧情任务重置'
+  }
+}
+
+const resetNgPlusStudio = () => {
+  ngHasClearStar.value = true
+  ngIsEligible.value = true
+  ngCurrentCycle.value = 1
+  ngClearCount.value = 1
+  ngGold.value = 2400
+  ngTokens.value = 120
+  ngNightmareMode.value = false
+  lastNgPlusResult.value = null
+  ngPlusTraceLogs.value = [
+    '重置完成: NG+ 演练台恢复初始参数',
+    '默认设置: 第 1 周目通关档，拥有通关星标与 NG+ 资格'
   ]
 }
 </script>

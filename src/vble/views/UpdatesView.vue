@@ -189,6 +189,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-new-game-plus-transition-studio-2026-10-27',
+    version: 'v2.2.203',
+    date: '2026-10-27',
+    title: 'NG+ 多周目跃迁架构与通关继承预算推演台全息实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🔄',
+    tagType: 'success',
+    description: '对齐 Godot 引擎 new_game_plus.gd 最新实机架构：全息实装双星准入认证 (clear_star + ng_plus_eligible)、SAVEPOINT 事务安全回滚守卫、Lv.1 属性基线重置与英雄专属身手速度、职业熟练度与已学魔法库全量保留结转，以及梦魇模式 (Nightmare Mode) 挑战。',
+    highlights: [
+      '双星准入认证 (new_game_plus.gd)：必须持有 clear_star 与 ng_plus_eligible 双重合法凭证，通关次数 >= 1，周目严格增量跃迁 cycle_index = cycle + 1',
+      '基准属性重置与英雄专属速度：全员等级归零至 Lv.1 (41HP/15MP)，按 HERO_SPEEDS 赋予差异化初始身手：纳哈特 12, 塞拉 10, 埃癸斯 9, 格雷夫 8, 索尔 7',
+      '职业历史与魔法购买全量传承：保留全角色职业熟练度 (JLV/JP/AP)，保留已购魔法 (magic_purchase_progress)，剧情实物道具 (101~162) 清除注销，力量护腕 (2125) 沿装备库继承',
+      '货币平滑跃迁与梦魇模式：金币与赌场代币按 CURRENCY 规则折算结转，支持自选开启梦魇模式 (nightmare_mode = true) 获取高难挑战',
+      '实装交互推演工坊：通关星标开关、周目次数微调、金币代币设置、梦魇难度选择与跃迁后全员四维看板呈现',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '英雄图鉴与宿命', path: '/vble/characters', icon: '🛡️' },
+      { label: '属性成长模型', path: '/vble/attributes', icon: '📊' }
+    ]
+  },
+  {
     id: 'up-job-technique-resolver-studio-2026-10-27',
     version: 'v2.2.202',
     date: '2026-10-27',
