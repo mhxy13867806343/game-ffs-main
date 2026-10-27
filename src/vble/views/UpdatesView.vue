@@ -189,6 +189,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-equipment-comparison-rejection-2026-10-27',
+    version: 'v2.2.189',
+    date: '2026-10-27',
+    title: '装备方案只读前后对比与十大结构化拒绝原因转译器实装',
+    category: 'equipment',
+    categoryName: '实机演进',
+    icon: '🛡️',
+    tagType: 'warning',
+    description: '对齐 Godot 引擎 D04 / D12 研发团队最新实机规范：实装 equipment_comparison.gd 十大结构化拒绝原因字典、只读受阻警告告示与安全回退防御。',
+    highlights: [
+      '十大结构化拒绝字典 (REASON_TEXT)：权威收录 job_restricted (职业防具受限)、two_hand_conflict (双手武器冲突盾牌)、personal_requirements (专属装备归属)、relic_requirements (遗物槽位限制)、offhand_conflict (副手冲突) 等 10 大拒绝代码',
+      '受阻警报断路机制 (unavailable)：装配条件不满足时即刻切换为只读受阻卡片，清晰呈现结构化错误原因，杜绝强行推算伪造数值',
+      '就绪投影即时对比 (ready)：当装配合法时实时推演前后物理/魔法攻防、战力评级，以及两个独立百分比物理/近战回避率双列矩阵',
+      '安全回退守卫：未知 status 或 key 错配时严格静默安全回退，绝不回显任意脏字串',
+      '全线高频实时开发持续至午夜 0 点，保持全量零报错构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '神兵军械库推演', path: '/vble/armory-simulator', icon: '⚔️' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '属性成长模型', path: '/vble/attributes', icon: '📊' }
+    ]
+  },
+  {
     id: 'up-monster-known-moves-resistance-2026-10-27',
     version: 'v2.2.188',
     date: '2026-10-27',
