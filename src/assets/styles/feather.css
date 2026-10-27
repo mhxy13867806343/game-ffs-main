@@ -1,6 +1,0 @@
-/* 《裂空之羽》专用样式（基础光晕、金色渐变及 markdown-body 排版已统一提取在 global.css 中） */
-.text-rainbow-gradient {
-  background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #10b981, #06b6d4, #3b82f6, #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
