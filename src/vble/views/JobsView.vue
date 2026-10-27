@@ -566,6 +566,110 @@
           </div>
         </div>
       </div>
+
+      <!-- 八大职业战时特技裁决与战术辅助工坊 (基于 job_technique_resolver.gd) -->
+      <div class="p-5 bg-gradient-to-br from-slate-950 via-cyan-950/20 to-slate-950 border border-cyan-500/40 rounded-xl space-y-4 shadow-xl mt-4">
+        <div class="border-b border-cyan-900/40 pb-3 flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">⚔️</span>
+            <div>
+              <h3 class="text-base font-bold text-cyan-300">
+                八大职业战时特技裁决与战术收益工坊 (Job Technique Resolver Studio)
+              </h3>
+              <span class="text-xs text-gray-400">
+                对齐 Godot 引擎 <code>job_technique_resolver.gd</code>：盗贼防虚报偷盗、学者大解析破甲、猎人夹具减速、舞者迷目混乱与魔剑士双重附魔
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetTechniqueStudio">
+              🔄 重置特技演练
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 核心三大特技法则 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="p-3 bg-slate-900/80 rounded-lg border border-cyan-900/30 space-y-1">
+            <div class="text-cyan-300 font-bold text-xs">⭐ 盗贼真金白银偷盗 (steal):</div>
+            <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+              <li><strong>防虚报金币收据：</strong><code>actual_gold = GameState.gold - gold_before</code>，金币满仓 (MAX_GOLD) 自动标记 <code>gold_full</code>。</li>
+              <li><strong>恢复药 (Item 1):</strong> 成功率偷药，背包上限 (9999) 自动标记 <code>inventory_full</code>。</li>
+            </ul>
+          </div>
+          <div class="p-3 bg-slate-900/80 rounded-lg border border-amber-900/30 space-y-1">
+            <div class="text-amber-300 font-bold text-xs">⭐ 战术破甲与捕兽迟滞:</div>
+            <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+              <li><strong>学者大解析 (grand_analysis):</strong> 全体敌人防御永久崩解 <code>defense_penalty += 6</code>。</li>
+              <li><strong>猎人捕兽夹 (snare):</strong> 单体减速 <code>speed_penalty += 3</code>，破甲 <code>defense_penalty += 2</code>。</li>
+              <li><strong>猎人标记 (mark_prey):</strong> 单体破甲 <code>defense_penalty += 4</code>。</li>
+            </ul>
+          </div>
+          <div class="p-3 bg-slate-900/80 rounded-lg border border-purple-900/30 space-y-1">
+            <div class="text-purple-300 font-bold text-xs">⭐ 异常扰动与状态反制:</div>
+            <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+              <li><strong>舞者迷目 (dazzle):</strong> 全体敌人混乱判定 (<code>confuse</code>)，保留状态免疫护符。</li>
+              <li><strong>诗人静音 (quiet_note):</strong> 每名存活敌人独立 25% 概率陷入沉默 (<code>silence</code>)。</li>
+              <li><strong>武僧反击 (counter):</strong> 激活 <code>counter_ready = true</code>，受击必反！</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 交互演练台 -->
+        <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            <div>
+              <span class="text-gray-400 text-[10px] block mb-1 font-bold">选择施展战术特技 (Job Technique):</span>
+              <n-select v-model:value="selectedTechniqueId" size="small" :options="techniqueSelectOptions" />
+            </div>
+
+            <div>
+              <span class="text-gray-400 text-[10px] block mb-1 font-bold">施法者状态即时看板:</span>
+              <div class="flex items-center gap-1.5 pt-0.5">
+                <n-tag size="small" :type="techCasterCounterReady ? 'success' : 'default'">
+                  反击架势: {{ techCasterCounterReady ? '就绪 (Ready)' : '未激活' }}
+                </n-tag>
+                <n-tag size="small" type="info">
+                  元素加成: +{{ techCasterElementBonus }}
+                </n-tag>
+              </div>
+            </div>
+
+            <div class="flex items-end">
+              <n-button size="small" type="primary" secondary class="w-full" @click="resolveTechniqueAction">
+                ⚡ 发动特技裁决 (Execute Technique)
+              </n-button>
+            </div>
+          </div>
+
+          <!-- 敌方3小队状态动态面板 -->
+          <div class="space-y-1.5 pt-1 border-t border-slate-800">
+            <div class="text-[10px] text-gray-400 font-bold">敌方小队状态实时监测 (Enemy Combatants):</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div v-for="(enemy, idx) in techEnemies" :key="idx" class="p-2 bg-slate-900/80 rounded border border-slate-800 space-y-1">
+                <div class="flex items-center justify-between text-xs font-bold text-gray-200">
+                  <span>{{ enemy.name }}</span>
+                  <n-tag size="tiny" :type="enemy.status === 'normal' ? 'default' : 'error'">
+                    {{ enemy.status === 'normal' ? '常规' : enemy.status === 'confuse' ? '🌀 混乱' : '🔇 沉默' }}
+                  </n-tag>
+                </div>
+                <div class="text-[10px] text-gray-400">
+                  破甲减免: <strong class="text-rose-400 font-mono">-{{ enemy.defPenalty }} DEF</strong> · 
+                  减速迟滞: <strong class="text-amber-400 font-mono">-{{ enemy.spdPenalty }} SPD</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 审计日志 -->
+          <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-1">
+            <div class="text-gray-500 font-bold">特技系统执行审计追踪 (JobTechnique Trace):</div>
+            <div v-for="(log, idx) in techniqueTraceLogs" :key="idx" class="text-cyan-300 truncate">
+              &gt; {{ log }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -1029,6 +1133,99 @@ const resetMasteryStudio = () => {
   selectedMasteryActor.value = 'nahart'
   selectedMasteryCurrentJob.value = 'freelancer'
   masteredJobIds.value = ['knight', 'ninja', 'black_mage']
+}
+
+// ================= 八大职业战时特技裁决与战术收益工坊 (job_technique_resolver.gd) =================
+const selectedTechniqueId = ref('steal')
+const techCasterCounterReady = ref(false)
+const techCasterElementBonus = ref(0)
+
+const techniqueSelectOptions = [
+  { label: 'steal: 盗贼神偷 (偷金币 20G + 概率得恢复药 · 防虚报)', value: 'steal' },
+  { label: 'grand_analysis: 学者大解析 (全体敌人防御崩解 DEF -6)', value: 'grand_analysis' },
+  { label: 'snare: 猎人捕兽夹 (单体减速 SPD -3，破甲 DEF -2)', value: 'snare' },
+  { label: 'mark_prey: 猎人标记猎物 (单体集中破甲 DEF -4)', value: 'mark_prey' },
+  { label: 'dazzle: 舞者迷目乱舞 (全体敌方真实混乱判定)', value: 'dazzle' },
+  { label: 'quiet_note: 吟游诗人静音之符 (每名敌人独立 25% 概率沉默)', value: 'quiet_note' },
+  { label: 'counter: 武僧受击反击架势 (激活 counter_ready 状态)', value: 'counter' },
+  { label: 'twin_enspell: 魔法剑士双重附魔 (本场元素输出加成 +2)', value: 'twin_enspell' }
+]
+
+const techEnemies = ref([
+  { name: '绿色粘液怪 (Slime)', status: 'normal' as 'normal' | 'confuse' | 'silence', defPenalty: 0, spdPenalty: 0 },
+  { name: '哥布林侦察兵 (Goblin)', status: 'normal' as 'normal' | 'confuse' | 'silence', defPenalty: 0, spdPenalty: 0 },
+  { name: '铁甲巨像 (Iron Giant)', status: 'normal' as 'normal' | 'confuse' | 'silence', defPenalty: 0, spdPenalty: 0 }
+])
+
+const techniqueTraceLogs = ref<string[]>([
+  '系统就绪: job_technique_resolver.gd 规约完成载入',
+  '契约守卫: 盗贼偷盗防溢出虚报、学者大解析全体破甲、武僧反击与舞者混乱合法接入'
+])
+
+const resolveTechniqueAction = () => {
+  const tech = selectedTechniqueId.value
+
+  if (tech === 'steal') {
+    const gotPotion = Math.random() < 0.4
+    techniqueTraceLogs.value.unshift(`[盗贼偷盗] 成功偷取 STEAL_GOLD = 20G！${gotPotion ? '额外缴获恢复药 (Item 1)' : '未偷得道具'}，已写入背包增量`)
+  } else if (tech === 'grand_analysis') {
+    techEnemies.value.forEach(e => { e.defPenalty += 6 })
+    techniqueTraceLogs.value.unshift('[学者大解析] 全体敌方 defense_penalty += 6！目标物理护甲全面粉碎')
+  } else if (tech === 'snare') {
+    const target = techEnemies.value[0]
+    target.spdPenalty += 3
+    target.defPenalty += 2
+    techniqueTraceLogs.value.unshift(`[猎人捕兽夹] 命中 ${target.name}：speed_penalty += 3, defense_penalty += 2`)
+  } else if (tech === 'mark_prey') {
+    const target = techEnemies.value[1]
+    target.defPenalty += 4
+    techniqueTraceLogs.value.unshift(`[标记猎物] 锁定 ${target.name}：defense_penalty += 4，集中火力指引`)
+  } else if (tech === 'dazzle') {
+    let affected = 0
+    techEnemies.value.forEach(e => {
+      if (Math.random() < 0.6) {
+        e.status = 'confuse'
+        affected++
+      }
+    })
+    techniqueTraceLogs.value.unshift(`[舞者迷目] 迷目舞动：${affected} 名敌方陷入混乱状态 (confuse)，自相残杀`)
+  } else if (tech === 'quiet_note') {
+    let silenced = 0
+    techEnemies.value.forEach(e => {
+      // 独立 25% 概率
+      if (Math.random() < 0.25) {
+        e.status = 'silence'
+        silenced++
+      }
+    })
+    techniqueTraceLogs.value.unshift(`[诗人静音] 独立 25% 概率结算：${silenced} 名敌方被静默 (silence)，法术封锁`)
+  } else if (tech === 'counter') {
+    techCasterCounterReady.value = true
+    techniqueTraceLogs.value.unshift('[武僧反击] 摆出反击架势 (counter_ready = true)！下一次受击将自动发动徒手回击')
+  } else if (tech === 'twin_enspell') {
+    techCasterElementBonus.value += 2
+    techniqueTraceLogs.value.unshift(`[魔剑附魔] 双重魔力激荡！施法者 element_bonus += 2 (当前总加成: +${techCasterElementBonus.value})`)
+  }
+
+  // 审计日志维持最大 8 条
+  if (techniqueTraceLogs.value.length > 8) {
+    techniqueTraceLogs.value = techniqueTraceLogs.value.slice(0, 8)
+  }
+}
+
+const resetTechniqueStudio = () => {
+  selectedTechniqueId.value = 'steal'
+  techCasterCounterReady.value = false
+  techCasterElementBonus.value = 0
+  techEnemies.value = [
+    { name: '绿色粘液怪 (Slime)', status: 'normal', defPenalty: 0, spdPenalty: 0 },
+    { name: '哥布林侦察兵 (Goblin)', status: 'normal', defPenalty: 0, spdPenalty: 0 },
+    { name: '铁甲巨像 (Iron Giant)', status: 'normal', defPenalty: 0, spdPenalty: 0 }
+  ]
+  techniqueTraceLogs.value = [
+    '重置完成: 职业特技演练台已恢复初始状态',
+    '默认设置: 盗贼偷盗 (steal), 敌方小队防御惩罚归零'
+  ]
 }
 </script>
 

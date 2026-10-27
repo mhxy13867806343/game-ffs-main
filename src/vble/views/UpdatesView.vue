@@ -189,6 +189,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-job-technique-resolver-studio-2026-10-27',
+    version: 'v2.2.202',
+    date: '2026-10-27',
+    title: '八大职业战时特技裁决与战术辅助工坊全息实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⚔️',
+    tagType: 'info',
+    description: '对齐 Godot 引擎 job_technique_resolver.gd 最新实机架构：全息实装盗贼防虚报真金白银偷盗 (STEAL_GOLD = 20G / 恢复药)、学者大解析全体破甲 (DEF -6)、猎人捕兽夹减速破甲 (SPD -3, DEF -2)、猎人标记猎物 (DEF -4)、舞者迷目全体混乱 (confuse)、诗人静音独立 25% 沉默 (silence) 与魔剑士双重附魔 (+2 元素输出)。',
+    highlights: [
+      '盗贼真金白银偷盗守卫 (steal)：actual_gold = GameState.gold - gold_before，精准防御 MAX_GOLD 溢出虚报，恢复药 (Item 1) 背包满仓安全捕获',
+      '学者与猎人精准破甲战术：学者大解析 (grand_analysis) 全体物理防御崩解 defense_penalty += 6，猎人捕兽夹 (snare) speed_penalty += 3 & defense_penalty += 2，猎人标记 (mark_prey) defense_penalty += 4',
+      '舞者与诗人战时状态扰动：舞者迷目乱舞 (dazzle) 全体敌方混乱判定，吟游诗人静音之符 (quiet_note) 每名存活敌人独立 25% 概率陷入沉默 (silence)',
+      '武僧反击与魔剑附魔：武僧受击架势 (counter_ready = true) 受击自动徒手反击，魔剑士双重附魔 (twin_enspell) element_bonus += 2 战时元素威力激增',
+      '实装交互推演工坊：特技切换、施法者反击/元素看板、敌方三小队状态/破甲/减速实时监测与战术审计追踪',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '职业转职与精通', path: '/vble/jobs', icon: '📜' },
+      { label: '战斗法则与试炼', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-ancient-tablets-unseal-tail-trade-2026-10-27',
     version: 'v2.2.201',
     date: '2026-10-27',
