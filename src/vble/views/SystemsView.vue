@@ -149,6 +149,43 @@
         </div>
       </n-card>
 
+      <!-- 机关解谜参与者锁定、单人遇袭破阵与现场题库架构 (基于 Godot D02 深度核查规范) -->
+      <n-card hoverable class="border border-purple-900/60 bg-[#150f24]/90 rounded-xl md:col-span-2" title="🧩 机关解谜参与者锁定、单人遇袭破阵与现场题库体系 (Puzzle Participant & DecryptModule)">
+        <div class="space-y-3 text-xs leading-relaxed">
+          <p class="text-gray-300">
+            实机解谜核心管线（<code>decrypt_module.gd</code> / <code>puzzle_system.gd</code>）与队伍状态机（<code>game_state_party.gd</code>）深度协同，确保解密机关过程严守<strong>首位队首锁定</strong>、<strong>中途禁止换位</strong>、<strong>单人遇袭入战</strong>与<strong>战后资源无损同步</strong>四项核心安全底线。
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="p-3 bg-slate-900/80 rounded border border-purple-900/30 space-y-1.5">
+              <div class="text-purple-300 font-bold">🔒 队首锁定与禁换位防御:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>队首角色绑定:</strong> 开启解谜瞬时锁定当前活跃领队（<code>get_party_leader_view</code>），切题不换人。</li>
+                <li><strong>禁用换位作弊:</strong> 解题期间 <code>GameStateParty.swap</code> 强制拒绝，石化/睡眠/倒地者无法代派。</li>
+                <li><strong>草稿与断点恢复:</strong> 退出解谜或遇袭中断时立即原子保存草稿，重入无损恢复输入。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-amber-900/30 space-y-1.5">
+              <div class="text-amber-300 font-bold">⚔️ 明怪单人入战与资源同步:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>单人入战契约:</strong> 山洞第四门遇袭标记 <code>source="puzzle"</code>，仅锁定演员单枪匹马出战。</li>
+                <li><strong>战后资源守恒:</strong> 胜出或逃跑后将演员实战 HP/MP/异常状态精确同步回大地图。</li>
+                <li><strong>100px 避敌光环:</strong> 解密现场 100 像素范围内自动冻结暗雷遭遇，确保心流免受打扰。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-cyan-900/30 space-y-1.5">
+              <div class="text-cyan-300 font-bold">🏛️ 现场两大实体剧情题与 38 题库:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>王宫档案柜:</strong> 晨辉王宫 <code>(320, 480)</code> 档案柜密码锁，完成初始晶石与职业后解禁。</li>
+                <li><strong>龙栖石板:</strong> 龙巢 <code>(400, 400)</code> 远古铭文石板，结识苍蓝龙裔后开放念动解谜。</li>
+                <li><strong>38 题目录收录:</strong> 14 道新手教程题 + 24 章节进阶题库，支持重试冷却与安全析构。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </n-card>
+
       <!-- 探索菜单独立露营快捷管线与休整恢复架构 -->
       <n-card hoverable class="border border-emerald-900/60 bg-[#0a1c17]/90 rounded-xl md:col-span-2" title="⛺ 探索菜单独立露营快捷管线与休整恢复架构 (Dedicated Camping Shortcut)">
         <div class="space-y-3 text-xs leading-relaxed">
