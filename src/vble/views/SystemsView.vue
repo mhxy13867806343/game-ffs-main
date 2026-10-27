@@ -186,6 +186,152 @@
         </div>
       </n-card>
 
+      <!-- 冒险情报手册系统与酒馆情报购阅会话架构 (基于 Godot D07 研发规范) -->
+      <n-card hoverable class="border border-amber-900/60 bg-[#16120d]/95 rounded-xl md:col-span-2" title="📖 冒险情报手册系统与酒馆情报购阅会话架构 (AdventureIntel & Session Memory)">
+        <template #header-extra>
+          <n-tag type="warning" size="small" round strong>Godot D07 实机规范对齐</n-tag>
+        </template>
+        <div class="space-y-4 text-xs leading-relaxed">
+          <p class="text-gray-300">
+            实机底栏菜单扩展装配【冒险情报】指令按钮（<code>adventure_intel_menu.gd</code>: 544, 6 坐标，340×72 规格），搭载只读会话缓存记忆机制（<code>adventure_intel_session.gd</code>）与正式情报聚合模型（<code>adventure_intel_read_model.gd</code>），实现酒馆首购凭证引导、多维分类检索与跨档强类型安全失效。
+          </p>
+
+          <!-- 架构三柱石 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="p-3 bg-slate-900/80 rounded border border-amber-900/30 space-y-1.5">
+              <div class="text-amber-300 font-bold">🍺 酒馆情报购买与已购投影:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1 text-[11px]">
+                <li><strong>麦酒首购收据 (Ale):</strong> 购买 10G 麦酒获取「始源神殿石径路线」，拆解为双事件对白防止 113px 视口裁切。</li>
+                <li><strong>黑啤魔物情报 (Stout):</strong> 购买 25G 黑啤获取「绿色粘液怪弱点」，支持属性/物理/AI 行动四章节分段。</li>
+                <li><strong>严格布尔购旗检验:</strong> 仅当 <code>flags[READ_FLAG] === true</code> 时才计入已购，未购地点与条目绝不泄露。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-cyan-900/30 space-y-1.5">
+              <div class="text-cyan-300 font-bold">🛡️ 会话记忆与跨档防污染 (Session):</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1 text-[11px]">
+                <li><strong>三要素身份比对:</strong> 记录 <code>_owner</code>、<code>_cycle</code> 与 <code>_flags</code> 强引用，内容相等不能代替同一档案。</li>
+                <li><strong>换档即刻遗忘 (forget):</strong> 换档或换周目立即赋新空字典释放引用，严禁把 A 档阅读位置授给 B 档。</li>
+                <li><strong>滚动槽非负自然数:</strong> 记忆 <code>list_scroll</code> 与 <code>detail_scroll</code>，异常类型立即归零重置。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-purple-900/30 space-y-1.5">
+              <div class="text-purple-300 font-bold">🔍 动态地点索引与章节裁决:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1 text-[11px]">
+                <li><strong>纯已购地点计算:</strong> <code>locations()</code> 仅聚合真实已购条目所属地，杜绝未探索区域地名泄露。</li>
+                <li><strong>分章节合法校验:</strong> 章节切换仅在有效已购条目支持分段时开放，未知章节安全退回 <code>all</code>。</li>
+                <li><strong>只读纯净原则:</strong> 手册全流程不写系统设置、不写保存槽位、不产生额外持久化脏字段。</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 交互演练台：酒馆情报购阅与手册多维阅读器模拟器 -->
+          <div class="p-4 rounded-xl bg-slate-950/80 border border-amber-500/40 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/20 pb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🧪</span>
+                <span class="font-bold text-amber-300">酒馆情报购阅与手册会话阅读演练台 (Interactive Intel Reader)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <n-button size="tiny" secondary type="warning" @click="simulateSwitchSave">
+                  🔄 模拟换档 (切换 Owner)
+                </n-button>
+                <n-button size="tiny" secondary type="info" @click="simulateSwitchCycle">
+                  ⏭️ 模拟换周目 (Cycle +1)
+                </n-button>
+              </div>
+            </div>
+
+            <!-- 控制区 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+              <div>
+                <span class="text-gray-400 text-[10px] block mb-1">晨辉酒馆首购状态:</span>
+                <div class="flex items-center gap-3">
+                  <label class="flex items-center gap-1 cursor-pointer text-gray-300 text-xs">
+                    <input type="checkbox" v-model="intelFlags.tavern_ale_read" />
+                    <span>麦酒情报 (10G)</span>
+                  </label>
+                  <label class="flex items-center gap-1 cursor-pointer text-gray-300 text-xs">
+                    <input type="checkbox" v-model="intelFlags.tavern_stout_read" />
+                    <span>黑啤情报 (25G)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <span class="text-gray-400 text-[10px] block mb-1">动态地点过滤 (已购聚合):</span>
+                <n-select v-model:value="selectedLocation" size="tiny" :options="availableLocations.map(l => ({ label: l === 'all' ? '全部已购地点' : l, value: l }))" />
+              </div>
+
+              <div>
+                <span class="text-gray-400 text-[10px] block mb-1">章节分段选择器 (Sections):</span>
+                <n-select v-model:value="selectedSection" size="tiny" :options="sectionOptions.map((s: any) => ({ label: s.title, value: s.id }))" />
+              </div>
+
+              <div>
+                <span class="text-gray-400 text-[10px] block mb-1">快速关键词检索:</span>
+                <n-input v-model:value="activeQuery" size="tiny" placeholder="检索标题 / 地点..." clearable />
+              </div>
+            </div>
+
+            <!-- 列表与正文展示 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <!-- 左侧条目栏 -->
+              <div class="p-2.5 rounded bg-slate-900 border border-slate-800 space-y-1.5">
+                <div class="text-[11px] font-bold text-gray-400 flex items-center justify-between">
+                  <span>已购情报清单 ({{ filteredIntelList.length }})</span>
+                  <span class="text-[10px] text-amber-400 font-mono">MODEL.entries()</span>
+                </div>
+                <div v-if="filteredIntelList.length === 0" class="text-center py-6 text-gray-500 text-xs">
+                  暂无已购情报，请勾选上方酒馆购买
+                </div>
+                <div
+                  v-for="item in filteredIntelList"
+                  :key="item.id"
+                  @click="selectedEntryId = item.id; selectedSection = 'all'"
+                  class="p-2 rounded cursor-pointer transition-colors text-xs"
+                  :class="selectedEntryId === item.id ? 'bg-amber-950/60 border border-amber-500/50 text-amber-200' : 'bg-slate-950/60 border border-slate-800 text-gray-300 hover:border-slate-700'"
+                >
+                  <div class="font-bold flex items-center justify-between">
+                    <span>📜 {{ item.title }}</span>
+                  </div>
+                  <div class="text-[10px] text-gray-500 mt-0.5 flex items-center justify-between">
+                    <span>{{ item.location }}</span>
+                    <span class="text-amber-400 font-mono">{{ item.cost }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 右侧正文与会话状态 -->
+              <div class="md:col-span-2 p-3 rounded bg-slate-900 border border-slate-800 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm font-bold text-amber-300">{{ activeIntelEntry ? activeIntelEntry.title : '未选中情报' }}</span>
+                    <n-tag v-if="activeIntelEntry" size="tiny" type="info">{{ activeIntelEntry.location }}</n-tag>
+                  </div>
+                  <div class="text-[10px] text-cyan-300 font-mono">
+                    Owner: {{ activeOwner }} | Cycle: {{ activeCycle }}
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded bg-slate-950/90 border border-slate-800/80 min-h-[80px] text-gray-200 text-xs leading-relaxed whitespace-pre-line">
+                  {{ displayContent }}
+                </div>
+
+                <!-- 会话日志 -->
+                <div class="p-2 rounded bg-black/40 border border-slate-800/60 text-[10px] font-mono space-y-0.5">
+                  <div class="text-gray-500 font-bold">会话内存日志 (Session Lifecycle Trace):</div>
+                  <div v-for="(log, idx) in sessionLog" :key="idx" class="text-amber-400/90 truncate">
+                    &gt; {{ log }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </n-card>
+
       <!-- 探索菜单独立露营快捷管线与休整恢复架构 -->
       <n-card hoverable class="border border-emerald-900/60 bg-[#0a1c17]/90 rounded-xl md:col-span-2" title="⛺ 探索菜单独立露营快捷管线与休整恢复架构 (Dedicated Camping Shortcut)">
         <div class="space-y-3 text-xs leading-relaxed">
@@ -915,5 +1061,111 @@
 </template>
 
 <script setup lang="ts">
-// 系统底层架构无需复杂动态响应，纯配置与说明展示
+// ================= 冒险情报手册会话模拟器 (Adventure Intel Session & Reading Model) =================
+const intelFlags = reactive({
+  tavern_ale_read: true,
+  tavern_stout_read: false
+})
+
+const activeOwner = ref('party_slot_1_hero')
+const activeCycle = ref(1)
+const activeQuery = ref('')
+const selectedLocation = ref('all')
+const selectedSection = ref('all')
+const selectedEntryId = ref('tavern_ale_read')
+const sessionLog = ref<string[]>([
+  '初始载入：活跃队伍 [party_slot_1_hero]，周目 [Cycle 1]，已记忆麦酒情报阅读位置。'
+])
+
+const allIntelDatabase = [
+  {
+    id: 'tavern_ale_read',
+    title: '始源神殿石径路线',
+    location: '晨辉酒馆 · 晨辉郊外',
+    cost: '10 G (麦酒 Ale)',
+    detail: '穿过晨辉森林东北侧小径，即可抵达被结界封印的始源神殿。石径两侧生长着微光荧草，夜晚可作为辨路标识。注意：沿途暗伏低级哥布林斥候。'
+  },
+  {
+    id: 'tavern_stout_read',
+    title: '绿色粘液怪元素倍率与生理弱点',
+    location: '晨辉酒馆 · 沼泽洞窟',
+    cost: '25 G (黑啤 Stout)',
+    sections: [
+      { id: 'all', title: '全部全貌' },
+      { id: 'weakness', title: '🔥 元素弱点克制' },
+      { id: 'phys_res', title: '🛡️ 物理减伤机制' },
+      { id: 'ai_pattern', title: '⚡ 行动与附着模式' }
+    ],
+    details: {
+      all: '绿色粘液怪（Green Slime）常年滋生于潮湿阴暗的沼泽洞窟。拥有极高物理抗性与极度怕火特性，遭遇时切忌盲目物理平砍。',
+      weakness: '【属性弱点】：火属性伤害享受 2.0x 暴击伤害倍率；雷属性造成 1.0x 基础伤害；水/冰属性造成 0.5x 减免伤害。',
+      phys_res: '【物理减伤】：常驻 0.2x 极高物理减伤（仅承受 20% 物理攻击伤害），普通刀剑砍击极难破防，需破甲特技或火系魔导术。',
+      ai_pattern: '【行动模式】：ATB 充满时倾向于释放「毒液喷溅」（40% 几率附加中毒状态）与「粘性纠缠」（降低我方角色 20% 行动速度持续 3 回合）。'
+    }
+  }
+]
+
+const availableLocations = computed(() => {
+  const locs = new Set<string>()
+  allIntelDatabase.forEach(item => {
+    if (intelFlags[item.id as keyof typeof intelFlags]) {
+      locs.add(item.location)
+    }
+  })
+  return ['all', ...Array.from(locs)]
+})
+
+const filteredIntelList = computed(() => {
+  return allIntelDatabase.filter(item => {
+    // 1. 严格购旗验证 (_purchased)
+    if (!intelFlags[item.id as keyof typeof intelFlags]) return false
+    // 2. 地点过滤
+    if (selectedLocation.value !== 'all' && item.location !== selectedLocation.value) return false
+    // 3. 搜索匹配
+    if (activeQuery.value.trim()) {
+      const q = activeQuery.value.trim().toLowerCase()
+      const matchTitle = item.title.toLowerCase().includes(q)
+      const matchLoc = item.location.toLowerCase().includes(q)
+      if (!matchTitle && !matchLoc) return false
+    }
+    return true
+  })
+})
+
+const activeIntelEntry = computed(() => {
+  return filteredIntelList.value.find(i => i.id === selectedEntryId.value) || filteredIntelList.value[0] || null
+})
+
+const sectionOptions = computed(() => {
+  if (!activeIntelEntry.value || activeIntelEntry.value.id !== 'tavern_stout_read') {
+    return [{ id: 'all', title: '全部' }]
+  }
+  return (activeIntelEntry.value as any).sections || [{ id: 'all', title: '全部' }]
+})
+
+const displayContent = computed(() => {
+  if (!activeIntelEntry.value) return '未找到匹配的已购情报或当前分类下无条目。'
+  if (activeIntelEntry.value.id === 'tavern_stout_read') {
+    const sec = selectedSection.value
+    const details = (activeIntelEntry.value as any).details as Record<string, string>
+    return details[sec] || details['all']
+  }
+  return activeIntelEntry.value.detail
+})
+
+const triggerInvalidation = (reason: string) => {
+  sessionLog.value.unshift(`🚨 触发会话失效 [${reason}]：调用 forget() 清空阅读位置记忆、详情滚动槽与章节上下文。`)
+  selectedSection.value = 'all'
+  if (sessionLog.value.length > 5) sessionLog.value.pop()
+}
+
+const simulateSwitchSave = () => {
+  activeOwner.value = activeOwner.value === 'party_slot_1_hero' ? 'party_slot_2_alt' : 'party_slot_1_hero'
+  triggerInvalidation('切换存档队伍所有者 (Owner Invalidation)')
+}
+
+const simulateSwitchCycle = () => {
+  activeCycle.value = activeCycle.value === 1 ? 2 : 1
+  triggerInvalidation('周目跃迁 (Cycle Invalidation)')
+}
 </script>
