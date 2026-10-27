@@ -3,7 +3,7 @@
 游戏首页门户，支持点击卡片跳转到不同游戏与文档页面。
 
 - **在线预览体验**：[https://mhxy13867806343.github.io/game-ffs-main/#/](https://mhxy13867806343.github.io/game-ffs-main/#/)
-- **最终幻想：时空之轮**：[https://mhxy13867806343.github.io/game-ffs-vble/#/](https://mhxy13867806343.github.io/game-ffs-vble/#/)
+- **最终幻想：时空之轮 (子页面)**：[https://mhxy13867806343.github.io/game-ffs-main/#/vble](https://mhxy13867806343.github.io/game-ffs-main/#/vble)
 - **AI H5 游戏合集**：[https://mhxy13867806343.github.io/ai-h5-games/](https://mhxy13867806343.github.io/ai-h5-games/)
 
 ---

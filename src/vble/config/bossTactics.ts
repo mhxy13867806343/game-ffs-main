@@ -1,0 +1,178 @@
+/**
+ * 首领攻坚阶段与机制配置文件
+ * 包含全游戏 14 大核心首领的多阶段血量、转阶段机制、必杀技与破解法则。
+ * 用户可在此随意扩充新首领或调整攻坚战术。
+ */
+
+export interface BossTacticItem {
+  id: string
+  name: string
+  title: string
+  tier: string
+  location: string
+  hp: string
+  phases: number
+  weakness: string
+  keyGimmick: string
+  strategy: string
+  rewards: string
+}
+
+export const bossTacticsList: BossTacticItem[] = [
+  {
+    id: 'wing-raptor',
+    name: '翼手龙 (Wing Raptor)',
+    title: '序章初试之翼',
+    tier: 'T1',
+    location: '风之神殿 顶部祭坛',
+    hp: '250',
+    phases: 2,
+    weakness: '雷属性 / 闭翼状态不可攻击',
+    keyGimmick: '【双翼敛合模式】闭翼时受到任何攻击都会释放全体爪击反制并吸收伤害',
+    strategy: '开翼状态全员猛攻集火；闭翼状态立刻全员执行【防御】或偷取药草，切忌贪刀。',
+    rewards: '不死鸟之尾、风之水晶残片'
+  },
+  {
+    id: 'siren',
+    name: '塞壬 (Siren)',
+    title: '海潮亡灵女妖',
+    tier: 'T1',
+    location: '船之坟场 沉船甲板',
+    hp: '900',
+    phases: 2,
+    weakness: '生体态弱火 / 不死态弱圣与恢复药',
+    keyGimmick: '生者与亡者形态反复轮转，生体物防极高闪避魔法，亡灵形态反之但被圣光重创',
+    strategy: '生体形态用物理技能打击；切换不死形态后直接对她投掷【恢复药】或使用圣水白魔法造成真实百分比重创。',
+    rewards: '青铜盾、静默之杖'
+  },
+  {
+    id: 'magissa-forza',
+    name: '玛吉莎 & 弗鲁扎 (Magissa & Forza)',
+    title: '北山双子山贼',
+    tier: 'T1',
+    location: '北之山 悬崖古道',
+    hp: '650 + 850',
+    phases: 2,
+    weakness: '弱沉默、弱睡眠',
+    keyGimmick: '半血召唤野蛮人弗鲁扎，弗鲁扎释放物理单体秒杀技【撞击】',
+    strategy: '先手使用时空魔法【沉默】封印玛吉莎的二级火/雷法术，弗鲁扎入场后立即使用青魔法【睡眠】或骑士【守护】保护后排法师。',
+    rewards: '战斧、皮铠'
+  },
+  {
+    id: 'liquid-flame',
+    name: '液态火焰 (Liquid Flame)',
+    title: '卡尔纳克炉火核心',
+    tier: 'T1',
+    location: '卡尔纳克火力船 动力核心',
+    hp: '3,000',
+    phases: 3,
+    weakness: '弱冰属性 / 吸收火属性',
+    keyGimmick: '受击后在【人型态】、【手掌态】、【龙卷风态】三种形态间随机变身',
+    strategy: '手掌态具备高物理反击且不吃冰属性；龙卷风态会对自己施展火炎回血。锁定人形态期间全力释放冰结魔法【Blizzara】打出过载暴击。',
+    rewards: '炎之水晶残片、炎之戒'
+  },
+  {
+    id: 'archaeoavis',
+    name: '古代始祖龙 (Archaeoavis)',
+    title: '遗迹浮空守护神',
+    tier: 'T2',
+    location: '朗卡浮空遗迹 核心中枢',
+    hp: '6,400 (4属性轮换) + 2,500 (复活)',
+    phases: 5,
+    weakness: '随风、黄、白、红四种形态逐次更迭弱点',
+    keyGimmick: '经历 4 次属性切换后死亡，随后立刻以【不死骸骨形态】原地复活并释放大漩涡',
+    strategy: '前四阶段利用学者【调查】对准弱点换属性输出；死而复生后全队保留至少一名忍者投掷手里剑或使用【斩铁剑】直接收割残局。',
+    rewards: '飞空艇部件、金发饰'
+  },
+  {
+    id: 'gilgamesh',
+    name: '吉尔伽美什 (Gilgamesh)',
+    title: '大桥剑豪 · 源氏系列拥有者',
+    tier: 'T2~T4',
+    location: '大桥 / 泽萨舰队 / 艾克斯德斯要塞 / 次元之隙 (共 6 战)',
+    hp: '动态 2,000 ~ 55,000',
+    phases: 6,
+    weakness: '弱失衡、可偷取【源氏全套神装】',
+    keyGimmick: '名曲《大桥死斗》响起！在多次战斗中偷取盗贼专属神装【源氏之铠/护手/头盔/盾】',
+    strategy: '全战斗核心目的并非击杀，而是配置盗贼使用【偷窃】直到成功摸出源氏装备！战斗末尾吉尔伽美什会施加自爆或与宿敌恩奇都并肩作战。',
+    rewards: '源氏之盾、源氏之铠、源氏之兜、源氏之护手、石中剑'
+  },
+  {
+    id: 'exdeath',
+    name: '艾克斯德斯 (Exdeath)',
+    title: '大森林邪木本尊',
+    tier: 'T3',
+    location: '艾克斯德斯要塞 顶层虚空王座',
+    hp: '32,768',
+    phases: 3,
+    weakness: '圣属性、吸血鬼之吻',
+    keyGimmick: '【真空波】百分比濒死斩杀，半血后高频吟唱死之宣告与陨石降临',
+    strategy: '前排骑士必须携带【守护】与全套反击盾，白魔预铺全体【反射】，时魔持续释放【加速】压制敌方 ATB 条。',
+    rewards: '次元之隙传送门开启'
+  },
+  {
+    id: 'omega',
+    name: '欧米茄 (Omega)',
+    title: '上古终极杀戮兵器',
+    tier: 'T4 (隐藏超越神级)',
+    location: '次元之隙 机械瀑布洞窟 (巡逻遇敌)',
+    hp: '55,537',
+    phases: 1,
+    weakness: '弱雷属性 (吸收其他全元素)',
+    keyGimmick: '物防高达 254，常驻反射，释放【波动炮】单发造成 50% 全体上限扣减并叠加失明混乱',
+    strategy: '绝对禁区！必须装备【火焰戒指】抗波动热流，魔法剑士附魔【Thundaga 魔法剑】搭配二刀流【乱打】连轰 8 刀直破防御击杀。',
+    rewards: '欧米茄勋章 (超越神之证)'
+  },
+  {
+    id: 'shinryu',
+    name: '神龙 (Shinryu)',
+    title: '深渊宝箱盘踞真龙',
+    tier: 'T4 (隐藏超越神级)',
+    location: '次元之隙 宝箱怪陷阱',
+    hp: '55,500',
+    phases: 1,
+    weakness: '弱龙属性特攻 (龙骑士/飞龙枪)',
+    keyGimmick: '开局先制必定释放【潮汐大洪水 (Tidal Wave)】造成 7,000+ 全体直接秒杀伤害',
+    strategy: '开战前必须全员佩戴【珊瑚戒指 (Coral Ring)】将水属性伤害彻底吸收为治疗；龙骑士使用【飞龙枪】滞空避战并打出双倍龙属贯穿伤。',
+    rewards: '龙之纹章、诸神之黄昏 (Ragnarok)'
+  },
+  {
+    id: 'neo-exdeath',
+    name: '新·艾克斯德斯 (Neo Exdeath)',
+    title: '虚无融合万魔本尊',
+    tier: 'T4 (最终决战)',
+    location: '次元之隙 终焉虚无核心',
+    hp: '总计 220,000 (分 4 部位核心)',
+    phases: 2,
+    weakness: '部位各异：弱物理贯穿、弱圣、弱暗',
+    keyGimmick: '【大十字 (Grand Cross)】赋予全体随机致死/僵直/石化/缩小异常，四部位同时释放全域毁灭技',
+    strategy: '全员佩戴【缎带 (Ribbon)】免疫一切负面状态；使用召唤兽【巴哈姆特】配合黑魔法【核爆 (Flare)】进行全体无属性轰炸，优先消灭右上角施放三角魔法的部位。',
+    rewards: '通关殿堂、二周目真·深渊解锁'
+  },
+  {
+    id: 'bounty-a-king-chimera',
+    name: '强化奇美拉 (King Chimera)',
+    title: '酒馆 Rank A 混沌侵蚀兽',
+    tier: 'T3 (高阶酒馆悬赏)',
+    location: '混沌神殿 南侧中央通道',
+    hp: '18,500',
+    phases: 2,
+    weakness: '弱水与冰属性 / 弱敏捷剥夺',
+    keyGimmick: '【剧毒炽焰龙卷】高热烈焰全体喷涌并附加持续剧毒灼伤，半血狂暴后物攻与行动条大幅激增',
+    strategy: '前排全员佩戴耐火装备或由白魔法师预先覆盖全体火抗圣壁；黑魔法师以三级冰魔法持续压制引导，盗贼负责及时净化异常。',
+    rewards: '耐火斗篷×1、护盾指环×1、35,000G'
+  },
+  {
+    id: 'bounty-s-death-eye',
+    name: '死神之眼 (Death Eye)',
+    title: '酒馆 Rank S 通关终极灾厄',
+    tier: 'T4 (隐藏超越神级)',
+    location: '混沌神殿 深处南侧暗廊 (周目通关限定)',
+    hp: '42,000',
+    phases: 2,
+    weakness: '弱圣属性 / 弱圣水与光芒特攻 (不死系)',
+    keyGimmick: '【死亡凝视】单体高概率即死判定，高频释放全体雷暴神谴与虚空吸血，免疫常规控制',
+    strategy: '必须装备防即死饰品并穿戴防雷装备（如钻石胸甲）；白魔法师持续释放极光圣裁与神圣光辉，时空魔法师以【加速】反制敌方超高行动频次。',
+    rewards: '钻石胸甲×1、盗贼小手×1、100,000G'
+  }
+]

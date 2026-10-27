@@ -16,19 +16,30 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-router',
+        'pinia',
         {
+          '@vueuse/core': [
+            'useWindowSize',
+            'useStorage',
+            'useDark',
+            'useToggle',
+            'useClipboard'
+          ],
           'naive-ui': [
             'useDialog',
             'useMessage',
             'useNotification',
-            'useLoadingBar'
+            'useLoadingBar',
+            'darkTheme'
           ]
         }
       ],
+      dirs: ['src/composables'],
       dts: 'src/auto-imports.d.ts'
     }),
     Components({
       resolvers: [NaiveUiResolver()],
+      dirs: ['src/components', 'src/vble/components'],
       dts: 'src/components.d.ts'
     })
   ],

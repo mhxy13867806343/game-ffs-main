@@ -45,18 +45,21 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import type { GameItem } from '@/types/game'
 
 const props = defineProps<{
   game: GameItem
 }>()
 
+const router = useRouter()
+
 function goToGame() {
   if (props.game.path) {
     if (props.game.path.startsWith('http')) {
       window.open(props.game.path, '_blank')
     } else {
-      window.location.href = props.game.path
+      router.push(props.game.path)
     }
   }
 }
