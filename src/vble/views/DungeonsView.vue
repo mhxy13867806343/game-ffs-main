@@ -341,6 +341,103 @@
       </div>
     </n-card>
 
+    <!-- 北溟之巅·北之洞窟三层秘境探索路线与安全科考大典 (对齐 Godot 4.3 2026-10-27 north_cave_route.gd / sites.gd / visit.gd 实机规范) -->
+    <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-sky-950/40 to-slate-900/95 border-sky-800/60 shadow-xl" title="🏔️ 北溟之巅·北窟三层秘境探索路线与安全科考大典 (North Cave 1~3F)">
+      <template #header-extra>
+        <n-tag type="info" size="small" round strong>节拍门禁：ch02_restore_trust (龙骑士信赖修复)</n-tag>
+      </template>
+      <div class="space-y-4">
+        <p class="text-xs text-gray-300 leading-relaxed">
+          北之洞窟群座落于大陆极北北溟南岸山麓隘口（大地图入口坐标 <code>WORLD_ENTRY (1200, 180)</code>，安全返场坐标 <code>WORLD_RETURN (1232, 268)</code>，南侧返场特别东移 32 像素以精准避开北脊关自动门碰撞体）。全域由三层纵深岩层构成，定性为<strong>纯净安全探索区域（安全探索 · 无战斗）</strong>，无遭遇战、无机关压制，专供古代地质科考与静谧休憩。
+        </p>
+
+        <!-- 三层详细拓扑与门禁路线 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <!-- 1F 北窟风口 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-sky-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-sky-300">🌬️ 第一层：北窟风口</span>
+              <n-tag size="tiny" type="info">north_cave</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400 space-y-0.5">
+              <div><span class="text-gray-300 font-bold">出生坐标：</span><code>(640, 800)</code></div>
+              <div><span class="text-gray-300 font-bold">静态视觉：</span><code>north_wind_static_visual.json</code></div>
+            </div>
+            <div class="text-[11px] text-gray-300 space-y-1">
+              <div><strong class="text-sky-400">🚪 门禁连接：</strong></div>
+              <ul class="list-disc list-inside space-y-0.5 text-gray-400 text-[10px]">
+                <li><code>WorldExit (640, 880)</code> &rarr; 返回北溟南岸 <code>(1232, 268)</code></li>
+                <li><code>ToNorthCorridor (1080, 360)</code> &rarr; 北窟回廊 <code>(272, 520)</code></li>
+              </ul>
+            </div>
+            <div class="p-2 rounded bg-sky-950/40 border border-sky-900/30 text-[10px] space-y-1">
+              <div class="text-amber-300 font-bold">🔍 景物调查：NorthWindRockSurvey (640, 432)</div>
+              <p class="text-gray-300 italic">“四座岩台分列通道两侧，北侧横廊与中央石径相接。南口返回北溟南岸；东北通道通往北窟回廊。”</p>
+            </div>
+          </div>
+
+          <!-- 2F 北窟回廊 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-indigo-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-indigo-300">🌀 第二层：北窟回廊</span>
+              <n-tag size="tiny" type="info">north_cave_2</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400 space-y-0.5">
+              <div><span class="text-gray-300 font-bold">出生坐标：</span><code>(272, 520)</code></div>
+              <div><span class="text-gray-300 font-bold">静态视觉：</span><code>north_corridor_static_visual.json</code></div>
+            </div>
+            <div class="text-[11px] text-gray-300 space-y-1">
+              <div><strong class="text-indigo-400">🚪 门禁连接：</strong></div>
+              <ul class="list-disc list-inside space-y-0.5 text-gray-400 text-[10px]">
+                <li><code>BackNorthWind (200, 520)</code> &rarr; 返回风口 <code>(1008, 360)</code></li>
+                <li><code>ToNorthCrystal (1080, 280)</code> &rarr; 北窟晶腔 <code>(640, 800)</code></li>
+              </ul>
+            </div>
+            <div class="p-2 rounded bg-indigo-950/40 border border-indigo-900/30 text-[10px] space-y-1">
+              <div class="text-amber-300 font-bold">🔍 景物调查：NorthCorridorRockSurvey (640, 624)</div>
+              <p class="text-gray-300 italic">“一座完整岩体立在回廊中央，南侧横院与两边通道留有绕行的空地。西口返回北窟风口；东北通道通往北窟晶腔。”</p>
+            </div>
+          </div>
+
+          <!-- 3F 北窟晶腔 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-cyan-300">💎 第三层：北窟晶腔</span>
+              <n-tag size="tiny" type="info">north_cave_3</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400 space-y-0.5">
+              <div><span class="text-gray-300 font-bold">出生坐标：</span><code>(640, 800)</code></div>
+              <div><span class="text-gray-300 font-bold">静态视觉：</span><code>north_crystal_static_visual.json</code></div>
+            </div>
+            <div class="text-[11px] text-gray-300 space-y-1">
+              <div><strong class="text-cyan-400">🚪 门禁连接：</strong></div>
+              <ul class="list-disc list-inside space-y-0.5 text-gray-400 text-[10px]">
+                <li><code>BackNorthCorridor (640, 880)</code> &rarr; 返回回廊 <code>(1008, 280)</code></li>
+                <li>终点深处：仅单向折返回廊，原路返回大陆</li>
+              </ul>
+            </div>
+            <div class="p-2 rounded bg-cyan-950/40 border border-cyan-900/30 text-[10px] space-y-1">
+              <div class="text-amber-300 font-bold">🔍 景物调查：NorthCrystalSurvey (640, 500)</div>
+              <p class="text-gray-300 italic">“蓝色晶簇立在北侧石地上，中央石径与横向庭地在它南面相交。南口返回北窟回廊，再经风口返回大陆。”</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 引擎架构底层准入与退役守卫 -->
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-gray-300 space-y-1">
+          <div class="font-bold text-amber-300 flex items-center gap-1.5">
+            <span>🛡️</span>
+            <span>Godot 引擎原生守卫规范 (north_cave_route.gd / north_cave_visit.gd)</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-gray-400 text-[10px]">
+            <div><strong class="text-gray-200">1. 实体活性检验 (_live_host)：</strong>仅当前活动主场景且 Player 处于步行模式 (foot) 下响应，切入战斗或探险加载中一概拦截。</div>
+            <div><strong class="text-gray-200">2. 门禁安全回退机制：</strong>若后续剧情关闭门禁，已身处洞内的探险队伍仍享有“逐层原路撤离”的绝对特权，杜绝死锁。</div>
+            <div><strong class="text-gray-200">3. 碰撞安全脚标 (safe_foot)：</strong>环境动态加载三子类拓扑组件，严禁把晶簇图片轮廓当角色实体碰撞，防止落空穿墙。</div>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
     <!-- 全域六大隐藏秘境地下城勘探大典 (基于桌面 Godot 2026-10 最新实机实装规范) -->
     <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-indigo-950/40 to-slate-900/95 border-indigo-800/60 shadow-xl" title="🗺️ 全域六大高阶探索秘境：地宫机关、实机坐标与拓扑解谜指南">
       <template #header-extra>
