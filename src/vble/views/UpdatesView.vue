@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="triggerSimulateUpdate"
+          >
+            <template #icon><span>⚡</span></template>
+            测试更新弹窗
+          </n-button>
           <router-link to="/vble/roadmap">
             <n-button type="warning" size="medium" round secondary class="shadow-md">
               <template #icon><span>🚀</span></template>
@@ -161,8 +172,18 @@
 
 <script setup lang="ts">
 import { WORLD_SCENES, OFFICIAL_GEOGRAPHY_NOTES } from '../config/scenesConfig'
+import { useMessage } from 'naive-ui'
 
+const message = useMessage()
 const activeCategory = ref('all')
+
+const triggerSimulateUpdate = () => {
+  if (typeof window !== 'undefined' && (window as unknown as { __simulateVersionUpdate?: () => void }).__simulateVersionUpdate) {
+    ;(window as unknown as { __simulateVersionUpdate: () => void }).__simulateVersionUpdate()
+  } else {
+    message.info('版本监听器正在后台待命，当前已是最新环境')
+  }
+}
 
 const updateCategories = [
   { key: 'all', label: '全部动态', icon: '📋' },
@@ -188,6 +209,27 @@ interface UpdateRecord {
 }
 
 const updateList: UpdateRecord[] = [
+  {
+    id: 'up-version-polling-enhancement-2026-10-28',
+    version: 'v2.2.206',
+    date: '2026-10-28',
+    title: '版本轮询引擎精确 URL 寻址、焦点唤醒与一键模拟演练实装',
+    category: 'ui',
+    categoryName: '基建演进',
+    icon: '⚡',
+    tagType: 'success',
+    description: '针对 GitHub Pages 静态站点子目录与 CDN 缓存特性深度优化 version-polling 运作架构：显式注入 index.html 绝对寻址彻底消除 301 重定向风险；新增窗口获得焦点 (focus) 即时探测机制；提供全局控制台调试钩子与更新日志页面一键测试按钮，让新版本无缝升级可测可感。',
+    highlights: [
+      '精确绝对路径规避 301：根据 location.origin 与 pathname 动态拼合 index.html，彻底解决子目录无斜杠跳转导致抓取失败的问题',
+      '焦点即时唤醒探测：绑定 eventTriggerList: ["focus"]，用户在后台挂机切换回标签页时立即触发 Worker 检测',
+      '一键交互演练支持：页面增设【⚡ 测试更新弹窗】按钮与 window.__simulateVersionUpdate() 接口，可随时直观体验刷新提示',
+      '高性能 30s 轮询：后台独立 Web Worker 静默周期缩减至 30 秒，确保远端发布后极速触达在线玩家'
+    ],
+    relatedLinks: [
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '未来功能规划', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
   {
     id: 'up-version-polling-integration-2026-10-28',
     version: 'v2.2.205',
