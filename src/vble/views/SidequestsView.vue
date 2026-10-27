@@ -72,6 +72,68 @@
       </div>
     </div>
 
+    <!-- SQ-10 古魔道封印挑战与星界缎带传承物语 (基于 D06 SQ10 实机定向核查与正式合同) -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-purple-950/40 via-slate-900/90 to-indigo-950/40 border border-purple-500/40 shadow-xl space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-purple-800/40 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🎀</span>
+          <h3 class="text-base sm:text-lg font-bold text-purple-300">SQ-10 古魔道封印挑战与星界缎带传承物语 (Ribbon Lore & Ancient Golem)</h3>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <n-tag type="error" size="small" round>九项异常免疫 (不免即死)</n-tag>
+          <n-tag type="info" size="small" round>米西迪亚观星台问答</n-tag>
+          <n-tag type="warning" size="small" round>双世界合流解禁</n-tag>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        实机研发团队（D06）2026-10-27 严密复核：旧稿 SQ-10“太古魔导巨像”规划已由传奇链正式适配为<strong>米西迪亚观星台非战斗记忆问答</strong>（<code>trial_2111</code>），确保经典神器【星界缎带】（<code>relic_ribbon_v1</code>）具备唯一严密的取得来源与周目守卫。
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+        <!-- 缎带取得与问答试炼 -->
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-800/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-300">🎀 星界缎带正式取得 (trial_2111)</span>
+            <n-tag size="tiny" type="info">Item 2111</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400"><strong>发生地：</strong>米西迪亚观星台 (mysidia_observatory, 240, 480)</div>
+          <div class="text-[11px] text-gray-300 space-y-1">
+            <div class="text-amber-300 font-medium">守望者问答：“守护同伴应让谁得到照顾？”</div>
+            <div class="text-gray-400">↳ 正确抉择：“所有同伴” (写入试炼完成标记)</div>
+          </div>
+          <div class="text-[10px] text-gray-500">主线双世界合流（<code>worlds_merged_twilight</code>）后正式开放领取，单周目限领一次。</div>
+        </div>
+
+        <!-- 异常免疫边界明晰 -->
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-indigo-800/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-300">🛡️ 缎带九大异常免疫矩阵</span>
+            <n-tag size="tiny" type="error">严格底线</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300 leading-relaxed">
+            <strong>有效免疫 9 项：</strong>中毒、致盲、沉默、石化、混乱、睡眠、减速、停止、死之宣告。
+          </div>
+          <div class="p-2 rounded bg-rose-950/40 border border-rose-900/40 text-[10px] text-rose-300">
+            ⚠️ <strong>重要设计底线：</strong>实机缎带<strong>明确不免疫即死 (Instant Death)</strong>，杜绝破坏 Boss 战核心致死机制！
+          </div>
+        </div>
+
+        <!-- 守护巨像物种档案 -->
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300">🗿 守护巨像 (ancient_golem)</span>
+            <n-tag size="tiny" type="warning">Lv.45 常规魔兽</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400"><strong>战术属性：</strong>HP 1200 · 物攻110 / 防55 · 魔攻110 / 魔防55</div>
+          <div class="text-[11px] text-gray-300">
+            <strong>常驻物理减伤：</strong><code>physical_multiplier = 0.8</code> (天然20%物伤吸收)
+          </div>
+          <div class="text-[10px] text-cyan-300">克制破绽：极弱风、雷属性附魔 (2.0x 暴击伤害)。</div>
+        </div>
+      </div>
+    </div>
+
     <!-- 宁静村居民深度会话与可选回应系统 (基于 Godot NPC_OPTIONAL_INTERACTION_DESIGN_2026-10-23.md) -->
     <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-slate-900/90 to-teal-950/40 border border-emerald-500/40 shadow-xl space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-800/40 pb-2.5">
