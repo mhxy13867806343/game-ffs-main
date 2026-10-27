@@ -47,6 +47,67 @@
       </div>
     </div>
 
+    <!-- 装备属性加成扩展与 HP/MP 上限叠加规范 (基于 Godot EQUIPMENT_STAT_BONUS.md) -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-950/40 via-slate-900 to-indigo-950/40 border border-blue-500/30 shadow-lg space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-blue-900/40 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🛡️</span>
+          <h3 class="text-base sm:text-lg font-bold text-blue-300">装备属性加成体系与 HP/MP 上限叠加扩展 (EQUIPMENT_STAT_BONUS.md)</h3>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <n-tag type="info" size="small" round>equipment_stats_resolver.gd</n-tag>
+          <n-tag type="success" size="small" round>加算临时叠加</n-tag>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        实机装备解析器正式将 <code>max_hp</code> 与 <code>max_mp</code> 纳入八大装备加成池（<code>STATS</code>）。穿戴时加算叠入战斗快照（<code>BattleActorStats</code>），卸装时无损还原；与永久种子（<code>perm_stat_up</code>）严格分流，保障属性守恒。
+      </p>
+
+      <!-- 4 大代表性加成防具展示 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+        <!-- 巨人腰带 -->
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-amber-800/40 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300">🥋 巨人腰带 (Giant Belt)</span>
+            <n-tag size="tiny" type="warning">防具·饰品</n-tag>
+          </div>
+          <div class="text-[11px] text-rose-400 font-mono font-bold">❤️ HP +300 · 力量 +8 · 物防 +15</div>
+          <p class="text-[10px] text-gray-400">熔岩火山巨人之力锻造，大幅夯实前排近战开荒生存血线。</p>
+        </div>
+
+        <!-- 贤者法袍 -->
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-purple-800/40 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-300">🔮 贤者法袍 (Sage Robe)</span>
+            <n-tag size="tiny" type="info">防具·长袍</n-tag>
+          </div>
+          <div class="text-[11px] text-sky-400 font-mono font-bold">💧 MP +80 · 魔攻 +25 · 精神 +15</div>
+          <p class="text-[10px] text-gray-400">大魔道士以太编织长袍，极大扩展高阶禁咒连续吟唱续航。</p>
+        </div>
+
+        <!-- 守护指环 -->
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-emerald-800/40 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-300">💍 守护指环 (Guardian Ring)</span>
+            <n-tag size="tiny" type="success">饰品·戒指</n-tag>
+          </div>
+          <div class="text-[11px] text-emerald-300 font-mono font-bold">❤️ HP +180 · 💧 MP +40 · 全防 +10</div>
+          <p class="text-[10px] text-gray-400">双核以太充能指环，均衡强化角色的血蓝双修容量。</p>
+        </div>
+
+        <!-- 星界缎带 -->
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-cyan-800/40 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-300">🎀 星界缎带 (Ribbon)</span>
+            <n-tag size="tiny" type="error">至尊头饰</n-tag>
+          </div>
+          <div class="text-[11px] text-cyan-300 font-mono font-bold">❤️ HP +220 · 💧 MP +60 · 全异常免疫</div>
+          <p class="text-[10px] text-gray-400">全状态绝对守护之神圣遗物，决战虚无核心大十字的必备护具。</p>
+        </div>
+      </div>
+    </div>
+
     <!-- 过滤器与搜索栏 -->
     <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
       <div class="flex flex-wrap gap-1.5" role="group" aria-label="神兵分类">
