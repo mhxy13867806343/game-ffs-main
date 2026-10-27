@@ -9,6 +9,134 @@
       </p>
     </div>
 
+    <!-- 已击败首领全域游荡遭遇与强度缩放测算工作台 (基于桌面 Godot roaming_boss_rules.json 实机规范) -->
+    <div class="bg-gradient-to-br from-[#121626]/95 via-[#1a1c33]/90 to-[#0e1424]/95 border border-amber-500/40 p-4 sm:p-5 rounded-2xl shadow-2xl space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-amber-500/20 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">⚡</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base sm:text-lg font-bold text-amber-300">首领全域游荡遭遇与强度缩放工作台 (Roaming Boss Studio)</h2>
+              <n-tag size="tiny" type="warning" round>Godot 实机规则对齐</n-tag>
+            </div>
+            <p class="text-xs text-gray-400">基于 <code>roaming_boss_rules.json</code>：已击败首领可在已解锁地区遭遇，属性与奖励按原模板无损一次性缩放（严禁递推叠乘）</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="tiny" secondary :type="showRoamingStudio ? 'warning' : 'default'" @click="showRoamingStudio = !showRoamingStudio">
+            {{ showRoamingStudio ? '收起测算台 ⌃' : '展开测算台 ⌄' }}
+          </n-button>
+        </div>
+      </div>
+
+      <div v-show="showRoamingStudio" class="space-y-4">
+        <!-- 控制面板 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+          <!-- 选择首领 -->
+          <div>
+            <label class="text-xs font-bold text-gray-300 block mb-1.5">🎯 目标首领模板:</label>
+            <n-select
+              v-model:value="selectedRoamingBossId"
+              :options="roamingBossOptions"
+              size="small"
+            />
+            <div class="text-[10px] text-gray-500 mt-1 flex items-center justify-between">
+              <span>基准等级: Lv.{{ selectedRoamingBoss.baseLevel }}</span>
+              <span>出没: {{ selectedRoamingBoss.location }}</span>
+            </div>
+          </div>
+
+          <!-- 地区等级基准 -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold text-gray-300">🗺️ 遭遇地区最低等级:</label>
+              <span class="text-xs font-mono font-bold text-amber-400">Lv.{{ areaMinLevel }}</span>
+            </div>
+            <n-slider v-model:value="areaMinLevel" :min="1" :max="80" :step="1" />
+            <div class="text-[10px] text-gray-500 mt-1">区域下限等级区间 (1~80)</div>
+          </div>
+
+          <!-- 首领加成等级 -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold text-gray-300">🎖️ 首领浮动加成 (level_bonus):</label>
+              <span class="text-xs font-mono font-bold text-cyan-400">+{{ roamingBonusLevel }} 级</span>
+            </div>
+            <n-slider v-model:value="roamingBonusLevel" :min="3" :max="5" :step="1" />
+            <div class="text-[10px] text-gray-500 mt-1">规范常数 [3, 5] 随机浮动</div>
+          </div>
+
+          <!-- 漫游行走步数/像素 -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold text-gray-300">🚶 漫游行走步长 (像素):</label>
+              <span class="text-xs font-mono font-bold text-emerald-400">{{ travelPixels }} px</span>
+            </div>
+            <n-slider v-model:value="travelPixels" :min="0" :max="5120" :step="320" />
+            <div class="text-[10px] text-gray-500 mt-1">每 640px 触发 25% 概率检定</div>
+          </div>
+        </div>
+
+        <!-- 动态测算指标面板 -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <!-- 判定概率 -->
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-amber-500/30 text-center">
+            <div class="text-[10px] text-gray-400">遭遇检定 / 综合概率</div>
+            <div class="text-base font-extrabold text-amber-300 font-mono my-0.5">{{ roamingRolls }} 次 / {{ roamingEncounterRate.toFixed(1) }}%</div>
+            <div class="text-[10px] text-gray-500">25% 每 640px</div>
+          </div>
+
+          <!-- 缩放等级 -->
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-cyan-500/30 text-center">
+            <div class="text-[10px] text-gray-400">动态生成等级 (Level)</div>
+            <div class="text-base font-extrabold text-cyan-300 font-mono my-0.5">Lv.{{ scaledBossStats.level }}</div>
+            <div class="text-[10px] text-gray-500">膨胀因子 ×{{ scaledBossStats.scaleMultiplier }}</div>
+          </div>
+
+          <!-- 动态生命值 -->
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-rose-500/30 text-center">
+            <div class="text-[10px] text-gray-400">缩放后 HP (1.3次幂)</div>
+            <div class="text-base font-extrabold text-rose-300 font-mono my-0.5">{{ scaledBossStats.hp.toLocaleString() }}</div>
+            <div class="text-[10px] text-gray-500">原基准: {{ selectedRoamingBoss.baseHp }}</div>
+          </div>
+
+          <!-- 动态速度 -->
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-emerald-500/30 text-center">
+            <div class="text-[10px] text-gray-400">行动速度 (0.35次幂)</div>
+            <div class="text-base font-extrabold text-emerald-300 font-mono my-0.5">{{ scaledBossStats.speed }}</div>
+            <div class="text-[10px] text-gray-500">原基准: {{ selectedRoamingBoss.baseSpeed }}</div>
+          </div>
+
+          <!-- 奖励 EXP / 金币 -->
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-yellow-500/30 text-center">
+            <div class="text-[10px] text-gray-400">战胜奖励 (1.3次幂)</div>
+            <div class="text-xs font-bold text-yellow-300 font-mono my-0.5">{{ scaledBossStats.exp }} 经验 / {{ scaledBossStats.gold }}G</div>
+            <div class="text-[10px] text-gray-500">AP 点数: +{{ scaledBossStats.ap }}</div>
+          </div>
+
+          <!-- 阵型伴生规模 -->
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-purple-500/30 text-center">
+            <div class="text-[10px] text-gray-400">阵型编制与随从</div>
+            <div class="text-xs font-bold text-purple-300 font-mono my-0.5">{{ scaledBossStats.bossCountRange }}</div>
+            <div class="text-[10px] text-gray-500">{{ scaledBossStats.minionsRange }}</div>
+          </div>
+        </div>
+
+        <!-- 架构硬核铁律条约 -->
+        <div class="p-3 rounded-xl bg-amber-950/20 border border-amber-600/30 flex items-start gap-2 text-xs">
+          <span class="text-amber-400 text-sm">⚠️</span>
+          <div class="text-gray-300 space-y-1">
+            <div class="font-bold text-amber-300">《Godot 实机引擎首领游荡遭遇规约 (roaming_boss_rules.json)》硬性铁律：</div>
+            <div class="text-[11px] text-gray-400 leading-relaxed">
+              1. <strong>非递推幂律守恒：</strong>所有属性计算必须强制从 <code>DataLoader</code> 原始 Boss JSON 数据源单向求值，绝对禁止将上一轮战后重现版本作为下一次缩放的乘数基数。<br>
+              2. <strong>平滑填充基数 (Padding = 10)：</strong>使用 <code>(等级 + 10) / (基准等级 + 10)</code> 计算尺度因子，避免低级 Boss 在高层出现过激数值断层。<br>
+              3. <strong>遭遇防卡死隔离：</strong>游荡遭遇属于野外特异性随机战，战斗失败允许在宿屋原存档恢复，不污染主线章节关键物语进度。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 顶部状态栏与类型切换 -->
     <div class="bg-[#121626]/90 border border-slate-700/60 p-4 rounded-2xl shadow-xl space-y-4">
       <!-- 主分类 Tab -->
@@ -542,6 +670,174 @@ import type { Directive } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const gameStore = useGameStore()
+
+// ================= 游荡首领测算台 (roaming_boss_rules.json) =================
+interface RoamingBossTemplate {
+  id: string
+  name: string
+  title: string
+  baseLevel: number
+  baseHp: number
+  baseAttack: number
+  baseDefense: number
+  baseSpeed: number
+  baseExp: number
+  baseGold: number
+  baseAp: number
+  location: string
+  avatar: string
+}
+
+const roamingBossList: RoamingBossTemplate[] = [
+  {
+    id: 'ff1_pr_033',
+    name: '阿斯托斯 (Astos)',
+    title: '黑暗妖精伪王',
+    baseLevel: 5,
+    baseHp: 420,
+    baseAttack: 30,
+    baseDefense: 18,
+    baseSpeed: 39,
+    baseExp: 2250,
+    baseGold: 2000,
+    baseAp: 1,
+    location: '西城城堡 (ff1_western_keep)',
+    avatar: '👑'
+  },
+  {
+    id: 'ff1_pr_006',
+    name: '加兰多 (Garland)',
+    title: '轮回骑士·混沌化身',
+    baseLevel: 10,
+    baseHp: 1060,
+    baseAttack: 45,
+    baseDefense: 25,
+    baseSpeed: 24,
+    baseExp: 3800,
+    baseGold: 3200,
+    baseAp: 2,
+    location: '柯内利亚神殿深处',
+    avatar: '🛡️'
+  },
+  {
+    id: 'ancient_golem',
+    name: '远古守护巨像 (Ancient Golem)',
+    title: '星界古魔导巨核',
+    baseLevel: 45,
+    baseHp: 1200,
+    baseAttack: 65,
+    baseDefense: 42,
+    baseSpeed: 28,
+    baseExp: 6200,
+    baseGold: 4500,
+    baseAp: 3,
+    location: '米西迪亚观象台·禁断封印室',
+    avatar: '🗿'
+  },
+  {
+    id: 'ff1_pr_059',
+    name: '冥界吸血鬼 (Vampire)',
+    title: '暗夜血裔统领',
+    baseLevel: 20,
+    baseHp: 2800,
+    baseAttack: 72,
+    baseDefense: 38,
+    baseSpeed: 42,
+    baseExp: 7500,
+    baseGold: 6000,
+    baseAp: 3,
+    location: '大地洞穴深处',
+    avatar: '🦇'
+  },
+  {
+    id: 'ff1_pr_081',
+    name: '地之巫妖·利奇 (Lich)',
+    title: '土之混沌大领主',
+    baseLevel: 35,
+    baseHp: 4000,
+    baseAttack: 85,
+    baseDefense: 50,
+    baseSpeed: 48,
+    baseExp: 12000,
+    baseGold: 9000,
+    baseAp: 4,
+    location: '土之祭坛混沌之涡',
+    avatar: '💀'
+  },
+  {
+    id: 'ff1_pr_084',
+    name: '风之狂龙·提亚马特 (Tiamat)',
+    title: '浮游空之混沌主宰',
+    baseLevel: 50,
+    baseHp: 6400,
+    baseAttack: 120,
+    baseDefense: 65,
+    baseSpeed: 58,
+    baseExp: 24000,
+    baseGold: 18000,
+    baseAp: 5,
+    location: '浮游城最上层',
+    avatar: '🐉'
+  }
+]
+
+const selectedRoamingBossId = ref<string>('ff1_pr_033')
+const areaMinLevel = ref<number>(25)
+const roamingBonusLevel = ref<number>(4)
+const travelPixels = ref<number>(1280)
+const showRoamingStudio = ref<boolean>(true)
+
+const roamingBossOptions = computed(() => {
+  return roamingBossList.map(b => ({
+    label: `${b.avatar} ${b.name} (基准Lv.${b.baseLevel})`,
+    value: b.id
+  }))
+})
+
+const selectedRoamingBoss = computed(() => {
+  return roamingBossList.find(b => b.id === selectedRoamingBossId.value) || roamingBossList[0]
+})
+
+const roamingRolls = computed(() => {
+  return Math.floor(travelPixels.value / 640)
+})
+
+const roamingEncounterRate = computed(() => {
+  if (roamingRolls.value <= 0) return 0
+  return (1 - Math.pow(1 - 0.25, roamingRolls.value)) * 100
+})
+
+const scaledTargetLevel = computed(() => {
+  return Math.max(1, areaMinLevel.value + roamingBonusLevel.value)
+})
+
+const roamingScaleFactor = computed(() => {
+  const baseLvl = selectedRoamingBoss.value.baseLevel
+  return (scaledTargetLevel.value + 10) / (baseLvl + 10)
+})
+
+const scaledBossStats = computed(() => {
+  const b = selectedRoamingBoss.value
+  const factor = roamingScaleFactor.value
+  const hpGrowth = Math.pow(factor, 1.3)
+  const rewardGrowth = Math.pow(factor, 1.3)
+  const speedGrowth = Math.pow(factor, 0.35)
+  const apGrowth = Math.pow(factor, 0.5)
+
+  return {
+    level: scaledTargetLevel.value,
+    hp: Math.round(b.baseHp * hpGrowth),
+    attack: Math.round(b.baseAttack * Math.pow(factor, 1.15)),
+    defense: Math.round(b.baseDefense * Math.pow(factor, 1.1)),
+    speed: Math.round(b.baseSpeed * speedGrowth),
+    exp: Math.round(b.baseExp * rewardGrowth),
+    gold: Math.round(b.baseGold * rewardGrowth),
+    ap: Math.max(1, Math.round(b.baseAp * apGrowth)),
+    scaleMultiplier: factor.toFixed(2),
+    minionsRange: '0 ~ 3 伴生怪',
+    bossCountRange: '1 ~ 3 分身体'
+  }
+})
 
 // 所有魔物数据源
 const allMonsters = computed(() => gameStore.db.monsters || [])
