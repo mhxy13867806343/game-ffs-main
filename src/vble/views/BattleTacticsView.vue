@@ -52,30 +52,76 @@
       </div>
     </n-card>
 
-    <!-- 剪刀石头布即时抉择对抗试炼 -->
-    <n-card class="border border-slate-700/60 bg-[#121626]/90 rounded-xl" title="⚔️ 剪刀石头布（猜拳抉择）实机互动对决">
-      <div class="text-center space-y-4">
-        <p class="text-sm text-gray-400">在遭遇特定魔物或首领的即时猜拳蓄力时，快速选择相克阵位获取 200% 暴击加成或打断敌方吟唱！</p>
-        
-        <div class="flex justify-center gap-4">
-          <n-button
-            v-for="choice in ['剪刀', '石头', '布']"
-            :key="choice"
-            size="large"
-            :type="userChoice === choice ? 'primary' : 'default'"
-            secondary
-            @click="playRPS(choice)"
-          >
-            {{ choice === '剪刀' ? '✌️ 剪刀' : choice === '石头' ? '✊ 石头' : '🖐️ 布' }}
-          </n-button>
+    <!-- 剪刀石头布即时抉择对抗试炼 (对齐 Godot 引擎 battle_rps_duel.gd) -->
+    <n-card class="border border-indigo-700/60 bg-[#121626]/90 rounded-xl" title="⚔️ 剪刀石头布（猜拳决斗）实机对抗体系 (battle_rps_duel.gd)">
+      <template #header-extra>
+        <div class="flex items-center gap-1.5">
+          <n-tag type="warning" size="small" round strong>先得2分终局 (POINTS_TO_WIN = 2)</n-tag>
+          <n-tag type="info" size="small" round>平局无硬上限加赛</n-tag>
+        </div>
+      </template>
+
+      <div class="space-y-4">
+        <p class="text-xs text-gray-300 leading-relaxed">
+          对齐 Godot 引擎 <code>battle_rps_duel.gd</code> 与 <code>battle_rps_panel.gd</code> 实机规范：纯猜拳决斗局维护双方显式出拳、比分与有效轮次。平局（Draw）为有效轮次但不计分且不设固定硬轮次截止，率先达成 2 分方决出胜负。决斗终局后状态严格冻结只读，需显式重置开局。
+        </p>
+
+        <!-- 比分牌与对局状态 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-center">
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-[10px] text-gray-400 block">我方得分 (Player)</span>
+            <span class="text-2xl font-black font-mono text-cyan-400">{{ rpsPlayerScore }} / 2</span>
+          </div>
+
+          <div class="p-2 bg-slate-900 rounded border border-slate-800 flex flex-col justify-center">
+            <span class="text-[10px] text-gray-400 block">对局进行状态 (Round #{{ rpsRounds }})</span>
+            <div class="mt-1">
+              <n-tag :type="rpsWinner === 'player' ? 'success' : rpsWinner === 'enemy' ? 'error' : 'warning'" size="small" round>
+                {{ rpsWinner === 'player' ? '🏆 我方大获全胜！' : rpsWinner === 'enemy' ? '💀 敌方胜出！' : '⚔️ 决斗激战中...' }}
+              </n-tag>
+            </div>
+          </div>
+
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-[10px] text-gray-400 block">敌方得分 (Enemy)</span>
+            <span class="text-2xl font-black font-mono text-amber-400">{{ rpsEnemyScore }} / 2</span>
+          </div>
         </div>
 
-        <div v-if="rpsResult" class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 max-w-md mx-auto">
-          <div class="text-sm text-gray-300 mb-2">
-            你出: <strong class="text-cyan-400">{{ userChoice }}</strong> vs 敌方出: <strong class="text-amber-400">{{ enemyChoice }}</strong>
+        <!-- 出拳交互区 -->
+        <div class="text-center space-y-3">
+          <div class="flex justify-center gap-3">
+            <n-button
+              v-for="choice in ['scissors', 'rock', 'paper']"
+              :key="choice"
+              size="medium"
+              :disabled="rpsWinner !== ''"
+              :type="userChoice === choice ? 'primary' : 'default'"
+              secondary
+              @click="playRPSRound(choice)"
+            >
+              {{ choice === 'scissors' ? '✌️ 剪刀 (Scissors)' : choice === 'rock' ? '✊ 石头 (Rock)' : '🖐️ 布 (Paper)' }}
+            </n-button>
+            <n-button size="medium" secondary type="warning" @click="resetRPSDuel">
+              🔄 显式重开新局 (reset)
+            </n-button>
           </div>
-          <div class="text-lg font-bold" :class="rpsResultColor">
-            {{ rpsResultText }}
+
+          <div v-if="lastRpsRoundOutcome" class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 max-w-lg mx-auto text-xs">
+            <div class="text-gray-300 mb-1">
+              第 {{ rpsRounds }} 轮出拳：我方出 <strong class="text-cyan-300">[{{ formatRpsChoice(userChoice) }}]</strong> vs 敌方出 <strong class="text-amber-300">[{{ formatRpsChoice(enemyChoice) }}]</strong>
+            </div>
+            <div class="font-bold text-sm" :class="lastRpsRoundOutcome === 'player' ? 'text-emerald-400' : lastRpsRoundOutcome === 'enemy' ? 'text-rose-400' : 'text-amber-400'">
+              {{ lastRpsRoundOutcome === 'player' ? '✅ 本轮我方获胜！(+1分)' : lastRpsRoundOutcome === 'enemy' ? '❌ 本轮敌方获胜！(敌+1分)' : '🤝 平局 (Draw)！不计分，加赛进行' }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 决斗审计追踪 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-0.5">
+          <div class="text-gray-500 font-bold">对决快照审计 (Snapshot Trace · make_read_only):</div>
+          <div v-for="(log, idx) in rpsTraceLog" :key="idx" class="text-indigo-300 truncate">
+            &gt; {{ log }}
           </div>
         </div>
       </div>
@@ -482,6 +528,138 @@
       </div>
     </n-card>
 
+    <!-- 吟游诗人持续歌唱脉冲体系与指挥棒加速管线 (基于 Godot battle_singing_system.gd) -->
+    <n-card class="border border-purple-800/60 bg-[#160f29]/90 rounded-xl" title="🎵 吟游诗人持续歌唱脉冲体系与指挥棒加速管线 (battle_singing_system.gd)">
+      <template #header-extra>
+        <div class="flex items-center gap-1.5">
+          <n-tag type="warning" size="small" round strong>力量之歌上限 +99 攻击</n-tag>
+          <n-tag type="info" size="small" round>英雄之歌 +20 等级</n-tag>
+          <n-tag type="success" size="small" round>指挥棒 1.5s 脉冲加速</n-tag>
+        </div>
+      </template>
+
+      <div class="space-y-4 text-xs leading-relaxed">
+        <p class="text-gray-300">
+          对齐 Godot 引擎 <code>battle_singing_system.gd</code> 实机规范：歌唱为持续性战时时钟推动机制。演唱者占用行动槽持续输出旋律，每经过一个周期（基准 <code>PULSE_SECONDS = 2.0s</code>，装备【大师指挥棒 <code>maestro_baton</code>】缩短为 <code>1.5s</code>）向全队存活队员触发一次增益脉冲。受到沉默、睡眠、停止、石化、混乱或倒地阵亡时，歌唱瞬时强制中断。
+        </p>
+
+        <!-- 双大旋律与加速特性 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-purple-900/40 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-300">💪 力量之歌 (Power's Song)</span>
+              <n-tag size="tiny" type="warning">CAP = 99 ATK</n-tag>
+            </div>
+            <p class="text-[10px] text-gray-400 leading-relaxed">
+              每次脉冲为全体存活同伴追加 <strong>+3 物理攻击力</strong>，本场累计最高 +99。达到上限后仍保留脉冲动画，但差额钳制防止数值越界。
+            </p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-cyan-900/40 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-300">🌟 英雄之歌 (Hero's Song)</span>
+              <n-tag size="tiny" type="info">MAX +20 LV</n-tag>
+            </div>
+            <p class="text-[10px] text-gray-400 leading-relaxed">
+              每次脉冲将全员有效等级临时推高 <strong>+1 级</strong>（上限 +20 级），动态拉升攻防四维，战斗结束自动还原，绝不污染真实存档等级。
+            </p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-950/80 border border-amber-900/40 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300">🪄 大师指挥棒 (Maestro Baton)</span>
+              <n-tag size="tiny" type="success">1.5s / Pulse</n-tag>
+            </div>
+            <p class="text-[10px] text-gray-400 leading-relaxed">
+              神兵级乐器特性：使脉冲节拍由 2.0 秒提速至 <strong>1.5 秒</strong>，极大加速力量叠加与等级跃迁效率。
+            </p>
+          </div>
+        </div>
+
+        <!-- 交互模拟器：吟游诗人歌唱脉冲与全队增益推演台 -->
+        <div class="p-4 bg-slate-950/90 rounded-xl border border-purple-700/40 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-purple-900/30 pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎼</span>
+              <span class="font-bold text-purple-300">吟游诗人持续歌唱脉冲与全队增益推演台</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-button size="tiny" secondary type="warning" @click="resetSingingStudio">
+                🔄 重置歌唱状态
+              </n-button>
+            </div>
+          </div>
+
+          <!-- 控制栏 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+            <div>
+              <span class="text-gray-400 text-[10px] block mb-1">选择演唱曲目 (Song):</span>
+              <n-select v-model:value="singingSong" size="small" :options="singingSongOptions" :disabled="isSingingInterrupted" />
+            </div>
+
+            <div>
+              <span class="text-gray-400 text-[10px] block mb-1">神兵乐器配装:</span>
+              <label class="flex items-center gap-2 text-xs text-gray-200 mt-1 cursor-pointer">
+                <input type="checkbox" v-model="hasMaestroBaton" />
+                <span>佩戴【大师指挥棒】(1.5s 脉冲)</span>
+              </label>
+            </div>
+
+            <div>
+              <span class="text-gray-400 text-[10px] block mb-1">歌者状态 (爱德华):</span>
+              <div class="flex items-center gap-1.5 flex-wrap mt-0.5">
+                <n-tag :type="isSingingInterrupted ? 'error' : 'success'" size="small">
+                  {{ isSingingInterrupted ? '❌ 歌唱已中断 (异常状态)' : '🎶 持续高歌中' }}
+                </n-tag>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-gray-400 text-[10px] block mb-1">已累计脉冲数:</span>
+              <div class="text-lg font-bold font-mono text-purple-300">
+                {{ singingPulses }} 次脉冲 ({{ (singingPulses * (hasMaestroBaton ? 1.5 : 2.0)).toFixed(1) }}s)
+              </div>
+            </div>
+          </div>
+
+          <!-- 模拟操作按键 -->
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button size="small" type="primary" secondary :disabled="isSingingInterrupted" @click="pulseSinging(1)">
+              🎵 推进 1 次歌唱脉冲 (+{{ hasMaestroBaton ? '1.5' : '2.0' }}s)
+            </n-button>
+            <n-button size="small" type="info" secondary :disabled="isSingingInterrupted" @click="pulseSinging(5)">
+              ⏩ 连续歌唱 5 次脉冲
+            </n-button>
+            <n-button size="small" type="error" secondary @click="toggleSingingSilence">
+              {{ isSingingInterrupted ? '🍃 解除异常/复活 (恢复歌唱)' : '🛑 敌方施加【沉默/睡眠】(强制打断)' }}
+            </n-button>
+          </div>
+
+          <!-- 全队 4 人增益数值看板 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div v-for="hero in singingParty" :key="hero.name" class="p-2.5 bg-slate-900 rounded-lg border border-slate-800 text-center space-y-1">
+              <div class="font-bold text-gray-200 text-xs">{{ hero.name }}</div>
+              <div class="text-[10px] text-gray-400">{{ hero.job }} · Lv.{{ hero.level + singingHeroLevelBonus }}</div>
+              <div class="text-xs font-mono font-bold text-amber-400">
+                ATK: {{ hero.baseAtk }} <span class="text-emerald-400">+{{ singingPowerAtkBonus }}</span>
+              </div>
+              <div class="text-[10px] font-mono text-cyan-300">
+                临时等级: +{{ singingHeroLevelBonus }} LV
+              </div>
+            </div>
+          </div>
+
+          <!-- 审计日志 -->
+          <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-0.5">
+            <div class="text-gray-500 font-bold">歌唱管线时序追踪 (Singing Pipeline Trace):</div>
+            <div v-for="(log, idx) in singingTraceLog" :key="idx" class="text-purple-300 truncate">
+              &gt; {{ log }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
     <!-- 战斗行动轴我方满格待命头像青白脉冲提示 -->
     <n-card class="border border-sky-900/60 bg-[#0e1b26]/90 rounded-xl" title="⏱️ 战斗行动轴我方满格待命头像青白脉冲体系 (Timeline Ready Portrait Pulse)">
       <div class="space-y-4 text-xs leading-relaxed">
@@ -789,40 +967,133 @@ const isOverlevelDangerous = computed(() => {
   return monsterLevel.value - playerLevel.value >= 8
 })
 
-const userChoice = ref('')
-const enemyChoice = ref('')
-const rpsResult = ref('')
+// ================= 剪刀石头布决斗系统 (battle_rps_duel.gd) =================
+const rpsPlayerScore = ref(0)
+const rpsEnemyScore = ref(0)
+const rpsRounds = ref(0)
+const rpsWinner = ref<'player' | 'enemy' | ''>('')
+const lastRpsRoundOutcome = ref<'player' | 'enemy' | 'draw' | ''>('')
+const userChoice = ref('scissors')
+const enemyChoice = ref('paper')
+const rpsTraceLog = ref<string[]>([
+  '决斗开局：POINTS_TO_WIN = 2，先得 2 分获胜，平局自动加赛。'
+])
 
-const rpsResultText = computed(() => {
-  if (rpsResult.value === 'win') return '🎉 命中弱点破绽！造成 200% 真实崩解暴击！'
-  if (rpsResult.value === 'lose') return '💥 敌方反制成功！受到 150% 震荡破防反击！'
-  if (rpsResult.value === 'tie') return '🛡️ 势均力敌！进入破招僵直重置对峙！'
-  return ''
-})
+const formatRpsChoice = (c: string) => {
+  if (c === 'scissors') return '✌️ 剪刀'
+  if (c === 'rock') return '✊ 石头'
+  if (c === 'paper') return '🖐️ 布'
+  return c
+}
 
-const rpsResultColor = computed(() => {
-  if (rpsResult.value === 'win') return 'text-green-400'
-  if (rpsResult.value === 'lose') return 'text-red-400'
-  return 'text-amber-400'
-})
+const playRPSRound = (playerPick: string) => {
+  if (rpsWinner.value !== '') return
+  userChoice.value = playerPick
+  const choices = ['scissors', 'rock', 'paper']
+  const enemyPick = choices[Math.floor(Math.random() * choices.length)]
+  enemyChoice.value = enemyPick
 
-const playRPS = (choice: string) => {
-  userChoice.value = choice
-  const options = ['剪刀', '石头', '布']
-  const randomEnemy = options[Math.floor(Math.random() * options.length)]
-  enemyChoice.value = randomEnemy
-
-  if (choice === randomEnemy) {
-    rpsResult.value = 'tie'
+  let outcome: 'player' | 'enemy' | 'draw' = 'draw'
+  if (playerPick === enemyPick) {
+    outcome = 'draw'
   } else if (
-    (choice === '剪刀' && randomEnemy === '布') ||
-    (choice === '石头' && randomEnemy === '剪刀') ||
-    (choice === '布' && randomEnemy === '石头')
+    (playerPick === 'scissors' && enemyPick === 'paper') ||
+    (playerPick === 'rock' && enemyPick === 'scissors') ||
+    (playerPick === 'paper' && enemyPick === 'rock')
   ) {
-    rpsResult.value = 'win'
+    outcome = 'player'
+    rpsPlayerScore.value += 1
   } else {
-    rpsResult.value = 'lose'
+    outcome = 'enemy'
+    rpsEnemyScore.value += 1
   }
+
+  rpsRounds.value += 1
+  lastRpsRoundOutcome.value = outcome
+
+  if (rpsPlayerScore.value >= 2) {
+    rpsWinner.value = 'player'
+  } else if (rpsEnemyScore.value >= 2) {
+    rpsWinner.value = 'enemy'
+  }
+
+  rpsTraceLog.value.unshift(
+    `Round #${rpsRounds.value}: [${playerPick}] vs [${enemyPick}] -> outcome='${outcome}', score=${rpsPlayerScore.value}:${rpsEnemyScore.value}, finished=${rpsWinner.value !== ''}`
+  )
+  if (rpsTraceLog.value.length > 5) rpsTraceLog.value.pop()
+}
+
+const resetRPSDuel = () => {
+  rpsPlayerScore.value = 0
+  rpsEnemyScore.value = 0
+  rpsRounds.value = 0
+  rpsWinner.value = ''
+  lastRpsRoundOutcome.value = ''
+  rpsTraceLog.value.unshift('显式调用 reset()：清空比分与轮次，重置决斗状态机。')
+  if (rpsTraceLog.value.length > 5) rpsTraceLog.value.pop()
+}
+
+// ================= 吟游诗人持续歌唱体系 (battle_singing_system.gd) =================
+const singingSong = ref<'song_powers_song' | 'song_heros_song'>('song_powers_song')
+const hasMaestroBaton = ref(false)
+const isSingingInterrupted = ref(false)
+const singingPulses = ref(0)
+const singingPowerAtkBonus = ref(0)
+const singingHeroLevelBonus = ref(0)
+
+const singingSongOptions = [
+  { label: '力量之歌 (Power\'s Song) · +3 ATK/脉冲 (上限99)', value: 'song_powers_song' },
+  { label: '英雄之歌 (Hero\'s Song) · +1 等级/脉冲 (上限20)', value: 'song_heros_song' }
+]
+
+const singingParty = reactive([
+  { name: '塞西尔 (Cecil)', job: '圣骑士', level: 40, baseAtk: 120 },
+  { name: '爱德华 (Edward)', job: '吟游诗人 (演唱者)', level: 38, baseAtk: 65 },
+  { name: '罗莎 (Rosa)', job: '白魔道士', level: 39, baseAtk: 50 },
+  { name: '凯因 (Kain)', job: '龙骑士', level: 41, baseAtk: 135 }
+])
+
+const singingTraceLog = ref<string[]>([
+  '战斗开始：爱德华入场，曲目 [力量之歌]，时钟步进周期 2.0s。'
+])
+
+const pulseSinging = (count: number) => {
+  if (isSingingInterrupted.value) return
+  for (let i = 0; i < count; i++) {
+    singingPulses.value += 1
+    if (singingSong.value === 'song_powers_song') {
+      const added = Math.min(3, Math.max(0, 99 - singingPowerAtkBonus.value))
+      singingPowerAtkBonus.value += added
+    } else {
+      if (singingHeroLevelBonus.value < 20) {
+        singingHeroLevelBonus.value += 1
+      }
+    }
+  }
+  const interval = hasMaestroBaton.value ? 1.5 : 2.0
+  singingTraceLog.value.unshift(
+    `脉冲触发: +${count}跳 (总累计${singingPulses.value}跳 · ${(singingPulses.value * interval).toFixed(1)}s) -> 力量加成:+${singingPowerAtkBonus.value} ATK, 英雄临时等级:+${singingHeroLevelBonus.value} LV`
+  )
+  if (singingTraceLog.value.length > 5) singingTraceLog.value.pop()
+}
+
+const toggleSingingSilence = () => {
+  isSingingInterrupted.value = !isSingingInterrupted.value
+  if (isSingingInterrupted.value) {
+    singingTraceLog.value.unshift('⚠️ 受到沉默/睡眠/石化/混乱状态！caster.stop_singing() 瞬时触发，歌唱强制打断！')
+  } else {
+    singingTraceLog.value.unshift('🍃 恢复健康状态，重新发起 begin() 歌唱旋律。')
+  }
+  if (singingTraceLog.value.length > 5) singingTraceLog.value.pop()
+}
+
+const resetSingingStudio = () => {
+  singingPulses.value = 0
+  singingPowerAtkBonus.value = 0
+  singingHeroLevelBonus.value = 0
+  isSingingInterrupted.value = false
+  singingTraceLog.value.unshift('显式重置：清空本场累计歌唱脉冲与临时战斗增益。')
+  if (singingTraceLog.value.length > 5) singingTraceLog.value.pop()
 }
 
 // 剧情技能【预判 Lv3】推演所状态

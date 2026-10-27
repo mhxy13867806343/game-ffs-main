@@ -189,6 +189,31 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-battle-rps-duel-singing-system-2026-10-27',
+    version: 'v2.2.196',
+    date: '2026-10-27',
+    title: '猜拳决斗先得2分状态机与吟游诗人持续歌唱脉冲体系实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⚔️',
+    tagType: 'info',
+    description: '对齐 Godot 引擎 battle_rps_duel.gd 与 battle_singing_system.gd 最新实机架构：全息实装纯猜拳决斗局（先得2分终局/平局无硬上限加赛/快照冻结只读/显式重开）与吟游诗人双曲目战时时钟脉冲（力量之歌上限99攻、英雄之歌上限20级、指挥棒1.5s加速及异常状态强制打断机制）。',
+    highlights: [
+      '决斗猜拳状态机 (battle_rps_duel.gd)：严格先得 2 分终局 (POINTS_TO_WIN = 2)，平局 (Draw) 计为有效轮次但不产生积分且不设硬轮次截止，snapshot() 强制 make_read_only() 冻结',
+      '力量之歌持续脉冲 (POWER_SONG)：时钟每推进一个周期为全体存活同伴追加 +3 物理攻击力，上限 +99 差额钳制 (POWER_ATTACK_CAP = 99)',
+      '英雄之歌临时等级跃迁 (HERO_SONG)：每脉冲推进全员临时有效等级 +1 级 (上限 +20 级)，基于职业成长曲线动态拉升攻防四维，战斗结束自动还原零存档污染',
+      '大师指挥棒节拍提速 (maestro_baton)：装备指挥棒时脉冲周期由 2.0 秒无缝缩短至 1.5 秒，极大加速战时队伍质变效率',
+      '异常状态强制打断守卫：受到沉默、睡眠、停止、石化、混乱或阵亡时瞬时触发 caster.stop_singing() 并中断旋律',
+      '实装双交互推演台：猜拳 BO3 实时对决台与吟游诗人歌唱脉冲全队增益推演台',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '战斗法则与试炼', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '魔物与游荡首领大图鉴', path: '/vble/monsters', icon: '👾' }
+    ]
+  },
+  {
     id: 'up-job-mastery-peak-stats-studio-2026-10-27',
     version: 'v2.2.195',
     date: '2026-10-27',
