@@ -189,6 +189,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-adventure-intel-session-2026-10-27',
+    version: 'v2.2.187',
+    date: '2026-10-27',
+    title: '冒险情报手册全息系统与酒馆情报购阅会话架构实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '📖',
+    tagType: 'success',
+    description: '对齐 Godot 引擎 D07 研发团队实机最新规范：主菜单底栏装配【冒险情报】指令按钮，全息实装只读会话缓存记忆机制与酒馆情报聚合模型，同步上线交互演练阅读台。',
+    highlights: [
+      '底栏命令扩展 (adventure_intel_menu.gd)：于 MenuStage/BottomBar (544, 6) 位置实装 340×72 规格「冒险情报」入口，复用现有留白，与信箱/返回指令零冲突',
+      '酒馆首购收据拆页与指引 (tavern_ale/stout_order.gd)：购买麦酒获取「始源神殿石径路线」、购买黑啤获取「绿色粘液怪弱点」，拆分为双事件对白防御 113px 视口裁切',
+      '会话记忆与强类型失效机制 (adventure_intel_session.gd)：记录 _owner、_cycle 与 _flags 强引用，换档或周目跃迁瞬时触发 forget() 遗忘，严防 A 档阅读位置污染 B 档',
+      '动态地点与分章节合法裁决 (adventure_intel_read_model.gd)：仅聚合已购条目所属地防剧透泄露，黑啤情报支持弱点/减伤/AI 分段，全流程只读不产生持久化脏字段',
+      '持续高频实时开发至午夜 0 点，保持全量零报错构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '支线与委托清单', path: '/vble/sidequests', icon: '📜' },
+      { label: '魔物图鉴与情报', path: '/vble/monsters', icon: '👾' }
+    ]
+  },
+  {
     id: 'up-north-cave-roaming-boss-2026-10-27',
     version: 'v2.2.186',
     date: '2026-10-27',
