@@ -10,16 +10,16 @@
           <span class="text-white font-bold text-base sm:text-lg leading-tight tracking-wider">
             GAME <span class="text-blue-400">FFS</span>
           </span>
-          <span class="text-[10px] text-gray-400 tracking-wider">单机游戏首页</span>
+          <span class="text-[10px] text-gray-400 tracking-wider">游戏与文档首页</span>
         </div>
       </router-link>
 
-      <!-- 搜索框与提示 -->
+      <!-- 搜索框 -->
       <div class="flex-1 max-w-md hidden sm:block">
         <n-input
           :value="modelValue"
           size="small"
-          placeholder="搜索游戏名称、分类或标签..."
+          placeholder="搜索游戏或文档..."
           clearable
           class="bg-[#121824] rounded-full text-xs"
           @update:value="$emit('update:modelValue', $event)"
@@ -30,10 +30,11 @@
         </n-input>
       </div>
 
-      <!-- 右侧信息 -->
+      <!-- 右侧统计 -->
       <div class="flex items-center gap-2">
         <span class="text-xs text-gray-400 bg-[#121824] border border-[#1e273a] px-3 py-1 rounded-full">
-          共 <span class="text-blue-400 font-bold font-mono">{{ totalGames }}</span> 款游戏
+          <span class="text-blue-400 font-bold font-mono">{{ totalGames }}</span> 款游戏 ·
+          <span class="text-emerald-400 font-bold font-mono">{{ totalDocs }}</span> 篇文档
         </span>
       </div>
     </div>
@@ -43,7 +44,7 @@
       <n-input
         :value="modelValue"
         size="small"
-        placeholder="搜索游戏..."
+        placeholder="搜索游戏或文档..."
         clearable
         class="bg-[#121824] rounded-lg text-xs"
         @update:value="$emit('update:modelValue', $event)"
@@ -60,6 +61,7 @@
 defineProps<{
   modelValue?: string
   totalGames: number
+  totalDocs: number
 }>()
 
 defineEmits<{

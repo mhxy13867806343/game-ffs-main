@@ -1,45 +1,62 @@
 <template>
   <div class="min-h-screen flex flex-col bg-[#0b0e14]">
-    <!-- 游戏列表主区域 -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full flex flex-col gap-6">
-      <!-- 标题与分类筛选 -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1c2538]">
-        <div class="flex items-center gap-3">
-          <div class="w-2.5 h-6 rounded bg-blue-500"></div>
-          <h1 class="text-xl sm:text-2xl font-black text-white tracking-wide">
-            游戏列表
-          </h1>
-          <span class="text-xs text-gray-400 bg-white/5 px-2.5 py-0.5 rounded-full font-mono">
-            共 {{ filteredGames.length }} 款
-          </span>
+    <!-- 主体区域 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full flex flex-col gap-10">
+      <!-- 板块一：游戏列表 -->
+      <section>
+        <div class="flex items-center justify-between gap-4 pb-4 border-b border-[#1c2538] mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-2.5 h-6 rounded bg-blue-500"></div>
+            <h1 class="text-xl sm:text-2xl font-black text-white tracking-wide">
+              游戏列表
+            </h1>
+            <span class="text-xs text-gray-400 bg-white/5 px-2.5 py-0.5 rounded-full font-mono">
+              共 {{ filteredGames.length }} 款
+            </span>
+          </div>
         </div>
 
-        <!-- 响应式分类 Pills -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-          <button
-            v-for="cat in categories"
-            :key="cat"
-            class="px-4 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 border cursor-pointer"
-            :class="selectedCategory === cat ? 'bg-blue-600 text-white border-blue-500 shadow-sm' : 'bg-[#121824] text-gray-400 border-[#20293d] hover:text-gray-200'"
-            @click="selectedCategory = cat"
-          >
-            {{ cat }}
-          </button>
+        <!-- 响应式游戏卡片网格 -->
+        <div v-if="filteredGames.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <GameCard
+            v-for="game in filteredGames"
+            :key="game.id"
+            :game="game"
+          />
         </div>
-      </div>
 
-      <!-- 响应式游戏卡片网格 -->
-      <div v-if="filteredGames.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <GameCard
-          v-for="game in filteredGames"
-          :key="game.id"
-          :game="game"
-        />
-      </div>
+        <div v-else class="text-center py-12 text-gray-400 bg-[#121824] rounded-xl border border-[#1e273a]">
+          未找到匹配的游戏
+        </div>
+      </section>
 
-      <div v-else class="text-center py-20 text-gray-400 bg-[#121824] rounded-xl border border-[#1e273a]">
-        未找到匹配的游戏
-      </div>
+      <!-- 板块二：游戏文档 -->
+      <section>
+        <div class="flex items-center justify-between gap-4 pb-4 border-b border-[#1c2538] mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-2.5 h-6 rounded bg-emerald-500"></div>
+            <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide">
+              游戏文档
+            </h2>
+            <span class="text-xs text-gray-400 bg-white/5 px-2.5 py-0.5 rounded-full font-mono">
+              共 {{ filteredDocs.length }} 篇
+            </span>
+          </div>
+        </div>
+
+        <!-- 响应式文档卡片网格 -->
+        <div v-if="filteredDocs.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <DocCard
+            v-for="doc in filteredDocs"
+            :key="doc.id"
+            :doc="doc"
+          />
+        </div>
+
+        <div v-else class="text-center py-12 text-gray-400 bg-[#121824] rounded-xl border border-[#1e273a]">
+          未找到匹配的文档
+        </div>
+      </section>
     </main>
 
     <!-- 极简页脚 -->
@@ -48,35 +65,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import GameCard from '@/components/GameCard.vue'
+import DocCard from '@/components/DocCard.vue'
 import AppFooter from '@/components/AppFooter.vue'
-import { gameList } from '@/data/games'
+import { gameList, docList } from '@/data/games'
 
 const props = defineProps<{
   searchQuery?: string
 }>()
 
-const selectedCategory = ref('全部')
-
-const categories = ['全部', '竞速', '策略', 'RPG', '休闲']
-
 const filteredGames = computed(() => {
-  return gameList.filter(game => {
-    // 分类筛选
-    if (selectedCategory.value !== '全部' && game.category !== selectedCategory.value) {
-      return false
-    }
+  if (!props.searchQuery || !props.searchQuery.trim()) {
+    return gameList
+  }
+  const q = props.searchQuery.trim().toLowerCase()
+  return gameList.filter(g => g.title.toLowerCase().includes(q) || g.subtitle.toLowerCase().includes(q))
+})
 
-    // 搜索匹配
-    if (props.searchQuery && props.searchQuery.trim()) {
-      const q = props.searchQuery.trim().toLowerCase()
-      const matchTitle = game.title.toLowerCase().includes(q)
-      const matchSub = game.subtitle.toLowerCase().includes(q)
-      if (!matchTitle && !matchSub) return false
-    }
-
-    return true
-  })
+const filteredDocs = computed(() => {
+  if (!props.searchQuery || !props.searchQuery.trim()) {
+    return docList
+  }
+  const q = props.searchQuery.trim().toLowerCase()
+  return docList.filter(d => d.title.toLowerCase().includes(q) || d.subtitle.toLowerCase().includes(q))
 })
 </script>

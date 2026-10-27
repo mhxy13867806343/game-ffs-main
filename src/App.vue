@@ -4,6 +4,7 @@
       <AppHeader
         v-model="searchKeyword"
         :total-games="gameList.length"
+        :total-docs="docList.length"
       />
 
       <div class="flex-1 w-full flex flex-col">
@@ -17,7 +18,7 @@
 import { ref } from 'vue'
 import { darkTheme, type GlobalThemeOverrides } from 'naive-ui'
 import AppHeader from '@/components/AppHeader.vue'
-import { gameList } from '@/data/games'
+import { gameList, docList } from '@/data/games'
 
 const searchKeyword = ref('')
 
