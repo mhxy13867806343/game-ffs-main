@@ -189,6 +189,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-puzzle-participant-decrypt-2026-10-27',
+    version: 'v2.2.185',
+    date: '2026-10-27',
+    title: '机关解谜参与者锁定、单人遇袭破阵与现场两大实体题库架构全览',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🧩',
+    tagType: 'info',
+    description: '深度复核 Godot 研发团队 D02 机关系统解谜参与者与明怪遇袭最新实机规范：实装队首锁定、禁换位安全防御、山洞第四门单人入战资源同步与王宫/龙巢两大现场实体题库。',
+    highlights: [
+      '队首锁定与禁换位防御 (decrypt_module.gd / game_state_party.gd)：开启解谜瞬时绑定队首，解题期间强行拒绝 swap 换位作弊，石化/睡眠/倒地者无法代派',
+      '明怪单人入战与战后资源守恒：山洞第四门遇袭标记 source="puzzle"，单人单枪匹马出战，战斗胜出或逃跑后 HP/MP/异常状态无损同步回大地图',
+      '现场两大实体剧情题与 38 题库：晨辉王宫 (320,480) 档案柜密码锁与龙栖之巢 (400,400) 远古铭文石板，搭载 100px 避敌光环与安全断点恢复',
+      '全线高频实时开发不间断推进：持续全量构建与自动化部署至午夜 0 点'
+    ],
+    relatedLinks: [
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '地宫与机关导览', path: '/vble/dungeons', icon: '🏰' },
+      { label: '战斗法则与试炼', path: '/vble/battle-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-prediction-lv3-sq10-ribbon-2026-10-27',
     version: 'v2.2.184',
     date: '2026-10-27',
