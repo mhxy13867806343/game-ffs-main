@@ -189,6 +189,32 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-personal-equipment-rules-projection-2026-10-27',
+    version: 'v2.2.200',
+    date: '2026-10-27',
+    title: '五大主角本命神兵契约与角色专属验算工坊全息实装',
+    category: 'equipment',
+    categoryName: '实机演进',
+    icon: '👑',
+    tagType: 'warning',
+    description: '对齐 Godot 引擎 personal_equipment_rules.gd 与 personal_equipment_projection.gd 最新实机架构：全息实装纳哈特(诸神黄昏2120)、塞拉(涅槃之杖2121)、埃癸斯(埃癸斯神盾2122)、格雷夫(飞龙魔爪2123)、索尔(终焉法球2124) 五大主角本命神兵，严密强身份字符核验、跨角色严禁装备、埃癸斯专属盾位独占与双手武器排他准则、战时动态差额重算与入档元标记纯净剔除。',
+    highlights: [
+      '五大主角本命白名单 (personal_equipment_rules.gd)：诸神黄昏(2120·纳哈特)、涅槃之杖(2121·塞拉)、埃癸斯神盾(2122·埃癸斯)、飞龙魔爪(2123·格雷夫)、终焉法球(2124·索尔) 独占专属权 (OWNERS)',
+      '跨角色严格禁装：RULES.allowed() 强校验 OWNERS[item] == character_id，任何角色尝试冒领他人专属神兵即刻判定非法驳回',
+      '埃癸斯专属盾位与双手武器互斥：埃癸斯神盾 (2122) 专属装配于副手 shield 槽位，若主手持用双手武器 (2105与一之弓/2119自动连弩) 自动熔断神盾效果',
+      '副手双武零容忍：本命专属神兵严格遵循单武器法则，offhand_weapon != "" 时整套神兵特权全额封存',
+      '战时无缝换装动态重算 (personal_equipment_projection.gd)：仅置换装备属性份额 (clampi 0~9999)，保留既有状态、抗性与伤势，personal_runtime_owner 强校验防跨档污染',
+      '纯净存档保全：入档校验 (valid_payload) 自动拦截并清空瞬时元标记 (personal_runtime_owner, personal_touched 等)，严防脏数据存入数据库',
+      '实装交互推演工坊：5大主角切换、5大神兵选择、副手双武与双手武器排他开关、共鸣状态判别与属性Delta看板',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '神兵军械库推演', path: '/vble/armory-simulator', icon: '⚔️' },
+      { label: '英雄图鉴与宿命', path: '/vble/characters', icon: '🛡️' },
+      { label: '职业转职与精通', path: '/vble/jobs', icon: '📜' }
+    ]
+  },
+  {
     id: 'up-tail-weapon-rules-projection-studio-2026-10-27',
     version: 'v2.2.199',
     date: '2026-10-27',

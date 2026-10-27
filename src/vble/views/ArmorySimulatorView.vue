@@ -1126,6 +1126,192 @@
       </div>
     </div>
 
+    <!-- ================= 五大主角本命神兵契约与角色专属验算工坊 (基于 personal_equipment_rules.gd / personal_equipment_projection.gd) ================= -->
+    <div class="bg-[#1a1325]/95 border border-rose-500/50 p-4 sm:p-5 rounded-2xl shadow-xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-rose-900/40 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">👑</span>
+          <div>
+            <h3 class="text-base font-bold text-gray-100 flex items-center gap-2">
+              <span>五大主角本命神兵契约与角色专属验算工坊 (Personal Exclusive Weapons Studio)</span>
+              <n-tag size="tiny" type="error" round>personal_equipment_rules.gd</n-tag>
+            </h3>
+            <span class="text-xs text-gray-400">
+              对齐 Godot 引擎 5 件主角本命神兵 (2120~2124)、强身份字符核验、跨角色严禁装备、埃癸斯专属盾位与双手武器排他准则
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <n-tag :type="isPersonalEligible ? 'success' : 'error'" size="small" round strong>
+            {{ isPersonalEligible ? '✨ 本命共鸣：角色专属契约达成' : '🚫 契约驳回：跨角色或槽位冲突' }}
+          </n-tag>
+        </div>
+      </div>
+
+      <!-- 核心三柱石设计 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-rose-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-rose-400">📜 五大主角法定专属契约</span>
+            <n-tag size="tiny" type="error">OWNERS BINDING</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>绝对不可让渡的专属权：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>2120 诸神黄昏:</strong> 纳哈特专属神剑 (ATK+160 · 骑士王权高暴击)。</li>
+            <li><strong>2121 涅槃之杖:</strong> 塞拉专属神杖 (MATK+140 · 治疗/复活 50% MP 减半)。</li>
+            <li><strong>2122 埃癸斯神盾:</strong> 埃癸斯专属神盾 (DEF+80, MDEF+60 · 互斥双手武器)。</li>
+            <li><strong>2123 飞龙魔爪:</strong> 格雷夫专属利爪 (ATK+135, SPD+25 · 偷盗双击)。</li>
+            <li><strong>2124 终焉法球:</strong> 索尔专属黑魔法器 (MATK+175 · 创世终焉输出)。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-cyan-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-400">🛡️ 埃癸斯专属盾位与双手武器互斥</span>
+            <n-tag size="tiny" type="warning">SHIELD EXCLUSIVE</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>槽位严格对应与双手武器禁令：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>盾槽独占:</strong> 2122 埃癸斯神盾专属装配于 <code>shield</code> 槽位，其余皆为武器。</li>
+            <li><strong>双手弓/弩互斥:</strong> 若主手持有与一之弓 (2105) 或自动连弩 (2119)，埃癸斯神盾立即失效。</li>
+            <li><strong>副手双武熔断:</strong> 无论何种专属装备，副手若有武器 (<code>offhand_weapon != ""</code>) 一律驳回。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-purple-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-400">🔄 零存档污染与战中差额置换</span>
+            <n-tag size="tiny" type="info">SAFE PROJECTION</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>纯净持久化与跨档隔离：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>瞬时标记抹除:</strong> 入档校验自动拦截并清空 <code>personal_runtime_owner</code> 等瞬时元标记。</li>
+            <li><strong>跨档保护:</strong> <code>personal_runtime_owner</code> 强校验，跨档读取旧战局直接熔断。</li>
+            <li><strong>战中切装动态重算:</strong> 战时换装仅重算装备属性差额，既有状态与伤势完整保全。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 交互推演台: 本命神兵专属契约核验台 -->
+      <div class="p-4 bg-slate-950/90 rounded-xl border border-rose-700/40 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-rose-900/30 pb-2">
+          <span class="text-xs font-bold text-rose-300 flex items-center gap-1.5">
+            <span>🧪</span>
+            <span>本命神兵专属契约核验与属性共鸣推演台</span>
+          </span>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetPersonalStudio">
+              🔄 重置演练
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 角色与神兵选择 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+          <div>
+            <span class="text-gray-400 text-[10px] block mb-1 font-bold">测试佩戴角色 (Hero Candidate):</span>
+            <n-select v-model:value="selectedPersonalHeroId" size="small" :options="personalHeroSelectOptions" />
+          </div>
+
+          <div>
+            <span class="text-gray-400 text-[10px] block mb-1 font-bold">待装备本命神兵 (Personal Equipment):</span>
+            <n-select v-model:value="selectedPersonalItemId" size="small" :options="personalItemSelectOptions" />
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">槽位冲突排他性核验:</span>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer mt-0.5">
+              <input type="checkbox" v-model="personalHasOffhandWeapon" />
+              <span>佩戴副手武器 (触发全员互斥)</span>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" v-model="personalHasTwoHandWeapon" />
+              <span>主手装配双手武器 (与埃癸斯盾互斥)</span>
+            </label>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">角色契约核验状态:</span>
+            <div class="text-[11px] font-bold mt-1" :class="isPersonalEligible ? 'text-emerald-400' : 'text-rose-400'">
+              {{ isPersonalEligible ? '✅ 专属契约完全匹配 (allowed == true)' : '❌ 契约受阻驳回 (allowed == false)' }}
+            </div>
+            <div class="text-[10px] text-gray-400">
+              {{ personalEligibilityDesc }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 试炼演算控制 -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <div class="flex items-center gap-2">
+            <n-button size="small" type="primary" secondary @click="executePersonalResonance">
+              ⚡ 执行本命神兵共鸣演算
+            </n-button>
+            <span class="text-xs text-gray-400">
+              综合战力增幅评分: <strong class="text-rose-400 font-mono">{{ personalResonancePowerRating }} 点</strong>
+            </span>
+          </div>
+
+          <div class="text-[11px] font-mono text-rose-300">
+            SQL: SELECT id FROM player WHERE id=? (校验通过)
+          </div>
+        </div>
+
+        <!-- 共鸣效果呈现 -->
+        <div v-if="lastPersonalResonanceResult" class="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <span class="text-xs font-bold text-gray-200">
+              共鸣核验结论：{{ lastPersonalResonanceResult.summary }}
+            </span>
+            <n-tag size="small" :type="lastPersonalResonanceResult.success ? 'success' : 'error'">
+              {{ lastPersonalResonanceResult.statusTag }}
+            </n-tag>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center pt-1">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">面板属性增益 (Delta)</div>
+              <div class="text-lg font-mono font-bold text-amber-400">{{ lastPersonalResonanceResult.statDeltaText }}</div>
+              <div class="text-[9px] text-gray-500">{{ lastPersonalResonanceResult.statDeltaDesc }}</div>
+            </div>
+
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">专属本命奥义 / 核心特权</div>
+              <div class="text-lg font-mono font-bold" :class="lastPersonalResonanceResult.success ? 'text-emerald-400' : 'text-gray-500'">
+                {{ lastPersonalResonanceResult.specialTraitText }}
+              </div>
+              <div class="text-[9px]" :class="lastPersonalResonanceResult.success ? 'text-emerald-300' : 'text-gray-500'">
+                {{ lastPersonalResonanceResult.specialTraitDesc }}
+              </div>
+            </div>
+
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">槽位归属与安全性</div>
+              <div class="text-lg font-mono font-bold text-cyan-400">
+                {{ lastPersonalResonanceResult.slotText }}
+              </div>
+              <div class="text-[9px] text-gray-500">{{ lastPersonalResonanceResult.securityDesc }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 审计日志 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-1">
+          <div class="text-gray-500 font-bold">本命神兵事件凭据审计 (PersonalEquipment Event Trace):</div>
+          <div v-for="(log, idx) in personalTraceLogs" :key="idx" class="text-rose-300 truncate">
+            &gt; {{ log }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ================= 全域神兵与防具全景展示库 (用户要求：选人装备 + 点击查看图片详情) ================= -->
     <div class="space-y-4 pt-6 border-t border-slate-800">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -2747,6 +2933,190 @@ const resetTailStudio = () => {
   tailTraceLogs.value = [
     '重置完成: 彩尾神兵推演台回到初始状态',
     '默认装配: 创世之刃 (2116), 满生命 3200/3200, 槽位合规'
+  ]
+}
+
+// ================= 五大主角本命神兵契约与角色专属验算工坊 (personal_equipment_rules.gd / personal_equipment_projection.gd) =================
+const selectedPersonalHeroId = ref('nahart')
+const selectedPersonalItemId = ref('2120')
+const personalHasOffhandWeapon = ref(false)
+const personalHasTwoHandWeapon = ref(false)
+
+const personalHeroSelectOptions = [
+  { label: '纳哈特 (nahart · 骑士领袖)', value: 'nahart' },
+  { label: '塞拉 (sera · 白魔法师)', value: 'sera' },
+  { label: '埃癸斯 (aegis · 铁壁守护者)', value: 'aegis' },
+  { label: '格雷夫 (grave · 影刃游侠)', value: 'grave' },
+  { label: '索尔 (sol · 创世黑魔导)', value: 'sol' }
+]
+
+const personalItemSelectOptions = [
+  { label: '2120: 诸神黄昏 (Ragnarok · 纳哈特专属神剑 · ATK+160)', value: '2120' },
+  { label: '2121: 涅槃之杖 (Nirvana · 塞拉专属神杖 · 治疗MP减半)', value: '2121' },
+  { label: '2122: 埃癸斯神盾 (Aegis Shield · 埃癸斯专属盾 · DEF+80 MDEF+60)', value: '2122' },
+  { label: '2123: 飞龙魔爪 (Wyvern Claws · 格雷夫专属爪 · ATK+135 SPD+25)', value: '2123' },
+  { label: '2124: 终焉法球 (Sol Ultima · 索尔专属法器 · MATK+175)', value: '2124' }
+]
+
+const PERSONAL_OWNERS: Record<string, string> = {
+  '2120': 'nahart',
+  '2121': 'sera',
+  '2122': 'aegis',
+  '2123': 'grave',
+  '2124': 'sol'
+}
+
+const personalItemMeta: Record<string, { name: string; ownerName: string; slot: string; statDelta: string; trait: string; desc: string }> = {
+  '2120': {
+    name: '诸神黄昏 (Ragnarok)',
+    ownerName: '纳哈特',
+    slot: 'weapon',
+    statDelta: 'ATK +160 · DEF +20 · 暴击+25%',
+    trait: '光之破晓 (Dawn Break)',
+    desc: '战士王权神剑，普攻伴随光芒斩击，具备更高倍率破防'
+  },
+  '2121': {
+    name: '涅槃之杖 (Nirvana)',
+    ownerName: '塞拉',
+    slot: 'weapon',
+    statDelta: 'MATK +140 · MDEF +30 · 精神+25',
+    trait: '慈悲回响 (50% MP 减半)',
+    desc: '对友方释放治愈与复活系白魔法时，所消耗 MP 永久减半'
+  },
+  '2122': {
+    name: '埃癸斯神盾 (Aegis Shield)',
+    ownerName: '埃癸斯',
+    slot: 'shield',
+    statDelta: 'DEF +80 · MDEF +60 · 全抗性+15%',
+    trait: '铁壁守卫 (Aegis Guard)',
+    desc: '专属装配于副手盾牌槽位，受到致死打击时触发一次神盾庇护'
+  },
+  '2123': {
+    name: '飞龙魔爪 (Wyvern Claws)',
+    ownerName: '格雷夫',
+    slot: 'weapon',
+    statDelta: 'ATK +135 · SPD +25 · 敏捷+20',
+    trait: '影袭双裂 (Shadow Claws)',
+    desc: '普攻具备额外双段爪痕判定，偷盗成功率大幅拉升'
+  },
+  '2124': {
+    name: '终焉法球 (Sol Ultima)',
+    ownerName: '索尔',
+    slot: 'weapon',
+    statDelta: 'MATK +175 · MP +100 · 智力+30',
+    trait: '终焉湮灭 (Ultima Flare)',
+    desc: '全元素高级黑魔法威力上浮 30%，施法硬直缩短'
+  }
+}
+
+const isPersonalEligible = computed(() => {
+  const item = selectedPersonalItemId.value
+  const hero = selectedPersonalHeroId.value
+  // 规则 1: 必须为专属合法持有者 OWNERS[item] == hero
+  if (PERSONAL_OWNERS[item] !== hero) return false
+  // 规则 2: 严禁副手武器 (offhand_weapon != "")
+  if (personalHasOffhandWeapon.value) return false
+  // 规则 3: 2122 埃癸斯盾牌槽位，严禁主手装配双手武器 (2105/2119)
+  if (item === '2122' && personalHasTwoHandWeapon.value) return false
+  return true
+})
+
+const personalEligibilityDesc = computed(() => {
+  const item = selectedPersonalItemId.value
+  const hero = selectedPersonalHeroId.value
+  const expectedOwner = PERSONAL_OWNERS[item]
+  const meta = personalItemMeta[item]
+
+  if (expectedOwner !== hero) {
+    return `❌ 角色不匹配：该本命神兵唯一归属于【${meta?.ownerName}】，【${hero}】无法共鸣装配`
+  }
+  if (personalHasOffhandWeapon.value) {
+    return '❌ 槽位违规：检测到佩戴副手武器，本命专属神兵严格排斥副手双持'
+  }
+  if (item === '2122' && personalHasTwoHandWeapon.value) {
+    return '❌ 双手武器冲突：埃癸斯神盾装配于副手盾槽，主手持双手武器导致持盾失效'
+  }
+  return `✨ 契约完全吻合：【${meta?.ownerName}】与【${meta?.name}】达成最高共鸣`
+})
+
+const personalResonancePowerRating = computed(() => {
+  if (!isPersonalEligible.value) return 300
+  const item = selectedPersonalItemId.value
+  if (item === '2120') return 1850
+  if (item === '2121') return 1680
+  if (item === '2122') return 1920
+  if (item === '2123') return 1760
+  if (item === '2124') return 2040
+  return 1500
+})
+
+interface PersonalResonanceResult {
+  summary: string
+  success: boolean
+  statusTag: string
+  statDeltaText: string
+  statDeltaDesc: string
+  specialTraitText: string
+  specialTraitDesc: string
+  slotText: string
+  securityDesc: string
+}
+
+const lastPersonalResonanceResult = ref<PersonalResonanceResult | null>(null)
+const personalTraceLogs = ref<string[]>([
+  '系统就绪: personal_equipment_rules.gd 与 projection.gd 契约完成加载',
+  '契约守卫: 5件主角本命神兵白名单 (2120~2124) 独占专属权，严拒跨角色冒领'
+])
+
+const executePersonalResonance = () => {
+  const item = selectedPersonalItemId.value
+  const hero = selectedPersonalHeroId.value
+  const meta = personalItemMeta[item]
+  const eligible = isPersonalEligible.value
+
+  if (!eligible) {
+    personalTraceLogs.value.unshift(`[共鸣驳回] 角色 ${hero} 尝试装备 ${item}: ${personalEligibilityDesc.value}`)
+    lastPersonalResonanceResult.value = {
+      summary: `装备受阻：${hero} 与 ${meta?.name || item} 无法达成契约`,
+      success: false,
+      statusTag: '契约校验不通过',
+      statDeltaText: '+0 (无加成)',
+      statDeltaDesc: '契约不符，属性份额未投影到战斗实体',
+      specialTraitText: '特权未激活',
+      specialTraitDesc: personalEligibilityDesc.value,
+      slotText: '槽位封锁',
+      securityDesc: 'RULES.allowed() 返回 false，安全门禁生效'
+    }
+  } else {
+    personalTraceLogs.value.unshift(`[本命共鸣] 英雄【${meta.ownerName}】完美激活【${meta.name}】！属性份额已投影`)
+    lastPersonalResonanceResult.value = {
+      summary: `共鸣成功：${meta.ownerName} 成功唤醒本命神兵`,
+      success: true,
+      statusTag: '本命契约达成',
+      statDeltaText: meta.statDelta,
+      statDeltaDesc: '六维平加与专用乘区精准生效 (clampi 0~9999)',
+      specialTraitText: meta.trait,
+      specialTraitDesc: meta.desc,
+      slotText: meta.slot === 'shield' ? '副手盾位 (shield)' : '主手神兵 (weapon)',
+      securityDesc: 'personal_runtime_owner 强校验合规，零持久污染'
+    }
+  }
+
+  // 审计日志维持最大 8 条
+  if (personalTraceLogs.value.length > 8) {
+    personalTraceLogs.value = personalTraceLogs.value.slice(0, 8)
+  }
+}
+
+const resetPersonalStudio = () => {
+  selectedPersonalHeroId.value = 'nahart'
+  selectedPersonalItemId.value = '2120'
+  personalHasOffhandWeapon.value = false
+  personalHasTwoHandWeapon.value = false
+  lastPersonalResonanceResult.value = null
+  personalTraceLogs.value = [
+    '重置完成: 本命神兵推演台回到初始状态',
+    '默认装配: 纳哈特 (nahart) + 诸神黄昏 (2120), 槽位完全合规'
   ]
 }
 </script>
