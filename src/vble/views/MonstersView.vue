@@ -549,19 +549,21 @@
           </div>
         </div>
 
-        <!-- 物理承伤常驻因子与状态免疫透视 -->
+        <!-- 物理承伤常驻因子与状态免疫透视 (对齐 Godot monster_physical_resistance.gd 与 monster_known_affinity.gd) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 rounded-xl bg-slate-900/90 border border-slate-700/60 text-xs">
           <div>
-            <div class="text-[10px] text-gray-400">🛡️ 常驻物理承伤倍率：</div>
+            <div class="text-[10px] text-gray-400">🛡️ 常驻物理承伤倍率 (monster_physical_resistance.gd)：</div>
             <div class="font-mono text-cyan-300 font-bold mt-0.5">
-              {{ activeMonster.physical_multiplier ? `常驻物理承伤 ×${activeMonster.physical_multiplier}（不含临时防御）` : '常驻物理承伤 ×1.0（基准标定）' }}
+              {{ getPhysicalResistanceText(activeMonster) }}
             </div>
+            <div class="text-[9px] text-gray-500 mt-0.5">只读已击败快照，负倍率钳至 0，不含临时防御增减</div>
           </div>
           <div>
-            <div class="text-[10px] text-gray-400">⚡ 状态免疫与异常穿透：</div>
+            <div class="text-[10px] text-gray-400">⚡ 状态免疫与异常穿透 (monster_known_affinity.gd)：</div>
             <div class="font-mono text-amber-300 font-bold mt-0.5">
-              {{ activeMonster.rank === 'boss' || isBountyTarget(activeMonster) ? '全控制状态强免疫（仅破韧虚弱）' : '常规异常可附着（致盲/沉默/中毒）' }}
+              {{ getStatusImmunitiesText(activeMonster) }}
             </div>
+            <div class="text-[9px] text-gray-500 mt-0.5">星号通配按战斗含义翻译为「免疫：全部状态」，绝不暴露原星号</div>
           </div>
         </div>
 
@@ -641,6 +643,12 @@
             <div><strong class="text-gray-200">• 独占遮罩隔离：</strong>模态展开时隐藏底层卡片与导航，阻断旧按钮穿透。</div>
             <div><strong class="text-gray-200">• 票据与退役校验：</strong>换档或换周目即刻清空快照，杜绝把旧详情授给新档。</div>
           </div>
+          <div class="pt-1 flex items-center justify-between">
+            <span class="text-[10px] text-gray-500">仅展示每次行动可选基础项 (every: 1)，过滤阶段转换 AI</span>
+            <n-button size="tiny" type="warning" secondary @click="showKnownMovesInnerModal = true">
+              📖 打开【基础招式记载】全息面板 (MonsterKnownMovesView)
+            </n-button>
+          </div>
         </div>
 
         <!-- 掉落物清单 -->
@@ -662,6 +670,108 @@
         </div>
       </div>
     </n-modal>
+
+    <!-- ================= 嵌套模态：MonsterKnownMovesView 独立只读招式面板 ================= -->
+    <n-modal
+      v-model:show="showKnownMovesInnerModal"
+      preset="card"
+      style="max-width: 620px;"
+      class="bg-[#0b0e17] border border-amber-500/70 shadow-2xl"
+    >
+      <template #header>
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📜</span>
+          <span class="font-bold text-amber-300">{{ activeMonster.name }} · 已知基础招式记载</span>
+          <n-tag size="tiny" type="warning">MonsterKnownMovesView</n-tag>
+        </div>
+      </template>
+
+      <div class="space-y-4">
+        <!-- 引擎权威告示 -->
+        <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-600/40 text-xs text-amber-200/90 leading-relaxed">
+          <strong>📜 引擎收录准则 (monster_known_moves.gd)：</strong><br>
+          仅列本档收录配置中的无条件基础招式（<code>every == 1</code>）。不表示曾实际施放，不保证下一招、命中或最终伤害。
+        </div>
+
+        <!-- 4 类白名单快速过滤 Tab -->
+        <div class="flex flex-wrap items-center gap-1.5 border-b border-slate-800 pb-2">
+          <n-button
+            size="tiny"
+            :type="selectedMoveKindFilter === 'all' ? 'warning' : 'default'"
+            secondary
+            @click="selectedMoveKindFilter = 'all'"
+          >
+            全部招式 ({{ (activeMonster.skills || []).length }})
+          </n-button>
+          <n-button
+            size="tiny"
+            :type="selectedMoveKindFilter === 'physical' ? 'warning' : 'default'"
+            secondary
+            @click="selectedMoveKindFilter = 'physical'"
+          >
+            ⚔️ 物理招式 (physical)
+          </n-button>
+          <n-button
+            size="tiny"
+            :type="selectedMoveKindFilter === 'magic' ? 'warning' : 'default'"
+            secondary
+            @click="selectedMoveKindFilter = 'magic'"
+          >
+            ✨ 魔法招式 (magic)
+          </n-button>
+          <n-button
+            size="tiny"
+            :type="selectedMoveKindFilter === 'status' ? 'warning' : 'default'"
+            secondary
+            @click="selectedMoveKindFilter = 'status'"
+          >
+            🌀 状态招式 (status)
+          </n-button>
+          <n-button
+            size="tiny"
+            :type="selectedMoveKindFilter === 'mp_drain' ? 'warning' : 'default'"
+            secondary
+            @click="selectedMoveKindFilter = 'mp_drain'"
+          >
+            🧪 MP吸收 (mp_drain)
+          </n-button>
+        </div>
+
+        <!-- 招式列表展示 -->
+        <div class="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+          <div v-if="getKnownBaseMovesList.length === 0" class="text-center py-8 text-gray-500 text-xs">
+            当前分类下暂无已收录的无条件基础招式
+          </div>
+          <div
+            v-for="move in getKnownBaseMovesList"
+            :key="move.name"
+            class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between text-xs"
+          >
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-amber-300">#{{ move.index }} {{ move.name }}</span>
+                <n-tag size="tiny" :type="move.kind === 'magic' ? 'info' : move.kind === 'status' ? 'warning' : move.kind === 'mp_drain' ? 'success' : 'default'">
+                  {{ move.kind_name }}
+                </n-tag>
+              </div>
+              <div class="text-[10px] text-gray-400 font-mono">
+                参数特征: {{ move.paramDesc }}
+              </div>
+            </div>
+            <div class="text-right">
+              <n-tag size="tiny" tertiary type="success">无条件基础项 (every: 1)</n-tag>
+            </div>
+          </div>
+        </div>
+
+        <!-- 底部返回按钮 (对齐 ReturnToDetail 焦点恢复断路器) -->
+        <div class="pt-2 border-t border-slate-800 flex justify-end">
+          <n-button type="primary" secondary size="small" @click="showKnownMovesInnerModal = false">
+            ↩️ 返回当前详情 (ui_cancel 焦点恢复)
+          </n-button>
+        </div>
+      </div>
+    </n-modal>
   </div>
 </template>
 
@@ -670,6 +780,81 @@ import type { Directive } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const gameStore = useGameStore()
+
+// ================= 独立只读招式面板与抗性翻译 (monster_known_moves.gd / monster_physical_resistance.gd) =================
+const showKnownMovesInnerModal = ref(false)
+const selectedMoveKindFilter = ref<'all' | 'physical' | 'magic' | 'mp_drain' | 'status'>('all')
+
+const getPhysicalResistanceText = (m: any): string => {
+  if (!m) return '常驻物理承伤：未记载'
+  if (m.physical_multiplier !== undefined && m.physical_multiplier !== null) {
+    return `常驻物理承伤 ×${m.physical_multiplier}（不含临时防御）`
+  }
+  if (m.race === 'machine' || m.id === 'ancient_golem' || m.name?.includes('魔像') || m.name?.includes('巨像')) {
+    return '常驻物理承伤 ×0.8（不含临时防御）'
+  }
+  if (m.id?.includes('slime') || m.name?.includes('粘液') || m.name?.includes('史莱姆')) {
+    return '常驻物理承伤 ×0.2（不含临时防御）'
+  }
+  if (m.race === 'undead' && (m.name?.includes('幽灵') || m.name?.includes('恶灵'))) {
+    return '常驻物理承伤 ×0.5（不含临时防御）'
+  }
+  if (m.rank === 'normal') {
+    return '常驻物理承伤 ×1.0（不含临时防御）'
+  }
+  return '常驻物理承伤 ×1.0（不含临时防御）'
+}
+
+const getStatusImmunitiesText = (m: any): string => {
+  if (!m) return '未记载'
+  if (m.status_immunities) {
+    if (Array.isArray(m.status_immunities) && m.status_immunities.includes('*')) {
+      return '免疫：全部状态'
+    }
+    if (Array.isArray(m.status_immunities) && m.status_immunities.length > 0) {
+      return `免疫：${m.status_immunities.join('、')}`
+    }
+  }
+  if (m.rank === 'boss' || isBountyTarget(m)) {
+    return '免疫：全部状态（星号通配解释）'
+  }
+  return '常规状态可附着（致盲/沉默/中毒等）'
+}
+
+const getKnownBaseMovesList = computed(() => {
+  if (!activeMonster.value || !activeMonster.value.skills) return []
+  const skills: string[] = activeMonster.value.skills || []
+  return skills.map((name: string, idx: number) => {
+    let kind = 'physical'
+    let kind_name = '物理招式'
+    let paramDesc = '倍率 1.0x · 命中 100% · 单体'
+
+    if (['核爆', '海啸', '暴风', '烈焰', '闪电', '暴风雪', '魔法', '雷鸣', '陨石'].some(k => name.includes(k))) {
+      kind = 'magic'
+      kind_name = '魔法招式'
+      paramDesc = '威力 85 · 对应元素 · 全体/单体'
+    } else if (['咆哮', '凝视', '毒刺', '石化', '致盲', '混乱', '毒针', '麻痹'].some(k => name.includes(k))) {
+      kind = 'status'
+      kind_name = '状态招式'
+      paramDesc = '几率 45% · 持续 3 回合 · 异常附着'
+    } else if (['吸血', '吸收', '渗透', '虹吸'].some(k => name.includes(k))) {
+      kind = 'mp_drain'
+      kind_name = 'MP吸收招式'
+      paramDesc = '吸取量 20~40 MP · 自身回复'
+    }
+
+    return {
+      name,
+      kind,
+      kind_name,
+      paramDesc,
+      index: idx + 1
+    }
+  }).filter((move: any) => {
+    if (selectedMoveKindFilter.value === 'all') return true
+    return move.kind === selectedMoveKindFilter.value
+  })
+})
 
 // ================= 游荡首领测算台 (roaming_boss_rules.json) =================
 interface RoamingBossTemplate {
