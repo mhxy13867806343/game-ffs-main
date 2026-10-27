@@ -23,6 +23,7 @@ declare module 'vue' {
     GameCard: typeof import('./components/GameCard.vue')['default']
     GlobalDetailModal: typeof import('./vble/components/GlobalDetailModal.vue')['default']
     NavBar: typeof import('./vble/components/NavBar.vue')['default']
+    NBadge: typeof import('naive-ui')['NBadge']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NCarousel: typeof import('naive-ui')['NCarousel']
