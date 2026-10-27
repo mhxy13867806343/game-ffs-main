@@ -381,6 +381,107 @@
       </div>
     </n-card>
 
+    <!-- 交互模拟器：剧情技能【预判 Lv3】意图快照读取与 1.25x 爆发倍率推演所 -->
+    <n-card class="border border-cyan-500/50 bg-[#0e1726]/95 rounded-xl shadow-xl" title="👁️ 剧情技能【预判 Lv3】意图快照读取与 1.25x 爆发倍率实装推演所 (Prediction Lv3 Simulator)">
+      <template #header-extra>
+        <n-tag type="info" size="small" round strong>B路线完整行动承诺 · 4c91c67d5 认证接线</n-tag>
+      </template>
+      <div class="space-y-4">
+        <p class="text-xs text-gray-300 leading-relaxed">
+          基于 Godot 引擎 <code>prediction_command_runtime.gd</code> 与 <code>battle_combat_system.gd</code> 真实接线：对特定敌方单体或群体施放【预判 Lv3】后，非模态意图卡实时捕获其下一轮行动快照；并在我方同伴随后发动的首个合资格【职业物理主击】或【正元素伤害魔法】上，精准激活 <strong>1.25x 暴击率</strong> 与 <strong>1.25x 正主伤倍率</strong> 乘区！
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 步骤 1: 选取目标敌方 -->
+          <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2.5">
+            <div class="text-xs font-bold text-cyan-300 flex items-center justify-between">
+              <span>1️⃣ 选定预判敌方目标</span>
+              <span class="text-[10px] text-gray-400">Actor Instance</span>
+            </div>
+            <select
+              v-model="predSelectedEnemyId"
+              class="w-full bg-slate-800 border border-slate-700 text-white rounded p-1.5 text-xs focus:border-cyan-500 outline-none"
+            >
+              <option v-for="e in predEnemiesList" :key="e.id" :value="e.id">
+                {{ e.name }} (Lv.{{ e.level }} · {{ e.role }})
+              </option>
+            </select>
+
+            <!-- 意图卡快照展示 -->
+            <div class="p-2.5 bg-slate-950/80 rounded border border-cyan-500/30 text-xs space-y-1">
+              <div class="text-amber-300 font-bold flex items-center justify-between">
+                <span>📋 意图卡快照 (IntentCard):</span>
+                <span class="text-[10px] text-cyan-400 font-mono">Nonce: #{{ predNonce }}</span>
+              </div>
+              <div class="text-gray-300 text-[11px]">下一轮行动: <strong class="text-rose-400">{{ currentPredEnemy.nextAction }}</strong></div>
+              <div class="text-gray-300 text-[11px]">预计索敌: <span class="text-gray-200">{{ currentPredEnemy.targetSlot }}</span></div>
+              <div class="text-gray-400 text-[10px]">行动序号: Count #{{ currentPredEnemy.actionCount + 1 }} · 生命状态有效</div>
+            </div>
+          </div>
+
+          <!-- 步骤 2: 我方反制行动选型 -->
+          <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2.5">
+            <div class="text-xs font-bold text-amber-300 flex items-center justify-between">
+              <span>2️⃣ 我方随后的反制行动选型</span>
+              <span class="text-[10px] text-amber-400">Next Action</span>
+            </div>
+            <select
+              v-model="predSelectedActionType"
+              class="w-full bg-slate-800 border border-slate-700 text-white rounded p-1.5 text-xs focus:border-cyan-500 outline-none"
+            >
+              <option value="phys_skill">⚔️ 职业物理技能 (如 骑士【重斩】、武僧【连环拳】)</option>
+              <option value="magic_dmg">🔥 伤害系魔法 (如 黑魔【大火炎】、时空【重力波】)</option>
+              <option value="normal_atk">🗡️ 普通平A攻击 (不享预判倍率)</option>
+              <option value="heal_item">🧪 治疗/道具恢复 (不享预判倍率)</option>
+            </select>
+
+            <div class="p-2 bg-slate-950/80 rounded border border-slate-800 text-xs space-y-1">
+              <div class="text-gray-400 text-[11px]">基准伤害输出：</div>
+              <div class="flex items-center gap-2">
+                <input
+                  v-model.number="predBaseDamage"
+                  type="number"
+                  min="100"
+                  max="9999"
+                  step="50"
+                  class="w-full bg-slate-800 border border-slate-700 text-white rounded p-1 text-xs outline-none focus:border-cyan-500"
+                />
+                <span class="text-xs text-gray-400 font-mono">点</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 步骤 3: 结算屏与期限消耗 -->
+          <div class="p-3 bg-slate-950 rounded-xl border border-cyan-500/40 flex flex-col justify-between space-y-3">
+            <div class="space-y-2">
+              <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
+                <span>3️⃣ 伤害倍率结算与奖励核销</span>
+                <n-tag size="tiny" :type="predResult.isEligible ? 'success' : 'default'">
+                  {{ predResult.isEligible ? '1.25x 爆发倍率触发' : '常规输出' }}
+                </n-tag>
+              </div>
+
+              <div class="p-2.5 bg-slate-900/90 rounded border border-slate-800 text-center space-y-1">
+                <div class="text-[10px] text-cyan-400 uppercase tracking-wider">最终实装伤害</div>
+                <div class="text-2xl font-black text-amber-300 font-mono">{{ predResult.finalDamage }}</div>
+                <div class="text-[11px]" :class="predResult.isEligible ? 'text-emerald-400 font-bold' : 'text-gray-400'">
+                  {{ predResult.description }}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black rounded-lg text-xs shadow-md transition-all cursor-pointer"
+              @click="advancePredCycle"
+            >
+              🔄 推进指令轮次 (完成行动并消耗预判奖励)
+            </button>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
     <!-- 战斗行动轴我方满格待命头像青白脉冲提示 -->
     <n-card class="border border-sky-900/60 bg-[#0e1b26]/90 rounded-xl" title="⏱️ 战斗行动轴我方满格待命头像青白脉冲体系 (Timeline Ready Portrait Pulse)">
       <div class="space-y-4 text-xs leading-relaxed">
@@ -722,5 +823,61 @@ const playRPS = (choice: string) => {
   } else {
     rpsResult.value = 'lose'
   }
+}
+
+// 剧情技能【预判 Lv3】推演所状态
+interface PredEnemy {
+  id: string
+  name: string
+  level: number
+  role: string
+  nextAction: string
+  targetSlot: string
+  actionCount: number
+}
+
+const predEnemiesList = reactive<PredEnemy[]>([
+  { id: 'golem', name: '守护巨像 (Guardian Golem)', level: 45, role: '古代机械', nextAction: '重压践踏 (Heavy Stomp)', targetSlot: '前排单体 (Slot 1)', actionCount: 2 },
+  { id: 'reaper', name: '死神判官 (Thanatos)', level: 60, role: '冥界首领', nextAction: '黄泉引渡 (Underworld Ferry)', targetSlot: '我方全阵列 (AOE)', actionCount: 4 },
+  { id: 'quetzal', name: '远古羽蛇神 (Quetzalcoatl)', level: 58, role: '神话魔兽', nextAction: '极光闪电风暴 (Thunder Gale)', targetSlot: '随机两体 (Slot 2, 4)', actionCount: 3 },
+  { id: 'tank', name: '魔导突击战车 (Magitek Tank)', level: 42, role: '重装机甲', nextAction: '主炮轰击 (Main Cannon)', targetSlot: '仇恨最高者 (Slot 1)', actionCount: 1 }
+])
+
+const predSelectedEnemyId = ref('golem')
+const predNonce = ref(1042)
+const predSelectedActionType = ref<'phys_skill' | 'magic_dmg' | 'normal_atk' | 'heal_item'>('phys_skill')
+const predBaseDamage = ref(1200)
+
+const currentPredEnemy = computed(() => {
+  return predEnemiesList.find(e => e.id === predSelectedEnemyId.value) || predEnemiesList[0]
+})
+
+const predResult = computed(() => {
+  const isEligible = predSelectedActionType.value === 'phys_skill' || predSelectedActionType.value === 'magic_dmg'
+  if (isEligible) {
+    const finalDmg = Math.round(predBaseDamage.value * 1.25)
+    return {
+      isEligible: true,
+      finalDamage: finalDmg,
+      description: `🔥 享受预判 Lv3 认证加成：主伤 ×1.25 (+${finalDmg - predBaseDamage.value})，暴击率 ×1.25！`
+    }
+  } else if (predSelectedActionType.value === 'normal_atk') {
+    return {
+      isEligible: false,
+      finalDamage: predBaseDamage.value,
+      description: '⚠️ 规则底线：普通普攻攻击不消耗亦不享受预判 1.25x 乘区加成。'
+    }
+  } else {
+    return {
+      isEligible: false,
+      finalDamage: 0,
+      description: '⚠️ 辅助/治疗不造成伤害，不消耗预判爆发乘区。'
+    }
+  }
+})
+
+const advancePredCycle = () => {
+  predNonce.value += 1
+  currentPredEnemy.value.actionCount += 1
 }
 </script>
