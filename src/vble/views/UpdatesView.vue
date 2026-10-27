@@ -189,6 +189,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vein-cave-tide-cave-routes-2026-10-27',
+    version: 'v2.2.193',
+    date: '2026-10-27',
+    title: '石纹窟与海潮洞窟双三层可选参观支路拓扑大典实装',
+    category: 'maps',
+    categoryName: '地貌与风土',
+    icon: '⛏️',
+    tagType: 'info',
+    description: '对齐 Godot 引擎 vein_cave_route.gd / vein_cave_sites.gd 与 tide_cave_route.gd / tide_cave_sites.gd 最新实机架构：全息实装石纹窟（石纹窟口/骨廊/牙厅）与海潮洞窟（潮窟口/海贼藏/潮闸厅）双三层拓扑、前置节拍门禁、西侧陆地安全返程与 safe_zone 免遇敌准则。',
+    highlights: [
+      '石纹窟三层拓扑 (vein_cave_route.gd)：假王阿斯托斯击破节拍 (ch03_false_king) 准入，入口 (2040, 1240)，西移返程点 (1952, 1240) 避开内湾与普拉博卡碰撞，贯通窟口、骨廊与牙厅',
+      '海潮洞窟三层拓扑 (tide_cave_route.gd)：航路重开节拍 (ch04_sea_route) 准入，入口 (300, 1180)，直通西岸平整陆地，贯通潮窟口、海贼藏与潮闸厅',
+      '传送门 32px 避让机制：层间落点精准置于门圈外，杜绝进出循环回弹，且牙厅不装空目标推进门',
+      '安全探索准则 (safe_zone = true)：全层纯静态石质与珊瑚礁布景，不承接主线任务责任，零怪物刷新扰动',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '迷宫与深渊斗技场', path: '/vble/dungeons', icon: '🏰' },
+      { label: '主线剧情 44 节拍', path: '/vble/story', icon: '🧭' },
+      { label: '全域地貌与风土志', path: '/vble/scenes', icon: '🗺️' }
+    ]
+  },
+  {
     id: 'up-sq02-temple-manuscript-cura-2026-10-27',
     version: 'v2.2.192',
     date: '2026-10-27',

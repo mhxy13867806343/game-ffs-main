@@ -438,6 +438,186 @@
       </div>
     </n-card>
 
+    <!-- 石纹窟三层可选参观支路大典 (对齐 Godot 4.3 vein_cave_route.gd / vein_cave_sites.gd 实机规范) -->
+    <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-amber-950/30 to-slate-900/95 border-amber-700/60 shadow-xl" title="⛏️ 石纹窟三层全域可选参观支路拓扑大典 (Vein Cave 1~3F System)">
+      <template #header-extra>
+        <div class="flex items-center gap-1.5">
+          <n-tag type="warning" size="small" round strong>假王节拍前置 (ch03_false_king)</n-tag>
+          <n-tag type="success" size="small" round>安全探索 · 无遇敌</n-tag>
+        </div>
+      </template>
+
+      <div class="space-y-4">
+        <p class="text-xs text-gray-300 leading-relaxed">
+          对齐 Godot 引擎 <code>vein_cave_route.gd</code> 与 <code>vein_cave_sites.gd</code> 架构：石纹窟为击破假王阿斯托斯（<code>ch03_false_king</code>）后开放的原地貌可选参观支路。全 3 层环境采用纯静态石质陈设组件（<code>vein_cave_static_environment.gd</code> / <code>vein_bone_static_environment.gd</code> / <code>vein_fang_static_environment.gd</code>），不增塞伪主线与怪物战斗，保持全层 <code>safe_zone = true</code>。
+        </p>
+
+        <!-- 坐标与西侧陆地安全返程 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
+          <div class="p-2.5 rounded-lg bg-slate-950/80 border border-amber-900/40 space-y-1">
+            <span class="text-[10px] text-gray-400 block">大地图入口坐标</span>
+            <div class="text-xs font-mono font-bold text-amber-300">(2040, 1240)</div>
+            <div class="text-[10px] text-gray-500">首层独占大陆标记 loc_vein_cave</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/80 border border-amber-900/40 space-y-1">
+            <span class="text-[10px] text-gray-400 block">西侧陆地返程坐标 (WORLD_RETURN)</span>
+            <div class="text-xs font-mono font-bold text-emerald-300">(1952, 1240)</div>
+            <div class="text-[10px] text-gray-500">西移 88px，精准避开内湾与普拉博卡碰撞</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/80 border border-amber-900/40 space-y-1">
+            <span class="text-[10px] text-gray-400 block">层间传送门半径</span>
+            <div class="text-xs font-mono font-bold text-cyan-300">RADIUS = 32.0 px</div>
+            <div class="text-[10px] text-gray-500">落点置于门圈外，杜绝进出循环回弹</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/80 border border-amber-900/40 space-y-1">
+            <span class="text-[10px] text-gray-400 block">安全探索状态</span>
+            <div class="text-xs font-mono font-bold text-purple-300">safe_zone: true</div>
+            <div class="text-[10px] text-gray-500">HUD 提示：安全探索 · WASD移动 / 点击调查</div>
+          </div>
+        </div>
+
+        <!-- 三层地貌分层拓扑 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <!-- 1F 石纹窟口 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-400">1F 石纹窟口 (vein_cave)</span>
+              <n-tag size="tiny" type="warning">ruins</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400">
+              <strong>传送门：</strong><br />
+              南口 (640, 880) &rarr; 返回大地图 (1952, 1240)<br />
+              东北口 (1080, 360) &rarr; 下层骨廊 (272, 520)
+            </div>
+            <div class="p-2 rounded bg-amber-950/20 border border-amber-900/40 text-[10px] text-gray-300">
+              残墙与石柱分列石路两侧。东北通道下至骨廊，南口返回大陆。
+            </div>
+          </div>
+
+          <!-- 2F 骨廊 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-400">2F 骨廊 (vein_cave_2)</span>
+              <n-tag size="tiny" type="warning">tomb</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400">
+              <strong>传送门：</strong><br />
+              西口 (200, 520) &rarr; 返回窟口 (1008, 360)<br />
+              东北口 (1080, 280) &rarr; 下层牙厅 (640, 780)
+            </div>
+            <div class="p-2 rounded bg-amber-950/20 border border-amber-900/40 text-[10px] text-gray-300">
+              两具石棺和石柱分居通道两侧，中央短墙前后留有过道。
+            </div>
+          </div>
+
+          <!-- 3F 牙厅 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-400">3F 牙厅 (vein_cave_3)</span>
+              <n-tag size="tiny" type="warning">keep</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400">
+              <strong>传送门：</strong><br />
+              南口 (640, 880) &rarr; 返回骨廊 (1008, 280)
+            </div>
+            <div class="p-2 rounded bg-amber-950/20 border border-amber-900/40 text-[10px] text-gray-300">
+              六根石柱分为左右两列，中间石路通向前庭短墙。绝不装空目标推进门。
+            </div>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
+    <!-- 海潮洞窟三层可选参观支路大典 (对齐 Godot 4.3 tide_cave_route.gd / tide_cave_sites.gd 实机规范) -->
+    <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-cyan-950/30 to-slate-900/95 border-cyan-700/60 shadow-xl" title="🌊 海潮洞窟三层全域可选参观支路拓扑大典 (Tide Cave 1~3F System)">
+      <template #header-extra>
+        <div class="flex items-center gap-1.5">
+          <n-tag type="info" size="small" round strong>海路重开前置 (ch04_sea_route)</n-tag>
+          <n-tag type="success" size="small" round>安全探索 · 无遇敌</n-tag>
+        </div>
+      </template>
+
+      <div class="space-y-4">
+        <p class="text-xs text-gray-300 leading-relaxed">
+          对齐 Godot 引擎 <code>tide_cave_route.gd</code> 与 <code>tide_cave_sites.gd</code> 架构：海潮洞窟（潮窟）为航路重开（<code>ch04_sea_route</code>）后解禁的近海礁岩秘境。全 3 层环境采用纯静态海风与珊瑚礁环境组件（<code>tide_cave_static_environment.gd</code> / <code>tide_hideout_static_environment.gd</code> / <code>tide_lock_static_environment.gd</code>），不承接船钥匙主线责任，全域 <code>safe_zone = true</code>。
+        </p>
+
+        <!-- 坐标与西岸安全返程 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
+          <div class="p-2.5 rounded-lg bg-slate-950/80 border border-cyan-900/40 space-y-1">
+            <span class="text-[10px] text-gray-400 block">大地图入口坐标</span>
+            <div class="text-xs font-mono font-bold text-cyan-300">(300, 1180)</div>
+            <div class="text-[10px] text-gray-500">西岸浅滩大陆标记 loc_tide_cave</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/80 border border-cyan-900/40 space-y-1">
+            <span class="text-[10px] text-gray-400 block">西岸出口安全返点</span>
+            <div class="text-xs font-mono font-bold text-emerald-300">西岸平整陆地</div>
+            <div class="text-[10px] text-gray-500">南口直通大陆西岸，零海面死锁风险</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/80 border border-cyan-900/40 space-y-1">
+            <span class="text-[10px] text-gray-400 block">传送门光标与色彩</span>
+            <div class="text-xs font-mono font-bold text-sky-300">RGBA(0.45, 0.75, 1, 0.85)</div>
+            <div class="text-[10px] text-gray-500">蔚蓝海潮光标，离开原32px触发圈</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/80 border border-cyan-900/40 space-y-1">
+            <span class="text-[10px] text-gray-400 block">安全探索状态</span>
+            <div class="text-xs font-mono font-bold text-teal-300">safe_zone: true</div>
+            <div class="text-[10px] text-gray-500">纯探索布景，无怪物刷新扰动</div>
+          </div>
+        </div>
+
+        <!-- 三层地貌分层拓扑 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <!-- 1F 潮窟口 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-400">1F 潮窟口 (tide_cave)</span>
+              <n-tag size="tiny" type="info">bay</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400">
+              <strong>传送门：</strong><br />
+              南口 (640, 880) &rarr; 返回西岸大陆<br />
+              东北口 (1080, 360) &rarr; 下层海贼藏 (272, 520)
+            </div>
+            <div class="p-2 rounded bg-cyan-950/20 border border-cyan-900/40 text-[10px] text-gray-300">
+              沙岸与礁岩之间留着通路，深水和珊瑚分列两侧。
+            </div>
+          </div>
+
+          <!-- 2F 海贼藏 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-400">2F 海贼藏 (tide_cave_hide)</span>
+              <n-tag size="tiny" type="info">cape</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400">
+              <strong>传送门：</strong><br />
+              西口 (200, 520) &rarr; 返回潮窟口 (1008, 360)<br />
+              东口 (1080, 520) &rarr; 下层潮闸厅 (640, 780)
+            </div>
+            <div class="p-2 rounded bg-cyan-950/20 border border-cyan-900/40 text-[10px] text-gray-300">
+              木板廊道连接两侧通路，普通货物摆在水边。
+            </div>
+          </div>
+
+          <!-- 3F 潮闸厅 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-400">3F 潮闸厅 (tide_cave_lock)</span>
+              <n-tag size="tiny" type="info">undersea</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400">
+              <strong>传送门：</strong><br />
+              南口 (640, 880) &rarr; 返回海贼藏 (1008, 520)
+            </div>
+            <div class="p-2 rounded bg-cyan-950/20 border border-cyan-900/40 text-[10px] text-gray-300">
+              石柱沿中央通道两侧排列，珊瑚留在侧廊。
+            </div>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
     <!-- 全域六大隐藏秘境地下城勘探大典 (基于桌面 Godot 2026-10 最新实机实装规范) -->
     <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-indigo-950/40 to-slate-900/95 border-indigo-800/60 shadow-xl" title="🗺️ 全域六大高阶探索秘境：地宫机关、实机坐标与拓扑解谜指南">
       <template #header-extra>
