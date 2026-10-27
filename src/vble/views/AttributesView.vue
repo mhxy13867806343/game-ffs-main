@@ -38,6 +38,13 @@
             </button>
           </template>
         </n-tab-pane>
+        <n-tab-pane name="allocation">
+          <template #tab>
+            <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'allocation'">
+              ✨ 自由潜能加点模拟器 (Stat Points)
+            </button>
+          </template>
+        </n-tab-pane>
       </n-tabs>
     </div>
 
@@ -734,6 +741,199 @@
         </div>
       </div>
     </div>
+
+    <!-- ================= 模块四：自由潜能加点模拟器 (基于 Godot 真实规范 ATTRIBUTE_POINT_ALLOCATION.md) ================= -->
+    <div v-if="activeCalculatorTab === 'allocation'" class="space-y-6">
+      <!-- 顶部规则看板 -->
+      <n-card class="border border-amber-500/40 bg-[#121626]/90 rounded-2xl shadow-xl" size="small">
+        <template #header>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">✨</span>
+              <span class="font-bold text-amber-300 text-base sm:text-lg">自由属性点分配体系 (Stat Points Allocation Studio v1.1)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-tag type="warning" size="small" round strong>Godot 引擎升级与配点规范</n-tag>
+            </div>
+          </div>
+        </template>
+
+        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+          严格依循实机规划规范（<code>ATTRIBUTE_POINT_ALLOCATION.md</code>）：角色初始获得 <strong>10 属性点</strong>，随后每次升级固定获得 <strong>5 属性点</strong>。玩家可自由投入 5 大核心基础维度（力量、速度、MP、HP、精神力），并支持一键职业自适应均摊与无限洗点重构。
+        </p>
+
+        <!-- 角色与等级快速调节 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+          <div>
+            <label class="text-[11px] text-gray-400 block mb-1">选择受测角色：</label>
+            <n-select v-model:value="allocRole" :options="allocRoleOptions" size="small" />
+          </div>
+          <div>
+            <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+              <span>角色当前等级 (Level)：</span>
+              <span class="font-mono text-cyan-400 font-bold">Lv.{{ allocLevel }}</span>
+            </div>
+            <n-slider v-model:value="allocLevel" :min="1" :max="99" :step="1" />
+          </div>
+          <div>
+            <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+              <span>服用永续秘药数 (Perm Stat Items)：</span>
+              <span class="font-mono text-emerald-400 font-bold">+{{ allocBonusItems * 2 }} 点</span>
+            </div>
+            <n-slider v-model:value="allocBonusItems" :min="0" :max="20" :step="1" />
+          </div>
+        </div>
+
+        <!-- 点数总览与一键操作 -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4 pt-3 border-t border-slate-800/80">
+          <div class="flex items-center gap-3">
+            <div class="p-2.5 px-4 rounded-xl bg-slate-950/90 border border-amber-500/40">
+              <span class="text-xs text-gray-400">总可用潜能点：</span>
+              <strong class="text-base text-amber-400 font-mono ml-1">{{ totalAllocPoints }}</strong>
+            </div>
+            <div
+              class="p-2.5 px-4 rounded-xl transition-all border"
+              :class="remainingAllocPoints > 0
+                ? 'bg-cyan-950/40 border-cyan-500/60 shadow-[0_0_15px_rgba(6,182,212,0.3)] animate-pulse'
+                : 'bg-slate-950/80 border-slate-800'"
+            >
+              <span class="text-xs text-gray-400">待分配剩余点数：</span>
+              <strong
+                class="text-base font-mono ml-1"
+                :class="remainingAllocPoints > 0 ? 'text-cyan-300 font-black' : 'text-emerald-400'"
+              >
+                {{ remainingAllocPoints }}
+              </strong>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <n-button size="small" type="primary" secondary @click="autoAllocateByRole">
+              ⚡ 职业倾向一键分配
+            </n-button>
+            <n-button size="small" type="warning" tertiary @click="resetAllocation">
+              🔄 清空洗点
+            </n-button>
+          </div>
+        </div>
+      </n-card>
+
+      <!-- 五大属性加点调节器与派生换算矩阵 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- 左侧 7 栏：5 大属性增减器 -->
+        <div class="lg:col-span-7 space-y-3">
+          <div
+            v-for="stat in allocStatDefinitions"
+            :key="stat.key"
+            class="p-4 rounded-xl bg-[#121626]/90 border border-slate-700/60 shadow hover:border-slate-600 transition-all flex flex-col gap-2"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">{{ stat.icon }}</span>
+                <div>
+                  <span class="font-bold text-white text-sm mr-2">{{ stat.name }}</span>
+                  <span class="text-xs font-mono text-gray-400">({{ stat.key }})</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-400">已投入：</span>
+                <span class="text-base font-bold text-amber-400 font-mono w-10 text-right">
+                  +{{ allocPoints[stat.key] }}
+                </span>
+              </div>
+            </div>
+
+            <p class="text-[11px] text-gray-400 leading-tight">
+              {{ stat.desc }} <strong class="text-cyan-400">[{{ stat.conversion }}]</strong>
+            </p>
+
+            <div class="flex items-center gap-3 pt-1">
+              <n-button
+                size="tiny"
+                circle
+                secondary
+                :disabled="allocPoints[stat.key] <= 0"
+                @click="adjustAllocStat(stat.key, -1)"
+              >
+                -
+              </n-button>
+
+              <n-slider
+                v-model:value="allocPoints[stat.key]"
+                :min="0"
+                :max="allocPoints[stat.key] + remainingAllocPoints"
+                :step="1"
+                class="flex-1"
+              />
+
+              <n-button
+                size="tiny"
+                circle
+                type="primary"
+                secondary
+                :disabled="remainingAllocPoints <= 0"
+                @click="adjustAllocStat(stat.key, 1)"
+              >
+                +
+              </n-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧 5 栏：实战派生属性全息透视与战力评估 -->
+        <div class="lg:col-span-5 space-y-4">
+          <n-card class="bg-[#121626]/90 border border-cyan-500/40 rounded-xl shadow-lg" size="small">
+            <template #header>
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-cyan-300 text-sm">⚔️ 加点后实战战力透视</span>
+                <n-tag size="tiny" type="success" round>即时演算</n-tag>
+              </div>
+            </template>
+
+            <div class="space-y-3">
+              <!-- 战力综合评分 -->
+              <div class="p-3 rounded-xl bg-gradient-to-r from-cyan-950/60 to-blue-950/60 border border-cyan-500/30 text-center">
+                <div class="text-[11px] text-gray-400 font-medium">综合冒险战斗力评分 (Combat Power)</div>
+                <div class="text-2xl font-black text-amber-400 font-mono mt-1 text-glow-amber">
+                  {{ allocCombatRating }}
+                </div>
+                <div class="text-[10px] text-gray-400 mt-0.5">综合生命上限、物理爆发、魔法回廊与行动频次加权</div>
+              </div>
+
+              <!-- 派生二级属性对比 -->
+              <div class="space-y-2 text-xs">
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900/80 border border-slate-800">
+                  <span class="text-gray-400 flex items-center gap-1"><span>❤️</span> 生命上限 HP</span>
+                  <span class="font-mono font-bold text-rose-400">{{ allocDerivedHp }} (+{{ allocPoints.max_hp * 20 }})</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900/80 border border-slate-800">
+                  <span class="text-gray-400 flex items-center gap-1"><span>💧</span> 魔法容量 MP</span>
+                  <span class="font-mono font-bold text-sky-400">{{ allocDerivedMp }} (+{{ allocPoints.max_mp * 5 }})</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900/80 border border-slate-800">
+                  <span class="text-gray-400 flex items-center gap-1"><span>🗡️</span> 物理攻击力 ATK</span>
+                  <span class="font-mono font-bold text-amber-300">{{ allocDerivedAtk }} (+{{ allocPoints.attack }})</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900/80 border border-slate-800">
+                  <span class="text-gray-400 flex items-center gap-1"><span>⚡</span> 行动速度 SPD</span>
+                  <span class="font-mono font-bold text-yellow-300">{{ allocDerivedSpd }} (+{{ allocPoints.speed }})</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900/80 border border-slate-800">
+                  <span class="text-gray-400 flex items-center gap-1"><span>✨</span> 精神魔法修正 SPR</span>
+                  <span class="font-mono font-bold text-purple-300">{{ allocDerivedSpr }} (+{{ allocPoints.spirit }})</span>
+                </div>
+              </div>
+
+              <!-- 玩法流派分析 -->
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-[11px] text-gray-300">
+                <span class="text-amber-400 font-bold block mb-1">💡 当前加点流派倾向评定：</span>
+                <span>{{ allocBuildAnalysis }}</span>
+              </div>
+            </div>
+          </n-card>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1180,5 +1380,145 @@ const turnsToKill = computed(() => {
   const hp = scaledHP.value
   const dmg = estimatedDamage.value
   return Math.max(1, Math.ceil(hp / dmg))
+})
+
+// ================= 模块四：自由潜能加点逻辑 (ATTRIBUTE_POINT_ALLOCATION.md) =================
+const allocRole = ref('bartz')
+const allocLevel = ref(25)
+const allocBonusItems = ref(2)
+
+const allocRoleOptions = [
+  { label: '巴兹 (Bartz - 游侠平衡/物理输出)', value: 'bartz' },
+  { label: '蕾娜 (Lenna - 圣洁白魔/高精治愈)', value: 'lenna' },
+  { label: '加拉夫 (Galuf - 钢铁卫士/狂战坦克)', value: 'galuf' },
+  { label: '法丽斯 (Faris - 极速刺客/魔剑双修)', value: 'faris' },
+  { label: '克鲁鲁 (Krile - 禁咒魔导/元素爆发)', value: 'krile' }
+]
+
+interface AllocStatDef {
+  key: 'attack' | 'speed' | 'max_mp' | 'max_hp' | 'spirit'
+  name: string
+  desc: string
+  conversion: string
+  icon: string
+}
+
+const allocStatDefinitions: AllocStatDef[] = [
+  { key: 'attack', name: '力量 (Attack)', desc: '提升角色物理挥砍、重击与武器基础伤害', conversion: '+1 物理攻击力/点', icon: '🗡️' },
+  { key: 'speed', name: '速度 (Speed)', desc: '提升角色 ATB 进度条充能速率与战场物理闪避率', conversion: '+1 敏捷速度/点', icon: '⚡' },
+  { key: 'max_mp', name: '魔法值 (Max MP)', desc: '扩大角色施法容量池，增强高级黑白魔法连发续航', conversion: '+5 MP 上限/点', icon: '💧' },
+  { key: 'max_hp', name: '生命力 (Max HP)', desc: '大幅扩充角色体能上限，抵御高阶首领穿透强击', conversion: '+20 HP 上限/点', icon: '❤️' },
+  { key: 'spirit', name: '精神力 (Spirit)', desc: '增强魔法伤害倍率、圣洁治疗量与异常状态抵抗抗性', conversion: '+1 精神/魔防修正/点', icon: '✨' }
+]
+
+const allocPoints = reactive({
+  attack: 30,
+  speed: 25,
+  max_mp: 20,
+  max_hp: 35,
+  spirit: 20
+})
+
+const totalAllocPoints = computed(() => {
+  return 10 + (allocLevel.value - 1) * 5 + allocBonusItems.value * 2
+})
+
+const usedAllocPoints = computed(() => {
+  return allocPoints.attack + allocPoints.speed + allocPoints.max_mp + allocPoints.max_hp + allocPoints.spirit
+})
+
+const remainingAllocPoints = computed(() => {
+  return Math.max(0, totalAllocPoints.value - usedAllocPoints.value)
+})
+
+function adjustAllocStat(key: 'attack' | 'speed' | 'max_mp' | 'max_hp' | 'spirit', delta: number) {
+  if (delta > 0 && remainingAllocPoints.value > 0) {
+    allocPoints[key] += 1
+  } else if (delta < 0 && allocPoints[key] > 0) {
+    allocPoints[key] -= 1
+  }
+}
+
+function resetAllocation() {
+  allocPoints.attack = 0
+  allocPoints.speed = 0
+  allocPoints.max_mp = 0
+  allocPoints.max_hp = 0
+  allocPoints.spirit = 0
+}
+
+function autoAllocateByRole() {
+  resetAllocation()
+  const total = totalAllocPoints.value
+
+  if (allocRole.value === 'bartz') {
+    // 物理平衡型：力量 40%，速度 25%，HP 20%，MP 10%，精神 5%
+    allocPoints.attack = Math.floor(total * 0.4)
+    allocPoints.speed = Math.floor(total * 0.25)
+    allocPoints.max_hp = Math.floor(total * 0.2)
+    allocPoints.max_mp = Math.floor(total * 0.1)
+    allocPoints.spirit = total - (allocPoints.attack + allocPoints.speed + allocPoints.max_hp + allocPoints.max_mp)
+  } else if (allocRole.value === 'lenna' || allocRole.value === 'krile') {
+    // 魔法精神型：精神 40%，MP 30%，HP 15%，速度 10%，力量 5%
+    allocPoints.spirit = Math.floor(total * 0.4)
+    allocPoints.max_mp = Math.floor(total * 0.3)
+    allocPoints.max_hp = Math.floor(total * 0.15)
+    allocPoints.speed = Math.floor(total * 0.1)
+    allocPoints.attack = total - (allocPoints.spirit + allocPoints.max_mp + allocPoints.max_hp + allocPoints.speed)
+  } else if (allocRole.value === 'galuf') {
+    // 钢铁坦克型：HP 45%，力量 30%，速度 10%，精神 10%，MP 5%
+    allocPoints.max_hp = Math.floor(total * 0.45)
+    allocPoints.attack = Math.floor(total * 0.3)
+    allocPoints.speed = Math.floor(total * 0.1)
+    allocPoints.spirit = Math.floor(total * 0.1)
+    allocPoints.max_mp = total - (allocPoints.max_hp + allocPoints.attack + allocPoints.speed + allocPoints.spirit)
+  } else {
+    // 刺客双修型：速度 35%，力量 30%，HP 15%，精神 10%，MP 10%
+    allocPoints.speed = Math.floor(total * 0.35)
+    allocPoints.attack = Math.floor(total * 0.3)
+    allocPoints.max_hp = Math.floor(total * 0.15)
+    allocPoints.spirit = Math.floor(total * 0.1)
+    allocPoints.max_mp = total - (allocPoints.speed + allocPoints.attack + allocPoints.max_hp + allocPoints.spirit)
+  }
+}
+
+// 基础值参考
+const allocBaseHp = computed(() => 150 + allocLevel.value * 28)
+const allocBaseMp = computed(() => 40 + allocLevel.value * 8)
+const allocBaseAtk = computed(() => 20 + Math.floor(allocLevel.value * 2.5))
+const allocBaseSpd = computed(() => 15 + Math.floor(allocLevel.value * 0.8))
+const allocBaseSpr = computed(() => 18 + Math.floor(allocLevel.value * 1.2))
+
+const allocDerivedHp = computed(() => allocBaseHp.value + allocPoints.max_hp * 20)
+const allocDerivedMp = computed(() => allocBaseMp.value + allocPoints.max_mp * 5)
+const allocDerivedAtk = computed(() => allocBaseAtk.value + allocPoints.attack)
+const allocDerivedSpd = computed(() => allocBaseSpd.value + allocPoints.speed)
+const allocDerivedSpr = computed(() => allocBaseSpr.value + allocPoints.spirit)
+
+const allocCombatRating = computed(() => {
+  return Math.round(
+    allocDerivedHp.value * 0.8 +
+    allocDerivedMp.value * 1.5 +
+    allocDerivedAtk.value * 4.2 +
+    allocDerivedSpd.value * 6.5 +
+    allocDerivedSpr.value * 3.8
+  )
+})
+
+const allocBuildAnalysis = computed(() => {
+  const p = allocPoints
+  if (p.attack >= p.spirit && p.attack >= p.max_hp && p.attack >= p.speed) {
+    return '【纯粹狂战力攻流】物理打击爆发极高，推荐转职狂战士、骑士或武僧，装备双持二刀流。'
+  }
+  if (p.spirit >= p.attack && p.spirit >= p.max_hp) {
+    return '【神圣魔导贤者流】治疗与法术增幅极强，推荐白魔导士、时空魔导士或召唤士，兼具团队保护。'
+  }
+  if (p.max_hp >= p.attack && p.max_hp >= p.spirit) {
+    return '【不动要塞坦盾流】血量厚实容错率极高，推荐圣骑士带守护指令，适合越级首领开荒。'
+  }
+  if (p.speed >= p.attack && p.speed >= p.spirit) {
+    return '【疾风瞬影游侠流】ATB充能速度极快，先手破招与逃脱率高，推荐盗贼、忍者或狩猎者。'
+  }
+  return '【四方均衡全能流】攻守兼备，适应多变复杂战场，推荐自由人职业佩戴各系被动技能。'
 })
 </script>
