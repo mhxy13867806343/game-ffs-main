@@ -271,6 +271,76 @@
       </div>
     </n-card>
 
+    <!-- 风祀台古代遗迹实装规范指南 (对齐 Godot 4.3 2026-10-27 wind_altar_route.gd 实机实装) -->
+    <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-teal-950/40 to-slate-900/95 border-teal-800/60 shadow-xl" title="🌀 始源风穴·风祀台古代神殿秘境路线与环境声学大典">
+      <template #header-extra>
+        <n-tag type="success" size="small" round strong>序章解禁：ch00_arrive_temple (初抵神殿)</n-tag>
+      </template>
+      <div class="space-y-4">
+        <p class="text-xs text-gray-300 leading-relaxed">
+          风祀台座落于始源神殿东侧山峦隘口（世界坐标：入口 <code>loc_wind_altar (720, 200)</code>，安全返场坐标 <code>(800, 180)</code>，精准避开山体与旧门碰撞）。内部为古风灵汇聚的单室神殿空间 (<code>wind_altar_in</code>)，作为序章探索与安全休憩的圣地。
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <!-- 拓扑与门禁 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-teal-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-teal-300">🏛️ 空间拓扑与门禁</span>
+              <n-tag size="tiny" type="success">wind_altar_in</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400">
+              <span class="text-gray-300 font-bold">室内出生点：</span><code>(640, 780)</code>
+            </div>
+            <div class="text-[11px] text-gray-300 space-y-1">
+              <div><strong class="text-teal-400">🚪 门禁规则：</strong></div>
+              <ul class="list-disc list-inside space-y-0.5 text-gray-400">
+                <li>南口 <code>(640, 880)</code> &rarr; 大地图东侧山麓 <code>(800, 180)</code></li>
+                <li>准入等级门禁：Lv.3 ~ 5 (与 origin_temple 同步)</li>
+                <li>在场进度守卫：关闭剧情门后在场仍允许南口安全撤离</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 景物调查与声音环境 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-cyan-300">📜 晶石台景物与声学</span>
+              <n-tag size="tiny" type="info">WindStaticCrystal</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-400">
+              <span class="text-gray-300 font-bold">晶石台坐标：</span><code>(640, 512)</code>
+            </div>
+            <div class="p-2 rounded bg-teal-950/50 border border-teal-900/40 text-[11px] space-y-1">
+              <div class="text-amber-300 font-bold">风之呢喃实机台词：</div>
+              <p class="text-gray-300 italic text-[10px]">
+                “风声从石柱间穿过，在晶石台旁回荡。<br>南口可返回大陆。”
+              </p>
+              <div class="text-[10px] text-gray-400 pt-0.5 border-t border-teal-900/50">
+                🎵 触发音频：<code>draft1.ogg</code> (局部 SFX -20dB，单次播放 2s 自动销毁)
+              </div>
+            </div>
+          </div>
+
+          <!-- 安全性与无战斗保障 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-emerald-800/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-emerald-300">🛡️ 纯净安全探索区</span>
+              <n-tag size="tiny" type="success">Safe Exploration</n-tag>
+            </div>
+            <div class="text-[11px] text-gray-300 space-y-1 leading-relaxed">
+              <div><strong class="text-emerald-400">✨ 核心设计原则：</strong></div>
+              <ul class="list-disc list-inside space-y-0.5 text-gray-400 text-[10px]">
+                <li>零遇敌、零陷阱、无战斗惩罚</li>
+                <li>无职业限制、无强制主线推进</li>
+                <li>支持现场随时安全存读档与冷读恢复</li>
+                <li>对白取消/换场景立即卸载音频流引用</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
     <!-- 全域六大隐藏秘境地下城勘探大典 (基于桌面 Godot 2026-10 最新实机实装规范) -->
     <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-indigo-950/40 to-slate-900/95 border-indigo-800/60 shadow-xl" title="🗺️ 全域六大高阶探索秘境：地宫机关、实机坐标与拓扑解谜指南">
       <template #header-extra>
