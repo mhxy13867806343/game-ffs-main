@@ -438,6 +438,170 @@
       </div>
     </div>
 
+    <!-- 四大远古石板解封额度与七色彩尾兑换工坊 (基于 legendary_acquisition_transaction.gd / registry.gd / progress.gd) -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-950/40 via-slate-900/90 to-purple-950/40 border border-amber-500/40 shadow-xl space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-800/40 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🏛️</span>
+          <h3 class="text-base sm:text-lg font-bold text-amber-300">四大远古石板解封额度与七色彩尾兑换工坊 (Ancient Tablets & Tail Exchange)</h3>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <n-tag type="warning" size="small" round>四大石板 11 额度</n-tag>
+          <n-tag type="success" size="small" round>七色彩尾 1:1 兑换</n-tag>
+          <n-tag type="info" size="small" round>来源票事务防重放</n-tag>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        对齐 Godot 引擎 <code>legendary_acquisition_transaction.gd</code> 与 <code>legendary_acquisition_registry.gd</code> 传奇第二阶段实机规约：四大远古石板严格产出 11 点解封额度 (3+3+3+2)，七色彩尾 (147~153) 消耗 1 尾巴 1:1 兑换七大终极武器 (2113~2119)，全程执行内存事务副本试算与签发票即刻到期熔断。
+      </p>
+
+      <!-- 核心规约卡 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+        <div class="p-3 bg-slate-900/80 rounded-xl border border-amber-800/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300">📜 四大远古石板额度 (11 点)</span>
+            <n-tag size="tiny" type="warning">TABLETS</n-tag>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>金字塔 (pyramid):</strong> 解锁额度 +3。</li>
+            <li><strong>孤岛神殿 (island_shrine):</strong> 解锁额度 +3。</li>
+            <li><strong>大壕沟 (great_trench):</strong> 解锁额度 +3。</li>
+            <li><strong>伊斯托利瀑布 (istory_falls):</strong> 解锁额度 +2。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-900/80 rounded-xl border border-emerald-800/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-300">🌈 七色彩尾 1:1 契约 (147~153)</span>
+            <n-tag size="tiny" type="success">TAILS</n-tag>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>粉(147)➔2113</strong> 阿克塞尔 / <strong>灰(148)➔2114</strong> 瓦尔哈拉</li>
+            <li><strong>红(149)➔2115</strong> 鲜血之枪 / <strong>金(150)➔2116</strong> 创世之刃</li>
+            <li><strong>蓝(151)➔2117</strong> 人鱼竖琴 / <strong>黄(152)➔2118</strong> 火箭重锤</li>
+            <li><strong>绿(153)➔2119</strong> 自动连弩 (各限换 1 次防重复)</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-900/80 rounded-xl border border-purple-800/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-300">🔒 来源票事务安全 (Transaction)</span>
+            <n-tag size="tiny" type="info">TRANSACTION</n-tag>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>私票签发:</strong> <code>issue_ticket()</code> 绑宿主与现场 NPC 引用。</li>
+            <li><strong>节点退场熔断:</strong> 宿主或 NPC 离开视口时票据立即失效。</li>
+            <li><strong>单票即焚:</strong> 提交消费即刻 <code>_events.erase()</code>，禁止重放。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 交互推演台: 石板解封与彩尾兑换演练台 -->
+      <div class="p-3 sm:p-4 rounded-xl bg-slate-950/80 border border-amber-600/30 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-900/30 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-amber-400">🧪 石板额度领用与彩尾交易推演台</span>
+            <n-tag size="tiny" type="warning" round>
+              剩余额度: {{ unsealAvailableCredits }} 点
+            </n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetLegendaryStudio">
+              🔄 重置模拟
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大石板收集勾选 -->
+        <div class="space-y-1.5">
+          <div class="text-[10px] text-gray-400 font-bold">四大远古石板收集状态 (Tablets Collection):</div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <label class="flex items-center gap-1.5 p-2 bg-slate-900/80 rounded border border-slate-800 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" v-model="tabletObtained.pyramid" @change="recalculateCredits" />
+              <span>金字塔石板 (+3)</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-2 bg-slate-900/80 rounded border border-slate-800 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" v-model="tabletObtained.island_shrine" @change="recalculateCredits" />
+              <span>孤岛神殿石板 (+3)</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-2 bg-slate-900/80 rounded border border-slate-800 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" v-model="tabletObtained.great_trench" @change="recalculateCredits" />
+              <span>大壕沟石板 (+3)</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-2 bg-slate-900/80 rounded border border-slate-800 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" v-model="tabletObtained.istory_falls" @change="recalculateCredits" />
+              <span>瀑布石板 (+2)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 神兵解封消费区 -->
+        <div class="space-y-1.5 pt-1 border-t border-slate-800">
+          <div class="flex items-center justify-between text-[10px] text-gray-400 font-bold">
+            <span>消耗石板额度解封十一件法定武器 (选一件解封 -1 额度):</span>
+            <span class="text-amber-400 font-mono">已解封: {{ unsealedWeaponsList.length }} / 11 件</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <n-select
+              v-model:value="selectedWeaponToUnseal"
+              size="small"
+              class="w-64"
+              :options="sealedWeaponOptionsToUnseal"
+            />
+            <n-button
+              size="small"
+              type="primary"
+              secondary
+              :disabled="unsealAvailableCredits <= 0 || !selectedWeaponToUnseal"
+              @click="claimUnsealedWeapon"
+            >
+              🔓 确认解封此武器 (-1 额度)
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 七色彩尾兑换交易区 -->
+        <div class="space-y-1.5 pt-2 border-t border-slate-800">
+          <div class="text-[10px] text-gray-400 font-bold">七色彩尾 1:1 兑换交易 (Tail Recipes):</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+            <div v-for="tail in tailRecipeList" :key="tail.color" class="p-2 bg-slate-900/60 rounded border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between text-xs font-bold text-gray-200">
+                <span>{{ tail.colorLabel }}</span>
+                <n-tag size="tiny" :type="tailClaims[tail.color] ? 'success' : 'warning'">
+                  {{ tailClaims[tail.color] ? '已兑换' : '未兑换' }}
+                </n-tag>
+              </div>
+              <div class="text-[9px] text-gray-400">
+                持存: <strong>{{ tailInventory[tail.currencyId] || 0 }}</strong> 根 ➔ <strong>{{ tail.rewardName }}</strong>
+              </div>
+              <div class="flex items-center gap-1.5 pt-0.5">
+                <n-button
+                  size="tiny"
+                  secondary
+                  :type="tailClaims[tail.color] ? 'default' : 'primary'"
+                  :disabled="tailClaims[tail.color] || (tailInventory[tail.currencyId] || 0) < 1"
+                  class="w-full"
+                  @click="tradeTail(tail.color, tail.currencyId, tail.rewardId, tail.rewardName)"
+                >
+                  {{ tailClaims[tail.color] ? '✅ 契约已封存' : '🤝 交付尾巴兑换' }}
+                </n-button>
+                <n-button size="tiny" secondary @click="addTailItem(tail.currencyId)">+1</n-button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 审计追踪 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800 text-[10px] font-mono space-y-1">
+          <div class="text-gray-500 font-bold">传奇事务执行审计 (LegendaryTransaction Trace):</div>
+          <div v-for="(log, idx) in legendaryLog" :key="idx" class="text-amber-300 truncate">
+            &gt; {{ log }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 宁静村居民深度会话与可选回应系统 (基于 Godot NPC_OPTIONAL_INTERACTION_DESIGN_2026-10-23.md) -->
     <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-slate-900/90 to-teal-950/40 border border-emerald-500/40 shadow-xl space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-800/40 pb-2.5">
@@ -757,5 +921,151 @@ const simulateManuscriptNGPlus = () => {
   manuscriptDelivered.value = false
   manuscriptLog.value.unshift('✨ 跃迁至 NG+ 周目！核验通关凭证合规 (cycle <= clears + 1)，设置 sq02_cura_inherited = true，保留中回复 (Cura)！')
   if (manuscriptLog.value.length > 6) manuscriptLog.value.pop()
+}
+
+// ================= 四大远古石板解封额度与七色彩尾兑换工坊 (legendary_acquisition_transaction.gd) =================
+const tabletObtained = ref({
+  pyramid: true, // +3
+  island_shrine: true, // +3
+  great_trench: false, // +3
+  istory_falls: false // +2
+})
+
+const unsealedWeaponsList = ref<string[]>(['2100', '2101']) // 初始已解封 2 件
+const selectedWeaponToUnseal = ref<string>('2106') // 默认选烈焰魔剑
+
+const sealedWeaponOptionsToUnseal = [
+  { label: '2100: 石板圣剑 (Excalibur · 骑士王剑)', value: '2100' },
+  { label: '2101: 贤者之杖 (Sage Staff · 战斗战复)', value: '2101' },
+  { label: '2102: 源氏之铠 (Genji Armor · 强韧板甲)', value: '2102' },
+  { label: '2103: 源氏之盾 (Genji Shield · 极高物理格挡)', value: '2103' },
+  { label: '2104: 神圣飞枪 (Holy Lance · 跳跃追加圣光)', value: '2104' },
+  { label: '2105: 与一之弓 (Yoichi Bow · 双手持用高伤)', value: '2105' },
+  { label: '2106: 烈焰魔剑 (Flame Sword · 普攻追加米西迪亚爆炎)', value: '2106' },
+  { label: '2107: 封印魔导书 (Sealed Grimoire · 神圣法术 1.5x)', value: '2107' },
+  { label: '2108: 阿波罗之竖琴 (Apollo Harp · 黑魔法 1.5x)', value: '2108' },
+  { label: '2109: 大地之锤 (Gaia Hammer · 普攻追加全域地震)', value: '2109' },
+  { label: '2110: 刺客短刃 (Assassin Dagger · 普攻25%直接斩杀)', value: '2110' }
+]
+
+const totalCreditsFromTablets = computed(() => {
+  let sum = 0
+  if (tabletObtained.value.pyramid) sum += 3
+  if (tabletObtained.value.island_shrine) sum += 3
+  if (tabletObtained.value.great_trench) sum += 3
+  if (tabletObtained.value.istory_falls) sum += 2
+  return sum
+})
+
+const unsealAvailableCredits = computed(() => {
+  return Math.max(0, totalCreditsFromTablets.value - unsealedWeaponsList.value.length)
+})
+
+const recalculateCredits = () => {
+  legendaryLog.value.unshift(`🏛️ 重新核算远古石板：累计获得额度 ${totalCreditsFromTablets.value} 点，已用 ${unsealedWeaponsList.value.length} 点，剩余可用 ${unsealAvailableCredits.value} 点。`)
+  if (legendaryLog.value.length > 6) legendaryLog.value.pop()
+}
+
+const claimUnsealedWeapon = () => {
+  const wid = selectedWeaponToUnseal.value
+  if (!wid) return
+  if (unsealedWeaponsList.value.includes(wid)) {
+    legendaryLog.value.unshift(`⚠️ 武器 [${wid}] 已经处于解封状态，请勿重复解封！`)
+    if (legendaryLog.value.length > 6) legendaryLog.value.pop()
+    return
+  }
+  if (unsealAvailableCredits.value <= 0) {
+    legendaryLog.value.unshift('❌ 解封失败：可用石板额度不足！请先收集更多远古石板。')
+    if (legendaryLog.value.length > 6) legendaryLog.value.pop()
+    return
+  }
+  unsealedWeaponsList.value.push(wid)
+  legendaryLog.value.unshift(`🎉 事务成功：消耗 1 点额度解封法定神兵 [${wid}]！剩余额度 ${unsealAvailableCredits.value} 点。`)
+  if (legendaryLog.value.length > 6) legendaryLog.value.pop()
+}
+
+// 七色彩尾 1:1 配方
+const tailRecipeList = [
+  { color: 'pink', colorLabel: '粉红尾巴 (147)', currencyId: 147, rewardId: '2113', rewardName: '阿克塞尔之旋' },
+  { color: 'grey', colorLabel: '灰色尾巴 (148)', currencyId: 148, rewardId: '2114', rewardName: '瓦尔哈拉圣剑' },
+  { color: 'red', colorLabel: '红色彩尾 (149)', currencyId: 149, rewardId: '2115', rewardName: '鲜血之枪' },
+  { color: 'gold', colorLabel: '金色尾巴 (150)', currencyId: 150, rewardId: '2116', rewardName: '创世之刃' },
+  { color: 'blue', colorLabel: '蓝色尾巴 (151)', currencyId: 151, rewardId: '2117', rewardName: '人鱼竖琴' },
+  { color: 'yellow', colorLabel: '黄色尾巴 (152)', currencyId: 152, rewardId: '2118', rewardName: '火箭重锤' },
+  { color: 'green', colorLabel: '绿色尾巴 (153)', currencyId: 153, rewardId: '2119', rewardName: '自动连弩' }
+]
+
+const tailInventory = ref<Record<number, number>>({
+  147: 1,
+  148: 1,
+  149: 0,
+  150: 1,
+  151: 0,
+  152: 1,
+  153: 0
+})
+
+const tailClaims = ref<Record<string, boolean>>({
+  pink: false,
+  grey: false,
+  red: false,
+  gold: false,
+  blue: false,
+  yellow: false,
+  green: false
+})
+
+const addTailItem = (currencyId: number) => {
+  tailInventory.value[currencyId] = (tailInventory.value[currencyId] || 0) + 1
+  legendaryLog.value.unshift(`✨ 背包获得 1 根尾巴 (Item ${currencyId})，当前存量: ${tailInventory.value[currencyId]}`)
+  if (legendaryLog.value.length > 6) legendaryLog.value.pop()
+}
+
+const tradeTail = (color: string, currencyId: number, rewardId: string, rewardName: string) => {
+  if (tailClaims.value[color]) {
+    legendaryLog.value.unshift(`⚠️ 【${color}】色神兵已完成过兑换，每个周目限定 1 次。`)
+    if (legendaryLog.value.length > 6) legendaryLog.value.pop()
+    return
+  }
+  const currentCount = tailInventory.value[currencyId] || 0
+  if (currentCount < 1) {
+    legendaryLog.value.unshift(`❌ 兑换受阻：背包中缺少对应的尾巴 (Item ${currencyId})！`)
+    if (legendaryLog.value.length > 6) legendaryLog.value.pop()
+    return
+  }
+  // 事务执行: 扣除尾巴，给予神兵，记录 claims
+  tailInventory.value[currencyId] = currentCount - 1
+  tailClaims.value[color] = true
+  legendaryLog.value.unshift(`🌈 兑换达成！签发来源票完成原子交易：消耗 1 根尾巴 (Item ${currencyId})，获得终极神兵【${rewardName}】(${rewardId})！`)
+  if (legendaryLog.value.length > 6) legendaryLog.value.pop()
+}
+
+const legendaryLog = ref<string[]>([
+  '系统就绪: legendary_acquisition_transaction.gd 与 registry.gd 契约完成加载',
+  '契约守卫: 四大石板产出精确 11 额度，七色彩尾 1:1 兑换防重复'
+])
+
+const resetLegendaryStudio = () => {
+  tabletObtained.value = {
+    pyramid: true,
+    island_shrine: true,
+    great_trench: false,
+    istory_falls: false
+  }
+  unsealedWeaponsList.value = ['2100', '2101']
+  selectedWeaponToUnseal.value = '2106'
+  tailClaims.value = {
+    pink: false,
+    grey: false,
+    red: false,
+    gold: false,
+    blue: false,
+    yellow: false,
+    green: false
+  }
+  legendaryLog.value = [
+    '重置完成: 远古石板与彩尾交易推演台已恢复初始状态',
+    '默认持有: 金字塔+孤岛神殿石板 (6额度)，已解封 2 件，剩余 4 额度'
+  ]
 }
 </script>

@@ -189,6 +189,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-ancient-tablets-unseal-tail-trade-2026-10-27',
+    version: 'v2.2.201',
+    date: '2026-10-27',
+    title: '四大远古石板解封额度与七色彩尾兑换工坊全息实装',
+    category: 'equipment',
+    categoryName: '实机演进',
+    icon: '🏛️',
+    tagType: 'success',
+    description: '对齐 Godot 引擎 legendary_acquisition_transaction.gd、legendary_acquisition_registry.gd 与 progress.gd 最新实机架构：全息实装四大远古石板 11 点解封额度核算模型 (3+3+3+2)、七色彩尾 1:1 终极武器兑换配方、签发来源票与节点退场即刻失效的内存事务安全守卫。',
+    highlights: [
+      '四大远古石板额度规约 (legendary_acquisition_registry.gd)：金字塔(+3)、孤岛神殿(+3)、大壕沟(+3)、瀑布(+2) 合计严格产出 11 点解封额度，精准匹配 11 件法定封印武器',
+      '七色彩尾 1:1 兑换配方：粉尾(147)➔阿克塞尔(2113)、灰尾(148)➔瓦尔哈拉(2114)、红尾(149)➔鲜血长枪(2115)、金尾(150)➔创世之刃(2116)、蓝尾(151)➔人鱼竖琴(2117)、黄尾(152)➔火箭重锤(2118)、绿尾(153)➔自动连弩(2119)，各限换 1 次防重复',
+      '来源票内存事务 (legendary_acquisition_transaction.gd)：issue_ticket() 强绑定现场宿主与 NPC 引用，发生节点退场 (tree_exiting) 即刻触发票据作废，杜绝重放刷取',
+      '单票即焚防重发：事务处理 (transact) 先 erase(ticket) 后执行背包与进度试算，确保并发或崩溃零坏档',
+      '实装交互推演工坊：四大石板获取勾选、11件神兵额度解封选择、七色彩尾背包增补与 1:1 交易试炼、事务审计追踪',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '支线与委托清单', path: '/vble/sidequests', icon: '📜' },
+      { label: '神兵军械库推演', path: '/vble/armory-simulator', icon: '⚔️' },
+      { label: '装备与工坊图鉴', path: '/vble/equipment', icon: '🛡️' }
+    ]
+  },
+  {
     id: 'up-personal-equipment-rules-projection-2026-10-27',
     version: 'v2.2.200',
     date: '2026-10-27',
