@@ -38,6 +38,9 @@
       </n-input>
     </div>
 
+    <!-- 社交一键全平台分享横幅 -->
+    <SocialShareBar mode="banner" />
+
     <!-- 白皮书网格清单 -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <n-card
@@ -168,6 +171,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { marked } from 'marked'
+import SocialShareBar from '@/components/SocialShareBar.vue'
 import { whitepapersList, type WhitepaperDoc } from '../config/docsConfig'
 
 const selectedCategory = ref('全部类别')

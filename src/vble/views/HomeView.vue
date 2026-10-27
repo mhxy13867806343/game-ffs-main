@@ -447,6 +447,11 @@
       </div>
     </section>
 
+    <!-- 全平台一键社交分享 -->
+    <div class="max-w-7xl mx-auto px-3 sm:px-4">
+      <SocialShareBar mode="banner" />
+    </div>
+
     <!-- 第五屏：实机画廊精选视效展示 -->
     <section class="portal-gallery-preview max-w-7xl mx-auto px-3 sm:px-4">
       <div class="section-header flex items-center justify-between mb-4">
@@ -492,6 +497,7 @@ import {
   homeHeroShowcase,
   homeGuideShortcuts
 } from '../config/homePortalConfig'
+import SocialShareBar from '@/components/SocialShareBar.vue'
 
 const router = useRouter()
 

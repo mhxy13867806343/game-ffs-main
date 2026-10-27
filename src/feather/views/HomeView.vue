@@ -216,10 +216,16 @@
         </div>
       </div>
     </section>
+
+    <!-- 社交一键分享横幅 (展示全部11个社交平台) -->
+    <div class="content-container w-full py-6">
+      <SocialShareBar mode="banner" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import GameCanvas from '../components/GameCanvas.vue'
+import SocialShareBar from '@/components/SocialShareBar.vue'
 import { CHAPTERS_DATA, BOSS_LIST } from '../data/gameData'
 </script>

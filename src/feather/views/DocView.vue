@@ -35,6 +35,9 @@
       </div>
     </div>
 
+    <!-- 社交一键全平台分享横幅 -->
+    <SocialShareBar mode="banner" />
+
     <!-- Layout: Sidebar TOC + Main Markdown Content -->
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
       <!-- Sticky Sidebar TOC -->
@@ -80,6 +83,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { marked } from 'marked'
+import SocialShareBar from '@/components/SocialShareBar.vue'
 import rawDoc from '../data/关卡设计文档_裂空之羽_v1.3.md?raw'
 
 interface TocItem {

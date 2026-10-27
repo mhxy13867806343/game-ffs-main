@@ -2,6 +2,9 @@
   <div class="min-h-screen flex flex-col bg-[#0b0e14]">
     <!-- 主体区域 -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full flex flex-col gap-10">
+      <!-- 全局社交分享横幅 (展示全部11个社交平台) -->
+      <SocialShareBar mode="banner" />
+
       <!-- 板块一：游戏列表 -->
       <section>
         <div class="flex items-center justify-between gap-4 pb-4 border-b border-[#1c2538] mb-6">
@@ -69,6 +72,7 @@ import { computed } from 'vue'
 import GameCard from '@/components/GameCard.vue'
 import DocCard from '@/components/DocCard.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import SocialShareBar from '@/components/SocialShareBar.vue'
 import { gameList, docList } from '@/data/games'
 
 const props = defineProps<{
