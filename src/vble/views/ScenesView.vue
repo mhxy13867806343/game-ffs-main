@@ -101,6 +101,78 @@
       </div>
     </div>
 
+    <!-- 天空之城港口与云海空中接驳工程大典 (基于 Godot SKY_CITY_PORT_ENTRY_DESIGN_2026-10-23.md) -->
+    <div class="bg-gradient-to-r from-slate-950/90 via-cyan-950/40 to-slate-950/90 border border-cyan-800/60 p-4 sm:p-5 rounded-2xl shadow-xl space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-900/40 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🛸</span>
+          <h3 class="text-base sm:text-lg font-bold text-cyan-300">天空之城港口与云海空中接驳工程大典 (Sky City Port & Entry Design)</h3>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <n-tag type="info" size="small" round>sky_city_port (1280×960)</n-tag>
+          <n-tag type="warning" size="small" round>飞空艇独立空中接驳</n-tag>
+          <n-tag type="success" size="small" round>物理与美术严格分离</n-tag>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        实机空域十五景核心节点 <code>sky_city_port</code>，严格依循 2026-10-23 官方批准布局。搭载独立的空中接驳跳板与步行前场，必须校验 <code>WorldTravelData.has_airship()</code> 或 <code>ch06_warship_core</code> 战舰核心里程碑方可准入，杜绝越级空降。
+      </p>
+
+      <!-- 港口核心几何布局与坐标矩阵 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+        <!-- 1. 主浮台地面 -->
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-cyan-800/40 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-300">🧱 主浮台可走地面</span>
+            <n-tag size="tiny" type="info">主区域</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400 font-mono">矩形：[160, 256, 960, 576]</div>
+          <p class="text-[10px] text-gray-400">主要步行地面，按 32 格整齐对齐；外围为高空云海实体不可通行区。</p>
+        </div>
+
+        <!-- 2. 南接驳跳板 -->
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-sky-800/40 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-sky-300">⚓ 南接驳跳板与返艇</span>
+            <n-tag size="tiny" type="warning">接驳口</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400 font-mono">跳板：[544, 832, 192, 96]</div>
+          <p class="text-[10px] text-gray-400">宽 192px 与飞空艇对接。入港点 (640, 768)，返艇交互点 (640, 848)。</p>
+        </div>
+
+        <!-- 3. 中轴净空走廊 -->
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-indigo-800/40 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-300">🚶 中轴连续净空走廊</span>
+            <n-tag size="tiny" type="success">主干道</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400 font-mono">净空：[544, 352, 192, 448]</div>
+          <p class="text-[10px] text-gray-400">连接接驳跳板与北入城前场的通行主廊，严禁堆放货箱或 NPC 阻挡动线。</p>
+        </div>
+
+        <!-- 4. 北入城口 -->
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-amber-800/40 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300">🏛️ 北入城门与中央广场</span>
+            <n-tag size="tiny" type="error">未来拓扑</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400 font-mono">入城：(640, 304) · 返：(640, 400)</div>
+          <p class="text-[10px] text-gray-400">面向未来中央广场 (sky_city_central_plaza)，未开启前安全封闭。</p>
+        </div>
+      </div>
+
+      <!-- 工程准则与资格审查 -->
+      <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-[11px] text-gray-400 space-y-1">
+        <div class="text-cyan-300 font-bold text-xs">🛡️ 空域接驳与安全审查底层规范：</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-[10px] text-gray-400">
+          <div><strong class="text-gray-200">载具准入：</strong>必须拥有 <code>has_airship</code> 航行许可，严禁以步行直达或绕过暴风绝壁前置。</div>
+          <div><strong class="text-gray-200">几何避让：</strong>北门与南跳板返回站位均设置 80px 安全间距，彻底阻断进门即踩门的回弹死循环。</div>
+          <div><strong class="text-gray-200">视差云海：</strong>采用多层 Parallax 云海远景，背景不生成地面碰撞，确保物理与渲染清晰解耦。</div>
+        </div>
+      </div>
+    </div>
+
     <!-- 顶层快捷操作条：场景切换与多维检索 -->
     <div class="bg-[#121626]/90 border border-slate-700/60 p-4 rounded-2xl shadow-xl space-y-4">
       <!-- 场景快捷选择胶囊 -->
