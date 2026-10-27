@@ -2,6 +2,10 @@
 
 游戏首页门户，支持点击卡片跳转到不同游戏页面。
 
+- **在线预览体验**：[https://mhxy13867806343.github.io/game-ffs-main/#/](https://mhxy13867806343.github.io/game-ffs-main/#/)
+
+---
+
 ## 技术栈
 
 - Vue 3 + TypeScript
@@ -29,3 +33,4 @@ pnpm build
 - **Source** 选择：`Deploy from a branch`
 - **Branch** 选择：`gh-pages` / `/(root)`
 - 点击 **Save** 即可发布上线。
+- 访问地址：[https://mhxy13867806343.github.io/game-ffs-main/#/](https://mhxy13867806343.github.io/game-ffs-main/#/)
