@@ -265,6 +265,179 @@
       </div>
     </div>
 
+    <!-- SQ-02 始源神殿晶石残页典籍与中回复白魔法传承 (基于 Godot temple_manuscript_quest.gd 与 field 架构) -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-slate-900/90 to-blue-950/40 border border-cyan-500/40 shadow-xl space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-800/40 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📜</span>
+          <h3 class="text-base sm:text-lg font-bold text-cyan-300">SQ-02 始源神殿晶石残页典籍与中回复白魔法传承 (Temple Manuscript & Cura)</h3>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <n-tag type="info" size="small" round strong>三页残卷 (Item 155~157)</n-tag>
+          <n-tag type="success" size="small" round>中级治疗术 (Cura)</n-tag>
+          <n-tag type="warning" size="small" round>NG+ 周目继承守卫</n-tag>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        实机始源神殿重要支线（<code>temple_manuscript_quest.gd</code> / <code>temple_manuscript_field.gd</code>）：主线第一章基础职业解锁（<code>ch01_basic_jobs</code>）后，向始源神殿西侧侍童甲（<code>npc_t_acolyte_1</code>）接取典籍委托，在神殿石柱两侧与石径旁调查并拾取散落的 3 页晶石典籍残卷，交付后将白魔法【中回复】（<code>cura</code>）原子写入全队公共魔法数据库。
+      </p>
+
+      <!-- 架构三柱石 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-800/40 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-400">🏛️ 三大残卷精确地脉散落</span>
+            <n-tag size="tiny" type="info">POINTS (3)</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400">
+            <strong>西石柱旁：</strong><code>(360, 560)</code> (Item 155)<br />
+            <strong>东石柱旁：</strong><code>(920, 560)</code> (Item 156)<br />
+            <strong>中央石径：</strong><code>(640, 560)</code> (Item 157)
+          </div>
+          <p class="text-[10px] text-gray-400 leading-relaxed">
+            拾取框采用 <code>Rect2(-44, -64, 88, 88)</code>，自动隐藏默认人物轮廓与实体阻挡，形成平整地脉调查光标。
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-emerald-800/40 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400">✨ 中回复 (Cura) 共享入库</span>
+            <n-tag size="tiny" type="success">PLAYER_MAGIC</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400">
+            <strong>交付条件：</strong><code>ready_to_deliver()</code> 持有全部 3 页
+          </div>
+          <p class="text-[10px] text-gray-400 leading-relaxed">
+            原子事务先写入 <code>player_magic (magic_id='cura', purchased=1)</code>，成功后再同帧扣除 3 页残卷，并发放完成旗标。
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-800/40 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-400">🔒 NG+ 继承与防注入守卫</span>
+            <n-tag size="tiny" type="warning">CYCLE GUARD</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-400">
+            <strong>周目合法性：</strong><code>cycle &le; clears + 1</code>
+          </div>
+          <p class="text-[10px] text-gray-400 leading-relaxed">
+            新建普通存档（<code>clear_for_new_game</code>）彻底洗去 Cura 残留；NG+ 继承则核验通关凭证并记录 <code>sq02_cura_inherited</code>。
+          </p>
+        </div>
+      </div>
+
+      <!-- 交互演练台：始源神殿三页残卷采集与中回复交付推演台 -->
+      <div class="p-4 rounded-xl bg-slate-950/90 border border-cyan-500/40 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-cyan-500/20 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🧪</span>
+            <span class="font-bold text-cyan-300">始源神殿三页残卷采集与中回复交付推演台 (Manuscript Studio)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetManuscriptQuest">
+              🔄 重置任务状态
+            </n-button>
+            <n-button size="tiny" secondary type="info" @click="simulateManuscriptNGPlus">
+              ⏩ 模拟 NG+ 周目继承
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 任务状态与拾取控制栏 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block">委托状态 (Story Flags):</span>
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <n-tag size="tiny" :type="manuscriptAccepted ? 'success' : 'default'">
+                {{ manuscriptAccepted ? '已接取 (accepted)' : '未接取' }}
+              </n-tag>
+              <n-tag size="tiny" :type="manuscriptDelivered ? 'warning' : 'default'">
+                {{ manuscriptDelivered ? '已交付 (delivered)' : '未交付' }}
+              </n-tag>
+              <n-tag v-if="curaInherited" size="tiny" type="info">
+                NG+ 继承态
+              </n-tag>
+            </div>
+            <div class="text-[10px] text-gray-500 pt-0.5">
+              NPC: 侍童甲 (npc_t_acolyte_1)
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block">残卷持有情况 (3 页):</span>
+            <div class="flex items-center gap-1">
+              <n-tag size="tiny" :type="hasManuscriptPage[0] ? 'success' : 'error'">页1 (360,560)</n-tag>
+              <n-tag size="tiny" :type="hasManuscriptPage[1] ? 'success' : 'error'">页2 (920,560)</n-tag>
+              <n-tag size="tiny" :type="hasManuscriptPage[2] ? 'success' : 'error'">页3 (640,560)</n-tag>
+            </div>
+            <div class="text-[10px] text-gray-500 pt-0.5">
+              持有: {{ collectedPagesCount }} / 3 页 · {{ isReadyToDeliver ? '满足交付条件！' : '尚未集齐' }}
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block">全队魔法库 (Player Magic):</span>
+            <div class="flex items-center gap-2">
+              <n-tag size="small" :type="hasCuraMagic ? 'success' : 'default'" strong>
+                {{ hasCuraMagic ? '✨ 中回复 (Cura) 已习得' : '🔒 中回复 未解锁' }}
+              </n-tag>
+            </div>
+            <div class="text-[10px] text-gray-500 pt-0.5">
+              白魔法 Lv2 · 消耗 9 MP · 全体中量恢复
+            </div>
+          </div>
+        </div>
+
+        <!-- 地脉调查点与交互按钮 -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+          <n-button
+            size="small"
+            secondary
+            :type="hasManuscriptPage[0] ? 'success' : 'primary'"
+            :disabled="!manuscriptAccepted || manuscriptDelivered"
+            @click="toggleManuscriptPage(0)"
+          >
+            {{ hasManuscriptPage[0] ? '✅ 西石柱残页已拾' : '🔍 调查西石柱 (360,560)' }}
+          </n-button>
+          <n-button
+            size="small"
+            secondary
+            :type="hasManuscriptPage[1] ? 'success' : 'primary'"
+            :disabled="!manuscriptAccepted || manuscriptDelivered"
+            @click="toggleManuscriptPage(1)"
+          >
+            {{ hasManuscriptPage[1] ? '✅ 东石柱残页已拾' : '🔍 调查东石柱 (920,560)' }}
+          </n-button>
+          <n-button
+            size="small"
+            secondary
+            :type="hasManuscriptPage[2] ? 'success' : 'primary'"
+            :disabled="!manuscriptAccepted || manuscriptDelivered"
+            @click="toggleManuscriptPage(2)"
+          >
+            {{ hasManuscriptPage[2] ? '✅ 中央石路残页已拾' : '🔍 调查中央路 (640,560)' }}
+          </n-button>
+          <n-button
+            size="small"
+            type="warning"
+            :disabled="!manuscriptAccepted || manuscriptDelivered"
+            @click="deliverManuscriptPages"
+          >
+            🎁 交付残卷学中回复
+          </n-button>
+        </div>
+
+        <!-- 任务审计追踪日志 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800 text-[10px] font-mono space-y-1">
+          <div class="text-gray-500 font-bold">任务执行事务追踪 (TempleManuscript Trace):</div>
+          <div v-for="(log, idx) in manuscriptLog" :key="idx" class="text-cyan-300/90 truncate">
+            &gt; {{ log }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 宁静村居民深度会话与可选回应系统 (基于 Godot NPC_OPTIONAL_INTERACTION_DESIGN_2026-10-23.md) -->
     <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-slate-900/90 to-teal-950/40 border border-emerald-500/40 shadow-xl space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-800/40 pb-2.5">
@@ -518,5 +691,71 @@ const resetChocoboCircuit = () => {
 const claimMirageVest = () => {
   if (currentChocoboStep.value < 16) return
   isVestClaimed.value = true
+}
+
+// ================= SQ-02 始源神殿残卷任务模拟器 (temple_manuscript_quest.gd) =================
+const manuscriptAccepted = ref(true)
+const manuscriptDelivered = ref(false)
+const curaInherited = ref(false)
+const hasManuscriptPage = ref<[boolean, boolean, boolean]>([false, false, false])
+const hasCuraMagic = ref(false)
+
+const manuscriptLog = ref<string[]>([
+  '始源神殿：向侍童甲接取委托 [sq02_manuscript_accepted]，地脉 3 处调查标记已激活。'
+])
+
+const collectedPagesCount = computed(() => {
+  return hasManuscriptPage.value.filter(Boolean).length
+})
+
+const isReadyToDeliver = computed(() => {
+  return manuscriptAccepted.value && !manuscriptDelivered.value && hasManuscriptPage.value.every(Boolean)
+})
+
+const toggleManuscriptPage = (idx: number) => {
+  const titles = ['西石柱旁的残页 (360,560)', '东石柱旁的残页 (920,560)', '中央石路旁的残页 (640,560)']
+  hasManuscriptPage.value[idx] = !hasManuscriptPage.value[idx]
+  if (hasManuscriptPage.value[idx]) {
+    manuscriptLog.value.unshift(`📜 拾取 [${titles[idx]}] (Item ${155 + idx})，设置 flag: sq02_manuscript_page_${idx + 1}。`)
+  } else {
+    manuscriptLog.value.unshift(`↩️ 移除 [${titles[idx]}]。`)
+  }
+  if (manuscriptLog.value.length > 6) manuscriptLog.value.pop()
+}
+
+const deliverManuscriptPages = () => {
+  if (!isReadyToDeliver.value) {
+    manuscriptLog.value.unshift('❌ 侍童甲：“请把三页晶石典籍都带回来，我会教你中回复。”')
+    if (manuscriptLog.value.length > 6) manuscriptLog.value.pop()
+    return
+  }
+  manuscriptDelivered.value = true
+  hasManuscriptPage.value = [false, false, false] // 交付扣除 3 页
+  hasCuraMagic.value = true
+  manuscriptLog.value.unshift('🎉 交付成功！原子写入 player_magic [cura] (purchased=1)，扣除三页残卷，习得白魔法【中回复】(Cura)！')
+  if (manuscriptLog.value.length > 6) manuscriptLog.value.pop()
+}
+
+const resetManuscriptQuest = () => {
+  manuscriptAccepted.value = true
+  manuscriptDelivered.value = false
+  curaInherited.value = false
+  hasManuscriptPage.value = [false, false, false]
+  hasCuraMagic.value = false
+  manuscriptLog.value.unshift('🔄 重置任务状态：已重新接取委托，背包中三页残卷已清空，中回复锁定。')
+  if (manuscriptLog.value.length > 6) manuscriptLog.value.pop()
+}
+
+const simulateManuscriptNGPlus = () => {
+  if (!hasCuraMagic.value) {
+    manuscriptLog.value.unshift('⚠️ 本周目尚未习得中回复 (Cura)，NG+ 无法继承未解锁魔法。')
+    if (manuscriptLog.value.length > 6) manuscriptLog.value.pop()
+    return
+  }
+  curaInherited.value = true
+  manuscriptAccepted.value = false
+  manuscriptDelivered.value = false
+  manuscriptLog.value.unshift('✨ 跃迁至 NG+ 周目！核验通关凭证合规 (cycle <= clears + 1)，设置 sq02_cura_inherited = true，保留中回复 (Cura)！')
+  if (manuscriptLog.value.length > 6) manuscriptLog.value.pop()
 }
 </script>

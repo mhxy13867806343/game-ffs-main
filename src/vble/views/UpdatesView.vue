@@ -189,6 +189,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-sq02-temple-manuscript-cura-2026-10-27',
+    version: 'v2.2.192',
+    date: '2026-10-27',
+    title: 'SQ-02 始源神殿晶石残页典籍与中回复传承推演台实装',
+    category: 'system',
+    categoryName: '支线与探索',
+    icon: '📜',
+    tagType: 'success',
+    description: '对齐 Godot 引擎 temple_manuscript_quest.gd 与 temple_manuscript_field.gd 最新实机架构：全息实装神殿三大地脉残卷坐标、侍童甲 (npc_t_acolyte_1) 任务流、白魔法中回复 (Cura) 数据库原子入库与 NG+ 周目继承守卫。',
+    highlights: [
+      '三大地脉残页精确分布 (POINTS)：西石柱旁 (360, 560, Item 155)、东石柱旁 (920, 560, Item 156)、中央石路旁 (640, 560, Item 157)，Rect2(-44, -64, 88, 88) 平整地脉光标',
+      '中回复 (Cura) 原子入库 (deliver)：满足 ready_to_deliver() 后事务写入全队共享 player_magic 表 (magic_id=\'cura\', purchased=1)，同帧扣除 3 页残卷并立项 sq02_manuscript_delivered',
+      'NG+ 周目继承守卫：严密核验 cycle <= clears + 1 通关凭证，设置 sq02_cura_inherited = true；普通新局自动彻底洗净 Cura 残留防注入',
+      '实装交互式「始源神殿三页残卷采集与中回复交付推演台」：3 处地脉调查拾取、交付判定、NG+ 继承推演与生命周期事务日志',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '支线任务与全域巡礼', path: '/vble/sidequests', icon: '📜' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '迷宫与深渊斗技场', path: '/vble/dungeons', icon: '🏰' }
+    ]
+  },
+  {
     id: 'up-tavern-buzz-state-engine-2026-10-27',
     version: 'v2.2.191',
     date: '2026-10-27',
