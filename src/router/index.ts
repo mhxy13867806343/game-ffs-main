@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 
 const router = createRouter({
-  // 使用 Hash 模式（带 #），确保离线/单机/静态打包部署时路径完全正常且不 404
+  // Hash 模式（URL 带 #）
   history: createWebHashHistory(),
   routes: [
     {
@@ -10,12 +10,6 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: { title: 'GAME FFS - 游戏首页' }
-    },
-    {
-      path: '/play/:id',
-      name: 'play',
-      component: () => import('@/views/PlayView.vue'),
-      meta: { title: '游戏运行 - GAME FFS' }
     }
   ],
   scrollBehavior(_to, _from, savedPosition) {
