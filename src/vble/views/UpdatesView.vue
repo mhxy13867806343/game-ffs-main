@@ -189,6 +189,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-dual-wield-rules-genji-studio-2026-10-27',
+    version: 'v2.2.194',
+    date: '2026-10-27',
+    title: '二刀流双持双武法则与源氏护手验算工坊全息实装',
+    category: 'equipment',
+    categoryName: '实机演进',
+    icon: '⚔️',
+    tagType: 'warning',
+    description: '对齐 Godot 引擎 dual_wield_rules.gd 最新实机架构：全息实装四大神兵白名单 (2003/2004/2005/2053)、三大资格独立获取通道、双手武器与盾牌严格互斥法则及副手原槽封存不退包安全底线。',
+    highlights: [
+      '四大白名单神兵 (WEAPONS)：2003 (符文之刃)、2004 (佐助之刃)、2005 (正宗)、2053 (菊一文字)，仅当主副手均为白名单武器时激活双挥',
+      '三大独立资格通道：满足「ninja_teaching_v1_dual_wield」教学旗、忍者职业精通被动继承、或饰品槽佩戴「源氏护手」(2101) 其一即享双持',
+      '严格互斥与冲突守卫：持盾 (shield != "") 或使用双手弓 (2105 与一之弓) 即刻判定 two_hand_conflict 拦截，彻底禁用副手武器',
+      '副手原槽封存安全守卫：资格失效或脱下源氏护手时，副手武器在槽位内安全封存置灰，攻击归零，绝不偷偷退回背包造成丢装坏档',
+      '实装交互式「二刀流装配与独立双挥推演台」：主副手/盾牌实时组合验算、双列物理攻击矩阵与生命周期合法性日志',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '神兵军械库推演', path: '/vble/armory-simulator', icon: '⚔️' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '属性成长模型', path: '/vble/attributes', icon: '📊' }
+    ]
+  },
+  {
     id: 'up-vein-cave-tide-cave-routes-2026-10-27',
     version: 'v2.2.193',
     date: '2026-10-27',

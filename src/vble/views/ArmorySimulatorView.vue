@@ -571,6 +571,177 @@
       </div>
     </div>
 
+    <!-- ================= 二刀流双持双武法则与源氏护手验算工坊 (基于 dual_wield_rules.gd 实机规范) ================= -->
+    <div class="bg-[#121626]/95 border border-indigo-500/50 p-4 sm:p-5 rounded-2xl shadow-xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-900/40 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">⚔️</span>
+          <div>
+            <h3 class="text-base font-bold text-gray-100 flex items-center gap-2">
+              <span>二刀流双持双武法则与源氏护手验算工坊 (Dual Wield Studio)</span>
+              <n-tag size="tiny" type="warning" round>dual_wield_rules.gd</n-tag>
+            </h3>
+            <span class="text-xs text-gray-400">
+              对齐 Godot 引擎二刀流双武白名单 (WEAPONS)、三大资格来源与副手原槽封存防御机制
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <n-tag :type="isDualWieldActive ? 'success' : 'error'" size="small" round strong>
+            {{ isDualWieldActive ? '⚔️ 二刀流：激活 (Active)' : '🔒 二刀流：失效/未就绪' }}
+          </n-tag>
+        </div>
+      </div>
+
+      <!-- 核心三柱石设计 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-indigo-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-400">📜 三大独立资格获取通道</span>
+            <n-tag size="tiny" type="info">ELIGIBILITY</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>满足其一即生效：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>忍者教学旗标：</strong><code>ninja_teaching_v1_dual_wield = true</code>。</li>
+            <li><strong>职业精通继承：</strong>转职精通忍者，获得被动双持特权。</li>
+            <li><strong>源氏护手佩戴：</strong>饰品槽装备【源氏护手】(<code>2101</code>)，临时赋予双持能力。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-amber-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-400">🗡️ 四大神兵白名单 (WEAPONS)</span>
+            <n-tag size="tiny" type="warning">WHITELIST</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>仅以下主副手武器支持双持：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>2003 (符文之刃):</strong> 基础攻速敏捷配装，单手剑。</li>
+            <li><strong>2004 (佐助之刃):</strong> 忍者专属忍刀，高暴击附加闪避。</li>
+            <li><strong>2005 (正宗):</strong> 先制攻击特性，极高攻击力。</li>
+            <li><strong>2053 (菊一文字):</strong> 传统名刀，破甲与追加挥砍。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-rose-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-rose-400">🛡️ 盾牌互斥与原槽封存安全</span>
+            <n-tag size="tiny" type="error">SECURITY</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>严格防丢装与互斥保护：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>盾牌严密互斥：</strong>副手佩盾 (<code>shield != ""</code>) 立即抑制副手武器。</li>
+            <li><strong>双手弓冲突：</strong>双手武器 (如 2105 与一之弓) 强行拦截副手装配。</li>
+            <li><strong>原槽封存不退包：</strong>脱下源氏护手时，副手武器在槽内禁用，绝不偷偷退回背包。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 交互推演台: 二刀流装配与独立双挥推演 -->
+      <div class="p-4 bg-slate-950/90 rounded-xl border border-indigo-700/40 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-indigo-900/30 pb-2">
+          <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+            <span>🧪</span>
+            <span>二刀流资格与装配即时演算台</span>
+          </span>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetDualWieldStudio">
+              🔄 重置模拟
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 资格开关栏 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+          <label class="flex items-center gap-2 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" v-model="dwFlagTeaching" />
+            <span>忍者传授旗标 (Teaching Flag)</span>
+          </label>
+          <label class="flex items-center gap-2 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" v-model="dwJobMastery" />
+            <span>忍者精通被动 (Mastery Inherit)</span>
+          </label>
+          <label class="flex items-center gap-2 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" v-model="dwHasGenjiGlove" />
+            <span>佩戴【源氏护手】(Relic Genji)</span>
+          </label>
+        </div>
+
+        <!-- 装备插槽配置 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">主手武器 (Mainhand Slot):</span>
+            <n-select v-model:value="dwMainhandWeapon" size="small" :options="dwMainhandOptions" />
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">副手武器 (Offhand Weapon Slot):</span>
+            <n-select v-model:value="dwOffhandWeapon" size="small" :options="dwOffhandOptions" />
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">副手盾牌 (Shield Slot - 互斥槽):</span>
+            <n-select v-model:value="dwShield" size="small" :options="dwShieldOptions" />
+          </div>
+        </div>
+
+        <!-- 验算结果矩阵 -->
+        <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-gray-300">双挥状态核算：</span>
+              <n-tag size="small" :type="isDualWieldActive ? 'success' : 'error'">
+                {{ dwVerdictText }}
+              </n-tag>
+            </div>
+            <div class="text-[11px] font-mono text-cyan-300">
+              Format: dual_wield_format_version = 1.0
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center pt-1">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">主手物理攻击 (Hit 1)</div>
+              <div class="text-lg font-mono font-bold text-amber-400">ATK +{{ dwMainAtk }}</div>
+              <div class="text-[9px] text-gray-500">主手动作独立发起</div>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">副手物理攻击 (Hit 2)</div>
+              <div class="text-lg font-mono font-bold" :class="isDualWieldActive ? 'text-emerald-400' : 'text-gray-500 line-through'">
+                ATK +{{ isDualWieldActive ? dwOffAtk : 0 }}
+              </div>
+              <div class="text-[9px]" :class="isDualWieldActive ? 'text-emerald-400' : 'text-rose-400'">
+                {{ isDualWieldActive ? '二刀流激活 · 独立追击' : '已封存抑制 · 不产生攻击' }}
+              </div>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">物理格挡护甲 (Shield DEF)</div>
+              <div class="text-lg font-mono font-bold" :class="dwShield ? 'text-cyan-400' : 'text-gray-500'">
+                DEF +{{ dwShieldDef }}
+              </div>
+              <div class="text-[9px] text-gray-500">
+                {{ dwShield ? '持盾防御激活 (禁止二刀流)' : '无盾牌占用' }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 追踪日志 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-1">
+          <div class="text-gray-500 font-bold">二刀流生命周期与合法性日志 (DualWield Trace):</div>
+          <div v-for="(log, idx) in dwTraceLog" :key="idx" class="text-indigo-300 truncate">
+            &gt; {{ log }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ================= 全域神兵与防具全景展示库 (用户要求：选人装备 + 点击查看图片详情) ================= -->
     <div class="space-y-4 pt-6 border-t border-slate-800">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1699,4 +1870,105 @@ onMounted(() => {
     applyOptimalLoadoutForHero(liChuan)
   }
 })
+
+// ================= 二刀流双持双武法则与源氏护手验算工坊 (dual_wield_rules.gd) =================
+const dwFlagTeaching = ref(false)
+const dwJobMastery = ref(false)
+const dwHasGenjiGlove = ref(true)
+
+const dwMainhandWeapon = ref('2005') // 正宗
+const dwOffhandWeapon = ref('2004') // 佐助之刃
+const dwShield = ref('') // 盾牌
+
+const dwMainhandOptions = [
+  { label: '2005: 正宗 (ATK +150 · 先制攻击 · WEAPONS白名单)', value: '2005' },
+  { label: '2004: 佐助之刃 (ATK +99 · 敏捷+5 · WEAPONS白名单)', value: '2004' },
+  { label: '2003: 符文之刃 (ATK +50 · 魔力+3 · WEAPONS白名单)', value: '2003' },
+  { label: '2053: 菊一文字 (ATK +88 · 暴击+15% · WEAPONS白名单)', value: '2053' },
+  { label: '2105: 与一之弓 (ATK +110 · 双手持用 · 互斥双手武器)', value: '2105' }
+]
+
+const dwOffhandOptions = [
+  { label: '2004: 佐助之刃 (ATK +99 · WEAPONS白名单)', value: '2004' },
+  { label: '2053: 菊一文字 (ATK +88 · WEAPONS白名单)', value: '2053' },
+  { label: '2003: 符文之刃 (ATK +50 · WEAPONS白名单)', value: '2003' },
+  { label: '2005: 正宗 (ATK +150 · WEAPONS白名单)', value: '2005' },
+  { label: '（空槽）不配置副手武器', value: '' }
+]
+
+const dwShieldOptions = [
+  { label: '（无盾牌）副手未持盾 (允许双持)', value: '' },
+  { label: '2081: 源氏之盾 (DEF +45 · 物理格挡 · 互斥二刀流)', value: '2081' },
+  { label: '2082: 圣王之盾 (DEF +60 · 全属性耐性 · 互斥二刀流)', value: '2082' }
+]
+
+const weaponAtkMap: Record<string, number> = {
+  '2003': 50,
+  '2004': 99,
+  '2005': 150,
+  '2053': 88,
+  '2105': 110
+}
+
+const dwMainAtk = computed(() => weaponAtkMap[dwMainhandWeapon.value] || 0)
+const dwOffAtk = computed(() => weaponAtkMap[dwOffhandWeapon.value] || 0)
+const dwShieldDef = computed(() => dwShield.value === '2081' ? 45 : dwShield.value === '2082' ? 60 : 0)
+
+const isDwEligible = computed(() => {
+  return dwFlagTeaching.value || dwJobMastery.value || dwHasGenjiGlove.value
+})
+
+const isDualWieldActive = computed(() => {
+  if (!isDwEligible.value) return false
+  if (dwMainhandWeapon.value === '2105') return false // 双手武器互斥
+  if (dwShield.value !== '') return false // 盾牌互斥
+  const DW_WEAPONS = ['2003', '2004', '2005', '2053']
+  return DW_WEAPONS.includes(dwMainhandWeapon.value) && DW_WEAPONS.includes(dwOffhandWeapon.value)
+})
+
+const dwVerdictText = computed(() => {
+  if (dwMainhandWeapon.value === '2105') {
+    return '🚫 双手武器冲突：与一之弓 (2105) 占用双手，禁止副手武器与盾牌'
+  }
+  if (dwShield.value !== '') {
+    return '🚫 盾牌互斥冲突：副手槽位已被盾牌占用 (two_hand_conflict)'
+  }
+  if (!isDwEligible.value) {
+    return '🔒 资格未达成：需忍者教学旗标、精通被动或源氏护手 (relic_requirements)'
+  }
+  if (!dwOffhandWeapon.value) {
+    return '⚪ 单手持用中：副手未装配武器，按常规单持结算'
+  }
+  if (isDualWieldActive.value) {
+    return '✅ 二刀流激活：主副手双武出鞘，支持独立双挥追击！'
+  }
+  return '⚠️ 装备受阻：非二刀流白名单武器'
+})
+
+const dwTraceLog = computed(() => {
+  const logs: string[] = []
+  const sources: string[] = []
+  if (dwFlagTeaching.value) sources.push('忍者教学旗')
+  if (dwJobMastery.value) sources.push('忍者职业精通')
+  if (dwHasGenjiGlove.value) sources.push('源氏护手佩戴')
+  logs.push(`资格审查: ${sources.length > 0 ? sources.join(' + ') : '无有效双持资格'}`)
+  if (dwMainhandWeapon.value === '2105') {
+    logs.push('拦截: 主手 2105 属性为双手武器，offhand_conflict 成立')
+  } else if (dwShield.value) {
+    logs.push(`拦截: shield=\'${dwShield.value}\'，副手武器原槽封存禁用`)
+  } else if (isDualWieldActive.value) {
+    logs.push(`就绪: 主手[${dwMainhandWeapon.value}] + 副手[${dwOffhandWeapon.value}] 符合 WEAPONS 契约，双挥激活`)
+  }
+  logs.push(`入档保全: dual_wield_format_version = 1.0, 槽位变更不退包`)
+  return logs
+})
+
+const resetDualWieldStudio = () => {
+  dwFlagTeaching.value = false
+  dwJobMastery.value = false
+  dwHasGenjiGlove.value = true
+  dwMainhandWeapon.value = '2005'
+  dwOffhandWeapon.value = '2004'
+  dwShield.value = ''
+}
 </script>
