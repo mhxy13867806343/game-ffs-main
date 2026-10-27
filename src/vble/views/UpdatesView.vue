@@ -189,6 +189,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-mysidia-magic-effects-personal-cost-2026-10-27',
+    version: 'v2.2.198',
+    date: '2026-10-27',
+    title: '米西迪亚五大秘术与白魔专属魔导消耗折减架构全息实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🔮',
+    tagType: 'info',
+    description: '对齐 Godot 引擎 mysidia_magic_effects.gd 与 personal_magic_cost.gd 最新实机架构：全息实装米西迪亚全复活、爆炎、爆雪、全域强加速与重力术五大课业规约，白魔专属圣物 (Item 2121) 友方治疗/复活 50% MP 折减算法，以及非 Boss 战时重力术削减 25% 当前生命的严谨安全门禁。',
+    highlights: [
+      '米西迪亚五大秘术规约 (mysidia_magic_effects.gd)：全复活(mysidia_arise, MP 60, 满血复生)、爆炎(mysidia_firaga, MP 40, 威力240)、爆雪(mysidia_blizzaga, MP 40, 威力240)、全域强加速(mysidia_hastega, MP 30, 全友ATB+50%)、重力术(mysidia_gravity, MP 24, 25%削血)',
+      '白魔专属折减算法 (personal_magic_cost.gd)：佩戴白魔专属圣物 (Item 2121) 时，对友方释放 cure, cura, curaga, life, mysidia_arise 自动享受 50% MP 折扣 (maxi(1, ceili(cost * 0.5)))',
+      '重力术防 Boss 穿透门禁：严苛检查 is_boss 与 boss_phases 遭遇环境，遭遇 Boss 或状态免疫时伤害强制归零，非 Boss 目标以 mini(target.hp - 1, floor(target.hp * 0.25)) 钳制',
+      '零持久化污染：战时折减与伤害计算即时生成，绝不写入数据库底层魔法条目，确保读档与转职安全',
+      '实装交互推演台：秘术类型切换、友方/敌方阵营选择、Boss遭遇开关、Item 2121 佩戴开关与实时 MP 折减演算展示',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '属性成长模型', path: '/vble/attributes', icon: '📊' },
+      { label: '战斗法则与试炼', path: '/vble/battle-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-sealed-weapons-rules-chase-studio-2026-10-27',
     version: 'v2.2.197',
     date: '2026-10-27',

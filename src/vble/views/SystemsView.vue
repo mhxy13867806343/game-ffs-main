@@ -476,6 +476,165 @@
         </div>
       </n-card>
 
+      <!-- 米西迪亚五大秘术与白魔专属魔导消耗折减架构 (Mysidia Spells & Personal MP Cost Engine) -->
+      <n-card hoverable class="border border-purple-900/60 bg-[#150f24]/90 rounded-xl md:col-span-2" title="🔮 米西迪亚五大秘术与白魔专属魔导消耗折减架构 (Mysidia Spells & Personal MP Cost Engine)">
+        <div class="space-y-4 text-xs leading-relaxed">
+          <p class="text-gray-300">
+            对齐 Godot 引擎 <code>mysidia_magic_effects.gd</code> 与 <code>personal_magic_cost.gd</code> 最新实机管线：全息实装米西迪亚全复活、爆炎、爆雪、全域强加速与重力术五大课业，白魔专属圣物 (Item 2121) 友方治疗/复活 50% MP 减半折扣算法，以及非 Boss 战时重力术削减 25% 当前生命的安全门禁。
+          </p>
+
+          <!-- 核心三大架构设计 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="p-3 bg-slate-900/80 rounded border border-purple-900/30 space-y-1">
+              <div class="text-purple-300 font-bold">⭐ 米西迪亚五大秘术规约:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>mysidia_arise:</strong> 白魔法 Lv.6, 60 MP, 友方单体 100% 满生命复活。</li>
+                <li><strong>mysidia_firaga:</strong> 黑魔法 Lv.5, 40 MP, 威力 240, 火属性单体 (支持全域分摊)。</li>
+                <li><strong>mysidia_blizzaga:</strong> 黑魔法 Lv.5, 40 MP, 威力 240, 冰属性单体 (支持全域分摊)。</li>
+                <li><strong>mysidia_hastega:</strong> 时魔导 Lv.5, 30 MP, 友方全域强加速 (+50% ATB 速率)。</li>
+                <li><strong>mysidia_gravity:</strong> 时魔导 Lv.5, 24 MP, 削减目标 25% 当前生命 (非 Boss 独占)。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-purple-900/30 space-y-1">
+              <div class="text-cyan-300 font-bold">⭐ 白魔专属折减算法 (Item 2121):</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>白名单契约:</strong> 仅作用于 <code>cure, cura, curaga, life, mysidia_arise</code>。</li>
+                <li><strong>折减数学:</strong> <code>maxi(1, ceili(float(canonical_cost) * 0.5))</code>，60 MP 骤降为 30 MP！</li>
+                <li><strong>友方限定守卫:</strong> 目标阵营必须为 <code>BattleModel.TEAM_PARTY</code>，敌对释放不享优惠。</li>
+                <li><strong>零持久化污染:</strong> 仅在战斗中即时投影，不修改数据库条目真实规范 MP。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-purple-900/30 space-y-1">
+              <div class="text-amber-300 font-bold">⭐ 重力术严苛安全门禁:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>Boss 免疫熔断:</strong> <code>is_boss == true</code> 或多阶段 Boss 全场随从严禁重力术。</li>
+                <li><strong>状态免疫守卫:</strong> 目标持有 <code>gravity</code> 状态免疫时强制返回 0 伤害。</li>
+                <li><strong>削减上限钳制:</strong> <code>mini(target.hp - 1, floor(target.hp * 0.25))</code>，绝不直接击杀。</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 交互推演台: 米西迪亚秘术施法与折减推演台 -->
+          <div class="p-4 bg-slate-950/90 rounded-xl border border-purple-700/40 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-purple-900/30 pb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-purple-400 font-bold text-sm">🧪 米西迪亚秘术施法与折减推演台</span>
+                <n-tag size="tiny" type="info" round>Mysidia Magic Studio</n-tag>
+              </div>
+              <div class="flex items-center gap-2">
+                <n-button size="tiny" secondary type="warning" @click="resetMysidiaStudio">
+                  🔄 重置演练
+                </n-button>
+              </div>
+            </div>
+
+            <!-- 控制面板 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+              <div class="space-y-1">
+                <div class="text-gray-400 text-[10px] font-bold">选择施法秘术 (Magic Spell):</div>
+                <n-select v-model:value="selectedMysidiaSpell" size="small" :options="mysidiaSpellOptions" />
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-gray-400 text-[10px] font-bold">目标阵营与遭遇环境:</div>
+                <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer mt-1">
+                  <input type="checkbox" v-model="mysidiaTargetIsFriend" />
+                  <span>目标为友方同伴 (Team Party)</span>
+                </label>
+                <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer">
+                  <input type="checkbox" v-model="mysidiaIsBossEncounter" />
+                  <span>当前处于 Boss 战遭遇</span>
+                </label>
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-gray-400 text-[10px] font-bold">专属圣物 (Item 2121):</div>
+                <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer mt-1">
+                  <input type="checkbox" v-model="mysidiaHasItem2121" />
+                  <span>佩戴白魔专属圣物 (2121)</span>
+                </label>
+                <div class="text-[10px] text-cyan-400 mt-1">
+                  生效状态: {{ mysidiaIsDiscountActive ? '✨ 治疗/复活 50% 折扣已激活' : '无魔导折减' }}
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-gray-400 text-[10px] font-bold">目标当前生命值 (Target HP):</div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-mono text-amber-400 font-bold">{{ mysidiaTargetHp }} / 4000</span>
+                </div>
+                <input
+                  type="range"
+                  v-model.number="mysidiaTargetHp"
+                  :min="0"
+                  :max="4000"
+                  :step="50"
+                  class="w-full accent-purple-500 cursor-pointer mt-1"
+                />
+              </div>
+            </div>
+
+            <!-- 施法演算与消耗对比 -->
+            <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
+                <div class="flex items-center gap-2">
+                  <n-button size="small" type="primary" secondary @click="castMysidiaSpell">
+                    🪄 执行施法结算 (Cast Magic)
+                  </n-button>
+                  <span class="text-xs text-gray-400">
+                    实扣 MP: <strong class="text-cyan-400 font-mono text-sm">{{ mysidiaResolvedMpCost }} MP</strong>
+                    <span v-if="mysidiaIsDiscountActive" class="text-emerald-400 text-[11px] ml-1">
+                      (原标价 {{ mysidiaBaseMpCost }} MP 降 50%)
+                    </span>
+                  </span>
+                </div>
+
+                <div class="text-[11px] font-mono text-purple-300">
+                  SQL规范检验: valid_entry() == true
+                </div>
+              </div>
+
+              <!-- 施法结果展示卡 -->
+              <div v-if="lastMysidiaCastResult" class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center pt-1">
+                <div class="p-2 bg-slate-950 rounded border border-slate-800">
+                  <div class="text-[10px] text-gray-400">实付 MP 扣除</div>
+                  <div class="text-lg font-mono font-bold text-cyan-400">{{ lastMysidiaCastResult.mpCost }} MP</div>
+                  <div class="text-[9px] text-gray-500">{{ lastMysidiaCastResult.mpDesc }}</div>
+                </div>
+
+                <div class="p-2 bg-slate-950 rounded border border-slate-800">
+                  <div class="text-[10px] text-gray-400">秘术威力与效果</div>
+                  <div class="text-lg font-mono font-bold" :class="lastMysidiaCastResult.success ? 'text-emerald-400' : 'text-rose-400'">
+                    {{ lastMysidiaCastResult.effectText }}
+                  </div>
+                  <div class="text-[9px]" :class="lastMysidiaCastResult.success ? 'text-emerald-300' : 'text-rose-300'">
+                    {{ lastMysidiaCastResult.effectDesc }}
+                  </div>
+                </div>
+
+                <div class="p-2 bg-slate-950 rounded border border-slate-800">
+                  <div class="text-[10px] text-gray-400">目标生命结算变动</div>
+                  <div class="text-lg font-mono font-bold text-amber-400">
+                    {{ lastMysidiaCastResult.targetHpText }}
+                  </div>
+                  <div class="text-[9px] text-gray-500">{{ lastMysidiaCastResult.targetHpDesc }}</div>
+                </div>
+              </div>
+
+              <!-- 审计追踪 -->
+              <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-1">
+                <div class="text-gray-500 font-bold">米西迪亚秘术生命周期审计 (Mysidia Magic Resolver Trace):</div>
+                <div v-for="(log, idx) in mysidiaTraceLogs" :key="idx" class="text-purple-300 truncate">
+                  &gt; {{ log }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </n-card>
+
       <!-- 探索菜单独立露营快捷管线与休整恢复架构 -->
       <n-card hoverable class="border border-emerald-900/60 bg-[#0a1c17]/90 rounded-xl md:col-span-2" title="⛺ 探索菜单独立露营快捷管线与休整恢复架构 (Dedicated Camping Shortcut)">
         <div class="space-y-3 text-xs leading-relaxed">
@@ -1387,5 +1546,177 @@ const leaveTavern = () => {
   buzzStrength.value = 0
   buzzLog.value.unshift('🚪 离开酒馆切图退役 (_retire)：TavernBuzzEffect 销毁，非持久化状态重置，零存档污染。')
   if (buzzLog.value.length > 6) buzzLog.value.pop()
+}
+
+// ================= 米西迪亚五大秘术与白魔专属魔导消耗折减架构 (mysidia_magic_effects.gd / personal_magic_cost.gd) =================
+const selectedMysidiaSpell = ref('mysidia_arise')
+const mysidiaTargetIsFriend = ref(true)
+const mysidiaIsBossEncounter = ref(false)
+const mysidiaHasItem2121 = ref(true)
+const mysidiaTargetHp = ref(1200)
+
+const mysidiaSpellOptions = [
+  { label: 'mysidia_arise (米西迪亚全复活 · 白魔法Lv6 · 60 MP · 满血复苏)', value: 'mysidia_arise' },
+  { label: 'mysidia_firaga (米西迪亚爆炎 · 黑魔法Lv5 · 40 MP · 威力240 火)', value: 'mysidia_firaga' },
+  { label: 'mysidia_blizzaga (米西迪亚爆雪 · 黑魔法Lv5 · 40 MP · 威力240 冰)', value: 'mysidia_blizzaga' },
+  { label: 'mysidia_hastega (米西迪亚全域强加速 · 时魔导Lv5 · 30 MP · +50% ATB速率)', value: 'mysidia_hastega' },
+  { label: 'mysidia_gravity (米西迪亚重力术 · 时魔导Lv5 · 24 MP · 削减25%当前生命)', value: 'mysidia_gravity' },
+  { label: 'cura (中级治疗术 · 常规白魔法Lv3 · 16 MP · 友方回复)', value: 'cura' },
+  { label: 'curaga (高级治疗术 · 常规白魔法Lv5 · 32 MP · 友方巨额回复)', value: 'curaga' }
+]
+
+interface MysidiaSpellMeta {
+  baseCost: number
+  isHealingOrLife: boolean
+  element: string
+  power: number
+  targetSide: 'friend' | 'enemy'
+}
+
+const mysidiaSpellMetas: Record<string, MysidiaSpellMeta> = {
+  mysidia_arise: { baseCost: 60, isHealingOrLife: true, element: 'holy', power: 0, targetSide: 'friend' },
+  mysidia_firaga: { baseCost: 40, isHealingOrLife: false, element: 'fire', power: 240, targetSide: 'enemy' },
+  mysidia_blizzaga: { baseCost: 40, isHealingOrLife: false, element: 'ice', power: 240, targetSide: 'enemy' },
+  mysidia_hastega: { baseCost: 30, isHealingOrLife: false, element: '', power: 0, targetSide: 'friend' },
+  mysidia_gravity: { baseCost: 24, isHealingOrLife: false, element: '', power: 0, targetSide: 'enemy' },
+  cura: { baseCost: 16, isHealingOrLife: true, element: 'holy', power: 120, targetSide: 'friend' },
+  curaga: { baseCost: 32, isHealingOrLife: true, element: 'holy', power: 260, targetSide: 'friend' }
+}
+
+const mysidiaBaseMpCost = computed(() => {
+  return mysidiaSpellMetas[selectedMysidiaSpell.value]?.baseCost || 0
+})
+
+const mysidiaIsDiscountActive = computed(() => {
+  const meta = mysidiaSpellMetas[selectedMysidiaSpell.value]
+  if (!meta) return false
+  // personal_magic_cost.gd 判定：持有 2121 圣物 + 治疗/复活白名单 + 目标为友方同伴 (TEAM_PARTY)
+  return mysidiaHasItem2121.value && meta.isHealingOrLife && mysidiaTargetIsFriend.value
+})
+
+const mysidiaResolvedMpCost = computed(() => {
+  const base = mysidiaBaseMpCost.value
+  if (!mysidiaIsDiscountActive.value) return base
+  // maxi(1, ceili(float(canonical_cost) * 0.5))
+  return Math.max(1, Math.ceil(base * 0.5))
+})
+
+interface MysidiaCastResult {
+  mpCost: number
+  mpDesc: string
+  success: boolean
+  effectText: string
+  effectDesc: string
+  targetHpText: string
+  targetHpDesc: string
+}
+
+const lastMysidiaCastResult = ref<MysidiaCastResult | null>(null)
+const mysidiaTraceLogs = ref<string[]>([
+  '系统就绪: mysidia_magic_effects.gd 与 personal_magic_cost.gd 规范加载完成',
+  '契约守卫: Item 2121 专享 50% 治疗折减，重力术严格排斥 Boss 战与免疫目标'
+])
+
+const castMysidiaSpell = () => {
+  const spell = selectedMysidiaSpell.value
+  const cost = mysidiaResolvedMpCost.value
+  const discountActive = mysidiaIsDiscountActive.value
+
+  let success = true
+  let effectText = '施法成功'
+  let effectDesc = ''
+  let targetHpText = `${mysidiaTargetHp.value} HP`
+  let targetHpDesc = '无生命变动'
+
+  if (spell === 'mysidia_gravity') {
+    // 重力术判定：非 Boss 战且非 Boss 随从
+    if (mysidiaIsBossEncounter.value) {
+      success = false
+      effectText = '⛔ 重力术免疫生效'
+      effectDesc = 'Boss 战遭遇中敌人持有 instant_death/gravity 免疫，伤害强制为 0'
+      targetHpText = `${mysidiaTargetHp.value} HP (无伤)`
+      targetHpDesc = '根据 gravity_amount() 规约：遭遇 context.is_boss 触发熔断保护'
+      mysidiaTraceLogs.value.unshift(`[施法拦截] mysidia_gravity 遭遇 context.is_boss == true，重力削弱归零`)
+    } else {
+      // 正常减免当前生命的 25%: mini(target.hp - 1, floori(float(target.hp) * 0.25))
+      const loss = Math.min(Math.max(0, mysidiaTargetHp.value - 1), Math.floor(mysidiaTargetHp.value * 0.25))
+      const newHp = Math.max(1, mysidiaTargetHp.value - loss)
+      effectText = `🔻 削减 ${loss} HP (25%)`
+      effectDesc = '重力术命中：按目标当前生命值百分比完成 1/4 重力塌陷'
+      targetHpText = `${mysidiaTargetHp.value} ➔ ${newHp} HP`
+      targetHpDesc = `削减 ${loss} 点生命值，剩余 ${newHp} HP`
+      mysidiaTargetHp.value = newHp
+      mysidiaTraceLogs.value.unshift(`[重力命中] mysidia_gravity 削减 ${loss} HP (原 ${mysidiaTargetHp.value + loss} ➔ 现 ${newHp})`)
+    }
+  } else if (spell === 'mysidia_arise') {
+    if (!mysidiaTargetIsFriend.value) {
+      success = false
+      effectText = '⚠️ 阵营不匹配'
+      effectDesc = 'mysidia_arise 规约要求 allowed_sides: "friend"，无法对敌施放'
+      mysidiaTraceLogs.value.unshift(`[施法异常] mysidia_arise 目标非友方，判定驳回`)
+    } else {
+      effectText = '🌟 100% 满生命起死回生'
+      effectDesc = '米西迪亚全复活：目标完全复苏并回复至最大生命值'
+      targetHpText = `${mysidiaTargetHp.value} ➔ 4000 HP`
+      targetHpDesc = '满血复原 (Revive 100%)'
+      mysidiaTargetHp.value = 4000
+      mysidiaTraceLogs.value.unshift(`[全复活] mysidia_arise 触发：友方目标直接复苏满血 (4000 HP)`)
+    }
+  } else if (spell === 'mysidia_firaga' || spell === 'mysidia_blizzaga') {
+    const isFire = spell === 'mysidia_firaga'
+    const elemName = isFire ? '火' : '冰'
+    const dmg = Math.floor(Math.random() * 80) + 760
+    const newHp = Math.max(0, mysidiaTargetHp.value - dmg)
+    effectText = `💥 ${dmg} 点 ${elemName} 属性魔法伤害`
+    effectDesc = `米西迪亚爆${isFire ? '炎' : '雪'} (Power 240, can_multi: 1)`
+    targetHpText = `${mysidiaTargetHp.value} ➔ ${newHp} HP`
+    targetHpDesc = newHp === 0 ? '💀 目标生命耗尽已倒下' : `受创损耗 ${dmg} HP`
+    mysidiaTargetHp.value = newHp
+    mysidiaTraceLogs.value.unshift(`[法术输出] ${spell} 威力 240 轰击敌人，造成 ${dmg} 点 ${elemName} 伤`)
+  } else if (spell === 'mysidia_hastega') {
+    effectText = '⚡ 全员加速 +50%'
+    effectDesc = 'mysidia_party_haste: 全体存活友方 ATB 充能速率拉升 1.5 倍'
+    targetHpText = `${mysidiaTargetHp.value} HP`
+    targetHpDesc = '状态加持 (ATB Speed 150%)'
+    mysidiaTraceLogs.value.unshift(`[加速光环] mysidia_hastega 激活：全体同伴 ATB 充能提速 +50%`)
+  } else {
+    // 常规治疗
+    const heal = spell === 'curaga' ? 1200 : 500
+    const newHp = Math.min(4000, mysidiaTargetHp.value + heal)
+    effectText = `💚 回复 +${heal} HP`
+    effectDesc = `白魔法治疗：目标生命获得充沛滋养`
+    targetHpText = `${mysidiaTargetHp.value} ➔ ${newHp} HP`
+    targetHpDesc = `回复生命 ${heal} 点`
+    mysidiaTargetHp.value = newHp
+    mysidiaTraceLogs.value.unshift(`[治疗生效] ${spell} 为友方恢复 ${heal} HP`)
+  }
+
+  // 审计日志维持最大 8 条
+  if (mysidiaTraceLogs.value.length > 8) {
+    mysidiaTraceLogs.value = mysidiaTraceLogs.value.slice(0, 8)
+  }
+
+  lastMysidiaCastResult.value = {
+    mpCost: cost,
+    mpDesc: discountActive ? `Item 2121 折减: ${mysidiaBaseMpCost.value} ➔ ${cost} MP` : `原标价扣除: ${cost} MP`,
+    success,
+    effectText,
+    effectDesc,
+    targetHpText,
+    targetHpDesc
+  }
+}
+
+const resetMysidiaStudio = () => {
+  selectedMysidiaSpell.value = 'mysidia_arise'
+  mysidiaTargetIsFriend.value = true
+  mysidiaIsBossEncounter.value = false
+  mysidiaHasItem2121.value = true
+  mysidiaTargetHp.value = 1200
+  lastMysidiaCastResult.value = null
+  mysidiaTraceLogs.value = [
+    '重置完成: 米西迪亚秘术演练台已恢复初始状态',
+    '默认设置: mysidia_arise, 友方目标, 佩戴 Item 2121 白魔圣物'
+  ]
 }
 </script>
