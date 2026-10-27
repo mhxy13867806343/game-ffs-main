@@ -39,7 +39,7 @@ export default defineConfig({
     }),
     Components({
       resolvers: [NaiveUiResolver()],
-      dirs: ['src/components', 'src/vble/components'],
+      dirs: ['src/components', 'src/vble/components', 'src/feather/components'],
       dts: 'src/components.d.ts'
     })
   ],

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import VbleLayout from '@/vble/VbleLayout.vue'
+import FeatherLayout from '@/feather/FeatherLayout.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -189,6 +190,45 @@ const routes: RouteRecordRaw[] = [
       }
     ]
   },
+  {
+    path: '/feather',
+    component: FeatherLayout,
+    children: [
+      {
+        path: '',
+        name: 'FeatherHome',
+        component: () => import('@/feather/views/HomeView.vue'),
+        meta: { title: '《裂空之羽》官方站点 · 2D 横版卷轴飞行射击' }
+      },
+      {
+        path: 'play',
+        name: 'FeatherPlay',
+        component: () => import('@/feather/views/GamePlayView.vue'),
+        meta: { title: '在线试玩作战 · 《裂空之羽》' }
+      },
+      {
+        path: 'stages',
+        name: 'FeatherStages',
+        component: () => import('@/feather/views/StagesView.vue'),
+        meta: { title: '全 8 章 48 关战役图谱 · 《裂空之羽》' }
+      },
+      {
+        path: 'characters',
+        name: 'FeatherCharacters',
+        component: () => import('@/feather/views/CharactersView.vue'),
+        meta: { title: '机体职业与工坊装备 · 《裂空之羽》' }
+      },
+      {
+        path: 'doc',
+        name: 'FeatherDoc',
+        component: () => import('@/feather/views/DocView.vue'),
+        meta: { title: '策划设计文档 v1.3 · 《裂空之羽》' }
+      }
+    ]
+  },
+  // 裂空之羽别名快捷路由
+  { path: '/play', redirect: '/feather/play' },
+  { path: '/stages', redirect: '/feather/stages' },
   // 兼容老路径直接重定向到 /vble/*
   { path: '/docs', redirect: '/vble/docs' },
   { path: '/story', redirect: '/vble/story' },

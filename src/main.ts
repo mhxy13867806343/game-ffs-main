@@ -8,6 +8,7 @@ import 'virtual:uno.css'
 // 引入全局定制样式
 import './assets/styles/global.css'
 import './assets/styles/vble.css'
+import './assets/styles/feather.css'
 
 // 通用代码高亮与字体样式
 import 'vfonts/Lato.css'

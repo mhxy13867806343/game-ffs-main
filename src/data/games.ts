@@ -3,6 +3,14 @@ import type { GameItem, DocItem } from '@/types/game'
 // 游戏列表数据
 export const gameList: GameItem[] = [
   {
+    id: 'game-feather',
+    title: '裂空之羽 (Feather of the Sky-Splitter)',
+    subtitle: '单机 2D 横版飞行射击 + 角色养成 · 全 8 章 48 关 · 七色彩虹主线',
+    category: 'STG飞行射击',
+    coverUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80',
+    path: '/feather'
+  },
+  {
     id: 'game-ff-vble',
     title: '最终幻想：时空之轮',
     subtitle: '次世代 JRPG 官方智能游戏门户，全域资料库与配装模拟器',
@@ -22,6 +30,15 @@ export const gameList: GameItem[] = [
 
 // 游戏文档数据
 export const docList: DocItem[] = [
+  {
+    id: 'doc-feather-spec',
+    title: '裂空之羽 - 策划设计与数值文档 v1.3',
+    subtitle: '单机 2D 横版卷轴飞行射击全本 2688 行关卡与数值策划设计书',
+    category: '游戏策划',
+    coverUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+    path: '/feather/doc',
+    updateTime: '2026-10-27'
+  },
   {
     id: 'doc-ff-vble-portal',
     title: '最终幻想：时空之轮 - 官方白皮书与全域资料',
