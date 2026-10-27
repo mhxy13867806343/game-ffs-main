@@ -8,6 +8,7 @@ import path from 'node:path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './', // 确保静态离线打包时资源路径为相对路径
   plugins: [
     vue(),
     UnoCSS(),

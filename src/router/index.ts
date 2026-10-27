@@ -1,38 +1,21 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 
 const router = createRouter({
-  history: createWebHistory(),
+  // 使用 Hash 模式（带 #），确保离线/单机/静态打包部署时路径完全正常且不 404
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { title: 'GAME FFS - 单机游戏门户首页' }
+      meta: { title: 'GAME FFS - 游戏首页' }
     },
     {
       path: '/play/:id',
       name: 'play',
       component: () => import('@/views/PlayView.vue'),
-      meta: { title: '单机游戏畅玩 - GAME FFS' }
-    },
-    {
-      path: '/library',
-      name: 'library',
-      component: () => import('@/views/LibraryView.vue'),
-      meta: { title: '单机游戏库 - GAME FFS' }
-    },
-    {
-      path: '/docs',
-      name: 'docs',
-      component: () => import('@/views/DocView.vue'),
-      meta: { title: '单机游戏设计文档 - GAME FFS' }
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/AboutView.vue'),
-      meta: { title: '打包与运行说明 - GAME FFS' }
+      meta: { title: '游戏运行 - GAME FFS' }
     }
   ],
   scrollBehavior(_to, _from, savedPosition) {
