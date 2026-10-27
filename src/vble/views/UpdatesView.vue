@@ -189,6 +189,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-prediction-lv3-sq10-ribbon-2026-10-27',
+    version: 'v2.2.184',
+    date: '2026-10-27',
+    title: '预判Lv3意图承诺与1.25x爆发倍率推演所、SQ-10星界缎带传承全域上线',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '👁️',
+    tagType: 'warning',
+    description: '深度接入 Godot 研发团队 D01 预判行动承诺 4c91c67d5 认证接线与 D06 SQ-10 缎带任务定向审计：实装非模态意图卡快照与 1.25x 爆发倍率推演所，并图解观星台问答取得与九项异常免疫底线。',
+    highlights: [
+      '剧情技能【预判 Lv3】意图快照读取与 1.25x 爆发倍率推演所：非模态意图卡捕获下一轮敌方行动，职业物理技能与伤害魔法精准触发 1.25x 暴击率与 1.25x 主伤乘区',
+      '预判单调 Nonce 与生命令牌防重放：规范排除普攻、治疗与持续伤害，单场单调递增，杜绝跨波与跨档状态残留',
+      'SQ-10 星界缎带传承物语 (relic_ribbon_v1)：双世界合流后米西迪亚观星台 trial_2111 记忆问答唯一正统来源，九大异常免疫且明确不免疫即死',
+      '守护巨像 (ancient_golem) 终局魔兽标定：Lv.45 常规机械物种，0.8x 常驻物理减伤与风雷 2.0x 暴击弱点',
+      '持续开发不间断推进：持续实时开发编译并自动推送部署至午夜 0 点'
+    ],
+    relatedLinks: [
+      { label: '预判爆发推演所', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: 'SQ-10 缎带物语', path: '/vble/sidequests', icon: '🎀' },
+      { label: '职业特技推演工作台', path: '/vble/jobs', icon: '🛡️' }
+    ]
+  },
+  {
     id: 'up-teachings-target-switch-wind-altar-2026-10-27',
     version: 'v2.2.183',
     date: '2026-10-27',
