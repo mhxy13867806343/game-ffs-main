@@ -1,8 +1,9 @@
 # game-ffs-main
 
-游戏首页门户，支持点击卡片跳转到不同游戏页面。
+游戏首页门户，支持点击卡片跳转到不同游戏与文档页面。
 
 - **在线预览体验**：[https://mhxy13867806343.github.io/game-ffs-main/#/](https://mhxy13867806343.github.io/game-ffs-main/#/)
+- **最终幻想：时空之轮**：[https://mhxy13867806343.github.io/game-ffs-vble/#/](https://mhxy13867806343.github.io/game-ffs-vble/#/)
 - **AI H5 游戏合集**：[https://mhxy13867806343.github.io/ai-h5-games/](https://mhxy13867806343.github.io/ai-h5-games/)
 
 ---
@@ -35,4 +36,3 @@ pnpm build
 - **Branch** 选择：`gh-pages` / `/(root)`
 - 点击 **Save** 即可发布上线。
 - 访问地址：[https://mhxy13867806343.github.io/game-ffs-main/#/](https://mhxy13867806343.github.io/game-ffs-main/#/)
-- 相关链接：[https://mhxy13867806343.github.io/ai-h5-games/](https://mhxy13867806343.github.io/ai-h5-games/)
