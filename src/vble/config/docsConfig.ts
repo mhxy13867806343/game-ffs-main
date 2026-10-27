@@ -140,5 +140,69 @@ export const whitepapersList: WhitepaperDoc[] = [
     category: '神装锻造',
     summary: '隐士洞窟七色尾巴专属对应神兵认证面板、龙之髭、圣灵之冠与烈火圣剑。',
     keyFeatures: ['七色尾巴极罕掉落', '烈火圣剑炎之裁决', '苍蓝龙枪龙属贯穿', '黑金防具全防抵消']
+  },
+  {
+    volume: 17,
+    code: '17_CROSS_WORLD_BOSSES',
+    title: '跨界首领生态与全域魔物大典 (Cross-World Bosses & Bestiary Spec)',
+    category: '首领生态',
+    summary: '跨越次元的九大世界首领、荒野巨兽、深海克苏鲁与全量魔物抗性/掉落数据库（130KB 全景大典）。',
+    keyFeatures: ['跨次元首领抗性表', '各物种属性吸收克制', '全阶段狂暴阈值', '掉落率与稀有素材掉率']
+  },
+  {
+    volume: 18,
+    code: '18_MULTI_PHASE_BOSS_SKILLS',
+    title: '多阶段首领转阶段与剧情连携技 (Multi-Phase Bosses & Story Skills)',
+    category: '首领战斗',
+    summary: '定义多血条转阶段机制、断肢破坏、转场全屏大招演出与剧情专属觉醒必杀。',
+    keyFeatures: ['三阶段血条锁血机制', '部位破坏与弱点暴露', '剧情角色合体共鸣', '全屏极限技 QTE 判定']
+  },
+  {
+    volume: 19,
+    code: '19_SKELETON_REAPER_MYTH',
+    title: '冥界骨王与死神系列首领/NPC 设计 (Skeleton King & Reaper Myth)',
+    category: '深渊剧情',
+    summary: '冥域深渊九层炼狱守护者、不死系骨王唤魂机制与死神判官的灵魂交易支线。',
+    keyFeatures: ['不死系骨海召唤潮', '死神天平灵魂判定', '即死抗性与圣属性极效', '冥界灵魂契约交换']
+  },
+  {
+    volume: 20,
+    code: '20_NPC_INTERACTIONS',
+    title: '全域 NPC 深度交互与抉择分支 (NPC Interactions & Branching)',
+    category: '叙事架构',
+    summary: '覆盖大陆三大城邦与偏远聚落的 120+ NPC 互动网、好感度进阶与世界走向分支抉择。',
+    keyFeatures: ['动态好感度网', '善恶倾斜分支剧情', '隐藏传闻触发隐秘地下城', '昼夜作息与行商动线']
+  },
+  {
+    volume: 21,
+    code: '21_SKY_CITY_TOWNS',
+    title: '王城建筑群、圣墓秘境与天空之城 (Town Buildings & Sky City Spec)',
+    category: '空间关卡',
+    summary: '详细阐述浮空岛屿「天空之城」反重力锚点、皇宫内廷密道与皇家圣墓三层机关解谜。',
+    keyFeatures: ['反重力浮空锚点', '皇家圣墓地底三层连环机关', '王城行商街与工坊铸造', '空艇停泊码头防空防线']
+  },
+  {
+    volume: 22,
+    code: '22_AMAZON_ECOLOGY',
+    title: '热带雨林原始生态与远古巨兽 (Amazon Creatures & Legends)',
+    category: '生态世界',
+    summary: '原始古树遮蔽的亚马逊秘境生态系统、毒素沼泽生存机制与史前远古图腾圣兽。',
+    keyFeatures: ['瘴气沼泽净化机制', '原始恐鸟与剧毒巨蟒', '图腾圣兽试炼祈祷', '雨林密径隐形古藤']
+  },
+  {
+    volume: 23,
+    code: '23_RUIN_METEOR_REEF',
+    title: '陨星之礁与远古失落遗迹 (Ruin Meteor Reef Design)',
+    category: '空间关卡',
+    summary: '天外陨石坠入蔚蓝海域形成的星礁迷宫、潮汐涨落时间轴与水下亚特兰蒂斯遗址。',
+    keyFeatures: ['潮汐周期水陆切换', '星尘磁场重力扭曲', '水下遗迹氧气倒计时', '深海古神沉睡大殿']
+  },
+  {
+    volume: 24,
+    code: '24_SCENE_GENERATION',
+    title: '全域场景生成与无缝时空流转 (Chapter & Scene Generation Spec)',
+    category: '系统底层',
+    summary: 'Godot 节点池动态预加载算法、多层 Parallax 视差滚动与跨区域无缝场景流式加载。',
+    keyFeatures: ['无缝流式场景流转', '节点对象池内存零垃圾回收', '多层 Parallax 远景视差', '时空裂缝位面瞬切']
   }
 ]

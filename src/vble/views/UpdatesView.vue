@@ -166,6 +166,7 @@ const activeCategory = ref('all')
 
 const updateCategories = [
   { key: 'all', label: '全部动态', icon: '📋' },
+  { key: 'system', label: '架构演进', icon: '⚡' },
   { key: 'maps', label: '地貌与风土', icon: '🗺️' },
   { key: 'equipment', label: '神装与数值', icon: '⚔️' },
   { key: 'npc', label: 'NPC与室内', icon: '🏛️' },
@@ -177,7 +178,7 @@ interface UpdateRecord {
   version: string
   date: string
   title: string
-  category: 'maps' | 'equipment' | 'npc' | 'ui'
+  category: 'maps' | 'equipment' | 'npc' | 'ui' | 'system'
   categoryName: string
   icon: string
   tagType: 'success' | 'warning' | 'info' | 'error' | 'default'
@@ -187,6 +188,29 @@ interface UpdateRecord {
 }
 
 const updateList: UpdateRecord[] = [
+  {
+    id: 'up-godot-architecture-sprint-2026-10-27',
+    version: 'v2.2.182',
+    date: '2026-10-27',
+    title: '2026-10-27 架构迭代实况：13研发矩阵并行与24卷白皮书全景上线',
+    category: 'system',
+    categoryName: '架构演进',
+    icon: '⚡',
+    tagType: 'info',
+    description: 'Godot 2D Turn-Based 研发团队 13 开发 (D01-D13) 与 2 测试 (T01-T02) 架构矩阵全面展开，Web 门户同步扩充至 24 卷白皮书大典，涵盖跨界首领、多阶段机制、天空之城与远古雨林生态。',
+    highlights: [
+      '13 大开发专属矩阵开工：主线雷达标记(D01)、机关练习模式(D02)、怪物百科(D03)、装备预设(D04)、原子读写备份(D05)、任务悬赏(D06)等',
+      '白皮书大典扩充至 24 卷：VOL.17 跨界首领、VOL.18 多阶段必杀、VOL.19 冥府骨王、VOL.20 NPC深度交互、VOL.21 天空之城等全卷开放',
+      '新增 130KB 跨次元九大首领与全域物种生态大典，完整披露弱点、异常抗性与稀有素材掉率',
+      '多阶段 Boss 战役机制：血条锁死转阶段、肢体部位破坏、全屏极限技 QTE 判定与剧情合体共鸣',
+      '全站分享矩阵升级：全面支持 11 大主流平台一键分享与高精度微信二维码浮层'
+    ],
+    relatedLinks: [
+      { label: '24 卷白皮书大典', path: '/vble/docs', icon: '📖' },
+      { label: '系统底层架构体系', path: '/vble/systems', icon: '⚙️' },
+      { label: '首领攻略攻坚全书', path: '/vble/boss-tactics', icon: '⚔️' }
+    ]
+  },
   {
     id: 'up-crown-quest-dialogue-generation-lock',
     version: 'v2.2.181',

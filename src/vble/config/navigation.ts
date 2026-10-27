@@ -17,7 +17,7 @@ export interface NavItemConfig {
 
 export const navItems: NavItemConfig[] = [
   { title: '首页', name: '首页', path: '/vble', icon: '🏠', category: 'core' },
-  { title: '白皮书', name: '白皮书', path: '/vble/docs', icon: '📜', badge: '16卷', category: 'core' },
+  { title: '白皮书', name: '白皮书', path: '/vble/docs', icon: '📜', badge: '24卷', category: 'core' },
   { title: '编年史', name: '编年史', path: '/vble/story', icon: '📖', badge: '44节拍', category: 'world' },
   { title: '英雄', name: '英雄', path: '/vble/characters', icon: '👥', badge: '4人', category: 'world' },
   { title: '魔物图鉴', name: '魔物图鉴', path: '/vble/monsters', icon: '👾', badge: '147怪', category: 'world' },
@@ -30,7 +30,7 @@ export const navItems: NavItemConfig[] = [
   { title: '载具', name: '载具', path: '/vble/vehicles', icon: '✈️', badge: '10具', category: 'world' },
   { title: '支线', name: '支线', path: '/vble/sidequests', icon: '📝', badge: '资料', category: 'world' },
   { title: '战斗法则', name: '战斗法则', path: '/vble/battle-tactics', icon: '⏳', badge: 'ATB', category: 'tactics' },
-  { title: '首领攻坚', name: '首领攻坚', path: '/vble/boss-tactics', icon: '👑', badge: '16王', category: 'tactics' },
+  { title: '首领攻坚', name: '首领攻坚', path: '/vble/boss-tactics', icon: '👑', badge: '20王', category: 'tactics' },
   { title: '虚空天体', name: '虚空天体', path: '/vble/celestial', icon: '🌌', badge: '终焉', category: 'tactics' },
   { title: '经济调合', name: '经济调合', path: '/vble/economy', icon: '⚗️', badge: '神装', category: 'system' },
   { title: '秘传绝技', name: '秘传绝技', path: '/vble/teachings', icon: '🎓', category: 'system' },
