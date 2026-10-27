@@ -189,6 +189,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-monster-known-moves-resistance-2026-10-27',
+    version: 'v2.2.188',
+    date: '2026-10-27',
+    title: '图鉴已知基础招式独立全息面板与常驻物理抗性/状态免疫星号转译实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '👾',
+    tagType: 'info',
+    description: '对齐 Godot 引擎 D03 百科研发团队最新实机规范：实装 MonsterKnownMovesView 独立只读招式面板、常驻物理承伤倍率投影与状态免疫星号战斗转译器。',
+    highlights: [
+      '基础招式独立只读模态 (MonsterKnownMovesView / monster_known_moves_view.gd)：实机暗金面板与权威收录准则，支持物理/魔法/MP吸收/状态 4 类白名单过滤与参数特征展示，搭载 ui_cancel 焦点恢复断路器',
+      '无条件基础项白名单 (every == 1)：严格只收录每次行动必选基础招式，绝对过滤阶段转换与复杂条件 AI，杜绝未来敌方意图泄露',
+      '常驻物理承伤解析器 (monster_physical_resistance.gd)：格式化为「常驻物理承伤 ×%s（不含临时防御）」，负倍率自动钳至 0，缺项标定为「未记载」',
+      '全状态免疫星号转译 (monster_known_affinity.gd)：内部 status_immunities: ["*"] 权威转译为「免疫：全部状态」，绝不将内部星号抛给玩家',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '魔物与游荡首领大图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '战斗法则与试炼', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-adventure-intel-session-2026-10-27',
     version: 'v2.2.187',
     date: '2026-10-27',
