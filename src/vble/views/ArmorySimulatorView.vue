@@ -831,79 +831,99 @@
 
         <!-- 换装前后面板差异即时对比预览 (同步 Godot 最新 equipment_comparison 算法机制) -->
         <div v-if="activeHeroEquipmentComparison" class="p-3.5 bg-gradient-to-r from-slate-900/90 via-[#151c30] to-slate-900/90 rounded-xl border border-cyan-500/30 space-y-2 text-xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <span class="text-cyan-300 font-bold flex items-center gap-1.5">
-              <span>⚖️</span>
-              <span>【{{ activeHero.name }}】换装前后面板差异实时推演对比：</span>
-            </span>
-            <span class="text-[11px] text-gray-400">
-              对应当前槽位：<strong class="text-amber-300">{{ activeHero.loadout[inspectItem.slot]?.name || '（当前部位未装备）' }}</strong>
-            </span>
-          </div>
-
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
-            <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-gray-400 block mb-0.5">物理攻击 P.ATK</span>
-              <div class="text-xs text-gray-200">
-                {{ activeHeroEquipmentComparison.before.patk }} → {{ activeHeroEquipmentComparison.after.patk }}
-              </div>
-              <span class="text-[11px] font-bold block mt-0.5" :class="getDeltaClass(activeHeroEquipmentComparison.delta.patk)">
-                {{ formatDelta(activeHeroEquipmentComparison.delta.patk) }}
+          <!-- 结构化拒绝提示 (unavailable) -->
+          <div v-if="activeHeroEquipmentComparison.status === 'unavailable'" class="p-3 bg-rose-950/40 rounded-lg border border-rose-500/50 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-rose-300 font-bold flex items-center gap-1.5">
+                <span>🚫</span>
+                <span>【{{ activeHero.name }}】装备只读对比受阻（拒绝穿戴）：</span>
               </span>
+              <n-tag size="tiny" type="error">REASON: {{ activeHeroEquipmentComparison.reason }}</n-tag>
             </div>
-            <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-gray-400 block mb-0.5">物理防御 P.DEF</span>
-              <div class="text-xs text-gray-200">
-                {{ activeHeroEquipmentComparison.before.pdef }} → {{ activeHeroEquipmentComparison.after.pdef }}
-              </div>
-              <span class="text-[11px] font-bold block mt-0.5" :class="getDeltaClass(activeHeroEquipmentComparison.delta.pdef)">
-                {{ formatDelta(activeHeroEquipmentComparison.delta.pdef) }}
-              </span>
-            </div>
-            <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-gray-400 block mb-0.5">魔法防御 M.DEF</span>
-              <div class="text-xs text-gray-200">
-                {{ activeHeroEquipmentComparison.before.mdef }} → {{ activeHeroEquipmentComparison.after.mdef }}
-              </div>
-              <span class="text-[11px] font-bold block mt-0.5" :class="getDeltaClass(activeHeroEquipmentComparison.delta.mdef)">
-                {{ formatDelta(activeHeroEquipmentComparison.delta.mdef) }}
-              </span>
-            </div>
-            <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-gray-400 block mb-0.5">综合战力 Rating</span>
-              <div class="text-xs text-gray-200">
-                {{ activeHeroEquipmentComparison.before.powerRating }} → {{ activeHeroEquipmentComparison.after.powerRating }}
-              </div>
-              <span class="text-[11px] font-bold block mt-0.5" :class="getDeltaClass(activeHeroEquipmentComparison.delta.powerRating)">
-                {{ formatDelta(activeHeroEquipmentComparison.delta.powerRating) }}
-              </span>
+            <p class="text-rose-200/90 text-xs font-mono">
+              {{ activeHeroEquipmentComparison.reasonText }}
+            </p>
+            <div class="text-[10px] text-gray-400">
+              规范依据：<code>equipment_comparison.gd</code>，未通过谓词核验时安全返回空投影，绝不强行计算虚假战力。
             </div>
           </div>
 
-          <!-- 回避率分项对比 (同步 Godot 最新 equipment_comparison 回避双列算法) -->
-          <div class="grid grid-cols-2 gap-2 text-center font-mono pt-2 border-t border-slate-800/80">
-            <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-gray-400 block mb-0.5">物理回避 Physical Evasion</span>
-              <div class="text-xs text-gray-200">
-                {{ formatPercent(activeHeroEquipmentComparison.before.physicalEvasion) }} → {{ formatPercent(activeHeroEquipmentComparison.after.physicalEvasion) }}
-              </div>
-              <span class="text-[11px] block mt-0.5" :class="getEvasionDeltaClass(activeHeroEquipmentComparison.delta.physicalEvasion)">
-                {{ formatEvasionDelta(activeHeroEquipmentComparison.delta.physicalEvasion) }}
+          <!-- 正常就绪对比 (ready) -->
+          <template v-else>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <span class="text-cyan-300 font-bold flex items-center gap-1.5">
+                <span>⚖️</span>
+                <span>【{{ activeHero.name }}】换装前后面板差异实时推演对比：</span>
+              </span>
+              <span class="text-[11px] text-gray-400">
+                对应当前槽位：<strong class="text-amber-300">{{ activeHero.loadout[inspectItem.slot]?.name || '（当前部位未装备）' }}</strong>
               </span>
             </div>
-            <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-gray-400 block mb-0.5">近战附加 Melee Evasion</span>
-              <div class="text-xs text-gray-200">
-                {{ formatPercent(activeHeroEquipmentComparison.before.meleeEvasion) }} → {{ formatPercent(activeHeroEquipmentComparison.after.meleeEvasion) }}
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
+              <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-gray-400 block mb-0.5">物理攻击 P.ATK</span>
+                <div class="text-xs text-gray-200">
+                  {{ activeHeroEquipmentComparison.before.patk }} → {{ activeHeroEquipmentComparison.after.patk }}
+                </div>
+                <span class="text-[11px] font-bold block mt-0.5" :class="getDeltaClass(activeHeroEquipmentComparison.delta.patk)">
+                  {{ formatDelta(activeHeroEquipmentComparison.delta.patk) }}
+                </span>
               </div>
-              <span class="text-[11px] block mt-0.5" :class="getEvasionDeltaClass(activeHeroEquipmentComparison.delta.meleeEvasion)">
-                {{ formatEvasionDelta(activeHeroEquipmentComparison.delta.meleeEvasion) }}
-              </span>
+              <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-gray-400 block mb-0.5">物理防御 P.DEF</span>
+                <div class="text-xs text-gray-200">
+                  {{ activeHeroEquipmentComparison.before.pdef }} → {{ activeHeroEquipmentComparison.after.pdef }}
+                </div>
+                <span class="text-[11px] font-bold block mt-0.5" :class="getDeltaClass(activeHeroEquipmentComparison.delta.pdef)">
+                  {{ formatDelta(activeHeroEquipmentComparison.delta.pdef) }}
+                </span>
+              </div>
+              <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-gray-400 block mb-0.5">魔法防御 M.DEF</span>
+                <div class="text-xs text-gray-200">
+                  {{ activeHeroEquipmentComparison.before.mdef }} → {{ activeHeroEquipmentComparison.after.mdef }}
+                </div>
+                <span class="text-[11px] font-bold block mt-0.5" :class="getDeltaClass(activeHeroEquipmentComparison.delta.mdef)">
+                  {{ formatDelta(activeHeroEquipmentComparison.delta.mdef) }}
+                </span>
+              </div>
+              <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-gray-400 block mb-0.5">综合战力 Rating</span>
+                <div class="text-xs text-gray-200">
+                  {{ activeHeroEquipmentComparison.before.powerRating }} → {{ activeHeroEquipmentComparison.after.powerRating }}
+                </div>
+                <span class="text-[11px] font-bold block mt-0.5" :class="getDeltaClass(activeHeroEquipmentComparison.delta.powerRating)">
+                  {{ formatDelta(activeHeroEquipmentComparison.delta.powerRating) }}
+                </span>
+              </div>
             </div>
-          </div>
-          <div class="text-[10px] text-gray-400 italic text-center">
-            * 两个回避列保持各自比例、不相加，变化以百分点表达；近战项仅近战适用，不含职业被动及战斗临时修正。
-          </div>
+
+            <!-- 回避率分项对比 (同步 Godot 最新 equipment_comparison 回避双列算法) -->
+            <div class="grid grid-cols-2 gap-2 text-center font-mono pt-2 border-t border-slate-800/80">
+              <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-gray-400 block mb-0.5">物理回避 Physical Evasion</span>
+                <div class="text-xs text-gray-200">
+                  {{ formatPercent(activeHeroEquipmentComparison.before.physicalEvasion) }} → {{ formatPercent(activeHeroEquipmentComparison.after.physicalEvasion) }}
+                </div>
+                <span class="text-[11px] block mt-0.5" :class="getEvasionDeltaClass(activeHeroEquipmentComparison.delta.physicalEvasion)">
+                  {{ formatEvasionDelta(activeHeroEquipmentComparison.delta.physicalEvasion) }}
+                </span>
+              </div>
+              <div class="p-2 bg-slate-950/70 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-gray-400 block mb-0.5">近战附加 Melee Evasion</span>
+                <div class="text-xs text-gray-200">
+                  {{ formatPercent(activeHeroEquipmentComparison.before.meleeEvasion) }} → {{ formatPercent(activeHeroEquipmentComparison.after.meleeEvasion) }}
+                </div>
+                <span class="text-[11px] block mt-0.5" :class="getEvasionDeltaClass(activeHeroEquipmentComparison.delta.meleeEvasion)">
+                  {{ formatEvasionDelta(activeHeroEquipmentComparison.delta.meleeEvasion) }}
+                </span>
+              </div>
+            </div>
+            <div class="text-[10px] text-gray-400 italic text-center">
+              * 两个回避列保持各自比例、不相加，变化以百分点表达；近战项仅近战适用，不含职业被动及战斗临时修正。
+            </div>
+          </template>
         </div>
 
         <!-- 实战特效与史诗传说 -->
@@ -1541,7 +1561,21 @@ const activeHeroSpecialPassives = computed(() => {
   return Array.from(new Set(passives))
 })
 
-// 针对激活角色当前检视装备的前后换装对比推演 (同步 Godot 最新 equipment_comparison 算法)
+// ================= 结构化拒绝原因转译字典 (对齐 Godot equipment_comparison.gd) =================
+const REASON_TEXT: Record<string, string> = {
+  unverifiable: '当前人物、装备或属性资料无法可靠核实。',
+  not_owned: '背包中没有可用于此比较的候选装备。',
+  slot_mismatch: '候选装备与所选槽位不匹配。',
+  offhand_conflict: '当前副手装备与此槽位操作冲突。',
+  dual_wield_requirements: '当前双持资格或左右手组合不满足要求。',
+  two_hand_conflict: '当前双手武器不能同时装备盾牌。',
+  special_requirements: '此特殊武器的角色、组合或来源要求未通过核验。',
+  personal_requirements: '此专属装备的角色与来源要求未通过核验。',
+  relic_requirements: '此遗物的角色与使用要求未通过核验。',
+  job_restricted: '当前职业不满足候选装备的职业限制。'
+}
+
+// 针对激活角色当前检视装备的前后换装对比推演 (同步 Godot 最新 equipment_comparison.gd 算法)
 const activeHeroEquipmentComparison = computed(() => {
   if (!inspectItem.value) return null
   const hero = activeHero.value
@@ -1551,7 +1585,56 @@ const activeHeroEquipmentComparison = computed(() => {
   // 1. 换装前当前属性
   const beforeStats = computeHeroStats(hero)
 
-  // 2. 模拟换上候选装备后的属性
+  // 2. 结构化拒绝原因判定 (对齐 equipment_comparison.gd 严苛防空与门禁规范)
+  // 2.1 遗物槽位受限 (relic_requirements)
+  if ((item.id === 'relic_ribbon_v1' || item.id === '2111' || item.name.includes('缎带')) && slot !== 'head' && slot !== 'accessory') {
+    return {
+      status: 'unavailable',
+      reason: 'relic_requirements',
+      reasonText: REASON_TEXT.relic_requirements,
+      before: beforeStats,
+      after: beforeStats,
+      delta: { patk: 0, pdef: 0, mdef: 0, hp: 0, mp: 0, physicalEvasion: 0, meleeEvasion: 0, powerRating: 0 }
+    }
+  }
+
+  // 2.2 角色专属装备受限 (personal_requirements)
+  if ((item.id === 'sarah_shield' || item.id === '2122' || item.name.includes('神圣盾')) && hero.id !== 'sarah') {
+    return {
+      status: 'unavailable',
+      reason: 'personal_requirements',
+      reasonText: REASON_TEXT.personal_requirements,
+      before: beforeStats,
+      after: beforeStats,
+      delta: { patk: 0, pdef: 0, mdef: 0, hp: 0, mp: 0, physicalEvasion: 0, meleeEvasion: 0, powerRating: 0 }
+    }
+  }
+
+  // 2.3 职业装备限制受限 (job_restricted)
+  if (!canJobEquipItem(hero.jobId, item)) {
+    return {
+      status: 'unavailable',
+      reason: 'job_restricted',
+      reasonText: REASON_TEXT.job_restricted,
+      before: beforeStats,
+      after: beforeStats,
+      delta: { patk: 0, pdef: 0, mdef: 0, hp: 0, mp: 0, physicalEvasion: 0, meleeEvasion: 0, powerRating: 0 }
+    }
+  }
+
+  // 2.4 双手武器与副手盾牌冲突 (two_hand_conflict)
+  if ((item as any).isTwoHanded && hero.loadout.offhand) {
+    return {
+      status: 'unavailable',
+      reason: 'two_hand_conflict',
+      reasonText: REASON_TEXT.two_hand_conflict,
+      before: beforeStats,
+      after: beforeStats,
+      delta: { patk: 0, pdef: 0, mdef: 0, hp: 0, mp: 0, physicalEvasion: 0, meleeEvasion: 0, powerRating: 0 }
+    }
+  }
+
+  // 3. 模拟换上候选装备后的属性 (ready 就绪)
   const simulatedLoadout = { ...hero.loadout, [slot]: item }
   const simulatedHero: HeroModel = {
     ...hero,
@@ -1560,6 +1643,9 @@ const activeHeroEquipmentComparison = computed(() => {
   const afterStats = computeHeroStats(simulatedHero)
 
   return {
+    status: 'ready',
+    reason: '',
+    reasonText: '',
     before: beforeStats,
     after: afterStats,
     delta: {
