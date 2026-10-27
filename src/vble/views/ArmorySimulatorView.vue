@@ -742,6 +742,193 @@
       </div>
     </div>
 
+    <!-- ================= 十一大封印神兵解封契约与战时追加追击验算工坊 (基于 sealed_weapon_rules.gd / battle.gd) ================= -->
+    <div class="bg-[#121626]/95 border border-amber-500/50 p-4 sm:p-5 rounded-2xl shadow-xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-900/40 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🏛️</span>
+          <div>
+            <h3 class="text-base font-bold text-gray-100 flex items-center gap-2">
+              <span>十一大封印神兵解封契约与战时追加追击验算工坊 (Sealed Weapons Studio)</span>
+              <n-tag size="tiny" type="warning" round>sealed_weapon_rules.gd</n-tag>
+            </h3>
+            <span class="text-xs text-gray-400">
+              对齐 Godot 引擎 11 件法定封印武器白名单 (2100~2110)、副手严格互斥排他性与 0 MP 魔法/即死战时概率追击机制
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <n-tag :type="isSealedWeaponEligible ? 'success' : 'error'" size="small" round strong>
+            {{ isSealedWeaponEligible ? '⚔️ 封印神兵：已共鸣生效' : '🔒 封印神兵：互斥或未就绪' }}
+          </n-tag>
+        </div>
+      </div>
+
+      <!-- 核心三柱石设计 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-amber-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-400">📜 十一件法定神兵白名单</span>
+            <n-tag size="tiny" type="warning">2100~2110</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>严密数字身份白名单：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>2100~2103:</strong> 石板圣剑、贤者之杖、源氏护手等王室遗产。</li>
+            <li><strong>2104~2106:</strong> 神圣飞枪、与一之弓（双手持）、烈焰魔剑。</li>
+            <li><strong>2107~2110:</strong> 封印魔导书、阿波罗之竖琴、大地之锤、刺客短刃。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-cyan-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-400">✨ 战时概率追加追击法则</span>
+            <n-tag size="tiny" type="info">CHASE EFFECTS</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>命中后 0 MP 独立法术结算：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>2104 神圣飞枪：</strong>跳跃落地 33% 追加【圣光奇迹】(威力 240)。</li>
+            <li><strong>2106 烈焰魔剑：</strong>普攻 33% 追加【米西迪亚爆炎】(威力 240)。</li>
+            <li><strong>2109 大地之锤：</strong>普攻 25% 追加【全域地震】(威力 180 AOE)。</li>
+            <li><strong>2110 刺客短刃：</strong>普攻 25% 触发【斩杀即死】(直接收割)。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 rounded-xl border border-purple-900/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-400">🛡️ 沉默遵从与双持双武排他性</span>
+            <n-tag size="tiny" type="error">EXCLUSIVE</n-tag>
+          </div>
+          <div class="text-[11px] text-gray-300">
+            <strong>严格引擎底层守卫：</strong>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-1 list-disc list-inside">
+            <li><strong>双持排他性：</strong>封印神兵绝不进入双持白名单，配副手武器立即失效。</li>
+            <li><strong>双手弓禁盾：</strong>与一之弓 (2105) 必须腾空副手盾牌槽位。</li>
+            <li><strong>沉默与禁魔遵从：</strong>即便 0 MP，角色处于沉默或禁魔时追击绝不触发。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 交互推演台: 封印神兵解封与追击演练 -->
+      <div class="p-4 bg-slate-950/90 rounded-xl border border-amber-700/40 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-900/30 pb-2">
+          <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+            <span>🧪</span>
+            <span>封印神兵战时追击演练台</span>
+          </span>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetSealedStudio">
+              🔄 重置模拟
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 神兵选择与状态开关 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+          <div>
+            <span class="text-gray-400 text-[10px] block mb-1 font-bold">主手封印神兵 (Sealed Weapon):</span>
+            <n-select v-model:value="selectedSealedWeaponId" size="small" :options="sealedWeaponSelectOptions" />
+          </div>
+
+          <div>
+            <span class="text-gray-400 text-[10px] block mb-1 font-bold">攻击动作模式 (Kind):</span>
+            <n-select v-model:value="sealedAttackKind" size="small" :options="sealedAttackKindOptions" />
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">副手槽位排他性核验:</span>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer mt-0.5">
+              <input type="checkbox" v-model="hasOffhandWeaponEquipped" />
+              <span>佩戴副手武器 (触发互斥)</span>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" v-model="hasShieldEquipped" />
+              <span>佩戴盾牌 (与双手弓互斥)</span>
+            </label>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-gray-400 text-[10px] block font-bold">战时负面状态遵从:</span>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer mt-0.5">
+              <input type="checkbox" v-model="isSealedSilenced" />
+              <span>角色处于【沉默】(Silence)</span>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer">
+              <input type="checkbox" v-model="isMagicLocked" />
+              <span>战场处于【禁魔】环境</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 试炼演算控制 -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <div class="flex items-center gap-2">
+            <n-button size="small" type="primary" secondary @click="executeSealedAttack">
+              ⚔️ 发起一次战时攻击 (Roll Chase Trigger)
+            </n-button>
+            <span class="text-xs text-gray-400">
+              当前触发概率: <strong class="text-amber-400 font-mono">{{ sealedWeaponChaseChanceText }}</strong>
+            </span>
+          </div>
+
+          <div class="text-[11px] font-mono text-cyan-300">
+            Seq: #{{ sealedSequenceCounter }} · 单次即时凭证
+          </div>
+        </div>
+
+        <!-- 命中与追击效果呈现 -->
+        <div v-if="lastSealedAttackResult" class="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <span class="text-xs font-bold text-gray-200">
+              攻击结算分析：{{ lastSealedAttackResult.summary }}
+            </span>
+            <n-tag size="small" :type="lastSealedAttackResult.chaseSuccess ? 'success' : 'default'">
+              {{ lastSealedAttackResult.chaseSuccess ? '🌟 追击特技成功触发' : '常规物理终结' }}
+            </n-tag>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center pt-1">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">第一段 · 物理基础输出</div>
+              <div class="text-lg font-mono font-bold text-amber-400">{{ lastSealedAttackResult.physDamage }} DMG</div>
+              <div class="text-[9px] text-gray-500">{{ lastSealedAttackResult.physDesc }}</div>
+            </div>
+
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">第二段 · 0 MP 神兵追击</div>
+              <div class="text-lg font-mono font-bold" :class="lastSealedAttackResult.chaseSuccess ? 'text-emerald-400' : 'text-gray-500'">
+                {{ lastSealedAttackResult.chaseDamageText }}
+              </div>
+              <div class="text-[9px]" :class="lastSealedAttackResult.chaseSuccess ? 'text-emerald-300' : 'text-gray-500'">
+                {{ lastSealedAttackResult.chaseDesc }}
+              </div>
+            </div>
+
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-gray-400">目标存活状态</div>
+              <div class="text-lg font-mono font-bold" :class="lastSealedAttackResult.targetDefeated ? 'text-rose-400' : 'text-cyan-400'">
+                {{ lastSealedAttackResult.targetDefeated ? '💀 目标已阵亡' : '🛡️ 目标仍存活' }}
+              </div>
+              <div class="text-[9px] text-gray-500">{{ lastSealedAttackResult.targetStatusDesc }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 审计日志 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800/80 text-[10px] font-mono space-y-1">
+          <div class="text-gray-500 font-bold">封印神兵事件凭据审计 (SealedWeapon Event Trace):</div>
+          <div v-for="(log, idx) in sealedTraceLogs" :key="idx" class="text-amber-300 truncate">
+            &gt; {{ log }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ================= 全域神兵与防具全景展示库 (用户要求：选人装备 + 点击查看图片详情) ================= -->
     <div class="space-y-4 pt-6 border-t border-slate-800">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1970,5 +2157,227 @@ const resetDualWieldStudio = () => {
   dwMainhandWeapon.value = '2005'
   dwOffhandWeapon.value = '2004'
   dwShield.value = ''
+}
+
+// ================= 十一大封印神兵解封契约与战时追加追击验算工坊 (sealed_weapon_rules.gd / sealed_weapon_battle.gd) =================
+const selectedSealedWeaponId = ref('2106') // 默认烈焰魔剑
+const sealedAttackKind = ref<'normal' | 'jump'>('normal')
+const hasOffhandWeaponEquipped = ref(false)
+const hasShieldEquipped = ref(false)
+const isSealedSilenced = ref(false)
+const isMagicLocked = ref(false)
+const sealedSequenceCounter = ref(1)
+
+const sealedWeaponSelectOptions = [
+  { label: '2106: 烈焰魔剑 (普攻 33% 追击 米西迪亚爆炎 威力240)', value: '2106' },
+  { label: '2104: 神圣飞枪 (跳跃 33% 追击 圣光奇迹 威力240)', value: '2104' },
+  { label: '2109: 大地之锤 (普攻 25% 追击 全域地震 威力180 AOE)', value: '2109' },
+  { label: '2110: 刺客短刃 (普攻 25% 斩杀即死收割)', value: '2110' },
+  { label: '2105: 与一之弓 (ATK+110 · 双手持用 · 禁副手盾牌)', value: '2105' },
+  { label: '2100: 石板圣剑 (ATK+140 · 骑士王权神圣之刃)', value: '2100' },
+  { label: '2101: 贤者之杖 (MATK+95 · 战时使用战复阵亡队友)', value: '2101' },
+  { label: '2107: 封印魔导书 (神圣系法术威力倍率 x1.5)', value: '2107' },
+  { label: '2108: 阿波罗之竖琴 (黑魔法全元素威力倍率 x1.5)', value: '2108' }
+]
+
+const sealedAttackKindOptions = [
+  { label: '🗡️ 普通攻击 (Kind: normal)', value: 'normal' },
+  { label: '🪂 龙骑士跳跃落地 (Kind: jump)', value: 'jump' }
+]
+
+const isSealedWeaponEligible = computed(() => {
+  // 规则 1: 必须为封印武器
+  const SEALED_IDS = ['2100', '2101', '2102', '2103', '2104', '2105', '2106', '2107', '2108', '2109', '2110']
+  if (!SEALED_IDS.includes(selectedSealedWeaponId.value)) return false
+  // 规则 2: 不在二刀流白名单，若佩戴副手武器直接失效
+  if (hasOffhandWeaponEquipped.value) return false
+  // 规则 3: 双手持弓 (2105) 互斥盾牌
+  if (selectedSealedWeaponId.value === '2105' && hasShieldEquipped.value) return false
+  return true
+})
+
+const sealedWeaponChaseChanceText = computed(() => {
+  if (!isSealedWeaponEligible.value) return '0% (装备互斥受阻)'
+  if (isSealedSilenced.value || isMagicLocked.value) {
+    if (selectedSealedWeaponId.value === '2110') {
+      return '25% (物理即死不吃沉默)'
+    }
+    return '0% (受沉默/禁魔压制)'
+  }
+  if (selectedSealedWeaponId.value === '2104') {
+    return sealedAttackKind.value === 'jump' ? '33% (落地触发)' : '0% (仅跳跃落地生效)'
+  }
+  if (selectedSealedWeaponId.value === '2106') {
+    return sealedAttackKind.value === 'normal' ? '33% (普攻触发)' : '0% (仅普攻生效)'
+  }
+  if (selectedSealedWeaponId.value === '2109') {
+    return sealedAttackKind.value === 'normal' ? '25% (普攻AOE触发)' : '0% (仅普攻生效)'
+  }
+  if (selectedSealedWeaponId.value === '2110') {
+    return sealedAttackKind.value === 'normal' ? '25% (普攻即死触发)' : '0% (仅普攻生效)'
+  }
+  return '无战时追击动作 (常驻特质/战复使用)'
+})
+
+interface SealedAttackResult {
+  summary: string
+  chaseSuccess: boolean
+  physDamage: number
+  physDesc: string
+  chaseDamageText: string
+  chaseDesc: string
+  targetDefeated: boolean
+  targetStatusDesc: string
+}
+
+const lastSealedAttackResult = ref<SealedAttackResult | null>(null)
+const sealedTraceLogs = ref<string[]>([
+  '系统就绪: sealed_weapon_rules.gd 与 sealed_weapon_battle.gd 契约完成加载',
+  '契约守卫: 11件法定神兵白名单 (2100~2110) 独占数字身份，严禁双持，一次性单凭证消费'
+])
+
+const executeSealedAttack = () => {
+  sealedSequenceCounter.value += 1
+  const currentSeq = sealedSequenceCounter.value
+
+  if (!isSealedWeaponEligible.value) {
+    let reason = '资格校验失败'
+    if (hasOffhandWeaponEquipped.value) reason = '检测到副手武器装备！封印神兵非双持白名单，资格已驳回'
+    if (selectedSealedWeaponId.value === '2105' && hasShieldEquipped.value) reason = '与一之弓属于双手武器，副手佩盾导致生效驳回'
+    
+    sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 拦截: ${reason} (RULES.item_id 返回 0)`)
+    lastSealedAttackResult.value = {
+      summary: '神兵未就绪 / 装备冲突',
+      chaseSuccess: false,
+      physDamage: 0,
+      physDesc: '装备互斥导致物理伤害未有效输出',
+      chaseDamageText: '0 DMG',
+      chaseDesc: '由于装备违规，神兵追击被底层安全门禁完全熔断',
+      targetDefeated: false,
+      targetStatusDesc: '敌方安然无恙'
+    }
+    return
+  }
+
+  // 1. 第一段：基础物理命中
+  const basePhys = Math.floor(Math.random() * 80) + 320
+  let chaseSuccess = false
+  let chaseDamageText = '未触发'
+  let chaseDesc = '概率判定未通过或动作模式不符'
+  let targetDefeated = false
+  let targetStatusDesc = '受到常规物理创伤'
+
+  // 2. 第二段：追击判定
+  const roll = Math.random()
+
+  if (selectedSealedWeaponId.value === '2110') {
+    // 刺客短刃：普攻 25% 斩杀
+    if (sealedAttackKind.value === 'normal') {
+      if (roll < 0.25) {
+        chaseSuccess = true
+        chaseDamageText = '9999 (EXECUTE)'
+        chaseDesc = '刺客短刃【斩杀即死】生效！绕过阵型减半直接破除生命'
+        targetDefeated = true
+        targetStatusDesc = '被即死收割瞬间致命斩杀'
+        sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 刺客短刃(2110): 即死触发成功！(Roll=${(roll * 100).toFixed(1)}% < 25%)，敌人已被直接收割`)
+      } else {
+        chaseDesc = `即死率 25% 未命中 (Roll=${(roll * 100).toFixed(1)}%)`
+        sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 刺客短刃(2110): 普攻完成，即死判定未命中`)
+      }
+    } else {
+      chaseDesc = '刺客短刃仅在 normal 普攻动作下判定即死'
+    }
+  } else if (isSealedSilenced.value || isMagicLocked.value) {
+    chaseDesc = '角色处于沉默或战场禁魔状态，装备魔法追击被严格熔断 (0 MP 亦遵守沉默法则)'
+    sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 追击熔断: actor.magic_locked || actor.has_status("silence") 成立，拒绝触发`)
+  } else if (selectedSealedWeaponId.value === '2106') {
+    // 烈焰魔剑：普攻 33% 米西迪亚爆炎
+    if (sealedAttackKind.value === 'normal') {
+      if (roll < 0.33) {
+        chaseSuccess = true
+        const magDmg = Math.floor(Math.random() * 120) + 680
+        chaseDamageText = `${magDmg} DMG (米西迪亚爆炎)`
+        chaseDesc = '烈焰魔剑共鸣：追加 0 MP 米西迪亚爆炎 (Power 240, Fire)'
+        targetDefeated = (basePhys + magDmg) > 850
+        targetStatusDesc = targetDefeated ? '两段合计输出过载，目标已解体' : '受到猛烈火系追击烧灼'
+        sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 烈焰魔剑(2106): 追击成功！(Roll=${(roll * 100).toFixed(1)}% < 33%) -> 米西迪亚爆炎 ${magDmg} 点伤害`)
+      } else {
+        chaseDesc = `追击率 33% 未命中 (Roll=${(roll * 100).toFixed(1)}%)`
+        sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 烈焰魔剑(2106): 普攻命中，爆炎追击判定落空`)
+      }
+    } else {
+      chaseDesc = '烈焰魔剑仅在 normal 普攻动作下追击爆炎'
+    }
+  } else if (selectedSealedWeaponId.value === '2104') {
+    // 神圣飞枪：跳跃 33% 圣光奇迹
+    if (sealedAttackKind.value === 'jump') {
+      if (roll < 0.33) {
+        chaseSuccess = true
+        const magDmg = Math.floor(Math.random() * 150) + 720
+        chaseDamageText = `${magDmg} DMG (圣光奇迹)`
+        chaseDesc = '神圣飞枪共鸣：跳跃落地追加 0 MP 圣光奇迹 (Power 240, Holy)'
+        targetDefeated = (basePhys + magDmg) > 850
+        targetStatusDesc = targetDefeated ? '圣光穿透目标，当场湮灭' : '受到圣光辉芒轰击'
+        sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 神圣飞枪(2104): 跳跃落地追击成功！(Roll=${(roll * 100).toFixed(1)}% < 33%) -> 圣光奇迹 ${magDmg} 点伤害`)
+      } else {
+        chaseDesc = `跳跃追击率 33% 未命中 (Roll=${(roll * 100).toFixed(1)}%)`
+        sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 神圣飞枪(2104): 跳跃落地命中，圣光判定落空`)
+      }
+    } else {
+      chaseDesc = '神圣飞枪仅在 jump 跳跃落地动作下追加圣光'
+      sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 神圣飞枪(2104): 当前为常规普攻，圣光奇迹仅在跳跃落地时判定`)
+    }
+  } else if (selectedSealedWeaponId.value === '2109') {
+    // 大地之锤：普攻 25% 全域地震
+    if (sealedAttackKind.value === 'normal') {
+      if (roll < 0.25) {
+        chaseSuccess = true
+        const magDmg = Math.floor(Math.random() * 100) + 520
+        chaseDamageText = `${magDmg} DMG (全域地震AOE)`
+        chaseDesc = '大地之锤共鸣：普攻追加 0 MP 全域地震 (Power 180, Earth AOE全敌波及)'
+        targetDefeated = (basePhys + magDmg) > 850
+        targetStatusDesc = targetDefeated ? '大地震撼敌阵，首要目标倒地' : '全域敌阵陷入地脉动荡'
+        sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 大地之锤(2109): 地震追击成功！(Roll=${(roll * 100).toFixed(1)}% < 25%) -> 全域地震 ${magDmg} 点 AOE 伤害`)
+      } else {
+        chaseDesc = `地震率 25% 未命中 (Roll=${(roll * 100).toFixed(1)}%)`
+        sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 大地之锤(2109): 普攻完成，地震追击落空`)
+      }
+    } else {
+      chaseDesc = '大地之锤仅在 normal 普攻动作下追击地震'
+    }
+  } else {
+    chaseDesc = '当前选中的封印道具为被动增益或主动使用道具 (无自动追击事件)'
+    sealedTraceLogs.value.unshift(`[Seq #${currentSeq}] 结算: 武器 ${selectedSealedWeaponId.value} 仅提供面板或专属特质，无追击`)
+  }
+
+  // 审计日志维持最大 8 条
+  if (sealedTraceLogs.value.length > 8) {
+    sealedTraceLogs.value = sealedTraceLogs.value.slice(0, 8)
+  }
+
+  lastSealedAttackResult.value = {
+    summary: `${selectedSealedWeaponId.value} 动作结算完成 (Seq #${currentSeq})`,
+    chaseSuccess,
+    physDamage: basePhys,
+    physDesc: `普攻基础斩击命中，造成 ${basePhys} 物理伤害`,
+    chaseDamageText,
+    chaseDesc,
+    targetDefeated,
+    targetStatusDesc
+  }
+}
+
+const resetSealedStudio = () => {
+  selectedSealedWeaponId.value = '2106'
+  sealedAttackKind.value = 'normal'
+  hasOffhandWeaponEquipped.value = false
+  hasShieldEquipped.value = false
+  isSealedSilenced.value = false
+  isMagicLocked.value = false
+  lastSealedAttackResult.value = null
+  sealedTraceLogs.value = [
+    '重置完成: 封印神兵推演台回到初始状态',
+    '默认装配: 烈焰魔剑 (2106), 普攻动作模式, 双手/盾牌槽位合规'
+  ]
 }
 </script>

@@ -189,6 +189,31 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-sealed-weapons-rules-chase-studio-2026-10-27',
+    version: 'v2.2.197',
+    date: '2026-10-27',
+    title: '十一大法定封印神兵解封契约与战时概率追击工坊全息实装',
+    category: 'equipment',
+    categoryName: '实机演进',
+    icon: '🏛️',
+    tagType: 'warning',
+    description: '对齐 Godot 引擎 sealed_weapon_rules.gd 与 sealed_weapon_battle.gd 最新实机架构：全息实装十一件法定封印神兵白名单 (2100~2110)、副手双武/双手弓禁盾严格互斥准则、0 MP 战时概率法术追击与即死斩杀机制、单次即时凭据安全消费防重放设计。',
+    highlights: [
+      '法定神兵白名单 (sealed_weapon_rules.gd)：石板圣剑(2100)、贤者之杖(2101)、源氏铠盾(2102/2103)、神圣飞枪(2104)、与一之弓(2105)、烈焰魔剑(2106)、封印魔导书(2107)、阿波罗竖琴(2108)、大地之锤(2109)、刺客短刃(2110) 独占数字身份',
+      '严密排他互斥：封印神兵绝不进入二刀流白名单，配副手武器立即驳回；与一之弓双手持用严格禁配盾牌 (two_hand_conflict)',
+      '战时概率追加追击 (sealed_weapon_battle.gd)：烈焰魔剑普攻33%追加【米西迪亚爆炎】(威力240)、神圣飞枪跳跃落地33%追加【圣光奇迹】(威力240)、大地之锤普攻25%追加【全域地震AOE】(威力180)、刺客短刃普攻25%触发【斩杀即死】(直接收割非免疫目标)',
+      '沉默与禁魔铁律守卫：追击法术虽消耗 0 MP，但严格遵守沉默状态 (has_status("silence")) 与战场禁魔 (magic_locked)，状态异常时绝不放行',
+      '事件单次凭据消费防重放：battle 内部 _events.erase(event) 先撤销再执行判定，彻底根除跨回合与跨读档重放漏洞',
+      '实装交互推演工坊：神兵切换、动作模式(普攻/跳跃)选择、副手互斥开关、沉默/禁魔模拟与单次追击 Roll 判定呈现',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '神兵军械库推演', path: '/vble/armory-simulator', icon: '⚔️' },
+      { label: '战斗法则与试炼', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '职业转职与精通', path: '/vble/jobs', icon: '📜' }
+    ]
+  },
+  {
     id: 'up-battle-rps-duel-singing-system-2026-10-27',
     version: 'v2.2.196',
     date: '2026-10-27',
