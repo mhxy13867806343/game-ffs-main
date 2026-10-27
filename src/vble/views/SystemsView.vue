@@ -332,6 +332,150 @@
         </div>
       </n-card>
 
+      <!-- 酒馆微醺状态机与步数醒酒管线架构 (Tavern Buzz State & Sobering Walk Engine) -->
+      <n-card hoverable class="border border-amber-900/60 bg-[#1a140b]/90 rounded-xl md:col-span-2" title="🍺 酒馆微醺状态机与步数醒酒管线架构 (Tavern Buzz State & Sobering Walk Engine)">
+        <div class="space-y-4 text-xs leading-relaxed">
+          <p class="text-gray-300">
+            对齐 Godot 引擎 <code>tavern_buzz_drink.gd</code>、<code>tavern_buzz_effect.gd</code> 与 <code>tavern_buzz_state.gd</code> 最新实机管线：实装酒馆饮酒递进微醺状态机、28px 步距累加醒酒算法、Shader 径向色散滤镜与精灵步态摆动模拟。
+          </p>
+
+          <!-- 核心三大架构设计 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="p-3 bg-slate-900/80 rounded border border-amber-900/30 space-y-1">
+              <div class="text-amber-300 font-bold">⭐ 四阶微醺状态机 (Phase Machine):</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>清醒 (Sober):</strong> 初始 0 杯，滤镜强度 strength = 0.0，无画面失真与步态偏摆。</li>
+                <li><strong>微醺 (LightBuzz):</strong> 1~2 杯，酒意初起，保留清醒视界，重置当前已走步距。</li>
+                <li><strong>酩酊大醉 (Drunk):</strong> &ge;3 杯，激活全屏径向色散与每 3 整步 &plusmn;4px 精灵交替晃动。</li>
+                <li><strong>平滑醒酒 (Sobering):</strong> 走满 30 步 (840px) 触发平滑淡出，1 秒内强度渐变归零。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-amber-900/30 space-y-1">
+              <div class="text-cyan-300 font-bold">⭐ 视差色散与步态晃动算法:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>径向色散 Shader:</strong> 采用 <code>FILTER_SHADER</code> 在视口径向施加 R/B 频段偏移，平滑度与 strength 强关联。</li>
+                <li><strong>交替晃动数学 (sway_pixels):</strong> <code>steps = floor(walked / 28px)</code>，步数&ge;3 且处于 Drunk 时，每 3 步在 &plusmn;4px 间反向震荡。</li>
+                <li><strong>对白与静止避让:</strong> 仅计物理位移，对话或站立静止绝不推进醒酒步距。</li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 rounded border border-amber-900/30 space-y-1">
+              <div class="text-purple-300 font-bold">⭐ 零污染与场景生命周期安全:</div>
+              <ul class="list-disc list-inside text-gray-400 space-y-1">
+                <li><strong>非持久化保全:</strong> 微醺杯数与步数绝不写入存档、StoryManager 旗标或战斗系统。</li>
+                <li><strong>退场即时销毁 (_retire):</strong> 切图、换档或退出酒馆立即触发 <code>queue_free()</code>，杜绝跨场景幽灵滞留。</li>
+                <li><strong>再来一杯经济锁:</strong> 单杯固定 10G，金币不足即刻终止且不扣除余额，已购情报永久免费重读。</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 交互推演台: 酒馆买酒微醺与步距醒酒全息演练台 -->
+          <div class="p-4 bg-slate-950/90 rounded-xl border border-amber-700/40 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-900/30 pb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-amber-400 font-bold text-sm">🧪 酒馆买酒微醺与步距醒酒全息演练台</span>
+                <n-tag size="tiny" type="warning" round>Tavern Buzz Studio</n-tag>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-gray-400 text-xs">金币钱包:</span>
+                <span class="text-amber-400 font-mono font-bold text-xs">{{ buzzGold }} G</span>
+                <n-button size="tiny" secondary type="warning" @click="buzzGold += 50">
+                  +50G 充钱包
+                </n-button>
+                <n-button size="tiny" secondary type="error" @click="leaveTavern">
+                  🚪 离开酒馆 (切图退役)
+                </n-button>
+              </div>
+            </div>
+
+            <!-- 控制按钮群与状态展示 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+              <div class="space-y-1">
+                <span class="text-gray-400 text-[10px] block">酒馆吧台交互 (10G/杯):</span>
+                <n-button size="small" type="warning" block @click="buyDrink">
+                  🍺 再来一杯 (10G)
+                </n-button>
+                <div class="text-[10px] text-gray-500">累计已饮: <strong class="text-amber-300 font-mono">{{ buzzCups }}</strong> 杯</div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-gray-400 text-[10px] block">物理移动模拟 (28px/步):</span>
+                <div class="grid grid-cols-3 gap-1">
+                  <n-button size="tiny" secondary @click="walkSteps(1)">+1 步</n-button>
+                  <n-button size="tiny" secondary @click="walkSteps(5)">+5 步</n-button>
+                  <n-button size="tiny" type="info" secondary @click="walkSteps(30)">+30 步</n-button>
+                </div>
+                <div class="text-[10px] text-gray-500">步数: <span class="text-cyan-300 font-mono">{{ buzzSteps }}</span>/30 步 ({{ buzzWalkedPixels }}px)</div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-gray-400 text-[10px] block">当前醉酒阶段 (Phase):</span>
+                <div class="flex items-center gap-2">
+                  <n-tag
+                    :type="buzzPhase === 'Sober' ? 'default' : buzzPhase === 'LightBuzz' ? 'warning' : buzzPhase === 'Drunk' ? 'error' : 'success'"
+                    size="small"
+                  >
+                    {{ buzzPhase === 'Sober' ? '😊 清醒 (Sober)' : buzzPhase === 'LightBuzz' ? '🍺 微醺 (LightBuzz)' : buzzPhase === 'Drunk' ? '🥴 酩酊大醉 (Drunk)' : '🍃 醒酒消退中' }}
+                  </n-tag>
+                </div>
+                <div class="text-[10px] text-gray-400">滤镜强度: <span class="font-mono text-purple-300">{{ buzzStrength.toFixed(2) }}</span></div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-gray-400 text-[10px] block">精灵左右晃动偏移 (sway_pixels):</span>
+                <div class="text-base font-black font-mono text-amber-300">
+                  {{ buzzSway > 0 ? '+' : '' }}{{ buzzSway }} px
+                </div>
+                <div class="text-[10px] text-gray-500">每 3 步交替 &plusmn;4px &times; strength</div>
+              </div>
+            </div>
+
+            <!-- 可视化视差与精灵摆动实时投影 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <!-- 精灵步态模拟视窗 -->
+              <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-2">
+                <div class="text-[11px] font-bold text-gray-300 flex items-center justify-between">
+                  <span>角色精灵位移全息投影 (LeaderSprite.offset.x)</span>
+                  <span class="text-[10px] text-cyan-400 font-mono">28px/Step · sway: {{ buzzSway }}px</span>
+                </div>
+                <div class="h-28 bg-gradient-to-b from-slate-950 to-slate-900 rounded border border-slate-800 flex items-center justify-center relative overflow-hidden">
+                  <!-- 步态指示线 -->
+                  <div class="absolute inset-y-0 left-1/2 w-0.5 bg-cyan-500/20 pointer-events-none"></div>
+                  <!-- 精灵模拟物 -->
+                  <div
+                    class="transition-transform duration-200 flex flex-col items-center"
+                    :style="{ transform: `translateX(${buzzSway * 6}px)` }"
+                  >
+                    <div class="text-3xl filter select-none" :style="{ filter: `blur(${buzzStrength * 1.5}px)` }">
+                      {{ buzzPhase === 'Drunk' ? '🥴' : buzzPhase === 'LightBuzz' ? '😏' : '🧙‍♂️' }}
+                    </div>
+                    <span class="text-[10px] font-mono text-amber-300 mt-1">Offset: {{ buzzSway }}px</span>
+                  </div>
+                  <!-- 滤镜状态水印 -->
+                  <div class="absolute bottom-1 right-2 text-[10px] font-mono text-gray-500">
+                    Shader Dispersion: {{ (buzzStrength * 100).toFixed(0) }}%
+                  </div>
+                </div>
+              </div>
+
+              <!-- 状态机流水日志 -->
+              <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-2">
+                <div class="text-[11px] font-bold text-gray-300 flex items-center justify-between">
+                  <span>微醺生命周期审计追踪 (TavernBuzz Trace)</span>
+                  <span class="text-[10px] text-amber-400 font-mono">SOBER_STEPS = 30</span>
+                </div>
+                <div class="p-2 rounded bg-black/40 border border-slate-800/80 min-h-[96px] text-[10px] font-mono space-y-1">
+                  <div v-for="(log, idx) in buzzLog" :key="idx" class="text-amber-300/90 truncate">
+                    &gt; {{ log }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </n-card>
+
       <!-- 探索菜单独立露营快捷管线与休整恢复架构 -->
       <n-card hoverable class="border border-emerald-900/60 bg-[#0a1c17]/90 rounded-xl md:col-span-2" title="⛺ 探索菜单独立露营快捷管线与休整恢复架构 (Dedicated Camping Shortcut)">
         <div class="space-y-3 text-xs leading-relaxed">
@@ -1167,5 +1311,81 @@ const simulateSwitchSave = () => {
 const simulateSwitchCycle = () => {
   activeCycle.value = activeCycle.value === 1 ? 2 : 1
   triggerInvalidation('周目跃迁 (Cycle Invalidation)')
+}
+
+// ================= 酒馆微醺状态机与步数醒酒模拟器 (Tavern Buzz State Simulator) =================
+const buzzGold = ref(50)
+const buzzCups = ref(0)
+const buzzWalkedPixels = ref(0)
+const buzzStrength = ref(0)
+const buzzPhase = ref<'Sober' | 'LightBuzz' | 'Drunk' | 'Sobering'>('Sober')
+const buzzLog = ref<string[]>([
+  '进入晨辉酒馆：清醒状态 (Sober)，步距 0px，无晃动，滤镜强度 0.00。'
+])
+const STEP_LENGTH = 28 // 28px 一步
+const SOBER_STEPS = 30 // 30 步清醒 (840px)
+const SOBER_PIXELS = SOBER_STEPS * STEP_LENGTH
+
+// 计算步数
+const buzzSteps = computed(() => Math.floor(buzzWalkedPixels.value / STEP_LENGTH))
+
+// 屏幕晃动位移 (sway_pixels)
+const buzzSway = computed(() => {
+  const steps = buzzSteps.value
+  if (steps < 3 || buzzPhase.value !== 'Drunk') return 0
+  const dir = Math.floor(steps / 3) % 2 === 1 ? 4 : -4
+  return Number((dir * buzzStrength.value).toFixed(2))
+})
+
+// 模拟买酒再来一杯 (purchase)
+const buyDrink = () => {
+  if (buzzGold.value < 10) {
+    buzzLog.value.unshift('❌ 再来一杯需10G。金币不足，未收取金币。')
+    if (buzzLog.value.length > 6) buzzLog.value.pop()
+    return
+  }
+  buzzGold.value -= 10
+  buzzCups.value += 1
+  buzzWalkedPixels.value = 0 // 重置醒酒步距
+  if (buzzCups.value < 3) {
+    buzzPhase.value = 'LightBuzz'
+    buzzStrength.value = 0
+  } else {
+    buzzPhase.value = 'Drunk'
+    buzzStrength.value = 1.0 // Drunk 阶段 strength 趋近于 1.0
+  }
+  buzzLog.value.unshift(`🍺 购买「再来一杯」已付10G (剩余 ${buzzGold.value}G)！当前累计: ${buzzCups.value} 杯，阶段: ${buzzPhase.value === 'LightBuzz' ? '微醺 (LightBuzz)' : '酩酊大醉 (Drunk)'}。`)
+  if (buzzLog.value.length > 6) buzzLog.value.pop()
+}
+
+// 模拟行走位移 (travel)
+const walkSteps = (steps: number) => {
+  if (buzzPhase.value !== 'LightBuzz' && buzzPhase.value !== 'Drunk') {
+    buzzLog.value.unshift(`🚶 行走了 ${steps} 步 (${steps * STEP_LENGTH}px)，当前为清醒状态，无需醒酒。`)
+    if (buzzLog.value.length > 6) buzzLog.value.pop()
+    return
+  }
+  const addedPx = steps * STEP_LENGTH
+  buzzWalkedPixels.value += addedPx
+  if (buzzWalkedPixels.value >= SOBER_PIXELS) {
+    buzzCups.value = 0
+    buzzPhase.value = 'Sobering'
+    buzzStrength.value = 0
+    buzzPhase.value = 'Sober'
+    buzzLog.value.unshift(`✨ 走完了 ${buzzSteps.value} 步 (累计 ${buzzWalkedPixels.value}px >= 840px)，完全清醒！杯数清零，滤镜与晃动消退。`)
+  } else {
+    buzzLog.value.unshift(`🚶 移动 ${steps} 步 (累计 ${buzzSteps.value}/30 步, ${buzzWalkedPixels.value}/${SOBER_PIXELS}px)。当前晃动: ${buzzSway.value}px。`)
+  }
+  if (buzzLog.value.length > 6) buzzLog.value.pop()
+}
+
+// 离开酒馆清理退役 (_retire)
+const leaveTavern = () => {
+  buzzCups.value = 0
+  buzzWalkedPixels.value = 0
+  buzzPhase.value = 'Sober'
+  buzzStrength.value = 0
+  buzzLog.value.unshift('🚪 离开酒馆切图退役 (_retire)：TavernBuzzEffect 销毁，非持久化状态重置，零存档污染。')
+  if (buzzLog.value.length > 6) buzzLog.value.pop()
 }
 </script>

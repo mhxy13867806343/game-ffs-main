@@ -189,6 +189,53 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-tavern-buzz-state-engine-2026-10-27',
+    version: 'v2.2.191',
+    date: '2026-10-27',
+    title: '酒馆微醺状态机与 30 步醒酒引擎全息演练台实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🍺',
+    tagType: 'warning',
+    description: '对齐 Godot 引擎 tavern_buzz_drink.gd、tavern_buzz_effect.gd 与 tavern_buzz_state.gd 最新实机架构：全息实装酒馆 10G 再来一杯交易链、清醒/微醺/大醉/醒酒四阶状态机、28px 步距累加醒酒与 LeaderSprite 精灵交替晃动算法。',
+    highlights: [
+      '四阶状态机演化 (tavern_buzz_state.gd)：清醒 (Sober, 0杯) -> 微醺 (LightBuzz, 1~2杯) -> 酩酊大醉 (Drunk, 3+杯) -> 平滑醒酒 (Sobering, 满30步840px过渡消退)',
+      '步态摆动数学 (sway_pixels)：沿用 28px/步物理移动判定，步数>=3 且处于 Drunk 阶段时，每 3 步交替 ±4px 精灵横向偏移 (offset.x)，并由 strength 权重阻尼',
+      '径向色散 Shader 模拟：FILTER_SHADER 径向位移屏幕像素 R/B 频段，对白与静止避让保护',
+      '零污染安全退役守卫：切图或换档触发 _retire() 瞬时销毁，非持久化状态绝不污染存档与战斗数据',
+      '实装交互式「酒馆买酒微醺与步距醒酒全息演练台」：支持买酒、步数位移推演、实时精灵摆动与生命周期审计追踪',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '全域地貌与城镇', path: '/vble/scenes', icon: '🗺️' },
+      { label: '支线任务与全域巡礼', path: '/vble/sidequests', icon: '📜' }
+    ]
+  },
+  {
+    id: 'up-chocobo-circuit-mirage-vest-2026-10-27',
+    version: 'v2.2.190',
+    date: '2026-10-27',
+    title: 'SQ-11 陆行鸟大陆 16 环全域巡礼与幻象背心全息推演台实装',
+    category: 'system',
+    categoryName: '支线与探索',
+    icon: '🐤',
+    tagType: 'success',
+    description: '对齐 Godot 引擎 chocobo_circuit_route.gd、chocobo_circuit_progress.gd 与 chocobo_circuit_reward.gd 最新实机架构：全息实装大陆 16 环巡礼打卡路线、半径 24px 传感器检测与终极神装【幻象背心】(ID: 2095) 结算体系。',
+    highlights: [
+      '16 环连续巡礼打卡链路：从后山西林 (920, 760) 启程，途经神殿北坡、边陲丘陵、织造城西郊、东岸栈道等 16 处打卡点，严格单调递增打卡验证',
+      '精确传感器半径 (radius = 24.0px)：采用双向欧氏距离容差判断，支持黑陆行鸟林地跨山飞行特权',
+      '终极巡礼奖励【幻象背心】(Item 2095)：物理防御+38、全域闪避+20%、内置战斗分身幻象，严密防重复领取保护',
+      '实装交互式「陆行鸟 16 环全域巡礼打卡推演台」：滑块模拟打卡进度、实时呈现当前地标与结算状态',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '支线任务与全域巡礼', path: '/vble/sidequests', icon: '📜' },
+      { label: '全域地貌与风土志', path: '/vble/scenes', icon: '🗺️' },
+      { label: '神兵军械库推演', path: '/vble/armory-simulator', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-equipment-comparison-rejection-2026-10-27',
     version: 'v2.2.189',
     date: '2026-10-27',
