@@ -602,6 +602,157 @@
       </div>
     </div>
 
+    <!-- 酒馆 S 级【死亡之眼】绝密悬赏令与十二前置契约工坊 (基于 tavern_bounty_s_save.gd) -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-rose-950/40 via-slate-900/90 to-purple-950/40 border border-rose-500/40 shadow-xl space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-rose-800/40 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">👁️</span>
+          <h3 class="text-base sm:text-lg font-bold text-rose-300">酒馆 S 级【死亡之眼】绝密悬赏令与十二前置契约工坊 (Tavern S-Rank Bounty Studio)</h3>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <n-tag type="error" size="small" round>S 级最高绝密</n-tag>
+          <n-tag type="warning" size="small" round>通关星标守卫</n-tag>
+          <n-tag type="info" size="small" round>十二前置强约束</n-tag>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed">
+        对齐 Godot 引擎 <code>tavern_bounty_s_save.gd</code> 最新实机规约：S 级绝密首领【死亡之眼】(Death Eye) 严格遵守十二项前置悬赏全达成契约 (D/C/B/A 四阶各 3 阶段)，本周目必须持有 <code>clear_star == true</code> 通关凭据，三项核心旗标严格遵循“接取 ➔ 讨伐 ➔ 交付”不可逆推进。
+      </p>
+
+      <!-- 核心三大规约卡 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+        <div class="p-3 bg-slate-900/80 rounded-xl border border-rose-800/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-rose-300">📜 十二前置全真契约 (PREREQUISITES)</span>
+            <n-tag size="tiny" type="error">DCBA 12 FLAGS</n-tag>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+            <li><strong>D级杀手蜂:</strong> 接取(accepted) ➔ 击败(defeated) ➔ 领赏(claimed)</li>
+            <li><strong>C级巨蝎:</strong> 接取 ➔ 击败 ➔ 交付(delivered)</li>
+            <li><strong>B级僵尸恶龙:</strong> 接取 ➔ 击败 ➔ 交付</li>
+            <li><strong>A级奇美拉兽王:</strong> 接取 ➔ 击败 ➔ 交付</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-900/80 rounded-xl border border-amber-800/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300">⭐ 通关星标准入守卫 (Clear Star)</span>
+            <n-tag size="tiny" type="warning">POST-GAME</n-tag>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+            <li><strong>双重真值要求:</strong> <code>clear_star == true</code> 且 <code>clear_count &ge; 1</code>。</li>
+            <li><strong>防欺诈机制:</strong> 未通关档即便通过旧代码伪造 S 级旗标，也会被 <code>valid()</code> 门禁判定坏档拒绝载入。</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-900/80 rounded-xl border border-purple-800/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-300">🔒 严格三阶段状态机推进</span>
+            <n-tag size="tiny" type="info">FLAGS ORDER</n-tag>
+          </div>
+          <ul class="text-[10px] text-gray-400 space-y-0.5 list-disc list-inside">
+            <li><strong>阶段 1:</strong> <code>bounty_s_death_eye_accepted</code> (已接取)</li>
+            <li><strong>阶段 2:</strong> <code>bounty_s_death_eye_defeated</code> (已斩杀)</li>
+            <li><strong>阶段 3:</strong> <code>bounty_s_death_eye_delivered</code> (交付领赏)</li>
+            <li><strong>防跃进:</strong> 严禁跳过接取直接讨伐，严禁未讨伐直接交付。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 交互推演台: S级悬赏资格与生命周期推演台 -->
+      <div class="p-3 sm:p-4 rounded-xl bg-slate-950/80 border border-rose-600/30 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-rose-900/30 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-rose-400">🧪 S 级绝密悬赏接取与契约验证台</span>
+            <n-tag size="tiny" :type="isBountySEligible ? 'success' : 'error'" round>
+              {{ isBountySEligible ? '✨ S 级悬赏资格：完全达成' : '🔒 S 级悬赏：前置或星标缺失' }}
+            </n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="tiny" secondary type="warning" @click="resetBountySStudio">
+              🔄 重置模拟
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 前置开关 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+          <div class="space-y-1">
+            <div class="text-[10px] text-gray-400 font-bold">通关星标认证:</div>
+            <label class="flex items-center gap-1.5 text-xs text-gray-300 cursor-pointer mt-0.5">
+              <input type="checkbox" v-model="bountySHasClearStar" />
+              <span>本轮持有【通关星标】(clear_star)</span>
+            </label>
+            <div class="text-[10px] text-gray-500">通关次数: {{ bountySClearCount }} 次</div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="text-[10px] text-gray-400 font-bold">十二前置达成控制:</div>
+            <div class="flex items-center gap-1.5">
+              <n-button size="tiny" secondary type="success" @click="setAllPrerequisites(true)">
+                ✅ 一键全部达成
+              </n-button>
+              <n-button size="tiny" secondary type="warning" @click="setAllPrerequisites(false)">
+                ❌ 全部清空
+              </n-button>
+            </div>
+            <div class="text-[10px] font-mono text-cyan-400">
+              已达成: {{ completedPrereqCount }} / 12 个前置旗标
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="text-[10px] text-gray-400 font-bold">S 级死亡之眼进度:</div>
+            <div class="flex items-center gap-1.5">
+              <n-tag size="small" :type="bountySDelivered ? 'success' : bountySDefeated ? 'info' : bountySAccepted ? 'warning' : 'default'">
+                {{ bountySDelivered ? '👑 悬赏已圆满结清' : bountySDefeated ? '💀 首领已被讨伐' : bountySAccepted ? '⚔️ 悬赏进行中' : '未接取' }}
+              </n-tag>
+            </div>
+            <div class="text-[10px] text-gray-500">委托人: 酒馆神秘密探</div>
+          </div>
+        </div>
+
+        <!-- 任务操作按钮 -->
+        <div class="flex flex-wrap items-center gap-2 pt-1">
+          <n-button
+            size="small"
+            secondary
+            type="warning"
+            :disabled="!isBountySEligible || bountySAccepted"
+            @click="acceptBountyS"
+          >
+            📜 揭榜接取 S 级【死亡之眼】
+          </n-button>
+          <n-button
+            size="small"
+            secondary
+            type="error"
+            :disabled="!bountySAccepted || bountySDefeated"
+            @click="defeatBountyS"
+          >
+            ⚔️ 讨伐击败死亡之眼
+          </n-button>
+          <n-button
+            size="small"
+            type="primary"
+            :disabled="!bountySDefeated || bountySDelivered"
+            @click="deliverBountyS"
+          >
+            🎁 交付收据领取特级丰厚报酬
+          </n-button>
+        </div>
+
+        <!-- 审计日志 -->
+        <div class="p-2 rounded bg-black/40 border border-slate-800 text-[10px] font-mono space-y-1">
+          <div class="text-gray-500 font-bold">S 级悬赏合同执行审计 (TavernBountyS Trace):</div>
+          <div v-for="(log, idx) in bountySLog" :key="idx" class="text-rose-300 truncate">
+            &gt; {{ log }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 宁静村居民深度会话与可选回应系统 (基于 Godot NPC_OPTIONAL_INTERACTION_DESIGN_2026-10-23.md) -->
     <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-slate-900/90 to-teal-950/40 border border-emerald-500/40 shadow-xl space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-800/40 pb-2.5">
@@ -1066,6 +1217,101 @@ const resetLegendaryStudio = () => {
   legendaryLog.value = [
     '重置完成: 远古石板与彩尾交易推演台已恢复初始状态',
     '默认持有: 金字塔+孤岛神殿石板 (6额度)，已解封 2 件，剩余 4 额度'
+  ]
+}
+
+// ================= 酒馆 S 级【死亡之眼】绝密悬赏令与十二前置契约工坊 (tavern_bounty_s_save.gd) =================
+const bountySHasClearStar = ref(true)
+const bountySClearCount = ref(1)
+
+const bountySPrereqs = ref<Record<string, boolean>>({
+  bounty_d_bee_accepted: true,
+  bounty_d_bee_defeated: true,
+  bounty_d_bee_claimed: true,
+  bounty_c_scorpion_accepted: true,
+  bounty_c_scorpion_defeated: true,
+  bounty_c_scorpion_delivered: true,
+  bounty_b_zombie_dragon_accepted: true,
+  bounty_b_zombie_dragon_defeated: true,
+  bounty_b_zombie_dragon_delivered: true,
+  bounty_a_king_chimera_accepted: true,
+  bounty_a_king_chimera_defeated: true,
+  bounty_a_king_chimera_delivered: true
+})
+
+const completedPrereqCount = computed(() => {
+  return Object.values(bountySPrereqs.value).filter(Boolean).length
+})
+
+const isAllPrereqMet = computed(() => {
+  return completedPrereqCount.value === 12
+})
+
+const isBountySEligible = computed(() => {
+  // 必须满足: 通关星标 + clear_count >= 1 + 12项前置全部达成
+  return bountySHasClearStar.value && bountySClearCount.value >= 1 && isAllPrereqMet.value
+})
+
+const bountySAccepted = ref(false)
+const bountySDefeated = ref(false)
+const bountySDelivered = ref(false)
+
+const bountySLog = ref<string[]>([
+  '系统就绪: tavern_bounty_s_save.gd 契约规则载入完成',
+  '契约守卫: 十二项DCBA前置严格链式依赖，未通关者酒馆暗格不予揭榜'
+])
+
+const setAllPrerequisites = (val: boolean) => {
+  for (const k of Object.keys(bountySPrereqs.value)) {
+    bountySPrereqs.value[k] = val
+  }
+  bountySLog.value.unshift(`🔧 操作: 十二前置旗标已全部设为 ${val ? 'true (达成)' : 'false (清空)'}。`)
+  if (bountySLog.value.length > 6) bountySLog.value.pop()
+}
+
+const acceptBountyS = () => {
+  if (!isBountySEligible.value) {
+    bountySLog.value.unshift('❌ 揭榜失败：缺少通关星标凭证或十二项前置悬赏尚未全数结清！')
+    if (bountySLog.value.length > 6) bountySLog.value.pop()
+    return
+  }
+  bountySAccepted.value = true
+  bountySLog.value.unshift('📜 揭榜成功！酒馆密探递交绝密卷轴：bounty_s_death_eye_accepted = true，前往深渊裂隙讨伐【死亡之眼】！')
+  if (bountySLog.value.length > 6) bountySLog.value.pop()
+}
+
+const defeatBountyS = () => {
+  if (!bountySAccepted.value) {
+    bountySLog.value.unshift('⚠️ 无法讨伐：尚未揭榜接取任务 (bounty_s_death_eye_accepted == false)，不可跨步执行！')
+    if (bountySLog.value.length > 6) bountySLog.value.pop()
+    return
+  }
+  bountySDefeated.value = true
+  bountySLog.value.unshift('💀 激战告捷！深渊裂隙首领【死亡之眼】已被成功讨伐！bounty_s_death_eye_defeated = true。')
+  if (bountySLog.value.length > 6) bountySLog.value.pop()
+}
+
+const deliverBountyS = () => {
+  if (!bountySDefeated.value) {
+    bountySLog.value.unshift('⚠️ 无法交付：首领尚未被击败，请先完成讨伐！')
+    if (bountySLog.value.length > 6) bountySLog.value.pop()
+    return
+  }
+  bountySDelivered.value = true
+  bountySLog.value.unshift('👑 任务圆满交割！bounty_s_death_eye_delivered = true，获得 50000G、特级称号与永恒荣耀勋章！')
+  if (bountySLog.value.length > 6) bountySLog.value.pop()
+}
+
+const resetBountySStudio = () => {
+  bountySHasClearStar.value = true
+  bountySClearCount.value = 1
+  setAllPrerequisites(true)
+  bountySAccepted.value = false
+  bountySDefeated.value = false
+  bountySDelivered.value = false
+  bountySLog.value = [
+    '重置完成: S级悬赏演练台回到初始状态',
+    '默认状态: 拥有通关星标，十二前置已达成，等待玩家揭榜'
   ]
 }
 </script>

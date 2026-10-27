@@ -189,6 +189,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-tavern-bounty-s-save-studio-2026-10-27',
+    version: 'v2.2.204',
+    date: '2026-10-27',
+    title: '酒馆 S 级【死亡之眼】绝密悬赏令与十二前置契约工坊全息实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '👁️',
+    tagType: 'error',
+    description: '对齐 Godot 引擎 tavern_bounty_s_save.gd 最新实机架构：全息实装 S 级绝密首领【死亡之眼】十二项前置悬赏全达成契约 (D/C/B/A 四阶接讨领/送 12 个旗标严格无缺)、clear_star 通关星标与通关次数真实性守卫，以及“接取 ➔ 讨伐 ➔ 交付”不可逆三阶段推进安全门禁。',
+    highlights: [
+      '十二前置全真契约 (PREREQUISITES)：D级杀手蜂(3阶)、C级沙漠巨蝎(3阶)、B级僵尸恶龙(3阶)、A级奇美拉兽王(3阶) 严格全部达成，缺少任意一项直接驳回',
+      '通关星标准入守卫 (Clear Star Guard)：本轮必须持有 clear_star == true 且 clear_count >= 1，严防未通关档伪造 S 级旗标导致存档损坏',
+      '三阶段不可逆状态机：bounty_s_death_eye_accepted (揭榜) ➔ bounty_s_death_eye_defeated (斩杀) ➔ bounty_s_death_eye_delivered (结清)，严禁跨步跳跃',
+      '存档防伪与纯净保护：valid() 方法执行严格类型核验，杜绝非布尔值污染与非法通关数据伪造',
+      '实装交互推演工坊：通关星标开关、12前置一键达成/清空控制、S级死亡之眼接取/讨伐/交付试炼与审计追踪',
+      '持续高频实时开发至午夜 0 点，持续全量构建与自动化部署'
+    ],
+    relatedLinks: [
+      { label: '支线与委托清单', path: '/vble/sidequests', icon: '📜' },
+      { label: '魔物与游荡首领大图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-new-game-plus-transition-studio-2026-10-27',
     version: 'v2.2.203',
     date: '2026-10-27',
