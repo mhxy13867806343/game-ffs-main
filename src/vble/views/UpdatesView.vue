@@ -189,6 +189,27 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-version-polling-integration-2026-10-28',
+    version: 'v2.2.205',
+    date: '2026-10-28',
+    title: '集成 version-polling Web Worker 实时版本轮询与无缝更新提示',
+    category: 'ui',
+    categoryName: '基建演进',
+    icon: '⚡',
+    tagType: 'info',
+    description: '成功接入 version-polling 开源库（https://github.com/JoeshuTT/version-polling），基于 Web Worker 后台独立线程与 chunkHash 机制定时轮询检查 index.html 编译哈希，在 GitHub Pages 静态站点发布新版本后毫秒级感知，并弹出 Naive UI 提示引导玩家一键刷新体验最新文档与系统。',
+    highlights: [
+      '高性能 Web Worker 轮询：在浏览器后台 Worker 线程中定时探测 index.html chunk hash，丝毫不占用主 UI 渲染线程',
+      '精确匹配构建哈希：采用 vcType: "chunkHash" 自动提取 index-[hash].js 变更，适配 Vite 现代化静态资源生产打包',
+      '优雅交互弹窗：基于 Naive UI useDialog 提供柔和非阻塞更新弹窗，支持【立即刷新】与【稍后提醒】机制',
+      '开发环境静默安全：配置 silent: import.meta.env.DEV，本地热重载调试时静默，生产环境自动激活 60 秒轮询与页面切回即时检测'
+    ],
+    relatedLinks: [
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '未来功能规划', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
+  {
     id: 'up-tavern-bounty-s-save-studio-2026-10-27',
     version: 'v2.2.204',
     date: '2026-10-27',

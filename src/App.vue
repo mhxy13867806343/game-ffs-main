@@ -4,6 +4,9 @@
       <n-dialog-provider>
         <n-notification-provider>
           <n-message-provider>
+            <!-- 实时发布自动轮询检测 (基于 version-polling 与 Web Worker) -->
+            <VersionPollingListener />
+
             <div class="min-h-screen bg-[#0a0d14] text-[#f3f4f6] font-sans antialiased flex flex-col">
               <AppHeader
                 v-if="isRootPortal"

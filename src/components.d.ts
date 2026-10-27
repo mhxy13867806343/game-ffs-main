@@ -55,5 +55,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SocialShareBar: typeof import('./components/SocialShareBar.vue')['default']
+    VersionPollingListener: typeof import('./components/VersionPollingListener.vue')['default']
   }
 }
