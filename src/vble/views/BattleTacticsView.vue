@@ -9,6 +9,199 @@
       </p>
     </div>
 
+    <!-- ⚡ 实机 ATB 动态时钟、加速缓慢时滞与多段连招连锁推演工坊 (Real-Time ATB Pipeline & Combo Reaction Studio) -->
+    <div class="bg-gradient-to-br from-[#12162a]/95 via-[#181630]/90 to-[#0e1628]/95 border border-cyan-500/50 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-5 relative overflow-hidden">
+      <!-- 头部与操作栏 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-900/40 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">⚡</span>
+            <h2 class="text-lg sm:text-xl font-black text-cyan-300">
+              实机 ATB 动态时钟、加速缓慢时滞与多段连招连锁推演工坊 (ATB & Combo Studio)
+            </h2>
+            <n-tag size="small" type="success" round strong>动态时序内核</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            高精推演 Godot 引擎 ATB 时钟驱动（battle_atb_clock.gd）、加速/缓慢充能倍率、待命青白呼吸光环与经典多职业连招倍率公式！
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetAtbStudio">
+            🔄 重置演练台
+          </n-button>
+          <n-button
+            size="small"
+            :type="isAtbRunning ? 'error' : 'primary'"
+            class="font-bold shadow"
+            @click="toggleAtbRunning"
+          >
+            {{ isAtbRunning ? '⏸️ 暂停 ATB 时钟' : '▶️ 启动 ATB 动态时序' }}
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 核心工坊两栏布局 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 栏 1: 5 角色/魔物实战行动轴与充能态 (7 cols) -->
+        <div class="lg:col-span-7 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3.5 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-cyan-300 flex items-center gap-1.5">
+                <span>⏱️</span> 队伍与敌方行动轴时钟状态
+              </span>
+              <div class="flex items-center gap-2 text-xs font-mono">
+                <span class="text-gray-400">已流逝时钟:</span>
+                <span class="text-amber-400 font-bold">{{ atbElapsedSeconds.toFixed(1) }}s</span>
+              </div>
+            </div>
+
+            <!-- 5个角色/敌人条目 -->
+            <div class="space-y-2">
+              <div
+                v-for="unit in atbUnits"
+                :key="unit.id"
+                class="p-2.5 rounded-lg border text-xs transition-all flex flex-col gap-1.5"
+                :class="unit.gauge >= 100
+                  ? 'bg-cyan-950/40 border-cyan-400/80 shadow-md shadow-cyan-900/30'
+                  : 'bg-slate-900/80 border-slate-800'"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="text-base">{{ unit.icon }}</span>
+                    <span class="font-bold text-gray-200">{{ unit.name }}</span>
+                    <n-tag size="tiny" :type="unit.isEnemy ? 'error' : 'info'">{{ unit.job }}</n-tag>
+                    <!-- 状态标签 -->
+                    <n-tag
+                      v-if="unit.status !== 'normal'"
+                      size="tiny"
+                      :type="unit.status === 'haste' ? 'warning' : unit.status === 'slow' ? 'default' : 'error'"
+                      round
+                    >
+                      {{ unit.status === 'haste' ? '⚡ 加速 (1.5x)' : unit.status === 'slow' ? '🐢 减速 (0.5x)' : '🛑 停滞 (0x)' }}
+                    </n-tag>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-mono text-[11px]" :class="unit.gauge >= 100 ? 'text-cyan-300 font-bold' : 'text-gray-400'">
+                      {{ unit.gauge >= 100 ? '✨ 待命就绪' : `${Math.round(unit.gauge)}%` }}
+                    </span>
+                    <button
+                      type="button"
+                      class="px-1.5 py-0.5 rounded text-[10px] bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 cursor-pointer"
+                      @click="cycleUnitStatus(unit)"
+                    >
+                      状态: {{ unit.status }}
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 蓄力槽 -->
+                <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
+                  <div
+                    class="h-full transition-all duration-200 rounded-full"
+                    :class="unit.isEnemy
+                      ? 'bg-gradient-to-r from-red-600 to-rose-400'
+                      : unit.gauge >= 100
+                        ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 animate-pulse'
+                        : 'bg-gradient-to-r from-blue-600 to-cyan-500'"
+                    :style="{ width: `${Math.min(100, unit.gauge)}%` }"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- 控制微调按键 -->
+            <div class="flex flex-wrap items-center gap-2 pt-1">
+              <n-button size="tiny" secondary type="info" @click="stepAtbClock(0.5)">
+                ⏩ 单步步进 +0.5s
+              </n-button>
+              <n-button size="tiny" secondary type="warning" @click="applyPartyBuff('haste')">
+                ✨ 全队施加【加速 (Haste)】
+              </n-button>
+              <n-button size="tiny" secondary type="default" @click="applyPartyBuff('slow')">
+                🐢 敌方施加【减速 (Slow)】
+              </n-button>
+              <n-button size="tiny" secondary type="error" @click="triggerReadyAction">
+                ⚔️ 结算最高待命者行动
+              </n-button>
+            </div>
+          </div>
+
+          <!-- 时序回响日志 -->
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-[10px] font-mono text-cyan-300 min-h-[34px] flex items-center">
+            {{ atbActionEcho }}
+          </div>
+        </div>
+
+        <!-- 栏 2: 经典神级连招连锁与爆发倍率演练 (5 cols) -->
+        <div class="lg:col-span-5 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3.5 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-amber-300 flex items-center gap-1.5">
+                <span>💥</span> 经典战术连招连锁演练
+              </span>
+              <span class="text-gray-400 font-mono">Combo Resolver</span>
+            </div>
+
+            <!-- 连招选择 -->
+            <div>
+              <label class="text-[11px] text-gray-400 block mb-1">选定经典组合技 (Synergy Preset):</label>
+              <n-select
+                v-model:value="selectedComboId"
+                :options="comboOptions"
+                size="small"
+              />
+            </div>
+
+            <!-- 组合技详细卡片 -->
+            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-amber-300">{{ activeCombo.name }}</span>
+                <n-tag size="tiny" type="warning">{{ activeCombo.hits }} 段连击</n-tag>
+              </div>
+              <p class="text-[11px] text-gray-400 leading-relaxed">{{ activeCombo.desc }}</p>
+              <div class="grid grid-cols-2 gap-2 text-[10px] pt-1 border-t border-slate-800">
+                <div>• 单段系数: <strong class="text-cyan-300 font-mono">{{ activeCombo.coefPerHit }}x</strong></div>
+                <div>• 特殊效果: <strong class="text-emerald-300">{{ activeCombo.specialEffect }}</strong></div>
+              </div>
+            </div>
+
+            <!-- 伤害试算面板 -->
+            <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 text-center space-y-1">
+              <div class="text-[10px] text-gray-400 uppercase tracking-wider">
+                单回合总伤推演 (基准攻击 1200)
+              </div>
+              <div class="text-3xl font-black text-rose-400 font-mono">
+                {{ comboDamageResult.totalDamage.toLocaleString() }}
+              </div>
+              <div class="text-[11px] text-emerald-400 font-medium">
+                {{ comboDamageResult.breakdown }}
+              </div>
+            </div>
+
+            <n-button size="small" type="primary" block class="font-bold" @click="executeComboSimulation">
+              ⚡ 模拟连招实装输出回响
+            </n-button>
+          </div>
+
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-[10px] font-mono text-gray-400">
+            <strong>对齐模块：</strong>battle_combo_resolver.gd & battle_combat_system.gd
+          </div>
+        </div>
+      </div>
+
+      <!-- 实装审计底栏 -->
+      <div class="p-3.5 rounded-xl bg-slate-950/90 border border-cyan-900/40 text-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="text-cyan-400 text-base">⚡</span>
+          <span class="font-bold text-cyan-300">战斗时钟底层运行日志：</span>
+          <span class="text-gray-200 font-mono">{{ atbAuditLog }}</span>
+        </div>
+        <div class="text-[11px] text-gray-500 font-mono">
+          底层契约: battle_atb_clock.gd & battle_timeline.gd
+        </div>
+      </div>
+    </div>
+
     <!-- 交互模拟器：等级惩罚计算器 -->
     <n-card class="border border-slate-700/60 bg-[#121626]/90 rounded-xl" title="🧮 宝箱怪/首领越级挑战回合衰减模拟器">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -1150,5 +1343,179 @@ const predResult = computed(() => {
 const advancePredCycle = () => {
   predNonce.value += 1
   currentPredEnemy.value.actionCount += 1
+}
+
+// ================= ⚡ 实机 ATB 动态时钟与连招工坊 (battle_atb_clock.gd / battle_combo_resolver.gd) =================
+interface AtbUnit {
+  id: string
+  name: string
+  icon: string
+  job: string
+  speed: number
+  status: 'normal' | 'haste' | 'slow' | 'stop'
+  gauge: number // 0~100
+  isEnemy?: boolean
+}
+
+const atbUnits = ref<AtbUnit[]>([
+  { id: 'lichuan', name: '黎川', icon: '⚔️', job: '圣骑士', speed: 42, status: 'normal', gauge: 65 },
+  { id: 'weiheng', name: '卫珩', icon: '🪄', job: '黑魔道士', speed: 38, status: 'normal', gauge: 45 },
+  { id: 'xiluo', name: '茜罗', icon: '🔱', job: '龙骑士', speed: 50, status: 'haste', gauge: 85 },
+  { id: 'zhouyin', name: '昼隐', icon: '🤍', job: '白魔道士', speed: 45, status: 'normal', gauge: 70 },
+  { id: 'boss', name: '虚空审判者', icon: '👾', job: '首领 BOSS', speed: 48, status: 'normal', gauge: 55, isEnemy: true }
+])
+
+const atbElapsedSeconds = ref(0)
+const isAtbRunning = ref(false)
+const atbActionEcho = ref('就绪：点击【单步步进】或【启动 ATB 动态时序】推进战斗时钟。')
+const atbAuditLog = ref('ATB 队列与时序驱动器已加载完成: battle_atb_clock.gd')
+
+let atbTimer: ReturnType<typeof setInterval> | null = null
+
+const stepAtbClock = (dt: number) => {
+  atbElapsedSeconds.value += dt
+  for (const unit of atbUnits.value) {
+    if (unit.gauge < 100) {
+      let mult = 1.0
+      if (unit.status === 'haste') mult = 1.5
+      else if (unit.status === 'slow') mult = 0.5
+      else if (unit.status === 'stop') mult = 0.0
+
+      // 每秒蓄力增加: speed * 0.5 * mult
+      const gain = unit.speed * 0.5 * mult * dt
+      unit.gauge = Math.min(100, unit.gauge + gain)
+    }
+  }
+}
+
+const toggleAtbRunning = () => {
+  if (isAtbRunning.value) {
+    if (atbTimer) clearInterval(atbTimer)
+    isAtbRunning.value = false
+    atbAuditLog.value = `[ATB时钟暂停] 当前时钟停驻在 ${atbElapsedSeconds.value.toFixed(1)}s`
+  } else {
+    isAtbRunning.value = true
+    atbAuditLog.value = `[ATB时钟运转] 实时推进每秒 10 帧采样 (battle_atb_clock.gd)`
+    if (atbTimer) clearInterval(atbTimer)
+    atbTimer = setInterval(() => {
+      stepAtbClock(0.1)
+    }, 100)
+  }
+}
+
+const cycleUnitStatus = (unit: AtbUnit) => {
+  if (unit.status === 'normal') unit.status = 'haste'
+  else if (unit.status === 'haste') unit.status = 'slow'
+  else if (unit.status === 'slow') unit.status = 'stop'
+  else unit.status = 'normal'
+  atbActionEcho.value = `[状态变更] ${unit.name} 状态已切换为: ${unit.status.toUpperCase()}`
+}
+
+const applyPartyBuff = (status: 'haste' | 'slow') => {
+  if (status === 'haste') {
+    atbUnits.value.filter(u => !u.isEnemy).forEach(u => u.status = 'haste')
+    atbActionEcho.value = '✨ 全队激活【急速术 (Haste)】：ATB 充能速率提升至 1.5x！'
+  } else {
+    atbUnits.value.filter(u => u.isEnemy).forEach(u => u.status = 'slow')
+    atbActionEcho.value = '🐢 敌方首领被附着【迟缓术 (Slow)】：ATB 充能速率削减至 0.5x！'
+  }
+}
+
+const triggerReadyAction = () => {
+  const readyUnit = atbUnits.value.find(u => u.gauge >= 100)
+  if (!readyUnit) {
+    atbActionEcho.value = '⚠️ 尚无单位充能达 100%，请继续推进时钟！'
+    return
+  }
+  atbActionEcho.value = `⚡ [行动结算] ${readyUnit.name} 完成指令结算并重置 ATB 槽！`
+  readyUnit.gauge = 0
+  atbAuditLog.value = `[行动出栈] ${readyUnit.name} 触发 execute_action()，返还时钟队列。`
+}
+
+const resetAtbStudio = () => {
+  if (atbTimer) clearInterval(atbTimer)
+  isAtbRunning.value = false
+  atbElapsedSeconds.value = 0
+  atbUnits.value = [
+    { id: 'lichuan', name: '黎川', icon: '⚔️', job: '圣骑士', speed: 42, status: 'normal', gauge: 65 },
+    { id: 'weiheng', name: '卫珩', icon: '🪄', job: '黑魔道士', speed: 38, status: 'normal', gauge: 45 },
+    { id: 'xiluo', name: '茜罗', icon: '🔱', job: '龙骑士', speed: 50, status: 'haste', gauge: 85 },
+    { id: 'zhouyin', name: '昼隐', icon: '🤍', job: '白魔道士', speed: 45, status: 'normal', gauge: 70 },
+    { id: 'boss', name: '虚空审判者', icon: '👾', job: '首领 BOSS', speed: 48, status: 'normal', gauge: 55, isEnemy: true }
+  ]
+  atbActionEcho.value = '已重置 ATB 演练台至基准测试配置。'
+  atbAuditLog.value = 'ATB 队列与时钟已恢复初始状态。'
+}
+
+// 连招演练
+interface ComboPreset {
+  id: string
+  name: string
+  hits: number
+  coefPerHit: number
+  specialEffect: string
+  desc: string
+}
+
+const comboPresets: ComboPreset[] = [
+  {
+    id: 'spellblade_rapidfire',
+    name: '二刀流·魔法剑核爆乱打 (Dual Spellblade Flare Rapid Fire)',
+    hits: 8,
+    coefPerHit: 1.0,
+    specialEffect: '完全无视敌方物理与魔法防御',
+    desc: '主修游侠乱打指令 + 附魔黑魔法核爆 (Flare) + 忍者二刀流。双持武器连续轰出 8 段必中核爆斩击！'
+  },
+  {
+    id: 'dualcast_meteor',
+    name: '连续魔·彗星陨石轰顶 (Dualcast Meteor)',
+    hits: 8,
+    coefPerHit: 0.85,
+    specialEffect: '多段大范围无属性混沌打击',
+    desc: '赤魔道士连续魔 + 时魔道士彗星陨石。单回合吟唱两发 Meteor，降下 8 颗天外陨石狂轰滥炸！'
+  },
+  {
+    id: 'dragon_jump_lance',
+    name: '龙骑士·圣枪飞天断头斩 (Dragon Jump Holy Lance)',
+    hits: 1,
+    coefPerHit: 2.5,
+    specialEffect: '跳跃滞空绝对规避全屏海啸与地震',
+    desc: '龙骑士专属指令跳跃 (Jump) 配合神圣之枪。高空滞空避过毁灭攻击，落地造成 2.5x 贯穿暴击！'
+  },
+  {
+    id: 'bard_power_strike',
+    name: '吟游战歌·+99攻破限极意斩 (Bard Song Boosted Strike)',
+    hits: 2,
+    coefPerHit: 1.8,
+    specialEffect: '全队累计 +99 攻击力加权爆发',
+    desc: '爱德华力量之歌拉满 +99 物理攻击力后，战士双持重剑发动破防斩击！'
+  }
+]
+
+const selectedComboId = ref('spellblade_rapidfire')
+const activeCombo = computed(() => {
+  return comboPresets.find(c => c.id === selectedComboId.value) || comboPresets[0]
+})
+
+const comboOptions = comboPresets.map(c => ({ label: c.name, value: c.id }))
+
+const comboDamageResult = computed(() => {
+  const c = activeCombo.value
+  const baseAtk = 1200
+  let perHitDmg = Math.round(baseAtk * c.coefPerHit)
+  if (c.id === 'bard_power_strike') {
+    perHitDmg = Math.round((baseAtk + 99 * 4) * c.coefPerHit)
+  }
+  const total = perHitDmg * c.hits
+  return {
+    totalDamage: total,
+    breakdown: `单段伤害约 ${perHitDmg.toLocaleString()} × ${c.hits} 段 = 破限极巨总伤！`
+  }
+})
+
+const executeComboSimulation = () => {
+  const c = activeCombo.value
+  const res = comboDamageResult.value
+  atbAuditLog.value = `[连招爆发] 施放【${c.name}】！轰出 ${c.hits} 段连击，造成 ${res.totalDamage} 伤害（${c.specialEffect}）！`
 }
 </script>

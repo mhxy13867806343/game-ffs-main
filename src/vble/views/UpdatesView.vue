@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-battle-tactics-atb-clock-combo-studio-2026-10-28',
+    version: 'v2.2.239',
+    date: '2026-10-28',
+    title: '实机 ATB 动态时钟、加速缓慢时滞与多段连招连锁推演工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⚡',
+    tagType: 'success',
+    description: '深度重构升级 BattleTacticsView 战斗法则与机制全书：全新实装【实机 ATB 动态时钟、加速缓慢时滞与多段连招连锁推演工坊】（ATB & Combo Reaction Studio）。高精度推演 Godot 引擎战斗时序驱动：模拟队伍 4 大英雄与虚空首领敏捷速度与蓄力槽，支持一键切换【急速 (Haste 1.5x)】、【迟缓 (Slow 0.5x)】与【停滞 (Stop 0x)】时滞状态，实时响应 100% 待命就绪与指令结算；内置二刀流魔法剑核爆乱打（8段无视防御）、连续魔陨石轰顶、龙骑跳跃避险圣枪贯穿等经典神级连招伤害公式推演；严谨对齐 Godot 4.6 LTS battle_atb_clock.gd、battle_timeline.gd 与 battle_combo_resolver.gd 战斗时序内核。',
+    highlights: [
+      '五体动态行动轴时钟推演：黎川、卫珩、茜罗、昼隐与虚空审判者时序实时蓄力与出栈',
+      '加速缓慢与停滞时滞倍率引擎：支持一键加持 Haste 1.5x / Slow 0.5x 动态影响蓄力速率',
+      '待命就绪青白呼吸光环与结算：满格自动触发脉冲呼吸，支持一键出栈执行指令重置',
+      '经典四大神级连招试算器：实装魔法剑核爆乱打、连续魔双重陨石与+99攻战歌爆发计算',
+      'Godot 4.6 底层战斗时钟契约对齐：无缝衔接 battle_atb_clock.gd 与 battle_timeline.gd'
+    ],
+    relatedLinks: [
+      { label: '战斗战术与机制指南', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '职业大师与双职构筑', path: '/vble/jobs', icon: '🛡️' },
+      { label: '魔物全典与战术图鉴', path: '/vble/monsters', icon: '👾' }
+    ]
+  },
+  {
     id: 'up-sidequests-rift-expedition-legendary-armory-2026-10-28',
     version: 'v2.2.238',
     date: '2026-10-28',
