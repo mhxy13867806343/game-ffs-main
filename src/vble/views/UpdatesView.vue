@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-character-growth-studio-2026-10-28',
+    version: 'v2.2.213',
+    date: '2026-10-28',
+    title: '英雄传记光暗宿命誓约与六维潜能转职契合度沙盘工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '👥',
+    tagType: 'success',
+    description: '深度重构升级 CharactersView 英雄传记：全景展出晨辉光之战士（黎川、卫珩、茜罗、昼隐）与永曜暗之战士（纳哈特、澄月、夜织等）的史诗生平、名台词、极意绝技与宿命终局；构建对齐 Godot 4.x hero_stat_growth.gd 的六维潜能成长沙盘，推演角色随等级提升的 STR/AGI/VIT/MAG/SPR/LUCK 增长曲线、职业加权加乘、绝技伤害爆发与职业契合度评分，并解构光暗双子宿命羁绊图谱。',
+    highlights: [
+      '光暗双子英雄矩阵全景展台：收录全部英雄角色详细立绘配装、称号、宿命终局与章节登场记录',
+      '六维潜能成长与转职契合度沙盘：自由配置等级 (1~99)、晶石洗练阶数、英雄之徽与濒死绝境觉醒，全息测算 HP/MP 与攻防极值',
+      '极意绝技破限爆发推演：支持模拟黎川天翔闪光斩、茜罗极光敕令等专属终极杀招伤害',
+      '光暗双子宿命羁绊图谱 (Dual Moon Destiny Bonds)：解构黎川与纳哈特光暗之核、卫珩与澄月血脉誓言、昼隐与夜织双生共鸣',
+      'Godot 4.x 核心引擎代码对齐：内置 hero_stat_growth.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '英雄传记全鉴', path: '/vble/characters', icon: '👥' },
+      { label: '全职业矩阵总览', path: '/vble/jobs', icon: '🛡️' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-gallery-vfx-shader-studio-2026-10-28',
     version: 'v2.2.212',
     date: '2026-10-28',
