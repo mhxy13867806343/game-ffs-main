@@ -339,6 +339,155 @@
       </div>
     </div>
 
+    <!-- 专区 4: 双月潮汐引力汇聚与红月/青之月相位推演工坊 (Dual-Moon Convergence Studio) -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1a0f26] via-[#140b20] to-[#0c0814] border border-cyan-500/40 shadow-2xl space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-purple-950 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🌕</span>
+            <h3 class="text-lg sm:text-xl font-black text-white text-glow-purple">双月潮汐引力汇聚与红月/青之月相位推演工坊 (Dual-Moon Studio)</h3>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            双月宇宙运转的核心轴心：红之月（Lunarian 赤红血月）与青之月（Crystal 蔚蓝圣月）的相互绕转产生非线性潮汐引力波，主宰战局元素极化与奇点坍缩。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-tag type="info" round size="small">双月天体动力学</n-tag>
+          <n-tag type="warning" round size="small">月相周期演化</n-tag>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 双月月相角调节与宏观天象预设 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-cyan-300 block flex items-center gap-1.5">
+            <span>🌖</span>
+            <span>双月轨道夹角与相位控制 (Orbital Angle)</span>
+          </span>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between items-center text-gray-300 mb-1">
+                <span>双月会合相位角 (Phase Angle):</span>
+                <span class="font-mono text-cyan-400 font-bold text-sm">{{ lunarPhaseAngle }}° ({{ getPhaseName(lunarPhaseAngle) }})</span>
+              </div>
+              <n-slider v-model:value="lunarPhaseAngle" :min="0" :max="360" :step="1" />
+            </div>
+
+            <!-- 天象预设快捷按钮 -->
+            <div class="space-y-1.5 pt-2">
+              <span class="text-gray-400 block text-[11px]">经典史诗天象预设快捷载入:</span>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  class="p-2 rounded bg-slate-950 border border-slate-800 hover:border-red-400 text-[11px] text-left transition-all"
+                  @click="applyLunarPreset('red_perigee')"
+                >
+                  <span class="font-bold text-rose-400 block">🔴 红月近地点</span>
+                  <span class="text-[10px] text-gray-500">暴击狂暴+50%</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="p-2 rounded bg-slate-950 border border-slate-800 hover:border-blue-400 text-[11px] text-left transition-all"
+                  @click="applyLunarPreset('blue_full')"
+                >
+                  <span class="font-bold text-blue-400 block">🔵 青之月满月</span>
+                  <span class="text-[10px] text-gray-500">圣愈+50%减耗</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="p-2 rounded bg-slate-950 border border-slate-800 hover:border-purple-400 text-[11px] text-left transition-all"
+                  @click="applyLunarPreset('eclipse_void')"
+                >
+                  <span class="font-bold text-purple-400 block">🌑 双月大日食</span>
+                  <span class="text-[10px] text-gray-500">虚无奇点降临</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 自动周期轮转开关 -->
+            <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-gray-300">双月轨道自动公转演示 (Orbital Tick):</span>
+              <n-switch v-model:value="isLunarRevolving" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 潮汐引力与双月属性极化解算 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-slate-950 to-slate-900 border border-cyan-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+                <span>⚡</span>
+                <span>双月以太通量与引力指标</span>
+              </span>
+              <n-tag size="tiny" :type="lunarTideVerdict.tagType">{{ lunarTideVerdict.title }}</n-tag>
+            </div>
+
+            <!-- 潮汐引力数值卡 -->
+            <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 text-center">
+              <div class="text-[11px] text-gray-400">综合引力加速度系数 (Gravitational Tidal Force)</div>
+              <div class="text-3xl font-black font-mono mt-1 text-cyan-400">
+                {{ lunarTideVerdict.gravityForceG }} G
+              </div>
+              <div class="text-[10px] text-gray-500 mt-1">
+                {{ lunarTideVerdict.gravityDesc }}
+              </div>
+            </div>
+
+            <!-- 属性极化乘区 -->
+            <div class="space-y-1.5 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-rose-400">🔴 红之月狂战极化 (Fire/Dark):</span>
+                <span class="font-mono font-bold text-rose-300">{{ lunarTideVerdict.redBonus }}</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-blue-400">🔵 青之月圣灵极化 (Holy/Water):</span>
+                <span class="font-mono font-bold text-blue-300">{{ lunarTideVerdict.blueBonus }}</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-purple-400">🌀 虚无奇点共鸣率 (Singularity Rate):</span>
+                <span class="font-mono font-bold text-purple-300">{{ lunarTideVerdict.voidRate }}%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 rounded bg-slate-950/80 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+            战术提示：在红月主导时适合二刀流与核爆法术抢杀；青之月主导时白魔与调合恢复量突破翻倍。
+          </div>
+        </div>
+
+        <!-- 栏 3: 全球天象影响与战场法则重构 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between space-y-3">
+          <div class="space-y-2">
+            <span class="text-xs font-bold text-amber-300 block">全球战场环境法则覆写 (Active World Law):</span>
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1.5 text-xs">
+              <div class="font-bold text-white flex items-center gap-1.5">
+                <span>{{ lunarTideVerdict.lawIcon }}</span>
+                <span>{{ lunarTideVerdict.lawName }}</span>
+              </div>
+              <p class="text-xs text-gray-300 leading-relaxed">
+                {{ lunarTideVerdict.lawDescription }}
+              </p>
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-950/60 border border-slate-800/80 text-[11px] text-gray-400 space-y-1">
+            <div class="flex justify-between">
+              <span>月轨公转周期:</span>
+              <span class="font-mono text-cyan-300">28.4 天/周期</span>
+            </div>
+            <div class="flex justify-between">
+              <span>潮汐偏角差:</span>
+              <span class="font-mono text-amber-300">{{ (lunarPhaseAngle % 90).toFixed(1) }}° Delta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between">
@@ -546,6 +695,123 @@ const copyGodotCode = async () => {
     message.error('复制失败，请手动选取复制')
   }
 }
+
+// ================= 专区 4: 双月潮汐引力汇聚与相位系统 =================
+const lunarPhaseAngle = ref(45)
+const isLunarRevolving = ref(false)
+let lunarTimer: ReturnType<typeof setInterval> | null = null
+
+const getPhaseName = (angle: number): string => {
+  if (angle >= 340 || angle <= 20) return '双月大日蚀奇点 (Total Eclipse)'
+  if (angle > 20 && angle < 70) return '红月升弦 (Red Waxing)'
+  if (angle >= 70 && angle <= 110) return '青之月圣辉满月 (Blue Moon Full)'
+  if (angle > 110 && angle < 160) return '双月引力对冲 (Tidal Opposition)'
+  if (angle >= 160 && angle <= 200) return '红月近地点血色狂暴 (Red Perigee)'
+  if (angle > 200 && angle < 260) return '青晶潮汐回潮 (Crystal Ebb)'
+  if (angle >= 260 && angle <= 290) return '下弦星体共振 (Harmonic Resonance)'
+  return '暗月回旋 (Dark Rotation)'
+}
+
+const applyLunarPreset = (preset: string) => {
+  if (preset === 'red_perigee') {
+    lunarPhaseAngle.value = 180
+    message.success('已切换至【红月近地点】血色狂暴天象！')
+  } else if (preset === 'blue_full') {
+    lunarPhaseAngle.value = 90
+    message.success('已切换至【青之月满月】圣辉神愈天象！')
+  } else if (preset === 'eclipse_void') {
+    lunarPhaseAngle.value = 0
+    message.warning('已切换至【双月大日食】虚无奇点湮灭天象！')
+  }
+}
+
+const lunarTideVerdict = computed(() => {
+  const angle = lunarPhaseAngle.value
+  let gravityForceG = (1.0 + Math.sin((angle * Math.PI) / 180) * 0.45).toFixed(2)
+  let redBonus = '+15% 物理暴击 / 火伤+20%'
+  let blueBonus = '+20% 治疗量 / MP减免15%'
+  let voidRate = Math.round(Math.abs(Math.cos((angle * Math.PI) / 90)) * 50 + 20)
+  let title = '平稳潮汐'
+  let tagType: 'default' | 'info' | 'warning' | 'error' | 'success' = 'info'
+  let lawIcon = '⚖️'
+  let lawName = '双月均衡法则 (Equilibrium)'
+  let lawDescription = '红月狂战与青月圣辉引力保持动态平衡，物理输出与神圣魔法均获得 15% 常规环境加权。'
+  let gravityDesc = '标准地表引力，无异常重力压迫'
+
+  // 红月极化 (160° ~ 200°)
+  if (angle >= 160 && angle <= 200) {
+    gravityForceG = '1.85'
+    redBonus = '+50% 物理暴击 / 火伤+40% / 狂暴'
+    blueBonus = '治疗量受压制 -20%'
+    voidRate = 35
+    title = '赤红血月极化'
+    tagType = 'error'
+    lawIcon = '🩸'
+    lawName = '露纳利安狂怒法则 (Blood Moon Rage)'
+    lawDescription = '天幕被赤红血色笼罩，全场角色与魔物暴击率狂飙 50%，普攻必中流血破防！'
+    gravityDesc = '超重重力场，跳跃高度减半，击退抗性上升'
+  }
+  // 青月极化 (70° ~ 110°)
+  else if (angle >= 70 && angle <= 110) {
+    gravityForceG = '0.65'
+    redBonus = '物理输出平稳 +10%'
+    blueBonus = '+60% 治疗量 / MP消耗减半 / 全异常每3回合自愈'
+    voidRate = 15
+    title = '青之月圣晶极化'
+    tagType = 'success'
+    lawIcon = '🕊️'
+    lawName = '始源晶石慈悲结界 (Crystal Benediction)'
+    lawDescription = '青月神光净化大地，白魔法与药剂师调合回复量翻倍，法术 MP 消耗全面腰斩！'
+    gravityDesc = '低重力微浮态，角色行动条流速轻灵提升 25%'
+  }
+  // 日食奇点 (0° ~ 20° 或 340° ~ 360°)
+  else if (angle <= 20 || angle >= 340) {
+    gravityForceG = '2.50'
+    redBonus = '暗黑真实伤害 +60%'
+    blueBonus = '圣光魔法产生虚无偏折'
+    voidRate = 95
+    title = '奇点湮灭日全食'
+    tagType = 'warning'
+    lawIcon = '🌑'
+    lawName = '虚无终焉引力坍缩 (Void Singularity)'
+    lawDescription = '红月与青月同时掩盖太阳，次元之隙完全撕开，全场所有伤害无视防御并激活 99999 伤害破限！'
+    gravityDesc = '极端奇点引力波，空间撕裂，每 5 回合产生一次全屏以太风暴'
+  }
+
+  return {
+    gravityForceG,
+    gravityDesc,
+    redBonus,
+    blueBonus,
+    voidRate,
+    title,
+    tagType,
+    lawIcon,
+    lawName,
+    lawDescription
+  }
+})
+
+watch(isLunarRevolving, (val) => {
+  if (val) {
+    if (lunarTimer) clearInterval(lunarTimer)
+    lunarTimer = setInterval(() => {
+      lunarPhaseAngle.value = (lunarPhaseAngle.value + 2) % 360
+    }, 150)
+  } else {
+    if (lunarTimer) {
+      clearInterval(lunarTimer)
+      lunarTimer = null
+    }
+  }
+})
+
+onUnmounted(() => {
+  if (lunarTimer) {
+    clearInterval(lunarTimer)
+    lunarTimer = null
+  }
+})
 </script>
 
 <style scoped>

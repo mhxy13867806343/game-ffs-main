@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-celestial-dual-moon-convergence-studio-2026-10-28',
+    version: 'v2.2.229',
+    date: '2026-10-28',
+    title: '双月潮汐引力汇聚、红月狂战/青月圣辉相位推演工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🪐',
+    tagType: 'info',
+    description: '深度重构升级 CelestialView 虚空天体大殿：全新实装【双月潮汐引力汇聚与红月/青之月相位推演工坊】（Dual-Moon Convergence Studio），高精复刻赤红血月（露纳利安狂怒暴击法则）与蔚蓝圣月（始源晶石慈悲结界）的天体动力学轨道；支持 0°~360° 双月会合相位角无极拖拽与公转动画演示，快捷载入【红月近地点 (暴击+50%/流血破防)】、【青之月满月 (神愈翻倍/MP消耗减半)】与【双月大日食奇点湮灭 (无视防御全屏99999破限)】三大天象预设；实时演算潮汐引力 G 值、以太通量极化与全球战场环境法则覆写；并严谨对齐 Godot 4.6 LTS celestial_gravity.gd 引力场物理内核。',
+    highlights: [
+      '双月相位角天体动力学推演器：支持 0°~360° 自由调节，实时计算重力加速度 G 值（0.65G ~ 2.50G）与空间潮汐流速',
+      '三大史诗宏观天象预设：一键载入赤红血月狂怒极化、青之月满月圣辉结界与双月大日蚀奇点湮灭',
+      '全球战场法则动态覆写：模拟天幕变化对物理暴击率、火/暗属性强化、圣灵恢复量与以太风暴的全面加权',
+      'Godot 4.6 底层天象内核对齐：无缝衔接 celestial_gravity.gd 潮汐阻尼与奇点坍缩机制'
+    ],
+    relatedLinks: [
+      { label: '虚空天体与双月工坊', path: '/vble/celestial', icon: '🪐' },
+      { label: '大世界全域场景', path: '/vble/scenes', icon: '🗺️' },
+      { label: '首领攻坚战术', path: '/vble/boss-tactics', icon: '👹' }
+    ]
+  },
+  {
     id: 'up-boss-tactics-timeline-enrage-studio-2026-10-28',
     version: 'v2.2.228',
     date: '2026-10-28',
