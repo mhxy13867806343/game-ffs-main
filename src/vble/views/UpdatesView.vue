@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-boss-tactics-raid-studio-2026-10-28',
+    version: 'v2.2.209',
+    date: '2026-10-28',
+    title: '首领攻坚全鉴多阶段机制与终焉破阵演练工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '👹',
+    tagType: 'error',
+    description: '深度重构升级 BossTacticsView 首领攻坚全鉴：全景收录全游戏 14 大核心史诗首领（翼手龙、塞壬、液态火焰、吉尔伽美什、奥丁、欧米茄、神龙、新·埃克斯迪斯等）；构建对齐 Godot 4.x boss_tactics_battle.gd 的多阶段血量衰减、灭团杀招预警与配装针对克制沙盘，并提炼神装绝对克制矩阵。',
+    highlights: [
+      '史诗首领攻坚全鉴：覆盖 T1 至 T4 虚空深渊以及王城高阶绝密悬赏，收录详细机制破绽与击破战利品',
+      '实机攻坚伤害轴演练沙盘：支持调节首领血量百分比、狂暴状态、奥丁斩铁倒计时、全员珊瑚戒指、缎带与魔法反射壁',
+      '灭团杀招硬核对策判定：动态判定神龙开局大海啸反弹回春、欧米茄魔法剑雷牙乱打速杀、新埃克斯迪斯缎带免死等关键战局',
+      '绝对神装克制法则 (Hard Counter Matrix)：解构神龙海啸/珊瑚戒指、欧米茄极光波/魔法剑、新埃克斯迪斯大爆炸/缎带',
+      'Godot 4.x 核心引擎代码对齐：内置 boss_tactics_battle.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '首领攻坚全鉴', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '魔物与游荡首领大图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-vehicle-navigation-studio-2026-10-28',
     version: 'v2.2.208',
     date: '2026-10-28',
