@@ -270,7 +270,7 @@
 
           <div class="pt-2 text-[10px] text-gray-500 border-t border-slate-800 flex items-center justify-between">
             <span>索引算法: omni_database_search.gd</span>
-            <span class="text-cyan-400">VBLE Search Engine v2.2.214</span>
+            <span class="text-cyan-400">VBLE Search Engine v2.2.243</span>
           </div>
         </div>
       </div>
@@ -301,6 +301,7 @@ import { useGameStore } from '../stores/gameStore'
 import { mixRecipes } from '../config/mixRecipes'
 import { bossTacticsList } from '../config/bossTactics'
 import { jobsList } from '../config/jobsConfig'
+import { whitepapersList } from '../config/docsConfig'
 
 const route = useRoute()
 const message = useMessage()
@@ -314,7 +315,7 @@ const enableReverseTrace = ref(true)
 const enableJobSynergyCheck = ref(true)
 const copiedCode = ref(false)
 
-const hotKeywords = ['巴哈姆特', '奥丁', '欧米茄', '神龙', '巨人之药', '粉色尾巴', '魔法剑士', '斩铁剑', '飞空艇']
+const hotKeywords = ['巴哈姆特', '奥丁', '欧米茄', '神龙', '巨人之药', '诸神黄昏', '粉色尾巴', '魔法剑士', '斩铁剑', '飞空艇', '白皮书']
 
 watch(
   () => route.query.q,
@@ -330,11 +331,14 @@ watch(
 const filterCategories = [
   { id: 'all', name: '全部词条', icon: '🌐' },
   { id: 'monster', name: '魔物首领', icon: '👾' },
-  { id: 'gear', name: '神装装备', icon: '⚔️' },
+  { id: 'gear', name: '神装道具', icon: '⚔️' },
   { id: 'job', name: '职业矩阵', icon: '🛡️' },
   { id: 'hero', name: '英雄传记', icon: '👥' },
   { id: 'map', name: '秘境地城', icon: '🏰' },
   { id: 'summon', name: '幻兽契约', icon: '🐉' },
+  { id: 'vehicle', name: '多维载具', icon: '🛸' },
+  { id: 'doc', name: '架构白皮书', icon: '📚' },
+  { id: 'magic', name: '魔法秘术', icon: '✨' },
   { id: 'mix', name: '调合药剂', icon: '⚗️' },
   { id: 'quest', name: '史诗支线', icon: '📜' }
 ]
@@ -342,6 +346,9 @@ const filterCategories = [
 const focalWordOptions = [
   { label: '黑铁骑皇 · 奥丁 (Odin) 核心拓扑', value: 'odin' },
   { label: '究极毁灭兵器 · 欧米茄 (Omega) 核心拓扑', value: 'omega' },
+  { label: '宝箱真龙王 · 神龙 (Shinryu) 核心拓扑', value: 'shinryu' },
+  { label: '虚空邪树 · 艾克斯迪斯 (Exdeath) 核心拓扑', value: 'exdeath' },
+  { label: '诸神之黄昏 (Ragnarok) 至高神兵拓扑', value: 'ragnarok' },
   { label: '巨人之药 (Giant Drink) 炼金拓扑', value: 'giant_drink' },
   { label: '天界龙王 · 巴哈姆特 (Bahamut) 核心拓扑', value: 'bahamut' }
 ]
@@ -555,6 +562,86 @@ const allIndexedResults = computed(() => {
     }
   })
 
+  // 9. 多维载具
+  ;(db.vehicles || []).forEach((v: any) => {
+    const text = (v.name + (v.type || '') + (v.desc || '') + (v.obtain || '')).toLowerCase()
+    if (text.includes(q)) {
+      results.push({
+        key: `vehicle-${v.id}`,
+        id: v.id,
+        name: v.name,
+        category: 'vehicle',
+        categoryName: '多维载具',
+        icon: '🛸',
+        tagType: 'warning',
+        sourcePath: '/vble/vehicles',
+        desc: v.desc,
+        extra: `类型: ${v.type} · 航行极速: ${v.speed} · 获取: ${v.obtain}`,
+        raw: v
+      })
+    }
+  })
+
+  // 10. 十七卷架构白皮书
+  whitepapersList.forEach(w => {
+    const text = (w.title + w.summary + w.category + w.keyFeatures.join(' ')).toLowerCase()
+    if (text.includes(q)) {
+      results.push({
+        key: `doc-${w.code}`,
+        id: w.code,
+        name: `VOL.${String(w.volume).padStart(2, '0')} ${w.title}`,
+        category: 'doc',
+        categoryName: '架构白皮书',
+        icon: '📚',
+        tagType: 'info',
+        sourcePath: '/vble/docs',
+        desc: w.summary,
+        extra: `分类: ${w.category} · 核心要点: ${w.keyFeatures.slice(0, 3).join('、')}`,
+        raw: w
+      })
+    }
+  })
+
+  // 11. 魔法与秘术
+  ;(db.magic || []).forEach((m: any) => {
+    const text = (m.name + (m.type || '') + (m.desc || '') + (m.tier || '')).toLowerCase()
+    if (text.includes(q)) {
+      results.push({
+        key: `magic-${m.id}`,
+        id: m.id,
+        name: m.name,
+        category: 'magic',
+        categoryName: '魔法秘术',
+        icon: '✨',
+        tagType: 'primary',
+        sourcePath: '/vble/teachings',
+        desc: m.desc,
+        extra: `系别: ${m.type} · 阶位: ${m.tier || '高阶'} · MP消耗: ${m.mp_cost || '0'}`,
+        raw: m
+      })
+    }
+  })
+
+  // 12. 消耗道具与素材
+  ;(db.items || []).forEach((it: any) => {
+    const text = (it.name + (it.type || '') + (it.desc || '') + (it.effect || '')).toLowerCase()
+    if (text.includes(q)) {
+      results.push({
+        key: `item-${it.id}`,
+        id: it.id,
+        name: it.name,
+        category: 'gear',
+        categoryName: '道具素材',
+        icon: '🧪',
+        tagType: 'default',
+        sourcePath: '/vble/items',
+        desc: it.desc || it.effect,
+        extra: `类型: ${it.type} · 售价: ${it.price || 0} Gil`,
+        raw: it
+      })
+    }
+  })
+
   return results
 })
 
@@ -622,16 +709,42 @@ const currentAssociation = computed(() => {
         { name: '欧米茄勋章 (Omega Medal)', category: '战利品', icon: '🏆', relation: '2级讨伐证明', tagType: 'warning' as const }
       ]
     }
-  } else if (focal === 'giant_drink') {
+  } else if (focal === 'shinryu') {
     return {
-      affinityScore: 92,
-      verdict: '药剂师质变生命突破奥义',
-      chainDesc: '巨人之血+圣水 ➔ 调合工坊 ➔ 生命上限200%翻倍 ➔ 扛下神龙与新埃克斯迪斯灭团大招',
+      affinityScore: 97,
+      verdict: '次元深渊宝箱真龙霸主',
+      chainDesc: '宝箱神龙 ➔ 次元之隙虚无瀑布 ➔ 开局大海啸 ➔ 珊瑚戒指吸收+龙骑士飞跃避险 ➔ 解封神兵【诸神之黄昏】',
       nodes: [
-        { name: '巨人之药 (Giant Drink)', category: '调合药剂', icon: '⚗️', relation: '核心产物', tagType: 'warning' as const },
-        { name: '巨人之血 (Giant Blood)', category: '基础素材', icon: '🧪', relation: '主料 A', tagType: 'info' as const },
-        { name: '圣水 (Holy Water)', category: '基础素材', icon: '💧', relation: '副料 B', tagType: 'info' as const },
-        { name: '药效加倍 (Pharmacology)', category: '职业被动', icon: '✨', relation: '2级效能翻倍', tagType: 'success' as const }
+        { name: '宝箱真龙王 · 神龙', category: '史诗首领', icon: '🐉', relation: '核心实体', tagType: 'error' as const },
+        { name: '次元之隙虚无瀑布宝箱', category: '秘境地城', icon: '🏰', relation: '1级栖息地', tagType: 'success' as const },
+        { name: '开局灭世大海啸 (Tsunami)', category: '首领杀招', icon: '🌊', relation: '1级全屏水攻', tagType: 'error' as const },
+        { name: '珊瑚戒指 (Coral Ring)', category: '神兵防具', icon: '💍', relation: '2级水属性吸收唯一解', tagType: 'warning' as const },
+        { name: '诸神之黄昏 (Ragnarok)', category: '至高神兵', icon: '🗡️', relation: '3级击破宝箱最终奖励', tagType: 'info' as const }
+      ]
+    }
+  } else if (focal === 'exdeath') {
+    return {
+      affinityScore: 99,
+      verdict: '虚空邪树与无之空间终焉意志',
+      chainDesc: '艾克斯迪斯 ➔ 次元之隙虚无中枢 ➔ 大十字全异常 ➔ 缎带全免疫+连续魔双重陨石 ➔ 终焉破晓',
+      nodes: [
+        { name: '虚空邪树 · 艾克斯迪斯', category: '终焉首领', icon: '🌲', relation: '核心实体', tagType: 'error' as const },
+        { name: '次元之隙虚无核心中枢', category: '终极秘境', icon: '🌌', relation: '1级决战决斗场', tagType: 'success' as const },
+        { name: '大十字 (Grand Cross)', category: '绝灭天谴', icon: '☠️', relation: '1级全异常杀招', tagType: 'error' as const },
+        { name: '缎带防具 (Ribbon)', category: '神装装备', icon: '🎀', relation: '2级全异常免疫对策', tagType: 'warning' as const },
+        { name: '时空封印石板', category: '世界法则', icon: '💎', role: '3级破邪归一神器', tagType: 'info' as const }
+      ]
+    }
+  } else if (focal === 'ragnarok') {
+    return {
+      affinityScore: 96,
+      verdict: '历代至高超越神兵之象征',
+      chainDesc: '诸神之黄昏 ➔ 击破神龙宝箱 ➔ 攻击力+180与全属性+10 ➔ 圣光核爆追加 ➔ 自由人二刀流乱打',
+      nodes: [
+        { name: '诸神之黄昏 (Ragnarok)', category: '至高神兵', icon: '🗡️', relation: '核心实体', tagType: 'warning' as const },
+        { name: '神龙宝箱 (Dragon Chest)', category: '解封契约', icon: '📦', relation: '1级解封来源', tagType: 'error' as const },
+        { name: '圣光核爆追加 (Holy Flare)', category: '神兵特权', icon: '💥', relation: '2级20%概率呼唤', tagType: 'info' as const },
+        { name: '二刀流自由人 (Dual Wielder)', category: '职业构筑', icon: '🛡️', relation: '3级终极主手搭载', tagType: 'success' as const }
       ]
     }
   } else {

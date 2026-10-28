@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-search-omni-inverted-index-hyper-graph-2026-10-28',
+    version: 'v2.2.243',
+    date: '2026-10-28',
+    title: '全域数据库索引超维拓展、白皮书与载具全量倒排索引及跨系统深度关联图谱重磅实装',
+    category: 'system',
+    categoryName: '检索演进',
+    icon: '🔍',
+    tagType: 'success',
+    description: '深度重构升级 SearchView 全域跨维度检索工坊：索引范围全面升阶扩容，除魔物首领、秘境地城、神兵装备、职业矩阵、英雄传记、幻兽契约、调合药剂与史诗支线外，全新将【多维载具矩阵】（陆行鸟/蒸汽火力船/黑隼飞空艇/月之巨鲸）、【十七卷核心架构白皮书】与【魔法秘术】全字段完整纳入倒排索引缓存，实现全站 12 大系统超 350+ 条目毫秒级毫发无遗模糊检索；全域词条三维深度关联图谱演练沙盘全新扩充宝箱真龙王·神龙（大海啸与珊瑚戒指对策）、虚空邪树·艾克斯迪斯（大十字与连续魔陨石）与至高超越神兵【诸神之黄昏】（面板攻击+180与圣光核爆追加）三大核心拓扑网状节点树；同步对齐 omni_database_search.gd 索引算法规范版本至 v2.2.243。',
+    highlights: [
+      '十二大子系统全域倒排索引覆蔽：首度纳入载具矩阵、十七卷白皮书与魔法秘术全字段毫秒检索',
+      '三维深度关联图谱沙盘实体扩充：新增真龙王神龙、虚空邪树艾克斯迪斯与诸神之黄昏三大核心拓扑',
+      '全系统词条关联度评分与因果链：清晰推演神兵解封来源、狂暴机制防御对策与职业终极配置解',
+      '热门检索推荐词自适应扩容：新增诸神黄昏、白皮书与飞空艇热搜词，一键直通焦点关联图谱',
+      '检索内核版本全量对齐：SearchView 全面升阶至 VBLE Search Engine v2.2.243 官方正式稳定版'
+    ],
+    relatedLinks: [
+      { label: '全域数据库检索工坊', path: '/vble/search', icon: '🔍' },
+      { label: '核心架构白皮书文库', path: '/vble/docs', icon: '📚' },
+      { label: '多维载具与巡航沙盘', path: '/vble/vehicles', icon: '🛸' }
+    ]
+  },
+  {
     id: 'up-docs-layered-spec-matrix-architecture-catalog-2026-10-28',
     version: 'v2.2.242',
     date: '2026-10-28',
