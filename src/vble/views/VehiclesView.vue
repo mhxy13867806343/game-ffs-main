@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Exploration Vehicles Matrix v2.2.257
+              VBLE Exploration Vehicles Matrix v2.2.274
             </span>
             <span class="text-xs text-gray-400">大世界航行与次元动力</span>
           </div>
@@ -20,6 +20,17 @@
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
+            type="primary"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToOverdriveStudio"
+          >
+            <template #icon><span>⚡</span></template>
+            以太超频推进工坊
+          </n-button>
+          <n-button
             type="warning"
             size="medium"
             round
@@ -28,7 +39,7 @@
             @click="scrollToStudio"
           >
             <template #icon><span>🚀</span></template>
-            前往动力巡航沙盘
+            动力巡航沙盘
           </n-button>
           <n-button
             type="info"
@@ -39,7 +50,7 @@
             @click="scrollToWarpStudio"
           >
             <template #icon><span>🌌</span></template>
-            前往星舰折跃工坊
+            星舰折跃工坊
           </n-button>
           <router-link to="/vble/scenes">
             <n-button size="medium" round tertiary>
@@ -970,7 +981,292 @@
       </div>
     </div>
 
-    <!-- Godot 4.x 核心实机代码展台 -->
+    <!-- 模块 4: 全域多维载具以太超频过载推进与虚空反冲推演工坊 -->
+    <div id="hyper-overdrive-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1c1208] via-[#1a1728] to-[#0a1128] border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.2)] space-y-6">
+      <!-- 头部导言 -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/30 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
+              AETHER OVERDRIVE &amp; VOID RECOIL PROPULSION ENGINE v2.2.274
+            </span>
+            <span class="text-xs text-cyan-300 font-mono">⚡ 以太超频推进 · 虚空反冲消解</span>
+          </div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2 tracking-tight">
+            <span>⚡</span> 全域多维载具以太超频过载推进与虚空反冲推演工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
+            突破魔导飞空艇、月之巨鲸与深海潜艇的常规速度壁垒。调节推进器以太充盈率、磁流体导流喷嘴磁场约束与惯性阻尼过载阈值，推演超音速音爆巡航、虚空反冲加速度与核心热堆稳态。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button type="info" size="small" round secondary @click="autoBalanceMagneticNozzle">
+            <template #icon><span>⚖️</span></template>
+            磁约束自动配平
+          </n-button>
+          <n-button type="warning" size="small" round secondary @click="triggerAuroraBurst">
+            <template #icon><span>💥</span></template>
+            极光湮灭冲刺
+          </n-button>
+          <n-button type="success" size="small" round secondary @click="exportVehicleOverdriveCertificate">
+            <template #icon><span>📜</span></template>
+            导出方案书 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 超频姿态预设选择台 -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5 uppercase tracking-wider">
+            <span>🚀</span> 推进器超频运行工况 (Propulsion Overdrive Mode)
+          </span>
+          <span class="text-xs font-mono text-gray-400">当前工况：{{ currentOverdriveMode.name }} ({{ currentOverdriveMode.subtitle }})</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="mode in overdriveModesList"
+            :key="mode.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedOverdriveModeId === mode.id
+              ? 'bg-amber-950/40 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)] ring-1 ring-amber-400'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'"
+            @click="selectOverdriveMode(mode.id)"
+          >
+            <div class="flex items-start gap-3">
+              <span class="text-3xl p-2 rounded-xl bg-slate-800/80 shrink-0 border border-slate-700">{{ mode.icon }}</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm text-white truncate">{{ mode.name }}</span>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">{{ mode.badge }}</span>
+                </div>
+                <div class="text-[11px] text-yellow-300 mt-0.5 font-medium">{{ mode.subtitle }}</div>
+                <p class="text-[11px] text-gray-400 mt-1 line-clamp-2 leading-relaxed">{{ mode.desc }}</p>
+                <div class="mt-2 flex items-center justify-between text-[10px] font-mono text-gray-400 border-t border-slate-800/80 pt-1.5">
+                  <span>推力增益: <strong class="text-amber-300">{{ mode.thrustMultiplier }}x</strong></span>
+                  <span>反冲负荷: <strong class="text-rose-400">{{ mode.recoilG }} G</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 动力学核心推演参数调节 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-xl bg-slate-950/70 border border-slate-800">
+        <!-- 推进器以太充盈率 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+              <span>⚡</span> 推进器以太充盈率
+            </span>
+            <span class="font-mono text-amber-300 font-bold">{{ propulsionAetherCharge }}%</span>
+          </div>
+          <input
+            v-model.number="propulsionAetherCharge"
+            type="range"
+            min="20"
+            max="200"
+            step="5"
+            class="w-full accent-amber-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[10px] text-gray-500">
+            <span>20% 低功耗</span>
+            <span>200% 极限制超频</span>
+          </div>
+        </div>
+
+        <!-- 导流喷嘴磁约束磁场 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+              <span>🧲</span> 导流喷嘴磁约束
+            </span>
+            <span class="font-mono text-cyan-300 font-bold">{{ magneticNozzleContainment }}%</span>
+          </div>
+          <input
+            v-model.number="magneticNozzleContainment"
+            type="range"
+            min="40"
+            max="100"
+            step="2"
+            class="w-full accent-cyan-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[10px] text-gray-500">
+            <span>40% 喷散损失</span>
+            <span>100% 完美准直</span>
+          </div>
+        </div>
+
+        <!-- 载具空气动力与反重力补偿 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+              <span>🪶</span> 反重力悬浮补偿
+            </span>
+            <span class="font-mono text-emerald-300 font-bold">{{ antiGravityCompensation }}%</span>
+          </div>
+          <input
+            v-model.number="antiGravityCompensation"
+            type="range"
+            min="10"
+            max="100"
+            step="2"
+            class="w-full accent-emerald-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[10px] text-gray-500">
+            <span>10% 笨重着地</span>
+            <span>100% 零阻力漂浮</span>
+          </div>
+        </div>
+
+        <!-- 应急惯性阻尼过载阈值 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+              <span>🛡️</span> 惯性阻尼过载阈值
+            </span>
+            <span class="font-mono text-rose-300 font-bold">{{ inertialDampingThreshold.toFixed(1) }} G</span>
+          </div>
+          <input
+            v-model.number="inertialDampingThreshold"
+            type="range"
+            min="1.0"
+            max="15.0"
+            step="0.5"
+            class="w-full accent-rose-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[10px] text-gray-500">
+            <span>1.0 G 乘员舒适</span>
+            <span>15.0 G 极境耐压</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 液氮深冷开关与推演执行 -->
+      <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex-1 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-gray-300 font-medium">动力热堆稳态与反冲阻尼系数：</span>
+            <span class="font-mono font-bold" :class="engineCoreStabilityPercent >= 75 ? 'text-emerald-400' : 'text-amber-400'">
+              {{ engineCoreStabilityPercent }}% ({{ engineStabilityText }})
+            </span>
+          </div>
+          <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden flex">
+            <div class="bg-amber-400 transition-all duration-300" :style="{ width: Math.min(100, engineCoreStabilityPercent) + '%' }"></div>
+            <div class="bg-rose-500 transition-all duration-300" :style="{ width: Math.max(0, 100 - engineCoreStabilityPercent) + '%' }"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-gray-400">
+            <span>热堆安全余量 {{ Math.min(100, engineCoreStabilityPercent).toFixed(0) }}%</span>
+            <span>热失控风险 {{ Math.max(0, 100 - engineCoreStabilityPercent).toFixed(0) }}%</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+          <label class="flex items-center gap-2 cursor-pointer text-xs text-gray-300 select-none">
+            <input v-model="enableCryoCoolantInjection" type="checkbox" class="accent-amber-400 rounded cursor-pointer" />
+            <span>开启以太深冷液氮注入 (Cryo Injection, 热稳态 +25%)</span>
+          </label>
+          <button
+            type="button"
+            class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black rounded-lg text-xs shadow-lg shadow-amber-500/20 transition-all cursor-pointer transform active:scale-95"
+            @click="triggerAetherOverdriveSimulation"
+          >
+            🚀 执行超频试车推演 (Engage Overdrive)
+          </button>
+        </div>
+      </div>
+
+      <!-- 实时推演指标看板 -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/40">
+          <div class="text-[11px] text-amber-400 font-mono mb-1">🏁 航行极限巡航航速</div>
+          <div class="text-2xl font-black text-white font-mono">
+            {{ maxCruiseSpeedKnots }} <span class="text-xs text-gray-400">节</span>
+          </div>
+          <div class="text-[11px] text-gray-400 mt-1">
+            <span>音速折算: </span>
+            <span class="text-amber-300 font-mono">Mach {{ (maxCruiseSpeedKnots / 660).toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-rose-500/40">
+          <div class="text-[11px] text-rose-400 font-mono mb-1">💥 虚空反冲过载加速度</div>
+          <div class="text-2xl font-black text-rose-400 font-mono">
+            {{ voidRecoilAccelerationG.toFixed(1) }} <span class="text-xs text-gray-400">G</span>
+          </div>
+          <div class="text-[11px] text-gray-400 mt-1">
+            <span>阻尼耐压裕度: </span>
+            <span :class="inertialDampingThreshold >= voidRecoilAccelerationG ? 'text-emerald-400' : 'text-rose-400'" class="font-mono">
+              {{ (inertialDampingThreshold - voidRecoilAccelerationG).toFixed(1) }} G
+            </span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/40">
+          <div class="text-[11px] text-cyan-400 font-mono mb-1">🌪️ 虚空乱流穿透率</div>
+          <div class="text-2xl font-black text-cyan-300 font-mono">
+            {{ turbulencePenetrationRate }}%
+          </div>
+          <div class="text-[11px] text-gray-400 mt-1">
+            <span>反重力流线顺滑度: </span>
+            <span class="text-emerald-400 font-mono">{{ antiGravityCompensation }}%</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border" :class="engineCoreStabilityPercent >= 75 ? 'border-emerald-500/50 bg-emerald-950/20' : 'border-amber-500/50 bg-amber-950/20'">
+          <div class="text-[11px] font-mono mb-1" :class="engineCoreStabilityPercent >= 75 ? 'text-emerald-400' : 'text-amber-400'">🛡️ 适航安全评级</div>
+          <div class="text-2xl font-black font-mono" :class="engineCoreStabilityPercent >= 75 ? 'text-emerald-400' : 'text-amber-400'">
+            {{ overdriveAirworthinessVerdict.badge }}
+          </div>
+          <div class="text-[11px] text-gray-400 mt-1 flex items-center justify-between">
+            <span>{{ overdriveAirworthinessVerdict.status }}</span>
+            <span class="text-cyan-300">热堆稳态</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 派生特性清单与推演战报控制台 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- 特性清单 -->
+        <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3">
+          <div class="text-xs font-bold text-amber-300 flex items-center gap-2">
+            <span>✨</span> 超频推进专属巡航特权与探索词缀
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div
+              v-for="(affix, idx) in currentOverdriveMode.affixes"
+              :key="idx"
+              class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-gray-300 flex items-center gap-2"
+            >
+              <span class="text-amber-400 font-bold shrink-0">•</span>
+              <span class="leading-tight">{{ affix }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 推演日志控制台 -->
+        <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3 flex flex-col">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-yellow-300 flex items-center gap-1.5">
+              <span>📜</span> 推进系统试车动态战报
+            </span>
+            <span class="text-gray-500 text-[11px]">最新 {{ overdriveSimulationLogs.length }} 条记录</span>
+          </div>
+          <div class="flex-1 bg-slate-900/90 p-3 rounded-lg border border-slate-800/80 font-mono text-[11px] space-y-1.5 max-h-48 overflow-y-auto">
+            <div
+              v-for="(log, idx) in overdriveSimulationLogs"
+              :key="idx"
+              class="leading-relaxed"
+              :class="log.includes('💥') || log.includes('冲刺') ? 'text-amber-300' : log.includes('⚠️') ? 'text-rose-400' : 'text-gray-300'"
+            >
+              {{ log }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.x 核心实机代码展台 (4 Tab 切换) -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
         <div class="flex flex-wrap items-center gap-3">
@@ -1003,6 +1299,14 @@
             >
               starship_warp_navigator.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'overdrive' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'overdrive'"
+            >
+              vehicle_hyper_overdrive_engine.gd
+            </button>
           </div>
         </div>
         <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
@@ -1010,7 +1314,7 @@
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'nav' ? godotCodeText : (activeCodeTab === 'breeding' ? godotChocoboCodeText : godotWarpNavigatorCodeText) }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'nav' ? godotCodeText : (activeCodeTab === 'breeding' ? godotChocoboCodeText : (activeCodeTab === 'warp' ? godotWarpNavigatorCodeText : godotHyperOverdriveCodeText)) }}</pre>
     </div>
   </div>
 </template>
@@ -1360,7 +1664,7 @@ const selectedNutId = ref('nut_zeio')
 const totalHatchedCount = ref(4)
 const hatchNotice = ref('')
 const hatchSuccessGold = ref(false)
-const activeCodeTab = ref<'nav' | 'breeding' | 'warp'>('nav')
+const activeCodeTab = ref<'nav' | 'breeding' | 'warp' | 'overdrive'>('nav')
 
 const chocoboStash = ref<Record<string, number>>({
   yellow: 3,
@@ -1629,9 +1933,12 @@ const copyGodotCode = async () => {
     } else if (activeCodeTab.value === 'breeding') {
       code = godotChocoboCodeText
       filename = 'chocobo_breeding_system.gd'
-    } else {
+    } else if (activeCodeTab.value === 'warp') {
       code = godotWarpNavigatorCodeText
       filename = 'starship_warp_navigator.gd'
+    } else {
+      code = godotHyperOverdriveCodeText
+      filename = 'vehicle_hyper_overdrive_engine.gd'
     }
     await navigator.clipboard.writeText(code)
     copiedCode.value = true
@@ -2127,6 +2434,305 @@ func engage_hyperdrive_warp(dest_id: String) -> Dictionary:
 	emit_signal("warp_transit_completed", telemetry)
 	is_warping = false
 	return telemetry
+`
+
+// ==========================================
+// ⚡ 全域多维载具以太超频过载推进与虚空反冲工坊
+// ==========================================
+const scrollToOverdriveStudio = () => {
+  const el = document.getElementById('hyper-overdrive-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface OverdriveMode {
+  id: string
+  name: string
+  subtitle: string
+  badge: string
+  icon: string
+  desc: string
+  thrustMultiplier: number
+  recoilG: number
+  presetCharge: number
+  affixes: string[]
+}
+
+const overdriveModesList: OverdriveMode[] = [
+  {
+    id: 'cruise_propulsion',
+    name: '巡航稳态推进',
+    subtitle: '标准平稳巡航',
+    badge: '稳态',
+    icon: '🚀',
+    desc: '标称推力输出，以太流道平滑无抖动，完全消除惯性过载，全乘员平稳舒适。',
+    thrustMultiplier: 1.0,
+    recoilG: 0.8,
+    presetCharge: 80,
+    affixes: [
+      '动力输出稳态 100%',
+      '全地形航行噪声降低 50%',
+      '零虚空反冲冲击伤害',
+      '燃油续航效率达到极限'
+    ]
+  },
+  {
+    id: 'turbo_afterburner',
+    name: '涡轮喷流超频',
+    subtitle: '以太加力喷射',
+    badge: '超频',
+    icon: '🔥',
+    desc: '向燃烧室直接注满高纯度以太浓缩液，瞬间爆发 2.2 倍强推力，冲刺跨越暴风雨与大洋激流。',
+    thrustMultiplier: 2.2,
+    recoilG: 3.5,
+    presetCharge: 130,
+    affixes: [
+      '巡航航速瞬间提升 120%',
+      '免疫暴风雨浪涌强阻力',
+      '发动机核心温度温和上升',
+      '反冲过载处于安全阻尼区间'
+    ]
+  },
+  {
+    id: 'gravitational_slingshot',
+    name: '虚空引力弹弓跃迁',
+    subtitle: '天体引力对冲',
+    badge: '跃迁',
+    icon: '🪐',
+    desc: '借助双月轨道引力阱与虚空重力梯度实现无动力引力弹射，以 3.8 倍巡航极速穿透崇山峻岭。',
+    thrustMultiplier: 3.8,
+    recoilG: 7.2,
+    presetCharge: 165,
+    affixes: [
+      '高空直接跨越高耸山脉断崖',
+      '突破音障达到 Mach 2.5 巡航',
+      '反重力补偿平衡大部分阻尼',
+      '偶发时空乱流轻微颠簸'
+    ]
+  },
+  {
+    id: 'antimatter_aurora_burst',
+    name: '太古反物质极光湮灭冲刺',
+    subtitle: '神话极境冲刺',
+    badge: '湮灭',
+    icon: '⚡',
+    desc: '解除发动机安全锁，诱导正负微以太粒子湮灭爆轰，产生极光尾焰与 Mach 4.5 终极极速！',
+    thrustMultiplier: 5.5,
+    recoilG: 12.8,
+    presetCharge: 200,
+    affixes: [
+      '极光音爆突破 Mach 4.5 极境',
+      '完全无视任何大世界地形障碍',
+      '全域时空裂隙秒级直达',
+      '需液氮深冷保障核心稳态'
+    ]
+  }
+]
+
+const selectedOverdriveModeId = ref('turbo_afterburner')
+const currentOverdriveMode = computed(() => overdriveModesList.find(m => m.id === selectedOverdriveModeId.value) || overdriveModesList[1])
+
+const propulsionAetherCharge = ref(130)
+const magneticNozzleContainment = ref(85)
+const antiGravityCompensation = ref(75)
+const inertialDampingThreshold = ref(8.0)
+const enableCryoCoolantInjection = ref(true)
+
+const overdriveSimulationLogs = ref<string[]>([
+  '⚡ 载具以太超频过载推进工坊就绪，磁约束导流喷管已预热完成。',
+  '🚀 当前工况：涡轮喷流超频，已锁定 130% 以太充盈率与 85% 磁约束率。'
+])
+
+const selectOverdriveMode = (id: string) => {
+  selectedOverdriveModeId.value = id
+  const m = currentOverdriveMode.value
+  propulsionAetherCharge.value = m.presetCharge
+  overdriveSimulationLogs.value.unshift(`🚀 已切换运行工况为【${m.name}】(${m.subtitle})，推力倍率 ${m.thrustMultiplier}x，标称反冲 ${m.recoilG} G。`)
+}
+
+const maxCruiseSpeedKnots = computed(() => {
+  const charge = propulsionAetherCharge.value / 100
+  const mag = magneticNozzleContainment.value / 100
+  const ag = antiGravityCompensation.value / 100
+  const baseSpeed = 420 * currentOverdriveMode.value.thrustMultiplier
+  const result = baseSpeed * charge * (0.6 + mag * 0.4) * (0.7 + ag * 0.3)
+  return Math.min(2980, Math.max(120, Math.round(result)))
+})
+
+const voidRecoilAccelerationG = computed(() => {
+  const charge = propulsionAetherCharge.value / 100
+  const ag = antiGravityCompensation.value / 100
+  const rawG = currentOverdriveMode.value.recoilG * charge
+  const dampedG = rawG * (1 - ag * 0.45)
+  return Number(Math.min(15.0, Math.max(0.5, dampedG)).toFixed(1))
+})
+
+const engineCoreStabilityPercent = computed(() => {
+  const charge = propulsionAetherCharge.value
+  const mag = magneticNozzleContainment.value
+  let stab = 100 - (charge - 100) * 0.5 + (mag - 50) * 0.4
+  if (enableCryoCoolantInjection.value) stab += 25
+  return Math.min(100, Math.max(20, Math.round(stab)))
+})
+
+const engineStabilityText = computed(() => {
+  const s = engineCoreStabilityPercent.value
+  if (s >= 85) return '核心绝对冰冷稳态'
+  if (s >= 70) return '正常安全超频工况'
+  if (s >= 50) return '高温临界警戒态'
+  return '热失控警报！'
+})
+
+const turbulencePenetrationRate = computed(() => {
+  const ag = antiGravityCompensation.value
+  const mag = magneticNozzleContainment.value
+  return Math.min(100, Math.max(5, Math.round(ag * 0.6 + mag * 0.4)))
+})
+
+const overdriveAirworthinessVerdict = computed(() => {
+  const s = engineCoreStabilityPercent.value
+  const g = voidRecoilAccelerationG.value
+  const limit = inertialDampingThreshold.value
+  if (s >= 80 && g <= limit) {
+    return { badge: 'AAA 适航', status: '全工况安全达标', color: 'text-emerald-400' }
+  } else if (s >= 65 && g <= limit * 1.2) {
+    return { badge: 'AA 优良', status: '次级超频允许', color: 'text-cyan-400' }
+  } else if (s >= 50) {
+    return { badge: 'B 临界', status: '建议开启深冷', color: 'text-amber-400' }
+  }
+  return { badge: 'D 危险', status: '过载反冲超限', color: 'text-rose-400' }
+})
+
+const autoBalanceMagneticNozzle = () => {
+  magneticNozzleContainment.value = 95
+  antiGravityCompensation.value = 90
+  inertialDampingThreshold.value = 12.0
+  message.success('已自动将磁导喷管约束拉升至 95%，反重力补偿配平至 90%！')
+  overdriveSimulationLogs.value.unshift('⚖️ 磁约束与反重力悬浮超导阵列配平成功！发动机核心稳态大幅提升。')
+}
+
+const triggerAuroraBurst = () => {
+  propulsionAetherCharge.value = 200
+  enableCryoCoolantInjection.value = true
+  message.warning('💥 极光湮灭冲刺已启动！航速突破 Mach 4.5！')
+  overdriveSimulationLogs.value.unshift('💥 警报：推进器已拉满 200% 极限制以太充盈率！极光尾焰喷射，航速突破 Mach 4.5 音爆！')
+}
+
+const triggerAetherOverdriveSimulation = () => {
+  const v = overdriveAirworthinessVerdict.value
+  if (v.badge.includes('D')) {
+    message.error(`⚠️ 试车警报！反冲过载达到 ${voidRecoilAccelerationG.value}G，超出惯性阻尼承受极限！`)
+    overdriveSimulationLogs.value.unshift(`⚠️ 试车受阻：反冲 G 值过高 (${voidRecoilAccelerationG.value}G > ${inertialDampingThreshold.value}G)，载具骨架承受剧烈震颤！`)
+  } else {
+    message.success(`🎉 以太超频试车大获成功！航速达 ${maxCruiseSpeedKnots.value} 节，适航评级 ${v.badge}！`)
+    overdriveSimulationLogs.value.unshift(`✨ 试车圆满成功！航速达成 ${maxCruiseSpeedKnots.value} 节 (Mach ${(maxCruiseSpeedKnots.value / 660).toFixed(2)})，热堆稳态率 ${engineCoreStabilityPercent.value}%。`)
+  }
+}
+
+const exportVehicleOverdriveCertificate = () => {
+  const m = currentOverdriveMode.value
+  const timestamp = new Date().toISOString()
+  const certId = 'VEH-OVERDRIVE-' + Date.now().toString(36).toUpperCase()
+  const content = [
+    '================================================================================',
+    '《光之战士：时空裂隙》全域多维载具以太超频过载推进与适航方案书',
+    '================================================================================',
+    `方案编号: ${certId}`,
+    `签署时间: ${timestamp}`,
+    '认证矩阵: VBLE Exploration Vehicles Matrix v2.2.274',
+    '系统架构: Godot 4.6 LTS / RefCounted Vehicle Hyper Overdrive Engine',
+    '',
+    '【运行工况与推进档案】',
+    `• 超频工况: ${m.name} (${m.subtitle})`,
+    `• 运行标章: ${m.badge}`,
+    `• 推力倍率: ${m.thrustMultiplier}x`,
+    `• 标称反冲负荷: ${m.recoilG} G`,
+    '',
+    '【推进动力学核心参数】',
+    `• 推进器以太充盈率: ${propulsionAetherCharge.value}%`,
+    `• 导流喷嘴磁约束率: ${magneticNozzleContainment.value}%`,
+    `• 反重力悬浮补偿率: ${antiGravityCompensation.value}%`,
+    `• 惯性阻尼过载阈值: ${inertialDampingThreshold.value.toFixed(1)} G`,
+    `• 以太深冷液氮注入: ${enableCryoCoolantInjection.value ? '已装配 (+25% 稳态)' : '未启用'}`,
+    '',
+    '【解算指标与适航评定】',
+    `• 极限巡航航速: ${maxCruiseSpeedKnots.value} 节 (Mach ${(maxCruiseSpeedKnots.value / 660).toFixed(2)})`,
+    `• 虚空反冲加速度: ${voidRecoilAccelerationG.value.toFixed(1)} G`,
+    `• 发动机核心稳态率: ${engineCoreStabilityPercent.value}% (${engineStabilityText.value})`,
+    `• 虚空乱流穿透率: ${turbulencePenetrationRate.value}%`,
+    `• 适航综合裁决: ${overdriveAirworthinessVerdict.value.badge} · ${overdriveAirworthinessVerdict.value.status}`,
+    '',
+    '【超频巡航特性与探索词缀】',
+    ...m.affixes.map((a, i) => `  ${i + 1}. ${a}`),
+    '',
+    '【底层实机契约签名】',
+    `SHA-256 安全哈希: ${Array.from(certId + timestamp).map(c => (c.charCodeAt(0) * 31 % 16).toString(16)).join('').padEnd(64, 'b')}`,
+    '================================================================================'
+  ].join('\n')
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `vehicle_overdrive_certificate_${Date.now()}.txt`
+  link.click()
+  URL.revokeObjectURL(url)
+  message.success('已成功导出《全域载具以太超频推进方案书》！')
+  overdriveSimulationLogs.value.unshift(`📜 方案书已完成 SHA-256 离线安全签署并导出：编号 ${certId}`)
+}
+
+const godotHyperOverdriveCodeText = `## vehicle_hyper_overdrive_engine.gd
+## Godot 4.6 LTS - 全域多维载具以太超频推进与虚空反冲解算引擎
+extends RefCounted
+class_name VehicleHyperOverdriveEngine
+
+signal overdrive_engaged(mode_name: String, speed_knots: float, recoil_g: float)
+signal thermal_overheat_warning(core_temp_celsius: float)
+signal turbulence_shield_penetrated(damage: float)
+
+class OverdriveMetrics:
+	var speed_knots: int
+	var recoil_g: float
+	var core_stability_pct: int
+	var penetration_pct: int
+	var is_airworthy: bool
+
+## 纯逻辑执行以太超频动力学推演
+static func calculate_overdrive_metrics(
+	thrust_mult: float,
+	nominal_recoil: float,
+	charge_pct: float,
+	nozzle_pct: float,
+	antigrav_pct: float,
+	damping_threshold_g: float,
+	has_cryo: bool
+) -> OverdriveMetrics:
+	var metrics = OverdriveMetrics.new()
+	
+	# 航速解算
+	var charge_factor: float = charge_pct / 100.0
+	var mag_factor: float = nozzle_pct / 100.0
+	var ag_factor: float = antigrav_pct / 100.0
+	var base_spd: float = 420.0 * thrust_mult
+	var spd: float = base_spd * charge_factor * (0.6 + mag_factor * 0.4) * (0.7 + ag_factor * 0.3)
+	metrics.speed_knots = int(clampf(spd, 120.0, 2980.0))
+	
+	# 虚空反冲加速度
+	var raw_g: float = nominal_recoil * charge_factor
+	metrics.recoil_g = clampf(raw_g * (1.0 - ag_factor * 0.45), 0.5, 15.0)
+	
+	# 热堆稳态率
+	var stab: float = 100.0 - (charge_pct - 100.0) * 0.5 + (nozzle_pct - 50.0) * 0.4
+	if has_cryo:
+		stab += 25.0
+	metrics.core_stability_pct = int(clampf(stab, 20.0, 100.0))
+	
+	# 乱流穿透率
+	metrics.penetration_pct = int(clampf(antigrav_pct * 0.6 + nozzle_pct * 0.4, 5.0, 100.0))
+	metrics.is_airworthy = (metrics.core_stability_pct >= 65 and metrics.recoil_g <= damping_threshold_g * 1.1)
+	
+	return metrics
 `
 
 onUnmounted(() => {

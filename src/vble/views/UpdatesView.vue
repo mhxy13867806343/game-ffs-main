@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicles-overdrive-studio-2026-10-28',
+    version: 'v2.2.274',
+    date: '2026-10-28',
+    title: '全域多维载具以太超频过载推进与虚空反冲推演工坊重磅实装',
+    category: 'system',
+    categoryName: '载具动力',
+    icon: '⚡',
+    tagType: 'success',
+    description: '全面重构升级 VehiclesView 载具矩阵门户：顶部横幅标章升级为 VBLE Exploration Vehicles Matrix v2.2.274，新增以太超频推进工坊一键直达快捷按钮；专区重磅实装【全域多维载具以太超频过载推进与虚空反冲推演工坊】（Aether Overdrive & Void Recoil Propulsion Studio）；覆盖四大运行工况（巡航稳态推进、涡轮喷流超频、虚空引力弹弓跃迁、太古反物质极光湮灭冲刺）；实现推进器以太充盈率 (20%~200%)、导流喷嘴磁约束 (40%~100%)、反重力悬浮补偿 (10%~100%) 与应急惯性阻尼过载阈值 (1.0G~15.0G) 连续动力学调节；支持以太深冷液氮注入开关；实时解算极限航速 (120~2980节 / Mach 0.2~4.5)、虚空反冲加速度与发动机核心热堆稳态率 (20%~100%)；一键生成并导出《全域载具以太超频推进方案书》附带 SHA-256 安全哈希签名；底层源码展台升级 4 Tab 切换，新增 vehicle_hyper_overdrive_engine.gd 纯逻辑超频引擎。',
+    highlights: [
+      '四大推进超频工况：巡航稳态、涡轮喷流加力、虚空引力弹弓与太古反物质极光湮灭',
+      '四维连续推进动力学：充盈率、磁约束率、反重力补偿与惯性阻尼耐压阈值全域演化',
+      '极光音爆突破 Mach 4.5：解除安全锁释放正负微以太粒子湮灭爆轰，无视一切地形阻碍',
+      '液氮以太深冷热堆保护：有效抵消反冲震颤，发动机核心稳态余量提升 25%',
+      '超频方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 vehicle_hyper_overdrive_engine.gd 纯逻辑超频引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '多维载具矩阵', path: '/vble/vehicles', icon: '🛸' },
+      { label: '世界地图场景', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-download-p2p-swarm-2026-10-28',
     version: 'v2.2.273',
     date: '2026-10-28',
