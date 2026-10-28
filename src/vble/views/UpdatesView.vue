@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-equipment-kuzar-12-weapons-rapid-fire-combo-2026-10-28',
+    version: 'v2.2.244',
+    date: '2026-10-28',
+    title: '库扎封印城十二太古神兵全域收录、二刀流魔法剑8连击实装与多首领伤害推演工坊重磅实装',
+    category: 'system',
+    categoryName: '装备演进',
+    icon: '🗡️',
+    tagType: 'warning',
+    description: '深度重构升级 EquipmentView 神兵矩阵与二刀流推演工坊：全量补齐封印之城库扎全部 12 柄太古圣兵（王者之剑、正宗、神圣之枪、贤者法杖、佐助之刀、与一之弓、符文破坏之斧、大地共鸣之铃、炎狱魔兽之鞭、阿波罗竖琴、贤者生息圣杖、刺客暗影短剑），并完备三阶孔位开光与七色尾巴觉醒神技；二刀流双持与魔法剑乱打工坊全新实装力量属性滑块（STR 10~120）与四大靶标受击首领切换（原野木桩、机械欧米茄、深渊神龙、虚空艾克斯迪斯），动态适配弱点属性倍率与防御穿透；实装【8连击乱打实机时钟出招流动态模拟器】与【二刀流伤害推演报告一键导出工坊】；同步对齐 equipment_stats_resolver.gd 伤害结算引擎。',
+    highlights: [
+      '库扎封印城十二太古神兵全量收录：补齐符文斧、大地铃、炎狱鞭、阿波罗琴、贤者圣杖与刺客刃',
+      '七色尾巴三阶孔位开光觉醒大典：每把圣兵均赋予对应稀有彩尾第二专属被动特技与属性加持',
+      '二刀流双持多首领实战靶标模拟：支持木桩、欧米茄、神龙与艾克斯迪斯弱点属性与双防自动推演',
+      '8连击极意乱打出招流动态模拟：高精模拟主副手交替出招时序、25%暴击判定与实时总输出结算',
+      '伤害推演报告一键全量导出：支持一键复制武器搭配、附魔、STR面板、护甲与终极爆发伤害报告'
+    ],
+    relatedLinks: [
+      { label: '神装锻造与远古神兵', path: '/vble/equipment', icon: '🗡️' },
+      { label: '配装模拟器工坊', path: '/vble/armory-simulator', icon: '🛡️' },
+      { label: '战斗战术与机制指南', path: '/vble/battle-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-search-omni-inverted-index-hyper-graph-2026-10-28',
     version: 'v2.2.243',
     date: '2026-10-28',

@@ -266,10 +266,33 @@
               </div>
             </div>
 
-            <!-- 目标护甲 -->
+            <!-- 角色力量属性设定 -->
             <div class="space-y-1 pt-2 border-t border-slate-800">
               <div class="flex justify-between text-xs">
-                <span class="text-gray-300">敌方物理护甲:</span>
+                <span class="text-gray-300">角色力量 (STR):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ dwStr }} 点</span>
+              </div>
+              <n-slider v-model:value="dwStr" :min="10" :max="120" :step="5" />
+            </div>
+
+            <!-- 目标首领与防御 -->
+            <div class="space-y-1 pt-2 border-t border-slate-800">
+              <label class="text-xs text-gray-300 font-semibold block mb-1">靶标受击目标 (Target):</label>
+              <select
+                v-model="dwTargetBoss"
+                class="w-full bg-slate-900 border border-slate-700 text-white rounded p-2 text-xs focus:border-amber-400 outline-none"
+                @change="syncTargetDef"
+              >
+                <option value="dummy">原野试炼木桩 (DEF 40 · 无属性抗性)</option>
+                <option value="omega">机械灭绝者 · 欧米茄 (DEF 150 · 弱闪雷 2x · 超高护甲)</option>
+                <option value="shinryu">深渊神龙 · 真龙王 (DEF 120 · 龙属特攻 3x · 水吸收)</option>
+                <option value="exdeath">虚空邪树 · 艾克斯迪斯 (DEF 90 · 圣属性神圣弱点 2x)</option>
+              </select>
+            </div>
+
+            <div class="space-y-1 pt-1">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">敌方基础护甲 (DEF):</span>
                 <span class="font-mono text-cyan-400 font-bold">{{ dwTargetDef }} 点</span>
               </div>
               <n-slider v-model:value="dwTargetDef" :min="0" :max="200" :step="10" />
@@ -311,12 +334,49 @@
               </div>
 
               <div class="space-y-2 text-xs font-mono text-gray-300 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-                <div>▸ 主手单发: (力50/2 + 武器攻{{ currentMainW.atk }}) × 基础倍率{{ dwMultiplier }} - (护甲{{ effectiveDef }} × 0.5) = {{ dwMainHandHitDmg }}</div>
-                <div>▸ 副手单发: (力50/2 + 武器攻{{ currentOffW.atk }}) × 基础倍率{{ dwMultiplier }} - (护甲{{ effectiveDef }} × 0.5) = {{ dwOffHandHitDmg }}</div>
+                <div>▸ 主手单发: (力{{ dwStr }}/2 + 武器攻{{ currentMainW.atk }}) × 基础倍率{{ dwMultiplier }} - (护甲{{ effectiveDef }} × 0.5) = {{ dwMainHandHitDmg }}</div>
+                <div>▸ 副手单发: (力{{ dwStr }}/2 + 武器攻{{ currentOffW.atk }}) × 基础倍率{{ dwMultiplier }} - (护甲{{ effectiveDef }} × 0.5) = {{ dwOffHandHitDmg }}</div>
                 <div v-if="dwState.spellblade !== 'none'" class="text-cyan-300">▸ 魔法剑附魔加成: {{ spellbladeDesc }}</div>
                 <div class="text-amber-400 pt-1 border-t border-slate-800 font-bold">
                   ▸ 终极爆发合算: {{ dwTotalHits }} 段打击合计造成 {{ dwTotalBurstDamage.toLocaleString() }} 点输出！
                 </div>
+              </div>
+            </div>
+
+            <!-- 8 连击乱打实战出招模拟与命中流 -->
+            <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+                <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                  <span>⚡</span> 8连击乱打实机时钟出招流演练
+                </div>
+                <div class="flex items-center gap-2">
+                  <n-button size="tiny" type="primary" secondary round class="font-bold" :loading="isSimulatingHits" @click="runRapidFireSimulation">
+                    ⚔️ 触发乱打连续攻击
+                  </n-button>
+                  <n-button size="tiny" secondary round @click="copyDualWieldReport">
+                    📋 导出伤害报告
+                  </n-button>
+                </div>
+              </div>
+
+              <!-- 连击命中列表 -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
+                <div
+                  v-for="(hit, idx) in simulatedHits"
+                  :key="idx"
+                  class="p-2 rounded bg-slate-900 border border-slate-800 flex items-center justify-between"
+                  :class="{ 'border-amber-500/50 bg-amber-950/20': hit.isCrit }"
+                >
+                  <span class="text-gray-400">#{{ idx + 1 }} {{ hit.hand === 'main' ? '右手' : '左手' }}</span>
+                  <span class="font-bold" :class="hit.isCrit ? 'text-amber-400 animate-pulse' : 'text-cyan-300'">
+                    {{ hit.dmg }} {{ hit.isCrit ? '★' : '' }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="text-[11px] text-gray-400 flex items-center justify-between pt-1">
+                <span>实战 DPS 加成结算: <strong class="text-emerald-400">{{ simulatedDpsVerdict }}</strong></span>
+                <span class="text-amber-400/80">暴击判定率: 25%</span>
               </div>
             </div>
           </div>
@@ -477,13 +537,89 @@ const dwState = reactive({
 })
 
 const dwTargetDef = ref(50)
+const dwStr = ref(65)
+const dwTargetBoss = ref('dummy')
+const isSimulatingHits = ref(false)
+const simulatedHits = ref<Array<{ hand: 'main' | 'off'; dmg: number; isCrit: boolean }>>([
+  { hand: 'main', dmg: 1420, isCrit: false },
+  { hand: 'off', dmg: 1380, isCrit: false },
+  { hand: 'main', dmg: 2130, isCrit: true },
+  { hand: 'off', dmg: 1390, isCrit: false },
+  { hand: 'main', dmg: 1450, isCrit: false },
+  { hand: 'off', dmg: 1410, isCrit: false },
+  { hand: 'main', dmg: 1430, isCrit: false },
+  { hand: 'off', dmg: 2090, isCrit: true }
+])
+const simulatedDpsVerdict = ref('8段连击瞬爆 12,600 点极意伤害 (含2次暴击)')
+
+const syncTargetDef = () => {
+  switch (dwTargetBoss.value) {
+    case 'dummy': dwTargetDef.value = 40; break
+    case 'omega': dwTargetDef.value = 150; break
+    case 'shinryu': dwTargetDef.value = 120; break
+    case 'exdeath': dwTargetDef.value = 90; break
+  }
+}
+
+const runRapidFireSimulation = () => {
+  if (isSimulatingHits.value) return
+  isSimulatingHits.value = true
+  simulatedHits.value = []
+
+  const total = dwTotalHits.value
+  let current = 0
+  const timer = setInterval(() => {
+    if (current >= total) {
+      clearInterval(timer)
+      isSimulatingHits.value = false
+      const totalDmg = simulatedHits.value.reduce((sum, h) => sum + h.dmg, 0)
+      simulatedDpsVerdict.value = `${total}段打击瞬爆 ${totalDmg.toLocaleString()} 点极意伤害！`
+      message.success(`乱打连击执行完毕！总爆发: ${totalDmg.toLocaleString()} 点伤害！`)
+      return
+    }
+    const isMain = current % 2 === 0
+    const baseDmg = isMain ? dwMainHandHitDmg.value : dwOffHandHitDmg.value
+    const isCrit = Math.random() < 0.25
+    const variance = (0.9 + Math.random() * 0.2)
+    const finalDmg = Math.round(baseDmg * variance * (isCrit ? 1.5 : 1.0))
+    simulatedHits.value.push({
+      hand: isMain ? 'main' : 'off',
+      dmg: finalDmg,
+      isCrit
+    })
+    current++
+  }, 90)
+}
+
+const copyDualWieldReport = async () => {
+  const lines = [
+    '================================================================================',
+    '【二刀流魔法剑乱打实战伤害推演报告】',
+    '================================================================================',
+    `右手主武器: ${currentMainW.value.name} (攻 +${currentMainW.value.atk})`,
+    `左手副武器: ${currentOffW.value.name} (攻 +${currentOffW.value.atk})`,
+    `魔法剑附魔: ${spellbladeDesc.value}`,
+    `角色力量: ${dwStr.value} STR | 靶标: ${dwTargetBoss.value} (DEF: ${effectiveDef.value})`,
+    `右手单发预估: ${dwMainHandHitDmg.value} | 左手单发预估: ${dwOffHandHitDmg.value}`,
+    `打击段数: ${dwTotalHits.value} 连击 | 预期总爆发: ${dwTotalBurstDamage.value.toLocaleString()} 点伤害`,
+    '================================================================================'
+  ]
+  try {
+    await navigator.clipboard.writeText(lines.join('\n'))
+    message.success('已复制二刀流伤害推演报告至剪贴板！')
+  } catch {
+    message.info('报告已生成')
+  }
+}
 
 const resetDualWield = () => {
   dwState.mainWeaponId = 'ragnarok'
   dwState.offWeaponId = 'masamune'
   dwState.spellblade = 'flare'
   dwState.stance = 'rapid_fire'
-  dwTargetDef.value = 50
+  dwStr.value = 65
+  dwTargetBoss.value = 'dummy'
+  dwTargetDef.value = 40
   message.success('已恢复经典【诸神之黄昏+正宗】双持配置')
 }
 
@@ -500,18 +636,28 @@ const effectiveDef = computed(() => {
 const dwMultiplier = computed(() => dwState.stance === 'rapid_fire' ? 1.0 : 2.2)
 
 const dwMainHandHitDmg = computed(() => {
-  const base = (50 / 2 + currentMainW.value.atk) * dwMultiplier.value - effectiveDef.value * 0.5
+  let mult = dwMultiplier.value
+  if (dwTargetBoss.value === 'omega' && dwState.spellblade === 'thundaga') mult *= 2.0
+  if (dwTargetBoss.value === 'shinryu') mult *= 1.5
+  if (dwTargetBoss.value === 'exdeath' && dwState.spellblade === 'holy') mult *= 2.0
+  const base = (dwStr.value / 2 + currentMainW.value.atk) * mult - effectiveDef.value * 0.5
   let bonus = 0
-  if (dwState.spellblade === 'flare') bonus = 100
+  if (dwState.spellblade === 'flare') bonus = 120
   if (dwState.spellblade === 'thundaga') bonus = 80
+  if (dwState.spellblade === 'holy') bonus = 90
   return Math.max(10, Math.round(base + bonus))
 })
 
 const dwOffHandHitDmg = computed(() => {
-  const base = (50 / 2 + currentOffW.value.atk) * dwMultiplier.value - effectiveDef.value * 0.5
+  let mult = dwMultiplier.value
+  if (dwTargetBoss.value === 'omega' && dwState.spellblade === 'thundaga') mult *= 2.0
+  if (dwTargetBoss.value === 'shinryu') mult *= 1.5
+  if (dwTargetBoss.value === 'exdeath' && dwState.spellblade === 'holy') mult *= 2.0
+  const base = (dwStr.value / 2 + currentOffW.value.atk) * mult - effectiveDef.value * 0.5
   let bonus = 0
-  if (dwState.spellblade === 'flare') bonus = 100
+  if (dwState.spellblade === 'flare') bonus = 120
   if (dwState.spellblade === 'thundaga') bonus = 80
+  if (dwState.spellblade === 'holy') bonus = 90
   return Math.max(10, Math.round(base + bonus))
 })
 
@@ -522,9 +668,9 @@ const dwTotalBurstDamage = computed(() => {
 
 const spellbladeDesc = computed(() => {
   switch (dwState.spellblade) {
-    case 'flare': return '核爆附魔：敌方防御判定绝对清零，附加 100 点无视双防固伤'
+    case 'flare': return '核爆附魔：敌方防御判定绝对清零，附加 120 点无视双防固伤'
     case 'thundaga': return '闪雷附魔：对机械与水系魔物追加 2.0x ~ 4.0x 暴击'
-    case 'holy': return '神圣附魔：对不死系追加 3.0x 绝对神圣破邪'
+    case 'holy': return '神圣附魔：对不死与黑暗系追加 2.0x ~ 3.0x 破邪'
     case 'drain': return '吸血附魔：每次打击全额吸收输出为自身生命值'
     default: return '无附魔'
   }
@@ -595,6 +741,60 @@ const sealedWeapons: SealedWeapon[] = [
     job: '猎人 / 自由人',
     baseEffect: '乱射必定命中后排目标，暴击率 +25%，敏捷 +10。',
     awakenedEffect: '镶嵌【紫之尾巴】：乱射箭矢由 4 支提升至 8 支连续暴击，附带强力定身束缚。'
+  },
+  {
+    id: 'seal-rune-axe',
+    name: '符文破坏之斧 (Rune Axe)',
+    icon: '🪓',
+    atk: 142,
+    job: '狂战士 / 魔法骑士 / 自由人',
+    baseEffect: '普攻消耗 5 点 MP 触发绝对暴击破甲，对重装甲魔物追加 2.0 倍贯穿。',
+    awakenedEffect: '镶嵌【红之尾巴】：MP 消耗减半，攻击力根据当前已损失生命百分比最高额外提升 100%。'
+  },
+  {
+    id: 'seal-gaia-bell',
+    name: '大地共鸣之铃 (Gaia Bell)',
+    icon: '🔔',
+    atk: 128,
+    job: '风水士 / 吟游诗人 / 自由人',
+    baseEffect: '普通攻击 50% 震荡释放全场【大地震 Earthquake】，地属性威力增幅 50%。',
+    awakenedEffect: '镶嵌【黄之尾巴】：风水秘术必定触发当前地形顶级天灾绝杀，地鸣不伤全队飞行目标。'
+  },
+  {
+    id: 'seal-firebute',
+    name: '炎狱魔兽之鞭 (Firebute)',
+    icon: '🔥',
+    atk: 132,
+    job: '驯兽师 / 自由人',
+    baseEffect: '普通攻击附带强力麻痹束缚，33% 概率追加释放全屏九阶黑魔法【火魔爆 (Firaga)】。',
+    awakenedEffect: '镶嵌【红之尾巴】：捕获魔物成功率翻倍，麻痹持续时间延长至 3 回合且无法被净化。'
+  },
+  {
+    id: 'seal-apollon-harp',
+    name: '阿波罗治愈之竖琴 (Apollon\'s Harp)',
+    icon: '🎵',
+    atk: 115,
+    job: '吟游诗人 / 自由人',
+    baseEffect: '对龙系与恶魔造成 4.0 倍神曲灭绝特攻，全队战歌增益上限由 +20 突破至 +99。',
+    awakenedEffect: '镶嵌【绿之尾巴】：英雄之歌每回合自动使全队全属性+10并附带再生 Regen 持续回血。'
+  },
+  {
+    id: 'seal-sage-staff',
+    name: '贤者生息圣杖 (Sage\'s Staff)',
+    icon: '🦯',
+    atk: 105,
+    job: '白魔道士 / 导师 / 自由人',
+    baseEffect: '战斗中作为道具使用无限释放【大圣疗 Raise】，对不死系魔物造成必杀级神圣超度。',
+    awakenedEffect: '镶嵌【白之尾巴】：所有恢复性白魔法治疗量翻倍，施法者获得濒死无敌结界 1 回合。'
+  },
+  {
+    id: 'seal-assassin-dagger',
+    name: '刺客暗影短剑 (Assassin\'s Dagger)',
+    icon: '🗡️',
+    atk: 138,
+    job: '盗贼 / 忍者 / 自由人',
+    baseEffect: '普通攻击 25% 概率触发【死之宣告即死】，敏捷 +5，盗贼偷盗成功率 +30%。',
+    awakenedEffect: '镶嵌【黑之尾巴】：背刺伤害翻倍，偷盗必定获得魔物稀有第一掉落槽位绝版战利品。'
   }
 ]
 
