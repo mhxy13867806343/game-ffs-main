@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-economy-hermit-cave-tail-awakening-studio-2026-10-28',
+    version: 'v2.2.245',
+    date: '2026-10-28',
+    title: '宏观经济调合工坊全面升级、隐士洞窟八彩尾巴实机契约觉醒沙盘与凭证导出重磅实装',
+    category: 'system',
+    categoryName: '经济调合',
+    icon: '🦊',
+    tagType: 'warning',
+    description: '深度重构升级 EconomyView 宏观经济与药剂师工坊：全面实装【七色尾巴隐士洞窟兑换与太古觉醒推演沙盘】（Hermit Cave Tail Awakening & Trade Studio），全息支持粉色尾巴、红色尾巴、金色尾巴、蓝色尾巴、黄色尾巴、绿色尾巴、灰色尾巴与黑色尾巴八大极罕素材随身仓储模拟；首创伪随机实机掉落演算机，支持月面地下溪谷布丁公主 1/64 极罕掉落单抽与十连刷模拟；全量实装始祖契约、灵魂共鸣与太古超越 MAX 三阶神兵觉醒突破，动态解算各阶阿克塞尔匕首、瓦尔哈拉圣剑、嗜血长枪与究极之刃综合战力评级与专属神技；新增一键导出《隐士洞窟太古尾巴契约兑换凭证》工坊；底层代码升级双架构视图，新增 tail_exchange_system.gd 核心掉落与觉醒引擎，对齐 VBLE Economy Matrix v2.2.245 规范。',
+    highlights: [
+      '隐士洞窟八大极罕彩尾全域仓储模拟：支持粉、红、金、蓝、黄、绿、灰、黑八大尾巴自由调配',
+      '首创魔物伪随机掉落演算机：高精模拟布丁公主 1/64 极罕爆率，支持单次与十连连刷掷骰',
+      '三阶契约神兵太古觉醒大典：始祖契约、灵魂共鸣与太古超越 MAX 阶梯式解锁暴击与时空极意',
+      '太古尾巴契约凭证一键导出：实时生成包含 SHA-256 安全哈希的全套神兵契约结存加密文本',
+      'Godot 4.6 LTS 双架构引擎实装：新增 tail_exchange_system.gd 掉落校验与契约换算源码展台'
+    ],
+    relatedLinks: [
+      { label: '宏观经济与调合工坊', path: '/vble/economy', icon: '⚗️' },
+      { label: '神装锻造与远古神兵', path: '/vble/equipment', icon: '🗡️' },
+      { label: '全域跨维度检索', path: '/vble/search', icon: '🔍' }
+    ]
+  },
+  {
     id: 'up-equipment-kuzar-12-weapons-rapid-fire-combo-2026-10-28',
     version: 'v2.2.244',
     date: '2026-10-28',
