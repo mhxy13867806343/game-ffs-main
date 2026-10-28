@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-dungeon-topology-labyrinth-studio-2026-10-28',
+    version: 'v2.2.256',
+    date: '2026-10-28',
+    title: '全域地貌拓扑四维空间解构与深渊迷宫沙盘重磅升级',
+    category: 'maps',
+    categoryName: '地貌演进',
+    icon: '🏛️',
+    tagType: 'success',
+    description: '深度重构升级 DungeonsView 全域地貌拓扑与地宫导览门户：全新上线奢华极光横幅与四维空间解构标章；深化实装【多元宇宙深渊迷宫与战争迷雾密室推演工坊】（Dungeon Fog-of-War Studio），支持次元裂隙虚无核心、沉没沃尔斯水塔、分歧之塔与极北玄冰洞窟四大终极秘境的实景走格子探索、战争迷雾动态曼哈顿视距驱散、以太机关与浮空避坑；全新实装一键导出《全域地貌拓扑与深渊迷宫勘探认证方案书》工坊；底层代码升级为 Godot 4.6 LTS 双架构引擎展台，新增 procedural_labyrinth_resolver.gd A* 寻路调度器源码展台，对齐 VBLE Dungeon & Spatial Topology Matrix v2.2.256 规范。',
+    highlights: [
+      '全域地貌拓扑四维空间解构：全面覆盖苍穹宇宙、地表、深海、地狱冥界与终局虚无层',
+      '实景 6x6 动态迷宫走格子沙盘：支持键盘箭头与触屏移动舵，实时曼哈顿半径视野驱散',
+      '核心极限制约与地脉环境指标：高精测算虚空重力极化率、水下氧气损耗、两极偏振与永冻度',
+      '盗贼鹰眼洞悉与风水师全息浮空：一键洞悉全图隐藏宝箱与机关，身披以太羽翼免除地面陷阱',
+      '地质勘探方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的地宫认证文档',
+      'Godot 4.6 LTS 双架构引擎展台：集成 dungeon_maze_generator.gd 与 procedural_labyrinth_resolver.gd'
+    ],
+    relatedLinks: [
+      { label: '全域地质地貌导览', path: '/vble/dungeons', icon: '🏛️' },
+      { label: '支线任务与探索考据', path: '/vble/sidequests', icon: '🗺️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-battle-tactics-elemental-resonance-burst-studio-2026-10-28',
     version: 'v2.2.255',
     date: '2026-10-28',

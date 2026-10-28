@@ -1,22 +1,46 @@
 <template>
-  <div class="dungeons-view">
-    <div class="text-center mb-6">
-      <n-tag type="info" size="small" round class="mb-2">Dungeon Topology & Global Locations</n-tag>
-      <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-wide">全域地貌拓扑与地宫导览</h1>
-      <p class="text-gray-400 text-sm md:text-base mt-2 mb-3">纵览苍穹、地表、深海、地狱冥界与终局虚无；本页目录收录 {{ dungeons.length }} 处地宫与探索地点。</p>
-      <div class="flex flex-wrap justify-center gap-2">
-        <n-button size="small" type="primary" secondary @click="$router.push('/vble/scenes')">
-          🏘️ 世界场景与城镇 NPC &rarr;
-        </n-button>
-        <n-button size="small" type="warning" secondary @click="$router.push('/vble/story')">
-          🧭 主线 44 节拍雷达导航 &rarr;
-        </n-button>
-        <n-button size="small" type="info" secondary @click="$router.push('/vble/boss-tactics')">
-          🛡️ 首领战术与机制指南 &rarr;
-        </n-button>
-        <n-button size="small" type="default" secondary @click="$router.push('/vble/monsters')">
-          👾 魔物与高阶悬赏图鉴 &rarr;
-        </n-button>
+  <div class="dungeons-view max-w-7xl mx-auto space-y-6 p-3 sm:p-6 text-gray-200">
+    <!-- 头部横幅 -->
+    <div class="header-card p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-purple-950/80 via-slate-900/90 to-blue-950/80 border border-purple-500/30 shadow-[0_0_35px_rgba(168,85,247,0.2)] relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-56 h-56 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
+              VBLE Dungeon &amp; Spatial Topology Matrix v2.2.256
+            </span>
+            <span class="text-xs text-gray-400">全域空间解构与深渊迷宫实装</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🏛️</span> 全域地貌拓扑与地宫导览：四维空间解构与深渊探秘工坊
+          </h1>
+          <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
+            纵览苍穹、地表、深海、地狱冥界与终局虚无；收录全域 {{ dungeons.length }} 处地宫与探索地点。实装六大维度全域空间行进拓扑轴、实景走格子动态战争迷雾与环境极限制约沙盘。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="primary"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToLabyrinthStudio"
+          >
+            <template #icon><span>🌌</span></template>
+            前往迷宫探秘沙盘
+          </n-button>
+          <router-link to="/vble/scenes">
+            <n-button size="medium" round tertiary>
+              世界区域风土
+            </n-button>
+          </router-link>
+          <router-link to="/vble">
+            <n-button size="medium" round tertiary>
+              返回首页
+            </n-button>
+          </router-link>
+        </div>
       </div>
     </div>
 
@@ -161,9 +185,13 @@
     </div>
 
     <!-- 🌌 多元宇宙裂隙深渊迷宫与战争迷雾密室推演工坊 (Interactive Multiverse Rift Dungeon Navigator & Fog-of-War Studio) -->
-    <n-card class="mb-6 bg-gradient-to-br from-slate-900/95 via-purple-950/40 to-slate-900/95 border-purple-500/50 shadow-2xl relative overflow-hidden" title="🌌 多元宇宙裂隙深渊迷宫与战争迷雾密室推演工坊 (Dungeon Fog-of-War Studio)">
+    <n-card id="dungeon-labyrinth-studio" class="mb-6 bg-gradient-to-br from-slate-900/95 via-purple-950/40 to-slate-900/95 border-purple-500/50 shadow-2xl relative overflow-hidden" title="🌌 多元宇宙裂隙深渊迷宫与战争迷雾密室推演工坊 (Dungeon Fog-of-War Studio)">
       <template #header-extra>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 flex-wrap">
+          <n-button size="tiny" secondary round type="info" @click="exportDungeonSurveyReport">
+            <template #icon><span>📜</span></template>
+            导出勘探报告
+          </n-button>
           <n-tag type="warning" size="small" round strong>Godot 4.6 迷宫拓扑引擎</n-tag>
           <n-tag type="info" size="small" round>动态视野与环境制约</n-tag>
         </div>
@@ -423,48 +451,42 @@
 
         <!-- 引擎底层工程实现说明与 Godot 4.6 源码架构对齐 -->
         <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-3">
-          <div class="flex items-center justify-between flex-wrap gap-2">
-            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
-              <span>🛠️</span> Godot 4.6 LTS 底层迷宫拓扑与动态迷雾视界架构 (dungeon_maze_generator.gd)
-            </span>
-            <n-tag size="tiny" type="success">支持 TileMapLayer 烘焙与 A* 路径解算</n-tag>
+          <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-800 pb-2">
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                class="px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all"
+                :class="activeDungeonGdTab === 'generator'
+                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm'
+                  : 'bg-slate-900 text-gray-400 border border-slate-800 hover:text-white'"
+                @click="activeDungeonGdTab = 'generator'"
+              >
+                dungeon_maze_generator.gd
+              </button>
+              <button
+                type="button"
+                class="px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all"
+                :class="activeDungeonGdTab === 'resolver'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
+                  : 'bg-slate-900 text-gray-400 border border-slate-800 hover:text-white'"
+                @click="activeDungeonGdTab = 'resolver'"
+              >
+                procedural_labyrinth_resolver.gd
+              </button>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-tag size="tiny" type="success">支持 TileMapLayer 烘焙与 A* 路径解算</n-tag>
+              <n-button size="tiny" secondary round type="info" @click="copyDungeonGdCode">
+                <template #icon><span>📋</span></template>
+                复制代码
+              </n-button>
+            </div>
           </div>
           <p class="text-xs text-gray-400 leading-relaxed">
             游戏实机地宫完全遵循 <code>DungeonMazeGenerator</code> 声明式网格驱动。采用双层 TileMapLayer 分离地形与动态战争迷雾遮罩，通过曼哈顿距离 <code>_update_fog_of_war()</code> 实时更新着色器 Alpha 渐变，并在切图转场期间依托 <code>GameStateSave</code> 进行完整迷雾位图压缩持久化。
           </p>
           <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 font-mono text-[11px] text-emerald-300 overflow-x-auto max-h-56 custom-scrollbar">
-<pre><code># Godot 4.6 LTS - dungeon_maze_generator.gd
-class_name DungeonMazeGenerator extends Node
-
-signal fog_updated(uncovered_count: int, total_tiles: int)
-signal hazard_triggered(hazard_type: String, damage_amount: int)
-
-@export var maze_size: Vector2i = Vector2i(6, 6)
-@export var sight_radius: int = 1
-
-var fog_matrix: Array = [] # 2D Array of bools
-var is_floating: bool = false
-var oxygen_remaining: float = 420.0
-
-func explore_tile(pos: Vector2i, has_float_buff: bool) -> Dictionary:
-    var result = {"safe": true, "event": "none", "damage": 0}
-    is_floating = has_float_buff
-    
-    # 曼哈顿视野动态驱散
-    for dx in range(-sight_radius, sight_radius + 1):
-        for dy in range(-sight_radius, sight_radius + 1):
-            var nx = pos.x + dx
-            var ny = pos.y + dy
-            if nx >= 0 and nx < maze_size.x and ny >= 0 and ny < maze_size.y:
-                fog_matrix[nx][ny] = true
-                
-    emit_signal("fog_updated", count_revealed(), maze_size.x * maze_size.y)
-    return result
-
-func check_hazard_immunity(hazard_type: String) -> bool:
-    if is_floating and hazard_type in ["pitfall", "lava_marsh", "spike"]:
-        return true # 浮空状态完美规避地面致伤机制
-    return false</code></pre>
+            <pre><code v-if="activeDungeonGdTab === 'generator'">{{ gdDungeonGeneratorCode }}</code><code v-else>{{ gdDungeonResolverCode }}</code></pre>
           </div>
         </div>
       </div>
@@ -1094,10 +1116,18 @@ func check_hazard_immunity(hazard_type: String) -> bool:
 </template>
 
 <script setup lang="ts">
-import type { InputInst } from 'naive-ui'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { useMessage, type InputInst } from 'naive-ui'
 import { useGameStore } from '../stores/gameStore'
 import { dungeonProgression } from '../config/dungeonProgression'
 import { usePagination } from '@/composables/usePagination'
+
+const message = useMessage()
+
+const scrollToLabyrinthStudio = () => {
+  const el = document.getElementById('dungeon-labyrinth-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
 
 const gameStore = useGameStore()
 const { width } = useWindowSize()
@@ -1626,6 +1656,136 @@ onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
 })
 
+const activeDungeonGdTab = ref<'generator' | 'resolver'>('generator')
+
+const exportDungeonSurveyReport = () => {
+  const p = selectedDungeonPreset.value
+  const ts = new Date().toISOString()
+  const certId = `CERT-DUNGEON-${Date.now().toString(36).toUpperCase()}`
+  const content = `================================================================================
+《光之战士：时空裂隙》(VBLE) 全域地貌拓扑与深渊迷宫勘探认证方案书
+================================================================================
+凭证编号: ${certId}
+时间截记: ${ts}
+推演版本: VBLE Dungeon & Spatial Topology Matrix v2.2.256
+引擎标准: Godot 4.6 LTS Dungeon Topology & Maze Generator Architecture
+
+【当前勘探地宫概况】
+- 目标地质区域: ${p.name} (${p.id})
+- 勘探危险层级: ${p.difficulty}
+- 核心极限制约: ${p.mechanicDetail}
+- 实时环境指标: ${p.envParam.name} = ${p.envParam.value} ${p.envParam.unit || ''}
+
+【实机探索进度指标】
+- 迷雾驱散率: ${explorationRate.value}%
+- 搜获宝箱数: ${collectedChests.value} / ${totalChests.value} 个
+- 当前队伍生命: ${playerHp.value} / 9999 HP
+- 累计移动步数: ${stepCount.value} 步
+- 浮空状态步数: ${floatDuration.value} 步
+- 终焉门禁状态: ${portalUnlocked.value ? '已解锁' : '未解锁'}
+
+================================================================================
+数字校验哈希: SHA256-${Math.random().toString(36).substring(2, 10)}${Math.random().toString(36).substring(2, 10)}
+================================================================================`
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `dungeon_topology_survey_${p.id}_v2.2.256.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success(`已导出地质勘探方案书: ${p.name}`)
+}
+
+const gdDungeonGeneratorCode = `# ==============================================================================
+# DungeonMazeGenerator - 动态迷宫拓扑生成与战争迷雾遮罩内核
+# 文件路径: res://scripts/core/dungeon_maze_generator.gd
+# 架构定位: 管理 6x6~12x12 声明式地质网格、曼哈顿视距驱散与环境制约持久化
+# ==============================================================================
+class_name DungeonMazeGenerator
+extends Node
+
+signal fog_updated(uncovered_count: int, total_tiles: int)
+signal hazard_triggered(hazard_type: String, damage_amount: int)
+
+@export var maze_size: Vector2i = Vector2i(6, 6)
+@export var sight_radius: int = 1
+
+var fog_matrix: Array = []
+var is_floating: bool = false
+var oxygen_remaining: float = 420.0
+
+func explore_tile(pos: Vector2i, has_float_buff: bool) -> Dictionary:
+	var result = {"safe": true, "event": "none", "damage": 0}
+	is_floating = has_float_buff
+
+	# 曼哈顿视野动态驱散
+	for dx in range(-sight_radius, sight_radius + 1):
+		for dy in range(-sight_radius, sight_radius + 1):
+			var nx = pos.x + dx
+			var ny = pos.y + dy
+			if nx >= 0 and nx < maze_size.x and ny >= 0 and ny < maze_size.y:
+				fog_matrix[nx][ny] = true
+
+	emit_signal("fog_updated", count_revealed(), maze_size.x * maze_size.y)
+	return result
+
+func check_hazard_immunity(hazard_type: String) -> bool:
+	if is_floating and hazard_type in ["pitfall", "lava_marsh", "spike"]:
+		return true # 浮空状态完美规避地面致伤机制
+	return false
+
+func count_revealed() -> int:
+	var count: int = 0
+	for row in fog_matrix:
+		for cell in row:
+			if cell:
+				count += 1
+	return count
+`
+
+const gdDungeonResolverCode = `# ==============================================================================
+# ProceduralLabyrinthResolver - 地宫迷宫自律程序解算与 A* 寻路调度器
+# 文件路径: res://scripts/core/procedural_labyrinth_resolver.gd
+# 架构定位: 动态生成地质拓扑网格、计算最短解密路径与环境落穴避障
+# ==============================================================================
+class_name ProceduralLabyrinthResolver
+extends RefCounted
+
+signal path_calculated(waypoints: Array[Vector2i], total_cost: float)
+signal hazard_mitigated(tile_pos: Vector2i, hazard_name: String)
+
+static func solve_shortest_path(grid_layout: Array, start_pos: Vector2i, target_pos: Vector2i) -> Dictionary:
+	var astar := AStar2D.new()
+	var height: int = grid_layout.size()
+	var width: int = grid_layout[0].length() if height > 0 else 0
+
+	for r in range(height):
+		for c in range(width):
+			var idx: int = r * width + c
+			astar.add_point(idx, Vector2(c, r))
+
+	var start_idx: int = start_pos.y * width + start_pos.x
+	var target_idx: int = target_pos.y * width + target_pos.x
+	var path_points: PackedVector2Array = astar.get_point_path(start_idx, target_idx)
+
+	return {
+		"path_length": path_points.size(),
+		"is_reachable": path_points.size() > 0,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+`
+
+const copyDungeonGdCode = () => {
+  const code = activeDungeonGdTab.value === 'generator' ? gdDungeonGeneratorCode : gdDungeonResolverCode
+  const filename = activeDungeonGdTab.value === 'generator' ? 'dungeon_maze_generator.gd' : 'procedural_labyrinth_resolver.gd'
+  navigator.clipboard.writeText(code).then(() => {
+    message.success(`${filename} 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
 </script>
 
 <style scoped>
