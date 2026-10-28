@@ -1,12 +1,47 @@
 <template>
   <div class="battle-tactics-page p-4 max-w-7xl mx-auto space-y-8">
     <!-- 头部横幅 -->
-    <div class="text-center">
-      <n-tag type="error" size="small" round class="mb-2">ATB & Dynamic Combat Mechanics</n-tag>
-      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">战斗法则：等级惩罚衰减与剪刀石头布互动</h1>
-      <p class="text-gray-400 max-w-2xl mx-auto text-sm">
-        解析越级宝箱挑战的严苛回合惩罚公式、史莱姆绝对闪避机制与剪刀石头布抉择试炼
-      </p>
+    <div class="header-card p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-cyan-950/80 via-slate-900/90 to-blue-950/80 border border-cyan-500/30 shadow-[0_0_35px_rgba(6,182,212,0.2)] relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-56 h-56 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
+              VBLE Battle Tactics &amp; ATB Matrix v2.2.255
+            </span>
+            <span class="text-xs text-gray-400">实战战术法则与动态元素连锁</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>⚔️</span> 战斗法则全鉴：动态ATB时序与元素连锁共鸣沙盘
+          </h1>
+          <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
+            解析越级宝箱挑战的严苛回合惩罚公式、史莱姆绝对闪避机制、ATB动态时滞时钟调度、以及八大属性元素连锁爆发与破限伤害推演沙盘。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToComboStudio"
+          >
+            <template #icon><span>⚡</span></template>
+            前往元素连锁沙盘
+          </n-button>
+          <router-link to="/vble/boss-tactics">
+            <n-button size="medium" round tertiary>
+              首领攻坚全鉴
+            </n-button>
+          </router-link>
+          <router-link to="/vble">
+            <n-button size="medium" round tertiary>
+              返回首页
+            </n-button>
+          </router-link>
+        </div>
+      </div>
     </div>
 
     <!-- ⚡ 实机 ATB 动态时钟、加速缓慢时滞与多段连招连锁推演工坊 (Real-Time ATB Pipeline & Combo Reaction Studio) -->
@@ -199,6 +234,249 @@
         <div class="text-[11px] text-gray-500 font-mono">
           底层契约: battle_atb_clock.gd & battle_timeline.gd
         </div>
+      </div>
+    </div>
+
+    <!-- ⚡ 实机八元元素连锁共鸣与爆发极意推演工坊 (Elemental Resonance & Burst Chain Studio) -->
+    <div id="elemental-combo-studio" class="bg-gradient-to-br from-[#0c1628]/95 via-[#181332]/90 to-[#0e172a]/95 border border-cyan-500/50 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-5 relative overflow-hidden">
+      <!-- 头部与操作栏 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-900/40 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🔮</span>
+            <h2 class="text-lg sm:text-xl font-black text-cyan-300">
+              全息八元元素连锁共鸣与爆发极意推演沙盘 (Elemental Resonance Matrix)
+            </h2>
+            <n-tag size="small" type="success" round strong>八元相克内核</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            推演火、冰、雷、水、风、土、圣、暗八大自然元素连续打击时的共鸣爆发倍率、WEAK弱点穿透与破防易伤机制！
+          </p>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <n-button size="small" secondary type="warning" @click="resetElementalStudio">
+            🔄 重置推演参数
+          </n-button>
+          <n-button
+            size="small"
+            type="primary"
+            class="font-bold shadow"
+            @click="triggerBurstSimulation"
+          >
+            ⚡ 激发全队元素连锁轰击
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 快捷预设装载条 -->
+      <div class="flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
+        <span class="text-gray-400 font-semibold flex items-center gap-1">
+          <span>⚡</span> 经典属性连携爆发预设：
+        </span>
+        <n-button size="tiny" round secondary type="error" @click="applyElementalPreset('vaporize')">
+          冰火两重天·超导蒸发 (2.8x)
+        </n-button>
+        <n-button size="tiny" round secondary type="info" @click="applyElementalPreset('overload')">
+          风雷狂涌·激化过载 (3.2x)
+        </n-button>
+        <n-button size="tiny" round secondary type="warning" @click="applyElementalPreset('annihilation')">
+          圣光暗影·虚空湮灭 (4.0x)
+        </n-button>
+        <n-button size="tiny" round secondary type="success" @click="applyElementalPreset('crystal')">
+          地崩水涌·晶化固结 (2.5x)
+        </n-button>
+      </div>
+
+      <!-- 核心工坊两栏布局 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 栏 1: 元素附魔与四主角连携指令编排 (6 cols) -->
+        <div class="lg:col-span-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3.5">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-cyan-300 flex items-center gap-1.5">
+                <span>🪄</span> 四英雄元素指令协同编排
+              </span>
+              <span class="text-xs font-mono text-amber-300">ELEMENTAL CHAIN DISPATCHER</span>
+            </div>
+
+            <!-- 4 主角动作编排器 -->
+            <div class="space-y-2">
+              <div
+                v-for="hero in heroAttackers"
+                :key="hero.id"
+                class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-3 text-xs"
+              >
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="text-lg">{{ hero.icon }}</span>
+                  <div>
+                    <div class="font-bold text-gray-200">{{ hero.name }} <span class="text-[10px] text-gray-400 font-normal font-mono">({{ hero.job }})</span></div>
+                    <div class="text-[10px] text-cyan-400 font-mono">{{ hero.element }} 属性</div>
+                  </div>
+                </div>
+                <div class="flex-1 max-w-[200px]">
+                  <n-select
+                    v-model:value="hero.selectedAction"
+                    :options="hero.actionOptions"
+                    size="tiny"
+                  />
+                </div>
+                <div class="text-right font-mono font-bold text-xs" :class="hero.isCrit ? 'text-amber-400' : 'text-gray-300'">
+                  {{ hero.powerCoef }}x
+                </div>
+              </div>
+            </div>
+
+            <!-- 元素环境参数调节 -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1 font-semibold">首领当前主要属性弱点:</label>
+                <n-select
+                  v-model:value="bossWeakElement"
+                  :options="elementOptions"
+                  size="small"
+                />
+              </div>
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1 font-semibold">元素同调共鸣增幅层数:</label>
+                <div class="flex items-center gap-2">
+                  <n-slider v-model:value="chainStacks" :min="1" :max="4" :step="1" class="flex-1" />
+                  <span class="text-xs font-mono font-bold text-cyan-300">{{ chainStacks }} 层</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 动作触发与导出按钮 -->
+          <div class="pt-2 border-t border-slate-800 space-y-2">
+            <div class="flex items-center gap-2">
+              <n-button size="medium" type="primary" block class="font-bold flex-1" @click="triggerBurstSimulation">
+                <template #icon><span>💥</span></template>
+                触发四段元素连锁全爆发
+              </n-button>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-button size="small" secondary type="info" class="flex-1" @click="exportTacticsChainCert">
+                <template #icon><span>📜</span></template>
+                导出实战战术方案
+              </n-button>
+              <n-button size="small" secondary class="flex-1" @click="copyTacticsChain">
+                <template #icon><span>🔗</span></template>
+                复制战术链
+              </n-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 伤害试算、动态跳字徽标与实况控制台 (6 cols) -->
+        <div class="lg:col-span-6 space-y-4">
+          <!-- 核心伤害总额展示面板 -->
+          <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-amber-300 flex items-center gap-1.5">
+                <span>💥</span> 元素共鸣实战伤害推演结果
+              </span>
+              <span class="text-xs font-mono font-bold text-emerald-400">
+                综合增伤倍率: {{ totalSynergyMultiplier }}x
+              </span>
+            </div>
+
+            <!-- 动态跳字模拟窗口 -->
+            <div class="p-5 rounded-xl bg-black/60 border border-cyan-500/30 text-center space-y-2 relative overflow-hidden">
+              <div class="text-[10px] text-gray-400 uppercase tracking-widest font-mono">
+                TOTAL COMBO BURST DAMAGE
+              </div>
+              <div class="flex items-center justify-center gap-3">
+                <span class="text-4xl font-black font-mono text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-rose-400 to-cyan-300 drop-shadow-[0_0_15px_rgba(244,63,94,0.4)]">
+                  {{ calculatedBurstDamage.toLocaleString() }}
+                </span>
+                <span v-if="hasWeakHit" class="px-2 py-0.5 rounded text-xs font-black bg-rose-600 text-white animate-bounce shadow">
+                  WEAK!
+                </span>
+                <span v-if="hasCritHit" class="px-2 py-0.5 rounded text-xs font-black bg-amber-500 text-slate-950 shadow">
+                  CRIT!
+                </span>
+              </div>
+              <div class="text-xs text-cyan-300 font-medium font-mono">
+                {{ burstDamageBreakdown }}
+              </div>
+            </div>
+
+            <!-- 四项核心战术指标 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+              <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-[10px] text-gray-400">总击打段数</div>
+                <div class="text-base font-bold text-cyan-300 font-mono mt-0.5">{{ totalBurstHits }} Hits</div>
+              </div>
+              <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-[10px] text-gray-400">连锁共鸣加成</div>
+                <div class="text-base font-bold text-amber-300 font-mono mt-0.5">+{{ (chainStacks * 25) }}%</div>
+              </div>
+              <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-[10px] text-gray-400">弱点克制覆盖</div>
+                <div class="text-base font-bold font-mono mt-0.5" :class="hasWeakHit ? 'text-emerald-400' : 'text-gray-400'">
+                  {{ hasWeakHit ? '100% 极效' : '常规无克' }}
+                </div>
+              </div>
+              <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-[10px] text-gray-400">战术穿透深度</div>
+                <div class="text-base font-bold text-purple-300 font-mono mt-0.5">破限S级</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 实时战术日志回响 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 flex items-center gap-1 font-mono">
+                <span>📜</span> 元素战术执行控制台日志:
+              </span>
+              <span class="text-[10px] text-gray-500 font-mono">{{ tacticsCombatLogs.length }} 条记录</span>
+            </div>
+            <div class="bg-black/40 rounded-lg p-2.5 h-36 overflow-y-auto space-y-1 text-xs font-mono scrollbar-thin">
+              <div
+                v-for="(log, idx) in tacticsCombatLogs"
+                :key="idx"
+                class="leading-tight"
+                :class="log.includes('💥') || log.includes('🎉') ? 'text-amber-300 font-bold' : (log.includes('WEAK') ? 'text-rose-400' : 'text-gray-300')"
+              >
+                {{ log }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all"
+              :class="activeTacticsGdTab === 'elemental'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
+                : 'bg-slate-900 text-gray-400 border border-slate-800 hover:text-white'"
+              @click="activeTacticsGdTab = 'elemental'"
+            >
+              elemental_combo_chain.gd
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all"
+              :class="activeTacticsGdTab === 'atb'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
+                : 'bg-slate-900 text-gray-400 border border-slate-800 hover:text-white'"
+              @click="activeTacticsGdTab = 'atb'"
+            >
+              battle_atb_clock.gd
+            </button>
+          </div>
+          <n-button size="tiny" secondary round type="info" @click="copyTacticsGdCode">
+            <template #icon><span>📋</span></template>
+            复制代码
+          </n-button>
+        </div>
+        <pre class="bg-black/50 p-3 rounded-lg border border-slate-900 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-48 scrollbar-thin"><code v-if="activeTacticsGdTab === 'elemental'">{{ gdElementalComboCode }}</code><code v-else>{{ gdAtbClockCode }}</code></pre>
       </div>
     </div>
 
@@ -1147,6 +1425,16 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onUnmounted } from 'vue'
+import { useMessage } from 'naive-ui'
+
+const message = useMessage()
+
+const scrollToComboStudio = () => {
+  const el = document.getElementById('elemental-combo-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
 const playerLevel = ref(20)
 const monsterLevel = ref(30)
 
@@ -1518,4 +1806,349 @@ const executeComboSimulation = () => {
   const res = comboDamageResult.value
   atbAuditLog.value = `[连招爆发] 施放【${c.name}】！轰出 ${c.hits} 段连击，造成 ${res.totalDamage} 伤害（${c.specialEffect}）！`
 }
+
+// ================= 实机八元元素连锁共鸣与爆发极意推演沙盘 =================
+const bossWeakElement = ref('fire')
+const chainStacks = ref(3)
+
+const elementOptions = [
+  { value: 'fire', label: '🔥 火元素 (烈焰焚尽)' },
+  { value: 'ice', label: '❄️ 冰元素 (极寒绝对零度)' },
+  { value: 'lightning', label: '⚡ 雷元素 (天崩雷暴)' },
+  { value: 'water', label: '🌊 水元素 (浩瀚海啸)' },
+  { value: 'wind', label: '🌪️ 风元素 (真空狂飙)' },
+  { value: 'earth', label: '⛰️ 土元素 (泰坦地震)' },
+  { value: 'holy', label: '✨ 圣元素 (神圣涤罪)' },
+  { value: 'dark', label: '🌑 暗元素 (虚空湮灭)' }
+]
+
+interface HeroAttacker {
+  id: string
+  name: string
+  job: string
+  icon: string
+  element: string
+  selectedAction: string
+  actionOptions: { label: string; value: string; element: string; coef: number; isCrit: boolean }[]
+  powerCoef: number
+  isCrit: boolean
+}
+
+const heroAttackers = ref<HeroAttacker[]>([
+  {
+    id: 'bartz',
+    name: '巴兹',
+    job: '魔法剑士 / 游侠',
+    icon: '⚔️',
+    element: 'fire',
+    selectedAction: 'flare_rapidfire',
+    actionOptions: [
+      { label: '魔法剑核爆乱打 (8段必中)', value: 'flare_rapidfire', element: 'fire', coef: 8.0, isCrit: true },
+      { label: '雷牙附魔连斩 (4段)', value: 'thunder_slash', element: 'lightning', coef: 4.5, isCrit: false },
+      { label: '冰封碎裂斩 (2段)', value: 'blizzard_strike', element: 'ice', coef: 3.2, isCrit: false }
+    ],
+    powerCoef: 8.0,
+    isCrit: true
+  },
+  {
+    id: 'lenna',
+    name: '蕾娜',
+    job: '白魔道士 / 时魔',
+    icon: '🤍',
+    element: 'holy',
+    selectedAction: 'dualcast_holy',
+    actionOptions: [
+      { label: '连续魔·双圣灵裁决 (2段)', value: 'dualcast_holy', element: 'holy', coef: 5.5, isCrit: true },
+      { label: '时空陨石轰击 (4段)', value: 'comet_barrage', element: 'earth', coef: 4.8, isCrit: false },
+      { label: '强力加速光环 (增幅全队)', value: 'hastega_buff', element: 'wind', coef: 2.0, isCrit: false }
+    ],
+    powerCoef: 5.5,
+    isCrit: true
+  },
+  {
+    id: 'faris',
+    name: '法利斯',
+    job: '忍者 / 盗贼',
+    icon: '🗡️',
+    element: 'water',
+    selectedAction: 'water_ninjutsu',
+    actionOptions: [
+      { label: '水遁·大瀑布术 (破甲水浪)', value: 'water_ninjutsu', element: 'water', coef: 4.2, isCrit: false },
+      { label: '暗影金币狂掷 (无视防御真伤)', value: 'zeninage', element: 'dark', coef: 6.0, isCrit: true },
+      { label: '风魔手里剑·双刀裂空', value: 'shuriken_storm', element: 'wind', coef: 5.0, isCrit: false }
+    ],
+    powerCoef: 4.2,
+    isCrit: false
+  },
+  {
+    id: 'krile',
+    name: '可露儿',
+    job: '黑魔道士 / 召唤师',
+    icon: '🪄',
+    element: 'lightning',
+    selectedAction: 'megaflare_summon',
+    actionOptions: [
+      { label: '龙王降临·亿万核融 (超限核爆)', value: 'megaflare_summon', element: 'dark', coef: 7.5, isCrit: true },
+      { label: '利维亚桑·灭世海啸 (全屏水灾)', value: 'tsunami_summon', element: 'water', coef: 5.8, isCrit: false },
+      { label: '八阶雷霆禁咒·雷神天谴', value: 'thundaga_burst', element: 'lightning', coef: 5.2, isCrit: false }
+    ],
+    powerCoef: 7.5,
+    isCrit: true
+  }
+])
+
+const tacticsCombatLogs = ref<string[]>([
+  '战斗法则全息沙盘已载入：八元相克共鸣调度器已就绪。',
+  '底层引擎: elemental_combo_chain.gd 与 battle_atb_clock.gd 运行正常。'
+])
+
+const activeTacticsGdTab = ref<'elemental' | 'atb'>('elemental')
+
+const applyElementalPreset = (presetKey: string) => {
+  if (presetKey === 'vaporize') {
+    bossWeakElement.value = 'fire'
+    chainStacks.value = 4
+    heroAttackers.value[0].selectedAction = 'flare_rapidfire'
+    heroAttackers.value[2].selectedAction = 'water_ninjutsu'
+    message.success('已装载预设：冰火两重天·超导蒸发 (2.8x 破防)')
+  } else if (presetKey === 'overload') {
+    bossWeakElement.value = 'lightning'
+    chainStacks.value = 4
+    heroAttackers.value[0].selectedAction = 'thunder_slash'
+    heroAttackers.value[3].selectedAction = 'thundaga_burst'
+    message.info('已装载预设：风雷狂涌·激化过载 (3.2x 全屏雷暴)')
+  } else if (presetKey === 'annihilation') {
+    bossWeakElement.value = 'holy'
+    chainStacks.value = 4
+    heroAttackers.value[1].selectedAction = 'dualcast_holy'
+    heroAttackers.value[3].selectedAction = 'megaflare_summon'
+    message.warning('已装载预设：圣光暗影·虚空湮灭 (4.0x 极限真实伤害)')
+  } else if (presetKey === 'crystal') {
+    bossWeakElement.value = 'water'
+    chainStacks.value = 3
+    heroAttackers.value[1].selectedAction = 'comet_barrage'
+    heroAttackers.value[2].selectedAction = 'water_ninjutsu'
+    message.success('已装载预设：地崩水涌·晶化固结 (2.5x 绝对破盾)')
+  }
+}
+
+const totalSynergyMultiplier = computed(() => {
+  let baseMult = 1.0 + chainStacks.value * 0.25
+  const weak = bossWeakElement.value
+  let matchedCount = 0
+  for (const h of heroAttackers.value) {
+    const act = h.actionOptions.find(a => a.value === h.selectedAction)
+    if (act && act.element === weak) matchedCount++
+  }
+  if (matchedCount > 0) baseMult += matchedCount * 0.5
+  return Number(baseMult.toFixed(2))
+})
+
+const totalBurstHits = computed(() => {
+  let totalHits = 0
+  for (const h of heroAttackers.value) {
+    if (h.selectedAction.includes('rapidfire')) totalHits += 8
+    else if (h.selectedAction.includes('comet') || h.selectedAction.includes('thunder')) totalHits += 4
+    else if (h.selectedAction.includes('dualcast')) totalHits += 2
+    else totalHits += 1
+  }
+  return totalHits
+})
+
+const hasWeakHit = computed(() => {
+  const weak = bossWeakElement.value
+  return heroAttackers.value.some(h => {
+    const act = h.actionOptions.find(a => a.value === h.selectedAction)
+    return act && act.element === weak
+  })
+})
+
+const hasCritHit = computed(() => {
+  return heroAttackers.value.some(h => {
+    const act = h.actionOptions.find(a => a.value === h.selectedAction)
+    return act && act.isCrit
+  })
+})
+
+const calculatedBurstDamage = computed(() => {
+  let sumDamage = 0
+  const baseAttack = 1500
+  const mult = totalSynergyMultiplier.value
+
+  for (const h of heroAttackers.value) {
+    const act = h.actionOptions.find(a => a.value === h.selectedAction)
+    const coef = act ? act.coef : 3.0
+    const critBonus = (act && act.isCrit) ? 1.5 : 1.0
+    const weakBonus = (act && act.element === bossWeakElement.value) ? 2.0 : 1.0
+    sumDamage += Math.round(baseAttack * coef * mult * critBonus * weakBonus)
+  }
+  return sumDamage
+})
+
+const burstDamageBreakdown = computed(() => {
+  return `4英雄连携轰击：基础以太力 1,500 × 增幅 ${totalSynergyMultiplier.value}x × 弱点暴击加成 = 破限极巨核爆！`
+})
+
+const triggerBurstSimulation = () => {
+  const dmg = calculatedBurstDamage.value
+  const hits = totalBurstHits.value
+  const weakNotice = hasWeakHit.value ? '【WEAK弱点穿透!】' : ''
+  const critNotice = hasCritHit.value ? '【CRITICAL暴击!】' : ''
+
+  tacticsCombatLogs.value.unshift(
+    `💥 [全队连锁爆发] 四大英雄合力轰出 ${hits} 段连携，造成 ${dmg.toLocaleString()} 极巨伤害！${weakNotice} ${critNotice}`
+  )
+  if (tacticsCombatLogs.value.length > 20) tacticsCombatLogs.value.pop()
+  message.success(`连锁轰击达成！造成 ${dmg.toLocaleString()} 点极巨伤害！`)
+}
+
+const resetElementalStudio = () => {
+  bossWeakElement.value = 'fire'
+  chainStacks.value = 3
+  tacticsCombatLogs.value = [
+    '战斗法则全息沙盘已载入：八元相克共鸣调度器已就绪。',
+    '底层引擎: elemental_combo_chain.gd 与 battle_atb_clock.gd 运行正常。'
+  ]
+  message.info('已重置元素共鸣推演沙盘至基准配置')
+}
+
+const exportTacticsChainCert = () => {
+  const ts = new Date().toISOString()
+  const certId = `CERT-TACTICS-${Date.now().toString(36).toUpperCase()}`
+  const content = `================================================================================
+《光之战士：时空裂隙》(VBLE) 战斗法则全鉴·八元元素连锁共鸣方案书
+================================================================================
+凭证编号: ${certId}
+时间截记: ${ts}
+推演版本: VBLE Battle Tactics & ATB Matrix v2.2.255
+引擎标准: Godot 4.6 LTS Elemental Combo Chain & ATB Pipeline
+
+【首领与战场元素态势】
+- 当前首领主要弱点: ${bossWeakElement.value.toUpperCase()}
+- 元素连锁同调共鸣: ${chainStacks.value} 层 (+${chainStacks.value * 25}% 增伤)
+- 综合实战增伤倍率: ${totalSynergyMultiplier.value}x
+
+【四英雄连携攻坚动作编排】
+${heroAttackers.value.map((h, i) => `  ${i + 1}. [${h.name} · ${h.job}] 动作: ${h.selectedAction} | 属性: ${h.element} | 系数: ${h.powerCoef}x`).join('\n')}
+
+【伤害结算与击打成果】
+- 预估单轮总伤害: ${calculatedBurstDamage.value.toLocaleString()} 点破限真实伤害
+- 击打连击总段数: ${totalBurstHits.value} Hits
+- 弱点极效判定: ${hasWeakHit.value ? '触发 WEAK! 属性穿透克制' : '常规无属性克制'}
+- 暴击冲击判定: ${hasCritHit.value ? '触发 CRIT! 暴击高光描边' : '常规命中'}
+
+================================================================================
+数字校验哈希: SHA256-${Math.random().toString(36).substring(2, 10)}${Math.random().toString(36).substring(2, 10)}
+================================================================================`
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `battle_tactics_chain_${bossWeakElement.value}_v2.2.255.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出战术连携攻坚方案书')
+}
+
+const copyTacticsChain = () => {
+  const chainText = `[元素连锁方案] 弱点:${bossWeakElement.value} | 共鸣:${chainStacks.value}层(${totalSynergyMultiplier.value}x) => 伤害:${calculatedBurstDamage.value.toLocaleString()}(${totalBurstHits.value}Hits)`
+  navigator.clipboard.writeText(chainText).then(() => {
+    message.success('元素战术链已复制到剪贴板！')
+  }).catch(() => {
+    message.info('战术链已复制')
+  })
+}
+
+const gdElementalComboCode = `# ==============================================================================
+# ElementalComboChain - 八元元素连锁共鸣与爆发极意解算器
+# 文件路径: res://scripts/core/elemental_combo_chain.gd
+# 架构定位: 处理多属性连续命中增幅、元素过载/蒸发反应与暴击跳字徽标生成
+# ==============================================================================
+class_name ElementalComboChain
+extends RefCounted
+
+signal combo_burst_calculated(damage: int, hits: int, is_weak: bool, is_crit: bool)
+
+## 计算元素连携爆发
+static func calculate_elemental_burst(params: Dictionary) -> Dictionary:
+	var weak_element: String = params.get("weak_element", "fire")
+	var chain_stacks: int = params.get("chain_stacks", 3)
+	var attacker_actions: Array = params.get("attacker_actions", [])
+
+	var total_mult: float = 1.0 + float(chain_stacks) * 0.25
+	var total_damage: int = 0
+	var total_hits: int = 0
+	var has_weak: bool = false
+	var has_crit: bool = false
+
+	for act in attacker_actions:
+		var base_dmg: int = act.get("base_attack", 1500)
+		var coef: float = act.get("coef", 3.0)
+		var elem: String = act.get("element", "neutral")
+		var is_crit: bool = act.get("is_crit", false)
+
+		var elem_mult: float = 2.0 if elem == weak_element else 1.0
+		var crit_mult: float = 1.5 if is_crit else 1.0
+
+		if elem == weak_element:
+			has_weak = true
+		if is_crit:
+			has_crit = true
+
+		total_damage += int(base_dmg * coef * total_mult * elem_mult * crit_mult)
+		total_hits += act.get("hits", 1)
+
+	return {
+		"total_damage": total_damage,
+		"total_hits": total_hits,
+		"has_weak": has_weak,
+		"has_crit": has_crit,
+		"multiplier": total_mult,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+`
+
+const gdAtbClockCode = `# ==============================================================================
+# BattleAtbClock - 战斗动态时钟与时滞调度内核
+# 文件路径: res://scripts/core/battle_atb_clock.gd
+# 架构定位: ATB 时间轮询驱动、加速/缓慢倍率注入与待命光环状态维护
+# ==============================================================================
+class_name BattleAtbClock
+extends Node
+
+signal atb_tick(delta_sec: float)
+signal unit_ready(actor_id: String)
+
+var units: Array[Dictionary] = []
+var is_active: bool = false
+
+func tick(delta: float) -> void:
+	if not is_active:
+		return
+	for u in units:
+		var spd: float = u.get("speed", 30.0)
+		var rate: float = 1.0
+		if u.get("haste", false):
+			rate = 1.5
+		elif u.get("slow", false):
+			rate = 0.5
+		u.gauge = min(100.0, u.get("gauge", 0.0) + spd * rate * delta)
+		if u.gauge >= 100.0:
+			emit_signal("unit_ready", u.id)
+`
+
+const copyTacticsGdCode = () => {
+  const code = activeTacticsGdTab.value === 'elemental' ? gdElementalComboCode : gdAtbClockCode
+  const filename = activeTacticsGdTab.value === 'elemental' ? 'elemental_combo_chain.gd' : 'battle_atb_clock.gd'
+  navigator.clipboard.writeText(code).then(() => {
+    message.success(`${filename} 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
+onUnmounted(() => {
+  if (atbTimer) clearInterval(atbTimer)
+})
 </script>

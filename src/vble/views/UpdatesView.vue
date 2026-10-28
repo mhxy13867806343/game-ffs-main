@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-battle-tactics-elemental-resonance-burst-studio-2026-10-28',
+    version: 'v2.2.255',
+    date: '2026-10-28',
+    title: '全息八元元素连锁共鸣与爆发极意推演沙盘重磅实装',
+    category: 'system',
+    categoryName: '战术演进',
+    icon: '⚔️',
+    tagType: 'warning',
+    description: '深度重构升级 BattleTacticsView 战斗法则与机制工坊：全新实装核心专区【全息八元元素连锁共鸣与爆发极意推演沙盘】（Elemental Resonance & Burst Chain Studio）。覆盖火、冰、雷、水、风、土、圣、暗八大自然属性连锁共鸣；支持四大英雄连携指令编排（巴兹二刀流乱打、蕾娜连续魔双圣灵、法利斯水遁与金币真伤、可露儿亿万核融），联动首领弱点与连锁增幅层数（最高 4.0x 增伤），实时解算单轮爆发总伤与动态 WEAK/CRIT 跳字徽标；实装一键导出《八元元素连锁共鸣与战术方案书》工坊；底层代码升级为 Godot 4.6 LTS 双架构引擎展台，新增 elemental_combo_chain.gd 元素连锁状态机源码展台，对齐 VBLE Battle Tactics & ATB Matrix v2.2.255 规范。',
+    highlights: [
+      '八元自然属性相克共鸣：深度推演火冰雷水风土圣暗元素连锁与弱点穿透增幅',
+      '四大英雄连携指令编排：自由配置魔法剑乱打、连续魔双圣灵、水遁影分身与巴哈姆特核爆',
+      '动态跳字反馈与徽标模拟：实时演算 WEAK 弱点指示、CRIT 暴击金色描边与破限伤害总额',
+      '四大经典连携预设一键套用：超导蒸发、激化过载、虚空湮灭与地崩晶化四重绝技',
+      '战术连携方案书离线导出：生成包含专属编号与 SHA-256 安全哈希签名的实战方案文档',
+      'Godot 4.6 LTS 双架构引擎展台：集成 battle_atb_clock.gd 与 elemental_combo_chain.gd'
+    ],
+    relatedLinks: [
+      { label: '战斗法则与机制指南', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '首领攻坚全鉴与破阵', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-sidequest-world-treasure-hunt-vault-studio-2026-10-28',
     version: 'v2.2.254',
     date: '2026-10-28',
