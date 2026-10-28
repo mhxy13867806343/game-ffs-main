@@ -357,6 +357,132 @@
       </div>
     </div>
 
+    <!-- 专区 4: 首领多阶段伤害轴与狂暴时间轴演练工坊 (Boss Phase Timeline Studio) -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1a0f1d] via-[#150d18] to-[#0c0812] border border-rose-500/40 shadow-2xl space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">⏱️</span>
+            <h3 class="text-lg sm:text-xl font-black text-white text-glow-amber">首领多阶段机制轴与狂暴倒计时推演工坊 (Boss Timeline Studio)</h3>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            可视化复盘新·埃克斯迪斯、神龙、欧米茄与吉尔伽美什的秒级出招轴，演练大爆炸判定帧、开局海啸吸收帧与狂暴软灭团应对窗口。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-tag type="error" round size="small">秒级高精时间轴</n-tag>
+          <n-tag type="warning" round size="small">阶段硬狂暴预警</n-tag>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 首领时间轴选择与播放控制 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-rose-400 block flex items-center gap-1.5">
+            <span>👹</span>
+            <span>首领出招时间轴选择 (Timeline Scenario)</span>
+          </span>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-gray-400 block mb-1">选择攻坚战役时间轴:</label>
+              <select
+                v-model="selectedTimelineBoss"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-rose-400 focus:outline-none"
+                @change="resetTimelinePlayback"
+              >
+                <option v-for="t in timelineBossOptions" :key="t.id" :value="t.id">
+                  {{ t.name }} ({{ t.title }})
+                </option>
+              </select>
+            </div>
+
+            <!-- 播放进度与拖动条 -->
+            <div class="space-y-1.5 pt-2">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-400">战斗流逝时间 (Timeline Elapsed):</span>
+                <span class="font-mono text-rose-400 font-bold text-sm">{{ currentTimelineSec.toFixed(1) }}s / 80.0s</span>
+              </div>
+              <n-slider v-model:value="currentTimelineSec" :min="0" :max="80" :step="0.5" />
+            </div>
+
+            <div class="flex gap-2 pt-2">
+              <button
+                type="button"
+                class="w-full py-2.5 rounded-lg bg-gradient-to-r from-rose-500 to-amber-500 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer flex items-center justify-center gap-1.5"
+                @click="toggleTimelinePlay"
+              >
+                <span>{{ isTimelinePlaying ? '⏸️ 暂停时间轴推演' : '▶️ 播放战局时间轴' }}</span>
+              </button>
+              <n-button size="small" secondary round @click="resetTimelinePlayback">
+                🔄 重置
+              </n-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 当前时刻机制高亮与战术对策解算 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-slate-950 to-slate-900 border border-rose-500/30 flex flex-col justify-between space-y-3">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>🎯</span>
+                <span>当前时刻致命机制 (Active Attack)</span>
+              </span>
+              <n-tag size="tiny" :type="currentMechanism.dangerType">{{ currentMechanism.dangerLevel }}</n-tag>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1.5">
+              <div class="text-sm font-bold text-rose-400 flex items-center gap-1.5">
+                <span>{{ currentMechanism.icon }}</span>
+                <span>{{ currentMechanism.name }} (时刻: {{ currentMechanism.timeSec }}s)</span>
+              </div>
+              <p class="text-xs text-gray-300 leading-relaxed">
+                {{ currentMechanism.description }}
+              </p>
+            </div>
+
+            <div class="p-2.5 rounded bg-blue-950/40 border border-blue-500/40 space-y-1 text-xs">
+              <div class="font-bold text-cyan-300">🛡️ 队伍黄金反制窗口 (Counter Window):</div>
+              <div class="text-gray-300 text-[11px] leading-relaxed">
+                {{ currentMechanism.counterMeasure }}
+              </div>
+            </div>
+          </div>
+
+          <div class="text-[10px] text-gray-500 font-mono text-right">
+            阶段: {{ currentMechanism.phase }} · 规避率: {{ currentMechanism.avoidRate }}%
+          </div>
+        </div>
+
+        <!-- 栏 3: 全程时间轴节点路线图 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between space-y-3">
+          <div class="space-y-2">
+            <span class="text-xs font-bold text-gray-300 block">战役关键杀招时序表 (Key Event Nodes):</span>
+            <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+              <div
+                v-for="node in currentTimelineNodes"
+                :key="node.name + node.timeSec"
+                class="p-2 rounded text-xs transition-all border flex items-center justify-between cursor-pointer"
+                :class="currentTimelineSec >= node.timeSec && currentTimelineSec < node.timeSec + 8 ? 'bg-rose-950/80 border-rose-400 text-white font-bold shadow-[0_0_8px_rgba(244,63,94,0.4)]' : 'bg-slate-950/60 border-slate-800/80 text-gray-400 hover:text-gray-200'"
+                @click="currentTimelineSec = node.timeSec"
+              >
+                <div class="flex items-center gap-1.5 truncate">
+                  <span class="text-sm">{{ node.icon }}</span>
+                  <span class="truncate">{{ node.name }}</span>
+                </div>
+                <span class="font-mono text-[11px] text-amber-400 shrink-0">{{ node.timeSec }}s</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 rounded bg-slate-950/80 border border-slate-800 text-[11px] text-gray-400">
+            提示：点击任意时序节点可立即将进度拨至该机制触发时刻。
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between">
@@ -703,6 +829,112 @@ const copyGodotCode = async () => {
     message.error('复制失败，请手动选取复制')
   }
 }
+
+// ================= 专区 4: 首领多阶段伤害轴与狂暴时间轴系统 =================
+interface TimelineNode {
+  timeSec: number
+  name: string
+  icon: string
+  phase: string
+  dangerLevel: string
+  dangerType: 'error' | 'warning' | 'info' | 'success'
+  description: string
+  counterMeasure: string
+  avoidRate: number
+}
+
+const timelineBossOptions = [
+  { id: 'neo-exdeath', name: '新·埃克斯迪斯', title: '终焉虚无核心' },
+  { id: 'shinryu', name: '神龙 (Shinryu)', title: '灭世海啸守护' },
+  { id: 'omega', name: '古代兵器·欧米茄', title: '机械极光反击' },
+  { id: 'gilgamesh', name: '吉尔伽美什', title: '大桥死斗豪杰' }
+]
+
+const neoExdeathTimeline: TimelineNode[] = [
+  { timeSec: 0, name: '虚无聚合 (Void Condense)', icon: '🌑', phase: 'P1 初始', dangerLevel: '中危', dangerType: 'info', description: '埃克斯迪斯四核分身自次元裂隙显化，物理/白魔/黑魔/真空核各自独立充能。', counterMeasure: '集火右下方物理攻击部位，优先削弱核心伤害输出。', avoidRate: 90 },
+  { timeSec: 15, name: '四核魔弹连射 (Tetra Cannon)', icon: '⚡', phase: 'P1 分裂', dangerLevel: '高危', dangerType: 'warning', description: '四部分同时释放连续重击，造成单体高额穿透魔法与硬直。', counterMeasure: '骑士施展【守护】，白魔开启全体魔法护盾。', avoidRate: 75 },
+  { timeSec: 35, name: '天降陨石群 (Meteor Rain)', icon: '☄️', phase: 'P2 狂乱', dangerLevel: '极危', dangerType: 'error', description: '召唤太古陨石雨随机轰炸全场 4 次，每次造成 2500+ 物理暴击。', counterMeasure: '保持全员血量在 6000 以上，或利用龙骑士跳跃出空回避。', avoidRate: 50 },
+  { timeSec: 50, name: '宇宙大爆炸 (Grand Cross)', icon: '🌌', phase: 'P3 终结技', dangerLevel: '灭团级', dangerType: 'error', description: '全屏释放宇宙大爆炸，判定全部 12 种恶性状态（即死/石化/混乱/狂暴）。', counterMeasure: '全员必须装备【缎带 (Ribbon)】！龙骑士在 48 秒起跳精准避开判定帧。', avoidRate: 95 },
+  { timeSec: 70, name: '终末真空波连击 (Vacuum Enrage)', icon: '🌪️', phase: '硬狂暴', dangerLevel: '秒杀级', dangerType: 'error', description: '虚无能量暴走，每 2 秒连续释放全体破甲真空波，造成无视防御致命绝杀。', counterMeasure: '进入此阶段前必须全力倾泻乱打魔法剑与金币投掷强行斩杀！', avoidRate: 20 }
+]
+
+const shinryuTimeline: TimelineNode[] = [
+  { timeSec: 0, name: '先手抢制·大海啸 (Instant Tsunami)', icon: '🌊', phase: 'P1 开场秒杀', dangerLevel: '灭团级', dangerType: 'error', description: '神龙开场抢先行动，释放高压大海啸造成全员 8000+ 巨额水属性轰杀！', counterMeasure: '全队必须佩戴【珊瑚戒指 (Coral Ring)】！直接将 8000 伤害转化为满血回春！', avoidRate: 100 },
+  { timeSec: 12, name: '极寒暴风雪 (Blizzard Storm)', icon: '❄️', phase: 'P1 吐息', dangerLevel: '高危', dangerType: 'warning', description: '大面积吐出零度冻气，附带 3 回合冻伤减速与打断。', counterMeasure: '时魔道士开启全体加速抵抗减速，魔剑附魔火属性进行压制。', avoidRate: 80 },
+  { timeSec: 28, name: '狂暴龙爪二连打 (Dragon Rapid Claw)', icon: '🐉', phase: 'P2 狂暴', dangerLevel: '极危', dangerType: 'error', description: '八连龙爪破甲猛击，随机针对两名同伴造成 4000+ 致命物理创伤。', counterMeasure: '暗影忍者制造分身 (Image) 必定完全闪避普攻龙爪。', avoidRate: 85 },
+  { timeSec: 45, name: '龙皇核爆 + 混乱眼 (Megaflare & Gaze)', icon: '🔮', phase: 'P2 乱打', dangerLevel: '灭团级', dangerType: 'error', description: '释放真实无视魔防核爆，并用龙之眼魅惑全员陷入混乱互殴。', counterMeasure: '【缎带】免疫混乱，全员服用巨人之药把血量抬至 9999 承受核爆。', avoidRate: 90 },
+  { timeSec: 65, name: '深渊龙炎狂暴焚场 (Final Flare Enrage)', icon: '🔥', phase: '硬狂暴', dangerLevel: '秒杀级', dangerType: 'error', description: '真龙神威彻底狂暴，全场持续被神圣龙炎覆盖，每秒扣除 20% 生命。', counterMeasure: '龙骑士八连跳跃 + 召唤巴哈姆特抢在 60 秒内结束战斗。', avoidRate: 30 }
+]
+
+const omegaTimeline: TimelineNode[] = [
+  { timeSec: 0, name: '机械屏障自适应 (Barrier Change)', icon: '🛡️', phase: 'P1 极光防御', dangerLevel: '中危', dangerType: 'info', description: '欧米茄启动绝对反射护盾，免疫常规物理攻击，弱点锁定为【雷属性】。', counterMeasure: '严禁盲目平 A！必须使用魔法剑雷牙 (Thundaga Spellblade)。', avoidRate: 90 },
+  { timeSec: 8, name: '毁灭波动炮 (Wave Cannon)', icon: '⚡', phase: 'P1 轰击', dangerLevel: '极危', dangerType: 'error', description: '释放高能波动炮，扣除全队 50% 当前生命值并附加漏电持续灼烧。', counterMeasure: '白魔全员恢复祈祷，爱之歌 (Romeo\'s Ballad) 尝试打断机械指令。', avoidRate: 70 },
+  { timeSec: 20, name: '原子射线 + 三角石化 (Atomic Ray)', icon: '☢️', phase: 'P2 状态打击', dangerLevel: '高危', dangerType: 'warning', description: '喷射原子热线灼烧全场，并射出三角光束直接石化单体同伴。', counterMeasure: '金针快速净化石化，炎之指环吸收火属性原子射线。', avoidRate: 85 },
+  { timeSec: 35, name: '高频极光波反击 (Aurora Counter)', icon: '🤖', phase: 'P2 反制爆发', dangerLevel: '灭团级', dangerType: 'error', description: '受到非雷系攻击时 100% 触发全体极光反制，秒杀全队。', counterMeasure: '【魔法剑雷牙 + 乱打八连】绕过反击直接打满 8 次暴击弱点！', avoidRate: 95 },
+  { timeSec: 55, name: '过载自爆协议 (Self-Destruct Protocol)', icon: '💥', phase: '硬狂暴', dangerLevel: '秒杀级', dangerType: 'error', description: '欧米茄引擎过载，全屏机械核心自爆轰击 99999 伤害。', counterMeasure: '在自爆倒计时结束前清空其最后 10000 生命值。', avoidRate: 40 }
+]
+
+const gilgameshTimeline: TimelineNode[] = [
+  { timeSec: 0, name: '大桥死斗会战 (Big Bridge Battle)', icon: '🌉', phase: 'P1 大桥对决', dangerLevel: '中危', dangerType: 'info', description: '吉尔伽美什于大桥阻截光之战士，豪言壮语相激。', counterMeasure: '常规物理与减速魔法起手，压制其行动节奏。', avoidRate: 95 },
+  { timeSec: 20, name: '八臂名刀舞踏 (Eight-Armed Dance)', icon: '🗡️', phase: 'P1 连击', dangerLevel: '高危', dangerType: 'warning', description: '挥舞源氏之刀连续斩击，附带流血破甲。', counterMeasure: '盗贼尝试偷取其身上罕见的【源氏系列神装】！', avoidRate: 80 },
+  { timeSec: 40, name: '绝赞自嗨三连 Buff (Triple Boost)', icon: '🍷', phase: 'P2 强化', dangerLevel: '高危', dangerType: 'warning', description: '为自身施加加速 (Haste) + 物防 (Protect) + 魔防 (Shell)。', counterMeasure: '时魔道士使用【驱魔 (Dispel)】驱散其全部增益状态！', avoidRate: 90 },
+  { timeSec: 55, name: '拔刀！伪·王者之剑 (Excalipoor 1DMG)', icon: '🗡️', phase: 'P2 滑稽', dangerLevel: '滑稽趣味', dangerType: 'success', description: '得意洋洋拔出传说宝剑斩下——造成滑稽的【1 点伤害】！发现被骗！', counterMeasure: '趁其愣神绝望之际全力集火打落血线。', avoidRate: 100 },
+  { timeSec: 70, name: '次元放逐跃迁 (Dimensional Rift)', icon: '🌀', phase: '终局放逐', dangerLevel: '剧情触发', dangerType: 'info', description: '埃克斯迪斯现身将其放逐入次元之隙，战役胜利结束。', counterMeasure: '保留极限技能，准备迎接后续虚空主线。', avoidRate: 100 }
+]
+
+const selectedTimelineBoss = ref('neo-exdeath')
+const currentTimelineSec = ref(0.0)
+const isTimelinePlaying = ref(false)
+let timelineTimer: ReturnType<typeof setInterval> | null = null
+
+const currentTimelineNodes = computed(() => {
+  if (selectedTimelineBoss.value === 'neo-exdeath') return neoExdeathTimeline
+  if (selectedTimelineBoss.value === 'shinryu') return shinryuTimeline
+  if (selectedTimelineBoss.value === 'omega') return omegaTimeline
+  return gilgameshTimeline
+})
+
+const currentMechanism = computed<TimelineNode>(() => {
+  const nodes = currentTimelineNodes.value
+  const sec = currentTimelineSec.value
+  let active = nodes[0]
+  for (const n of nodes) {
+    if (sec >= n.timeSec) {
+      active = n
+    }
+  }
+  return active
+})
+
+const toggleTimelinePlay = () => {
+  if (isTimelinePlaying.value) {
+    isTimelinePlaying.value = false
+    if (timelineTimer) clearInterval(timelineTimer)
+  } else {
+    isTimelinePlaying.value = true
+    if (timelineTimer) clearInterval(timelineTimer)
+    timelineTimer = setInterval(() => {
+      currentTimelineSec.value = Math.min(80, currentTimelineSec.value + 0.5)
+      if (currentTimelineSec.value >= 80) {
+        if (timelineTimer) clearInterval(timelineTimer)
+        isTimelinePlaying.value = false
+      }
+    }, 200)
+  }
+}
+
+const resetTimelinePlayback = () => {
+  if (timelineTimer) clearInterval(timelineTimer)
+  isTimelinePlaying.value = false
+  currentTimelineSec.value = 0.0
+}
+
+onUnmounted(() => {
+  if (timelineTimer) {
+    clearInterval(timelineTimer)
+    timelineTimer = null
+  }
+})
 </script>
 
 <style scoped>

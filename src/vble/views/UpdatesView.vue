@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-boss-tactics-timeline-enrage-studio-2026-10-28',
+    version: 'v2.2.228',
+    date: '2026-10-28',
+    title: '首领多阶段机制伤害轴、狂暴倒计时推演沙盘与大桥死斗全景实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '👹',
+    tagType: 'error',
+    description: '深度重构升级 BossTacticsView 首领攻坚全鉴：全新实装【首领多阶段机制轴与狂暴倒计时推演工坊】（Boss Timeline Studio），支持高精度复盘新·埃克斯迪斯、神龙、古代兵器欧米茄与大桥死斗吉尔伽美什的秒级出招时序轴；实机演练 0 秒抢手大海啸珊瑚戒指吸收帧、宇宙大爆炸全异常缎带规避判定帧、欧米茄雷剑乱打反制规避、以及狂暴硬灭团倒计时应对对策；支持 0~80s 无级时间轴拖拽与一键播放，并严谨对齐 Godot 4.6 LTS boss_tactics_battle.gd 机制判定树。',
+    highlights: [
+      '四大史诗首领秒级机制时间轴：可视化呈现新·埃克斯迪斯、神龙、欧米茄与吉尔伽美什的关键出招节点',
+      '黄金反制窗口与灭团预警：智能标记宇宙大爆炸、开局大海啸、自毁过载与伪·Excalipoor拔刀滑稽时刻',
+      '时间轴动态推演播放器：支持 0.5s 步进高精播放与节点快速跳转，实时解算当前时刻危险等级与战术对策',
+      'Godot 4.6 底层首领攻坚内核对齐：无缝衔接 boss_tactics_battle.gd 阶段转换与全灭机制信号'
+    ],
+    relatedLinks: [
+      { label: '首领攻坚与机制轴', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '战斗战术推演', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '魔物全谱系图鉴', path: '/vble/monsters', icon: '👾' }
+    ]
+  },
+  {
     id: 'up-vehicles-modular-airship-warp-studio-2026-10-28',
     version: 'v2.2.227',
     date: '2026-10-28',
