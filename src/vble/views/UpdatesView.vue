@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-gallery-vfx-shader-studio-2026-10-28',
+    version: 'v2.2.212',
+    date: '2026-10-28',
+    title: '实机画廊视觉精选与魔导粒子着色器动态调优沙盘重磅实装',
+    category: 'ui',
+    categoryName: '基建演进',
+    icon: '🎨',
+    tagType: 'info',
+    description: '深度重构升级 GalleryView 实机画廊：精选展出回合制 ATB 战斗全景、广袤地貌航图、城邦商会交易、队伍属性整备与虚空空间扭曲等高清视觉切片；构建对齐 Godot 4.x vfx_particle_controller.gd 的魔导粒子着色器调优沙盘，推演粒子发射密度、HDR 辉光 Bloom、屏幕折射扭曲与显卡渲染帧率负载，并解构三大渲染管线架构图谱。',
+    highlights: [
+      '实机视觉资产精选展台：涵盖战斗实机、世界地貌、界面UI与魔导粒子，支持灯箱大图高清检视',
+      '魔导粒子着色器调优沙盘：自由配置电弧脉冲、虚空黑洞、钻石星尘极光、业火流星等管线，动态调节发射密度与 Bloom 绽放',
+      '全终端实时渲染性能推演：对齐桌面 PC、Steam Deck 掌机、移动端与 Web 浏览器，实时估算渲染帧率 FPS 与显存带宽占用',
+      '三大渲染管线架构对比图谱 (3-Tier Pipeline Matrix)：解构 Forward+、Mobile 与 Compatibility 现代图形后端特性',
+      'Godot 4.x 核心引擎代码对齐：内置 vfx_particle_controller.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '实机画廊与特效', path: '/vble/gallery', icon: '🎨' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '未来功能规划', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
+  {
     id: 'up-economy-alchemy-mix-studio-2026-10-28',
     version: 'v2.2.211',
     date: '2026-10-28',
