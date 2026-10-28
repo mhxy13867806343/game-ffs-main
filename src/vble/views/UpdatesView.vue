@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-equipment-dual-wield-awakening-studio-2026-10-28',
+    version: 'v2.2.220',
+    date: '2026-10-28',
+    title: '至高神兵矩阵、二刀流伤害工坊与太古开光系统重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🗡️',
+    tagType: 'info',
+    description: '深度重构升级 EquipmentView 神兵矩阵门户：全面呈现至高超越神兵【诸神之黄昏 (Ragnarok)】与封印之城十二太古圣器；全新实装二刀流主副手双持伤害工坊（Dual-Wield Simulator），模拟主副武器面板合成、魔法剑附魔（核爆/闪雷/神圣/吸血）与 8 连击乱打总爆发；拓展封印神兵太古开光与稀有尾巴符文孔位镶嵌；并实装 Godot 4.x equipment_stats_resolver.gd 属性守恒解析引擎。',
+    highlights: [
+      '至高超越神兵展台：详述诸神之黄昏斩杀机制、神龙守护宝箱解封与纳哈特始源进化【终焉诸神之黄昏·改】',
+      '二刀流双持与魔法剑乱打工坊：自由配置主副手武器、魔法剑附魔与敌方护甲，动态推演右手、左手单发与 8 连击总爆发',
+      '太古封印神兵二次开光：收录艾斯卡利巴、正宗、圣枪、佐助之刀等，展示镶嵌七色尾巴激活的二阶觉醒被动特技',
+      '装备加算守恒规范实现：对齐 EQUIPMENT_STAT_BONUS.md，实现 max_hp 与 max_mp 穿脱无损还原机制',
+      'Godot 4.x 核心引擎代码对齐：内置 equipment_stats_resolver.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '神兵与二刀流', path: '/vble/equipment', icon: '🗡️' },
+      { label: '配装模拟器', path: '/vble/armory-simulator', icon: '🛡️' },
+      { label: '宏观经济与尾巴', path: '/vble/economy', icon: '🦚' }
+    ]
+  },
+  {
     id: 'up-gm-modifier-memory-patch-studio-2026-10-28',
     version: 'v2.2.219',
     date: '2026-10-28',
