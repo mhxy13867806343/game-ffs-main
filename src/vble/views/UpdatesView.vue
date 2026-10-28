@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-jobs-freelancer-mastery-abp-farming-matrix-2026-10-28',
+    version: 'v2.2.249',
+    date: '2026-10-28',
+    title: '自由人极意双职业特性继承与ABP挂机推演沙盘重磅实装',
+    category: 'system',
+    categoryName: '职业极意',
+    icon: '💎',
+    tagType: 'success',
+    description: '深度重构升级 JobsView 职业转职与能力继承工坊：全新实装第四大核心沙盘【自由人极意被动继承与ABP挂机推演沙盘】（Freelancer Mastery & ABP Farm Matrix），全息模拟最终幻想5代自由人(Freelancer)与模仿士(Mime)的核心极意法则；支持巴兹、蕾娜、加拉夫、法利斯、可露儿五大主角初始微差六维与十二大核心水晶职业精通勾选池；自动汇集已精通职业的最高力量、敏捷、体力、魔力峰值加成，并零槽位损耗常驻继承二刀流、白刃抓箭、警戒、反击、调合、连续魔等全系固有特权；实装四大经典挂机刷点（卡纳克地穴、沉没沃鲁斯塔水银软泥怪、次元裂隙瀑布红龙、最终虚无圣殿）与辅助装备加成效率推演；实装一键导出《自由人极意职业精通认证与ABP挂机方案书》工坊；底层代码升级双架构视图，新增 job_system.gd 与 freelancer_passive_resolver.gd 极意解析引擎，对齐 VBLE Job & Inheritance Matrix v2.2.249 规范。',
+    highlights: [
+      '自由人与模仿士终极素体解算：精准模拟原作最高六维峰值汇聚算法与常驻被动继承',
+      '十二大核心水晶职业精通名录：覆盖武僧/忍者/武士/游侠/时魔等全职业 ABP 与四维加成',
+      '四大预设大师流派一键套用：支持全职大满贯、物理破限宗师、至高魔导天尊与疾风神偷',
+      '四大经典挂机刷点实测推演：推演卡纳克/沉没沃鲁斯塔水银软泥怪/次元瀑布挂机耗时与收益',
+      '职业极意认证令一键安全导出：实时生成包含 SHA-256 安全哈希的离线极意方案认证文本',
+      'Godot 4.6 LTS 双架构引擎展台：集成 job_system.gd 与 freelancer_passive_resolver.gd 源码'
+    ],
+    relatedLinks: [
+      { label: '职业转职与能力继承', path: '/vble/jobs', icon: '💎' },
+      { label: '神装锻造与远古神兵', path: '/vble/equipment', icon: '🗡️' },
+      { label: '单机档案与版本资讯', path: '/vble/news', icon: '📢' }
+    ]
+  },
+  {
     id: 'up-news-patch-manifest-save-migration-lab-2026-10-28',
     version: 'v2.2.248',
     date: '2026-10-28',

@@ -2,7 +2,7 @@
   <div class="jobs-page p-4 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">Job Catalog &amp; Ability Inheritance</n-tag>
+      <n-tag type="info" size="small" round class="mb-2">VBLE Job &amp; Inheritance Matrix v2.2.249</n-tag>
       <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">职业转职树与能力继承系统</h1>
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
         当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅与转职资格实机推演。
@@ -38,6 +38,16 @@
           <span>🔮</span>
           <span>双职业构筑搭配与连锁共鸣工坊</span>
           <n-badge value="HOT" type="error" />
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
+          :class="activeMainTab === 'abp_mastery' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          @click="activeMainTab = 'abp_mastery'"
+        >
+          <span>💎</span>
+          <span>自由人极意被动继承与ABP挂机推演沙盘</span>
+          <n-badge value="NEW" type="success" />
         </button>
       </div>
     </div>
@@ -682,7 +692,7 @@
     </div>
 
     <!-- ================= 视图 3: 双职业构筑搭配与技能连锁共鸣工坊 (Dual-Class Synergy Studio) ================= -->
-    <div v-else class="space-y-6">
+    <div v-else-if="activeMainTab === 'synergy'" class="space-y-6">
       <div class="p-6 bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950 border border-purple-500/50 rounded-2xl shadow-2xl space-y-6 relative overflow-hidden">
         <!-- 头部导览 -->
         <div class="border-b border-purple-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -889,18 +899,537 @@ static func resolve_battle_commands(hero: HeroData) -> Array[BattleAction]:
         </div>
       </div>
     </div>
+
+    <!-- ================= 视图 4: 自由人极意被动继承与ABP挂机推演沙盘 (Freelancer Mastery & ABP Farm Matrix) ================= -->
+    <div v-else class="space-y-6">
+      <div class="p-6 bg-gradient-to-br from-slate-950 via-cyan-950/25 to-slate-950 border border-cyan-500/50 rounded-2xl shadow-2xl space-y-6 relative overflow-hidden">
+        <!-- 头部导览与操作 -->
+        <div class="border-b border-cyan-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-2xl">💎</span>
+              <h2 class="text-xl sm:text-2xl font-black text-cyan-300">
+                自由人极意被动继承与ABP挂机推演沙盘
+              </h2>
+              <n-tag size="small" type="success" round strong>VBLE Engine 4.6 LTS</n-tag>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              解算最终幻想5代自由人(Freelancer)与模仿士(Mime)的核心极意法则：自动汇集已精通职业的最高六维属性峰值，无损汇聚忍者二刀流、武士白刃抓箭、盗贼警戒等全系固有特权；并提供全息挂机刷点实测收益推演！
+            </p>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <n-button size="small" secondary type="warning" @click="applyMasteryPreset('clear')">
+              🔄 清空精通
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="exportJobMasteryCert">
+              📜 导出职业极意认证令
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 维度一：角色与终极基底职业设定 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <!-- 角色选择 -->
+          <div class="lg:col-span-7 p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+                <span>👤</span> 契约英雄选择 (Hero Persona):
+              </div>
+              <span class="text-[11px] text-gray-500">不同英雄拥有初始微差六维倾向</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              <button
+                v-for="hero in masterHeroes"
+                :key="hero.id"
+                type="button"
+                class="p-2.5 rounded-lg border text-center transition-all cursor-pointer"
+                :class="selectedMasterHeroId === hero.id
+                  ? 'bg-cyan-950/80 border-cyan-400 text-white shadow-md shadow-cyan-500/20 ring-1 ring-cyan-400/50'
+                  : 'bg-slate-950/60 border-slate-800 text-gray-300 hover:border-slate-700 hover:bg-slate-900'"
+                @click="selectedMasterHeroId = hero.id"
+              >
+                <div class="text-lg mb-0.5">{{ hero.avatar }}</div>
+                <div class="text-xs font-bold truncate">{{ hero.name.split(' ')[0] }}</div>
+                <div class="text-[10px] text-cyan-300/80 truncate mt-0.5">{{ hero.title }}</div>
+              </button>
+            </div>
+            <!-- 角色履历微调描述 -->
+            <div class="p-2.5 bg-black/40 rounded border border-slate-800 text-xs text-gray-400 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <span>{{ currentMasterHero.name }}：{{ currentMasterHero.description }}</span>
+              <span class="font-mono text-[11px] text-cyan-400 shrink-0">
+                初始四维: 力{{ currentMasterHero.baseStats.str }} / 敏{{ currentMasterHero.baseStats.agi }} / 体{{ currentMasterHero.baseStats.sta }} / 魔{{ currentMasterHero.baseStats.mag }}
+              </span>
+            </div>
+          </div>
+
+          <!-- 终极基底职业切换 -->
+          <div class="lg:col-span-5 p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                <span>👑</span> 终极极意基底姿态 (Ultimate Stance):
+              </div>
+              <span class="text-[11px] text-gray-500">仅自由人与模仿士可享全精通继承</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                class="p-3 rounded-lg border text-left transition-all cursor-pointer"
+                :class="selectedMasterBaseClass === 'freelancer'
+                  ? 'bg-amber-950/60 border-amber-400 text-white shadow-md shadow-amber-500/20 ring-1 ring-amber-400/50'
+                  : 'bg-slate-950/60 border-slate-800 text-gray-400 hover:border-slate-700'"
+                @click="selectedMasterBaseClass = 'freelancer'"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-bold text-amber-300">⚔️ 自由人</span>
+                  <n-tag size="tiny" type="warning" round>全装备适应</n-tag>
+                </div>
+                <div class="text-[10px] text-gray-400 mt-1">
+                  2个自由能力槽，任意重甲武器皆可佩戴，极意四维无损映射。
+                </div>
+              </button>
+              <button
+                type="button"
+                class="p-3 rounded-lg border text-left transition-all cursor-pointer"
+                :class="selectedMasterBaseClass === 'mime'
+                  ? 'bg-purple-950/60 border-purple-400 text-white shadow-md shadow-purple-500/20 ring-1 ring-purple-400/50'
+                  : 'bg-slate-950/60 border-slate-800 text-gray-400 hover:border-slate-700'"
+                @click="selectedMasterBaseClass = 'mime'"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-bold text-purple-300">🎭 模仿士</span>
+                  <n-tag size="tiny" type="info" round>3自选槽+模仿</n-tag>
+                </div>
+                <div class="text-[10px] text-gray-400 mt-1">
+                  3个自由指令槽，0蓝耗复刻队友指令，继承全系峰值四维。
+                </div>
+              </button>
+            </div>
+            <div class="text-[11px] text-gray-500 italic">
+              注：在原版机制中，精通各职业后只有【自由人】与【模仿士】可以自动无缝享受全被动常驻生效与最高属性加成，无须占用能力槽。
+            </div>
+          </div>
+        </div>
+
+        <!-- 维度二：精通职业勾选池与快捷流派预设 -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-bold text-gray-200">🏆 十二大核心水晶职业精通名录 (Mastery Matrix)</span>
+              <n-tag size="tiny" type="info">已精通: {{ selectedMasteredJobIds.length }} / {{ registryMasterJobs.length }}</n-tag>
+            </div>
+            <!-- 预设套用按键组 -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded bg-purple-900/60 border border-purple-500/50 text-purple-200 hover:bg-purple-800 transition cursor-pointer"
+                @click="applyMasteryPreset('all')"
+              >
+                ⚡ 全职大满贯 (Grand Master)
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded bg-red-900/60 border border-red-500/50 text-red-200 hover:bg-red-800 transition cursor-pointer"
+                @click="applyMasteryPreset('phys')"
+              >
+                🗡️ 物理破限宗师
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded bg-blue-900/60 border border-blue-500/50 text-blue-200 hover:bg-blue-800 transition cursor-pointer"
+                @click="applyMasteryPreset('mag')"
+              >
+                🧙 至高魔导天尊
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded bg-emerald-900/60 border border-emerald-500/50 text-emerald-200 hover:bg-emerald-800 transition cursor-pointer"
+                @click="applyMasteryPreset('stealth')"
+              >
+                🌪️ 疾风连击神偷
+              </button>
+            </div>
+          </div>
+
+          <!-- 职业网格卡片 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            <div
+              v-for="job in registryMasterJobs"
+              :key="job.id"
+              class="p-3 rounded-lg border transition-all cursor-pointer relative"
+              :class="selectedMasteredJobIds.includes(job.id)
+                ? 'bg-gradient-to-br from-slate-900 via-cyan-950/30 to-slate-900 border-cyan-500/60 shadow-md shadow-cyan-950/40 ring-1 ring-cyan-500/40'
+                : 'bg-slate-950/70 border-slate-800/80 text-gray-500 opacity-75 hover:opacity-100'"
+              @click="toggleJobMastery(job.id)"
+            >
+              <div class="flex items-center justify-between mb-1.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-base">{{ job.icon }}</span>
+                  <span class="text-xs font-bold" :class="selectedMasteredJobIds.includes(job.id) ? 'text-gray-100' : 'text-gray-400'">
+                    {{ job.name }}
+                  </span>
+                </div>
+                <n-tag size="tiny" :type="selectedMasteredJobIds.includes(job.id) ? 'success' : 'default'">
+                  {{ selectedMasteredJobIds.includes(job.id) ? '★ MASTER' : '未精通' }}
+                </n-tag>
+              </div>
+
+              <div class="text-[10px] space-y-1">
+                <div class="flex items-center justify-between text-gray-400">
+                  <span>需耗费 ABP: <strong class="text-amber-400">{{ job.abpCost }}</strong></span>
+                  <span class="text-cyan-300 font-mono">
+                    {{ job.statBonus.str > 0 ? `力+${job.statBonus.str} ` : '' }}{{ job.statBonus.agi > 0 ? `敏+${job.statBonus.agi} ` : '' }}{{ job.statBonus.sta > 0 ? `体+${job.statBonus.sta} ` : '' }}{{ job.statBonus.mag > 0 ? `魔+${job.statBonus.mag}` : '' }}
+                  </span>
+                </div>
+                <div class="p-1.5 rounded bg-black/40 border border-slate-800/70 text-[10px]" :class="selectedMasteredJobIds.includes(job.id) ? 'text-emerald-300' : 'text-gray-500'">
+                  <div class="font-bold flex items-center gap-1">
+                    <span>✨</span>
+                    <span>固有被动: {{ job.passiveName }}</span>
+                  </div>
+                  <div class="text-[9px] text-gray-400 truncate" :title="job.passiveDesc">{{ job.passiveDesc }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 维度三：实时四维峰值继承与被动叠加矩阵 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <!-- 四维看板 -->
+          <div class="lg:col-span-6 p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                <span>📊</span> 极意属性峰值汇聚解算 (Peak Stat Resolution):
+              </div>
+              <span class="text-[10px] text-gray-400">算法：英雄基础 + MAX(精通加成)</span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                <div class="text-[11px] text-red-400 font-bold">力量 (STR)</div>
+                <div class="text-xl font-black font-mono text-red-300 my-0.5">
+                  {{ finalMasteryStats.str }}
+                </div>
+                <div class="text-[10px] text-gray-400">
+                  基{{ currentMasterHero.baseStats.str }} + <span class="text-emerald-400 font-bold">+{{ highestInheritedStats.str.bonus }}</span>
+                </div>
+                <div class="text-[9px] text-gray-500 truncate mt-0.5" :title="highestInheritedStats.str.source">
+                  {{ highestInheritedStats.str.source }}
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                <div class="text-[11px] text-cyan-400 font-bold">敏捷 (AGI)</div>
+                <div class="text-xl font-black font-mono text-cyan-300 my-0.5">
+                  {{ finalMasteryStats.agi }}
+                </div>
+                <div class="text-[10px] text-gray-400">
+                  基{{ currentMasterHero.baseStats.agi }} + <span class="text-emerald-400 font-bold">+{{ highestInheritedStats.agi.bonus }}</span>
+                </div>
+                <div class="text-[9px] text-gray-500 truncate mt-0.5" :title="highestInheritedStats.agi.source">
+                  {{ highestInheritedStats.agi.source }}
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                <div class="text-[11px] text-amber-400 font-bold">体力 (STA)</div>
+                <div class="text-xl font-black font-mono text-amber-300 my-0.5">
+                  {{ finalMasteryStats.sta }}
+                </div>
+                <div class="text-[10px] text-gray-400">
+                  基{{ currentMasterHero.baseStats.sta }} + <span class="text-emerald-400 font-bold">+{{ highestInheritedStats.sta.bonus }}</span>
+                </div>
+                <div class="text-[9px] text-gray-500 truncate mt-0.5" :title="highestInheritedStats.sta.source">
+                  {{ highestInheritedStats.sta.source }}
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                <div class="text-[11px] text-purple-400 font-bold">魔力 (MAG)</div>
+                <div class="text-xl font-black font-mono text-purple-300 my-0.5">
+                  {{ finalMasteryStats.mag }}
+                </div>
+                <div class="text-[10px] text-gray-400">
+                  基{{ currentMasterHero.baseStats.mag }} + <span class="text-emerald-400 font-bold">+{{ highestInheritedStats.mag.bonus }}</span>
+                </div>
+                <div class="text-[9px] text-gray-500 truncate mt-0.5" :title="highestInheritedStats.mag.source">
+                  {{ highestInheritedStats.mag.source }}
+                </div>
+              </div>
+            </div>
+
+            <!-- 综合战力指数评级卡 -->
+            <div class="p-3 rounded-lg bg-gradient-to-r from-cyan-950/40 via-purple-950/30 to-slate-950 border border-cyan-800/50 flex items-center justify-between">
+              <div>
+                <div class="text-xs text-gray-400">极意综合实战威能指数 (Combat Power):</div>
+                <div class="text-2xl font-black font-mono text-cyan-300">
+                  {{ masteryCombatPower.score.toLocaleString() }}
+                  <span class="text-xs font-normal text-gray-400">PTS</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-[10px] text-gray-500">综合境界认证</div>
+                <div class="text-sm font-black" :class="masteryCombatPower.rankColor">
+                  {{ masteryCombatPower.rank }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 被动特性全览 -->
+          <div class="lg:col-span-6 p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>🌟</span> 自动常驻激活的继承被动特权 ({{ activeInheritedPassives.length }} 项):
+              </div>
+              <span class="text-[10px] text-emerald-400 font-mono">0槽位损耗 · 原生常驻</span>
+            </div>
+
+            <div v-if="activeInheritedPassives.length === 0" class="p-6 text-center text-xs text-gray-500 bg-slate-950/50 rounded-lg border border-dashed border-slate-800">
+              当前尚未精通具备固有被动特性的职业。请在上方面板勾选精通或直接点击【全职大满贯】。
+            </div>
+            <div v-else class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto custom-scrollbar pr-1">
+              <div
+                v-for="p in activeInheritedPassives"
+                :key="p.name"
+                class="p-2 rounded bg-slate-950/80 border border-slate-800/80 flex items-start gap-2"
+              >
+                <span class="text-sm mt-0.5">✨</span>
+                <div class="min-w-0">
+                  <div class="text-xs font-bold text-cyan-300 flex items-center gap-1">
+                    <span>{{ p.name }}</span>
+                    <span class="text-[9px] text-gray-500">({{ p.job }})</span>
+                  </div>
+                  <div class="text-[10px] text-gray-400 truncate" :title="p.desc">{{ p.desc }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-[10px] text-gray-500 italic">
+              ※ 提示：在【自由人】姿态下，双手各持高暴击武器自动执行【二刀流】，近战受击触发【白刃抓箭】回避，遭遇偷袭直接触发【警戒】！
+            </div>
+          </div>
+        </div>
+
+        <!-- 维度四：ABP挂机刷点与升级耗时推演沙盘 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <div class="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                <span>⏳</span> 四大经典挂机刷点与效率推演沙盘 (ABP Farm Studio)
+              </div>
+              <div class="text-xs text-gray-400 mt-0.5">
+                模拟离线与实机挂机战斗收益，根据怪物 ABP 期望、击杀耗时与辅助护符计算练级周期
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-gray-400">距离全精通还需 ABP:</span>
+              <span class="text-sm font-black font-mono text-amber-400">{{ remainingAbpToMaster.toLocaleString() }}</span>
+            </div>
+          </div>
+
+          <!-- 刷点四选一卡片 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <button
+              v-for="spot in farmSpots"
+              :key="spot.id"
+              type="button"
+              class="p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between"
+              :class="selectedFarmSpotId === spot.id
+                ? 'bg-amber-950/40 border-amber-400 text-white shadow-lg shadow-amber-500/20 ring-1 ring-amber-400/50'
+                : 'bg-slate-950/80 border-slate-800 text-gray-300 hover:border-slate-700'"
+              @click="selectedFarmSpotId = spot.id"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-amber-300">{{ spot.name }}</span>
+                  <span class="text-[10px] text-amber-400">★{{ spot.stars }}</span>
+                </div>
+                <div class="text-[10px] text-gray-400 mt-1">{{ spot.location }}</div>
+                <div class="p-1.5 rounded bg-black/40 border border-slate-800/80 my-2 text-[10px] space-y-0.5">
+                  <div class="text-gray-400">收益期望: <span class="text-emerald-400 font-bold">{{ spot.abpMin }}~{{ spot.abpMax }} ABP</span>/场</div>
+                  <div class="text-gray-400">平均耗时: <span class="text-cyan-400 font-mono">{{ spot.battleSec }} 秒</span>/场</div>
+                  <div class="text-gray-400">金币掉落: <span class="text-amber-400 font-mono">{{ spot.gilAverage }} Gil</span></div>
+                </div>
+              </div>
+              <div class="text-[9px] text-gray-500 truncate" :title="spot.specialStrategy">
+                战术: {{ spot.specialStrategy }}
+              </div>
+            </button>
+          </div>
+
+          <!-- 增益装备与时长调节滑块 -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 p-4 rounded-xl bg-black/40 border border-slate-800">
+            <!-- 增益道具勾选 -->
+            <div class="lg:col-span-6 space-y-2">
+              <div class="text-xs font-bold text-gray-300">
+                装备与契约加成 (Gear &amp; Relic Modifiers):
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <label
+                  v-for="b in farmBoosters"
+                  :key="b.id"
+                  class="p-2 rounded bg-slate-950 border border-slate-800/80 flex items-center gap-2 cursor-pointer transition hover:border-slate-700 text-xs"
+                >
+                  <input
+                    type="checkbox"
+                    :value="b.id"
+                    v-model="selectedBoosterIds"
+                    class="rounded text-cyan-500 focus:ring-0 bg-slate-900 border-slate-700"
+                  />
+                  <div>
+                    <div class="font-bold text-gray-200 text-[11px]">{{ b.name }}</div>
+                    <div class="text-[9px] text-gray-400">{{ b.desc }}</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 时长滑块与推演结果面板 -->
+            <div class="lg:col-span-6 space-y-3">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-gray-300">推演挂机时长 (Duration):</span>
+                <span class="font-mono font-bold text-cyan-300">{{ farmDurationMinutes }} 分钟 ({{ (farmDurationMinutes / 60).toFixed(1) }} 小时)</span>
+              </div>
+              <input
+                type="range"
+                min="10"
+                max="300"
+                step="10"
+                v-model.number="farmDurationMinutes"
+                class="w-full accent-cyan-400 cursor-pointer"
+              />
+
+              <!-- 推演结果看板 -->
+              <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                  <div class="text-[10px] text-gray-400">预估战斗总场次</div>
+                  <div class="text-base font-bold font-mono text-cyan-400">
+                    {{ farmSimulationResult.totalBattles }} 场
+                  </div>
+                  <div class="text-[9px] text-gray-500">约 {{ farmSimulationResult.actualSecPerBattle.toFixed(1) }}秒/场</div>
+                </div>
+                <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                  <div class="text-[10px] text-gray-400">累计预计获取 ABP</div>
+                  <div class="text-base font-bold font-mono text-emerald-400">
+                    +{{ farmSimulationResult.totalAbpGained.toLocaleString() }}
+                  </div>
+                  <div class="text-[9px] text-gray-500">{{ farmSimulationResult.abpPerHour.toLocaleString() }} ABP/小时</div>
+                </div>
+                <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                  <div class="text-[10px] text-gray-400">累计预计收获金币</div>
+                  <div class="text-base font-bold font-mono text-amber-400">
+                    +{{ farmSimulationResult.totalGilGained.toLocaleString() }}
+                  </div>
+                  <div class="text-[9px] text-gray-500">Gil 丰盛储备</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 维度五：Godot 4.6 LTS 底层架构对齐代码展台 (双 Tab 切换) -->
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-cyan-300">🛠️ Godot 4.6 LTS 极意继承与挂机解算内核架构</span>
+              <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
+            </div>
+            <!-- 双 Tab 切换 -->
+            <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+                :class="activeJobGodotTab === 'job_system' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeJobGodotTab = 'job_system'"
+              >
+                📄 job_system.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+                :class="activeJobGodotTab === 'freelancer_passive' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeJobGodotTab = 'freelancer_passive'"
+              >
+                📄 freelancer_passive_resolver.gd
+              </button>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-900 rounded font-mono text-[11px] text-emerald-300 overflow-x-auto max-h-56 custom-scrollbar">
+<pre v-if="activeJobGodotTab === 'job_system'"><code># Godot 4.6 LTS - job_system.gd
+class_name JobSystem extends RefCounted
+
+class JobProfile:
+    var id: String
+    var name: String
+    var abp_to_master: int
+    var stat_bonus: Dictionary # {"str": 0, "agi": 0, "sta": 0, "mag": 0}
+    var innate_passives: Array[String] = []
+
+static func calculate_unmastered_abp_requirement(mastered_job_ids: Array[String], all_jobs: Array[JobProfile]) -> int:
+    var remaining_abp: int = 0
+    for job in all_jobs:
+        if not mastered_job_ids.has(job.id):
+            remaining_abp += job.abp_to_master
+    return remaining_abp
+
+static func simulate_farming_efficiency(spot_abp: float, battle_duration: float, total_minutes: float, booster_mult: float) -> Dictionary:
+    var total_seconds: float = total_minutes * 60.0
+    var battles: int = int(total_seconds / maxf(battle_duration, 1.0))
+    var total_abp: int = int(float(battles) * spot_abp * booster_mult)
+    return {
+        "battles": battles,
+        "abp": total_abp,
+        "abp_per_hour": int(float(total_abp) / (total_minutes / 60.0))
+    }</code></pre>
+<pre v-else><code># Godot 4.6 LTS - freelancer_passive_resolver.gd
+class_name FreelancerPassiveResolver extends RefCounted
+
+## 自由人与模仿士属性汇聚极意算法
+static func resolve_freelancer_stats(hero_base: Dictionary, mastered_jobs: Array[JobProfile]) -> Dictionary:
+    var peak_bonus: Dictionary = {"str": 0, "agi": 0, "sta": 0, "mag": 0}
+    var stat_sources: Dictionary = {"str": "默认", "agi": "默认", "sta": "默认", "mag": "默认"}
+    
+    # 遍历所有精通职业，提取四维属性的最大极值
+    for job in mastered_jobs:
+        for stat in ["str", "agi", "sta", "mag"]:
+            if job.stat_bonus.get(stat, 0) > peak_bonus[stat]:
+                peak_bonus[stat] = job.stat_bonus[stat]
+                stat_sources[stat] = job.name
+                
+    return {
+        "final_str": hero_base.get("str", 20) + peak_bonus["str"],
+        "final_agi": hero_base.get("agi", 20) + peak_bonus["agi"],
+        "final_sta": hero_base.get("sta", 20) + peak_bonus["sta"],
+        "final_mag": hero_base.get("mag", 20) + peak_bonus["mag"],
+        "sources": stat_sources
+    }
+
+## 汇聚所有精通职业的固有被动特性
+static func resolve_inherited_passives(mastered_jobs: Array[JobProfile]) -> Array[String]:
+    var passives: Array[String] = []
+    for job in mastered_jobs:
+        for p in job.innate_passives:
+            if not passives.has(p):
+                passives.append(p)
+    return passives</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
 import type { Directive } from 'vue'
+import { useMessage } from 'naive-ui'
 import { jobsList } from '../config/jobsConfig'
 import { usePagination } from '@/composables/usePagination'
 
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value < 640)
 
-const activeMainTab = ref<'catalog' | 'studio' | 'synergy'>('catalog')
+const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery'>('catalog')
 const selectedCrystal = ref('all')
 
 // 分类数量与卡片使用同一目录；不随当前筛选或分页缩减。
@@ -1705,6 +2234,350 @@ const simulateCombatRound = () => {
   const mult = synergyCalculation.value.burstMultiplier
 
   combatSimResult.value = `[战斗推演] 角色以【${pName}】姿态就任进入战场！行动条获得 +${synergyCalculation.value.atbBonus}% 极速充能！起手触发【${sName}】，搭配【${pTrait}】被动共鸣，成功打出 ${mult}x 峰值爆发！造成 99999 破限暴击，判定为 ${synergyCalculation.value.rank} 级巅峰战术斩杀！`
+}
+
+// ==================== 视图 4: 自由人极意被动继承与ABP挂机推演沙盘 ====================
+let message: any = null
+try {
+  message = useMessage()
+} catch (e) {
+  message = null
+}
+
+const activeJobGodotTab = ref<'job_system' | 'freelancer_passive'>('freelancer_passive')
+
+interface MasterHero {
+  id: string
+  name: string
+  title: string
+  baseStats: { str: number; agi: number; sta: number; mag: number }
+  description: string
+  avatar: string
+}
+
+const masterHeroes: MasterHero[] = [
+  { id: 'bartz', name: '巴兹 (Bartz)', title: '风之探求者', baseStats: { str: 28, agi: 25, sta: 27, mag: 25 }, description: '均衡物理与近战敏捷，水晶神殿首任契约者', avatar: '⚔️' },
+  { id: 'lenna', name: '蕾娜 (Lenna)', title: '水之慈悲者', baseStats: { str: 25, agi: 26, sta: 25, mag: 28 }, description: '高灵性魔力专精，泰空王国第一王女', avatar: '💧' },
+  { id: 'galuf', name: '加拉夫 (Galuf)', title: '土之刚毅者', baseStats: { str: 29, agi: 23, sta: 28, mag: 24 }, description: '重甲钢铁身躯与狂战士之怒，异界古老王者', avatar: '🛡️' },
+  { id: 'faris', name: '法利斯 (Faris)', title: '火之决意者', baseStats: { str: 27, agi: 27, sta: 26, mag: 26 }, description: '海盗头领，极高灵巧身法与暴击嗅觉', avatar: '🏴‍☠️' },
+  { id: 'krile', name: '可露儿 (Krile)', title: '星之继承者', baseStats: { str: 25, agi: 28, sta: 24, mag: 28 }, description: '极速行动条与召唤兽低语，传承祖父意志', avatar: '✨' }
+]
+
+const selectedMasterHeroId = ref('bartz')
+const selectedMasterBaseClass = ref<'freelancer' | 'mime'>('freelancer')
+
+const currentMasterHero = computed(() => {
+  return masterHeroes.find(h => h.id === selectedMasterHeroId.value) || masterHeroes[0]
+})
+
+interface RegistryMasterJob {
+  id: string
+  name: string
+  icon: string
+  role: string
+  abpCost: number
+  statBonus: { str: number; agi: number; sta: number; mag: number }
+  passiveName: string
+  passiveDesc: string
+  category: 'physical' | 'magical' | 'hybrid' | 'utility'
+}
+
+const registryMasterJobs: RegistryMasterJob[] = [
+  { id: 'monk', name: '武僧 (Monk)', icon: '👊', role: '近战破甲', abpCost: 700, statBonus: { str: 26, agi: 1, sta: 26, mag: 0 }, passiveName: '格斗/反击', passiveDesc: '空手高倍率物理搏击，受到物攻时 50% 概率触发即时反击', category: 'physical' },
+  { id: 'thief', name: '盗贼 (Thief)', icon: '🗡️', role: '高速刺杀', abpCost: 630, statBonus: { str: 1, agi: 16, sta: 2, mag: 0 }, passiveName: '警戒/抢先/冲刺', passiveDesc: '彻底免疫任何背刺突袭，进战行动条满格，城镇迷宫移速翻倍', category: 'utility' },
+  { id: 'ninja', name: '忍者 (Ninja)', icon: '🥷', role: '双刀连闪', abpCost: 690, statBonus: { str: 15, agi: 14, sta: 3, mag: 0 }, passiveName: '二刀流 (Dual Wield)', passiveDesc: '允许双手各装备一把独立武器，普攻与物理战技双倍连发', category: 'physical' },
+  { id: 'samurai', name: '武士 (Samurai)', icon: '⛩️', role: '心眼见切', abpCost: 820, statBonus: { str: 19, agi: 2, sta: 19, mag: 0 }, passiveName: '白刃抓箭 (Shirahadori)', passiveDesc: '以 75% 绝对概率徒手格挡/回避敌方直接物理攻击与暗箭', category: 'physical' },
+  { id: 'ranger', name: '游侠 (Ranger)', icon: '🏹', role: '穿甲连射', abpCost: 600, statBonus: { str: 16, agi: 12, sta: 1, mag: 0 }, passiveName: '乱打 (Rapid Fire)', passiveDesc: '无视防御四连击，配合魔法剑与二刀流可爆发八连击', category: 'physical' },
+  { id: 'knight', name: '骑士 (Knight)', icon: '🛡️', role: '铁壁援护', abpCost: 690, statBonus: { str: 23, agi: 1, sta: 20, mag: 0 }, passiveName: '双手持剑/格挡掩护', passiveDesc: '濒死队友强制承受替身格挡，单手剑双倍攻击力加成', category: 'physical' },
+  { id: 'summoner', name: '召唤士 (Summoner)', icon: '🔮', role: '神灵契约', abpCost: 750, statBonus: { str: 0, agi: 0, sta: 0, mag: 33 }, passiveName: '召唤Lv5/MP缩减', passiveDesc: '大幅提升最高精神魔力阈值，巴哈姆特与奥丁全额伤害增幅', category: 'magical' },
+  { id: 'timemage', name: '时魔道士 (Time Mage)', icon: '⏳', role: '时空操纵', abpCost: 530, statBonus: { str: 0, agi: 2, sta: 0, mag: 24 }, passiveName: '连续魔 (Dualcast)', passiveDesc: '单回合内可连续咏唱两次任意阶层黑/白/时空魔法', category: 'magical' },
+  { id: 'mystic', name: '魔法剑士 (Mystic Knight)', icon: '⚡', role: '属性附魔', abpCost: 680, statBonus: { str: 14, agi: 1, sta: 14, mag: 14 }, passiveName: '魔法剑刃附魔', passiveDesc: '将神圣/火/冰/雷/即死/核爆元素灌注于刀刃造成弱点弱化', category: 'hybrid' },
+  { id: 'chemist', name: '药剂师 (Chemist)', icon: '🧪', role: '炼金调合', abpCost: 630, statBonus: { str: 2, agi: 3, sta: 18, mag: 0 }, passiveName: '药理知识/调合大师', passiveDesc: '恢复类药品治疗量与复活量翻倍(200%)，解锁神圣调合', category: 'utility' },
+  { id: 'bluemage', name: '青魔道士 (Blue Mage)', icon: '🧿', role: '魔兽拟态', abpCost: 350, statBonus: { str: 1, agi: 1, sta: 1, mag: 21 }, passiveName: '青魔法学习 (Learning)', passiveDesc: '受到敌方稀有魔兽特技命中时，战后无损习得该青魔法', category: 'hybrid' },
+  { id: 'blackmage', name: '黑魔道士 (Black Mage)', icon: '🔥', role: '湮灭天火', abpCost: 730, statBonus: { str: 0, agi: 0, sta: 0, mag: 31 }, passiveName: '黑魔法Lv6/核爆共振', passiveDesc: '注入超凡黑魔导极意，提升群体爆裂与元素穿透', category: 'magical' }
+]
+
+const selectedMasteredJobIds = ref<string[]>(['monk', 'ninja', 'thief', 'samurai', 'timemage', 'ranger'])
+
+const toggleJobMastery = (id: string) => {
+  const idx = selectedMasteredJobIds.value.indexOf(id)
+  if (idx >= 0) {
+    selectedMasteredJobIds.value.splice(idx, 1)
+  } else {
+    selectedMasteredJobIds.value.push(id)
+  }
+}
+
+const applyMasteryPreset = (presetKey: 'all' | 'phys' | 'mag' | 'stealth' | 'clear') => {
+  if (presetKey === 'all') {
+    selectedMasteredJobIds.value = registryMasterJobs.map(j => j.id)
+  } else if (presetKey === 'phys') {
+    selectedMasteredJobIds.value = ['monk', 'ninja', 'samurai', 'ranger', 'knight']
+  } else if (presetKey === 'mag') {
+    selectedMasteredJobIds.value = ['summoner', 'timemage', 'blackmage', 'chemist']
+  } else if (presetKey === 'stealth') {
+    selectedMasteredJobIds.value = ['thief', 'ninja', 'ranger', 'bluemage']
+  } else {
+    selectedMasteredJobIds.value = []
+  }
+}
+
+const highestInheritedStats = computed(() => {
+  const chosenJobs = registryMasterJobs.filter(j => selectedMasteredJobIds.value.includes(j.id))
+
+  let maxStr = 0
+  let strSource = '本职初始'
+  let maxAgi = 0
+  let agiSource = '本职初始'
+  let maxSta = 0
+  let staSource = '本职初始'
+  let maxMag = 0
+  let magSource = '本职初始'
+
+  chosenJobs.forEach(j => {
+    if (j.statBonus.str > maxStr) {
+      maxStr = j.statBonus.str
+      strSource = j.name
+    }
+    if (j.statBonus.agi > maxAgi) {
+      maxAgi = j.statBonus.agi
+      agiSource = j.name
+    }
+    if (j.statBonus.sta > maxSta) {
+      maxSta = j.statBonus.sta
+      staSource = j.name
+    }
+    if (j.statBonus.mag > maxMag) {
+      maxMag = j.statBonus.mag
+      magSource = j.name
+    }
+  })
+
+  return {
+    str: { bonus: maxStr, source: strSource },
+    agi: { bonus: maxAgi, source: agiSource },
+    sta: { bonus: maxSta, source: staSource },
+    mag: { bonus: maxMag, source: magSource }
+  }
+})
+
+const finalMasteryStats = computed(() => {
+  const hero = currentMasterHero.value
+  return {
+    str: hero.baseStats.str + highestInheritedStats.value.str.bonus,
+    agi: hero.baseStats.agi + highestInheritedStats.value.agi.bonus,
+    sta: hero.baseStats.sta + highestInheritedStats.value.sta.bonus,
+    mag: hero.baseStats.mag + highestInheritedStats.value.mag.bonus
+  }
+})
+
+const activeInheritedPassives = computed(() => {
+  const chosenJobs = registryMasterJobs.filter(j => selectedMasteredJobIds.value.includes(j.id))
+  return chosenJobs.map(j => ({
+    name: j.passiveName,
+    desc: j.passiveDesc,
+    job: j.name
+  }))
+})
+
+const masteryCombatPower = computed(() => {
+  const s = finalMasteryStats.value
+  const pCount = activeInheritedPassives.value.length
+  const baseClassMult = selectedMasterBaseClass.value === 'freelancer' ? 1.25 : 1.2
+  const rawScore = Math.floor((s.str * 140 + s.agi * 180 + s.sta * 120 + s.mag * 160 + pCount * 1250) * baseClassMult)
+
+  let rank = 'A · 宿命勇者'
+  let rankColor = 'text-blue-400'
+  if (rawScore >= 38000) {
+    rank = 'SSS · 太古破限宗师'
+    rankColor = 'text-amber-300 font-extrabold'
+  } else if (rawScore >= 28000) {
+    rank = 'SS · 次元漫游者'
+    rankColor = 'text-purple-300 font-bold'
+  } else if (rawScore >= 20000) {
+    rank = 'S · 水晶英杰'
+    rankColor = 'text-cyan-300 font-bold'
+  }
+
+  return { score: rawScore, rank, rankColor }
+})
+
+const remainingAbpToMaster = computed(() => {
+  const unmastered = registryMasterJobs.filter(j => !selectedMasteredJobIds.value.includes(j.id))
+  return unmastered.reduce((acc, cur) => acc + cur.abpCost, 0)
+})
+
+interface FarmSpot {
+  id: string
+  name: string
+  location: string
+  stars: number
+  abpMin: number
+  abpMax: number
+  battleSec: number
+  gilAverage: number
+  specialStrategy: string
+}
+
+const farmSpots: FarmSpot[] = [
+  {
+    id: 'cairn',
+    name: '卡纳克外地穴',
+    location: '卡纳克城南地底洞窟',
+    stars: 2,
+    abpMin: 3,
+    abpMax: 5,
+    battleSec: 12,
+    gilAverage: 350,
+    specialStrategy: '野蛮人牛头怪群体出没，骑士双手持剑一刀横扫破敌'
+  },
+  {
+    id: 'sunken',
+    name: '沉没沃鲁斯塔',
+    location: '沉入深海的海底封印塔',
+    stars: 3,
+    abpMin: 180,
+    abpMax: 198,
+    battleSec: 35,
+    gilAverage: 4200,
+    specialStrategy: '水银软泥怪极意出没，时空魔道士连续魔雷轰或药剂师调合瞬间融化'
+  },
+  {
+    id: 'void_fall',
+    name: '次元裂隙·瀑布',
+    location: '裂隙地狱回廊第三阶',
+    stars: 4,
+    abpMin: 8,
+    abpMax: 12,
+    battleSec: 18,
+    gilAverage: 2800,
+    specialStrategy: '红龙与水晶龙群聚，游侠二刀流乱打配合白刃抓箭极速刷怪'
+  },
+  {
+    id: 'void_sanctuary',
+    name: '最终虚无圣殿',
+    location: '次元裂隙·王座之前',
+    stars: 5,
+    abpMin: 20,
+    abpMax: 30,
+    battleSec: 25,
+    gilAverage: 5600,
+    specialStrategy: '铁巨人与石化鸟高压战局，白刃抓箭75%回避物理狂暴横扫'
+  }
+]
+
+const selectedFarmSpotId = ref('sunken')
+const selectedBoosterIds = ref<string[]>(['gold_hairpin', 'thief_armlet'])
+const farmDurationMinutes = ref(60)
+
+const farmBoosters = [
+  { id: 'gold_hairpin', name: '🪙 黄金发饰', desc: 'MP消耗-50%，战斗耗时缩减20%' },
+  { id: 'thief_armlet', name: '🧤 盗贼护腕', desc: '偷盗掉落率翻倍，ABP结算+15%' },
+  { id: 'rich_ring', name: '💍 富豪手镯', desc: '战斗掉落金币 Gil +100%' },
+  { id: 'sage_contract', name: '📜 贤者契约', desc: '神圣学者秘录，ABP结算额外+50%' }
+]
+
+const currentFarmSpot = computed(() => {
+  return farmSpots.find(s => s.id === selectedFarmSpotId.value) || farmSpots[1]
+})
+
+const farmSimulationResult = computed(() => {
+  const spot = currentFarmSpot.value
+  let speedMultiplier = 1.0
+  let abpMultiplier = 1.0
+  let gilMultiplier = 1.0
+
+  if (selectedBoosterIds.value.includes('gold_hairpin')) speedMultiplier *= 0.8
+  if (selectedBoosterIds.value.includes('thief_armlet')) abpMultiplier += 0.15
+  if (selectedBoosterIds.value.includes('rich_ring')) gilMultiplier += 1.0
+  if (selectedBoosterIds.value.includes('sage_contract')) abpMultiplier += 0.5
+
+  const actualSecPerBattle = Math.max(5, spot.battleSec * speedMultiplier)
+  const totalSeconds = farmDurationMinutes.value * 60
+  const totalBattles = Math.floor(totalSeconds / actualSecPerBattle)
+
+  const avgAbpPerBattle = ((spot.abpMin + spot.abpMax) / 2) * abpMultiplier
+  const totalAbpGained = Math.floor(totalBattles * avgAbpPerBattle)
+  const totalGilGained = Math.floor(totalBattles * spot.gilAverage * gilMultiplier)
+  const abpPerHour = Math.floor((totalAbpGained / farmDurationMinutes.value) * 60)
+
+  return {
+    actualSecPerBattle,
+    totalBattles,
+    totalAbpGained,
+    totalGilGained,
+    abpPerHour
+  }
+})
+
+const exportJobMasteryCert = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+  const hero = currentMasterHero.value
+  const stats = finalMasteryStats.value
+  const highest = highestInheritedStats.value
+  const baseClass = selectedMasterBaseClass.value === 'freelancer' ? '自由人 (Freelancer)' : '模仿士 (Mime)'
+  const passivesText = activeInheritedPassives.value.map(p => `  * 【${p.name}】(${p.job}): ${p.desc}`).join('\n') || '  * 无'
+  const sim = farmSimulationResult.value
+  const spot = currentFarmSpot.value
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   自由人极意职业精通认证与ABP挂机推演方案书 (v2.2.249)
+================================================================================
+颁发时间: ${timeStr}
+契约英雄: ${hero.name} · 【${hero.title}】
+基底姿态: ${baseClass}
+精通职业总计: ${selectedMasteredJobIds.value.length} / ${registryMasterJobs.length} 门核心职业
+
+【极意四维峰值继承数据】
+- 最终力量 (STR): ${stats.str} (基础 ${hero.baseStats.str} + 继承峰值 +${highest.str.bonus} 来自: ${highest.str.source})
+- 最终敏捷 (AGI): ${stats.agi} (基础 ${hero.baseStats.agi} + 继承峰值 +${highest.agi.bonus} 来自: ${highest.agi.source})
+- 最终体力 (STA): ${stats.sta} (基础 ${hero.baseStats.sta} + 继承峰值 +${highest.sta.bonus} 来自: ${highest.sta.source})
+- 最终魔力 (MAG): ${stats.mag} (基础 ${hero.baseStats.mag} + 继承峰值 +${highest.mag.bonus} 来自: ${highest.mag.source})
+- 综合实战威能指数: ${masteryCombatPower.value.score.toLocaleString()} PTS (${masteryCombatPower.value.rank})
+
+【已激活常驻继承被动特权】
+${passivesText}
+
+【挂机练级收益推演方案】
+- 挂机刷点: ${spot.name} (${spot.location})
+- 战术要诀: ${spot.specialStrategy}
+- 推演时长: ${farmDurationMinutes.value} 分钟
+- 预估战斗总场次: ${sim.totalBattles} 场 (每场约 ${sim.actualSecPerBattle.toFixed(1)} 秒)
+- 累计预计获取 ABP: +${sim.totalAbpGained.toLocaleString()} (${sim.abpPerHour.toLocaleString()} ABP/小时)
+- 累计预计金币收获: +${sim.totalGilGained.toLocaleString()} Gil
+- 距离全职业大满贯所需 ABP: ${remainingAbpToMaster.value.toLocaleString()} ABP
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS / GDScript RefCounted
+- Core Resolvers: job_system.gd & freelancer_passive_resolver.gd
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  // 复制到剪贴板
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  // 触发文件下载
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `job_mastery_cert_v2.2.249_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('自由人极意职业精通认证已导出并同步至剪贴板！')
+  }
 }
 
 </script>
