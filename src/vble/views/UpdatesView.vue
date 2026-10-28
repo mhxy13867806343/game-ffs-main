@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-scenes-settlement-dialogue-studio-2026-10-28',
+    version: 'v2.2.232',
+    date: '2026-10-28',
+    title: '世界城镇全景漫游与分支剧情对白派遣工坊重磅实装',
+    category: 'npc',
+    categoryName: '实机演进',
+    icon: '🏛️',
+    tagType: 'success',
+    description: '深度重构升级 ScenesView 全域世界场景与城镇名录：全新实装【世界城镇全景漫游与分支剧情对白派遣工坊】（Settlement Dialogue Studio）。集成城镇五大核心设施交互沙盘（喧嚣酒馆古典钢琴试炼、旅馆投宿夜宿长谈回忆、商会军械库神装检视、陆行鸟厩舍黄/黑陆行鸟大地图无遇敌高速巡航、王座大殿呈报水晶异常与申领藏宝阁通行批文）；全方位模拟 8 大乐章古典钢琴大师晋级之路与终极乐章【英雄之歌 (Hero Song)】领悟机制；实装具有声望成长（Reputation）与分支奖励回响的多分支 NPC 对白决策模型；并严谨对齐 Godot 4.6 LTS settlement_dialogue_dispatcher.gd 城镇对白与任务状态机内核。',
+    highlights: [
+      '五大核心设施交互沙盘：酒馆抚琴、旅馆长夜眠息、商会检视、陆行鸟双骑与王殿呈递报告',
+      '古典钢琴 8 级大师晋级之路：逐级弹奏图尔村、卡纳克港口至终焉幻影小镇，领悟究极神曲【英雄之歌】',
+      '声望驱动多分支 NPC 对白系统：与学者、吟游诗人、城防卫队长对话博弈，触发不同态度与奖励回响',
+      '陆行鸟巡航体验：支持普通黄陆行鸟与飞翔黑陆行鸟自由调遣，大地图探索免除魔物袭扰',
+      'Godot 4.6 底层对白内核对齐：无缝衔接 settlement_dialogue_dispatcher.gd 对白树与事件分发'
+    ],
+    relatedLinks: [
+      { label: '世界场景与城镇名录', path: '/vble/scenes', icon: '🏘️' },
+      { label: '全域地貌与迷宫工坊', path: '/vble/dungeons', icon: '🏰' },
+      { label: '主线剧情 44 节拍雷达', path: '/vble/story', icon: '🧭' }
+    ]
+  },
+  {
     id: 'up-dungeons-multiverse-rift-fog-navigator-studio-2026-10-28',
     version: 'v2.2.231',
     date: '2026-10-28',
