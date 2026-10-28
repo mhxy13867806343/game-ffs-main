@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-summons-celestial-astral-descent-studio-2026-10-28',
+    version: 'v2.2.258',
+    date: '2026-10-28',
+    title: '太古十二柱神明契约共鸣与全息幻兽降临推演工坊重磅实装',
+    category: 'system',
+    categoryName: '召唤演进',
+    icon: '🐉',
+    tagType: 'success',
+    description: '深度重构升级 SummonsView 幻兽与召唤神殿导览门户：全新上线奢华苍穹横幅标章与神明降临工坊直达锚点；核心专区重磅实装【太古十二柱神明契约共鸣与全息幻兽降临推演工坊】（Astral Descent Studio），全面覆盖巴哈姆特、利维亚桑、奥丁、不死鸟、泰坦、伊芙利特、希瓦、拉姆、巨石魔兵、卡邦库尔、希尔德拉与卡托布雷帕斯十二柱太古神明；支持主位神兽与副位连续魔双神共鸣连携、四大召唤使者选派（可露儿、蕾娜、法丽丝、巴兹）、四种神圣圣物镶嵌（贤者法杖、星之圣环、龙皇印绶、以太圣羽）以及四大终局首领受击偏振（虚无埃克斯迪斯、始源神龙、欧米茄、混沌四天王）；实时测算穿透爆发总伤、契约谐振同步率、MP 折损与团队神力结界并驱动 5 阶段降临动画；实装一键导出《太古十二柱神明契约共鸣与全息降临认证方案书》工坊与 SHA-256 安全哈希签名；底层实机代码升级为 Godot 4.6 LTS 三架构引擎展台，新增 celestial_descent_engine.gd 源码展台，对齐 VBLE Celestial Summons Matrix v2.2.258 规范。',
+    highlights: [
+      '十二柱远古神明全矩阵契约：收录全属性本源绝技、破坏威力、MP 基准与团队守护结界回响',
+      '连续魔双神明连携共鸣模式：可自由搭配主位与副位神明，触发全元素连锁与共鸣双重穿透核爆',
+      '四大统御使者与四大圣器神印：可露儿（双召唤+35%）、蕾娜（圣光治愈）、法丽丝（元素狂潮）、巴兹（破甲真伤）',
+      '全息降临仪式驱动与动态战报：高精解算目标弱点偏振、同步率倍率、神圣抗性护盾与 MP 净消耗',
+      '神明降临方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机降临认证方案文档',
+      'Godot 4.6 LTS 三架构引擎展台：集成 summon_system.gd、odin_trial_engine.gd 与 celestial_descent_engine.gd'
+    ],
+    relatedLinks: [
+      { label: '幻兽与召唤神殿导览', path: '/vble/summons', icon: '🐉' },
+      { label: '职业体系与技能分支', path: '/vble/jobs', icon: '🛡️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-vehicles-hyperdrive-warp-studio-2026-10-28',
     version: 'v2.2.257',
     date: '2026-10-28',

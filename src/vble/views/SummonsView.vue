@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              ANCIENT CELESTIAL SUMMONS
+              VBLE Celestial Summons Matrix v2.2.258
             </span>
             <span class="text-xs text-gray-400">太古契约与神明降临</span>
           </div>
@@ -29,6 +29,17 @@
           >
             <template #icon><span>⚔️</span></template>
             前往契约推演沙盘
+          </n-button>
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToCelestialStudio"
+          >
+            <template #icon><span>✨</span></template>
+            前往神明降临工坊
           </n-button>
           <router-link to="/vble/jobs">
             <n-button size="medium" round tertiary>
@@ -635,6 +646,265 @@
       </div>
     </div>
 
+    <!-- 专区 6: 太古十二柱神明契约共鸣与全息幻兽降临推演工坊 (v2.2.258) -->
+    <div id="celestial-descent-studio" class="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/70 via-slate-900/90 to-purple-950/70 border border-purple-500/30 shadow-[0_0_35px_rgba(168,85,247,0.15)] space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-purple-500/20 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">✨</span>
+            <h3 class="text-lg sm:text-xl font-black text-white text-glow-cyan">太古十二柱神明契约共鸣与全息幻兽降临推演工坊 (Astral Descent Studio)</h3>
+          </div>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            基于晶石纪元十二柱太古神明契约，模拟全息神兽召唤阵法绘制、双连续魔共鸣爆发、以太同步率解算与团队神圣庇护。可自由配置主副神兽、法杖神印、偏振受击目标与连锁仪式。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-tag type="info" round size="small">十二柱全神明</n-tag>
+          <n-tag type="warning" round size="small">连续魔双降临</n-tag>
+          <n-tag type="success" round size="small">v2.2.258 规范</n-tag>
+        </div>
+      </div>
+
+      <!-- 十二柱远古神明契约选择矩阵 -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+            <span>🐉</span>
+            <span>选择主位太古神兽契约 (Primary Celestial Entity)</span>
+          </span>
+          <span class="text-xs text-gray-400 font-mono">已选主契约: {{ currentPrimarySummon.name }}</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          <div
+            v-for="sum in celestialEntities"
+            :key="sum.id"
+            class="p-2.5 rounded-xl border transition-all cursor-pointer bg-slate-900/80 hover:scale-[1.02]"
+            :class="selectedPrimarySummonId === sum.id ? 'border-purple-400 bg-purple-950/40 shadow-[0_0_15px_rgba(168,85,247,0.3)] ring-1 ring-purple-400/50' : 'border-slate-800 hover:border-slate-700'"
+            @click="selectedPrimarySummonId = sum.id"
+          >
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-lg">{{ sum.icon }}</span>
+              <n-tag size="tiny" :type="sum.tagType">{{ sum.element }}</n-tag>
+            </div>
+            <span class="block font-bold text-xs text-gray-100 truncate">{{ sum.name }}</span>
+            <span class="block text-[10px] text-purple-300 font-mono mt-0.5 truncate">{{ sum.skillName }}</span>
+            <div class="flex justify-between items-center text-[9px] text-gray-400 font-mono mt-1 pt-1 border-t border-slate-800/80">
+              <span>威力: {{ sum.power }}</span>
+              <span>MP: {{ sum.mpCost }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与仪式阵法编排 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 施法使者与副神明连续魔模式 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-cyan-300 block flex items-center gap-1.5">
+            <span>🧙</span>
+            <span>召唤使者与双神兽连续魔 (Caster & Dual Summon)</span>
+          </span>
+
+          <div class="space-y-3.5 text-xs">
+            <div>
+              <label class="text-gray-400 block mb-1">召唤统御使者 (Caster Leader):</label>
+              <select
+                v-model="selectedDescentCaster"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-cyan-400 focus:outline-none"
+              >
+                <option v-for="c in descentCasters" :key="c.id" :value="c.id">
+                  {{ c.name }} - {{ c.title }} ({{ c.specialty }})
+                </option>
+              </select>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300 font-bold flex items-center gap-1.5">
+                  <span>⚡</span>
+                  <span>连续魔双神明连携 (Dual Summon)</span>
+                </span>
+                <input
+                  v-model="isDualSummon"
+                  type="checkbox"
+                  class="rounded accent-purple-500 w-4 h-4 cursor-pointer"
+                />
+              </div>
+              <p class="text-[10px] text-gray-400 leading-snug">
+                消耗双倍以太法力，同时咏唱两柱神兽契约，触发全元素连锁与共鸣双重核爆。
+              </p>
+
+              <div v-if="isDualSummon" class="pt-1">
+                <label class="text-gray-400 block mb-1">连携副神兽 (Secondary Summon):</label>
+                <select
+                  v-model="selectedSecondarySummonId"
+                  class="w-full bg-slate-900 border border-slate-700 text-xs text-gray-200 rounded-lg p-1.5 focus:border-purple-400 focus:outline-none"
+                >
+                  <option
+                    v-for="sum in celestialEntities"
+                    :key="'sec-' + sum.id"
+                    :value="sum.id"
+                    :disabled="sum.id === selectedPrimarySummonId"
+                  >
+                    {{ sum.icon }} {{ sum.name }} ({{ sum.skillName }} · MP {{ sum.mpCost }})
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-gray-400 block mb-1">镶嵌圣物与神印法杖 (Aether Relic):</label>
+              <select
+                v-model="selectedRelicId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-purple-400 focus:outline-none"
+              >
+                <option v-for="r in descentRelics" :key="r.id" :value="r.id">
+                  {{ r.name }} ({{ r.effect }})
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 目标防卫矩阵与以太环境 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-amber-300 block flex items-center gap-1.5">
+            <span>🎯</span>
+            <span>受击首领偏振与以太环境 (Target & Domain)</span>
+          </span>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-gray-400 block mb-1">推演试炼首领 (Encounter Target):</label>
+              <select
+                v-model="selectedTargetProfile"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+              >
+                <option v-for="t in descentTargets" :key="t.id" :value="t.id">
+                  {{ t.name }} ({{ t.type }} · HP {{ t.maxHp.toLocaleString() }})
+                </option>
+              </select>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1.5">
+              <div class="flex justify-between">
+                <span class="text-gray-400">目标弱点属性:</span>
+                <span class="text-emerald-400 font-bold font-mono">{{ currentTarget.weakness }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">魔防抗性评定:</span>
+                <span class="text-amber-400 font-mono">{{ currentTarget.defenseRating }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">环境法潮加护:</span>
+                <span class="text-purple-300 font-mono">{{ currentTarget.fieldBonus }}</span>
+              </div>
+            </div>
+
+            <!-- 神印同步率滑块 -->
+            <div class="space-y-1 pt-1">
+              <div class="flex justify-between">
+                <span class="text-gray-400">以太阵法充能纯度:</span>
+                <span class="font-mono font-bold text-cyan-300">{{ aetherPurity }}%</span>
+              </div>
+              <input
+                v-model.number="aetherPurity"
+                type="range"
+                min="50"
+                max="100"
+                step="5"
+                class="w-full accent-cyan-400 cursor-pointer"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>50% (泛用灵流)</span>
+                <span>80% (纯净以太)</span>
+                <span>100% (神明同调)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 实时遥测解算与降临仪式控制台 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-slate-950 to-purple-950/40 border border-purple-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>神明降临实时遥测</span>
+              </span>
+              <n-tag size="tiny" type="warning">{{ isDualSummon ? '连续魔双神共鸣' : '单柱极限降临' }}</n-tag>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">预计降临总伤:</span>
+                <span class="font-mono font-bold text-rose-400 text-sm">{{ calculatedDescentDamage.toLocaleString() }} 穿透伤</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">契约谐振同步率:</span>
+                <span class="font-mono font-bold text-cyan-300">{{ calculatedSyncRate.toFixed(1) }}% (极度稳定)</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">以太法力总消耗:</span>
+                <span class="font-mono font-bold text-purple-300">{{ calculatedTotalMP }} MP</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">全队神力庇护值:</span>
+                <span class="font-mono font-bold text-emerald-400">{{ calculatedPartyShield }}</span>
+              </div>
+            </div>
+
+            <!-- 降临进度条 -->
+            <div v-if="isDescentRunning" class="space-y-1 pt-1">
+              <div class="flex justify-between text-[11px] text-cyan-300 font-mono">
+                <span>{{ descentCurrentPhase }}</span>
+                <span>{{ descentProgress }}%</span>
+              </div>
+              <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden border border-slate-800">
+                <div class="bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 h-2.5 transition-all duration-150" :style="{ width: `${descentProgress}%` }" />
+              </div>
+            </div>
+
+            <!-- 战斗与降临日志控制台 -->
+            <div class="p-2.5 rounded bg-slate-950/90 border border-slate-800 text-[11px] font-mono space-y-1 text-gray-300 max-h-24 overflow-y-auto">
+              <div v-for="(log, idx) in descentLogs" :key="idx" class="text-gray-300 leading-snug">
+                {{ log }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 操作按钮组 -->
+          <div class="space-y-2 pt-2">
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer disabled:opacity-50"
+              :disabled="isDescentRunning"
+              @click="startAstralDescent"
+            >
+              {{ isDescentRunning ? '✨ 太古神明降临仪式进行中...' : '✨ 启动太古神明降临仪式 (Summon Astral Descent)' }}
+            </button>
+
+            <div class="flex gap-2">
+              <button
+                type="button"
+                class="flex-1 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs text-gray-300 border border-slate-700 transition-colors cursor-pointer"
+                @click="copyDescentConfig"
+              >
+                📋 复制降临配置
+              </button>
+              <button
+                type="button"
+                class="flex-1 py-1.5 rounded-lg bg-purple-900/40 hover:bg-purple-800/60 text-xs text-purple-300 border border-purple-700/60 transition-colors cursor-pointer"
+                @click="exportAstralDescentCert"
+              >
+                📄 导出降临凭证
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
@@ -660,6 +930,14 @@
             >
               odin_trial_engine.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'descent' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'descent'"
+            >
+              celestial_descent_engine.gd
+            </button>
           </div>
         </div>
         <n-button size="tiny" secondary type="info" @click="copyGodotCode">
@@ -667,7 +945,7 @@
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'summon' ? godotCodeText : godotOdinCodeText }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'summon' ? godotCodeText : (activeCodeTab === 'odin' ? godotOdinCodeText : gdCelestialDescentCode) }}</pre>
     </div>
   </div>
 </template>
@@ -1033,7 +1311,7 @@ func execute_summon(summon_id: String, caster: CharacterData, targets: Array) ->
 	return result
 `
 
-const activeCodeTab = ref<'summon' | 'odin'>('summon')
+const activeCodeTab = ref<'summon' | 'odin' | 'descent'>('summon')
 
 const godotOdinCodeText = [
   '## odin_trial_engine.gd',
@@ -1080,10 +1358,20 @@ const godotOdinCodeText = [
 
 const copyGodotCode = async () => {
   try {
-    const code = activeCodeTab.value === 'summon' ? godotCodeText : godotOdinCodeText
+    let code = ''
+    let filename = ''
+    if (activeCodeTab.value === 'summon') {
+      code = godotCodeText
+      filename = 'summon_system.gd'
+    } else if (activeCodeTab.value === 'odin') {
+      code = godotOdinCodeText
+      filename = 'odin_trial_engine.gd'
+    } else {
+      code = gdCelestialDescentCode
+      filename = 'celestial_descent_engine.gd'
+    }
     await navigator.clipboard.writeText(code)
     copiedCode.value = true
-    const filename = activeCodeTab.value === 'summon' ? 'summon_system.gd' : 'odin_trial_engine.gd'
     message.success(`已复制 ${filename} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
@@ -1367,8 +1655,348 @@ const castOdinSkill = (skill: string) => {
   }
 }
 
+const scrollToCelestialStudio = () => {
+  const el = document.getElementById('celestial-descent-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+// ================= 专区 6: 太古十二柱神明契约共鸣与全息幻兽降临推演工坊 =================
+interface CelestialEntity {
+  id: string
+  name: string
+  element: string
+  skillName: string
+  power: number
+  mpCost: number
+  icon: string
+  tagType: 'default' | 'info' | 'warning' | 'error' | 'success'
+  sanctuaryBuff: string
+}
+
+interface DescentCaster {
+  id: string
+  name: string
+  title: string
+  specialty: string
+  bonusMult: number
+  mpDiscount: number
+  shieldBoost: number
+}
+
+interface DescentRelic {
+  id: string
+  name: string
+  effect: string
+  dmgMult: number
+  syncBonus: number
+}
+
+interface DescentTarget {
+  id: string
+  name: string
+  type: string
+  maxHp: number
+  weakness: string
+  defenseRating: string
+  fieldBonus: string
+}
+
+const celestialEntities: CelestialEntity[] = [
+  { id: 'bahamut', name: '太古龙皇·巴哈姆特', element: '无属性', skillName: '亿万核爆 (Megaflare)', power: 250, mpCost: 66, icon: '🐲', tagType: 'error', sanctuaryBuff: '破坏核能护体: 忽略目标一切魔防与元素抗性' },
+  { id: 'leviathan', name: '灭世水神·利维亚桑', element: '水属性', skillName: '大海啸 (Tidal Wave)', power: 195, mpCost: 39, icon: '🌊', tagType: 'info', sanctuaryBuff: '沧海狂澜: 水系威力提升 +50%，冲散物理障碍' },
+  { id: 'odin', name: '战绝英灵·奥丁', element: '物理圣属性', skillName: '斩铁剑 (Zantetsuken)', power: 180, mpCost: 48, icon: '⚔️', tagType: 'warning', sanctuaryBuff: '破甲斩铁: 首领承受固定真实创伤，杂兵 100% 斩断' },
+  { id: 'phoenix', name: '涅槃圣鸟·不死鸟', element: '火圣属性', skillName: '转生之炎 (Flames of Rebirth)', power: 160, mpCost: 110, icon: '🕊️', tagType: 'error', sanctuaryBuff: '永恒涅槃: 战斗不能全员满血复活，附带神圣护盾' },
+  { id: 'titan', name: '撼地神岳·泰坦', element: '土属性', skillName: '大地之怒 (Earth Fury)', power: 110, mpCost: 25, icon: '⛰️', tagType: 'warning', sanctuaryBuff: '大地固着: 全体物理震地打击，阻滞敌方行动条 25%' },
+  { id: 'ifrit', name: '狱炎魔王·伊芙利特', element: '火属性', skillName: '地狱火炎 (Hellfire)', power: 90, mpCost: 11, icon: '🔥', tagType: 'error', sanctuaryBuff: '熔岩炼狱: 附加 3 回合持续灼烧热力创伤' },
+  { id: 'shiva', name: '霜雪女王·希瓦', element: '冰属性', skillName: '钻石星尘 (Diamond Dust)', power: 90, mpCost: 10, icon: '❄️', tagType: 'info', sanctuaryBuff: '极寒领域: 冻结敌方施法咏唱，减缓 30% 攻速' },
+  { id: 'ramuh', name: '掣电狂神·拉姆', element: '雷属性', skillName: '制裁之雷 (Judgement Bolt)', power: 90, mpCost: 12, icon: '⚡', tagType: 'warning', sanctuaryBuff: '天谴狂雷: 对机械与水栖敌对生物造成 2.5x 特攻' },
+  { id: 'golem', name: '守护岩灵·巨石魔兵', element: '力场属性', skillName: '大地之壁 (Earth Wall)', power: 70, mpCost: 18, icon: '🗿', tagType: 'default', sanctuaryBuff: '绝对岩障: 展开抵挡全队 3500 物理伤害的吸伤屏障' },
+  { id: 'carbuncle', name: '晶莹妖精·卡邦库尔', element: '光属性', skillName: '红宝石之光 (Ruby Light)', power: 60, mpCost: 15, icon: '💎', tagType: 'success', sanctuaryBuff: '镜光反射: 全员施加 Reflect 状态，弹回敌方高阶黑魔法' },
+  { id: 'syldra', name: '疾风苍龙·希尔德拉', element: '风属性', skillName: '暴风雷鸣 (Thunderstorm)', power: 165, mpCost: 32, icon: '🌪️', tagType: 'info', sanctuaryBuff: '苍穹龙鸣: 穿透风水双弱点，引发次元激波' },
+  { id: 'catoblepas', name: '灾厄石眼·卡托布雷帕斯', element: '暗黑属性', skillName: '邪眼石化 (Evil Eye)', power: 120, mpCost: 15, icon: '👁️', tagType: 'default', sanctuaryBuff: '灰烬石化: 判定致命石化硬化，无法复原' }
+]
+
+const descentCasters: DescentCaster[] = [
+  { id: 'krile', name: '可露儿 (Krile)', title: '远古以太直系血脉', specialty: '连续魔双召唤宗师', bonusMult: 1.35, mpDiscount: 0.25, shieldBoost: 500 },
+  { id: 'lenna', name: '蕾娜 (Lenna)', title: '圣光恩泽召唤贤者', specialty: '精神与以太治愈', bonusMult: 1.20, mpDiscount: 0.15, shieldBoost: 800 },
+  { id: 'faris', name: '法丽丝 (Faris)', title: '星海风水共鸣者', specialty: '全元素自然狂潮连锁', bonusMult: 1.30, mpDiscount: 0.10, shieldBoost: 700 },
+  { id: 'bartz', name: '巴兹 (Bartz)', title: '风之勇者均质体', specialty: '魔武双修真伤贯穿', bonusMult: 1.25, mpDiscount: 0.10, shieldBoost: 600 }
+]
+
+const descentRelics: DescentRelic[] = [
+  { id: 'staff_of_magi', name: '贤者神圣法杖 (Staff of Magi)', effect: '全属性魔法破坏力 +25%', dmgMult: 1.25, syncBonus: 10 },
+  { id: 'circlet_of_stars', name: '星之圣环 (Circlet of Stars)', effect: '神明共鸣同步率 +25%', dmgMult: 1.15, syncBonus: 25 },
+  { id: 'dragon_crest', name: '龙皇印绶 (Dragon Crest)', effect: '非元素破坏力穿透 +35%', dmgMult: 1.35, syncBonus: 15 },
+  { id: 'aether_mantle', name: '以太圣羽披风 (Aether Mantle)', effect: '团队伤害吸收护盾 +1500 HP', dmgMult: 1.10, syncBonus: 20 }
+]
+
+const descentTargets: DescentTarget[] = [
+  { id: 'exdeath_void', name: '埃克斯迪斯虚无化身 (Neo Exdeath)', type: '虚无裂隙终局首领', maxHp: 60000, weakness: '圣 / 无属性贯穿', defenseRating: '极高魔抗 (忽略常规弱点)', fieldBonus: '虚无暗域' },
+  { id: 'shinryu_abyss', name: '始源神龙 (Shinryu)', type: '深渊古龙始祖', maxHp: 55000, weakness: '圣 / 龙属性特攻', defenseRating: '坚韧魔鳞 (免疫水冰)', fieldBonus: '龙之天顶' },
+  { id: 'omega_mech', name: '机械暴君欧米茄 (Omega)', type: '古代魔导兵器', maxHp: 55000, weakness: '雷属性 (雷特攻 x2.5)', defenseRating: '精金黑甲 (物理免疫)', fieldBonus: '波动电磁' },
+  { id: 'chaos_fiends', name: '混沌四界四天王 (Chaos Fiends)', type: '多目标元素聚合', maxHp: 48000, weakness: '火/冰/雷/风相生相克', defenseRating: '均衡四象防壁', fieldBonus: '四象乱流' }
+]
+
+const selectedPrimarySummonId = ref('bahamut')
+const isDualSummon = ref(true)
+const selectedSecondarySummonId = ref('leviathan')
+const selectedDescentCaster = ref('krile')
+const selectedRelicId = ref('staff_of_magi')
+const selectedTargetProfile = ref('exdeath_void')
+const aetherPurity = ref(85)
+
+const isDescentRunning = ref(false)
+const descentProgress = ref(0)
+const descentCurrentPhase = ref('')
+const descentLogs = ref<string[]>([
+  '=== 太古神明降临仪式已就绪，请编排主副契约后启动仪式 ==='
+])
+let descentTimer: ReturnType<typeof setInterval> | null = null
+
+const currentPrimarySummon = computed(() => {
+  return celestialEntities.find(s => s.id === selectedPrimarySummonId.value) || celestialEntities[0]
+})
+
+const currentSecondarySummon = computed(() => {
+  return celestialEntities.find(s => s.id === selectedSecondarySummonId.value) || celestialEntities[1]
+})
+
+const currentDescentCaster = computed(() => {
+  return descentCasters.find(c => c.id === selectedDescentCaster.value) || descentCasters[0]
+})
+
+const currentRelic = computed(() => {
+  return descentRelics.find(r => r.id === selectedRelicId.value) || descentRelics[0]
+})
+
+const currentTarget = computed(() => {
+  return descentTargets.find(t => t.id === selectedTargetProfile.value) || descentTargets[0]
+})
+
+const calculatedSyncRate = computed(() => {
+  const base = 70.0 + (aetherPurity.value * 0.25) + currentRelic.value.syncBonus
+  return Math.min(100.0, Math.max(75.0, base))
+})
+
+const calculatedTotalMP = computed(() => {
+  let baseMp = currentPrimarySummon.value.mpCost
+  if (isDualSummon.value) {
+    baseMp += currentSecondarySummon.value.mpCost
+  }
+  return Math.round(baseMp * (1 - currentDescentCaster.value.mpDiscount))
+})
+
+const calculatedDescentDamage = computed(() => {
+  let dmg = currentPrimarySummon.value.power * 55 * currentDescentCaster.value.bonusMult * currentRelic.value.dmgMult
+  if (isDualSummon.value) {
+    dmg += currentSecondarySummon.value.power * 45 * currentDescentCaster.value.bonusMult
+  }
+  const target = currentTarget.value
+  const primElem = currentPrimarySummon.value.element
+  if (target.weakness.includes(primElem) || primElem === '无属性') {
+    dmg *= 1.35
+  }
+  const syncMult = calculatedSyncRate.value / 100
+  return Math.round(dmg * syncMult)
+})
+
+const calculatedPartyShield = computed(() => {
+  const caster = currentDescentCaster.value
+  if (isDualSummon.value) {
+    return `${1800 + caster.shieldBoost} 护盾 + 全元素抗性壁`
+  }
+  return `${1000 + caster.shieldBoost} 护盾`
+})
+
+const startAstralDescent = () => {
+  if (isDescentRunning.value) return
+  isDescentRunning.value = true
+  descentProgress.value = 0
+  descentCurrentPhase.value = '阶段 1: 召唤阵以太构筑'
+
+  const prim = currentPrimarySummon.value
+  const sec = currentSecondarySummon.value
+  const caster = currentDescentCaster.value
+  const relic = currentRelic.value
+  const target = currentTarget.value
+
+  descentLogs.value = [
+    `[0.0s] 🌟 统御使者【${caster.name}】举起【${relic.name}】，引动 ${aetherPurity.value}% 纯净以太法潮！`,
+    `[0.2s] 📜 绘制远古神明召唤阵，契约谐振同步率达到 ${calculatedSyncRate.value.toFixed(1)}%！`
+  ]
+
+  if (descentTimer) clearInterval(descentTimer)
+
+  const phases = [
+    { at: 25, name: '阶段 2: 撕裂虚空迎奉真身', log: `[0.5s] 🐲 苍穹崩裂！主神兽【${prim.name}】真身具象，散发【${prim.sanctuaryBuff}】！` },
+    { at: 60, name: '阶段 3: 双重神兽共鸣爆裂', log: isDualSummon.value ? `[1.0s] ⚡ 连续魔共鸣！副位神明【${sec.name}】轰然现世，触发双神合璧共振！` : `[1.0s] 💥 极意爆发！【${prim.skillName}】遮蔽天日轰击目标！` },
+    { at: 85, name: '阶段 4: 穿透创伤全额贯穿', log: `[1.4s] 🎯 对【${target.name}】造成 ${calculatedDescentDamage.value.toLocaleString()} 点神圣穿透破坏！` },
+    { at: 100, name: '阶段 5: 神力加护与仪式完成', log: `[1.8s] 🛡️ 仪式达成！为光之战士全队赋予【${calculatedPartyShield.value}】，反哺以太回路！` }
+  ]
+
+  descentTimer = setInterval(() => {
+    descentProgress.value += 10
+    const matched = phases.find(p => p.at === descentProgress.value)
+    if (matched) {
+      descentCurrentPhase.value = matched.name
+      descentLogs.value.unshift(matched.log)
+    }
+
+    if (descentProgress.value >= 100) {
+      if (descentTimer) clearInterval(descentTimer)
+      descentTimer = null
+      isDescentRunning.value = false
+      descentProgress.value = 100
+      message.success(`太古神明降临仪式大成！造成 ${calculatedDescentDamage.value.toLocaleString()} 穿透伤害！`)
+    }
+  }, 160)
+}
+
+const copyDescentConfig = () => {
+  const prim = currentPrimarySummon.value
+  const sec = currentSecondarySummon.value
+  const caster = currentDescentCaster.value
+  const target = currentTarget.value
+  const configText = `[神明降临遥测] 主契约:${prim.name} | 双召唤:${isDualSummon.value ? sec.name : '关闭'} | 统御使:${caster.name} | 目标:${target.name} | 伤害:${calculatedDescentDamage.value.toLocaleString()} | 同步率:${calculatedSyncRate.value.toFixed(1)}% | MP:${calculatedTotalMP.value}`
+  navigator.clipboard.writeText(configText).then(() => {
+    message.success('太古神明降临配置已复制到剪贴板！')
+  }).catch(() => {
+    message.info('配置已复制')
+  })
+}
+
+const exportAstralDescentCert = () => {
+  const prim = currentPrimarySummon.value
+  const sec = currentSecondarySummon.value
+  const caster = currentDescentCaster.value
+  const relic = currentRelic.value
+  const target = currentTarget.value
+  const now = new Date()
+  const dateStr = now.toISOString().replace('T', ' ').substring(0, 19)
+
+  const content = `================================================================================
+《光之战士：时空裂隙》太古十二柱神明契约共鸣与全息降临认证方案书
+================================================================================
+推演方案: Ancient Celestial Summoning & Astral Descent Certificate
+颁发机构: VBLE Celestial Summons Matrix / 召唤神殿圣事司
+推演版本: VBLE Celestial Summons Matrix v2.2.258
+引擎规范: Godot 4.6 LTS Celestial Descent Architecture
+签发时间: ${dateStr} (CST)
+
+【降临仪式核心契约神兽】
+- 主位神明契约: ${prim.name} (${prim.id})
+- 本源属性类别: ${prim.element}
+- 绝灭必杀绝技: ${prim.skillName} (威力倍率: ${prim.power})
+- 团队守护回响: ${prim.sanctuaryBuff}
+- 双召唤连携模式: ${isDualSummon.value ? `已激活 - 副位神明: ${sec.name} (${sec.skillName})` : '单柱极限咏唱'}
+
+【召唤统御者与圣物阵法】
+- 统御召唤使者: ${caster.name} (${caster.title} - ${caster.specialty})
+- 施法加成倍率: 基础伤害 +${Math.round((caster.bonusMult - 1) * 100)}%, MP减免 ${Math.round(caster.mpDiscount * 100)}%
+- 镶嵌圣器神印: ${relic.name} (${relic.effect})
+- 以太法潮纯度: ${aetherPurity.value}%
+- 契约谐振同步率: ${calculatedSyncRate.value.toFixed(1)}%
+
+【试炼目标受击与实战遥测】
+- 挑战目标首领: ${target.name} (${target.type})
+- 目标弱点剖析: ${target.weakness}
+- 本轮神明降临总伤: ${calculatedDescentDamage.value.toLocaleString()} 穿透伤害
+- 以太法力总消耗: ${calculatedTotalMP.value} MP
+- 全队神明庇护加持: ${calculatedPartyShield.value}
+
+================================================================================
+数字防伪哈希: SHA256-ASTRAL-${Math.random().toString(36).substring(2, 10).toUpperCase()}${Math.random().toString(36).substring(2, 10).toUpperCase()}
+================================================================================`
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `ancient_celestial_descent_v2.2.258_${prim.id}.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success(`已导出太古神明降临认证方案书: ${prim.name}`)
+}
+
+const gdCelestialDescentCode = `# ==============================================================================
+# CelestialDescentEngine - 太古十二柱神明契约共鸣与全息降临解算引擎
+# 文件路径: res://scripts/summons/celestial_descent_engine.gd
+# 架构规范: Godot 4.6 LTS / VBLE Celestial Summons Matrix v2.2.258
+# 核心职责: 管理十二柱太古神明共鸣、双连续魔仪式状态机、以太纯度增幅与团队神力结界
+# ==============================================================================
+class_name CelestialDescentEngine
+extends Node
+
+signal descent_initiated(primary_summon: String, secondary_summon: String, is_dual: bool)
+signal ceremony_phase_updated(phase_name: String, progress: float)
+signal descent_completed(combat_telemetry: Dictionary)
+signal party_shield_applied(shield_hp: int, status_buff: String)
+
+const CELESTIAL_ENTITIES: Dictionary = {
+	"bahamut": { "name": "太古龙皇·巴哈姆特", "element": "None", "power": 250, "mp": 66 },
+	"leviathan": { "name": "灭世水神·利维亚桑", "element": "Water", "power": 195, "mp": 39 },
+	"odin": { "name": "战绝英灵·奥丁", "element": "Holy", "power": 180, "mp": 48 },
+	"phoenix": { "name": "涅槃圣鸟·不死鸟", "element": "FireHoly", "power": 160, "mp": 110 },
+	"titan": { "name": "撼地神岳·泰坦", "element": "Earth", "power": 110, "mp": 25 },
+	"ifrit": { "name": "狱炎魔王·伊芙利特", "element": "Fire", "power": 90, "mp": 11 },
+	"shiva": { "name": "霜雪女王·希瓦", "element": "Ice", "power": 90, "mp": 10 },
+	"ramuh": { "name": "掣电狂神·拉姆", "element": "Lightning", "power": 90, "mp": 12 },
+	"golem": { "name": "守护岩灵·巨石魔兵", "element": "Earth", "power": 70, "mp": 18 },
+	"carbuncle": { "name": "晶莹妖精·卡邦库尔", "element": "Holy", "power": 60, "mp": 15 },
+	"syldra": { "name": "疾风苍龙·希尔德拉", "element": "Wind", "power": 165, "mp": 32 },
+	"catoblepas": { "name": "灾厄石眼·卡托布雷帕斯", "element": "Dark", "power": 120, "mp": 15 }
+}
+
+@export var caster_id: String = "krile"
+@export var aether_purity: float = 85.0
+@export var is_dual_summon: bool = true
+
+func calculate_sync_rate(relic_bonus: float) -> float:
+	return clampf(70.0 + (aether_purity * 0.25) + relic_bonus, 75.0, 100.0)
+
+func calculate_total_mp(prim_id: String, sec_id: String, mp_discount: float) -> int:
+	var prim = CELESTIAL_ENTITIES.get(prim_id, CELESTIAL_ENTITIES["bahamut"])
+	var total_base = prim.mp
+	if is_dual_summon:
+		var sec = CELESTIAL_ENTITIES.get(sec_id, CELESTIAL_ENTITIES["leviathan"])
+		total_base += sec.mp
+	return int(total_base * (1.0 - mp_discount))
+
+func execute_astral_descent(prim_id: String, sec_id: String, target_element: String) -> Dictionary:
+	var prim = CELESTIAL_ENTITIES.get(prim_id, CELESTIAL_ENTITIES["bahamut"])
+	emit_signal("descent_initiated", prim_id, sec_id, is_dual_summon)
+
+	var base_dmg: float = prim.power * 55.0
+	if is_dual_summon:
+		var sec = CELESTIAL_ENTITIES.get(sec_id, CELESTIAL_ENTITIES["leviathan"])
+		base_dmg += sec.power * 45.0
+
+	var sync: float = calculate_sync_rate(10.0)
+	var final_damage: int = int(base_dmg * (sync / 100.0))
+	var shield_granted: int = 2400 if is_dual_summon else 1200
+
+	emit_signal("party_shield_applied", shield_granted, "ASTRAL_SANCTUARY_BUFF")
+
+	var telemetry: Dictionary = {
+		"primary_summon": prim.name,
+		"is_dual": is_dual_summon,
+		"sync_rate": sync,
+		"total_damage": final_damage,
+		"shield_granted": shield_granted,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+	emit_signal("descent_completed", telemetry)
+	return telemetry
+`
+
 onUnmounted(() => {
   stopOdinTimer()
+  if (descentTimer) {
+    clearInterval(descentTimer)
+    descentTimer = null
+  }
 })
 </script>
 
