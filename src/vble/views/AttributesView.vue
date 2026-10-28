@@ -45,6 +45,13 @@
             </button>
           </template>
         </n-tab-pane>
+        <n-tab-pane name="atb_thresholds">
+          <template #tab>
+            <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'atb_thresholds'">
+              ⏱️ ATB 行动条与六维断点量化 (ATB & Caps)
+            </button>
+          </template>
+        </n-tab-pane>
       </n-tabs>
     </div>
 
@@ -934,6 +941,187 @@
         </div>
       </div>
     </div>
+
+    <!-- ================= 模块五：ATB 动态行动条与六维属性阈值量化实验室 ================= -->
+    <div v-if="activeCalculatorTab === 'atb_thresholds'" class="space-y-6">
+      <!-- 顶部引言卡片 -->
+      <div class="p-5 rounded-2xl bg-[#121626]/90 border border-cyan-500/30 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">⏱️</span>
+            <h2 class="text-lg sm:text-xl font-bold text-white text-glow-cyan">ATB (Active Time Battle) 行动流速模拟与六维属性软上限大典</h2>
+          </div>
+          <n-tag type="info" size="small" round>Godot 4.6 权威底层公式</n-tag>
+        </div>
+        <p class="text-xs text-gray-300 leading-relaxed">
+          双月宇宙的战斗流转基于经典实时 ATB 机制。角色敏捷度（AGI）直接决定充能时间，时空魔法加速（Haste, 2.0x）与减速（Slow, 0.5x）成倍缩放充能速率。当六维属性突破 99 与 160 阈值后，将产生不同程度的边际收益递减（Diminishing Returns）以保障数值稳健。
+        </p>
+      </div>
+
+      <!-- 实机实时 ATB 行动条模拟演练台 -->
+      <n-card class="border border-slate-700/80 bg-[#121626]/90 rounded-2xl shadow-xl" size="small">
+        <template #header>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">⚡</span>
+              <span class="font-bold text-white">实机实时 ATB 行动条推演工坊 (Real-Time ATB Gauge Simulator)</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <n-button size="tiny" :type="isAtbRunning ? 'warning' : 'primary'" round @click="toggleAtbRunning">
+                {{ isAtbRunning ? '⏸️ 暂停流转' : '▶️ 开始充能' }}
+              </n-button>
+              <n-button size="tiny" secondary round @click="resetAtbBars">
+                🔄 重置量表
+              </n-button>
+              <div class="flex items-center gap-1 text-xs text-gray-400 bg-slate-900 px-2 py-1 rounded border border-slate-800">
+                <span>倍速:</span>
+                <button
+                  v-for="spd in [1, 1.5, 2]"
+                  :key="spd"
+                  type="button"
+                  class="px-1.5 py-0.5 rounded text-[10px] font-mono"
+                  :class="atbSimSpeed === spd ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="atbSimSpeed = spd"
+                >
+                  {{ spd }}x
+                </button>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <div class="space-y-4">
+          <!-- 四人小队 + 自定义主角实时进度条 -->
+          <div class="space-y-3">
+            <div
+              v-for="(member, idx) in atbCombatants"
+              :key="member.id"
+              class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800/80 space-y-2"
+            >
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">{{ member.icon }}</span>
+                  <span class="font-bold text-gray-200">{{ member.name }}</span>
+                  <n-tag size="tiny" :type="member.tagType">{{ member.job }}</n-tag>
+                  <span class="text-[11px] font-mono text-cyan-400">敏捷 AGI: {{ member.agi }}</span>
+                  <span class="text-[11px] text-gray-400">满槽耗时: {{ calculateAtbTime(member.agi, member.status).toFixed(2) }}s</span>
+                </div>
+
+                <!-- 增益减益状态开关 -->
+                <div class="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    class="px-2 py-0.5 rounded text-[10px] border transition-all"
+                    :class="member.status === 'haste' ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'bg-slate-950 text-gray-400 border-slate-800 hover:text-amber-300'"
+                    @click="setMemberStatus(idx, member.status === 'haste' ? 'normal' : 'haste')"
+                  >
+                    ⏩ 加速(Haste 2x)
+                  </button>
+                  <button
+                    type="button"
+                    class="px-2 py-0.5 rounded text-[10px] border transition-all"
+                    :class="member.status === 'slow' ? 'bg-blue-500 text-slate-950 border-blue-400 font-bold shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-slate-950 text-gray-400 border-slate-800 hover:text-blue-300'"
+                    @click="setMemberStatus(idx, member.status === 'slow' ? 'normal' : 'slow')"
+                  >
+                    ⏳ 减速(Slow 0.5x)
+                  </button>
+                  <span v-if="member.gauge >= 100" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/40 animate-pulse">
+                    ⚡ 行动就绪 (Ready)
+                  </span>
+                </div>
+              </div>
+
+              <!-- 动态进度条 -->
+              <div class="relative w-full bg-slate-950 rounded-full h-3.5 overflow-hidden border border-slate-800">
+                <div
+                  class="h-full rounded-full transition-all duration-75 ease-linear"
+                  :class="member.gauge >= 100 ? 'bg-gradient-to-r from-emerald-400 to-cyan-300 shadow-[0_0_12px_rgba(52,211,153,0.8)]' : 'bg-gradient-to-r from-cyan-600 to-cyan-400'"
+                  :style="{ width: `${member.gauge}%` }"
+                />
+                <div class="absolute inset-0 flex items-center justify-center text-[9px] font-mono font-bold text-white drop-shadow">
+                  {{ member.gauge.toFixed(1) }}%
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 自定义测试主角敏捷滑块 -->
+          <div class="p-3.5 rounded-xl bg-slate-950/60 border border-cyan-500/20 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-cyan-400 font-bold">🎮 自定义参战角色 (Custom Fighter) 敏捷调节:</span>
+              <span class="font-mono text-amber-300 font-bold">AGI: {{ customMemberAgi }} (满槽耗时: {{ calculateAtbTime(customMemberAgi, customMemberStatus).toFixed(2) }} 秒)</span>
+            </div>
+            <n-slider v-model:value="customMemberAgi" :min="1" :max="255" :step="1" @update:value="syncCustomAgi" />
+          </div>
+        </div>
+      </n-card>
+
+      <!-- 六维属性断点与软上限衰减矩阵 -->
+      <n-card class="border border-slate-800 bg-[#121626]/90 rounded-2xl shadow-lg" size="small">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">📊</span>
+              <span class="font-bold text-white">六维属性软上限与边际收益递减断点大典 (Stat Caps Matrix)</span>
+            </div>
+            <n-tag size="tiny" type="warning">等级上限 Lv.255</n-tag>
+          </div>
+        </template>
+
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            <div
+              v-for="stat in sixStatBreakpoints"
+              :key="stat.key"
+              class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2.5"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">{{ stat.icon }}</span>
+                  <span class="font-bold text-white text-sm">{{ stat.name }} ({{ stat.key.toUpperCase() }})</span>
+                </div>
+                <n-tag size="tiny" :type="stat.tagType">{{ stat.role }}</n-tag>
+              </div>
+
+              <div class="text-xs text-gray-300 space-y-1.5 font-mono">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">一阶断点 (Soft Cap 1):</span>
+                  <span class="text-cyan-400 font-bold">{{ stat.cap1 }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">二阶断点 (Soft Cap 2):</span>
+                  <span class="text-amber-400 font-bold">{{ stat.cap2 }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">极限硬上限 (Hard Cap):</span>
+                  <span class="text-rose-400 font-bold">{{ stat.hardCap }}</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded bg-slate-950/70 border border-slate-800 text-[11px] text-gray-300 leading-relaxed">
+                <strong class="text-amber-300 block mb-0.5">递减法则:</strong>
+                {{ stat.formulaDesc }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </n-card>
+
+      <!-- Godot 底层 ATB 解析脚本 (atb_gauge_resolver.gd) -->
+      <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📜</span>
+            <h3 class="text-base font-bold text-white font-mono">res://scripts/combat/atb_gauge_resolver.gd</h3>
+          </div>
+          <n-tag type="info" size="tiny" round>Godot 4.6 LTS Combat Core</n-tag>
+        </div>
+        <p class="text-xs text-gray-400">
+          战斗核心模块 ATB 充能速率解析器，负责每一物理帧计算行动量表增量、处理加速/减速/停滞状态，并激发角色指令窗口：
+        </p>
+        <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed">{{ atbResolverScriptCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1521,4 +1709,201 @@ const allocBuildAnalysis = computed(() => {
   }
   return '【四方均衡全能流】攻守兼备，适应多变复杂战场，推荐自由人职业佩戴各系被动技能。'
 })
+
+// ================= 模块五：ATB 动态行动条与六维属性阈值量化实验室 =================
+interface AtbCombatant {
+  id: string
+  name: string
+  icon: string
+  job: string
+  tagType: 'default' | 'info' | 'success' | 'warning' | 'error'
+  agi: number
+  gauge: number
+  status: 'normal' | 'haste' | 'slow'
+}
+
+const isAtbRunning = ref(true)
+const atbSimSpeed = ref(1)
+const customMemberAgi = ref(50)
+const customMemberStatus = ref<'normal' | 'haste' | 'slow'>('normal')
+
+const atbCombatants = reactive<AtbCombatant[]>([
+  { id: 'c1', name: '巴兹 (Bartz)', icon: '⚔️', job: '圣骑士', tagType: 'info', agi: 45, gauge: 30, status: 'normal' },
+  { id: 'c2', name: '蕾娜 (Lenna)', icon: '✨', job: '白魔导士', tagType: 'success', agi: 38, gauge: 60, status: 'haste' },
+  { id: 'c3', name: '加拉夫 (Galuf)', icon: '🛡️', job: '狂战士', tagType: 'error', agi: 32, gauge: 15, status: 'slow' },
+  { id: 'c4', name: '法利斯 (Faris)', icon: '🗡️', job: '暗影忍者', tagType: 'warning', agi: 68, gauge: 85, status: 'normal' },
+  { id: 'c5', name: '自定义战职 (Custom)', icon: '🌟', job: '自由极意', tagType: 'default', agi: 50, gauge: 45, status: 'normal' }
+])
+
+const calculateAtbTime = (agi: number, status: string): number => {
+  const effectiveAgi = Math.min(agi, 115)
+  const baseTime = Math.max(0.4, (120 - effectiveAgi) * 0.04)
+  if (status === 'haste') return baseTime * 0.5
+  if (status === 'slow') return baseTime * 2.0
+  return baseTime
+}
+
+const syncCustomAgi = (val: number) => {
+  const custom = atbCombatants.find(c => c.id === 'c5')
+  if (custom) {
+    custom.agi = val
+  }
+}
+
+const setMemberStatus = (idx: number, status: 'normal' | 'haste' | 'slow') => {
+  if (atbCombatants[idx]) {
+    atbCombatants[idx].status = status
+    if (atbCombatants[idx].id === 'c5') {
+      customMemberStatus.value = status
+    }
+  }
+}
+
+const toggleAtbRunning = () => {
+  isAtbRunning.value = !isAtbRunning.value
+}
+
+const resetAtbBars = () => {
+  atbCombatants.forEach(c => {
+    c.gauge = 0
+  })
+}
+
+// ATB 循环计时器 (50ms 步进)
+let atbTimer: ReturnType<typeof setInterval> | null = null
+
+onMounted(() => {
+  atbTimer = setInterval(() => {
+    if (!isAtbRunning.value) return
+    atbCombatants.forEach(c => {
+      const timeSec = calculateAtbTime(c.agi, c.status)
+      const ratePerSec = 100 / Math.max(timeSec, 0.2)
+      const delta = (ratePerSec * 0.05 * atbSimSpeed.value)
+      c.gauge += delta
+      if (c.gauge >= 100) {
+        c.gauge = 0 // 满槽触发行动，循环轮转
+      }
+    })
+  }, 50)
+})
+
+onUnmounted(() => {
+  if (atbTimer) {
+    clearInterval(atbTimer)
+    atbTimer = null
+  }
+})
+
+// 六维属性软上限断点矩阵
+const sixStatBreakpoints = [
+  {
+    key: 'str',
+    name: '力量',
+    icon: '💪',
+    role: '物理攻击力基底',
+    tagType: 'error' as const,
+    cap1: '99 点 (常规极限)',
+    cap2: '160 点 (宗师递减)',
+    hardCap: '255 点 (满破神威)',
+    formulaDesc: '≤99 时物理伤害倍率 1:1 线性成长；99~160 转换率折半 (50%)；突破 160 后每 4 点力量提升 1 点基础倍率。'
+  },
+  {
+    key: 'agi',
+    name: '敏捷',
+    icon: '⚡',
+    role: 'ATB流速与暴击回避',
+    tagType: 'warning' as const,
+    cap1: '75 点 (先手阈值)',
+    cap2: '120 点 (极速封顶)',
+    hardCap: '255 点 (回避硬化)',
+    formulaDesc: 'AGI 达到 115 时 ATB 充能耗时压缩至极限 0.4 秒；>120 仅额外强化物理闪避率与盗窃成功率。'
+  },
+  {
+    key: 'vit',
+    name: '体力',
+    icon: '🛡️',
+    role: '最大HP与物理硬直防',
+    tagType: 'info' as const,
+    cap1: '99 点 (万血门槛)',
+    cap2: '180 点 (坚壁减伤)',
+    hardCap: '255 点 (极意肉壁)',
+    formulaDesc: 'HP 成长随 VIT 平方级增强；>180 后激活百分比免伤阶梯，最高可抵消 35% 物理破甲真实伤害。'
+  },
+  {
+    key: 'mag',
+    name: '魔力',
+    icon: '🔮',
+    role: '黑白时空魔法倍率',
+    tagType: 'primary' as const,
+    cap1: '99 点 (禁咒核爆)',
+    cap2: '165 点 (彗星共振)',
+    hardCap: '255 点 (虚空法则)',
+    formulaDesc: '法术伤害乘区 = (MAG * 技能威力 / 4)；>165 时突破 9999 伤害界限，核爆倍率每点魔力附加 0.4% 法术穿透。'
+  },
+  {
+    key: 'spr',
+    name: '精神',
+    icon: '🕊️',
+    role: '治疗量与魔法抗性',
+    tagType: 'success' as const,
+    cap1: '80 点 (全愈圣光)',
+    cap2: '150 点 (天佑壁垒)',
+    hardCap: '255 点 (不灭灵光)',
+    formulaDesc: '精神决定神圣/愈伤效能与异常状态抵抗率；>150 时免疫 90% 死亡/石化/混乱即死系恶性状态。'
+  },
+  {
+    key: 'lck',
+    name: '幸运',
+    icon: '🍀',
+    role: '稀有掉落与偷盗神手',
+    tagType: 'default' as const,
+    cap1: '60 点 (两倍掉落)',
+    cap2: '120 点 (三倍稀有)',
+    hardCap: '255 点 (必掉神品)',
+    formulaDesc: '提升世界首领与小怪稀有尾巴掉率（由 1/64 提升至 1/16）；并与赌徒类技能摇奖爆击率强关联。'
+  }
+]
+
+// Godot 底层 ATB 解析脚本代码
+const atbResolverScriptCode = `class_name AtbGaugeResolver
+extends RefCounted
+
+## 最终幻想：时空之轮 - 战斗核心 ATB 充能与属性软上限解算器
+## 文件路径: res://scripts/combat/atb_gauge_resolver.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+const BASE_ATB_CAP: float = 100.0
+const MIN_FILL_TIME_SEC: float = 0.4
+const MAX_FILL_TIME_SEC: float = 4.8
+
+static func compute_fill_duration(agility: int, status_flags: Dictionary) -> float:
+    # 限制敏捷生效基准，避免极端敏捷导致除以零
+    var clamped_agi: float = clampf(float(agility), 1.0, 115.0)
+    var duration: float = (120.0 - clamped_agi) * 0.04
+    duration = clampf(duration, MIN_FILL_TIME_SEC, MAX_FILL_TIME_SEC)
+
+    # 时空魔法状态倍率
+    if status_flags.get("haste", false):
+        duration *= 0.5
+    elif status_flags.get("slow", false):
+        duration *= 2.0
+
+    if status_flags.get("stop", false):
+        return INF # 停滞状态下行动条冰冻
+
+    return duration
+
+static func process_atb_tick(current_gauge: float, duration: float, delta: float, battle_speed: float = 1.0) -> Dictionary:
+    if is_inf(duration):
+        return {"gauge": current_gauge, "ready": false}
+
+    var rate_per_second: float = BASE_ATB_CAP / duration
+    var increment: float = rate_per_second * delta * battle_speed
+    var next_gauge: float = current_gauge + increment
+
+    if next_gauge >= BASE_ATB_CAP:
+        return {"gauge": BASE_ATB_CAP, "ready": true}
+    
+    return {"gauge": next_gauge, "ready": false}
+`
 </script>

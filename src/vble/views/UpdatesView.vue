@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-attributes-atb-flow-stat-softcap-studio-2026-10-28',
+    version: 'v2.2.224',
+    date: '2026-10-28',
+    title: '实机实时 ATB 行动条推演工坊与六维属性软上限断点矩阵重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⏱️',
+    tagType: 'info',
+    description: '深度重构升级 AttributesView 属性量化大典：全新实装【实机实时 ATB 行动条推演工坊】（Real-Time ATB Gauge Simulator），模拟圣骑士、白魔导士、狂战士、暗影忍者与自定义参战位在 1~255 敏捷下的行动充能流转，支持时空加速(Haste 2.0x)、时空减速(Slow 0.5x)与多倍速自由调节；全新收录【六维属性软上限与边际收益递减断点大典】（Stat Caps & Breakpoints Matrix），明晰力量、敏捷、体力、魔力、精神、幸运突破 99/160/255 极限后的真实数值衰减与破限算法；并完整对齐 Godot 4.6 LTS atb_gauge_resolver.gd 战斗量表解算内核源码。',
+    highlights: [
+      '实机实时 ATB 行动条模拟演练：可视化 50ms 高频驱动动态量表，直观对比不同敏捷与加速减速状态下的出手顺序',
+      '六维属性软上限断点矩阵：详细披露 99/160/255 阶梯衰减法则、免伤阶梯与禁咒核爆法术穿透算法',
+      '自定义参战位敏捷无极滑块：支持 1~255 敏捷实时拖拽测试，满槽耗时精确计算至 0.01 秒',
+      'Godot 4.6 底层战斗内核对齐：内置 atb_gauge_resolver.gd 源码并支持一键查阅'
+    ],
+    relatedLinks: [
+      { label: '属性器与ATB工坊', path: '/vble/attributes', icon: '⏱️' },
+      { label: '战斗战术推演', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: 'GM修改器沙盒', path: '/vble/modifier', icon: '🛠️' }
+    ]
+  },
+  {
     id: 'up-download-webcrypto-hash-verifier-diagnostic-2026-10-28',
     version: 'v2.2.223',
     date: '2026-10-28',
