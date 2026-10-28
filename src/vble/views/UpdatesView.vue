@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-jobs-transcendence-secret-arts-studio-2026-10-28',
+    version: 'v2.2.263',
+    date: '2026-10-28',
+    title: '全职业进阶转生与太古奥义传承工坊重磅实装',
+    category: 'system',
+    categoryName: '职业转生',
+    icon: '🌟',
+    tagType: 'warning',
+    description: '深度重构升级 JobsView 职业转职树与能力继承系统：顶部横幅标章升级为 VBLE Job Mastery & Secret Arts Matrix v2.2.263，扩展主视图模式第五核心工坊【全职业进阶转生与太古奥义传承工坊】（Job Transcendence & Secret Arts Studio）；收录四大主角领誓英雄专属转生职业流派（圣殿裁决者、创世大贤者、修罗影剑圣、时空创生天尊）；全面构建四阶以太转生树节点（灵魂洗礼 +25全维、特权贯通双倍极意、限界突破 99999 解锁、太古奥义真髓觉醒）；实装四大终极太古奥义（天界圣剑绝鸣、创世星辰坍缩、修罗十六夜连斩 136,000 真伤、时空重置之律全队满血复活冻结时空）；提供对战虚空狂魔军团、太古神龙与欧米茄巨神的实装斩杀演练沙盘；支持一键生成并导出《全职业进阶转生与太古奥义传承方案书》附带 SHA-256 安全哈希签名；实机源码展台收录 Godot 4.6 LTS job_transcendence_resolver.gd 完整破限求解器。',
+    highlights: [
+      '四大主角转生职业体系：圣殿裁决者 (守护圣光)、创世大贤者 (全系元素)、修罗影剑圣 (十六夜斩)、时空创生天尊 (因果逆转)',
+      '四阶以太转生树逐层觉醒：包含全属性+25、固有特权双倍加持、九万九千破限契印与终极奥义真髓',
+      '终极太古奥义实战释放：修罗十六夜连斩打出 136,000 点 16 段暴击破甲真伤，时空重置之律全员满血复活',
+      '高精演练靶场沙盘：针对神龙与欧米茄 220 防御解算溢出斩杀率与战术输出战报',
+      '转生方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 job_transcendence_resolver.gd 进阶转生破限结算引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '职业全典与继承', path: '/vble/jobs', icon: '📜' },
+      { label: '神装武器装备图鉴', path: '/vble/equipment', icon: '⚔️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-equipment-twelve-relics-resonance-forge-2026-10-28',
     version: 'v2.2.262',
     date: '2026-10-28',

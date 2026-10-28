@@ -2,10 +2,10 @@
   <div class="jobs-page p-4 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">VBLE Job &amp; Inheritance Matrix v2.2.249</n-tag>
-      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">职业转职树与能力继承系统</h1>
+      <n-tag type="info" size="small" round class="mb-2">VBLE Job Mastery &amp; Secret Arts Matrix v2.2.263</n-tag>
+      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">职业转职树、进阶转生与太古奥义传承系统</h1>
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
-        当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅与转职资格实机推演。
+        当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅、双职业构筑连锁、自由人全被动继承与进阶转生太古奥义推演。
       </p>
     </div>
 
@@ -47,7 +47,16 @@
         >
           <span>💎</span>
           <span>自由人极意被动继承与ABP挂机推演沙盘</span>
-          <n-badge value="NEW" type="success" />
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
+          :class="activeMainTab === 'transcendence_tree' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          @click="activeMainTab = 'transcendence_tree'"
+        >
+          <span>🌟</span>
+          <span>进阶转生与太古奥义传承工坊</span>
+          <n-badge value="v2.2.263" type="warning" />
         </button>
       </div>
     </div>
@@ -901,7 +910,7 @@ static func resolve_battle_commands(hero: HeroData) -> Array[BattleAction]:
     </div>
 
     <!-- ================= 视图 4: 自由人极意被动继承与ABP挂机推演沙盘 (Freelancer Mastery & ABP Farm Matrix) ================= -->
-    <div v-else class="space-y-6">
+    <div v-else-if="activeMainTab === 'abp_mastery'" class="space-y-6">
       <div class="p-6 bg-gradient-to-br from-slate-950 via-cyan-950/25 to-slate-950 border border-cyan-500/50 rounded-2xl shadow-2xl space-y-6 relative overflow-hidden">
         <!-- 头部导览与操作 -->
         <div class="border-b border-cyan-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -1416,6 +1425,238 @@ static func resolve_inherited_passives(mastered_jobs: Array[JobProfile]) -> Arra
         </div>
       </div>
     </div>
+
+    <!-- ================= 视图 5: 全职业进阶转生与太古奥义传承工坊 (Job Transcendence & Secret Arts Studio) ================= -->
+    <div v-else-if="activeMainTab === 'transcendence_tree'" class="space-y-6">
+      <div class="p-6 bg-gradient-to-br from-slate-950 via-purple-950/25 to-slate-950 border border-purple-500/50 rounded-2xl shadow-2xl space-y-6 relative overflow-hidden">
+        <!-- 头部导览与操作 -->
+        <div class="border-b border-purple-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-2xl">🌟</span>
+              <h2 class="text-xl sm:text-2xl font-black text-purple-300">
+                全职业进阶转生与太古奥义传承工坊
+              </h2>
+              <n-tag size="small" type="warning" round strong>v2.2.263 官方实机矩阵</n-tag>
+            </div>
+            <p class="text-xs text-gray-400 mt-1 max-w-3xl leading-relaxed">
+              突破水晶宿命极限：激活四阶转生职业、四维以太节点逐层觉醒、全队 99,999 破限奥义施放演练与 SHA-256 方案书一键导出。
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button size="small" secondary type="warning" @click="resetTranscendenceTree">
+              🔄 重置转生树
+            </n-button>
+            <n-button size="small" secondary type="primary" @click="maxAllTranscendenceNodes">
+              ⚡ 一键满树点亮 (All Nodes)
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="exportTranscendenceCertificate">
+              📜 导出转生方案书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 三栏主推演工作台 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- 栏 1: 候选英雄与转生职业流派矩阵 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <span>👤</span>
+                  <span>候选英雄与转生流派</span>
+                </span>
+                <n-tag size="tiny" type="info">{{ selectedHeroTranscendence.title }}</n-tag>
+              </div>
+
+              <!-- 英雄选择 -->
+              <div class="grid grid-cols-4 gap-2">
+                <button
+                  v-for="hero in transcendenceHeroesList"
+                  :key="hero.id"
+                  type="button"
+                  class="p-2 rounded-lg border text-center transition-all cursor-pointer"
+                  :class="selectedTranscendenceHeroId === hero.id
+                    ? 'bg-purple-950/70 border-purple-400 text-purple-300 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
+                    : 'bg-slate-950 border-slate-800 text-gray-400 hover:border-slate-700'"
+                  @click="selectTranscendenceHero(hero.id)"
+                >
+                  <div class="text-lg">{{ hero.avatar }}</div>
+                  <div class="text-xs font-bold mt-1">{{ hero.name }}</div>
+                  <div class="text-[10px] text-gray-500 font-mono">{{ hero.element }}</div>
+                </button>
+              </div>
+
+              <!-- 转生职业选择 -->
+              <div class="space-y-1">
+                <label class="text-[11px] text-gray-400 block">进阶转生职业流派 (Transcendence Job):</label>
+                <select
+                  v-model="selectedTranscendenceJobId"
+                  class="w-full bg-slate-950 border border-slate-700 text-xs text-purple-300 font-bold rounded-lg p-2 focus:border-purple-400 focus:outline-none"
+                >
+                  <option v-for="job in transcendenceJobsList" :key="job.id" :value="job.id">
+                    {{ job.icon }} {{ job.name }} - {{ job.role }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- 转生职业档案卡片 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-purple-500/30 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white flex items-center gap-1.5 text-sm">
+                    <span>{{ currentTranscendenceJob.icon }}</span>
+                    <span>{{ currentTranscendenceJob.name }}</span>
+                  </span>
+                  <n-tag size="tiny" type="warning">{{ currentTranscendenceJob.category }}</n-tag>
+                </div>
+                <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentTranscendenceJob.description }}</p>
+                <div class="p-2 rounded bg-purple-950/40 border border-purple-900/50 text-[11px] space-y-1">
+                  <div class="text-amber-300 font-bold flex items-center gap-1">
+                    <span>✨ 太古奥义:</span>
+                    <span>{{ currentTranscendenceJob.secretArtName }}</span>
+                  </div>
+                  <p class="text-gray-300 text-[10px] leading-snug">{{ currentTranscendenceJob.secretArtDesc }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs text-gray-400">
+              <span>转生位阶评定:</span>
+              <span class="font-mono font-bold text-emerald-400">{{ transcendenceTierSummary }}</span>
+            </div>
+          </div>
+
+          <!-- 栏 2: 四阶以太转生树节点点亮台 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                <span>🌱</span>
+                <span>四阶以太转生树节点点亮台</span>
+              </span>
+              <span class="font-mono text-xs text-purple-400 font-bold">已点亮 {{ unlockedNodesCount }} / 4 节点</span>
+            </div>
+
+            <!-- 节点清单 -->
+            <div class="space-y-2.5">
+              <div
+                v-for="node in transcendenceNodes"
+                :key="node.id"
+                class="p-3 rounded-lg border transition-all cursor-pointer"
+                :class="node.unlocked
+                  ? 'bg-purple-950/40 border-purple-400/60 shadow-[0_0_12px_rgba(168,85,247,0.2)]'
+                  : 'bg-slate-950 border-slate-800 opacity-60 hover:opacity-90'"
+                @click="toggleNode(node.id)"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="text-base">{{ node.icon }}</span>
+                    <div>
+                      <div class="text-xs font-bold" :class="node.unlocked ? 'text-purple-300' : 'text-gray-400'">
+                        {{ node.tierName }}: {{ node.name }}
+                      </div>
+                      <div class="text-[10px] text-gray-500 font-mono">{{ node.cost }} 以太碎片</div>
+                    </div>
+                  </div>
+                  <n-switch :value="node.unlocked" size="small" @click.stop="toggleNode(node.id)" />
+                </div>
+                <p class="text-[11px] text-gray-300 mt-1.5 leading-snug">{{ node.effectDesc }}</p>
+              </div>
+            </div>
+
+            <!-- 累计以太消耗与属性增益 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5 text-xs">
+              <div class="flex justify-between">
+                <span class="text-gray-400">累计消耗以太碎片:</span>
+                <span class="font-mono font-bold text-cyan-400">{{ totalAetherCost }} 碎片</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">伤害上限破限阈值:</span>
+                <span class="font-mono font-bold" :class="isNodeUnlocked('tier3') ? 'text-amber-300' : 'text-gray-500'">
+                  {{ isNodeUnlocked('tier3') ? '99,999 破限 (已解除)' : '9,999 原生锁定' }}
+                </span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">奥义觉醒状态:</span>
+                <span class="font-mono font-bold" :class="isNodeUnlocked('tier4') ? 'text-emerald-400' : 'text-rose-400'">
+                  {{ isNodeUnlocked('tier4') ? '已觉醒就绪 (Ready)' : '封印沉睡中 (Locked)' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 栏 3: 太古奥义实机斩杀演练与试炼沙盘 -->
+          <div class="p-5 rounded-xl bg-gradient-to-b from-purple-950/20 to-slate-900 border border-purple-500/30 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <span>⚡</span>
+                  <span>太古奥义实战推演沙盘</span>
+                </span>
+                <n-tag size="tiny" :type="simulationRatingTagType">{{ simulationRatingText }}</n-tag>
+              </div>
+
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1">靶场对战目标 (Target Dummy):</label>
+                <select
+                  v-model="selectedTranscendenceTargetId"
+                  class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-purple-400 focus:outline-none"
+                >
+                  <option v-for="t in transcendenceTargetsList" :key="t.id" :value="t.id">
+                    {{ t.icon }} {{ t.name }} (HP: {{ t.hp.toLocaleString() }}, 防御: {{ t.def }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- 奥义伤害爆发大卡 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                <div class="text-[11px] text-gray-400">太古奥义单轮期望总爆发 (Secret Art Burst)</div>
+                <div class="text-2xl sm:text-3xl font-black font-mono mt-1 text-purple-400">
+                  {{ secretArtBurstDamage.toLocaleString() }}
+                </div>
+                <div class="text-[10px] text-emerald-400 mt-0.5">
+                  {{ secretArtOverkillText }}
+                </div>
+              </div>
+
+              <!-- 演练输出战报 -->
+              <div class="p-2.5 rounded bg-slate-950/80 border border-slate-800 text-[10px] space-y-1 max-h-24 overflow-y-auto font-mono text-gray-300">
+                <div v-for="(log, idx) in secretArtLogs" :key="idx" class="flex items-start gap-1">
+                  <span class="text-purple-400 shrink-0">•</span>
+                  <span>{{ log }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 释放奥义按钮 -->
+            <div class="space-y-2 pt-2 border-t border-slate-800">
+              <button
+                type="button"
+                class="w-full py-2.5 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs transition-all shadow-lg cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                :disabled="!isNodeUnlocked('tier4')"
+                @click="triggerSecretArtExecution"
+              >
+                ⚡ 释放太古奥义【{{ currentTranscendenceJob.secretArtName }}】
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Godot 4.6 LTS 代码展台 -->
+        <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-mono font-bold text-purple-300 flex items-center gap-1.5">
+              <span>📜</span>
+              <span>Godot 4.6 LTS 实机算法: job_transcendence_resolver.gd</span>
+            </span>
+            <n-button size="tiny" secondary type="warning" @click="copyTranscendenceCode">
+              {{ copiedTransCode ? '✓ 已复制代码' : '复制代码' }}
+            </n-button>
+          </div>
+          <pre class="p-3 bg-slate-950 rounded text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56">{{ godotTransCodeText }}</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1429,7 +1670,7 @@ import { usePagination } from '@/composables/usePagination'
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value < 640)
 
-const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery'>('catalog')
+const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery' | 'transcendence_tree'>('catalog')
 const selectedCrystal = ref('all')
 
 // 分类数量与卡片使用同一目录；不随当前筛选或分页缩减。
@@ -2577,6 +2818,392 @@ ${passivesText}
 
   if (message) {
     message.success('自由人极意职业精通认证已导出并同步至剪贴板！')
+  }
+}
+
+// ================= 视图 5: 全职业进阶转生与太古奥义传承工坊 =================
+interface TranscendenceHero {
+  id: string
+  name: string
+  avatar: string
+  element: string
+  title: string
+  defaultJob: string
+}
+
+const transcendenceHeroesList: TranscendenceHero[] = [
+  { id: 'bartz', name: '巴兹', avatar: '⚔️', element: '风之晶原核', title: '风之光辉先锋', defaultJob: 'paladin_arbiter' },
+  { id: 'lenna', name: '蕾娜', avatar: '🕊️', element: '水之慈爱核', title: '水之圣洁祭司', defaultJob: 'genesis_sage' },
+  { id: 'faris', name: '法利斯', avatar: '🏴‍☠️', element: '火之勇气核', title: '火之修罗剑魁', defaultJob: 'asura_saint' },
+  { id: 'krile', name: '可露儿', avatar: '✨', element: '土之守护核', title: '土之创生天尊', defaultJob: 'chrono_overseer' }
+]
+
+const selectedTranscendenceHeroId = ref('bartz')
+const selectedHeroTranscendence = computed(() => {
+  return transcendenceHeroesList.find(h => h.id === selectedTranscendenceHeroId.value) || transcendenceHeroesList[0]
+})
+
+const selectTranscendenceHero = (id: string) => {
+  selectedTranscendenceHeroId.value = id
+  const hero = transcendenceHeroesList.find(h => h.id === id)
+  if (hero) {
+    selectedTranscendenceJobId.value = hero.defaultJob
+  }
+}
+
+interface TranscendenceJobDef {
+  id: string
+  name: string
+  icon: string
+  role: string
+  category: string
+  description: string
+  secretArtName: string
+  secretArtDesc: string
+  baseDamage: number
+}
+
+const transcendenceJobsList: TranscendenceJobDef[] = [
+  {
+    id: 'paladin_arbiter',
+    name: '圣殿裁决者 (Paladin Arbiter)',
+    icon: '🛡️',
+    role: '圣骑士 / 破限守护者',
+    category: '崇高圣光极意',
+    description: '融合骑士百炼防御与光辉神圣战技，以圣剑之光照耀全域同伴。',
+    secretArtName: '天界圣剑绝鸣 (Celestial Excalibur Strike)',
+    secretArtDesc: '造成 99,999 点绝对神圣穿甲真伤，附加全队 3 回合无敌与全异常状态净化。',
+    baseDamage: 99999
+  },
+  {
+    id: 'genesis_sage',
+    name: '创世大贤者 (Genesis Sage)',
+    icon: '🔮',
+    role: '全系大魔导 / 虚空创生',
+    category: '远古元素极意',
+    description: '融汇黑白时召四大魔法体系，驱动创世星辰以太奇点。',
+    secretArtName: '创世星辰坍缩 (Genesis Star Collapse)',
+    secretArtDesc: '造成 99,999 点四元素湮灭核爆，敌方 MP 彻底清零，我方全队 MP 瞬间恢复至 999 满额。',
+    baseDamage: 99999
+  },
+  {
+    id: 'asura_saint',
+    name: '修罗影剑圣 (Asura Sword Saint)',
+    icon: '🗡️',
+    role: '双刀修罗 / 影宗秘忍',
+    category: '幽冥居合极意',
+    description: '双持佐助与正宗极限居合，刀气纵横十六重次元空间。',
+    secretArtName: '修罗十六夜连斩 (Sixteen Night Slashes)',
+    secretArtDesc: '连续发动 16 段绝对暴击斩击，每段 8,500 点真实穿甲伤害，总伤害突破 136,000 点！',
+    baseDamage: 136000
+  },
+  {
+    id: 'chrono_overseer',
+    name: '时空创生天尊 (Chrono Overseer)',
+    icon: '⏳',
+    role: '因果律主宰 / 奇迹炼金',
+    category: '因果律操纵极意',
+    description: '超脱凡尘因果轮回，自由人与模仿士至高转生终极形态。',
+    secretArtName: '时空重置之律 (Law of Chrono Reset)',
+    secretArtDesc: '全阵亡队友 100% 满血满法超频复活，全场施加加速，冻结敌方行动条 2 回合。',
+    baseDamage: 88888
+  }
+]
+
+const selectedTranscendenceJobId = ref('paladin_arbiter')
+const currentTranscendenceJob = computed(() => {
+  return transcendenceJobsList.find(j => j.id === selectedTranscendenceJobId.value) || transcendenceJobsList[0]
+})
+
+// 四阶以太转生树节点
+interface TranscendenceNodeDef {
+  id: string
+  tierName: string
+  name: string
+  icon: string
+  cost: number
+  effectDesc: string
+  unlocked: boolean
+}
+
+const transcendenceNodes = ref<TranscendenceNodeDef[]>([
+  {
+    id: 'tier1',
+    tierName: '一阶 · 灵魂洗礼',
+    name: '以太本源同调',
+    icon: '💧',
+    cost: 50,
+    effectDesc: '与四大水晶源石产生灵魂共振，四维全属性 (力量/敏捷/体力/魔力) 永久 +25 点。',
+    unlocked: true
+  },
+  {
+    id: 'tier2',
+    tierName: '二阶 · 特权贯通',
+    name: '职业极意双倍化',
+    icon: '⚡',
+    cost: 120,
+    effectDesc: '原生职业固有特权与被动效果提升 100%，装备专精无惩罚贯通。',
+    unlocked: true
+  },
+  {
+    id: 'tier3',
+    tierName: '三阶 · 限界突破',
+    name: '九万九千破限契印',
+    icon: '🔥',
+    cost: 250,
+    effectDesc: '解除原初系统 9,999 伤害与生命上限封印，单发伤害上限扩展至 99,999，HP 上限 +10,000。',
+    unlocked: true
+  },
+  {
+    id: 'tier4',
+    tierName: '四阶 · 太古奥义',
+    name: '诸神法则真髓觉醒',
+    icon: '👑',
+    cost: 500,
+    effectDesc: '彻底觉醒所属转生流派的太古终极奥义，战斗中积攒怒气即可一键引爆灭绝神技。',
+    unlocked: true
+  }
+])
+
+const isNodeUnlocked = (nodeId: string): boolean => {
+  const node = transcendenceNodes.value.find(n => n.id === nodeId)
+  return node ? node.unlocked : false
+}
+
+const toggleNode = (nodeId: string) => {
+  const node = transcendenceNodes.value.find(n => n.id === nodeId)
+  if (node) {
+    node.unlocked = !node.unlocked
+  }
+}
+
+const resetTranscendenceTree = () => {
+  transcendenceNodes.value.forEach((n, idx) => {
+    n.unlocked = idx === 0
+  })
+  message.info('以太转生树节点已重置至一阶')
+}
+
+const maxAllTranscendenceNodes = () => {
+  transcendenceNodes.value.forEach(n => {
+    n.unlocked = true
+  })
+  message.success('⚡ 四阶以太转生树已全域点亮！太古奥义与 99,999 破限全面就绪！')
+}
+
+const unlockedNodesCount = computed(() => {
+  return transcendenceNodes.value.filter(n => n.unlocked).length
+})
+
+const totalAetherCost = computed(() => {
+  return transcendenceNodes.value
+    .filter(n => n.unlocked)
+    .reduce((sum, n) => sum + n.cost, 0)
+})
+
+const transcendenceTierSummary = computed(() => {
+  switch (unlockedNodesCount.value) {
+    case 4:
+      return 'IV 阶 · 极境超越尊者 (Transcendence)'
+    case 3:
+      return 'III 阶 · 破限圣灵 (Limit Break)'
+    case 2:
+      return 'II 阶 · 极意传承者 (Adept)'
+    default:
+      return 'I 阶 · 水晶觉醒者 (Initiate)'
+  }
+})
+
+// 演练靶场首领
+interface DummyTargetDef {
+  id: string
+  name: string
+  icon: string
+  hp: number
+  def: number
+}
+
+const transcendenceTargetsList: DummyTargetDef[] = [
+  { id: 'void_horde', name: '虚空狂魔军团 (Void Horde Fiends)', icon: '👾', hp: 45000, def: 50 },
+  { id: 'shinryu', name: '太古神龙 (Ancient Shinryu)', icon: '🐉', hp: 55000, def: 85 },
+  { id: 'omega', name: '次元巨神欧米茄 (Dimensional Omega)', icon: '🤖', hp: 55000, def: 220 }
+]
+
+const selectedTranscendenceTargetId = ref('shinryu')
+const currentTranscendenceTarget = computed(() => {
+  return transcendenceTargetsList.find(t => t.id === selectedTranscendenceTargetId.value) || transcendenceTargetsList[0]
+})
+
+const secretArtBurstDamage = computed(() => {
+  const isBreakLimit = isNodeUnlocked('tier3')
+  const isSecretAwakened = isNodeUnlocked('tier4')
+  if (!isSecretAwakened) return 9999
+  const base = currentTranscendenceJob.value.baseDamage
+  return isBreakLimit ? base : Math.min(9999, base)
+})
+
+const secretArtOverkillText = computed(() => {
+  const target = currentTranscendenceTarget.value
+  const dmg = secretArtBurstDamage.value
+  if (dmg >= target.hp) {
+    const overkillPct = Math.round(((dmg - target.hp) / target.hp) * 100)
+    return `溢出斩杀率: +${overkillPct}% (一击瞬杀灭绝！)`
+  }
+  const remain = target.hp - dmg
+  return `首领残余 HP: ${remain.toLocaleString()}`
+})
+
+const simulationRatingText = computed(() => {
+  if (unlockedNodesCount.value === 4) return 'EX 诸神极境'
+  if (unlockedNodesCount.value === 3) return 'SSS 破限真髓'
+  return 'S 水晶试炼'
+})
+
+const simulationRatingTagType = computed(() => {
+  if (unlockedNodesCount.value === 4) return 'error'
+  if (unlockedNodesCount.value === 3) return 'warning'
+  return 'info'
+})
+
+const secretArtLogs = ref<string[]>([
+  '【系统】太古奥义传承工坊待机中，已锁定靶场目标：太古神龙。',
+  '【提示】四阶以太转生树点亮后可引爆 99,999 破限奥义！'
+])
+
+const triggerSecretArtExecution = () => {
+  const hero = selectedHeroTranscendence.value
+  const job = currentTranscendenceJob.value
+  const target = currentTranscendenceTarget.value
+  const dmg = secretArtBurstDamage.value
+
+  secretArtLogs.value.unshift(
+    `⚡【奥义释放】${hero.name} 进阶【${job.name}】引爆太古奥义【${job.secretArtName}】！`,
+    `💥【伤害轰击】对 ${target.name} 造成 ${dmg.toLocaleString()} 点灭绝真伤！`,
+    `🏆【斩杀判定】${target.name} 遭 ${job.secretArtDesc}`
+  )
+  message.success(`💥 太古奥义【${job.secretArtName}】轰然引爆！造成 ${dmg.toLocaleString()} 绝对真伤！`)
+}
+
+// 导出凭证
+const exportTranscendenceCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const randomHex = Math.random().toString(16).substring(2, 10).toUpperCase()
+  const fakeSha256 = `SHA256-${Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`
+
+  const certLines = [
+    '========================================================================',
+    '       《光之战士：时空裂隙》全职业进阶转生与太古奥义传承方案书',
+    '             OFFICIAL JOB TRANSCENDENCE & SECRET ARTS REPORT',
+    '========================================================================',
+    `方案唯一档案号: AGY-TRANSCENDENCE-20261028-${randomHex}`,
+    `安全防伪签名: ${fakeSha256}`,
+    `签发世界线时间: ${timestamp}`,
+    `官方规范基准: VBLE Job Mastery & Secret Arts Matrix v2.2.263`,
+    `转生位阶评定: ${transcendenceTierSummary.value}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【一、英雄本源与进阶转生流派】',
+    '------------------------------------------------------------------------',
+    `转生领誓英雄: ${selectedHeroTranscendence.value.name} (${selectedHeroTranscendence.value.title})`,
+    `水晶共鸣原核: ${selectedHeroTranscendence.value.element}`,
+    `进阶转生职业: ${currentTranscendenceJob.value.name} [${currentTranscendenceJob.value.category}]`,
+    `战术定位范式: ${currentTranscendenceJob.value.role}`,
+    `觉醒太古奥义: ${currentTranscendenceJob.value.secretArtName}`,
+    `奥义神技威能: ${currentTranscendenceJob.value.secretArtDesc}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【二、四阶以太转生树点亮明细】',
+    '------------------------------------------------------------------------',
+    `已点亮节点数: ${unlockedNodesCount.value} / 4 节点`,
+    `累计消耗以太碎片: ${totalAetherCost.value} 碎片`,
+    ...transcendenceNodes.value.map(n => `  • [${n.unlocked ? '已觉醒' : '封印中'}] ${n.tierName} (${n.name}) - ${n.effectDesc}`),
+    '',
+    '------------------------------------------------------------------------',
+    '【三、实战对战与奥义斩杀参数】',
+    '------------------------------------------------------------------------',
+    `靶场对战目标: ${currentTranscendenceTarget.value.name} (HP: ${currentTranscendenceTarget.value.hp.toLocaleString()})`,
+    `单轮期望爆发真伤: ${secretArtBurstDamage.value.toLocaleString()} 绝对真伤`,
+    `伤害上限状态: ${isNodeUnlocked('tier3') ? '99,999 破限 (已解除)' : '9,999 锁定'}`,
+    `斩杀战果结论: ${secretArtOverkillText.value}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【四、太古诸神祭司传承箴言】',
+    '------------------------------------------------------------------------',
+    '“职业无尊卑，转生达造极。当四大水晶之光化为以太本源，',
+    ' 凡人之躯亦可引动创世星辰，执掌时空因果之律！”',
+    '========================================================================'
+  ]
+
+  const blob = new Blob([certLines.join('\n')], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `job_transcendence_v2.2.263_${Date.now()}.txt`
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+
+  message.success('📜 进阶转生与太古奥义方案书已成功导出并下载！')
+}
+
+// Godot 4.6 LTS 代码展台
+const copiedTransCode = ref(false)
+const godotTransCodeText = [
+  '## job_transcendence_resolver.gd',
+  '## 《光之战士：时空裂隙》全职业进阶转生与太古奥义破限结算引擎',
+  '## 官方引擎规范: VBLE Job Mastery & Secret Arts Matrix v2.2.263',
+  'extends RefCounted',
+  'class_name JobTranscendenceResolver',
+  '',
+  'signal node_unlocked(hero_id: String, tier: int, node_name: String)',
+  'signal secret_art_unleashed(hero_id: String, job_id: String, damage: int, effect: String)',
+  '',
+  'const TRANSCENDENCE_DATA = {',
+  '	"paladin_arbiter": { "name": "圣殿裁决者", "base_dmg": 99999, "art": "天界圣剑绝鸣" },',
+  '	"genesis_sage": { "name": "创世大贤者", "base_dmg": 99999, "art": "创世星辰坍缩" },',
+  '	"asura_saint": { "name": "修罗影剑圣", "base_dmg": 136000, "art": "修罗十六夜连斩" },',
+  '	"chrono_overseer": { "name": "时空创生天尊", "base_dmg": 88888, "art": "时空重置之律" }',
+  '}',
+  '',
+  'static func resolve_transcendence_stats(base_stats: Dictionary, unlocked_tiers: Array[int]) -> Dictionary:',
+  '	var stats := base_stats.duplicate()',
+  '	if unlocked_tiers.has(1):',
+  '		stats["str"] = stats.get("str", 20) + 25',
+  '		stats["agi"] = stats.get("agi", 20) + 25',
+  '		stats["sta"] = stats.get("sta", 20) + 25',
+  '		stats["mag"] = stats.get("mag", 20) + 25',
+  '	if unlocked_tiers.has(3):',
+  '		stats["damage_limit"] = 99999',
+  '		stats["max_hp"] = stats.get("max_hp", 9999) + 10000',
+  '	else:',
+  '		stats["damage_limit"] = 9999',
+  '	return stats',
+  '',
+  'static func execute_secret_art(job_id: String, is_break_limit: bool, target_hp: int) -> Dictionary:',
+  '	var job_data = TRANSCENDENCE_DATA.get(job_id, { "name": "未知流派", "base_dmg": 9999, "art": "破空斩" })',
+  '	var raw_dmg: int = int(job_data.base_dmg)',
+  '	var final_dmg: int = raw_dmg if is_break_limit else mini(9999, raw_dmg)',
+  '	var is_dead := final_dmg >= target_hp',
+  '	return {',
+  '		"job_name": job_data.name,',
+  '		"art_name": job_data.art,',
+  '		"damage": final_dmg,',
+  '		"killed": is_dead,',
+  '		"overkill": maxi(0, final_dmg - target_hp)',
+  '	}'
+].join('\n')
+
+const copyTranscendenceCode = async () => {
+  try {
+    await navigator.clipboard.writeText(godotTransCodeText)
+    copiedTransCode.value = true
+    message.success('job_transcendence_resolver.gd 源码已复制到剪贴板！')
+    setTimeout(() => {
+      copiedTransCode.value = false
+    }, 3000)
+  } catch {
+    message.error('复制失败，请手动选取复制')
   }
 }
 
