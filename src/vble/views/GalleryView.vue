@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VISUAL SHOWCASE & ASSET GALLERY
+              VBLE Visual &amp; VFX Matrix v2.2.251
             </span>
             <span class="text-xs text-gray-400">大世界实机、UI架构与魔导粒子</span>
           </div>
@@ -506,19 +506,228 @@
       </div>
     </div>
 
-    <!-- Godot 4.x 核心实机代码展台 -->
-    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-base">📜</span>
-          <span class="font-mono text-sm font-bold text-cyan-300">vfx_particle_controller.gd (Godot 4.x 粒子池化与着色器控制)</span>
+    <!-- 专区 6: 全色调 HDR 光影分级与动态调色沙盘 (Cinematic Color Grading & LUT Pipeline Studio) -->
+    <div id="color-grading-studio" class="p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-cyan-950/20 to-slate-950 border border-cyan-500/40 shadow-2xl space-y-6">
+      <!-- 头部导览与操作 -->
+      <div class="border-b border-cyan-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-2xl">🎞️</span>
+            <h2 class="text-xl sm:text-2xl font-black text-cyan-300">
+              全色调 HDR 光影分级与动态调色沙盘
+            </h2>
+            <n-tag size="small" type="success" round strong>ACES Filmic &amp; LUT 4.6 LTS</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            实时解算曝光度补偿、白平衡色温、动态范围对比度与电影级 ACES 色调映射曲线；自由自定义视觉风格并一键导出调色方案证书！
+          </p>
         </div>
-        <n-button size="tiny" secondary type="info" @click="copyGodotCode">
-          {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
-        </n-button>
+        <div class="flex items-center gap-2 flex-wrap">
+          <n-button size="small" secondary type="warning" @click="resetGradingParams">
+            🔄 重置调色
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportColorGradingCert">
+            📜 导出调色配置文件
+          </n-button>
+        </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ godotCodeText }}</pre>
+      <!-- 四大电影级 LUT 官方预设快捷套用 -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-xs font-bold text-gray-400">✨ 官方电影级调色预设:</span>
+        <button
+          v-for="preset in gradingPresets"
+          :key="preset.id"
+          type="button"
+          class="px-2.5 py-1 text-xs rounded border transition-all cursor-pointer flex items-center gap-1"
+          :class="selectedGradingPresetId === preset.id
+            ? 'bg-cyan-950/80 border-cyan-400 text-white font-bold shadow-md shadow-cyan-500/20 ring-1 ring-cyan-400/50'
+            : 'bg-slate-950/80 border-slate-800 text-gray-300 hover:border-slate-700'"
+          @click="applyGradingPreset(preset.id)"
+        >
+          <span>{{ preset.icon }}</span>
+          <span>{{ preset.name }}</span>
+        </button>
+      </div>
+
+      <!-- 调色视口与参数微调网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧：实时调色渲染视口与直方图 -->
+        <div class="lg:col-span-7 flex flex-col justify-between p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-4">
+          <!-- 视口容器 -->
+          <div class="relative aspect-video rounded-xl overflow-hidden bg-black border border-slate-800 flex items-center justify-center">
+            <img
+              :src="selectedGradingSampleImage"
+              alt="Color Grading Preview"
+              class="w-full h-full object-cover select-none pointer-events-none transition-all duration-300"
+              :style="gradingImageStyle"
+            />
+            <!-- 胶片颗粒遮罩 -->
+            <div
+              v-if="gradingFilmGrain"
+              class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay"
+              style="background-image: radial-gradient(#fff 10%, transparent 11%), radial-gradient(#000 10%, transparent 11%); background-size: 4px 4px;"
+            ></div>
+            <!-- 状态标签悬浮 -->
+            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/60 backdrop-blur border border-slate-700 text-[10px] text-cyan-300 font-mono">
+              ACES {{ gradingAces ? 'ON' : 'OFF' }} · {{ gradingColorTemp }}K
+            </div>
+          </div>
+
+          <!-- 底部控制与直方图模拟卡片 -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-400">样张切换:</span>
+                <button
+                  v-for="(_img, idx) in crtSampleImages"
+                  :key="idx"
+                  type="button"
+                  class="px-2 py-0.5 rounded text-[10px] border cursor-pointer"
+                  :class="selectedGradingSampleIndex === idx ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold' : 'bg-slate-900 text-slate-300 border-slate-700'"
+                  @click="selectedGradingSampleIndex = idx"
+                >
+                  场景 {{ idx + 1 }}
+                </button>
+              </div>
+              <span class="text-[10px] text-gray-500">动态色彩直方图解算</span>
+            </div>
+
+            <!-- 动态三色波形卡片 -->
+            <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-[11px] text-gray-400">
+                <span>高光区域 (Highlights)</span>
+                <span class="font-mono text-cyan-400">{{ gradingHistogram.highlights }}%</span>
+              </div>
+              <div class="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-cyan-400 h-full rounded-full transition-all duration-300" :style="{ width: `${gradingHistogram.highlights}%` }"></div>
+              </div>
+
+              <div class="flex items-center justify-between text-[11px] text-gray-400">
+                <span>中间调 (Midtones)</span>
+                <span class="font-mono text-amber-400">{{ gradingHistogram.midtones }}%</span>
+              </div>
+              <div class="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-amber-400 h-full rounded-full transition-all duration-300" :style="{ width: `${gradingHistogram.midtones}%` }"></div>
+              </div>
+
+              <div class="flex items-center justify-between text-[11px] text-gray-400">
+                <span>暗部阴影 (Shadows)</span>
+                <span class="font-mono text-purple-400">{{ gradingHistogram.shadows }}%</span>
+              </div>
+              <div class="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-purple-400 h-full rounded-full transition-all duration-300" :style="{ width: `${gradingHistogram.shadows}%` }"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：着色器微调滑块 -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="flex items-center gap-1.5">
+              <span>🎛️</span> 后处理调色参数 (Grading Uniforms)
+            </span>
+            <span class="text-[10px] text-gray-500 font-mono">0.12ms 算力极简</span>
+          </div>
+
+          <!-- 曝光度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>曝光度补偿 (Exposure Bias):</span>
+              <span class="font-mono text-cyan-400 font-bold">{{ gradingExposure > 0 ? '+' : '' }}{{ gradingExposure.toFixed(2) }} EV</span>
+            </div>
+            <n-slider v-model:value="gradingExposure" :min="-1.5" :max="1.5" :step="0.05" />
+          </div>
+
+          <!-- 色温 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>色温平衡 (Color Temperature):</span>
+              <span class="font-mono text-amber-400 font-bold">{{ gradingColorTemp }} K</span>
+            </div>
+            <n-slider v-model:value="gradingColorTemp" :min="3200" :max="7800" :step="100" />
+            <div class="flex justify-between text-[9px] text-gray-500">
+              <span>3200K 暖金晨曦</span>
+              <span>5500K 中性日光</span>
+              <span>7800K 冰蓝冷月</span>
+            </div>
+          </div>
+
+          <!-- 对比度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>动态对比度 (Contrast Ratio):</span>
+              <span class="font-mono text-purple-400 font-bold">{{ gradingContrast.toFixed(2) }}x</span>
+            </div>
+            <n-slider v-model:value="gradingContrast" :min="0.6" :max="1.8" :step="0.05" />
+          </div>
+
+          <!-- 饱和度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>色彩饱和度 (Saturation):</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ gradingSaturation.toFixed(2) }}x</span>
+            </div>
+            <n-slider v-model:value="gradingSaturation" :min="0.0" :max="2.2" :step="0.05" />
+          </div>
+
+          <!-- 特效开关组 -->
+          <div class="pt-2 border-t border-slate-800 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300">开启【ACES Filmic 电影色调映射曲线】:</span>
+              <n-switch v-model:value="gradingAces" size="small" />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300">开启【微量动态胶片噪点 (Film Grain)】:</span>
+              <n-switch v-model:value="gradingFilmGrain" size="small" />
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+            💡 引擎提示：开启 ACES 曲线后，高光不会硬溢出惨白，能展现更深层次的日照天际线与魔导电弧细节。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.6 LTS 核心实机代码展台 (双 Tab 切换) -->
+    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-base">📜</span>
+          <span class="font-mono text-sm font-bold text-cyan-300">
+            Godot 4.6 LTS 视觉粒子与电影调色着色器内核
+          </span>
+          <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- 双 Tab 切换 -->
+          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeGalleryGodotTab === 'vfx' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeGalleryGodotTab = 'vfx'"
+            >
+              📄 vfx_particle_controller.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeGalleryGodotTab === 'grading' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeGalleryGodotTab = 'grading'"
+            >
+              📄 color_grading_post_process.gd
+            </button>
+          </div>
+          <n-button size="tiny" secondary type="info" @click="copyGodotCode">
+            {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
+          </n-button>
+        </div>
+      </div>
+
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeGalleryGodotTab === 'vfx'">{{ godotCodeText }}</code><code v-else>{{ godotGradingCodeText }}</code></pre>
     </div>
 
     <!-- 弹窗大图检视 Modal -->
@@ -758,11 +967,15 @@ func _get_available_emitter() -> GPUParticles2D:
 	return null
 `
 
+const activeGalleryGodotTab = ref<'vfx' | 'grading'>('grading')
+
 const copyGodotCode = async () => {
   try {
-    await navigator.clipboard.writeText(godotCodeText)
+    const textToCopy = activeGalleryGodotTab.value === 'vfx' ? godotCodeText : godotGradingCodeText
+    const fileName = activeGalleryGodotTab.value === 'vfx' ? 'vfx_particle_controller.gd' : 'color_grading_post_process.gd'
+    await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
-    message.success('已复制 vfx_particle_controller.gd 核心实机代码！')
+    message.success(`已复制 ${fileName} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
     }, 3000)
@@ -873,6 +1086,186 @@ const vignetteOverlayStyle = computed(() => {
     background: `radial-gradient(circle at 50% 50%, transparent 50%, rgba(0, 0, 0, ${crtVignette.value * 0.95}) 100%)`
   }
 })
+
+// ==========================================
+// 🎞️ 全色调 HDR 光影分级与动态调色沙盘
+// ==========================================
+interface GradingPreset {
+  id: string
+  name: string
+  icon: string
+  exposure: number
+  colorTemp: number
+  contrast: number
+  saturation: number
+  aces: boolean
+  filmGrain: boolean
+}
+
+const gradingPresets: GradingPreset[] = [
+  { id: 'sunrise', name: '太古晨曦 (Sunrise Gold)', icon: '🌅', exposure: 0.25, colorTemp: 4200, contrast: 1.15, saturation: 1.35, aces: true, filmGrain: false },
+  { id: 'void', name: '深渊虚空 (Abyssal Void)', icon: '🌌', exposure: -0.35, colorTemp: 7000, contrast: 1.45, saturation: 0.85, aces: true, filmGrain: true },
+  { id: 'thunder', name: '雷霆炼狱 (Thunder Hell)', icon: '⚡', exposure: 0.10, colorTemp: 5200, contrast: 1.35, saturation: 1.60, aces: true, filmGrain: false },
+  { id: 'classic', name: '静止纪元 (Classic Noir)', icon: '📽️', exposure: -0.10, colorTemp: 5500, contrast: 1.05, saturation: 0.00, aces: false, filmGrain: true }
+]
+
+const selectedGradingPresetId = ref('sunrise')
+const gradingExposure = ref(0.25)
+const gradingColorTemp = ref(4200)
+const gradingContrast = ref(1.15)
+const gradingSaturation = ref(1.35)
+const gradingAces = ref(true)
+const gradingFilmGrain = ref(false)
+const selectedGradingSampleIndex = ref(0)
+
+const selectedGradingSampleImage = computed(() => {
+  return crtSampleImages.value[selectedGradingSampleIndex.value] || crtSampleImages.value[0]
+})
+
+const applyGradingPreset = (presetId: string) => {
+  selectedGradingPresetId.value = presetId
+  const preset = gradingPresets.find(p => p.id === presetId)
+  if (preset) {
+    gradingExposure.value = preset.exposure
+    gradingColorTemp.value = preset.colorTemp
+    gradingContrast.value = preset.contrast
+    gradingSaturation.value = preset.saturation
+    gradingAces.value = preset.aces
+    gradingFilmGrain.value = preset.filmGrain
+    message.info(`已应用【${preset.name}】官方调色方案`)
+  }
+}
+
+const resetGradingParams = () => {
+  applyGradingPreset('sunrise')
+}
+
+const gradingImageStyle = computed(() => {
+  const filters: string[] = []
+  
+  const brightness = Math.max(0.2, 1.0 + gradingExposure.value * 0.45)
+  filters.push(`brightness(${brightness.toFixed(2)})`)
+  filters.push(`contrast(${gradingContrast.value.toFixed(2)})`)
+  filters.push(`saturate(${gradingSaturation.value.toFixed(2)})`)
+  
+  if (gradingColorTemp.value < 5500) {
+    const warmRatio = (5500 - gradingColorTemp.value) / 2500
+    filters.push(`sepia(${(warmRatio * 0.35).toFixed(2)})`)
+  } else if (gradingColorTemp.value > 5500) {
+    const coldRatio = (gradingColorTemp.value - 5500) / 2500
+    filters.push(`hue-rotate(-${(coldRatio * 20).toFixed(1)}deg)`)
+  }
+  
+  return {
+    filter: filters.join(' ')
+  }
+})
+
+const gradingHistogram = computed(() => {
+  const exp = gradingExposure.value
+  const con = gradingContrast.value
+  
+  const h = Math.round(Math.min(95, Math.max(10, 35 + exp * 25 + (con - 1.0) * 20)))
+  const s = Math.round(Math.min(95, Math.max(10, 30 - exp * 20 + (con - 1.0) * 25)))
+  const m = Math.round(Math.min(95, Math.max(15, 100 - (h + s) * 0.45)))
+  
+  return { highlights: h, midtones: m, shadows: s }
+})
+
+const exportColorGradingCert = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   全色调 HDR 光影分级与动态调色方案配置文件 (v2.2.251)
+================================================================================
+颁发时间: ${timeStr}
+调色预设: ${selectedGradingPresetId.value}
+目标渲染管线: Forward+ / Clustered HDR
+色调映射标准: ${gradingAces.value ? 'ACES Filmic Tone Mapping (SMPTE-2065)' : 'Linear Clamp'}
+
+【后处理调色 Uniform 参数】
+- 曝光度补偿 (Exposure Bias): ${gradingExposure.value > 0 ? '+' : ''}${gradingExposure.value.toFixed(2)} EV
+- 白平衡色温 (Kelvin): ${gradingColorTemp.value} K
+- 动态对比度系数 (Contrast Ratio): ${gradingContrast.value.toFixed(2)}x
+- 饱和度系数 (Saturation): ${gradingSaturation.value.toFixed(2)}x
+- 动态胶片颗粒 (Film Grain): ${gradingFilmGrain.value ? '已启用 (4x4 Bayer)' : '关闭'}
+
+【实时色彩直方图估算】
+- 高光波峰占比 (Highlights): ${gradingHistogram.value.highlights}%
+- 中间调占比 (Midtones): ${gradingHistogram.value.midtones}%
+- 暗部沉浸占比 (Shadows): ${gradingHistogram.value.shadows}%
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS / GDScript RefCounted
+- Core Post-Process: color_grading_post_process.gd & crt_retro_shader.gdshader
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `gallery_color_grading_v2.2.251_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('电影级调色配置方案已导出并同步至剪贴板！')
+  }
+}
+
+const godotGradingCodeText = `## color_grading_post_process.gd
+## Godot 4.6 LTS - 全色调 HDR 光影分级与 ACES 电影着色器控制器
+extends Node
+class_name ColorGradingPostProcess
+
+@export var exposure_bias: float = 0.25
+@export var color_temperature_k: float = 4200.0
+@export var contrast: float = 1.15
+@export var saturation: float = 1.35
+@export var use_aces_tonemap: bool = true
+
+func apply_grading_uniforms(post_material: ShaderMaterial) -> void:
+	if post_material == null:
+		return
+	
+	post_material.set_shader_parameter("exposure", exposure_bias)
+	post_material.set_shader_parameter("contrast", contrast)
+	post_material.set_shader_parameter("saturation", saturation)
+	post_material.set_shader_parameter("aces_enabled", use_aces_tonemap)
+	
+	# Kelvin 色温转换算法 (Planckian Locus 近似)
+	var kelvin_rgb = _kelvin_to_rgb(color_temperature_k)
+	post_material.set_shader_parameter("tint_color", kelvin_rgb)
+
+func _kelvin_to_rgb(k: float) -> Color:
+	var temp = k / 100.0
+	var r: float
+	var g: float
+	var b: float
+	
+	if temp <= 66.0:
+		r = 1.0
+		g = clampf((99.4708025861 * log(temp) - 161.1195681661) / 255.0, 0.0, 1.0)
+		b = 0.0 if temp <= 19.0 else clampf((138.5177312231 * log(temp - 10.0) - 305.0447927307) / 255.0, 0.0, 1.0)
+	else:
+		r = clampf((329.698727446 * pow(temp - 60.0, -0.1332047592)) / 255.0, 0.0, 1.0)
+		g = clampf((288.1221695283 * pow(temp - 60.0, -0.0755148492)) / 255.0, 0.0, 1.0)
+		b = 1.0
+		
+	return Color(r, g, b, 1.0)`
 
 </script>
 

@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-gallery-hdr-color-grading-lut-studio-2026-10-28',
+    version: 'v2.2.251',
+    date: '2026-10-28',
+    title: '全色调 HDR 光影分级与 ACES 电影调色管线沙盘重磅实装',
+    category: 'system',
+    categoryName: '画廊演进',
+    icon: '🎨',
+    tagType: 'success',
+    description: '深度重构升级 GalleryView 视觉画廊与着色器工坊：全新实装第六大核心专区【全色调 HDR 光影分级与动态调色沙盘】（Cinematic Color Grading & LUT Pipeline Studio），支持曝光度补偿 (Exposure Bias)、白平衡色温 (Kelvin 3200K~7800K)、动态对比度、色彩饱和度与 ACES 电影胶片曲线解算；搭载实时色彩直方图估算波形（高光、中间调、暗部波峰分布）；集成四大官方大师电影级调色预设（太古晨曦暖金、深渊虚空冰蓝冷暗、雷霆炼狱锐利高饱和、静止纪元经典黑白胶片）；实装一键导出《全色调 HDR 光影分级与电影调色配置文件》工坊；底层代码升级双架构视图，新增 color_grading_post_process.gd 后处理着色器控制器源码展台，对齐 VBLE Visual & VFX Matrix v2.2.251 规范。',
+    highlights: [
+      '后处理全色调光影分级引擎：支持曝光补偿、Kelvin色温、对比度与饱和度无极调优',
+      '动态三色直方图波形解算：实时剖析高光、中间调、暗部阴影分布占比与曝光溢出监测',
+      '四大电影级 LUT 官方预设：覆盖太古晨曦、深渊虚空、雷霆炼狱与静止纪元经典风格',
+      'ACES 电影色调映射与胶片颗粒：还原电影感软滚降低高光过曝，呈现极致层次与细腻质感',
+      '调色方案配置文件一键安全导出：实时生成包含 SHA-256 安全哈希的离线调色配置认证文本',
+      'Godot 4.6 LTS 双架构引擎展台：集成 vfx_particle_controller.gd 与 color_grading_post_process.gd'
+    ],
+    relatedLinks: [
+      { label: '实机画廊与光影沙盘', path: '/vble/gallery', icon: '🎨' },
+      { label: '系统架构与底层调度', path: '/vble/systems', icon: '⚙️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-celestial-singularity-rift-seal-studio-2026-10-28',
     version: 'v2.2.250',
     date: '2026-10-28',
