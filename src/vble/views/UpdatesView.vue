@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-celestial-singularity-rift-seal-studio-2026-10-28',
+    version: 'v2.2.250',
+    date: '2026-10-28',
+    title: '四阶引力奇点坍缩推演与次元裂隙封印沙盘重磅实装',
+    category: 'system',
+    categoryName: '天体演进',
+    icon: '🪐',
+    tagType: 'warning',
+    description: '深度重构升级 CelestialView 虚空天体与引力工坊：全新实装第五大核心专区【四阶引力奇点坍缩推演与次元裂隙封印沙盘】（Void Gravitational Singularity & Rift Seal Studio），推演虚空城堡核心终焉奇点的四阶段坍缩进化进程（空间畸变地磁偏转、黑洞吸积盘引力潮汐、事件视界高能粒子喷流、太古奇点绝对坍缩）；支持风、水、火、土四大始源水晶引力对冲锚独立百分比微频调谐，实时解算裂隙封印稳定度、混沌侵蚀暗伤与奇点存续寿命；实装一键导出《四阶引力奇点坍缩推演与次元裂隙封印方案书》工坊；底层代码升级双架构视图，新增 singularity_collapse_resolver.gd 奇点解析引擎源码展台，对齐 VBLE Void & Celestial Matrix v2.2.250 规范。',
+    highlights: [
+      '四阶引力奇点坍缩全景推演：覆盖空间畸变、黑洞潮汐、事件视界喷流与终焉绝对坍缩',
+      '四大始源水晶引力对冲锚调谐：支持风/水/火/土四大晶核阻尼消散率与板块地核对冲调节',
+      '次元裂隙封印稳定度动态解算：高精推演受击混沌暗伤衰减、ATB时滞弥补与视界存续寿命',
+      '三大极限天象情境一键套用：支持绝对锁闭稳态、三阶粒子喷流抗压演练与四阶终焉崩解危机',
+      '奇点封印方案证书一键安全导出：实时生成包含 SHA-256 安全哈希的离线封印演算认证文本',
+      'Godot 4.6 LTS 双架构引擎展台：集成 celestial_gravity.gd 与 singularity_collapse_resolver.gd'
+    ],
+    relatedLinks: [
+      { label: '虚空天体与引力沙盘', path: '/vble/celestial', icon: '🪐' },
+      { label: '秘境地城与迷宫拓扑', path: '/vble/dungeons', icon: '🏰' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-jobs-freelancer-mastery-abp-farming-matrix-2026-10-28',
     version: 'v2.2.249',
     date: '2026-10-28',

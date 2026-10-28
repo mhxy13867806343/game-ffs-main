@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VOID CASTLE & CELESTIAL SINGULARITY
+              VBLE Void &amp; Celestial Matrix v2.2.250
             </span>
             <span class="text-xs text-gray-400">虚空城堡与终焉星体引力矩阵</span>
           </div>
@@ -488,25 +488,269 @@
       </div>
     </div>
 
-    <!-- Godot 4.x 核心实机代码展台 -->
-    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-base">📜</span>
-          <span class="font-mono text-sm font-bold text-purple-300">celestial_gravity.gd (Godot 4.x 虚空引力场算法)</span>
+    <!-- 专区 5: 四阶引力奇点坍缩推演与次元裂隙封印沙盘 (Void Gravitational Singularity & Rift Seal Studio) -->
+    <div id="singularity-seal-studio" class="p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950 border border-purple-500/40 shadow-2xl space-y-6">
+      <!-- 头部导览与操作 -->
+      <div class="border-b border-purple-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-2xl">🌌</span>
+            <h2 class="text-xl sm:text-2xl font-black text-purple-300">
+              四阶引力奇点坍缩推演与次元裂隙封印沙盘
+            </h2>
+            <n-tag size="small" type="warning" round strong>VBLE Engine 4.6 LTS</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            推演虚空城堡核心终焉奇点的四阶段坍缩进程；通过四大元素水晶引力对冲锚进行微频调谐，实时解算裂隙封印稳定度与视界寿命！
+          </p>
         </div>
-        <n-button size="tiny" secondary type="primary" @click="copyGodotCode">
-          {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
-        </n-button>
+        <div class="flex items-center gap-2 flex-wrap">
+          <n-button size="small" secondary type="warning" @click="applySealPreset('reset')">
+            🔄 重置调谐
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportSingularityCert">
+            📜 导出奇点封印演算证书
+          </n-button>
+        </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ godotCodeText }}</pre>
+      <!-- 快速情境预设套用 -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-xs font-bold text-gray-400">⚡ 快捷极限情境套用:</span>
+        <button
+          type="button"
+          class="px-2.5 py-1 text-xs rounded bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900 transition cursor-pointer"
+          @click="applySealPreset('perfect')"
+        >
+          🛡️ 绝对锁闭稳态 (98%稳定)
+        </button>
+        <button
+          type="button"
+          class="px-2.5 py-1 text-xs rounded bg-yellow-950/80 border border-yellow-500/50 text-yellow-300 hover:bg-yellow-900 transition cursor-pointer"
+          @click="applySealPreset('tier3_test')"
+        >
+          ⚠️ 三阶高能喷流抗压演练
+        </button>
+        <button
+          type="button"
+          class="px-2.5 py-1 text-xs rounded bg-rose-950/80 border border-rose-500/50 text-rose-300 hover:bg-rose-900 transition cursor-pointer"
+          @click="applySealPreset('tier4_crisis')"
+        >
+          💥 四阶终焉崩解危机
+        </button>
+      </div>
+
+      <!-- 四大坍缩阶段选择器 -->
+      <div class="space-y-2">
+        <div class="text-xs font-bold text-cyan-300 flex items-center justify-between">
+          <span>🌀 终焉奇点坍缩进化阶段 (Singularity Collapse Tiers):</span>
+          <span class="text-[11px] text-gray-400">阶段越高，空间视界曲率越极端</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <button
+            v-for="tier in singularityTiers"
+            :key="tier.stage"
+            type="button"
+            class="p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between"
+            :class="selectedSingularityTier === tier.stage
+              ? 'bg-purple-950/50 border-purple-400 text-white shadow-lg shadow-purple-500/20 ring-1 ring-purple-400/50'
+              : 'bg-slate-950/80 border-slate-800 text-gray-300 hover:border-slate-700'"
+            @click="selectedSingularityTier = tier.stage"
+          >
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-purple-300">第 {{ tier.stage }} 阶段</span>
+                <n-tag size="tiny" :type="tier.badgeType">{{ tier.badgeText }}</n-tag>
+              </div>
+              <div class="text-sm font-black text-white mt-1">{{ tier.title }}</div>
+              <p class="text-[10px] text-gray-400 mt-1 line-clamp-2">{{ tier.desc }}</p>
+            </div>
+            <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono">
+              <span class="text-gray-500">威胁度:</span>
+              <span class="text-rose-400 font-bold">{{ tier.threat }}%</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 核心解算看板与四大元素锚定调谐 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧：四大元素水晶引力对冲锚调节 -->
+        <div class="lg:col-span-7 p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>🎛️</span> 四大始源水晶引力对冲锚 (Elemental Seal Anchors):
+            </div>
+            <span class="text-[10px] text-gray-400">平均调谐度: {{ averageAnchorTuning }}%</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <!-- 风之引力锚 -->
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-emerald-400 flex items-center gap-1">
+                  <span>🌪️</span> 风之水晶锚 (抗风涡流对冲):
+                </span>
+                <span class="font-mono font-bold text-emerald-300">{{ anchorWindTune }}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                v-model.number="anchorWindTune"
+                class="w-full accent-emerald-400 cursor-pointer"
+              />
+              <div class="text-[9px] text-gray-500">抵消大气剧变引起的物理弹道偏折与撕裂风压</div>
+            </div>
+
+            <!-- 水之引力锚 -->
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-cyan-400 flex items-center gap-1">
+                  <span>💧</span> 水之水晶锚 (空间浮力缓冲):
+                </span>
+                <span class="font-mono font-bold text-cyan-300">{{ anchorWaterTune }}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                v-model.number="anchorWaterTune"
+                class="w-full accent-cyan-400 cursor-pointer"
+              />
+              <div class="text-[9px] text-gray-500">提供柔性以太阻尼，抑制黑洞引力潮汐对 ATB 行动条的削减</div>
+            </div>
+
+            <!-- 火之引力锚 -->
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-rose-400 flex items-center gap-1">
+                  <span>🔥</span> 火之水晶锚 (伽马喷流消散):
+                </span>
+                <span class="font-mono font-bold text-rose-300">{{ anchorFireTune }}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                v-model.number="anchorFireTune"
+                class="w-full accent-rose-400 cursor-pointer"
+              />
+              <div class="text-[9px] text-gray-500">吸收高能粒子辐射，将每秒混沌真实伤害转化为无害以太热能</div>
+            </div>
+
+            <!-- 土之引力锚 -->
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-amber-400 flex items-center gap-1">
+                  <span>⛰️</span> 土之水晶锚 (地核引力对冲):
+                </span>
+                <span class="font-mono font-bold text-amber-300">{{ anchorEarthTune }}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                v-model.number="anchorEarthTune"
+                class="w-full accent-amber-400 cursor-pointer"
+              />
+              <div class="text-[9px] text-gray-500">锚定大陆板块与地壳重力底盘，阻止奇点坍缩吞噬现实维度</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：封印状态与视界寿命解算 -->
+        <div class="lg:col-span-5 p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+                <span>🛡️</span> 裂隙封印矩阵裁决
+              </span>
+              <n-tag size="tiny" :type="singularityContainmentVerdict.tagType">
+                {{ singularityContainmentVerdict.status }}
+              </n-tag>
+            </div>
+
+            <!-- 封印稳定度巨型看板 -->
+            <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-center">
+              <div class="text-xs text-gray-400">次元裂隙封印稳定度 (Containment Stability)</div>
+              <div class="text-4xl font-black font-mono mt-1" :class="singularityContainmentVerdict.colorClass">
+                {{ singularityContainmentVerdict.stabilityPercent }}%
+              </div>
+              <div class="text-[10px] text-gray-500 mt-1">
+                {{ singularityContainmentVerdict.verdictDesc }}
+              </div>
+            </div>
+
+            <!-- 核心参数指标卡 -->
+            <div class="space-y-1.5 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-950 border border-slate-800">
+                <span class="text-gray-400">当前受击混沌暗伤:</span>
+                <span class="font-mono font-bold text-rose-400">{{ singularityContainmentVerdict.effectiveDecayDmg }}/秒</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-950 border border-slate-800">
+                <span class="text-gray-400">ATB行动条流速补正:</span>
+                <span class="font-mono font-bold" :class="singularityContainmentVerdict.atbModifier >= 0 ? 'text-emerald-400' : 'text-yellow-400'">
+                  {{ singularityContainmentVerdict.atbModifier > 0 ? '+' : '' }}{{ singularityContainmentVerdict.atbModifier }}%
+                </span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-950 border border-slate-800">
+                <span class="text-gray-400">奇点视界存续寿命:</span>
+                <span class="font-mono font-bold text-cyan-300">{{ singularityContainmentVerdict.lifespanText }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-black/40 border border-slate-800 text-[10px] text-gray-400 italic">
+            ※ 战术要诀：在第4阶段坍缩下，必须将风/水/火/土四大晶核调谐度均提升至 85% 以上，方可抵消引力撕裂并激活【神圣次元锁闭】！
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.6 LTS 核心实机代码展台 (双 Tab 切换) -->
+    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-base">📜</span>
+          <span class="font-mono text-sm font-bold text-purple-300">
+            Godot 4.6 LTS 虚空星体与奇点封印底层架构
+          </span>
+          <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- 双 Tab 切换 -->
+          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeCelestialGodotTab === 'gravity' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCelestialGodotTab = 'gravity'"
+            >
+              📄 celestial_gravity.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeCelestialGodotTab === 'singularity' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCelestialGodotTab = 'singularity'"
+            >
+              📄 singularity_collapse_resolver.gd
+            </button>
+          </div>
+          <n-button size="tiny" secondary type="primary" @click="copyGodotCode">
+            {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
+          </n-button>
+        </div>
+      </div>
+
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeCelestialGodotTab === 'gravity'">{{ godotCodeText }}</code><code v-else>{{ godotSingularityCodeText }}</code></pre>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
 import { useMessage } from 'naive-ui'
 import { voidStages, solarPlanets, fiveElements, type VoidStage } from '../config/celestialConfig'
 
@@ -685,9 +929,11 @@ func calculate_field_modifiers(planet_name: String, has_anchor: bool) -> Diction
 
 const copyGodotCode = async () => {
   try {
-    await navigator.clipboard.writeText(godotCodeText)
+    const textToCopy = activeCelestialGodotTab.value === 'gravity' ? godotCodeText : godotSingularityCodeText
+    const fileName = activeCelestialGodotTab.value === 'gravity' ? 'celestial_gravity.gd' : 'singularity_collapse_resolver.gd'
+    await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
-    message.success('已复制 celestial_gravity.gd 核心实机代码！')
+    message.success(`已复制 ${fileName} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
     }, 3000)
@@ -812,6 +1058,255 @@ onUnmounted(() => {
     lunarTimer = null
   }
 })
+
+// ================= 专区 5: 四阶引力奇点坍缩推演与次元裂隙封印沙盘 =================
+const activeCelestialGodotTab = ref<'gravity' | 'singularity'>('singularity')
+
+interface SingularityTier {
+  stage: number
+  title: string
+  badgeText: string
+  badgeType: 'default' | 'info' | 'warning' | 'error'
+  desc: string
+  threat: number
+  baseDecayDmg: number
+  atbPenalty: number
+}
+
+const singularityTiers: SingularityTier[] = [
+  {
+    stage: 1,
+    title: '空间畸变与地磁偏转',
+    badgeText: '阶段 I · 轻微扰动',
+    badgeType: 'info',
+    desc: '空间微幅折叠扭曲，物理远程弹道产生 12° 偏移，物理与弓箭技能命中率降低 15%',
+    threat: 25,
+    baseDecayDmg: 0,
+    atbPenalty: 0
+  },
+  {
+    stage: 2,
+    title: '黑洞吸积盘引力潮汐',
+    badgeText: '阶段 II · 时空延滞',
+    badgeType: 'warning',
+    desc: '引力潮汐形成黑洞外吸积盘，全场时空流速阻滞，ATB 行动条充能减速 25%，全队冲刺失效',
+    threat: 50,
+    baseDecayDmg: 350,
+    atbPenalty: -25
+  },
+  {
+    stage: 3,
+    title: '事件视界高能粒子喷流',
+    badgeText: '阶段 III · 狂暴侵蚀',
+    badgeType: 'error',
+    desc: '超高能伽马射线粒子喷流轰击战场，每秒承受 1500 混沌真实暗伤，魔抗护盾衰减 40%',
+    threat: 75,
+    baseDecayDmg: 1500,
+    atbPenalty: -35
+  },
+  {
+    stage: 4,
+    title: '太古奇点绝对坍缩',
+    badgeText: '阶段 IV · 灭世终焉',
+    badgeType: 'error',
+    desc: '奇点压入史瓦西绝对半径，空间曲率无限大，若稳定度低于 85% 视界寿命耗尽将全队即死灭世！',
+    threat: 100,
+    baseDecayDmg: 3500,
+    atbPenalty: -50
+  }
+]
+
+const selectedSingularityTier = ref(2)
+const anchorWindTune = ref(75)
+const anchorWaterTune = ref(80)
+const anchorFireTune = ref(70)
+const anchorEarthTune = ref(85)
+
+const applySealPreset = (key: 'perfect' | 'tier3_test' | 'tier4_crisis' | 'reset') => {
+  if (key === 'perfect') {
+    selectedSingularityTier.value = 1
+    anchorWindTune.value = 95
+    anchorWaterTune.value = 95
+    anchorFireTune.value = 95
+    anchorEarthTune.value = 95
+    message.success('已切换至【绝对锁闭稳态】！四锚高频共振')
+  } else if (key === 'tier3_test') {
+    selectedSingularityTier.value = 3
+    anchorWindTune.value = 65
+    anchorWaterTune.value = 60
+    anchorFireTune.value = 85
+    anchorEarthTune.value = 70
+    message.warning('已注入【阶段3高能粒子喷流】极限抗压演练！')
+  } else if (key === 'tier4_crisis') {
+    selectedSingularityTier.value = 4
+    anchorWindTune.value = 40
+    anchorWaterTune.value = 35
+    anchorFireTune.value = 50
+    anchorEarthTune.value = 45
+    message.error('警报：已触发【阶段4终焉崩解危机】！奇点视界正在快速撕裂！')
+  } else {
+    selectedSingularityTier.value = 2
+    anchorWindTune.value = 75
+    anchorWaterTune.value = 80
+    anchorFireTune.value = 70
+    anchorEarthTune.value = 85
+    message.info('已恢复标准元素对冲调谐态')
+  }
+}
+
+const averageAnchorTuning = computed(() => {
+  return Math.round((anchorWindTune.value + anchorWaterTune.value + anchorFireTune.value + anchorEarthTune.value) / 4)
+})
+
+const singularityContainmentVerdict = computed(() => {
+  const tier = singularityTiers.find(t => t.stage === selectedSingularityTier.value) || singularityTiers[1]
+  const avgTune = averageAnchorTuning.value
+
+  const anchorBonus = hasGravityAnchor.value ? 12 : 0
+  const tierPenalty = tier.stage * 15
+  let stability = Math.min(100, Math.max(5, Math.round(avgTune + anchorBonus - tierPenalty + 20)))
+
+  const fireAbsorption = anchorFireTune.value / 100
+  const effectiveDecayDmg = Math.max(0, Math.round(tier.baseDecayDmg * (1 - fireAbsorption * 0.75)))
+
+  const waterResistance = anchorWaterTune.value / 100
+  const atbModifier = Math.round(tier.atbPenalty + waterResistance * 30)
+
+  let status = '安全锁闭稳态'
+  let tagType: 'success' | 'warning' | 'error' | 'info' = 'success'
+  let colorClass = 'text-emerald-400'
+  let verdictDesc = '四元素引力对冲锚稳固，次元裂隙受到全域空间曲率抑制，无坍缩扩散风险。'
+  let lifespanText = '恒久受控 (无衰亡倒计时)'
+
+  if (stability >= 85) {
+    status = '绝对锁闭稳态'
+    tagType = 'success'
+    colorClass = 'text-emerald-400'
+    verdictDesc = '四维引力锚完全闭合，次元裂隙被压缩至普朗克尺度以下。'
+    lifespanText = '恒久受控'
+  } else if (stability >= 60) {
+    status = '临界共振警报'
+    tagType = 'info'
+    colorClass = 'text-cyan-400'
+    verdictDesc = '奇点周围产生时空涟漪与重力轻微晃动，建议继续提升土/风晶核调谐度。'
+    lifespanText = '稳定运行 (~360 秒)'
+  } else if (stability >= 35) {
+    status = '引力撕裂失控'
+    tagType = 'warning'
+    colorClass = 'text-yellow-400'
+    verdictDesc = '高能黑洞引力正在吞噬封印结界，全场受击暗伤加剧，必须紧急注入能量！'
+    lifespanText = '濒危告急 (约 65 秒)'
+  } else {
+    status = '终焉奇点湮灭'
+    tagType = 'error'
+    colorClass = 'text-rose-500 font-extrabold'
+    verdictDesc = '史瓦西半径突破！视界完全失控，即将产生超新星大撕裂即死冲击！'
+    lifespanText = '即将毁灭 (< 15 秒)'
+  }
+
+  return {
+    stabilityPercent: stability,
+    status,
+    tagType,
+    colorClass,
+    verdictDesc,
+    effectiveDecayDmg,
+    atbModifier,
+    lifespanText
+  }
+})
+
+const exportSingularityCert = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+  const tier = singularityTiers.find(t => t.stage === selectedSingularityTier.value) || singularityTiers[1]
+  const verdict = singularityContainmentVerdict.value
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   四阶引力奇点坍缩推演与次元裂隙封印方案书 (v2.2.250)
+================================================================================
+颁发时间: ${timeStr}
+空间锚点: 虚空城堡 (Void Castle) · 核心终焉奇点
+当前坍缩阶段: 第 ${tier.stage} 阶段 · 【${tier.title}】
+阶段危险威胁度: ${tier.threat}%
+
+【四大始源水晶引力对冲锚参数】
+- 🌪️ 风之水晶锚 (抗风涡流对冲): ${anchorWindTune.value}%
+- 💧 水之水晶锚 (空间浮力缓冲): ${anchorWaterTune.value}%
+- 🔥 火之水晶锚 (伽马喷流消散): ${anchorFireTune.value}%
+- ⛰️ 土之水晶锚 (地核引力对冲): ${anchorEarthTune.value}%
+- 四锚综合平均调谐度: ${averageAnchorTuning.value}%
+- 星体引力稳定锚状态: ${hasGravityAnchor.value ? '已装配 (+12% 封印强化)' : '未佩戴'}
+
+【次元裂隙封印裁决指标】
+- 封印稳定度 (Stability): ${verdict.stabilityPercent}% [${verdict.status}]
+- 混沌侵蚀真实暗伤: ${verdict.effectiveDecayDmg} 点/秒
+- ATB 行动条流速修正: ${verdict.atbModifier > 0 ? '+' : ''}${verdict.atbModifier}%
+- 奇点视界存续寿命: ${verdict.lifespanText}
+- 裁决评定: ${verdict.verdictDesc}
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS / GDScript RefCounted
+- Core Resolvers: celestial_gravity.gd & singularity_collapse_resolver.gd
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `celestial_singularity_cert_v2.2.250_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('奇点封印演算方案证书已导出并同步至剪贴板！')
+  }
+}
+
+const godotSingularityCodeText = `## singularity_collapse_resolver.gd
+## Godot 4.6 LTS - 虚空终焉奇点四阶段坍缩与四元素晶核引力对冲解析器
+extends RefCounted
+class_name SingularityCollapseResolver
+
+signal collapse_tier_escalated(tier: int, decay_dps: float)
+signal containment_breached(lifespan_sec: float)
+
+class ContainmentMetrics:
+	var stability: float
+	var effective_decay_dps: float
+	var atb_speed_mod: float
+	var is_stable: bool
+
+static func resolve_containment(tier: int, wind: float, water: float, fire: float, earth: float, has_anchor: bool) -> ContainmentMetrics:
+	var metrics = ContainmentMetrics.new()
+	var avg_tuning = (wind + water + fire + earth) / 4.0
+	var anchor_bonus = 12.0 if has_anchor else 0.0
+	var penalty = float(tier) * 15.0
+	
+	metrics.stability = clampf(avg_tuning + anchor_bonus - penalty + 20.0, 5.0, 100.0)
+	metrics.is_stable = metrics.stability >= 85.0
+	
+	# 火元素吸收伽马暗伤
+	var base_dps = [0.0, 0.0, 350.0, 1500.0, 3500.0][clamp(tier, 0, 4)]
+	metrics.effective_decay_dps = base_dps * (1.0 - (fire / 100.0) * 0.75)
+	
+	# 水元素缓冲时空阻尼
+	var base_atb_penalty = [0.0, 0.0, -25.0, -35.0, -50.0][clamp(tier, 0, 4)]
+	metrics.atb_speed_mod = base_atb_penalty + (water / 100.0) * 30.0
+	
+	return metrics`
 </script>
 
 <style scoped>
