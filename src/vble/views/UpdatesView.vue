@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-systems-godot-architecture-dsp-profiler-2026-10-28',
+    version: 'v2.2.240',
+    date: '2026-10-28',
+    title: 'Godot 4.6 LTS 引擎子系统拓扑、帧预算剖析与音频 DSP 工坊重磅实装',
+    category: 'system',
+    categoryName: '架构演进',
+    icon: '⚙️',
+    tagType: 'info',
+    description: '深度重构升级 SystemsView 引擎底层架构全景：全新实装【Godot 4.6 LTS 引擎子系统拓扑、帧预算剖析与音频 DSP 工坊】（Engine Architecture Studio）。高精推演 Godot 引擎主循环时钟时序：实时剖析 60 FPS (16.6ms) 帧预算在游戏逻辑与魔物 AI (2.1ms)、A*寻路与物理碰撞 (1.4ms)、Shader/TileMap 渲染与 DrawCalls (4.8ms)、音频 DSP 与混响 (0.6ms) 四大阶段的分帧调度模型；支持一键开启百人同屏核爆高压极限压力测试；实装 5 路音频总线 DSP 滤波器矩阵，支持菜单暂停 800Hz 低通滤波、沉没塔深海卷积混响与战前等功率淡化无极调谐；严谨对齐 Godot 4.6 LTS engine_subsystem_orchestrator.gd 与 audio_dsp_bus_matrix.gd 底层架构。',
+    highlights: [
+      '60FPS 帧预算彩条与动态诊断：实时剖析逻辑、物理、渲染、音频四阶段耗时与 VSync 闲置余量',
+      '极限高压负载演练切换：一键注入 100 敌方同屏与全屏粒子核爆，检验分帧削峰器 (TimeSlicer)',
+      '5 路音频总线 DSP 低通调谐：支持 Master/BGM 增益无极调节与 400Hz~20000Hz 截止频率滑块',
+      '经典声学情境一键切换：菜单暂停 800Hz 闷音阻隔、洞窟湿音卷积混响与战前等功率交叉淡化',
+      'Godot 4.6 底层架构契约对齐：无缝衔接 engine_subsystem_orchestrator.gd 与 audio_dsp_bus_matrix.gd'
+    ],
+    relatedLinks: [
+      { label: '引擎架构与系统解析', path: '/vble/systems', icon: '⚙️' },
+      { label: '战斗战术与机制指南', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '复古着色器与画廊滤镜', path: '/vble/gallery', icon: '🖼️' }
+    ]
+  },
+  {
     id: 'up-battle-tactics-atb-clock-combo-studio-2026-10-28',
     version: 'v2.2.239',
     date: '2026-10-28',

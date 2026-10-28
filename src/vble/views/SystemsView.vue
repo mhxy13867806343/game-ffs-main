@@ -9,6 +9,199 @@
       </p>
     </div>
 
+    <!-- 🛠️ Godot 4.6 LTS 全局引擎拓扑、分帧性能剖析器与音频 DSP 混音工坊 -->
+    <div class="bg-gradient-to-br from-[#0c1322]/95 via-[#13122c]/90 to-[#0e1628]/95 border border-cyan-500/50 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-5 relative overflow-hidden">
+      <!-- 头部与控制栏 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-900/40 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">⚙️</span>
+            <h2 class="text-lg sm:text-xl font-black text-cyan-300">
+              Godot 4.6 LTS 引擎子系统拓扑、帧预算剖析与音频 DSP 工坊 (Engine Architecture Studio)
+            </h2>
+            <n-tag size="small" type="success" round strong>60FPS 帧预算控制</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            实时推演 Godot 引擎主循环时序分配（16.6ms 帧预算）、逻辑/物理/渲染分帧调度、三层防崩溃存储镜像与 5 路音频总线 DSP 滤波器矩阵！
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetEngineStudio">
+            🔄 重置基准参数
+          </n-button>
+          <n-button
+            size="small"
+            :type="isSimStress ? 'error' : 'primary'"
+            class="font-bold shadow"
+            @click="toggleStressSimulation"
+          >
+            {{ isSimStress ? '🛑 退出极限压力测试' : '🔥 模拟百人同屏核爆高压' }}
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 三大核心工坊面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 栏 1: 帧预算分配与分阶段耗时分析 (6 cols) -->
+        <div class="lg:col-span-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3.5 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-cyan-300 flex items-center gap-1.5">
+                <span>📊</span> 实时帧预算负载 (16.6ms / 60 FPS)
+              </span>
+              <span class="font-mono text-xs" :class="totalFrameMs > 16.6 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-bold'">
+                {{ totalFrameMs.toFixed(1) }} ms / 16.6 ms ({{ currentFps }} FPS)
+              </span>
+            </div>
+
+            <!-- 帧时间彩条 -->
+            <div class="space-y-1.5">
+              <div class="flex h-4 rounded-lg overflow-hidden border border-slate-700/80 text-[9px] font-mono font-bold text-slate-950">
+                <div class="bg-cyan-400 flex items-center justify-center transition-all duration-300" :style="{ width: `${(frameMetrics.logic / 16.6) * 100}%` }">
+                  LOGIC
+                </div>
+                <div class="bg-indigo-400 flex items-center justify-center transition-all duration-300" :style="{ width: `${(frameMetrics.physics / 16.6) * 100}%` }">
+                  PHYS
+                </div>
+                <div class="bg-amber-400 flex items-center justify-center transition-all duration-300" :style="{ width: `${(frameMetrics.render / 16.6) * 100}%` }">
+                  RENDER
+                </div>
+                <div class="bg-purple-400 flex items-center justify-center transition-all duration-300" :style="{ width: `${(frameMetrics.audio / 16.6) * 100}%` }">
+                  AUDIO
+                </div>
+                <div class="bg-emerald-900/40 text-emerald-300 flex items-center justify-center flex-1">
+                  IDLE
+                </div>
+              </div>
+              <div class="flex items-center justify-between text-[10px] text-gray-400 font-mono">
+                <span>0 ms</span>
+                <span>8.3 ms (120 FPS)</span>
+                <span>16.6 ms (60 FPS)</span>
+              </div>
+            </div>
+
+            <!-- 分项耗时与滑块控制 -->
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 space-y-0.5">
+                <div class="flex justify-between text-gray-400">
+                  <span>🧠 游戏逻辑/AI:</span>
+                  <span class="font-mono text-cyan-300">{{ frameMetrics.logic.toFixed(1) }} ms</span>
+                </div>
+                <div class="text-[10px] text-gray-500">ATB状态机、魔物仇恨决策树</div>
+              </div>
+
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 space-y-0.5">
+                <div class="flex justify-between text-gray-400">
+                  <span>📐 碰撞与寻路:</span>
+                  <span class="font-mono text-indigo-300">{{ frameMetrics.physics.toFixed(1) }} ms</span>
+                </div>
+                <div class="text-[10px] text-gray-500">A*网格寻路、障碍物包围盒</div>
+              </div>
+
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 space-y-0.5">
+                <div class="flex justify-between text-gray-400">
+                  <span>🎨 渲染与DrawCalls:</span>
+                  <span class="font-mono text-amber-300">{{ frameMetrics.render.toFixed(1) }} ms</span>
+                </div>
+                <div class="text-[10px] text-gray-500">CRT滤镜、全屏粒子、TileMap</div>
+              </div>
+
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 space-y-0.5">
+                <div class="flex justify-between text-gray-400">
+                  <span>🎵 音频DSP与混音:</span>
+                  <span class="font-mono text-purple-300">{{ frameMetrics.audio.toFixed(1) }} ms</span>
+                </div>
+                <div class="text-[10px] text-gray-500">低通滤波、卷积混响、环绕声</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 诊断状态 -->
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-[10px] font-mono" :class="totalFrameMs > 16.6 ? 'text-rose-400' : 'text-emerald-400'">
+            {{ frameHealthMessage }}
+          </div>
+        </div>
+
+        <!-- 栏 2: 5 路音频总线 DSP 滤波器矩阵 (6 cols) -->
+        <div class="lg:col-span-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3.5 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-amber-300 flex items-center gap-1.5">
+                <span>🎚️</span> 5 路音频总线与 DSP 低通调谐
+              </span>
+              <span class="text-gray-400 font-mono text-[11px]">audio_dsp_bus_matrix.gd</span>
+            </div>
+
+            <!-- 常用声学情境预设切换 -->
+            <div class="flex flex-wrap gap-1.5">
+              <button
+                v-for="preset in dspPresets"
+                :key="preset.id"
+                type="button"
+                class="px-2.5 py-1 rounded-lg border text-xs cursor-pointer transition-all flex items-center gap-1"
+                :class="activeDspPresetId === preset.id
+                  ? 'bg-amber-950/60 border-amber-400 text-amber-200 font-bold'
+                  : 'bg-slate-900/80 border-slate-800 text-gray-400 hover:border-slate-700'"
+                @click="applyDspPreset(preset.id)"
+              >
+                <span>{{ preset.icon }}</span>
+                <span>{{ preset.name }}</span>
+              </button>
+            </div>
+
+            <!-- 总线滑块控制 -->
+            <div class="space-y-2 text-xs">
+              <div>
+                <div class="flex justify-between text-gray-300 text-[11px] mb-0.5">
+                  <span>主音量 (Master Bus):</span>
+                  <span class="font-mono text-cyan-400 font-bold">{{ masterVolume }} dB</span>
+                </div>
+                <n-slider v-model:value="masterVolume" :min="-40" :max="6" :step="1" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-gray-300 text-[11px] mb-0.5">
+                  <span>背景音乐 (BGM Bus):</span>
+                  <span class="font-mono text-amber-400 font-bold">{{ bgmVolume }} dB</span>
+                </div>
+                <n-slider v-model:value="bgmVolume" :min="-40" :max="6" :step="1" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-gray-300 text-[11px] mb-0.5">
+                  <span>低通滤波截止频率 (Low-Pass Filter):</span>
+                  <span class="font-mono font-bold" :class="lowPassCutoff <= 1000 ? 'text-rose-400' : 'text-emerald-400'">
+                    {{ lowPassCutoff }} Hz {{ lowPassCutoff <= 1000 ? '(已阻隔高频 · 菜单微闷音质)' : '(全频放行)' }}
+                  </span>
+                </div>
+                <n-slider v-model:value="lowPassCutoff" :min="400" :max="20000" :step="200" />
+              </div>
+            </div>
+          </div>
+
+          <!-- DSP 审计回响 -->
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-[10px] font-mono text-gray-300 flex items-center justify-between">
+            <span class="truncate">🔊 {{ dspStatusEcho }}</span>
+            <n-tag size="tiny" :type="lowPassCutoff <= 1000 ? 'warning' : 'success'">
+              {{ lowPassCutoff <= 1000 ? '800Hz 滤波激活' : '常规混音输出' }}
+            </n-tag>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实装审计底栏 -->
+      <div class="p-3.5 rounded-xl bg-slate-950/90 border border-cyan-900/40 text-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="text-cyan-400 text-base">⚡</span>
+          <span class="font-bold text-cyan-300">引擎总线调度回响：</span>
+          <span class="text-gray-200 font-mono">{{ engineAuditLog }}</span>
+        </div>
+        <div class="text-[11px] text-gray-500 font-mono">
+          底层契约: engine_subsystem_orchestrator.gd & audio_dsp_bus_matrix.gd
+        </div>
+      </div>
+    </div>
+
     <!-- 架构卡片网格 -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- 49 层深渊斗技场 -->
@@ -1943,5 +2136,106 @@ const resetNgPlusStudio = () => {
     '重置完成: NG+ 演练台恢复初始参数',
     '默认设置: 第 1 周目通关档，拥有通关星标与 NG+ 资格'
   ]
+}
+
+// ================= ⚙️ Godot 4.6 LTS 引擎子系统与性能工坊 (engine_subsystem_orchestrator.gd / audio_dsp_bus_matrix.gd) =================
+interface FrameMetrics {
+  logic: number
+  physics: number
+  render: number
+  audio: number
+}
+
+const frameMetrics = ref<FrameMetrics>({
+  logic: 2.1,
+  physics: 1.4,
+  render: 4.8,
+  audio: 0.6
+})
+
+const isSimStress = ref(false)
+
+const totalFrameMs = computed(() => {
+  return frameMetrics.value.logic + frameMetrics.value.physics + frameMetrics.value.render + frameMetrics.value.audio
+})
+
+const currentFps = computed(() => {
+  const ms = Math.max(1, totalFrameMs.value)
+  return Math.min(144, Math.round(1000 / ms))
+})
+
+const frameHealthMessage = computed(() => {
+  if (totalFrameMs.value > 16.6) {
+    return '⚠️ 帧预算超载！当前帧耗时超过 16.6ms 门槛，引擎分帧削峰器 (TimeSlicer) 已介入降频。'
+  }
+  const headroom = (16.6 - totalFrameMs.value).toFixed(1)
+  return `✅ 帧预算余量充沛：尚有 ${headroom}ms VSync 闲置缓冲，稳定输出 60 FPS！`
+})
+
+const toggleStressSimulation = () => {
+  isSimStress.value = !isSimStress.value
+  if (isSimStress.value) {
+    frameMetrics.value = {
+      logic: 5.8,
+      physics: 4.2,
+      render: 8.9,
+      audio: 1.2
+    }
+    engineAuditLog.value = '[高压负载注入] 模拟 100 个敌方同屏 + 全屏粒子核爆，DrawCalls 飙升至 450+！'
+  } else {
+    resetEngineStudio()
+  }
+}
+
+// 5路音频总线与DSP调谐
+interface DspPreset {
+  id: string
+  name: string
+  icon: string
+  cutoff: number
+  master: number
+  bgm: number
+}
+
+const dspPresets: DspPreset[] = [
+  { id: 'normal', name: '大地图常规原野', icon: '🌲', cutoff: 20000, master: 0, bgm: 0 },
+  { id: 'menu_pause', name: '菜单暂停 800Hz 滤波', icon: '⏸️', cutoff: 800, master: 0, bgm: -4 },
+  { id: 'cave_reverb', name: '沉没塔深海卷积混响', icon: '🌊', cutoff: 3500, master: 2, bgm: -2 },
+  { id: 'battle_fade', name: '战前等功率交叉淡化', icon: '⚔️', cutoff: 15000, master: 0, bgm: -6 }
+]
+
+const activeDspPresetId = ref('normal')
+const masterVolume = ref(0)
+const bgmVolume = ref(0)
+const lowPassCutoff = ref(20000)
+const dspStatusEcho = ref('就绪：全频放行，Master 总线 0 dB，BGM 总线 0 dB。')
+const engineAuditLog = ref('Godot 4.6 LTS 架构拓扑调度器就绪: engine_subsystem_orchestrator.gd')
+
+const applyDspPreset = (presetId: string) => {
+  activeDspPresetId.value = presetId
+  const p = dspPresets.find(pr => pr.id === presetId)!
+  lowPassCutoff.value = p.cutoff
+  masterVolume.value = p.master
+  bgmVolume.value = p.bgm
+  if (p.cutoff <= 1000) {
+    dspStatusEcho.value = `[DSP低通激活] 800Hz 低通生效，高频泛音截断，模拟菜单阻隔氛围。`
+  } else if (presetId === 'cave_reverb') {
+    dspStatusEcho.value = `[卷积混响] 湿音比率提升 35%，激活湿润石壁声学反射。`
+  } else {
+    dspStatusEcho.value = `[常规声场] 音频总线恢复平坦直通输出。`
+  }
+  engineAuditLog.value = `[音频总线切换] 载入预设: ${p.name} (audio_dsp_bus_matrix.gd)`
+}
+
+const resetEngineStudio = () => {
+  isSimStress.value = false
+  frameMetrics.value = {
+    logic: 2.1,
+    physics: 1.4,
+    render: 4.8,
+    audio: 0.6
+  }
+  applyDspPreset('normal')
+  engineAuditLog.value = '引擎拓扑与性能分帧调度器已恢复基准出厂配置。'
 }
 </script>
