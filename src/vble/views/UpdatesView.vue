@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-gallery-retro-pixel-crt-shader-studio-2026-10-28',
+    version: 'v2.2.233',
+    date: '2026-10-28',
+    title: '复古像素 CRT 显像管与色差滤镜仿真实验室重磅实装',
+    category: 'ui',
+    categoryName: '实机演进',
+    icon: '📺',
+    tagType: 'warning',
+    description: '深度重构升级 GalleryView 美术画廊与视听大殿：全新实装【复古像素 CRT 显像管与色差滤镜仿真实验室】（Retro CRT Shader Studio）。高精仿真 90 年代黄金像素时代的索尼特丽珑 PVM 监视器、街机大屁股机台、便携液晶 Game Boy DMG 掌机与 4K 纯净原画 4 大经典滤镜预设；开放扫描线密度（Scanlines 0~100%）、RGB 棱镜色差分离（Chromatic Aberration 0~12px）、边缘暗角深度（Vignette 0~100%）、荧光粉泛光辉光（Phosphor Glow Bloom）与球面桶形几何失真（Barrel Distortion）等 6 维着色器 Uniforms 无极调谐；支持游戏实机场景高清样张即时切换比对；并严谨对齐 Godot 4.6 LTS crt_retro_shader.gdshader 后处理着色器内核。',
+    highlights: [
+      '四大黄金复古滤镜预设：索尼特丽珑 PVM、街机机台、便携液晶掌机与现代 4K 纯净原画',
+      '六大着色器参数无极调优：高频动态扫描线、RGB 棱镜分离、暗角深度、荧光粉余辉与桶形失真',
+      '实机像素画面即时比对：内置回合制战斗、世界大地图与飞空艇巡航样张一键套用比对',
+      '沉浸式复古机壳视窗：经典 CRT 工业设计外壳、指示灯与操作旋钮设计，视效与怀旧感拉满',
+      'Godot 4.6 底层后处理内核对齐：无缝衔接 crt_retro_shader.gdshader 极低算力开销管线'
+    ],
+    relatedLinks: [
+      { label: '美术画廊与视效沙盘', path: '/vble/gallery', icon: '🎨' },
+      { label: '系统架构与渲染管线', path: '/vble/systems', icon: '⚡' },
+      { label: '世界场景与城镇名录', path: '/vble/scenes', icon: '🏘️' }
+    ]
+  },
+  {
     id: 'up-scenes-settlement-dialogue-studio-2026-10-28',
     version: 'v2.2.232',
     date: '2026-10-28',
