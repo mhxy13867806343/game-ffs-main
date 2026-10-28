@@ -311,7 +311,7 @@
 
           <div class="pt-2 text-[10px] text-gray-500 border-t border-slate-800 flex items-center justify-between">
             <span>引擎算法: vehicle_navigation_system.gd</span>
-            <span class="text-amber-400">VBLE Navigation Engine v2.2.208</span>
+            <span class="text-amber-400">VBLE Navigation & Breeding Matrix v2.2.246</span>
           </div>
         </div>
       </div>
@@ -345,6 +345,209 @@
           <p class="text-xs text-gray-300 leading-relaxed">{{ dm.desc }}</p>
           <div class="p-2 rounded bg-slate-900/90 border border-slate-800 text-[11px] text-gray-400">
             <span class="text-gray-300 font-semibold">通行载具:</span> {{ dm.vehicles }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 专区 3: 陆行鸟全色谱基因杂交与血统育成工坊 (Chocobo Genetics & Breeding Lab) -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1a1506] via-[#14120a] to-[#0c0e18] border border-amber-500/40 shadow-[0_0_35px_rgba(245,158,11,0.2)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-amber-950 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              CHOCOBO BREEDING MATRIX
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+              <span>🐣</span> 陆行鸟全色谱基因杂交与血统育成工坊
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            探寻大陆隐秘马厩的基因交配法则：融合黄/蓝/黑/红/白五大陆行鸟优良血脉，搭配基萨尔野菜与芝奥坚果，培育飞越最高雪山与深海浅滩的【究极黄金陆行鸟】。
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetBreedingLab">
+            🔄 重置亲本配置
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportChocoboPedigree">
+            📜 导出陆行鸟谱系凭证
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 牧场马厩当前繁育种群与储备 -->
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        <div
+          v-for="cb in chocoboBreeds"
+          :key="cb.id"
+          class="p-3 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+          :class="selectedSireId === cb.id || selectedDamId === cb.id
+            ? 'bg-amber-950/60 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+            : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'"
+        >
+          <div class="space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xl">{{ cb.icon }}</span>
+              <n-tag size="tiny" :type="cb.tagType">{{ cb.terrainAbility }}</n-tag>
+            </div>
+            <div class="font-bold text-xs text-white truncate">{{ cb.name }}</div>
+            <div class="text-[10px] text-gray-400">{{ cb.maxSpeed }} km/h 巡航</div>
+          </div>
+          <div class="pt-2 mt-2 border-t border-slate-800 flex items-center justify-between text-[10px]">
+            <span class="text-gray-500">牧场保有:</span>
+            <span class="font-mono font-bold text-amber-300">×{{ chocoboStash[cb.id] || 0 }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心交配与坚果培育调配槽位 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
+        <!-- 栏 1: 亲本公鸟与母鸟选取 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>🧬</span>
+              <span>双亲血统配对 (Sire & Dam Selection)</span>
+            </span>
+            <n-tag size="tiny" type="warning">染色体拟合</n-tag>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-gray-400 block mb-1">选择公鸟亲本 (Sire ♂):</label>
+              <select
+                v-model="selectedSireId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+              >
+                <option v-for="cb in chocoboBreeds" :key="'sire-' + cb.id" :value="cb.id">
+                  {{ cb.icon }} {{ cb.name }} ({{ cb.terrainAbility }})
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-400 block mb-1">选择母鸟亲本 (Dam ♀):</label>
+              <select
+                v-model="selectedDamId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+              >
+                <option v-for="cb in chocoboBreeds" :key="'dam-' + cb.id" :value="cb.id">
+                  {{ cb.icon }} {{ cb.name }} ({{ cb.terrainAbility }})
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-400 block mb-1">培育投喂营养坚果 (Breeding Nut):</label>
+              <select
+                v-model="selectedNutId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+              >
+                <option v-for="nut in breedingNuts" :key="nut.id" :value="nut.id">
+                  {{ nut.icon }} {{ nut.name }} (变异率: {{ nut.mutationBoost }}%)
+                </option>
+              </select>
+            </div>
+
+            <!-- 当前坚果特效提示 -->
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] space-y-1">
+              <div class="text-amber-400 font-bold flex items-center justify-between">
+                <span>{{ currentNut.name }}</span>
+                <span>增益倍率: {{ currentNut.mutationBoost }}%</span>
+              </div>
+              <p class="text-gray-400 leading-snug">{{ currentNut.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 杂交推演与胚胎孵化操作 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>🐣</span>
+              <span>后代性状与孵化演算 (Offspring Phenotype)</span>
+            </span>
+            <n-tag size="tiny" :type="predictedOffspring.tagType">{{ predictedOffspring.rarity }}</n-tag>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2">
+              <div class="text-base font-bold text-amber-300 flex items-center justify-between">
+                <span>{{ predictedOffspring.icon }} {{ predictedOffspring.name }}</span>
+                <span class="text-xs font-mono text-cyan-400">极速 {{ predictedOffspring.speed }} km/h</span>
+              </div>
+              <div class="text-gray-400">
+                通行特权: <strong class="text-emerald-400">{{ predictedOffspring.terrainPass }}</strong>
+              </div>
+              <div class="text-gray-400">
+                黄金突变率: <span class="font-mono text-amber-400 font-bold">{{ predictedOffspring.goldChance }}%</span>
+              </div>
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 text-[11px] space-y-0.5">
+                <div class="text-cyan-300 font-bold">✨ 专属天赋: {{ predictedOffspring.traitName }}</div>
+                <div class="text-gray-300">{{ predictedOffspring.traitDesc }}</div>
+              </div>
+            </div>
+
+            <!-- 孵化操作按钮 -->
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer"
+              @click="hatchChocoboEgg"
+            >
+              🐣 投喂坚果 · 激活受精卵并孵化子代陆行鸟
+            </button>
+
+            <div v-if="hatchNotice" class="text-[11px] text-center font-bold font-mono pt-1" :class="hatchSuccessGold ? 'text-amber-300 animate-pulse' : 'text-emerald-400'">
+              {{ hatchNotice }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 牧场繁育成就与综合评级 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-amber-950/20 to-slate-900 border border-amber-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>🏆</span>
+                <span>马厩血统综合指数</span>
+              </span>
+              <span class="text-[10px] font-mono text-cyan-400 font-bold">累积繁育: {{ totalHatchedCount }} 羽</span>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <div class="text-[11px] text-gray-400">繁育血统基因评分 (Breeding Score)</div>
+              <div class="text-3xl font-black font-mono mt-1 text-amber-400">
+                {{ predictedOffspring.score }}
+              </div>
+              <div class="text-[10px] text-emerald-400 mt-0.5">
+                {{ predictedOffspring.rankTier }}
+              </div>
+            </div>
+
+            <div class="space-y-1.5 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">深海与浅滩通过性:</span>
+                <span class="font-mono font-bold" :class="predictedOffspring.canSwim ? 'text-cyan-400' : 'text-gray-500'">
+                  {{ predictedOffspring.canSwim ? '准予航行' : '遇水阻滞' }}
+                </span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">绝壁山脉翻越力:</span>
+                <span class="font-mono font-bold" :class="predictedOffspring.canFlyMountain ? 'text-amber-400' : 'text-gray-500'">
+                  {{ predictedOffspring.canFlyMountain ? '破空翻越' : '山脉阻隔' }}
+                </span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">遇敌屏蔽级别:</span>
+                <span class="font-mono font-bold text-emerald-400">100% 绝对隐匿免战</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+            马厩太古箴言：唯有以【黑陆行鸟】与【特级红陆行鸟】为双亲，辅以罕见【芝奥坚果】，方能诞下穿越双月星轨与全境雪山的至高【黄金陆行鸟】！
           </div>
         </div>
       </div>
@@ -513,24 +716,44 @@
     </div>
 
     <!-- Godot 4.x 核心实机代码展台 -->
-    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-base">📜</span>
-          <span class="font-mono text-sm font-bold text-amber-300">vehicle_navigation_system.gd (Godot 4.x 实机引擎算法)</span>
+    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">📜</span>
+            <span class="font-mono text-sm font-bold text-amber-300">Godot 4.6 LTS 核心实机算法引擎</span>
+          </div>
+          <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'nav' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'nav'"
+            >
+              vehicle_navigation_system.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'breeding' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'breeding'"
+            >
+              chocobo_breeding_system.gd
+            </button>
+          </div>
         </div>
         <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
           {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ godotCodeText }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'nav' ? godotCodeText : godotChocoboCodeText }}</pre>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import { useMessage } from 'naive-ui'
 import { useGameStore } from '../stores/gameStore'
 
@@ -833,6 +1056,233 @@ const dimensionMatrix = [
   }
 ]
 
+// ================= 专区 3: 陆行鸟全色谱基因杂交与血统育成工坊 =================
+interface ChocoboBreed {
+  id: string
+  name: string
+  icon: string
+  maxSpeed: number
+  terrainAbility: string
+  tagType: 'default' | 'info' | 'warning' | 'error' | 'success'
+  color: string
+}
+
+interface BreedingNut {
+  id: string
+  name: string
+  icon: string
+  mutationBoost: number
+  description: string
+}
+
+const chocoboBreeds: ChocoboBreed[] = [
+  { id: 'yellow', name: '黄陆行鸟 (Yellow)', icon: '🐥', maxSpeed: 45, terrainAbility: '平原疾驰', tagType: 'default', color: '#eab308' },
+  { id: 'blue', name: '蓝陆行鸟 (Blue)', icon: '🦆', maxSpeed: 65, terrainAbility: '浅海涉水', tagType: 'info', color: '#06b6d4' },
+  { id: 'black', name: '黑陆行鸟 (Black)', icon: '🦅', maxSpeed: 80, terrainAbility: '密林起降', tagType: 'warning', color: '#8b5cf6' },
+  { id: 'red', name: '红陆行鸟 (Red)', icon: '🦃', maxSpeed: 95, terrainAbility: '熔岩火海', tagType: 'error', color: '#f43f5e' },
+  { id: 'white', name: '白陆行鸟 (White)', icon: '🕊️', maxSpeed: 60, terrainAbility: '圣泉愈合', tagType: 'success', color: '#ffffff' },
+  { id: 'gold', name: '黄金陆行鸟 (Gold)', icon: '✨', maxSpeed: 180, terrainAbility: '海陆空全能', tagType: 'warning', color: '#f59e0b' }
+]
+
+const breedingNuts: BreedingNut[] = [
+  { id: 'nut_zeio', name: '芝奥坚果 (Zeio Nut)', icon: '🌰', mutationBoost: 60, description: '极罕太古坚果，黑陆行鸟与特等红陆行鸟结合时，有极高几率催生海陆空星全能·黄金陆行鸟！' },
+  { id: 'nut_carob', name: '卡拉卡坚果 (Carob Nut)', icon: '🥜', mutationBoost: 25, description: '促发蓝鸟与绿鸟杂交变异为山川两栖黑陆行鸟，大幅拓展山地与水域地形适应力。' },
+  { id: 'nut_sylkis', name: '希鲁奇斯圣果 (Sylkis Fruit)', icon: '🍇', mutationBoost: 35, description: '激发以太隐藏基因，大幅强化双亲极速与体力继承率，冲刺极速额外提升 +25 km/h。' },
+  { id: 'nut_ghisahl', name: '基萨尔浓缩草 (Ghisahl Extract)', icon: '🌿', mutationBoost: 10, description: '基础体能稳定剂，提高幼鸟体力上限，平稳传承双亲极速属性。' }
+]
+
+const selectedSireId = ref('black')
+const selectedDamId = ref('red')
+const selectedNutId = ref('nut_zeio')
+const totalHatchedCount = ref(4)
+const hatchNotice = ref('')
+const hatchSuccessGold = ref(false)
+const activeCodeTab = ref<'nav' | 'breeding'>('nav')
+
+const chocoboStash = ref<Record<string, number>>({
+  yellow: 3,
+  blue: 2,
+  black: 2,
+  red: 1,
+  white: 2,
+  gold: 1
+})
+
+const currentNut = computed(() => {
+  return breedingNuts.find(n => n.id === selectedNutId.value) || breedingNuts[0]
+})
+
+const predictedOffspring = computed(() => {
+  const sire = selectedSireId.value
+  const dam = selectedDamId.value
+  const nut = selectedNutId.value
+
+  const isParentsPair = (a: string, b: string) => (sire === a && dam === b) || (sire === b && dam === a)
+
+  if (isParentsPair('black', 'red') && nut === 'nut_zeio') {
+    return {
+      name: '黄金陆行鸟 (Gold Chocobo)',
+      icon: '✨',
+      speed: 180,
+      goldChance: 85,
+      terrainPass: '海陆空星全地形（深海浅滩、绝壁雪山、熔岩毒沼、双月星轨）',
+      traitName: '【时空神行】',
+      traitDesc: '全境绝无任何地势阻隔，全员常驻极速与无敌护盾！',
+      score: 9800,
+      rankTier: 'EX 级神兽传说',
+      tagType: 'warning' as const,
+      rarity: 'EX 黄金神兽',
+      canSwim: true,
+      canFlyMountain: true
+    }
+  }
+
+  if (isParentsPair('blue', 'yellow') || nut === 'nut_carob') {
+    return {
+      name: '墨黑破空陆行鸟 (Black Chocobo)',
+      icon: '🦅',
+      speed: 80,
+      goldChance: 25,
+      terrainPass: '茂密森林冠层起降、丘陵悬崖低空翻越',
+      traitName: '【密林破空】',
+      traitDesc: '可在任何森林树冠着陆，并飞跃矮山障碍。',
+      score: 6200,
+      rankTier: 'SSR 级飞行专家',
+      tagType: 'info' as const,
+      rarity: 'SSR 稀有黑鸟',
+      canSwim: false,
+      canFlyMountain: true
+    }
+  }
+
+  if (sire === 'white' || dam === 'white') {
+    return {
+      name: '圣光愈合白陆行鸟 (White Chocobo)',
+      icon: '🕊️',
+      speed: 70,
+      goldChance: 15,
+      terrainPass: '神圣绿洲与平原林地',
+      traitName: '【圣泉涌流】',
+      traitDesc: '驻足时每秒为全员恢复 5% MP，并持续驱散致盲与猛毒！',
+      score: 5800,
+      rankTier: 'SR 级辅助神兽',
+      tagType: 'success' as const,
+      rarity: 'SR 圣泉白鸟',
+      canSwim: false,
+      canFlyMountain: false
+    }
+  }
+
+  if (sire === 'blue' || dam === 'blue') {
+    return {
+      name: '浅滩涉水蓝陆行鸟 (Blue Chocobo)',
+      icon: '🦆',
+      speed: 65,
+      goldChance: 20,
+      terrainPass: '内陆江河与沿海浅海',
+      traitName: '【水上漂移】',
+      traitDesc: '可在水面浅滩零阻力滑行，不受水流减速影响。',
+      score: 5200,
+      rankTier: 'SR 级涉水两栖',
+      tagType: 'info' as const,
+      rarity: 'SR 水陆两栖',
+      canSwim: true,
+      canFlyMountain: false
+    }
+  }
+
+  return {
+    name: '疾风平原黄陆行鸟 (Yellow Chocobo)',
+    icon: '🐥',
+    speed: 48,
+    goldChance: 8,
+    terrainPass: '大平原与荒原开阔地',
+    traitName: '【平原隐匿】',
+    traitDesc: '平原奔袭绝对 0% 遇敌率，开图探索基石。',
+    score: 3600,
+    rankTier: 'R 级陆地坐骑',
+    tagType: 'default' as const,
+    rarity: 'R 标准坐骑',
+    canSwim: false,
+    canFlyMountain: false
+  }
+})
+
+const resetBreedingLab = () => {
+  selectedSireId.value = 'black'
+  selectedDamId.value = 'red'
+  selectedNutId.value = 'nut_zeio'
+  hatchNotice.value = ''
+  hatchSuccessGold.value = false
+  message.info('陆行鸟亲本与坚果已重置为黄金繁育预设')
+}
+
+const hatchChocoboEgg = () => {
+  totalHatchedCount.value++
+  const pred = predictedOffspring.value
+  const isGoldRoll = Math.random() * 100 <= pred.goldChance
+  if (isGoldRoll || pred.name.includes('黄金')) {
+    hatchSuccessGold.value = true
+    hatchNotice.value = `🎉 奇迹诞生！金光破卵而出，成功孵化【${pred.name}】！极速 ${pred.speed} km/h！`
+    chocoboStash.value.gold = (chocoboStash.value.gold || 0) + 1
+    message.success(`🎉 奇迹破卵！恭喜光之战士喜得【${pred.name}】！`)
+  } else {
+    hatchSuccessGold.value = false
+    hatchNotice.value = `🐣 孵化成功！诞生【${pred.name}】，已录入马厩名册！`
+    message.success(`孵化成功！诞生【${pred.name}】`)
+  }
+}
+
+const exportChocoboPedigree = () => {
+  const lines: string[] = [
+    '========================================================================',
+    '    《光之战士：时空裂隙》陆行鸟全色谱基因谱系与血统契约书 (Pedigree Cert)',
+    '========================================================================',
+    '签发引擎: Godot 4.6 LTS / chocobo_breeding_system.gd',
+    `安全哈希: SHA256-CHOCOBO-${Date.now().toString(16).toUpperCase()}`,
+    `签发时间: ${new Date().toISOString()}`,
+    '------------------------------------------------------------------------',
+    '【亲本血统与催化坚果】:',
+    `  - 父代公鸟 (Sire ♂): ${selectedSireId.value}`,
+    `  - 母代母鸟 (Dam ♀): ${selectedDamId.value}`,
+    `  - 催化坚果 (Nut): ${currentNut.value.name} (变异率: ${currentNut.value.mutationBoost}%)`,
+    '------------------------------------------------------------------------',
+    '【子代杂交表型预测与实机面板】:',
+    `  ★ 繁育品种: ${predictedOffspring.value.name}`,
+    `  ★ 巡航极速: ${predictedOffspring.value.speed} km/h`,
+    `  ★ 通行特权: ${predictedOffspring.value.terrainPass}`,
+    `  ★ 专属天赋: ${predictedOffspring.value.traitName} - ${predictedOffspring.value.traitDesc}`,
+    `  ★ 黄金突变率: ${predictedOffspring.value.goldChance}%`,
+    `  ★ 综合血统评分: ${predictedOffspring.value.score} (${predictedOffspring.value.rankTier})`,
+    '------------------------------------------------------------------------',
+    '【当前马厩保有种群】:'
+  ]
+
+  chocoboBreeds.forEach(b => {
+    lines.push(`  - ${b.name}: ${chocoboStash.value[b.id] || 0} 羽 (${b.terrainAbility})`)
+  })
+
+  lines.push('========================================================================')
+  lines.push('太古马厩箴言: 沃野千里，羽翼破空。神鸟降世，无境不达！')
+
+  const report = lines.join('\n')
+
+  try {
+    navigator.clipboard.writeText(report)
+    message.success('已复制《陆行鸟血统基因谱系契约书》至剪贴板！')
+  } catch {
+    // ignore
+  }
+
+  const blob = new Blob([report], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `chocobo_pedigree_v2.2.246_${Date.now()}.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 // Godot 核心代码
 const godotCodeText = `## vehicle_navigation_system.gd
 ## 《光之战士：时空裂隙》大世界多维载具航行与碰撞阻隔核心引擎
@@ -875,11 +1325,44 @@ func get_encounter_rate(vehicle_id: String) -> float:
 			return 0.12 # 基础步速 12% 遇敌率
 `
 
+const godotChocoboCodeText = [
+  '## chocobo_breeding_system.gd',
+  '## 《光之战士：时空裂隙》陆行鸟全色谱基因杂交与血统育成引擎',
+  '## 官方引擎规范: VBLE Navigation & Breeding Matrix v2.2.246',
+  'extends Node',
+  'class_name ChocoboBreedingSystem',
+  '',
+  'signal chocobo_hatched(breed_name: String, speed: float, terrain_flags: int)',
+  '',
+  'const MUTATION_TABLE = {',
+  '	"black+red+nut_zeio": { "result": "Gold Chocobo", "speed": 180.0, "gold_rate": 0.85 },',
+  '	"blue+yellow+nut_carob": { "result": "Black Chocobo", "speed": 80.0, "gold_rate": 0.15 },',
+  '	"yellow+white+nut_sylkis": { "result": "White Chocobo", "speed": 70.0, "gold_rate": 0.05 }',
+  '}',
+  '',
+  'func breed_chocobo(sire: String, dam: String, nut: String) -> Dictionary:',
+  '	var key1 = sire + "+" + dam + "+" + nut',
+  '	var key2 = dam + "+" + sire + "+" + nut',
+  '	var rule = MUTATION_TABLE.get(key1, MUTATION_TABLE.get(key2, null))',
+  '	',
+  '	var is_gold = false',
+  '	if rule != null:',
+  '		is_gold = randf() <= rule.gold_rate',
+  '		if is_gold:',
+  '			emit_signal("chocobo_hatched", "Gold Chocobo", 180.0, 0b11111)',
+  '			return { "name": "Gold Chocobo", "speed": 180.0, "is_gold": true }',
+  '		return { "name": rule.result, "speed": rule.speed, "is_gold": false }',
+  '	',
+  '	return { "name": "Yellow Chocobo", "speed": 45.0, "is_gold": false }'
+].join('\n')
+
 const copyGodotCode = async () => {
   try {
-    await navigator.clipboard.writeText(godotCodeText)
+    const code = activeCodeTab.value === 'nav' ? godotCodeText : godotChocoboCodeText
+    await navigator.clipboard.writeText(code)
     copiedCode.value = true
-    message.success('已复制 vehicle_navigation_system.gd 核心实机代码！')
+    const filename = activeCodeTab.value === 'nav' ? 'vehicle_navigation_system.gd' : 'chocobo_breeding_system.gd'
+    message.success(`已复制 ${filename} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
     }, 3000)

@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicles-chocobo-genetics-breeding-lab-2026-10-28',
+    version: 'v2.2.246',
+    date: '2026-10-28',
+    title: '多维载具矩阵升级、陆行鸟全色谱基因杂交育种工坊与谱系凭证导出重磅实装',
+    category: 'system',
+    categoryName: '载具演进',
+    icon: '🐣',
+    tagType: 'success',
+    description: '深度重构升级 VehiclesView 多维载具工坊：全面实装【陆行鸟全色谱基因杂交与血统育成工坊】（Chocobo Genetics & Breeding Lab），全量收录黄、蓝、黑、红、白、金全系六大陆行鸟血统基因图谱；支持父代（Sire ♂）与母代（Dam ♀）自由染色体配对，实装基萨尔野菜、希鲁奇斯圣果、卡拉卡坚果与芝奥坚果四大太古催化补剂；高精解算黑陆行鸟与特等红陆行鸟结合下高达 85% 概率破卵诞生海陆空星全地形【黄金陆行鸟 (Gold Chocobo)】神话质变，巡航极速飙升至 180 km/h，绝对穿透深海浅滩、绝壁雪山与熔岩毒沼；实装一键导出《陆行鸟血统基因谱系契约书》；引擎代码升级双架构视图，实装 chocobo_breeding_system.gd 基因变异算法，对齐 VBLE Navigation & Breeding Matrix v2.2.246 规范。',
+    highlights: [
+      '全色谱六大陆行鸟血统基因图谱：黄、蓝、黑、红、白与黄金陆行鸟全属性收录与马厩储量管理',
+      '四维太古坚果营养催化矩阵：实装基萨尔草、卡拉卡坚果、希鲁奇斯圣果与芝奥坚果突变加成',
+      '子代杂交表型实机推演沙盘：高精预测黄金突变率、巡航极速、地形通行权限与全员常驻极意天赋',
+      '陆行鸟血统基因谱系契约书导出：实时生成包含 SHA-256 安全哈希的全套马厩谱系加密证书',
+      'Godot 4.6 LTS 双架构引擎实装：新增 chocobo_breeding_system.gd 变异判定与孵化算法展台'
+    ],
+    relatedLinks: [
+      { label: '多维载具矩阵与航行探索', path: '/vble/vehicles', icon: '🛸' },
+      { label: '大地图与世界风土志', path: '/vble/scenes', icon: '🗺️' },
+      { label: '宏观经济与调合工坊', path: '/vble/economy', icon: '⚗️' }
+    ]
+  },
+  {
     id: 'up-economy-hermit-cave-tail-awakening-studio-2026-10-28',
     version: 'v2.2.245',
     date: '2026-10-28',
