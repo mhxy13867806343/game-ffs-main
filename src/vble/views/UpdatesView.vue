@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-economy-black-market-spacetime-auction-2026-10-28',
+    version: 'v2.2.261',
+    date: '2026-10-28',
+    title: '全域黑市跨次元秘宝拍卖行与动态通胀汇率推演工坊震撼实装',
+    category: 'equipment',
+    categoryName: '经济拍卖',
+    icon: '🏛️',
+    tagType: 'warning',
+    description: '全面重构升级 EconomyView 宏观经济与调合工坊门户：升级奢华顶部横幅标章至 VBLE Macro Economy & Black Market Auction Matrix v2.2.261，新增专属快捷直达锚点；核心专区重磅实装【全域黑市跨次元秘宝拍卖行与动态通胀汇率推演工坊】（Spacetime Black Market & Inflation Studio），涵盖四大跨次元绝版极罕标的（诸神之黄昏破限附魔石、圣灵药太古配方秘卷、黄金陆行鸟羽毛、创世以太核芯）；集成多轮竞价加价机制（+5,000G / +20,000G / +50,000G）与法槌四阶推进落槌判定（交锋中 / 一槌 / 二槌 / 成交）；引入四大 NPC 豪客个性化实时加价与台词拦截（蜃楼豪商·贾瓦德、虚空秘术师·莫甘娜、跨界海盗·红胡子、帝国国库特使·雷加尔）；实装跨维度四币种动态通胀与外汇矩阵（金币、ABP 代币、星之碎片、虚空以太晶），支持 0.5x~3.0x 裂隙通胀指数实时联动、商会外汇兑换速算（扣除 2% 手续费）与随身金库资产实时折算；提供一键导出《全域黑市跨次元秘宝拍卖行与动态通胀结算凭证》并附带专属唯一档案号与 SHA-256 安全数字哈希防伪；底落实机算法展台升级为三栏切换，新增 black_market_auction_engine.gd 实机引擎源码展台。',
+    highlights: [
+      '四大跨次元绝版极罕拍卖标的：诸神黄昏破限附魔石 (+99攻破限)、圣灵药太古配方秘卷、黄金陆行鸟羽毛 (先制100%)、创世以太核芯 (MP耗恒定1)',
+      '实时多智能体竞标对抗沙盘：支持玩家自由加价举牌，四大个性 NPC 豪客带台词实时反击抢标',
+      '法槌四阶段推进落槌判定状态机：完整推演交锋中、一槌、二槌至最终成交，支持拍品斩获珍藏架',
+      '多币种动态通胀与外汇汇率矩阵：金币、ABP、星之碎片与虚空以太晶四币种挂钩 0.5x~3.0x 裂隙通胀因子',
+      '黑市跨境速兑结算机：支持各通货双向兑换、自动扣除 2% 商会佣金并实时刷新金库折算总净资产',
+      'Godot 4.6 LTS 核心实机代码展台：扩展至三脚本矩阵，全新提供 black_market_auction_engine.gd 源码一键复制'
+    ],
+    relatedLinks: [
+      { label: '宏观经济与调合工坊', path: '/vble/economy', icon: '⚗️' },
+      { label: '神装武器装备图鉴', path: '/vble/equipment', icon: '⚔️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-monsters-ecology-evolution-studio-2026-10-28',
     version: 'v2.2.260',
     date: '2026-10-28',

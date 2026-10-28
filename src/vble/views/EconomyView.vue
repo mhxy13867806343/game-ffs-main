@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              MACRO ECONOMY & ALCHEMY WORKSHOP
+              VBLE Macro Economy & Black Market Auction Matrix v2.2.261
             </span>
-            <span class="text-xs text-gray-400">宏观经济、尾巴奇迹与药剂质变</span>
+            <span class="text-xs text-gray-400">宏观经济、尾巴奇迹、质变药剂与跨次元黑市拍卖行</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>⚗️</span> 宏观经济与调合工坊：七色尾巴兑换与药剂师质变炼金
+            <span>⚗️</span> 宏观经济与调合工坊：七色尾巴兑换、质变药剂与跨次元黑市拍卖
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            从全境五阶商业城邦贸易物价指数，到隐士洞窟的七色尾巴神器传承兑换，以及药剂师两两调合的质变炼金体系。全息实装配方动态模拟沙盘。
+            从全境五阶商业城邦贸易物价指数，到隐士洞窟的七色尾巴神器传承兑换、药剂师两两调合的质变炼金体系，乃至穿梭次元裂隙的黑市多币种竞拍行。全息实装多模态动态模拟沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="primary"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToAuctionStudio"
+          >
+            <template #icon><span>🏛️</span></template>
+            前往跨次元拍卖行
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -745,6 +756,344 @@
       </div>
     </div>
 
+    <!-- 专区 5: 全域黑市跨次元秘宝拍卖行与动态通胀汇率推演工坊 (Spacetime Black Market & Inflation Studio) -->
+    <div id="spacetime-auction-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1d1208] via-[#14121e] to-[#0c0d16] border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.22)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-amber-900/50 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              SPACETIME AUCTION & INFLATION STUDIO
+            </span>
+            <span class="text-xs text-gray-400 font-mono">v2.2.261 官方实机矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-1">
+            <span>🏛️</span> 全域黑市跨次元秘宝拍卖行与动态通胀汇率推演工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            穿梭于次元裂隙的黑市神秘会所：实时模拟 4 大极罕拍品动态竞价落槌、4 位个性 NPC 豪客实时举牌、多币种动态通胀汇率联动折算与 SHA-256 交易凭证一键导出。
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetAuctionStudio">
+            🔄 重置拍卖行与金库
+          </n-button>
+          <n-button size="small" secondary type="info" @click="depositPlayerFunds">
+            💰 补充金库 +100,000G
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportAuctionCertificate">
+            📜 导出拍卖行结算凭证
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 三栏主推演工作台 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 跨次元极罕拍品标的与实时竞标台 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>🔨</span>
+                <span>跨次元极罕拍品标的</span>
+              </span>
+              <n-tag size="tiny" :type="currentMarketLot.tagType">{{ currentMarketLot.rarity }}</n-tag>
+            </div>
+
+            <!-- 拍品切换 -->
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                v-for="lot in marketLotsList"
+                :key="lot.id"
+                type="button"
+                class="p-2 rounded-lg border text-left transition-all cursor-pointer"
+                :class="selectedMarketLotId === lot.id
+                  ? 'bg-amber-950/60 border-amber-400 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
+                  : 'bg-slate-950 border-slate-800 text-gray-400 hover:border-slate-700'"
+                @click="selectMarketLot(lot.id)"
+              >
+                <div class="text-xs font-bold truncate flex items-center gap-1">
+                  <span>{{ lot.icon }}</span>
+                  <span>{{ lot.shortName }}</span>
+                </div>
+                <div class="text-[10px] text-gray-400 font-mono mt-0.5">起拍 {{ lot.startPrice.toLocaleString() }}G</div>
+              </button>
+            </div>
+
+            <!-- 当前拍品详情视窗 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-black text-white flex items-center gap-1.5">
+                  <span>{{ currentMarketLot.icon }}</span>
+                  <span>{{ currentMarketLot.name }}</span>
+                </span>
+                <span class="text-[10px] text-amber-400 font-mono font-bold">{{ currentMarketLot.category }}</span>
+              </div>
+              <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentMarketLot.description }}</p>
+              <div class="p-2 rounded bg-amber-950/30 border border-amber-900/40 text-[11px] text-amber-200">
+                ✨ <strong>专属特效:</strong> {{ currentMarketLot.effect }}
+              </div>
+            </div>
+
+            <!-- 竞标态势看板与法槌阶段 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2 text-xs">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">当前最高出价:</span>
+                <span class="font-mono text-base font-black text-amber-300">{{ marketHighestBid.toLocaleString() }} Gil</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">目前领标者:</span>
+                <span class="font-bold" :class="marketLeadingBidder.isPlayer ? 'text-emerald-400' : 'text-cyan-400'">
+                  {{ marketLeadingBidder.name }}
+                </span>
+              </div>
+              <div class="flex justify-between items-center pt-1 border-t border-slate-800">
+                <span class="text-gray-400">拍卖法槌状态:</span>
+                <span
+                  class="text-[11px] font-bold px-2 py-0.5 rounded-full"
+                  :class="gavelPhaseBadgeClass"
+                >
+                  {{ gavelPhaseText }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 加价操作区与敲击法槌 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div class="grid grid-cols-3 gap-1.5 text-xs">
+              <button
+                type="button"
+                class="py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold border border-slate-700 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                :disabled="isMarketLotSold || playerVault.gil < 5000"
+                @click="placePlayerBid(5000)"
+              >
+                +5,000G
+              </button>
+              <button
+                type="button"
+                class="py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                :disabled="isMarketLotSold || playerVault.gil < 20000"
+                @click="placePlayerBid(20000)"
+              >
+                +20,000G
+              </button>
+              <button
+                type="button"
+                class="py-1.5 rounded bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                :disabled="isMarketLotSold || playerVault.gil < 50000"
+                @click="placePlayerBid(50000)"
+              >
+                +50,000G
+              </button>
+            </div>
+
+            <div class="flex gap-2">
+              <button
+                type="button"
+                class="flex-1 py-2 rounded-lg bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white font-bold text-xs transition-all cursor-pointer disabled:opacity-40"
+                :disabled="isMarketLotSold"
+                @click="stepAuctionGavel"
+              >
+                🔨 敲击法槌 (推进落槌)
+              </button>
+              <button
+                type="button"
+                class="py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs transition-all cursor-pointer"
+                @click="triggerNpcRandomBid"
+              >
+                🤖 NPC 举牌
+              </button>
+            </div>
+
+            <!-- 竞标事件流动实时记录 -->
+            <div class="p-2 rounded bg-slate-950/80 border border-slate-800 text-[10px] space-y-1 max-h-24 overflow-y-auto">
+              <div v-for="(log, idx) in auctionLogs" :key="idx" class="text-gray-300 flex items-start gap-1">
+                <span class="text-amber-400 shrink-0">•</span>
+                <span>{{ log }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 跨维度四币种动态通胀与外汇汇率矩阵 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>📈</span>
+              <span>全域通胀指数与跨界外汇矩阵</span>
+            </span>
+            <n-tag size="tiny" type="warning">{{ inflationStatusText }}</n-tag>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between items-center text-gray-300 mb-1">
+                <span>次元裂隙通胀波动指数 (Inflation Multiplier):</span>
+                <span class="font-mono text-amber-400 font-bold text-sm">{{ inflationFactor.toFixed(2) }}x</span>
+              </div>
+              <n-slider v-model:value="inflationFactor" :min="0.5" :max="3.0" :step="0.05" />
+            </div>
+
+            <!-- 汇率一览表 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2">
+              <div class="text-[11px] font-bold text-gray-400 flex justify-between">
+                <span>货币种类</span>
+                <span>当前折算金币 (Gil)</span>
+              </div>
+              <div class="space-y-1.5 font-mono text-[11px]">
+                <div class="flex justify-between items-center text-amber-300">
+                  <span>🪙 金币 (Gil)</span>
+                  <span>1.00 G (法定基准)</span>
+                </div>
+                <div class="flex justify-between items-center text-emerald-400">
+                  <span>💠 职业点代币 (ABP)</span>
+                  <span>{{ Math.round(120 * inflationFactor).toLocaleString() }} G / 1 ABP</span>
+                </div>
+                <div class="flex justify-between items-center text-cyan-400">
+                  <span>⭐ 星之碎片 (Star Shard)</span>
+                  <span>{{ Math.round(2500 * inflationFactor).toLocaleString() }} G / 1 碎片</span>
+                </div>
+                <div class="flex justify-between items-center text-purple-400">
+                  <span>🔮 虚空以太晶 (Void Crystal)</span>
+                  <span>{{ Math.round(50000 * inflationFactor).toLocaleString() }} G / 1 晶石</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 跨币种兑换兑入计算器 -->
+            <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-2.5">
+              <div class="font-bold text-gray-300 flex items-center justify-between">
+                <span>💱 跨维度外汇速兑机 (Guild FX Swap)</span>
+                <span class="text-[10px] text-gray-500 font-mono">商会手续费 2%</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="text-[10px] text-gray-400 block mb-0.5">从源货币支出:</label>
+                  <select
+                    v-model="swapSourceCurrency"
+                    class="w-full bg-slate-900 border border-slate-700 text-xs text-gray-200 rounded p-1.5 focus:outline-none focus:border-cyan-400"
+                  >
+                    <option value="gil">🪙 金币 (Gil)</option>
+                    <option value="abp">💠 职业点 (ABP)</option>
+                    <option value="shard">⭐ 星之碎片</option>
+                    <option value="crystal">🔮 虚空晶石</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-[10px] text-gray-400 block mb-0.5">兑入目标资产:</label>
+                  <select
+                    v-model="swapTargetCurrency"
+                    class="w-full bg-slate-900 border border-slate-700 text-xs text-gray-200 rounded p-1.5 focus:outline-none focus:border-cyan-400"
+                  >
+                    <option value="gil">🪙 金币 (Gil)</option>
+                    <option value="abp">💠 职业点 (ABP)</option>
+                    <option value="shard">⭐ 星之碎片</option>
+                    <option value="crystal">🔮 虚空晶石</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[10px] text-gray-400 block mb-0.5">兑换数量:</label>
+                <input
+                  v-model.number="swapAmount"
+                  type="number"
+                  min="1"
+                  class="w-full bg-slate-900 border border-slate-700 text-xs text-amber-300 font-mono rounded p-1.5 focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between items-center text-xs">
+                <span class="text-gray-400">预计净获得:</span>
+                <span class="font-mono font-bold text-emerald-400">
+                  {{ calculatedSwapResult.netYield.toLocaleString() }} {{ calculatedSwapResult.targetUnit }}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="w-full py-1.5 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs transition-all cursor-pointer shadow"
+                @click="executeCurrencySwap"
+              >
+                💱 确认兑换并注入金库
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 光之战士随身金库资产与竞拍获胜总览 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-amber-950/20 to-slate-900 border border-amber-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>🏦</span>
+                <span>光之战士随身裂隙金库</span>
+              </span>
+              <n-tag size="tiny" type="success">{{ guildReputationTitle }}</n-tag>
+            </div>
+
+            <!-- 金库总资产折算卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <div class="text-[11px] text-gray-400">金库总净资产 (Total Net Worth in Gil)</div>
+              <div class="text-2xl sm:text-3xl font-black font-mono mt-1 text-amber-400">
+                {{ totalNetWorthGil.toLocaleString() }} <span class="text-xs text-amber-300">G</span>
+              </div>
+              <div class="text-[10px] text-gray-400 mt-0.5">
+                实时联运四种跨界通货加权解算
+              </div>
+            </div>
+
+            <!-- 各币种库存明细 -->
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2 rounded bg-slate-950/80 border border-slate-800">
+                <div class="text-gray-400 text-[10px]">🪙 随身金币</div>
+                <div class="font-mono font-bold text-amber-300 mt-0.5">{{ playerVault.gil.toLocaleString() }} G</div>
+              </div>
+              <div class="p-2 rounded bg-slate-950/80 border border-slate-800">
+                <div class="text-gray-400 text-[10px]">💠 职业点代币</div>
+                <div class="font-mono font-bold text-emerald-400 mt-0.5">{{ playerVault.abp.toLocaleString() }} ABP</div>
+              </div>
+              <div class="p-2 rounded bg-slate-950/80 border border-slate-800">
+                <div class="text-gray-400 text-[10px]">⭐ 星之碎片</div>
+                <div class="font-mono font-bold text-cyan-400 mt-0.5">{{ playerVault.shard.toLocaleString() }} 枚</div>
+              </div>
+              <div class="p-2 rounded bg-slate-950/80 border border-slate-800">
+                <div class="text-gray-400 text-[10px]">🔮 虚空以太晶</div>
+                <div class="font-mono font-bold text-purple-400 mt-0.5">{{ playerVault.crystal.toLocaleString() }} 晶</div>
+              </div>
+            </div>
+
+            <!-- 已拍得秘宝珍藏架 -->
+            <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-2">
+              <div class="text-xs font-bold text-amber-300 flex justify-between items-center">
+                <span>🏆 已拍得跨次元秘宝</span>
+                <span class="font-mono text-cyan-400">{{ wonLotsList.length }} / 4 件</span>
+              </div>
+              <div v-if="wonLotsList.length === 0" class="text-[11px] text-gray-500 text-center py-2">
+                暂未竞得拍品，点击左侧加价并落槌成交！
+              </div>
+              <div v-else class="space-y-1.5 max-h-28 overflow-y-auto pr-1">
+                <div
+                  v-for="item in wonLotsList"
+                  :key="item.id"
+                  class="p-1.5 rounded bg-slate-900 border border-slate-800 text-[11px] flex justify-between items-center"
+                >
+                  <span class="text-white font-bold">{{ item.icon }} {{ item.name }}</span>
+                  <span class="text-amber-400 font-mono font-bold">{{ item.finalPrice.toLocaleString() }}G</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+            黑市商会秘传：跨界外汇市场受时空裂隙干扰剧烈波动，当通胀率高于 2.0x 时将星之碎片与虚空晶石兑出为 Gil 乃无上暴利之法！
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
@@ -770,6 +1119,14 @@
             >
               tail_exchange_system.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'auction' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'auction'"
+            >
+              black_market_auction_engine.gd
+            </button>
           </div>
         </div>
         <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
@@ -777,7 +1134,7 @@
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'alchemy' ? godotCodeText : godotTailCodeText }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'alchemy' ? godotCodeText : activeCodeTab === 'tail' ? godotTailCodeText : godotAuctionCodeText }}</pre>
     </div>
   </div>
 </template>
@@ -1339,7 +1696,7 @@ const claimedTailsRelics = ref<Record<string, number>>({
 })
 const lootRollNotice = ref('')
 const lootRollSuccess = ref(false)
-const activeCodeTab = ref<'alchemy' | 'tail'>('alchemy')
+const activeCodeTab = ref<'alchemy' | 'tail' | 'auction'>('alchemy')
 
 const currentTailDef = computed(() => {
   return tailDefinitions.value.find(t => t.id === selectedTailId.value) || tailDefinitions.value[0]
@@ -1555,10 +1912,18 @@ const godotTailCodeText = [
 
 const copyGodotCode = async () => {
   try {
-    const code = activeCodeTab.value === 'alchemy' ? godotCodeText : godotTailCodeText
+    const code = activeCodeTab.value === 'alchemy'
+      ? godotCodeText
+      : activeCodeTab.value === 'tail'
+        ? godotTailCodeText
+        : godotAuctionCodeText
     await navigator.clipboard.writeText(code)
     copiedCode.value = true
-    const filename = activeCodeTab.value === 'alchemy' ? 'alchemist_mix_system.gd' : 'tail_exchange_system.gd'
+    const filename = activeCodeTab.value === 'alchemy'
+      ? 'alchemist_mix_system.gd'
+      : activeCodeTab.value === 'tail'
+        ? 'tail_exchange_system.gd'
+        : 'black_market_auction_engine.gd'
     message.success(`已复制 ${filename} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
@@ -1639,6 +2004,500 @@ const zeninageEfficiency = computed(() => {
   const eff = ((samuraiLevel.value + 10) * 1.5).toFixed(1)
   return `${eff}`
 })
+
+// ================= 专区 5: 全域黑市跨次元秘宝拍卖行与动态通胀汇率推演工坊 =================
+interface MarketLotV2 {
+  id: string
+  name: string
+  shortName: string
+  icon: string
+  rarity: string
+  tagType: 'error' | 'warning' | 'info' | 'success'
+  category: string
+  startPrice: number
+  description: string
+  effect: string
+}
+
+const marketLotsList: MarketLotV2[] = [
+  {
+    id: 'ragnarok_stone',
+    name: '诸神之黄昏破限附魔石',
+    shortName: '诸神黄昏附魔石',
+    icon: '💎',
+    rarity: 'EX 宇宙级至宝',
+    tagType: 'error',
+    category: '武器破限附魔',
+    startPrice: 150000,
+    description: '沉睡于次元裂隙尽头的太古星辰结晶，能让全武器物理与魔法面板突破极限 +99。',
+    effect: '攻击力上限突破 +99，附带【时空斩断】神圣贯通全属性弱点。'
+  },
+  {
+    id: 'elixir_recipe',
+    name: '圣灵药太古配方秘卷',
+    shortName: '圣灵药太古秘卷',
+    icon: '📜',
+    rarity: 'UR 禁忌炼金古卷',
+    tagType: 'warning',
+    category: '炼金神级配方',
+    startPrice: 200000,
+    description: '古代以太炼金宗师的手札孤本，解锁药剂师无耗批量配制圣灵药与诸神护佑药剂。',
+    effect: '调合无损消耗，且全队生命与法力瞬间 100% 满额治愈。'
+  },
+  {
+    id: 'gold_feather',
+    name: '黄金陆行鸟羽毛',
+    shortName: '黄金陆行鸟羽',
+    icon: '🪶',
+    rarity: 'SSR 幻兽秘藏',
+    tagType: 'info',
+    category: '幻兽传说遗物',
+    startPrice: 88000,
+    description: '传说中栖息于宇宙边缘的神圣黄金陆行鸟褪落的纯金飞羽，蕴含无上光辉敏捷祝福。',
+    effect: '队伍先制行动率恒定 100%，战场逃脱成功率 100%，敏捷加权 +30。'
+  },
+  {
+    id: 'genesis_core',
+    name: '创世以太核芯',
+    shortName: '创世以太核芯',
+    icon: '🔮',
+    rarity: 'EX 遗迹奇点',
+    tagType: 'error',
+    category: '以太永动核心',
+    startPrice: 350000,
+    description: '远古失落文明驱动浮空大陆与星舰超光速折跃的以太反应炉奇点，无限法力喷涌。',
+    effect: '全魔导系职业所有法术 MP 消耗恒定为 1，魔法爆击率提升至 100%。'
+  }
+]
+
+const scrollToAuctionStudio = () => {
+  const el = document.getElementById('spacetime-auction-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+// 拍品与竞标态势
+const selectedMarketLotId = ref('ragnarok_stone')
+const marketHighestBid = ref(150000)
+const marketLeadingBidder = ref<{ name: string; isPlayer: boolean }>({
+  name: '起拍底价 (蜃楼黑市公证台)',
+  isPlayer: false
+})
+const gavelPhase = ref<0 | 1 | 2 | 3>(0) // 0: 竞标中, 1: 一槌, 2: 二槌, 3: 成交
+const isMarketLotSold = computed(() => gavelPhase.value === 3)
+const auctionLogs = ref<string[]>([
+  '【系统公告】跨次元黑市秘宝拍卖行正式开市！当前拍品：诸神之黄昏破限附魔石。',
+  '【公证人】起拍底价 150,000 Gil，欢迎诸位时空豪客出价！'
+])
+
+const wonLotsList = ref<{ id: string; name: string; icon: string; finalPrice: number }[]>([])
+
+// 玩家随身金库
+const playerVault = ref({
+  gil: 500000,
+  abp: 350,
+  shard: 40,
+  crystal: 5
+})
+
+// 通胀指数与外汇
+const inflationFactor = ref(1.20)
+const swapSourceCurrency = ref<'gil' | 'abp' | 'shard' | 'crystal'>('shard')
+const swapTargetCurrency = ref<'gil' | 'abp' | 'shard' | 'crystal'>('gil')
+const swapAmount = ref(10)
+
+const currentMarketLot = computed(() => {
+  return marketLotsList.find(l => l.id === selectedMarketLotId.value) || marketLotsList[0]
+})
+
+const gavelPhaseText = computed(() => {
+  switch (gavelPhase.value) {
+    case 0:
+      return '竞标交锋中 (Bidding)'
+    case 1:
+      return '🔨 一槌！(Going Once!)'
+    case 2:
+      return '🔨🔨 二槌！(Going Twice!)'
+    case 3:
+      return '🏆 成交落槌！(SOLD!)'
+  }
+})
+
+const gavelPhaseBadgeClass = computed(() => {
+  switch (gavelPhase.value) {
+    case 0:
+      return 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+    case 1:
+      return 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 animate-pulse'
+    case 2:
+      return 'bg-amber-500/20 text-amber-300 border border-amber-500/30 animate-pulse'
+    case 3:
+      return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+  }
+})
+
+const inflationStatusText = computed(() => {
+  if (inflationFactor.value < 0.8) return '萧条紧缩期 (物资贬值)'
+  if (inflationFactor.value <= 1.3) return '均衡平稳期 (标准通胀)'
+  if (inflationFactor.value <= 2.2) return '繁荣热络期 (通货膨胀)'
+  return '裂隙暴走期 (恶性通胀飙升)'
+})
+
+const getCurrencyRateToGil = (curr: 'gil' | 'abp' | 'shard' | 'crystal'): number => {
+  switch (curr) {
+    case 'gil':
+      return 1.0
+    case 'abp':
+      return 120.0 * inflationFactor.value
+    case 'shard':
+      return 2500.0 * inflationFactor.value
+    case 'crystal':
+      return 50000.0 * inflationFactor.value
+  }
+}
+
+const calculatedSwapResult = computed(() => {
+  if (swapSourceCurrency.value === swapTargetCurrency.value) {
+    return { netYield: swapAmount.value, targetUnit: swapTargetCurrency.value.toUpperCase() }
+  }
+  const sourceRate = getCurrencyRateToGil(swapSourceCurrency.value)
+  const targetRate = getCurrencyRateToGil(swapTargetCurrency.value)
+  const grossGil = swapAmount.value * sourceRate
+  const netGil = grossGil * 0.98 // 扣除 2% 商会手续费
+  const yieldAmount = Math.floor(netGil / targetRate)
+  return {
+    netYield: Math.max(0, yieldAmount),
+    targetUnit: swapTargetCurrency.value.toUpperCase()
+  }
+})
+
+const totalNetWorthGil = computed(() => {
+  return Math.round(
+    playerVault.value.gil +
+    playerVault.value.abp * getCurrencyRateToGil('abp') +
+    playerVault.value.shard * getCurrencyRateToGil('shard') +
+    playerVault.value.crystal * getCurrencyRateToGil('crystal')
+  )
+})
+
+const guildReputationTitle = computed(() => {
+  if (wonLotsList.value.length >= 3) return '黑市崇拜 · 裂隙主宰者'
+  if (wonLotsList.value.length >= 1) return '黑市敬仰 · 贵宾大买家'
+  return '黑市通关 · 时空旅行者'
+})
+
+// NPC 豪客候选人
+interface NpcBidderDef {
+  name: string
+  title: string
+  quotes: string[]
+}
+
+const npcBidders: NpcBidderDef[] = [
+  {
+    name: '蜃楼豪商·贾瓦德',
+    title: '巨贾行会会长',
+    quotes: [
+      '“为了这等极品，本会长可以押上整个商会的银币！”',
+      '“加价！这点金币对我们商会来说不过九牛一毛！”',
+      '“休想从我的眼皮底下抢走这件至宝！”'
+    ]
+  },
+  {
+    name: '虚空秘术师·莫甘娜',
+    title: '暗黑魔导首席',
+    quotes: [
+      '“核芯的魔力波动在呼唤我……任何人不得阻挠真理的求索！”',
+      '“无知的凡人，你们根本不懂这件神器的真正价值！”',
+      '“以虚空以太之名，出价！”'
+    ]
+  },
+  {
+    name: '跨界海盗·红胡子',
+    title: '飞空艇掠夺者',
+    quotes: [
+      '“哇哈哈！这宝贝装在老子的飞空艇船头，连神龙都追不上！”',
+      '“兄弟们，把刚抢来的金矿全押上去！”',
+      '“出价！谁敢跟老子抢，回程路上小心被炮轰！”'
+    ]
+  },
+  {
+    name: '帝国国库特使·雷加尔',
+    title: '皇家全权采办',
+    quotes: [
+      '“皇家军团必须掌握此项秘宝，国库预算上不封顶！”',
+      '“奉泰空皇帝之命，此物必须归属帝国藏宝库！”',
+      '“继续加码，帝国的财政实力不容置疑！”'
+    ]
+  }
+]
+
+const selectMarketLot = (lotId: string) => {
+  selectedMarketLotId.value = lotId
+  const lot = marketLotsList.find(l => l.id === lotId) || marketLotsList[0]
+  marketHighestBid.value = lot.startPrice
+  marketLeadingBidder.value = {
+    name: '起拍底价 (蜃楼黑市公证台)',
+    isPlayer: false
+  }
+  gavelPhase.value = 0
+  auctionLogs.value.unshift(`【拍品更替】公证人展示新拍品【${lot.name}】，起拍价 ${lot.startPrice.toLocaleString()} Gil！`)
+  message.info(`已切换当前拍品至：${lot.name}`)
+}
+
+const placePlayerBid = (delta: number) => {
+  if (isMarketLotSold.value) {
+    message.warning('当前拍品已落槌成交，请切换新拍品或重置拍卖行！')
+    return
+  }
+  const nextPrice = marketHighestBid.value + delta
+  if (playerVault.value.gil < nextPrice) {
+    message.error(`金币不足！需要 ${nextPrice.toLocaleString()} Gil，当前仅有 ${playerVault.value.gil.toLocaleString()} Gil`)
+    return
+  }
+
+  marketHighestBid.value = nextPrice
+  marketLeadingBidder.value = {
+    name: '光之战士 (您)',
+    isPlayer: true
+  }
+  gavelPhase.value = 0
+  auctionLogs.value.unshift(`🔨【玩家出价】光之战士加价 +${delta.toLocaleString()}G，当前最高出价达到 ${nextPrice.toLocaleString()} Gil！`)
+  message.success(`成功举牌加价 +${delta.toLocaleString()} Gil！`)
+
+  // 40% 几率 NPC 立即反击加价
+  if (Math.random() < 0.45) {
+    setTimeout(() => {
+      triggerNpcRandomBid()
+    }, 900)
+  }
+}
+
+const triggerNpcRandomBid = () => {
+  if (isMarketLotSold.value) return
+  const npc = npcBidders[Math.floor(Math.random() * npcBidders.length)]
+  const delta = (Math.floor(Math.random() * 4) + 1) * 10000
+  const nextPrice = marketHighestBid.value + delta
+  const quote = npc.quotes[Math.floor(Math.random() * npc.quotes.length)]
+
+  marketHighestBid.value = nextPrice
+  marketLeadingBidder.value = {
+    name: npc.name,
+    isPlayer: false
+  }
+  gavelPhase.value = 0
+  auctionLogs.value.unshift(`⚡【NPC竞标】${npc.name} 加价 +${delta.toLocaleString()}G！当前价: ${nextPrice.toLocaleString()} Gil。${quote}`)
+  message.warning(`${npc.name} 强势加价 +${delta.toLocaleString()} Gil！`)
+}
+
+const stepAuctionGavel = () => {
+  if (isMarketLotSold.value) return
+
+  if (gavelPhase.value === 0) {
+    gavelPhase.value = 1
+    auctionLogs.value.unshift(`🔨【一槌】拍卖官敲响第一槌：“${marketHighestBid.value.toLocaleString()} Gil 第一次！还有加价的吗？”`)
+  } else if (gavelPhase.value === 1) {
+    gavelPhase.value = 2
+    auctionLogs.value.unshift(`🔨🔨【二槌】拍卖官高举法槌：“${marketHighestBid.value.toLocaleString()} Gil 第二次！最后机会！”`)
+  } else if (gavelPhase.value === 2) {
+    gavelPhase.value = 3
+    if (marketLeadingBidder.value.isPlayer) {
+      playerVault.value.gil -= marketHighestBid.value
+      wonLotsList.value.push({
+        id: currentMarketLot.value.id,
+        name: currentMarketLot.value.name,
+        icon: currentMarketLot.value.icon,
+        finalPrice: marketHighestBid.value
+      })
+      auctionLogs.value.unshift(`🏆【成交落槌】啪！成交！恭喜光之战士以 ${marketHighestBid.value.toLocaleString()} Gil 拍得【${currentMarketLot.value.name}】！`)
+      message.success(`🎉 竞拍大获全胜！成功夺得【${currentMarketLot.value.name}】！`)
+    } else {
+      auctionLogs.value.unshift(`⚠️【成交落槌】啪！成交！拍品【${currentMarketLot.value.name}】被【${marketLeadingBidder.value.name}】以 ${marketHighestBid.value.toLocaleString()} Gil 拍走！`)
+      message.info(`拍品被 ${marketLeadingBidder.value.name} 竞得！可点击重置或切换拍品。`)
+    }
+  }
+}
+
+const executeCurrencySwap = () => {
+  if (swapSourceCurrency.value === swapTargetCurrency.value) {
+    message.warning('源货币与目标货币相同，无需兑换！')
+    return
+  }
+  const currentSourceStock = playerVault.value[swapSourceCurrency.value]
+  if (currentSourceStock < swapAmount.value) {
+    message.error(`金库库存不足！您当前仅有 ${currentSourceStock} ${swapSourceCurrency.value.toUpperCase()}`)
+    return
+  }
+
+  const result = calculatedSwapResult.value
+  playerVault.value[swapSourceCurrency.value] -= swapAmount.value
+  playerVault.value[swapTargetCurrency.value] += result.netYield
+  auctionLogs.value.unshift(`💱【外汇结算】成功将 ${swapAmount.value} ${swapSourceCurrency.value.toUpperCase()} 兑换为 ${result.netYield.toLocaleString()} ${result.targetUnit} (扣除 2% 商会手续费)`)
+  message.success(`跨界兑换成功！净获得 ${result.netYield.toLocaleString()} ${result.targetUnit}`)
+}
+
+const depositPlayerFunds = () => {
+  playerVault.value.gil += 100000
+  playerVault.value.shard += 10
+  auctionLogs.value.unshift(`💰【金库注资】获得光之神殿注资 +100,000 Gil 与 +10 枚星之碎片！`)
+  message.success('已为随身金库补充 100,000 Gil 与 10 枚星之碎片！')
+}
+
+const resetAuctionStudio = () => {
+  playerVault.value = {
+    gil: 500000,
+    abp: 350,
+    shard: 40,
+    crystal: 5
+  }
+  inflationFactor.value = 1.20
+  wonLotsList.value = []
+  selectMarketLot('ragnarok_stone')
+  auctionLogs.value = [
+    '【系统公告】拍卖行与金库已全面重置。当前拍品：诸神之黄昏破限附魔石。',
+    '【公证人】起拍底价 150,000 Gil，欢迎诸位时空豪客出价！'
+  ]
+  message.info('黑市拍卖行与金库参数已恢复初始设定')
+}
+
+const exportAuctionCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const randomHex = Math.random().toString(16).substring(2, 10).toUpperCase()
+  const fakeSha256 = `SHA256-${Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`
+
+  const certLines = [
+    '========================================================================',
+    '       《光之战士：时空裂隙》全域黑市跨次元秘宝拍卖行与动态通胀结算凭证',
+    '               OFFICIAL BLACK MARKET SPACETIME SETTLEMENT CERTIFICATE',
+    '========================================================================',
+    `凭证唯一档案号: AGY-AUCTION-20261028-${randomHex}`,
+    `签发安全哈希: ${fakeSha256}`,
+    `签发世界线时间: ${timestamp}`,
+    `规范矩阵基准: VBLE Macro Economy & Black Market Auction Matrix v2.2.261`,
+    `黑市商会评级: ${guildReputationTitle.value}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【一、时空裂隙宏观外汇与通胀指标】',
+    '------------------------------------------------------------------------',
+    `当前通胀波动乘数: ${inflationFactor.value.toFixed(2)}x (${inflationStatusText.value})`,
+    `金币基准汇率: 1.00 Gil / 1 G`,
+    `职业点代币汇率: ${Math.round(120 * inflationFactor.value)} Gil / 1 ABP`,
+    `星之碎片公价: ${Math.round(2500 * inflationFactor.value)} Gil / 1 碎片`,
+    `虚空以太晶石公价: ${Math.round(50000 * inflationFactor.value)} Gil / 1 晶石`,
+    `商会跨境手续费: 2.0% 恒定扣减`,
+    '',
+    '------------------------------------------------------------------------',
+    '【二、光之战士随身金库资产审计】',
+    '------------------------------------------------------------------------',
+    `随身金币存量: ${playerVault.value.gil.toLocaleString()} Gil`,
+    `职业点代币存量: ${playerVault.value.abp.toLocaleString()} ABP`,
+    `星之碎片存量: ${playerVault.value.shard.toLocaleString()} 枚`,
+    `虚空以太晶石存量: ${playerVault.value.crystal.toLocaleString()} 晶`,
+    `全域金库折算总净资产: ${totalNetWorthGil.value.toLocaleString()} Gil`,
+    '',
+    '------------------------------------------------------------------------',
+    '【三、本次会期竞拍与获胜秘宝藏品】',
+    '------------------------------------------------------------------------',
+    `当前选定拍品: ${currentMarketLot.value.name} (${currentMarketLot.value.rarity})`,
+    `当前最高出价: ${marketHighestBid.value.toLocaleString()} Gil`,
+    `目前领标身份: ${marketLeadingBidder.value.name}`,
+    `法槌成交阶段: ${gavelPhaseText.value}`,
+    `已斩获跨次元秘宝数: ${wonLotsList.value.length} / 4 件`,
+    ...wonLotsList.value.map((item, idx) => `  ${idx + 1}. ${item.icon} ${item.name} —— 成交价: ${item.finalPrice.toLocaleString()} Gil`),
+    '',
+    '------------------------------------------------------------------------',
+    '【四、黑市公证人与帝国督查使联合箴言】',
+    '------------------------------------------------------------------------',
+    '“在次元裂隙的洪流中，金钱是唯一能让神魔与凡人达成妥协的契约之光。',
+    ' 掌握汇率波动之人，方能驾驭太古遗物的终极质变。”',
+    '========================================================================'
+  ]
+
+  const blob = new Blob([certLines.join('\n')], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `economy_auction_v2.2.261_${Date.now()}.txt`
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+
+  message.success('📜 拍卖行结算凭证方案书已成功导出并下载！')
+}
+
+// Godot 4.6 LTS 拍卖行实机源码展台
+const godotAuctionCodeText = [
+  '## black_market_auction_engine.gd',
+  '## 《光之战士：时空裂隙》全域黑市跨次元秘宝拍卖行与动态通胀汇率引擎',
+  '## 官方引擎规范: VBLE Macro Economy & Black Market Auction Matrix v2.2.261',
+  'extends Node',
+  'class_name BlackMarketAuctionEngine',
+  '',
+  'signal lot_opened(lot_id: String, start_price: int, item_name: String)',
+  'signal bid_recorded(bidder_name: String, lot_id: String, amount: int)',
+  'signal auction_hammer_struck(strike_count: int, lot_id: String, current_price: int)',
+  'signal auction_concluded(winner: String, lot_id: String, final_price: int)',
+  'signal currency_swapped(from_curr: String, to_curr: String, amount: float, converted: float)',
+  '',
+  'enum GavelPhase { BIDDING = 0, ONCE = 1, TWICE = 2, SOLD = 3 }',
+  '',
+  'const CURRENCY_BASE_RATES = {',
+  '	"GIL": 1.0,',
+  '	"ABP": 120.0,',
+  '	"STAR_SHARD": 2500.0,',
+  '	"VOID_CRYSTAL": 50000.0',
+  '}',
+  '',
+  'const NPC_BIDDERS = [',
+  '	{ "id": "jawad", "name": "蜃楼豪商·贾瓦德", "budget": 800000, "aggressiveness": 0.45, "bias": "ragnarok_stone" },',
+  '	{ "id": "morgana", "name": "虚空秘术师·莫甘娜", "budget": 950000, "aggressiveness": 0.50, "bias": "genesis_core" },',
+  '	{ "id": "redbeard", "name": "跨界海盗·红胡子", "budget": 600000, "aggressiveness": 0.60, "bias": "gold_feather" },',
+  '	{ "id": "regar", "name": "帝国国库特使·雷加尔", "budget": 1200000, "aggressiveness": 0.35, "bias": "elixir_recipe" }',
+  ']',
+  '',
+  'var inflation_factor: float = 1.20',
+  'var current_phase: GavelPhase = GavelPhase.BIDDING',
+  'var active_lot_id: String = "ragnarok_stone"',
+  'var current_highest_bid: int = 150000',
+  'var current_leader: String = "起拍底价"',
+  'var hammer_strikes: int = 0',
+  '',
+  'func convert_currency(from_curr: String, to_curr: String, amount: float) -> float:',
+  '	if not CURRENCY_BASE_RATES.has(from_curr) or not CURRENCY_BASE_RATES.has(to_curr):',
+  '		return 0.0',
+  '	var from_gil = amount * CURRENCY_BASE_RATES[from_curr] * (inflation_factor if from_curr != "GIL" else 1.0)',
+  '	var to_rate = CURRENCY_BASE_RATES[to_curr] * (inflation_factor if to_curr != "GIL" else 1.0)',
+  '	var net_gil = from_gil * 0.98 # 2% Guild Commission',
+  '	var converted = net_gil / to_rate',
+  '	emit_signal("currency_swapped", from_curr, to_curr, amount, converted)',
+  '	return converted',
+  '',
+  'func place_bid(bidder_name: String, bid_increment: int) -> Dictionary:',
+  '	if current_phase == GavelPhase.SOLD:',
+  '		return { "success": false, "reason": "Auction already concluded" }',
+  '	',
+  '	current_highest_bid += bid_increment',
+  '	current_leader = bidder_name',
+  '	hammer_strikes = 0',
+  '	current_phase = GavelPhase.BIDDING',
+  '	emit_signal("bid_recorded", bidder_name, active_lot_id, current_highest_bid)',
+  '	return { "success": true, "leader": current_leader, "price": current_highest_bid }',
+  '',
+  'func step_gavel() -> GavelPhase:',
+  '	hammer_strikes += 1',
+  '	if hammer_strikes == 1:',
+  '		current_phase = GavelPhase.ONCE',
+  '	elif hammer_strikes == 2:',
+  '		current_phase = GavelPhase.TWICE',
+  '	else:',
+  '		current_phase = GavelPhase.SOLD',
+  '		emit_signal("auction_concluded", current_leader, active_lot_id, current_highest_bid)',
+  '	',
+  '	emit_signal("auction_hammer_struck", hammer_strikes, active_lot_id, current_highest_bid)',
+  '	return current_phase'
+].join('\n')
 </script>
 
 <style scoped>
