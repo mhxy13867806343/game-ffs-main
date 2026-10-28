@@ -4,9 +4,9 @@
     <div class="portal-marquee flex items-center justify-between px-3 md:px-4 py-2 bg-gradient-to-r from-amber-950/40 via-purple-950/50 to-cyan-950/40 border-y border-amber-500/20 text-xs">
       <div class="flex items-center gap-2 overflow-hidden">
         <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] md:text-[11px] animate-pulse flex-shrink-0">RELEASE</span>
-        <span class="text-amber-300 font-semibold flex-shrink-0">【单机正式版】</span>
+        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.221 正式版】</span>
         <span class="text-gray-300 truncate text-[11px] md:text-xs">
-          【最新发布】主线目标全域追踪与居民雷达标记系统上线！王城高阶Rank A/S悬赏解禁，双月宇宙无需网络即启征程！
+          【最新发布】十六卷架构白皮书、全地形载具动力矩阵、十二柱召唤兽圣痕、二刀流伤害工坊与四大纪元排期沙盘全面就绪！
         </span>
       </div>
       <div class="hidden lg:flex items-center gap-4 text-gray-400 flex-shrink-0">
@@ -141,7 +141,7 @@
             <div class="mb-4">
               <span class="text-xs text-amber-400 tracking-widest font-semibold uppercase">Standalone JRPG Engine</span>
               <h3 class="text-xl font-extrabold text-white mt-1">最终幻想：时空之轮</h3>
-              <p class="text-[11px] text-gray-400 mt-1">版本 v2.2.0 · 离线单机桌面运行端</p>
+              <p class="text-[11px] text-gray-400 mt-1">版本 v2.2.221 · 离线单机桌面运行端</p>
             </div>
 
             <!-- 巨型下载客户端启动按钮 (直通四大网盘下载中心) -->
@@ -172,7 +172,7 @@
                 <span class="text-base">🔄</span>
                 <div class="text-left">
                   <div class="font-bold text-cyan-200">最新更新</div>
-                  <div class="text-[10px] text-gray-400">v2.2.0动态</div>
+                  <div class="text-[10px] text-gray-400">v2.2.221动态</div>
                 </div>
               </div>
 
@@ -477,6 +477,49 @@
       </div>
     </section>
 
+    <!-- 二十大核心子系统与实机推演沙盘全景矩阵导航 -->
+    <section class="portal-systems-matrix max-w-7xl mx-auto px-3 sm:px-4 space-y-4">
+      <div class="section-header flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              TWENTY CORE SUBSYSTEMS & SANDBOXES
+            </span>
+            <span class="text-xs text-gray-400">官方实机架构全景导航</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white text-glow-cyan mt-1">
+            <span>🏛️</span> 二十大游戏机制沙盘与子系统全矩阵
+          </h2>
+        </div>
+        <router-link to="/vble/docs">
+          <n-button size="small" round secondary type="warning">
+            <template #icon><span>📜</span></template>
+            十六卷架构白皮书
+          </n-button>
+        </router-link>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+        <div
+          v-for="sys in allSubsystems"
+          :key="sys.path"
+          class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-900 transition-all cursor-pointer group flex flex-col justify-between space-y-2"
+          @click="router.push(sys.path)"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-2xl group-hover:scale-110 transition-transform">{{ sys.icon }}</span>
+            <span class="text-[10px] font-mono text-cyan-400/80">{{ sys.tag }}</span>
+          </div>
+          <div>
+            <div class="text-xs sm:text-sm font-bold text-gray-200 group-hover:text-cyan-300 transition-colors">
+              {{ sys.title }}
+            </div>
+            <div class="text-[10px] text-gray-400 line-clamp-1 mt-0.5">{{ sys.desc }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 底部合规标识 -->
     <div class="portal-footer-notice max-w-7xl mx-auto px-3 sm:px-4 pt-6 border-t border-slate-800/80 text-center space-y-2 text-xs text-gray-500">
       <div class="flex items-center justify-center gap-4 text-gray-400">
@@ -553,5 +596,28 @@ const galleryPreviews = [
   { name: '世界大地图航图', src: '/images/world-map.png' },
   { name: '洞窟火把解谜', src: '/images/cave-explore.png' },
   { name: '魔导雷光粒子', src: '/images/vfx-magitek.png' }
+]
+
+const allSubsystems = [
+  { title: '十六卷白皮书', icon: '📜', path: '/vble/docs', tag: 'Vol.01~16', desc: '核心规范文库与拓扑' },
+  { title: '全地形载具矩阵', icon: '🛸', path: '/vble/vehicles', tag: '10 Vehicles', desc: '海陆空潜巡航模拟器' },
+  { title: '十二召唤兽契约', icon: '🐉', path: '/vble/summons', tag: '12 Summons', desc: '合体极意与真实伤害' },
+  { title: '世界首领机制', icon: '⚔️', path: '/vble/boss-tactics', tag: '14 Bosses', desc: '神龙海啸与斩铁试炼' },
+  { title: '虚空引力场推演', icon: '🌌', path: '/vble/celestial', tag: '9 Planets', desc: '太阳系行星引力场' },
+  { title: '宏观经济与调合', icon: '⚗️', path: '/vble/economy', tag: 'Mix Lab', desc: '药剂质变与七色尾巴' },
+  { title: '着色粒子画廊', icon: '🖼️', path: '/vble/gallery', tag: 'VFX Shader', desc: '着色器调参与显存预估' },
+  { title: '英雄成长六维', icon: '👥', path: '/vble/characters', tag: '8 Heroes', desc: '光暗主角1~99级曲线' },
+  { title: '全域倒排索引', icon: '🔍', path: '/vble/search', tag: 'Omni Search', desc: '跨系统模糊关联图谱' },
+  { title: '四大纪元规划', icon: '🚀', path: '/vble/roadmap', tag: 'Roadmap', desc: '算力排期推演沙盘' },
+  { title: '史诗编年因果', icon: '📖', path: '/vble/story', tag: '30 Chapters', desc: '光暗双线44节拍雷达' },
+  { title: '秘传与青魔法', icon: '✨', path: '/vble/teachings', tag: 'Blue Magic', desc: '12青魔受击拟态捕获' },
+  { title: 'GM 属性修改器', icon: '🛠️', path: '/vble/modifier', tag: '1~255 Lv', desc: '内存补丁与金手指' },
+  { title: '神兵与二刀流', icon: '🗡️', path: '/vble/equipment', tag: 'Ragnarok', desc: '双持8连击乱打工坊' },
+  { title: '配装模拟工坊', icon: '🛡️', path: '/vble/armory-simulator', tag: 'Armory', desc: '全职业装备战力沙盘' },
+  { title: '底层系统总览', icon: '⚙️', path: '/vble/systems', tag: 'Architecture', desc: '单机架构十维总纲' },
+  { title: '97处风土大典', icon: '🗺️', path: '/vble/scenes', tag: '97 Scenes', desc: '北境拓扑与商铺生态' },
+  { title: '18大深渊地宫', icon: '🏰', path: '/vble/dungeons', tag: '18 Dungeons', desc: '隐藏密室与机关推演' },
+  { title: '147种魔物图鉴', icon: '👾', path: '/vble/monsters', tag: '147 Monsters', desc: '属性弱点与掉落物' },
+  { title: '28大职业矩阵', icon: '⚔️', path: '/vble/jobs', tag: '28 Jobs', desc: '双轨进阶与极意被动' }
 ]
 </script>

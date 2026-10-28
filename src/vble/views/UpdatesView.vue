@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-home-twenty-subsystems-matrix-2026-10-28',
+    version: 'v2.2.221',
+    date: '2026-10-28',
+    title: '官方门户首页全新升级与二十大核心子系统全域矩阵导航重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🏛️',
+    tagType: 'info',
+    description: '深度重构升级 HomeView 官方主门户：同步最新 v2.2.221 正式版发布广播与离线桌面端版本号；全面实装【二十大游戏机制沙盘与子系统全矩阵导航】（Twenty Core Subsystems Matrix），覆盖白皮书、全地形载具、十二召唤兽、世界首领、虚空引力、宏观经济、着色画廊、英雄成长、全域索引、四大纪元、史诗编年、秘传青魔、GM修改器、神兵二刀流、配装模拟、底层系统、全域场景、地下城、魔物图鉴与28职业矩阵，一键无缝直通各核心工坊。',
+    highlights: [
+      '二十大核心子系统全矩阵导航：聚合官方全部 20 大机制沙盘与工坊，提供结构化标签与直达跳转',
+      '主门户广播与版本号全量同步：对齐最新 v2.2.221 离线桌面端规范，全面展示四大纪元演进成果',
+      '跨系统联动枢纽打通：支持从首页直达白皮书文库、双持二刀流工坊、GM修改器与青魔法拟态图鉴',
+      '全设备端响应式视觉优化：PC/平板/移动端均保持高对比度与无抖动丝滑体验'
+    ],
+    relatedLinks: [
+      { label: '门户首页矩阵', path: '/vble', icon: '🏛️' },
+      { label: '架构白皮书文库', path: '/vble/docs', icon: '📜' },
+      { label: '功能规划路线图', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
+  {
     id: 'up-equipment-dual-wield-awakening-studio-2026-10-28',
     version: 'v2.2.220',
     date: '2026-10-28',
