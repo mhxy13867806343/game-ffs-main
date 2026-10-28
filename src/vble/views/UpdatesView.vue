@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-story-causality-branching-studio-2026-10-28',
+    version: 'v2.2.217',
+    date: '2026-10-28',
+    title: '光暗双线三十章节时空因果沙盘与44节拍雷达系统重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '📖',
+    tagType: 'info',
+    description: '深度重构升级 StoryView 史诗编年史门户：横跨光之队与暗之队 30 章节宏大叙事与 44 节拍实装全域雷达导航；全新实装时空因果分支推演沙盘（Timeline Causality & Branching Studio），支持模拟修女/学者营救、血誓/共鸣契约、神兵开光次序与光暗双核同调四大抉择，动态推演正统真结局、极性破晓与永夜混沌三大终局与隐藏第 31 章开启度；并实装 Godot 4.x story_timeline_manager.gd 状态机单例。',
+    highlights: [
+      '时空裂隙因果律推演沙盘：交互式调节四大关键剧情分支，实时预测三大终局概率走向、羁绊信任度与隐藏第31章虚空前置',
+      '三十章节编年史全景呈现：涵盖始源破裂至终焉深渊，按光之队、暗之队与双界交汇分类速览首领、地城与通关奖励',
+      '44 节拍主线全域雷达导航：联动 ResidentSourceRegistry 弱引用标记登记，支持现场实体坐标雷达与对白门禁状态过滤',
+      '因果链条解锁成果量化：推演【创世之光·湮灭暗夜】合体极意、星海飞空艇与深渊 100 层绝境挑战前置条件',
+      'Godot 4.x 核心引擎代码对齐：内置 story_timeline_manager.gd 剧情节拍与因果分支持久化源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '史诗编年与因果', path: '/vble/story', icon: '📖' },
+      { label: '97处全域场景', path: '/vble/scenes', icon: '🗺️' },
+      { label: '架构白皮书文库', path: '/vble/docs', icon: '📚' }
+    ]
+  },
+  {
     id: 'up-roadmap-evolution-studio-2026-10-28',
     version: 'v2.2.216',
     date: '2026-10-28',
