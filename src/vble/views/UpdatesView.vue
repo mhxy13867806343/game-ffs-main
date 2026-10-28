@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-summons-covenant-resonance-odin-60s-trial-2026-10-28',
+    version: 'v2.2.226',
+    date: '2026-10-28',
+    title: '十二柱神印契约觉醒共鸣工坊与奥丁60秒限时斩铁试炼推演沙盘重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🐉',
+    tagType: 'info',
+    description: '深度重构升级 SummonsView 幻兽与召唤神殿：全新实装【十二柱神印契约觉醒与多重共鸣工坊】（Covenant Resonance Studio），支持自由镶嵌巴哈姆特核爆、奥丁天威、不死鸟金羽、利维亚桑沧海等 12 柱专属神印（Signet Crests），模拟四阶太古觉醒、伤害上限突破 99999、全元素伤害加成与终极奥义合成；全新打造【奥丁 60 秒限时斩铁试炼推演沙盘】（Odin 60s DPS Check），高精度重现 60 秒生死倒计时、二刀流乱打与魔法剑核爆实时爆发斩杀、以及超时被 99999 斩铁剑全灭的真实机制。',
+    highlights: [
+      '十二柱神印契约觉醒工坊：支持自由镶嵌 3 柱神印本源印绶，解锁伤害上限突破至 99999 与全队复活预言',
+      '太古四阶觉醒阶位解算：初醒、通神、极意与太古归一，实时计算战力评分、元素加成与行动流速',
+      '奥丁 60 秒限时试炼推演沙盘：高保真实装 60s 倒计时、17,000 HP 斩杀判定与 99999 斩铁剑灭队机制',
+      'Godot 4.6 底层召唤内核对齐：无缝衔接 summon_system.gd 真实物理真实法术伤害公式'
+    ],
+    relatedLinks: [
+      { label: '召唤神殿与神印工坊', path: '/vble/summons', icon: '🐉' },
+      { label: '首领机制指南', path: '/vble/boss-tactics', icon: '⚔️' },
+      { label: '职业大师矩阵', path: '/vble/jobs', icon: '🛡️' }
+    ]
+  },
+  {
     id: 'up-items-chemist-mix-alchemy-studio-2026-10-28',
     version: 'v2.2.225',
     date: '2026-10-28',

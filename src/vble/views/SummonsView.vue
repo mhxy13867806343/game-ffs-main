@@ -368,6 +368,244 @@
       </div>
     </div>
 
+    <!-- 专区 4: 十二柱神印契约觉醒与共鸣工坊 (Covenant Resonance & Awakening Studio) -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#12162a] via-[#101426] to-[#0c1020] border border-purple-500/40 shadow-2xl space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">✨</span>
+            <h3 class="text-lg sm:text-xl font-black text-white text-glow-cyan">十二柱神印契约觉醒与多重共鸣工坊 (Covenant Resonance Studio)</h3>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            将十二柱神兽的本源印绶（Signet Crests）镶嵌至契约法阵中。最多同时激活 3 柱神印共鸣，唤醒破界伤害上限、预言重生与天灾全屏控场。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-tag type="warning" round size="small">极意共鸣 · 突破99999上限</n-tag>
+          <n-tag type="success" round size="small">实时数值推演</n-tag>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 神印选择槽位 (最多选 3 项) -->
+        <div class="lg:col-span-2 space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-cyan-300">选定共鸣神印 (已镶嵌: {{ selectedSignetIds.length }} / 3):</span>
+            <span class="text-gray-400 text-[11px]">点击下方卡片进行装载或卸下</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+            <button
+              v-for="sig in signetCatalog"
+              :key="sig.id"
+              type="button"
+              class="p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between"
+              :class="isSignetSelected(sig.id) ? 'bg-purple-950/80 border-purple-400 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)] ring-1 ring-purple-500' : 'bg-slate-900/70 border-slate-800 text-gray-300 hover:border-slate-700'"
+              @click="toggleSignet(sig.id)"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-xl">{{ sig.icon }}</span>
+                  <n-tag size="tiny" :type="isSignetSelected(sig.id) ? 'warning' : 'default'">
+                    {{ isSignetSelected(sig.id) ? '已激活' : '空闲' }}
+                  </n-tag>
+                </div>
+                <div class="font-bold text-xs truncate text-amber-300">{{ sig.name }}</div>
+                <div class="text-[10px] text-gray-400 mt-0.5">{{ sig.summonName }}</div>
+              </div>
+              <div class="text-[10px] text-cyan-400 font-mono mt-2 truncate">{{ sig.statBonus }}</div>
+            </button>
+          </div>
+
+          <!-- 觉醒阶层滑块 -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 mt-3">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-amber-300">太古觉醒阶位 (Awakening Rank):</span>
+              <span class="font-mono text-cyan-400 font-bold">阶位 {{ awakeningRank }} / 4 · {{ getAwakeningTitle(awakeningRank) }}</span>
+            </div>
+            <n-slider v-model:value="awakeningRank" :min="1" :max="4" :step="1" />
+          </div>
+        </div>
+
+        <!-- 栏 2: 共鸣效能与全队属性增益计算面板 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-slate-950 to-slate-900 border border-purple-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+                <span>🔮</span>
+                <span>契约共鸣实机战力指标</span>
+              </span>
+              <span class="text-[10px] text-amber-400 font-mono">Resonance Score: {{ resonanceScore }}</span>
+            </div>
+
+            <!-- 共鸣主被动技能 -->
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1.5">
+              <div class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                <span>🌟 终极共鸣奥义:</span>
+                <span>{{ resonanceSkillName }}</span>
+              </div>
+              <p class="text-xs text-gray-300 leading-relaxed">
+                {{ resonanceSkillDesc }}
+              </p>
+            </div>
+
+            <!-- 全队属性与特权结算列表 -->
+            <div class="space-y-1.5 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">伤害上限突破 (Damage Cap):</span>
+                <span class="font-mono font-bold text-rose-400">{{ resonanceDamageCap }}</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">全元素伤害增幅 (Elemental DMG):</span>
+                <span class="font-mono font-bold text-cyan-400">+{{ resonanceElemBonus }}%</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">全队 ATB 充能流速 (ATB Speed):</span>
+                <span class="font-mono font-bold text-emerald-400">+{{ resonanceAtbBonus }}%</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">濒死免死金身 (Reraise Chance):</span>
+                <span class="font-mono font-bold text-yellow-400">{{ resonanceReraise ? '100% 触发' : '未激活' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <n-button size="small" type="primary" secondary round class="w-full" @click="resetSignets">
+            🔄 重置神印镶嵌组合
+          </n-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 专区 5: 奥丁 60 秒限时斩铁试炼推演工坊 (Odin 60s Trial DPS Check Simulator) -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-[#140e1b]/90 border border-rose-500/40 shadow-2xl space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">⚔️</span>
+            <h3 class="text-lg sm:text-xl font-black text-white text-glow-amber">奥丁 60 秒限时斩铁试炼推演沙盘 (Odin 60-Second DPS Check)</h3>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            复刻贾格尔城地宫终极考验：奥丁骑乘天马八脚骏马斯莱普尼斯，给光之战士 60 秒倒计时！在斩铁剑斩落前清空其 17,000 HP！
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-tag type="error" round size="small">限时 60.0 秒</n-tag>
+          <n-tag type="warning" round size="small">全灭机制: 99999 斩铁剑</n-tag>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <!-- 栏 1: 奥丁首领状态与倒计时 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🗡️</span>
+              <span class="font-bold text-gray-200 text-sm">试炼之神 · 奥丁 (Odin)</span>
+            </div>
+            <n-tag size="tiny" :type="odinStatusType">{{ odinStatusText }}</n-tag>
+          </div>
+
+          <!-- 60秒倒计时大字 -->
+          <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 text-center">
+            <span class="text-[10px] text-gray-400 uppercase tracking-widest block">剩余绝命时间 (Time Left)</span>
+            <div class="text-3xl sm:text-4xl font-black font-mono mt-1" :class="odinTimeRemaining <= 15 ? 'text-rose-500 animate-pulse' : 'text-amber-400'">
+              {{ odinTimeRemaining.toFixed(1) }}s
+            </div>
+          </div>
+
+          <!-- 奥丁血条 -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-mono">
+              <span class="text-gray-400">奥丁神体生命值:</span>
+              <span class="text-rose-400 font-bold">{{ odinHp }} / {{ odinMaxHp }}</span>
+            </div>
+            <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800">
+              <div
+                class="bg-gradient-to-r from-rose-600 to-amber-500 h-full transition-all duration-150"
+                :style="{ width: `${(odinHp / odinMaxHp) * 100}%` }"
+              />
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <n-button
+              size="small"
+              :type="isOdinBattleRunning ? 'warning' : 'primary'"
+              class="w-full font-bold"
+              @click="toggleOdinBattle"
+            >
+              {{ isOdinBattleRunning ? '⏸️ 暂停试炼' : (odinBattleEnded ? '🔄 重新挑战' : '⚔️ 开启 60 秒试炼') }}
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 栏 2: 战斗指令操作台 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+          <span class="text-xs font-bold text-cyan-300 block">战术指令爆发区 (Command Panel):</span>
+          <div class="space-y-2">
+            <button
+              type="button"
+              class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-400 text-left transition-all cursor-pointer flex items-center justify-between"
+              :disabled="!isOdinBattleRunning"
+              @click="castOdinSkill('rapid_fire')"
+            >
+              <div>
+                <span class="font-bold text-xs text-amber-300">🗡️ 忍者二刀流·乱打 (Rapid Fire)</span>
+                <span class="text-[10px] text-gray-400 block">4段连击，破除物理屏障 (3200~3800 伤)</span>
+              </div>
+              <n-tag size="tiny" type="warning">瞬发</n-tag>
+            </button>
+
+            <button
+              type="button"
+              class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-400 text-left transition-all cursor-pointer flex items-center justify-between"
+              :disabled="!isOdinBattleRunning"
+              @click="castOdinSkill('spellblade_flare')"
+            >
+              <div>
+                <span class="font-bold text-xs text-cyan-300">⚡ 魔法剑·核爆 (Spellblade Flare)</span>
+                <span class="text-[10px] text-gray-400 block">附魔神圣烈焰，高额单体暴击 (4000~4600 伤)</span>
+              </div>
+              <n-tag size="tiny" type="info">核爆</n-tag>
+            </button>
+
+            <button
+              type="button"
+              class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-400 text-left transition-all cursor-pointer flex items-center justify-between"
+              :disabled="!isOdinBattleRunning"
+              @click="castOdinSkill('bahamut_summon')"
+            >
+              <div>
+                <span class="font-bold text-xs text-purple-300">🐉 召唤·巴哈姆特亿万核爆 (Megaflare)</span>
+                <span class="text-[10px] text-gray-400 block">太古龙皇核爆穿透轰击 (6200~6800 伤)</span>
+              </div>
+              <n-tag size="tiny" type="error">奥义</n-tag>
+            </button>
+          </div>
+        </div>
+
+        <!-- 栏 3: 实机战斗记录与结算 -->
+        <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between h-full space-y-3">
+          <div class="space-y-2">
+            <span class="text-xs font-bold text-gray-400 block">实时试炼战报 (Combat Battle Log):</span>
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 text-xs font-mono space-y-1.5 h-36 overflow-y-auto leading-relaxed">
+              <div v-for="(log, idx) in odinBattleLogs" :key="idx" class="text-gray-300 text-[11px]">
+                {{ log }}
+              </div>
+              <div v-if="odinBattleLogs.length === 0" class="text-gray-600 text-[11px] italic">
+                点击“开启 60 秒试炼”开始推演...
+              </div>
+            </div>
+          </div>
+
+          <div v-if="odinBattleResult" class="p-2.5 rounded text-xs font-bold text-center border" :class="odinBattleSuccess ? 'bg-emerald-950/70 border-emerald-500 text-emerald-300' : 'bg-rose-950/70 border-rose-500 text-rose-300'">
+            {{ odinBattleResult }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between">
@@ -758,6 +996,229 @@ const copyGodotCode = async () => {
     message.error('复制失败，请手动选取复制')
   }
 }
+
+// ================= 专区 4: 十二柱神印契约觉醒与共鸣系统 =================
+interface SignetItem {
+  id: string
+  name: string
+  summonName: string
+  icon: string
+  statBonus: string
+  passiveEffect: string
+}
+
+const signetCatalog: SignetItem[] = [
+  { id: 'bahamut', name: '龙皇核爆神印', summonName: '巴哈姆特', icon: '🐉', statBonus: '伤害上限突破 99999', passiveEffect: '破除一切法术免伤护盾，全队法术穿透 +25%' },
+  { id: 'odin', name: '斩铁天威神印', summonName: '奥丁', icon: '⚔️', statBonus: '暴击伤害 +80%', passiveEffect: '目标低于 15% HP 时必定触发斩铁即死处决' },
+  { id: 'phoenix', name: '金羽重生神印', summonName: '不死鸟', icon: '🔥', statBonus: '全队预言复活 (Reraise)', passiveEffect: '濒死承受致死伤害时保留 1 点 HP 金身不灭' },
+  { id: 'leviathan', name: '覆灭沧海神印', summonName: '利维亚桑', icon: '🌊', statBonus: '水系伤害 +50%', passiveEffect: '攻击时 30% 几率产生潮汐退行，清空敌方行动条' },
+  { id: 'shiva', name: '绝对零度神印', summonName: '希瓦', icon: '❄️', statBonus: '冻结暴击率 +45%', passiveEffect: '敌方行动条流速常驻减慢 20%' },
+  { id: 'ifrit', name: '炼狱焦土神印', summonName: '伊芙利特', icon: '☄️', statBonus: '火系破防 +40%', passiveEffect: '物理普攻附加 300% 烈焰灼烧爆裂创伤' },
+  { id: 'ramuh', name: '神罚雷霆神印', summonName: '拉姆', icon: '⚡', statBonus: '雷霆麻痹 +35%', passiveEffect: '敌方咏唱法术时有 70% 几率遭到雷击打断' },
+  { id: 'titan', name: '大地怒震神印', summonName: '泰坦', icon: '🪨', statBonus: '物理免伤 +25%', passiveEffect: '震地冲击永久剥离敌方 30% 护甲' },
+  { id: 'carbuncle', name: '星光魔反神印', summonName: '卡邦库尔', icon: '💎', statBonus: '开局魔法反射 3 层', passiveEffect: '受到法术攻击时反弹伤害并为施术者充能 50 MP' },
+  { id: 'syldra', name: '风暴狂涌神印', summonName: '希尔德拉', icon: '🌪️', statBonus: 'ATB 流速 +35%', passiveEffect: '全队闪避率提升 20%，疾跑移动提速 1.5 倍' },
+  { id: 'golem', name: '不动金刚神印', summonName: '魔石精', icon: '🛡️', statBonus: '吸收物理伤 10000', passiveEffect: '石魔替身吸收前排致命打击，免除击退硬直' },
+  { id: 'chocobo', name: '吉运肥鸟神印', summonName: '胖陆行鸟', icon: '🐤', statBonus: '稀有掉落率 300%', passiveEffect: '战斗结算经验值提升 1.5 倍，金币掉落翻倍' }
+]
+
+const selectedSignetIds = ref<string[]>(['bahamut', 'odin', 'phoenix'])
+const awakeningRank = ref(3)
+
+const isSignetSelected = (id: string) => selectedSignetIds.value.includes(id)
+
+const toggleSignet = (id: string) => {
+  if (selectedSignetIds.value.includes(id)) {
+    selectedSignetIds.value = selectedSignetIds.value.filter(s => s !== id)
+  } else {
+    if (selectedSignetIds.value.length < 3) {
+      selectedSignetIds.value.push(id)
+    } else {
+      selectedSignetIds.value.shift()
+      selectedSignetIds.value.push(id)
+    }
+  }
+}
+
+const resetSignets = () => {
+  selectedSignetIds.value = ['bahamut', 'odin', 'phoenix']
+  awakeningRank.value = 3
+  message.info('神印契约镶嵌配置已恢复默认组合')
+}
+
+const getAwakeningTitle = (rank: number) => {
+  switch (rank) {
+    case 1: return '初醒 · 元素激发'
+    case 2: return '通神 · 威能裂解'
+    case 3: return '极意 · 规则同调'
+    case 4: return '太古归一 · 天灾万象'
+    default: return ''
+  }
+}
+
+const resonanceScore = computed(() => {
+  return selectedSignetIds.value.length * 850 + awakeningRank.value * 1200
+})
+
+const resonanceDamageCap = computed(() => {
+  if (selectedSignetIds.value.includes('bahamut') || awakeningRank.value >= 3) {
+    return '99,999 (突破次元极限)'
+  }
+  return '9,999 (经典数值界限)'
+})
+
+const resonanceElemBonus = computed(() => {
+  let base = awakeningRank.value * 15
+  if (selectedSignetIds.value.includes('leviathan') || selectedSignetIds.value.includes('shiva') || selectedSignetIds.value.includes('ifrit')) {
+    base += 25
+  }
+  return base
+})
+
+const resonanceAtbBonus = computed(() => {
+  let base = awakeningRank.value * 8
+  if (selectedSignetIds.value.includes('syldra')) base += 20
+  return base
+})
+
+const resonanceReraise = computed(() => {
+  return selectedSignetIds.value.includes('phoenix')
+})
+
+const resonanceSkillName = computed(() => {
+  if (selectedSignetIds.value.includes('bahamut') && selectedSignetIds.value.includes('odin')) {
+    return '【龙皇断铁天灾斩 (Dragon Emperor Zantetsuken)】'
+  }
+  if (selectedSignetIds.value.includes('phoenix') && selectedSignetIds.value.includes('carbuncle')) {
+    return '【涅槃红宝石神圣界 (Sacred Benediction Barrier)】'
+  }
+  return '【太古神印共鸣守护 (Ancient Celestial Aegis)】'
+})
+
+const resonanceSkillDesc = computed(() => {
+  if (selectedSignetIds.value.includes('bahamut') && selectedSignetIds.value.includes('odin')) {
+    return '龙皇亿万核爆与斩铁剑意合璧，全场物理与魔法复合穿透轰击，无视敌方任何无敌与反射结界！'
+  }
+  if (selectedSignetIds.value.includes('phoenix') && selectedSignetIds.value.includes('carbuncle')) {
+    return '金羽圣焰与红宝石壁垒辉映，全体队员阵亡时立即以 100% 满状态复活并自带 3 层法术魔反结界！'
+  }
+  return '根据当前激活的印绶，提升全队全元素伤害增幅与极限行动充能流速，压制首领高阶法术咏唱。'
+})
+
+// ================= 专区 5: 奥丁 60 秒斩铁试炼推演 =================
+const isOdinBattleRunning = ref(false)
+const odinBattleEnded = ref(false)
+const odinTimeRemaining = ref(60.0)
+const odinMaxHp = 17000
+const odinHp = ref(17000)
+const odinBattleLogs = ref<string[]>([])
+const odinBattleResult = ref('')
+const odinBattleSuccess = ref(false)
+let odinTimer: ReturnType<typeof setInterval> | null = null
+
+const odinStatusType = computed(() => {
+  if (odinBattleEnded.value) {
+    return odinBattleSuccess.value ? 'success' : 'error'
+  }
+  if (isOdinBattleRunning.value) return 'warning'
+  return 'default'
+})
+
+const odinStatusText = computed(() => {
+  if (odinBattleEnded.value) {
+    return odinBattleSuccess.value ? '试炼降服 (Defeated)' : '全灭 (斩铁剑发动)'
+  }
+  if (isOdinBattleRunning.value) return '斩铁倒计时中...'
+  return '待战状态'
+})
+
+const toggleOdinBattle = () => {
+  if (odinBattleEnded.value) {
+    // 重置
+    odinHp.value = odinMaxHp
+    odinTimeRemaining.value = 60.0
+    odinBattleEnded.value = false
+    odinBattleSuccess.value = false
+    odinBattleResult.value = ''
+    odinBattleLogs.value = ['=== 60 秒试炼已重置，奥丁拔出斩铁剑！===']
+    isOdinBattleRunning.value = true
+    startOdinTimer()
+    return
+  }
+
+  if (isOdinBattleRunning.value) {
+    isOdinBattleRunning.value = false
+    stopOdinTimer()
+  } else {
+    isOdinBattleRunning.value = true
+    if (odinBattleLogs.value.length === 0) {
+      odinBattleLogs.value.push('=== 试炼开启！奥丁斯莱普尼斯马蹄轰鸣，60秒倒计时开始！===')
+    }
+    startOdinTimer()
+  }
+}
+
+const startOdinTimer = () => {
+  stopOdinTimer()
+  odinTimer = setInterval(() => {
+    if (!isOdinBattleRunning.value) return
+    odinTimeRemaining.value = Math.max(0, odinTimeRemaining.value - 0.1)
+
+    if (odinTimeRemaining.value <= 0) {
+      // 超时，斩铁剑发动
+      stopOdinTimer()
+      isOdinBattleRunning.value = false
+      odinBattleEnded.value = true
+      odinBattleSuccess.value = false
+      odinBattleResult.value = '💀 60 秒时限已至！奥丁挥下【斩铁剑】，全队承受 99999 致命真实伤害，试炼失败！'
+      odinBattleLogs.value.unshift('[0.0s] 💥 斩铁剑落下！全屏两断，光之战士倒下！')
+    }
+  }, 100)
+}
+
+const stopOdinTimer = () => {
+  if (odinTimer) {
+    clearInterval(odinTimer)
+    odinTimer = null
+  }
+}
+
+const castOdinSkill = (skill: string) => {
+  if (!isOdinBattleRunning.value || odinBattleEnded.value) return
+
+  let dmg = 0
+  let name = ''
+
+  if (skill === 'rapid_fire') {
+    dmg = Math.floor(3200 + Math.random() * 600)
+    name = '二刀流·乱打'
+  } else if (skill === 'spellblade_flare') {
+    dmg = Math.floor(4000 + Math.random() * 600)
+    name = '魔法剑·核爆'
+  } else if (skill === 'bahamut_summon') {
+    dmg = Math.floor(6200 + Math.random() * 600)
+    name = '巴哈姆特·亿万核爆'
+  }
+
+  odinHp.value = Math.max(0, odinHp.value - dmg)
+  const timeStr = odinTimeRemaining.value.toFixed(1)
+  odinBattleLogs.value.unshift(`[${timeStr}s] 🗡️ 施展【${name}】，对奥丁造成 ${dmg} 点穿透创伤！(剩余HP: ${odinHp.value})`)
+
+  if (odinHp.value <= 0) {
+    // 胜利
+    stopOdinTimer()
+    isOdinBattleRunning.value = false
+    odinBattleEnded.value = true
+    odinBattleSuccess.value = true
+    odinBattleResult.value = `🎉 试炼大成！在倒计时还剩 ${timeStr} 秒时斩落奥丁，缔结【斩铁神兽契约】！`
+    odinBattleLogs.value.unshift(`[${timeStr}s] ✨ 奥丁收剑向光之战士致敬，交托远古契约印绶！`)
+    message.success('奥丁 60 秒限时试炼攻克成功！')
+  }
+}
+
+onUnmounted(() => {
+  stopOdinTimer()
+})
 </script>
 
 <style scoped>
