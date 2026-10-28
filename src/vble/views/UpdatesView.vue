@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicle-navigation-studio-2026-10-28',
+    version: 'v2.2.208',
+    date: '2026-10-28',
+    title: '多维载具矩阵大世界全域航行与动力推演工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🛸',
+    tagType: 'success',
+    description: '深度重构升级 VehiclesView 载具矩阵：完整收录海陆空星 10 项传奇载具（徒步、黄/白/黑/胖陆行鸟族群、龙首帆船、蒸汽火力船、深海潜水艇、魔导飞空艇、双月星际改造舰）；构建对齐 Godot 4.x vehicle_navigation_system.gd 的巡航极速动力、地形阻隔与降落安全工坊，并解构地表、深海海沟与双月月轨三大空间探索维度。',
+    highlights: [
+      '全维度十大陆海空星载具：覆盖 1.0x 基础步速至瞬发跃迁，详尽收录通航特权、边界法则与背景典故',
+      '大世界巡航动力沙盘：支持调节巡航推进输出、以太燃料储备、反引力共振仪与基萨尔野菜，全息推演实际极速与遇敌率',
+      '严苛地形通行与着陆判定：精准对齐黑陆行鸟仅限密林着陆、飞空艇平原着陆、潜艇海沟深潜等机制',
+      '三大空间维度图谱 (3-Tier Dimension Matrix)：解构海拔 0~500m 地表大洋、-300m~-1000m 深海沉船与卡门线外双月星空',
+      'Godot 4.x 核心引擎代码对齐：内置 vehicle_navigation_system.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '多维载具探索法则', path: '/vble/vehicles', icon: '🛸' },
+      { label: '世界地貌与风土', path: '/vble/scenes', icon: '🗺️' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-summons-simulation-studio-2026-10-28',
     version: 'v2.2.207',
     date: '2026-10-28',
