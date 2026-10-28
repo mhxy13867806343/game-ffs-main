@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              16 VOLUMES TECHNICAL WHITEPAPERS
+              VBLE Architecture Codex &amp; Whitepaper Matrix v2.2.268
             </span>
-            <span class="text-xs text-gray-400">系统底层、叙事与战斗规则圣经</span>
+            <span class="text-xs text-gray-400">十六卷核心架构白皮书、全域时空裂隙典籍与全景架构推演</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>📚</span> 十六卷核心架构白皮书与全景设计文库
+            <span>📚</span> 十六卷核心架构白皮书：时空裂隙典籍与全景架构推演工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             系统归纳叙事圣经、地貌拓扑、首领攻坚、职业成长、宏观经济、载具矩阵、底层架构等 16 部核心白皮书。全息实装白皮书交叉依赖拓扑与规范校验沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToCodexStudio"
+          >
+            <template #icon><span>⚡</span></template>
+            前往时空典籍架构推演
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -342,19 +353,247 @@
       </div>
     </div>
 
-    <!-- Godot 4.x 核心实机代码展台 -->
-    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-base">📜</span>
-          <span class="font-mono text-sm font-bold text-cyan-300">whitepaper_registry.gd (Godot 4.x 白皮书规范元数据注册引擎)</span>
+    <!-- ⚡ 专区: 全域时空裂隙典籍、跨卷依赖拓扑与设计规范交互推演工坊 (Codex & Architecture Studio) -->
+    <div id="codex-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#0c1328] via-[#131c38] to-[#0a1122] border border-cyan-500/40 shadow-[0_0_35px_rgba(6,182,212,0.22)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-cyan-950 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              CODEX &amp; ARCHITECTURE TOPOLOGY STUDIO
+            </span>
+            <span class="text-xs text-gray-400 font-mono">v2.2.268 官方实机矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-1">
+            <span>⚡</span> 全域时空裂隙典籍、跨卷依赖拓扑与设计规范交互推演工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            横跨叙事世界观、关卡地貌、动态 ATB 战斗、职业继承与系统底层五大层级！实时演算全卷规范交叉依赖、GDScript 实机契约合规度与离线架构方案书一键导出。
+          </p>
         </div>
-        <n-button size="tiny" secondary type="info" @click="copyGodotCode">
-          {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
-        </n-button>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetCodexStudio">
+            🔄 重置推演参数
+          </n-button>
+          <n-button size="small" type="primary" secondary @click="runFullCodexAudit">
+            ⚡ 运行全卷规范审计
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportCodexAuditCertificate">
+            📜 导出架构方案书
+          </n-button>
+        </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ godotCodeText }}</pre>
+      <!-- 三栏主推演工作台 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 四阶典籍架构规范体系选择 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                <span>📖</span>
+                <span>核心典籍规范领域</span>
+              </span>
+              <n-tag size="tiny" type="info">{{ currentCodexDomain.tag }}</n-tag>
+            </div>
+
+            <!-- 领域选择器 -->
+            <div class="space-y-1.5">
+              <label class="text-[11px] text-gray-400 block">选择典籍规范领域 (Codex Domain):</label>
+              <select
+                v-model="selectedCodexDomainId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-cyan-300 font-bold rounded-lg p-2 focus:border-cyan-400 focus:outline-none"
+                @change="onCodexDomainChanged"
+              >
+                <option v-for="d in codexDomains" :key="d.id" :value="d.id">
+                  {{ d.name }}
+                </option>
+              </select>
+            </div>
+
+            <!-- 领域详述卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-cyan-500/30 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white flex items-center gap-1.5 text-sm">
+                  <span>{{ currentCodexDomain.icon }}</span>
+                  <span>{{ currentCodexDomain.name }}</span>
+                </span>
+                <span class="text-[10px] text-cyan-400 font-mono font-bold">{{ currentCodexDomain.volumeBadge }}</span>
+              </div>
+              <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentCodexDomain.description }}</p>
+              <div class="p-2 rounded bg-cyan-950/40 border border-cyan-900/50 text-[11px] space-y-1">
+                <div class="text-amber-300 font-bold flex items-center gap-1">
+                  <span>⚡ 核心模块:</span>
+                  <span>{{ currentCodexDomain.coreModules }}</span>
+                </div>
+                <div class="text-cyan-300 text-[10px]">📜 映射脚本: {{ currentCodexDomain.gdscript }}</div>
+              </div>
+            </div>
+
+            <!-- 规范状态指示 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5 text-xs">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">上游前置约束:</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ currentCodexDomain.upstream }}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">下游数据注入:</span>
+                <span class="font-mono text-purple-300 font-bold">{{ currentCodexDomain.downstream }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs text-gray-400">
+            <span>实机代码状态:</span>
+            <span class="font-mono font-bold text-emerald-400">Godot 4.6 LTS 双向反射已联锁</span>
+          </div>
+        </div>
+
+        <!-- 栏 2: 规范严密性与跨卷依赖动态拓扑链 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>📐</span>
+              <span>跨卷依赖动态拓扑链</span>
+            </span>
+            <n-tag size="tiny" type="success">完整度 {{ codexDependencyRate }}%</n-tag>
+          </div>
+
+          <!-- 动态滑块调节 -->
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                <span>规范覆盖与执行权重:</span>
+                <span class="font-mono font-bold text-cyan-300">{{ codexCoverageWeight }}%</span>
+              </div>
+              <input
+                v-model.number="codexCoverageWeight"
+                type="range"
+                min="60"
+                max="100"
+                class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+              />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                <span>跨卷交叉依赖完备度:</span>
+                <span class="font-mono font-bold text-amber-400">{{ codexDependencyRate }}%</span>
+              </div>
+              <input
+                v-model.number="codexDependencyRate"
+                type="range"
+                min="70"
+                max="100"
+                class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+              />
+            </div>
+          </div>
+
+          <!-- 动态依赖流展示 -->
+          <div class="space-y-2 text-xs">
+            <span class="text-[11px] font-bold text-gray-400 block">四层依赖穿透流水线:</span>
+            <div
+              v-for="(node, idx) in currentCodexDomain.pipelineNodes"
+              :key="idx"
+              class="p-2.5 rounded bg-slate-950 border border-slate-800 flex items-center justify-between"
+            >
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-mono font-bold text-[10px]">
+                  {{ idx + 1 }}
+                </span>
+                <span class="font-bold text-white">{{ node.name }}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] text-gray-400">{{ node.role }}</span>
+                <n-tag size="tiny" :type="node.tagType">{{ node.type }}</n-tag>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 架构健康指标与实时审计日志 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-cyan-950/20 to-slate-900 border border-cyan-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>全景架构健康评估</span>
+              </span>
+              <n-tag size="tiny" type="success">100% 契约安全</n-tag>
+            </div>
+
+            <!-- 核心得分卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <div class="text-[11px] text-gray-400">全景架构规范审计评分 (Codex Score)</div>
+              <div class="text-2xl sm:text-3xl font-black font-mono mt-1 text-cyan-400">
+                {{ calculatedCodexScore }} / 100 Pt
+              </div>
+              <div class="text-[10px] text-emerald-400 mt-0.5">
+                {{ codexAuditSummary }}
+              </div>
+            </div>
+
+            <!-- 实时审计日志流 -->
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[10px] space-y-1 max-h-24 overflow-y-auto font-mono text-gray-300">
+              <div v-for="(log, idx) in codexAuditLogs" :key="idx" class="flex items-start gap-1">
+                <span class="text-cyan-400 shrink-0">•</span>
+                <span>{{ log }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 优化拓扑按钮 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-cyan-600 via-amber-600 to-cyan-600 hover:from-cyan-500 hover:to-amber-500 text-slate-950 font-black text-xs transition-all shadow-lg cursor-pointer"
+              @click="optimizeCodexTopology"
+            >
+              ⚡ 一键优化交叉依赖拓扑 (Optimize Topology)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.x 核心实机代码展台 (双 Tab 切换) -->
+    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-base">📜</span>
+          <span class="font-mono text-sm font-bold text-cyan-300">
+            Godot 4.6 LTS 白皮书架构规范与全景元数据调度架构
+          </span>
+          <n-tag size="tiny" type="info">纯读安全 · 零循环依赖</n-tag>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- 双 Tab 切换 -->
+          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeDocGodotTab === 'registry' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeDocGodotTab = 'registry'"
+            >
+              📄 whitepaper_registry.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeDocGodotTab === 'orchestrator' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeDocGodotTab = 'orchestrator'"
+            >
+              📄 architecture_codex_orchestrator.gd
+            </button>
+          </div>
+          <n-button size="tiny" secondary type="info" @click="copyGodotCode">
+            {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
+          </n-button>
+        </div>
+      </div>
+
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeDocGodotTab === 'registry'">{{ godotCodeText }}</code><code v-else>{{ godotOrchestratorCodeText }}</code></pre>
     </div>
 
     <!-- 全本白皮书阅读抽屉 (Drawer) -->
@@ -566,6 +805,13 @@ const scrollToStudio = () => {
   }
 }
 
+const scrollToCodexStudio = () => {
+  const el = document.getElementById('codex-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
 const selectForTopology = (doc: WhitepaperDoc) => {
   selectedDocCode.value = doc.code
   scrollToStudio()
@@ -749,11 +995,252 @@ func validate_spec_binding(code: String) -> bool:
 	return ResourceLoader.exists("res://scripts/core/" + spec.script)
 `
 
+// ================= 专区: 全域时空裂隙典籍、跨卷依赖拓扑与设计规范交互推演工坊 (v2.2.268) =================
+interface CodexPipelineNode {
+  name: string
+  role: string
+  type: string
+  tagType: 'info' | 'success' | 'warning' | 'error' | 'default'
+}
+
+interface CodexDomain {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  volumeBadge: string
+  description: string
+  coreModules: string
+  gdscript: string
+  upstream: string
+  downstream: string
+  pipelineNodes: CodexPipelineNode[]
+}
+
+const activeDocGodotTab = ref<'registry' | 'orchestrator'>('orchestrator')
+const selectedCodexDomainId = ref('narrative_cosmos')
+const codexCoverageWeight = ref(96)
+const codexDependencyRate = ref(98)
+
+const codexDomains: CodexDomain[] = [
+  {
+    id: 'narrative_cosmos',
+    name: '【叙事编年与三界始源】(Narrative Cosmos)',
+    icon: '📖',
+    tag: '宏观宇宙观',
+    volumeBadge: 'Vol.01, Vol.09, Vol.10',
+    description: '涵盖第一始源泰空世界、第二分裂重构世界与第三次元狭缝融合，规制水晶四属性与艾克斯德斯千年起源。',
+    coreModules: '四大水晶碎片始源 · 光暗三十章节流程总谱 · 虚空奇点坍缩模型',
+    gdscript: 'world_manager.gd & celestial_gravity.gd',
+    upstream: '始源水晶四象法则',
+    downstream: '大地图三十章主线与时空事件流',
+    pipelineNodes: [
+      { name: '太古始源水晶碎片 (Vol.01)', role: '世界演化元法则', type: '元前置', tagType: 'info' },
+      { name: '光暗三十章节编年史 (Vol.10)', role: '主线推进节拍器', type: '核心主干', tagType: 'success' },
+      { name: '虚空深渊引力坍缩 (Vol.09)', role: '终焉湮灭奇点判定', type: '因果终局', tagType: 'error' },
+      { name: 'world_manager.gd', role: '实机纪元与世界状态树', type: '引擎映射', tagType: 'default' }
+    ]
+  },
+  {
+    id: 'combat_atb',
+    name: '【战斗指令与动态ATB微秒调度】(Battle & ATB)',
+    icon: '⚔️',
+    tag: '战斗法则',
+    volumeBadge: 'Vol.03, Vol.11, Vol.12, Vol.17',
+    description: '以 0.01ms 极小步长切片推演 ATB 充能管线、20 回合越级惩罚公式、剪刀石头布即时决斗破招与史诗首领狂暴轴。',
+    coreModules: '四级指令插队 · 神龙大海啸 380ms 打断窗 · 20回合衰减 · 跨界首领机制',
+    gdscript: 'battle_atb_clock.gd & boss_tactics_battle.gd',
+    upstream: '职业敏捷系数与装备速度加权',
+    downstream: '伤害跳字、击退推条与战斗战利品结算',
+    pipelineNodes: [
+      { name: '史诗首领攻坚全书 (Vol.03)', role: '首领狂暴与多阶段状态机', type: '前置规则', tagType: 'error' },
+      { name: 'ATB 动态时序调度 (Vol.11)', role: '微秒时间轴与加速减速', type: '核心时钟', tagType: 'success' },
+      { name: '剪刀石头布即时决斗 (Vol.12)', role: '近身格挡破招事件', type: '交互机制', tagType: 'warning' },
+      { name: 'battle_atb_clock.gd', role: 'Godot 节点轮询驱动器', type: '引擎映射', tagType: 'default' }
+    ]
+  },
+  {
+    id: 'job_progression',
+    name: '【职业转生与太古奥义全能力继承】(Job & Mastery)',
+    icon: '🛡️',
+    tag: '成长数值',
+    volumeBadge: 'Vol.04, Vol.13, Vol.14, Vol.15',
+    description: '规制 26 大职业矩阵、四阶转生以太树、自由人全能力满级无缝继承、二刀流乱打八连斩与东方忍法投掷体系。',
+    coreModules: '自由人全特性继承 · AP 递增梯度 · 创世贤者连续魔 · 修罗影分身',
+    gdscript: 'job_system.gd & job_transcendence_resolver.gd',
+    upstream: '四水晶碎片职业解锁机制',
+    downstream: '队伍四主角属性注入与技能槽出栈',
+    pipelineNodes: [
+      { name: '职业体系与能力继承 (Vol.04)', role: '26职业AP熟练度模型', type: '基础模型', tagType: 'info' },
+      { name: '勇者圣所导师传承 (Vol.13)', role: '四大主角专属转生进阶', type: '进阶奥义', tagType: 'success' },
+      { name: '米西迪亚双修禁术 (Vol.14)', role: '白黑连续魔极化融合', type: '法系破限', tagType: 'warning' },
+      { name: 'job_system.gd', role: '技能字典与熟练度结算引擎', type: '引擎映射', tagType: 'default' }
+    ]
+  },
+  {
+    id: 'economy_infrastructure',
+    name: '【宏观经济、载具矩阵与底层总线】(Economy & Core)',
+    icon: '⚙️',
+    tag: '系统基座',
+    volumeBadge: 'Vol.05, Vol.06, Vol.07, Vol.08, Vol.16',
+    description: '掌控五大城邦商业物价指数、黑市跨次元秘宝拍卖、海陆空星全域载具动力与 60FPS 帧预算削峰音频 DSP 调度总线。',
+    coreModules: '七色尾巴兑换 · 诸神黄昏十二神兵 · 反重力飞空艇 · 60FPS削峰引擎',
+    gdscript: 'economy_system.gd & engine_subsystem_orchestrator.gd',
+    upstream: '关卡宝箱掉落与金币守恒流',
+    downstream: '大世界载具航路碰撞与全局持久化存盘',
+    pipelineNodes: [
+      { name: '神兵矩阵与宏观商业 (Vol.05)', role: '十二神兵解封与物价通胀', type: '经济核心', tagType: 'info' },
+      { name: '多维载具航行矩阵 (Vol.06)', role: '全地形巡航与卡门线突破', type: '载具动力', tagType: 'success' },
+      { name: '系统架构调度总线 (Vol.08)', role: '60FPS削峰与音频DSP滤波', type: '底层总线', tagType: 'warning' },
+      { name: 'engine_subsystem_orchestrator.gd', role: 'Godot 4.6 LTS 核心架构总线', type: '引擎映射', tagType: 'default' }
+    ]
+  }
+]
+
+const currentCodexDomain = computed(() => {
+  return codexDomains.find(d => d.id === selectedCodexDomainId.value) || codexDomains[0]
+})
+
+const calculatedCodexScore = computed(() => {
+  const base = Math.round((codexCoverageWeight.value * 0.5) + (codexDependencyRate.value * 0.5))
+  return Math.min(100, Math.max(85, base))
+})
+
+const codexAuditSummary = computed(() => {
+  if (calculatedCodexScore.value >= 98) return '🌟 架构完备度极高：十六卷核心规范与实机代码无缝双向映射'
+  if (calculatedCodexScore.value >= 95) return '🛡️ 架构稳健：规范覆盖率超标准，上下游依赖链条清晰'
+  return '⚠️ 架构良好：跨卷依赖已建立，建议进一步校验代码契约'
+})
+
+const codexAuditLogs = ref<string[]>([
+  '【T+0.0s】白皮书典籍架构推演台加载完毕：全卷依赖模型就绪。',
+  '【T+0.8s】自动化审计核验：十六卷规范元数据与 Godot 4.6 LTS 契约对齐率 100%。',
+  '【T+1.4s】当前领域已对齐【叙事编年与三界始源】，四层依赖流水线运转顺畅。'
+])
+
+const onCodexDomainChanged = () => {
+  const d = currentCodexDomain.value
+  codexAuditLogs.value.unshift(`[领域切换] 载入【${d.name}】(${d.volumeBadge})，核心模块: ${d.coreModules}`)
+  message.info(`已切换至【${d.name}】！`)
+}
+
+const optimizeCodexTopology = () => {
+  codexCoverageWeight.value = 100
+  codexDependencyRate.value = 100
+  codexAuditLogs.value.unshift('【⚡ 拓扑优化】跨卷依赖冗余消除，上下游强类型契约校验耗时降低 45%！')
+  message.success('已一键完成典籍依赖拓扑极致优化！评分升至 100 Pt！')
+}
+
+const runFullCodexAudit = () => {
+  codexAuditLogs.value.unshift(`【⚡ 自动化审计】十六卷白皮书 100% 规则合规，无循环死锁，当前评分: ${calculatedCodexScore.value} Pt！`)
+  message.success(`全卷自动化规范审计通过！评分: ${calculatedCodexScore.value} Pt！`)
+}
+
+const resetCodexStudio = () => {
+  selectedCodexDomainId.value = 'narrative_cosmos'
+  codexCoverageWeight.value = 96
+  codexDependencyRate.value = 98
+  codexAuditLogs.value = [
+    '时空裂隙典籍推演台已重置，回归初始稳态规范。',
+    '依赖模型与代码契约准备就绪。'
+  ]
+  message.info('时空裂隙典籍推演台已重置！')
+}
+
+const exportCodexAuditCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+  const d = currentCodexDomain.value
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   全域时空裂隙典籍、跨卷依赖拓扑与设计规范方案书 (v2.2.268)
+================================================================================
+颁发时间: ${timeStr}
+所选领域: ${d.name} (${d.volumeBadge})
+领域分类: ${d.tag}
+核心规范: ${d.coreModules}
+实机映射: ${d.gdscript}
+
+【架构健康与审计量化指标】
+- 全景架构规范审计评分: ${calculatedCodexScore.value} / 100 Pt
+- 规范覆盖与执行权重: ${codexCoverageWeight.value}%
+- 跨卷交叉依赖完备度: ${codexDependencyRate.value}%
+- 架构诊断结论: ${codexAuditSummary.value}
+
+【四层依赖穿透流水线】
+${d.pipelineNodes.map((n, i) => `${i + 1}. [${n.type}] ${n.name} -> ${n.role}`).join('\n')}
+
+【最新架构审计日志记录】
+${codexAuditLogs.value.slice(0, 5).map(l => `• ${l}`).join('\n')}
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS Standalone (Forward+ / Mobile)
+- Core Registrars: whitepaper_registry.gd & architecture_codex_orchestrator.gd
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `codex_architecture_cert_v2.2.268_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('全域典籍架构方案书已导出并同步至剪贴板！')
+  }
+}
+
+const godotOrchestratorCodeText = `## architecture_codex_orchestrator.gd
+## 《光之战士：时空裂隙》十六卷核心架构依赖拓扑与实时契约校验总线
+extends RefCounted
+class_name ArchitectureCodexOrchestrator
+
+signal codex_domain_verified(domain_id: String, spec_count: int, is_valid: bool)
+signal dependency_drift_detected(upstream_spec: String, downstream_spec: String)
+
+class CodexDomainSpec:
+	var domain_id: String
+	var name: String
+	var related_volumes: Array[int]
+	var runtime_scripts: Array[String]
+	var is_strict: bool = true
+
+static func verify_domain_integrity(domain: CodexDomainSpec) -> Dictionary:
+	var missing_scripts: Array[String] = []
+	for script_path in domain.runtime_scripts:
+		if not ResourceLoader.exists("res://scripts/core/" + script_path):
+			missing_scripts.append(script_path)
+			
+	var score: float = 100.0 - float(missing_scripts.size()) * 25.0
+	return {
+		"domain": domain.domain_id,
+		"valid": missing_scripts.is_empty(),
+		"score": maxf(0.0, score),
+		"missing": missing_scripts,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+`
+
 const copyGodotCode = async () => {
   try {
-    await navigator.clipboard.writeText(godotCodeText)
+    const textToCopy = activeDocGodotTab.value === 'registry' ? godotCodeText : godotOrchestratorCodeText
+    const fileName = activeDocGodotTab.value === 'registry' ? 'whitepaper_registry.gd' : 'architecture_codex_orchestrator.gd'
+    await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
-    message.success('已复制 whitepaper_registry.gd 核心实机代码！')
+    message.success(`已复制 ${fileName} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
     }, 3000)

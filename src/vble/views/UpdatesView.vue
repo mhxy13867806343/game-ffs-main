@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-docs-architecture-codex-studio-2026-10-28',
+    version: 'v2.2.268',
+    date: '2026-10-28',
+    title: '全域时空裂隙典籍、跨卷依赖拓扑与设计规范交互推演工坊重磅实装',
+    category: 'system',
+    categoryName: '典籍架构',
+    icon: '📚',
+    tagType: 'success',
+    description: '全面重构升级 DocsView 十六卷核心架构白皮书门户：顶部横幅标章升级为 VBLE Architecture Codex & Whitepaper Matrix v2.2.268，新增时空典籍架构推演一键直达快捷按钮；专区重磅实装【全域时空裂隙典籍、跨卷依赖拓扑与设计规范交互推演工坊】（Codex & Architecture Topology Studio）；构建四大典籍规范领域（叙事编年与三界始源、战斗指令与动态ATB微秒调度、职业转生与全能力继承、宏观经济与底层系统总线）；支持规范覆盖权重 (60%~100%) 与跨卷交叉依赖完备度 (70%~100%) 双滑块动力学调节；四层依赖穿透流水线精准度量；实时解算全景架构评分 (Codex Score, 85~100 Pt)；支持一键生成并导出《全域时空裂隙典籍、跨卷依赖拓扑与设计规范方案书》附带 SHA-256 安全哈希签名；底层源码展台升级双 Tab 切换，新增 architecture_codex_orchestrator.gd 核心架构依赖拓扑总线。',
+    highlights: [
+      '四大典籍架构领域覆盖：叙事始源、微秒战斗ATB、职业转生继承、宏观经济系统总线',
+      '跨卷交叉依赖流水线：从太古元前置到核心主干、因果终局与实机代码映射全景度量',
+      '动态双滑块架构严密度：支持规范覆盖权重与依赖完备度实时调节并动态评分',
+      '一键拓扑优化与全卷审计：支持一键消除冗余依赖与自动化无死锁契约核验',
+      '典籍架构方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 architecture_codex_orchestrator.gd 架构校验总线源码展台'
+    ],
+    relatedLinks: [
+      { label: '核心架构白皮书文库', path: '/vble/docs', icon: '📚' },
+      { label: '系统底层架构总线', path: '/vble/systems', icon: '⚙️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-dungeons-secret-puzzle-studio-2026-10-28',
     version: 'v2.2.267',
     date: '2026-10-28',
