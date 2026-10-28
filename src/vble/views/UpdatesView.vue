@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-economy-alchemy-mix-studio-2026-10-28',
+    version: 'v2.2.211',
+    date: '2026-10-28',
+    title: '宏观经济物价指数与药剂师质变调合演算沙盘工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⚗️',
+    tagType: 'warning',
+    description: '深度重构升级 EconomyView 宏观经济与调合工坊：全景展出七色尾巴神器传承矩阵（阿克塞尔匕首、瓦尔哈拉圣剑、嗜血长枪、究极之刃等）；构建对齐 Godot 4.x alchemist_mix_system.gd 的药剂师两两调合质变沙盘，全息演算巨人之药生命翻倍、诸神护佑全员无敌护盾、圣水炸弹 9999 破邪真伤，并提炼全境五大商业城邦物价指数与蜃楼黑市行情。',
+    highlights: [
+      '七色尾巴神器传承矩阵：收录粉、灰、红、金、蓝、黄、绿七色尾巴兑换专属神兵，详述适用职业与独特被动',
+      '药剂师两两调合全息沙盘：自由配置主辅双原料与调合专精，支持【药效加倍】技能结算巨人之药 HP 翻倍突破',
+      '传奇神级调合配方预设速查：收录诸神护佑药剂、圣水炸弹、龙之吐息、生命灵药与暗影死神毒雾等核心公式',
+      '全境五大商业城邦行情：详尽收录泰空王都、图尔港口、卡尔纳克军工与蜃楼小镇黑市的物价指数与特产流通',
+      'Godot 4.x 核心引擎代码对齐：内置 alchemist_mix_system.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '宏观经济与调合', path: '/vble/economy', icon: '⚗️' },
+      { label: '道具与战备总览', path: '/vble/items', icon: '🧪' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-celestial-gravity-studio-2026-10-28',
     version: 'v2.2.210',
     date: '2026-10-28',
