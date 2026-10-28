@@ -1,12 +1,47 @@
 <template>
   <div class="sidequests-page p-4 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
-    <div class="text-center mb-6">
-      <n-tag type="info" size="small" round class="mb-2">Epic Lore & Exploration Secrets</n-tag>
-      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">支线任务与探索资料</h1>
-      <p class="text-gray-400 max-w-2xl mx-auto text-sm">
-        本目录收录 {{ sidequests.length }} 条资料，包含当前正式支线、王城悬赏讨伐与原有史诗探索条目。正式支线逐条标明接入与验证边界。
-      </p>
+    <div class="header-card p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900/90 to-purple-950/80 border border-amber-500/30 shadow-[0_0_35px_rgba(245,158,11,0.2)] relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-56 h-56 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
+              VBLE Sidequests &amp; Secrets Matrix v2.2.254
+            </span>
+            <span class="text-xs text-gray-400">支线全域考据与隐藏秘境推演</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🗺️</span> 支线全域考据：时空寻宝与隐藏秘境沙盘工坊
+          </h1>
+          <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
+            涵盖西方王城王冠之托、星界缎带传承、大陆十六环陆行鸟巡礼，乃至四方神殿远古石板与七色彩尾神兵。全新实装全域时空寻宝与隐秘藏宝库推演沙盘。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToTreasureStudio"
+          >
+            <template #icon><span>💎</span></template>
+            前往时空寻宝沙盘
+          </n-button>
+          <router-link to="/vble/dungeons">
+            <n-button size="medium" round tertiary>
+              查看全域地宫
+            </n-button>
+          </router-link>
+          <router-link to="/vble">
+            <n-button size="medium" round tertiary>
+              返回首页
+            </n-button>
+          </router-link>
+        </div>
+      </div>
     </div>
 
     <!-- 史诗任务特别呈现：王冠之托与四阶实物交换链条 -->
@@ -1060,6 +1095,356 @@
       </div>
     </div>
 
+    <!-- 💎 SQ-14 全域时空寻宝与隐秘藏宝库推演沙盘 (World Treasure Hunt & Secret Vault Excavation Studio) -->
+    <div id="treasure-hunt-studio" class="bg-gradient-to-br from-[#12162a]/95 via-[#1a1432]/90 to-[#0e1628]/95 border border-amber-500/50 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-5 relative overflow-hidden">
+      <!-- 头部与控制栏 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-900/40 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">💎</span>
+            <h2 class="text-lg sm:text-xl font-black text-amber-300">
+              全域时空寻宝与隐秘藏宝库推演沙盘 (World Treasure Hunt Studio)
+            </h2>
+            <n-tag size="small" type="warning" round strong>绝版秘宝发掘</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            推演孤岛沉船、蜃气楼古塔、龙之颈竞技场与海底神殿四大隐秘秘境，结合寻宝专家职能、勘探圣器与守卫破除策，实时演算神兵与战利品掉落！
+          </p>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <n-button size="small" secondary type="warning" @click="resetTreasureStudio">
+            🔄 重置寻宝沙盘
+          </n-button>
+          <n-button
+            size="small"
+            type="primary"
+            class="font-bold shadow"
+            :disabled="excavationState !== 'excavating'"
+            @click="fastForwardExcavation"
+          >
+            ⚡ 即刻完成发掘
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 快捷预设装载条 -->
+      <div class="flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
+        <span class="text-gray-400 font-semibold flex items-center gap-1">
+          <span>⚡</span> 快速载入寻宝秘境预设：
+        </span>
+        <n-button size="tiny" round secondary type="info" @click="applyTreasurePreset('sunken_galleon')">
+          孤岛沉船幽灵宝库 (诸神之黄昏)
+        </n-button>
+        <n-button size="tiny" round secondary type="warning" @click="applyTreasurePreset('mirage_bazaar')">
+          蜃气楼古塔暗铺 (星界缎带真品)
+        </n-button>
+        <n-button size="tiny" round secondary type="error" @click="applyTreasurePreset('dragons_neck_arena')">
+          龙之颈决斗裂谷 (龙之髭硬鞭)
+        </n-button>
+        <n-button size="tiny" round secondary type="success" @click="applyTreasurePreset('submarine_abyssal_shrine')">
+          远古海底神殿 (创世神枪瓦尔哈拉)
+        </n-button>
+      </div>
+
+      <!-- 双核心工坊阵列 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 栏 1: 发掘调配与参数调谐 (5 cols) -->
+        <div class="lg:col-span-5 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3.5">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-amber-300 flex items-center gap-1.5">
+                <span>🎛️</span> 寻宝勘探调配控制台
+              </span>
+              <n-tag size="tiny" :type="excavationState === 'excavating' ? 'warning' : excavationState === 'completed' ? 'success' : 'default'">
+                {{ excavationState === 'excavating' ? '深潜发掘进行中' : excavationState === 'completed' ? '发掘圆满凯旋' : '先锋整装待发' }}
+              </n-tag>
+            </div>
+
+            <!-- 目标秘境选择 -->
+            <div class="space-y-1.5">
+              <label class="text-[11px] text-gray-400 block font-bold">1. 选定目标隐秘藏宝地表:</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  v-for="site in treasureSites"
+                  :key="site.id"
+                  type="button"
+                  class="p-2 rounded-lg border text-left cursor-pointer transition-all flex flex-col justify-between select-none"
+                  :class="selectedSiteId === site.id
+                    ? 'bg-amber-950/40 border-amber-400 text-amber-200 shadow-md shadow-amber-900/30'
+                    : 'bg-slate-900/80 border-slate-800 text-gray-300 hover:border-slate-700'"
+                  :disabled="excavationState === 'excavating'"
+                  @click="selectedSiteId = site.id"
+                >
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold">{{ site.icon }} {{ site.name }}</span>
+                    <n-tag size="tiny" :type="site.dangerColor">{{ site.dangerTier.split(' · ')[0] }}</n-tag>
+                  </div>
+                  <div class="text-[10px] text-gray-400 mt-1 truncate">{{ site.region }}</div>
+                  <div class="text-[10px] text-amber-300/90 mt-0.5 truncate">🎁 {{ site.signatureItem }}</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- 先锋职能与随身圣器 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1 font-semibold">2. 领衔探宝专家职能:</label>
+                <n-select
+                  v-model:value="selectedSeekerId"
+                  :options="seekerRoleOptions"
+                  size="small"
+                  :disabled="excavationState === 'excavating'"
+                />
+              </div>
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1 font-semibold">3. 配备勘探圣器工具:</label>
+                <n-select
+                  v-model:value="selectedToolId"
+                  :options="loadoutToolOptions"
+                  size="small"
+                  :disabled="excavationState === 'excavating'"
+                />
+              </div>
+            </div>
+
+            <!-- 发掘深度滑块 -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300 font-semibold">4. 密境纵深发掘层级:</span>
+                <span class="font-mono font-bold text-amber-300">地下第 {{ excavationDepth }} 层 / 5 层</span>
+              </div>
+              <n-slider v-model:value="excavationDepth" :min="1" :max="5" :step="1" :disabled="excavationState === 'excavating'" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>1层 (外廊)</span>
+                <span>3层 (主墓室)</span>
+                <span>5层 (深渊极渊)</span>
+              </div>
+            </div>
+
+            <!-- 守护者应对策略 -->
+            <div class="space-y-1">
+              <label class="text-[11px] text-gray-400 block font-semibold">5. 守护魔兽/暗刺陷阱应对策:</label>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <button
+                  type="button"
+                  class="p-2 rounded-lg border text-left transition-all"
+                  :class="guardTactic === 'stealth'
+                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold'
+                    : 'bg-slate-900 border-slate-800 text-gray-400 hover:bg-slate-800'"
+                  :disabled="excavationState === 'excavating'"
+                  @click="guardTactic = 'stealth'"
+                >
+                  <div>🥷 潜行隐蔽绕行</div>
+                  <div class="text-[10px] text-gray-500 mt-0.5">零战损悄然开箱</div>
+                </button>
+                <button
+                  type="button"
+                  class="p-2 rounded-lg border text-left transition-all"
+                  :class="guardTactic === 'combat'
+                    ? 'bg-rose-500/20 border-rose-400 text-rose-300 font-bold'
+                    : 'bg-slate-900 border-slate-800 text-gray-400 hover:bg-slate-800'"
+                  :disabled="excavationState === 'excavating'"
+                  @click="guardTactic = 'combat'"
+                >
+                  <div>⚔️ 正面强攻破盾</div>
+                  <div class="text-[10px] text-gray-500 mt-0.5">夺取守护兽额外战利品</div>
+                </button>
+                <button
+                  type="button"
+                  class="p-2 rounded-lg border text-left transition-all"
+                  :class="guardTactic === 'charm'
+                    ? 'bg-purple-500/20 border-purple-400 text-purple-300 font-bold'
+                    : 'bg-slate-900 border-slate-800 text-gray-400 hover:bg-slate-800'"
+                  :disabled="excavationState === 'excavating'"
+                  @click="guardTactic = 'charm'"
+                >
+                  <div>🎵 诗篇安抚催眠</div>
+                  <div class="text-[10px] text-gray-500 mt-0.5">古龙安睡无声退场</div>
+                </button>
+                <button
+                  type="button"
+                  class="p-2 rounded-lg border text-left transition-all"
+                  :class="guardTactic === 'bribe'
+                    ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-bold'
+                    : 'bg-slate-900 border-slate-800 text-gray-400 hover:bg-slate-800'"
+                  :disabled="excavationState === 'excavating'"
+                  @click="guardTactic = 'bribe'"
+                >
+                  <div>💰 金币收买机关</div>
+                  <div class="text-[10px] text-gray-500 mt-0.5">黑市地精代开暗道</div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 发掘动作按钮 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div class="flex items-center gap-2">
+              <n-button
+                v-if="excavationState !== 'excavating'"
+                size="medium"
+                type="warning"
+                block
+                class="font-bold flex-1"
+                @click="startExcavation"
+              >
+                <template #icon><span>⛏️</span></template>
+                启动时空密境发掘
+              </n-button>
+              <n-button
+                v-else
+                size="medium"
+                type="error"
+                block
+                class="font-bold flex-1"
+                @click="cancelExcavation"
+              >
+                <template #icon><span>🛑</span></template>
+                紧急撤回探险队
+              </n-button>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-button size="small" secondary type="info" class="flex-1" @click="exportTreasureHuntCert">
+                <template #icon><span>📜</span></template>
+                导出寻宝勘探证书
+              </n-button>
+              <n-button size="small" secondary class="flex-1" @click="copyTreasureHuntChain">
+                <template #icon><span>🔗</span></template>
+                复制勘探参数
+              </n-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 实时发掘进度、战利品展台与控制台日志 (7 cols) -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- 发掘实时进度与阶段展台 -->
+          <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-cyan-300 flex items-center gap-1.5">
+                <span>📡</span> 地脉发掘深潜进度与时序
+              </span>
+              <span class="font-mono font-bold" :class="excavationProgress === 100 ? 'text-emerald-400' : 'text-amber-400'">
+                {{ excavationProgress }}% · {{ currentExcavationPhaseTitle }}
+              </span>
+            </div>
+
+            <!-- 进度条 -->
+            <n-progress
+              type="line"
+              :percentage="excavationProgress"
+              :status="excavationProgress === 100 ? 'success' : 'default'"
+              :show-indicator="false"
+              processing
+            />
+
+            <!-- 五阶段时序指示器 -->
+            <div class="grid grid-cols-5 gap-1 text-center text-[10px] font-mono">
+              <div
+                v-for="(pName, pIdx) in excavationPhaseNames"
+                :key="pIdx"
+                class="p-1.5 rounded transition-all truncate"
+                :class="excavationProgress >= (pIdx + 1) * 20
+                  ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 font-bold'
+                  : (excavationProgress >= pIdx * 20
+                    ? 'bg-amber-950/60 text-amber-300 border border-amber-800/40 animate-pulse font-bold'
+                    : 'bg-slate-900/60 text-gray-500 border border-slate-800/60')"
+              >
+                {{ pIdx + 1 }}. {{ pName }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 战利品鉴定与发掘获利盘 -->
+          <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-amber-300 flex items-center gap-1.5">
+                <span>🏆</span> 探宝实战战利品与神兵鉴定展台
+              </span>
+              <span class="text-xs font-mono font-bold" :class="excavatedSpoils.appraisalRating === '神话绝品' ? 'text-amber-400' : 'text-cyan-400'">
+                鉴定品阶：{{ excavatedSpoils.appraisalRating }}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
+              <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
+                <div class="text-[10px] text-gray-400">带回金币 (Gold)</div>
+                <div class="text-base font-bold text-amber-400 font-mono mt-0.5">{{ excavatedSpoils.gold.toLocaleString() }} G</div>
+                <div class="text-[9px] text-gray-500">含专家倍率加成</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
+                <div class="text-[10px] text-gray-400">职业点数 (ABP)</div>
+                <div class="text-base font-bold text-cyan-400 font-mono mt-0.5">+{{ excavatedSpoils.ap }} pts</div>
+                <div class="text-[9px] text-gray-500">探宝者全员共享</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 col-span-2">
+                <div class="text-[10px] text-gray-400">发掘核心圣物/神兵</div>
+                <div class="text-xs font-bold text-emerald-300 truncate mt-1">
+                  {{ excavatedSpoils.rareArtifact || '尚未完成勘探，等待开箱' }}
+                </div>
+                <div class="text-[9px] text-gray-500 truncate mt-0.5">
+                  {{ excavatedSpoils.secretNote || '暂无发掘手记' }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 实时调度日志控制台 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 flex items-center gap-1 font-mono">
+                <span>📜</span> 探宝实装调度日志 (Excavation Log):
+              </span>
+              <span class="text-[10px] text-gray-500 font-mono">{{ excavationLog.length }} 条记录</span>
+            </div>
+            <div class="bg-black/40 rounded-lg p-2.5 h-36 overflow-y-auto space-y-1 text-xs font-mono scrollbar-thin">
+              <div
+                v-for="(log, idx) in excavationLog"
+                :key="idx"
+                class="leading-tight"
+                :class="log.includes('🎉') || log.includes('🎁') ? 'text-amber-300' : (log.includes('⚠️') || log.includes('❌') ? 'text-rose-400' : (log.includes('⛏️') ? 'text-cyan-300' : 'text-gray-400'))"
+              >
+                {{ log }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all"
+              :class="activeTreasureGdTab === 'excavator'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
+                : 'bg-slate-900 text-gray-400 border border-slate-800 hover:text-white'"
+              @click="activeTreasureGdTab = 'excavator'"
+            >
+              treasure_hunt_excavator.gd
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all"
+              :class="activeTreasureGdTab === 'dispatcher'
+                ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm'
+                : 'bg-slate-900 text-gray-400 border border-slate-800 hover:text-white'"
+              @click="activeTreasureGdTab = 'dispatcher'"
+            >
+              rift_expedition_dispatcher.gd
+            </button>
+          </div>
+          <n-button size="tiny" secondary round type="info" @click="copyTreasureGdCode">
+            <template #icon><span>📋</span></template>
+            复制代码
+          </n-button>
+        </div>
+        <pre class="bg-black/50 p-3 rounded-lg border border-slate-900 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-48 scrollbar-thin"><code v-if="activeTreasureGdTab === 'excavator'">{{ gdTreasureExcavatorCode }}</code><code v-else>{{ gdRiftDispatcherCode }}</code></pre>
+      </div>
+    </div>
+
     <!-- 筛选与搜索工具栏 -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-[#121626]/80 border border-slate-800">
       <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
@@ -1142,11 +1527,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
+import { useMessage } from 'naive-ui'
 import { useGameStore } from '../stores/gameStore'
 
+const message = useMessage()
 const gameStore = useGameStore()
 const sidequests = computed(() => gameStore.db.sidequests || [])
+
+const scrollToTreasureStudio = () => {
+  const el = document.getElementById('treasure-hunt-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
 
 const activeFilter = ref('all')
 const searchKeyword = ref('')
@@ -1747,4 +2139,401 @@ const resetRiftStudio = () => {
     '底层调度契约: rift_expedition_dispatcher.gd 状态就绪。'
   ]
 }
+
+// ================= SQ-14 全域时空寻宝与隐秘藏宝库推演沙盘 =================
+interface TreasureSite {
+  id: string
+  name: string
+  icon: string
+  region: string
+  dangerTier: string
+  dangerColor: 'warning' | 'error' | 'info' | 'success'
+  signatureItem: string
+  signatureDesc: string
+  goldMin: number
+  goldMax: number
+  apReward: number
+}
+
+const treasureSites: TreasureSite[] = [
+  {
+    id: 'sunken_galleon',
+    name: '孤岛沉船幽灵宝库',
+    icon: '🏴‍☠️',
+    region: '外海海沟 · 幽灵船残骸 (240, 960)',
+    dangerTier: 'Tier IV · 凶险幽灵海域',
+    dangerColor: 'error',
+    signatureItem: '诸神之黄昏 (Ragnarok) · 圣剑',
+    signatureDesc: '传世九阶光系圣剑，物理击中几率瞬发核爆术',
+    goldMin: 12000,
+    goldMax: 35000,
+    apReward: 45
+  },
+  {
+    id: 'mirage_bazaar',
+    name: '蜃气楼古塔隐秘商铺',
+    icon: '🏰',
+    region: '迷失沙漠 · 蜃气楼高塔顶层 (1440, 320)',
+    dangerTier: 'Tier III · 空间镜像迷宫',
+    dangerColor: 'warning',
+    signatureItem: '星界缎带真品 (True Ribbon)',
+    signatureDesc: '免疫九阶负面状态，附带全属性减伤 10%',
+    goldMin: 8500,
+    goldMax: 22000,
+    apReward: 30
+  },
+  {
+    id: 'dragons_neck_arena',
+    name: '龙之颈竞技场地下金库',
+    icon: '🐲',
+    region: '北大陆 · 龙之颈决斗裂谷 (820, 1140)',
+    dangerTier: 'Tier V · 绝境魔兽试炼',
+    dangerColor: 'error',
+    signatureItem: '龙之髭神鞭 (Dragon Whisker)',
+    signatureDesc: '对龙系生物造成 400% 暴击斩击并必定麻痹',
+    goldMin: 20000,
+    goldMax: 50000,
+    apReward: 60
+  },
+  {
+    id: 'submarine_abyssal_shrine',
+    name: '远古海底沉眠神殿',
+    icon: '🔱',
+    region: '大洋极深海底 · 始源以太回廊 (512, 1720)',
+    dangerTier: 'Tier V · 虚空暗流漩涡',
+    dangerColor: 'error',
+    signatureItem: '创世神枪瓦尔哈拉 (Valhalla Lance)',
+    signatureDesc: '龙骑士究极长枪，空中跳跃落地无视防御',
+    goldMin: 25000,
+    goldMax: 65000,
+    apReward: 75
+  }
+]
+
+const seekerRoleOptions = [
+  { value: 'thief_master', label: '🗡️ 盗贼大师 (开锁爆率+40% / 陷阱免伤)' },
+  { value: 'time_archmage', label: '⏳ 时空魔导士 (加速时滞 / 发掘耗时-50%)' },
+  { value: 'minstrel_bard', label: '🪕 吟游大诗人 (安抚古龙 / 宝藏品质提升)' },
+  { value: 'beast_tamer', label: '🦁 驯兽魔兽使 (巨兽破壁 / 地质机关秒破)' }
+]
+
+const loadoutToolOptions = [
+  { value: 'master_key', label: '🔑 万能盗贼秘钥 (必开S级封印箱)' },
+  { value: 'divine_lens', label: '🔍 始源真理透镜 (暗室发现率+35%)' },
+  { value: 'levitate_ward', label: '🪶 浮空羽翼避雷符 (免疫地刺落穴)' },
+  { value: 'aether_lodestone', label: '🧭 以太寻龙罗盘 (爆金币翻倍)' }
+]
+
+const selectedSiteId = ref('sunken_galleon')
+const selectedSeekerId = ref('thief_master')
+const selectedToolId = ref('master_key')
+const excavationDepth = ref(3)
+const guardTactic = ref<'stealth' | 'combat' | 'charm' | 'bribe'>('stealth')
+
+const excavationState = ref<'idle' | 'excavating' | 'completed'>('idle')
+const excavationProgress = ref(0)
+let excavationTimer: ReturnType<typeof setInterval> | null = null
+
+const activeSite = computed(() => {
+  return treasureSites.find(s => s.id === selectedSiteId.value) || treasureSites[0]
+})
+
+const excavationPhaseNames = ['定位', '破界', '避险', '开箱', '撤离']
+
+const currentExcavationPhaseTitle = computed(() => {
+  if (excavationProgress.value >= 100) return '全速撤离凯旋'
+  if (excavationProgress.value >= 80) return '主墓室主宝箱破锁'
+  if (excavationProgress.value >= 60) return '解除深渊暗刺陷阱'
+  if (excavationProgress.value >= 40) return '解构外层古代结界'
+  if (excavationProgress.value >= 20) return '地脉以太共鸣定位'
+  return '先锋整装待发'
+})
+
+const excavationLog = ref<string[]>([
+  '时空寻宝探秘沙盘就绪：选定秘境标的与先锋专家后，点击【启动时空密境发掘】即可执行。',
+  '底层调度引擎: treasure_hunt_excavator.gd 已完成动态加载。'
+])
+
+const excavatedSpoils = ref<{
+  gold: number
+  ap: number
+  rareArtifact: string
+  secretNote: string
+  appraisalRating: string
+}>({
+  gold: 0,
+  ap: 0,
+  rareArtifact: '',
+  secretNote: '',
+  appraisalRating: '待勘探'
+})
+
+const activeTreasureGdTab = ref<'excavator' | 'dispatcher'>('excavator')
+
+const applyTreasurePreset = (siteId: string) => {
+  if (siteId === 'sunken_galleon') {
+    selectedSiteId.value = 'sunken_galleon'
+    selectedSeekerId.value = 'thief_master'
+    selectedToolId.value = 'master_key'
+    excavationDepth.value = 4
+    guardTactic.value = 'stealth'
+    message.success('已装载预设：孤岛沉船幽灵宝库 (诸神之黄昏)')
+  } else if (siteId === 'mirage_bazaar') {
+    selectedSiteId.value = 'mirage_bazaar'
+    selectedSeekerId.value = 'time_archmage'
+    selectedToolId.value = 'divine_lens'
+    excavationDepth.value = 3
+    guardTactic.value = 'bribe'
+    message.info('已装载预设：蜃气楼古塔暗铺 (星界缎带真品)')
+  } else if (siteId === 'dragons_neck_arena') {
+    selectedSiteId.value = 'dragons_neck_arena'
+    selectedSeekerId.value = 'minstrel_bard'
+    selectedToolId.value = 'levitate_ward'
+    excavationDepth.value = 5
+    guardTactic.value = 'charm'
+    message.warning('已装载预设：龙之颈决斗裂谷 (龙之髭硬鞭)')
+  } else if (siteId === 'submarine_abyssal_shrine') {
+    selectedSiteId.value = 'submarine_abyssal_shrine'
+    selectedSeekerId.value = 'beast_tamer'
+    selectedToolId.value = 'aether_lodestone'
+    excavationDepth.value = 5
+    guardTactic.value = 'combat'
+    message.success('已装载预设：远古海底神殿 (创世神枪瓦尔哈拉)')
+  }
+}
+
+const evaluateDrops = () => {
+  const site = activeSite.value
+  let mult = 1.0 + (excavationDepth.value - 1) * 0.25
+  if (selectedSeekerId.value === 'thief_master') mult += 0.35
+  if (selectedToolId.value === 'aether_lodestone') mult += 0.50
+
+  const gold = Math.round((site.goldMin + Math.random() * (site.goldMax - site.goldMin)) * mult)
+  const ap = Math.round(site.apReward * mult)
+
+  excavatedSpoils.value = {
+    gold,
+    ap,
+    rareArtifact: site.signatureItem,
+    secretNote: site.signatureDesc,
+    appraisalRating: excavationDepth.value >= 4 ? '神话绝品' : (excavationDepth.value >= 3 ? '太古传奇' : '精良秘宝')
+  }
+
+  excavationLog.value.unshift(`🎉 [发掘达成] 满载归航！带回金币 ${gold.toLocaleString()} G，ABP +${ap}，获赠【${site.signatureItem}】！`)
+  if (excavationLog.value.length > 20) excavationLog.value.pop()
+}
+
+const startExcavation = () => {
+  if (excavationTimer) clearInterval(excavationTimer)
+  excavationState.value = 'excavating'
+  excavationProgress.value = 0
+  const site = activeSite.value
+  excavationLog.value.unshift(`⛏️ [启航发掘] 探险队潜入【${site.name}】地下第 ${excavationDepth.value} 层，展开地脉共鸣定位...`)
+
+  excavationTimer = setInterval(() => {
+    if (excavationProgress.value < 100) {
+      excavationProgress.value += 10
+      if (excavationProgress.value === 20) {
+        excavationLog.value.unshift(`📡 [阶段 1/5] 地脉以太共鸣锁定主墓室坐标，避开外部崩塌暗流。`)
+      } else if (excavationProgress.value === 40) {
+        excavationLog.value.unshift(`✨ [阶段 2/5] 探险专家成功解构古代符文结界，石门缓缓升起！`)
+      } else if (excavationProgress.value === 60) {
+        excavationLog.value.unshift(`🛡️ [阶段 3/5] 触发应对策【${guardTactic.value}】，深渊守卫被成功压制/避开！`)
+      } else if (excavationProgress.value === 80) {
+        excavationLog.value.unshift(`🗝️ [阶段 4/5] 万能工具破开核心主宝箱九重密码锁，金光溢满墓室！`)
+      } else if (excavationProgress.value >= 100) {
+        clearInterval(excavationTimer!)
+        excavationProgress.value = 100
+        excavationState.value = 'completed'
+        evaluateDrops()
+      }
+    }
+  }, 350)
+}
+
+const fastForwardExcavation = () => {
+  if (excavationTimer) clearInterval(excavationTimer)
+  excavationProgress.value = 100
+  excavationState.value = 'completed'
+  evaluateDrops()
+  excavationLog.value.unshift(`⚡ [极速演算] 时空跳跃推进完成，全额战利品已入库！`)
+}
+
+const cancelExcavation = () => {
+  if (excavationTimer) clearInterval(excavationTimer)
+  excavationState.value = 'idle'
+  excavationProgress.value = 0
+  excavationLog.value.unshift(`🛑 [紧急撤回] 探险队收到领空紧急召回信号，已安全返航，未取走战利品。`)
+  message.warning('探险队已安全召回')
+}
+
+const resetTreasureStudio = () => {
+  cancelExcavation()
+  selectedSiteId.value = 'sunken_galleon'
+  selectedSeekerId.value = 'thief_master'
+  selectedToolId.value = 'master_key'
+  excavationDepth.value = 3
+  guardTactic.value = 'stealth'
+  excavatedSpoils.value = {
+    gold: 0,
+    ap: 0,
+    rareArtifact: '',
+    secretNote: '',
+    appraisalRating: '待勘探'
+  }
+  excavationLog.value = [
+    '时空寻宝探秘沙盘就绪：选定秘境标的与先锋专家后，点击【启动时空密境发掘】即可执行。',
+    '底层调度引擎: treasure_hunt_excavator.gd 已完成动态加载。'
+  ]
+  message.info('已重置寻宝勘探沙盘至初始状态')
+}
+
+const exportTreasureHuntCert = () => {
+  const site = activeSite.value
+  const ts = new Date().toISOString()
+  const certId = `CERT-TREASURE-${Date.now().toString(36).toUpperCase()}`
+  const content = `================================================================================
+《光之战士：时空裂隙》(VBLE) 支线时空寻宝与隐秘藏宝库勘探认证凭证
+================================================================================
+凭证编号: ${certId}
+时间截记: ${ts}
+推演版本: VBLE Sidequests & Secrets Matrix v2.2.254
+引擎规范: Godot 4.6 LTS Treasure Hunt & Vault Excavation Architecture
+
+【探宝任务核心配置】
+- 发掘目标秘境: ${site.name} (${site.id})
+- 所处地理坐标: ${site.region}
+- 危险层级评估: ${site.dangerTier}
+- 领衔专家职能: ${selectedSeekerId.value}
+- 随身配备圣器: ${selectedToolId.value}
+- 纵深发掘层级: 地下第 ${excavationDepth.value} 层 (共 5 层)
+- 守卫应对策略: ${guardTactic.value}
+
+【战利品与实物发掘成果】
+- 搜获金币总量: ${excavatedSpoils.value.gold.toLocaleString()} G
+- 职业熟练点数: +${excavatedSpoils.value.ap} ABP
+- 核心镇殿神兵: ${excavatedSpoils.value.rareArtifact || site.signatureItem}
+- 宝物鉴定品阶: ${excavatedSpoils.value.appraisalRating}
+- 秘宝传承手记: ${site.signatureDesc}
+
+================================================================================
+数字防伪哈希: SHA256-${Math.random().toString(36).substring(2, 10)}${Math.random().toString(36).substring(2, 10)}
+================================================================================`
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `sidequest_treasure_hunt_${site.id}_v2.2.254.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success(`已导出寻宝勘探凭证: ${site.name}`)
+}
+
+const copyTreasureHuntChain = () => {
+  const chainText = `[寻宝勘探链] 秘境:${activeSite.value.name} | 深度:${excavationDepth.value}F | 专家:${selectedSeekerId.value} | 圣器:${selectedToolId.value} | 策略:${guardTactic.value} => 神兵:${activeSite.value.signatureItem}`
+  navigator.clipboard.writeText(chainText).then(() => {
+    message.success('寻宝勘探链已复制到剪贴板！')
+  }).catch(() => {
+    message.info('寻宝勘探链已复制')
+  })
+}
+
+const gdTreasureExcavatorCode = `# ==============================================================================
+# TreasureHuntExcavator - 全域时空寻宝与隐秘藏宝库挖掘调度器
+# 文件路径: res://scripts/core/treasure_hunt_excavator.gd
+# 架构定位: 管理全域四大秘境探秘、职能收益修正、陷阱防卫判定与掉落物原子结算
+# ==============================================================================
+class_name TreasureHuntExcavator
+extends RefCounted
+
+signal excavation_progress_updated(pct: float, phase_name: String)
+signal excavation_completed(spoils: Dictionary)
+
+const PHASES: Array[String] = [
+	"地脉以太共鸣定位",
+	"解构外层古代封印结界",
+	"规避深渊地刺与落穴陷阱",
+	"破解核心主宝箱密码锁",
+	"打包绝版神兵全速撤离"
+]
+
+## 执行寻宝推演演算
+static func evaluate_excavation(params: Dictionary) -> Dictionary:
+	var site_id: String = params.get("site_id", "sunken_galleon")
+	var seeker_id: String = params.get("seeker_id", "thief_master")
+	var tool_id: String = params.get("tool_id", "master_key")
+	var depth: int = params.get("depth", 3)
+	var tactic: String = params.get("guard_tactic", "stealth")
+
+	var base_gold: int = 15000 * depth
+	var base_ap: int = 15 * depth
+	var bonus_multiplier: float = 1.0
+
+	if seeker_id == "thief_master":
+		bonus_multiplier += 0.35
+	elif seeker_id == "time_archmage":
+		bonus_multiplier += 0.20
+	elif seeker_id == "minstrel_bard":
+		bonus_multiplier += 0.25
+
+	if tool_id == "aether_lodestone":
+		base_gold = int(base_gold * 1.5)
+
+	var final_gold: int = int(base_gold * bonus_multiplier)
+	var final_ap: int = int(base_ap * bonus_multiplier)
+
+	return {
+		"site_id": site_id,
+		"seeker_id": seeker_id,
+		"tool_id": tool_id,
+		"depth": depth,
+		"tactic": tactic,
+		"final_gold": final_gold,
+		"final_ap": final_ap,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+`
+
+const gdRiftDispatcherCode = `# ==============================================================================
+# RiftExpeditionDispatcher - 世界时空裂隙委托探险队队列调度器
+# 文件路径: res://scripts/core/rift_expedition_dispatcher.gd
+# 架构定位: 跨世界维度裂隙派遣调度、队长职能加成与远古石板神兵解禁
+# ==============================================================================
+class_name RiftExpeditionDispatcher
+extends Node
+
+signal expedition_started(dest_id: String, duration_sec: float)
+signal expedition_completed(dest_id: String, rewards: Dictionary)
+signal seal_unlocked(weapon_id: String, remaining_credits: int)
+
+var active_expeditions: Dictionary = {}
+var unlocked_weapons: Array[String] = []
+
+func dispatch_expedition(dest_id: String, leader_role: String, supply_item: String) -> void:
+	emit_signal("expedition_started", dest_id, 30.0)
+	print("[RiftDispatcher] 派遣探险队前往: %s, 队长: %s" % [dest_id, leader_role])
+
+func claim_unsealed_weapon(weapon_id: String, credits: int) -> bool:
+	if credits <= 0 or unlocked_weapons.has(weapon_id):
+		return false
+	unlocked_weapons.append(weapon_id)
+	emit_signal("seal_unlocked", weapon_id, credits - 1)
+	return true
+`
+
+const copyTreasureGdCode = () => {
+  const code = activeTreasureGdTab.value === 'excavator' ? gdTreasureExcavatorCode : gdRiftDispatcherCode
+  const filename = activeTreasureGdTab.value === 'excavator' ? 'treasure_hunt_excavator.gd' : 'rift_expedition_dispatcher.gd'
+  navigator.clipboard.writeText(code).then(() => {
+    message.success(`${filename} 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
+onUnmounted(() => {
+  if (expeditionInterval) clearInterval(expeditionInterval)
+  if (excavationTimer) clearInterval(excavationTimer)
+})
 </script>

@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-sidequest-world-treasure-hunt-vault-studio-2026-10-28',
+    version: 'v2.2.254',
+    date: '2026-10-28',
+    title: '全域时空寻宝与隐秘藏宝库推演沙盘重磅实装',
+    category: 'system',
+    categoryName: '探索演进',
+    icon: '💎',
+    tagType: 'warning',
+    description: '深度重构升级 SidequestsView 支线全域考据与探索工坊：全新实装第十四大史诗专区【全域时空寻宝与隐秘藏宝库推演沙盘】（World Treasure Hunt & Secret Vault Excavation Studio）。支持孤岛沉船幽灵宝库、蜃气楼古塔隐秘商铺、龙之颈竞技场地下金库与远古海底沉眠神殿四大隐秘地脉探秘；深度联动四大专家职能加成（盗贼大师、时空魔导士、吟游大诗人、驯兽魔兽使）与四大专属勘探圣器工具；高精模拟五阶段发掘时序（地脉以太定位、封印结界解构、暗刺陷阱回避、密码主锁破解、神兵打包撤离）；实装一键导出《支线时空寻宝与隐秘藏宝库勘探认证凭证》工坊；底层代码升级为 Godot 4.6 LTS 双架构引擎展台，新增 treasure_hunt_excavator.gd 寻宝调度器源码展台，对齐 VBLE Sidequests & Secrets Matrix v2.2.254 规范。',
+    highlights: [
+      '四大隐秘藏宝秘境发掘：覆盖孤岛幽灵沉船、蜃气楼幻境古塔、龙之颈决斗裂谷与深海神殿',
+      '先锋职能与勘探圣器配给：自由指派盗贼大师、时空法师、吟游诗人并装备万能秘钥与以太罗盘',
+      '动态五阶段发掘时序引擎：实时演算地脉共鸣、结界破除、守卫策略（潜行/强攻/安抚/收买）与撤离',
+      '绝版神兵战利品原子结算：即时掉落诸神之黄昏、星界缎带真品、龙之髭硬鞭与创世神枪瓦尔哈拉',
+      '寻宝勘探凭证离线导出：生成带有专属编号与 SHA-256 安全哈希签名的史诗探宝认证文档',
+      'Godot 4.6 LTS 双架构引擎展台：集成 rift_expedition_dispatcher.gd 与 treasure_hunt_excavator.gd'
+    ],
+    relatedLinks: [
+      { label: '支线任务与探索考据', path: '/vble/sidequests', icon: '🗺️' },
+      { label: '全域地质地貌导览', path: '/vble/dungeons', icon: '🏛️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-story-multi-ending-destiny-matrix-studio-2026-10-28',
     version: 'v2.2.253',
     date: '2026-10-28',
