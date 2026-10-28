@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-roadmap-evolution-studio-2026-10-28',
+    version: 'v2.2.216',
+    date: '2026-10-28',
+    title: '四大演进纪元里程碑推进轴与排期推演沙盘工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🚀',
+    tagType: 'info',
+    description: '深度重构升级 RoadmapView 未来功能规划门户：全景拆解从单机奠基（v1.0）至多端开放模组生态（v2.5+）的四大演进纪元；实装动态团队算力与排期推演沙盘（Sprint Velocity & Rollout Simulator），支持按周点数、重构比例与测试覆盖度推演交付周期与稳定性；开放社区 RFC 提案与心愿提交工坊，支持在线表决与 JSON 导出；并实装底层 Godot 4.x feature_pipeline_manager.gd 特性分发管线。',
+    highlights: [
+      '四大演进纪元全景推进轴：覆盖创世奠基、十六卷数值革新、虚空深渊视听演进与多端云生态四大阶段',
+      '动态排期沙盘模拟器：交互式调节团队每周算力 (30~120 pts)、重构占比与测试覆盖，动态推演交付日期与线上崩溃风险',
+      '社区 RFC 提案与心愿工坊：支持玩家与架构师在线提交架构构想，实时点赞表决并一键导出所有提案 JSON',
+      '核心功能规划库全面升级：涵盖战术 Cut-in 演出、双端云存档防坏档、神兵符文附魔与 100 层深渊地狱等规划',
+      'Godot 4.x 核心引擎代码对齐：内置 feature_pipeline_manager.gd 特性开关与灰度分发源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '功能规划与沙盘', path: '/vble/roadmap', icon: '🚀' },
+      { label: '架构白皮书文库', path: '/vble/docs', icon: '📚' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-whitepapers-topology-studio-2026-10-28',
     version: 'v2.2.215',
     date: '2026-10-28',
