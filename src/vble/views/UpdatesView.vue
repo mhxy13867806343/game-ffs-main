@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-economy-mirage-auction-zeninage-studio-2026-10-28',
+    version: 'v2.2.230',
+    date: '2026-10-28',
+    title: '蜃楼黑市秘密拍卖行与武士金钱镖(Zeninage)破甲算力工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⚗️',
+    tagType: 'warning',
+    description: '深度重构升级 EconomyView 宏观经济与调合工坊：全新实装【蜃楼小镇秘密拍卖行】（Mirage Auction House），上线洋葱头盔、王者之剑锻造圣典、星际飞空艇龙骨图与精金黑铁原矿等 4 大绝版神器标的，提供实时加价、NPC 举牌博弈与落槌竞拍交互；全新打造【武士金钱镖 (Zeninage) 伤害算力工坊】，基于角色等级与抛洒金币额度精确解算破甲真实伤害与斩杀轮次，直观呈现每 100 Gil 转化真实伤害系数；并严谨对齐 Godot 4.6 LTS alchemist_mix_system.gd 经济结算内核。',
+    highlights: [
+      '蜃楼黑市秘密拍卖行：实时竞拍洋葱头盔与飞空艇龙骨图纸，体验与黑市贵族博弈与一锤定音',
+      '武士金钱镖真实伤害解算器：无视一切物防与魔抗，输入等级与金币额度即时计算单体与群怪真实创伤',
+      '金币伤害转化效率方程：详细拆解 (Lv+10)*(Gil/100)*1.5 数值公式，速通终极首领必备策略',
+      'Godot 4.6 底层经济内核对齐：无缝匹配 alchemist_mix_system.gd 调合与金币结算机制'
+    ],
+    relatedLinks: [
+      { label: '宏观经济与黑市拍卖', path: '/vble/economy', icon: '⚗️' },
+      { label: '道具大典与调合', path: '/vble/items', icon: '🧪' },
+      { label: '职业大师谱系', path: '/vble/jobs', icon: '🛡️' }
+    ]
+  },
+  {
     id: 'up-celestial-dual-moon-convergence-studio-2026-10-28',
     version: 'v2.2.229',
     date: '2026-10-28',

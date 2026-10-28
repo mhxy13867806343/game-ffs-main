@@ -303,6 +303,177 @@
       </div>
     </div>
 
+    <!-- 专区 4: 蜃楼黑市秘密拍卖行与金币投掷 (Zeninage) 战术算力工坊 -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1c140a] via-[#161009] to-[#0c0804] border border-amber-500/40 shadow-2xl space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-950 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🏛️</span>
+            <h3 class="text-lg sm:text-xl font-black text-white text-glow-amber">蜃楼小镇绝版黑市竞拍行与金币投掷战术沙盘 (Mirage Auction & Zeninage)</h3>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            穿梭于次元裂隙的蜃楼秘密集市：实时推演洋葱神器、绝版古图与武士核心奥义【金钱镖 (钱投)】伤害性价比方程。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-tag type="warning" round size="small">黑市绝版拍品</n-tag>
+          <n-tag type="success" round size="small">金币投掷真伤解算</n-tag>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 蜃楼秘密拍卖行实时竞标台 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>🔨</span>
+              <span>黑市竞拍台 (Current Auction Lot)</span>
+            </span>
+            <span class="font-mono text-xs text-amber-400 font-bold">随身金币: {{ playerGil.toLocaleString() }} Gil</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-gray-400 block mb-1">选择当前拍品标的:</label>
+              <select
+                v-model="selectedAuctionId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+                @change="resetAuctionLot"
+              >
+                <option v-for="lot in auctionLots" :key="lot.id" :value="lot.id">
+                  {{ lot.name }} (起拍: {{ lot.startPrice.toLocaleString() }}G)
+                </option>
+              </select>
+            </div>
+
+            <!-- 拍品详情 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5">
+              <div class="font-bold text-amber-300 flex items-center justify-between">
+                <span>{{ currentLot.icon }} {{ currentLot.name }}</span>
+                <n-tag size="tiny" type="warning">{{ currentLot.rarity }}</n-tag>
+              </div>
+              <p class="text-xs text-gray-400 leading-relaxed">{{ currentLot.description }}</p>
+              <div class="flex justify-between items-center pt-1 border-t border-slate-800/80">
+                <span class="text-gray-400">当前最高出价:</span>
+                <span class="font-mono text-sm font-bold text-cyan-400">{{ currentBidPrice.toLocaleString() }} Gil</span>
+              </div>
+            </div>
+
+            <!-- 出价操作 -->
+            <div class="space-y-2 pt-1">
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  class="flex-1 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-all disabled:opacity-50 cursor-pointer"
+                  :disabled="isAuctionWon || playerGil < currentBidPrice + 500"
+                  @click="bidAuction(500)"
+                >
+                  加价 +500G
+                </button>
+                <button
+                  type="button"
+                  class="flex-1 py-2 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold text-xs transition-all disabled:opacity-50 cursor-pointer"
+                  :disabled="isAuctionWon || playerGil < currentBidPrice + 2000"
+                  @click="bidAuction(2000)"
+                >
+                  爆发加价 +2000G
+                </button>
+              </div>
+
+              <div v-if="auctionNotice" class="text-[11px] text-center font-bold" :class="isAuctionWon ? 'text-emerald-400 animate-pulse' : 'text-amber-300'">
+                {{ auctionNotice }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 武士【金钱镖 / 金币投掷】伤害解算工坊 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>🗡️</span>
+              <span>武士金钱镖 (Zeninage) 伤害解算</span>
+            </span>
+            <n-tag size="tiny" type="info">无视物魔双防真实破甲</n-tag>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between items-center text-gray-300 mb-1">
+                <span>出阵武士等级 (Samurai Level):</span>
+                <span class="font-mono text-cyan-400 font-bold">Lv. {{ samuraiLevel }}</span>
+              </div>
+              <n-slider v-model:value="samuraiLevel" :min="10" :max="99" :step="1" />
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center text-gray-300 mb-1">
+                <span>单次投掷金币额度 (Gil Amount):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ zeninageGil.toLocaleString() }} Gil</span>
+              </div>
+              <n-slider v-model:value="zeninageGil" :min="1000" :max="30000" :step="1000" />
+            </div>
+
+            <div>
+              <label class="text-gray-400 block mb-1">战场敌方目标数 (Target Count):</label>
+              <select
+                v-model="targetCount"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-cyan-400 focus:outline-none"
+              >
+                <option :value="1">单体首领 BOSS (全额聚焦重创)</option>
+                <option :value="2">双生守门人 (伤害对半均摊)</option>
+                <option :value="4">4人魔物群 (广域平摊清场)</option>
+              </select>
+            </div>
+
+            <!-- 金币与伤害转化比率卡片 -->
+            <div class="p-2.5 rounded bg-slate-950/80 border border-slate-800 flex justify-between items-center">
+              <span class="text-gray-400">金币伤害转换效率:</span>
+              <span class="font-mono text-emerald-400 font-bold text-sm">{{ zeninageEfficiency }} 伤 / 100 Gil</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 实机投掷推演伤害与胜率指标 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-amber-950/30 to-slate-900 border border-amber-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>金币镖杀伤战果评定</span>
+              </span>
+              <n-tag size="tiny" type="success">真实真实伤害</n-tag>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <div class="text-[11px] text-gray-400">单体/均摊最终真实伤害 (True Damage)</div>
+              <div class="text-3xl font-black font-mono mt-1 text-rose-400">
+                {{ calculatedZeninageDamage.toLocaleString() }}
+              </div>
+              <div class="text-[10px] text-gray-500 mt-1">
+                无视欧米茄防御 · 必定命中绝不落空
+              </div>
+            </div>
+
+            <div class="space-y-1.5 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">单次抛洒成本:</span>
+                <span class="font-mono text-amber-400 font-bold">-{{ zeninageGil.toLocaleString() }} G</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">击杀首领回合数:</span>
+                <span class="font-mono text-cyan-400 font-bold">约 {{ Math.ceil(55000 / calculatedZeninageDamage) }} 轮斩杀</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 rounded bg-slate-950 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+            武士黄金法则：金钱镖是速通与破除极高物防魔防 BOSS（如欧米茄、水银史莱姆）的最快无解打法！
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between">
@@ -527,6 +698,78 @@ const copyGodotCode = async () => {
     message.error('复制失败，请手动选取复制')
   }
 }
+
+// ================= 专区 4: 蜃楼黑市秘密拍卖行与金币投掷系统 =================
+interface AuctionLot {
+  id: string
+  name: string
+  icon: string
+  rarity: string
+  startPrice: number
+  description: string
+}
+
+const auctionLots: AuctionLot[] = [
+  { id: 'lot_onion_helm', name: '洋葱头盔 (Onion Helm)', icon: '🧅', rarity: 'EX 绝版神器', startPrice: 50000, description: '洋葱剑士传说防具，全六维属性各提升 +5 点，常驻免疫石化与即死。' },
+  { id: 'lot_excalibur_scroll', name: '王者之剑 Excalibur 圣典', icon: '📜', rarity: 'SSR 神器图纸', startPrice: 80000, description: '太古十二神兵之一锻造图录，攻击力 110，附带神圣圣光属性。' },
+  { id: 'lot_airship_blueprint', name: '星际飞空艇反引力龙骨图', icon: '🛸', rarity: 'UR 宇宙改型', startPrice: 120000, description: '希德太古亲笔手稿，改造后飞空艇可冲破卡门线飞向红月。' },
+  { id: 'lot_adamantite', name: '精金黑铁原矿 (Adamantite)', icon: '💎', rarity: 'SSR 传奇矿石', startPrice: 40000, description: '打造至高防具与斩铁剑开刃必须的太古陨石核心精矿。' }
+]
+
+const playerGil = ref(250000)
+const selectedAuctionId = ref('lot_onion_helm')
+const currentBidPrice = ref(50000)
+const isAuctionWon = ref(false)
+const auctionNotice = ref('')
+
+const currentLot = computed(() => {
+  return auctionLots.find(l => l.id === selectedAuctionId.value) || auctionLots[0]
+})
+
+const resetAuctionLot = () => {
+  currentBidPrice.value = currentLot.value.startPrice
+  isAuctionWon.value = false
+  auctionNotice.value = ''
+}
+
+const bidAuction = (delta: number) => {
+  if (playerGil.value < currentBidPrice.value + delta) {
+    message.error('随身金币不足，无法继续加价！')
+    return
+  }
+
+  currentBidPrice.value += delta
+  auctionNotice.value = `🔨 您出价 ${currentBidPrice.value.toLocaleString()} Gil！拍卖官落槌中...`
+
+  // 模拟 NPC 竞标或一锤定音
+  setTimeout(() => {
+    if (Math.random() > 0.45) {
+      const npcDelta = 1000
+      currentBidPrice.value += npcDelta
+      auctionNotice.value = `⚠️ 蜃楼贵族反超加价至 ${currentBidPrice.value.toLocaleString()} Gil！`
+    } else {
+      isAuctionWon.value = true
+      playerGil.value -= currentBidPrice.value
+      auctionNotice.value = `🎉 成交！恭喜光之战士以 ${currentBidPrice.value.toLocaleString()} Gil 拍得【${currentLot.value.name}】！`
+      message.success(`成功竞得【${currentLot.value.name}】！已收入随身背包。`)
+    }
+  }, 1200)
+}
+
+// 金币投掷 (Zeninage) 计算
+const samuraiLevel = ref(45)
+const zeninageGil = ref(10000)
+const targetCount = ref(1)
+
+const calculatedZeninageDamage = computed(() => {
+  const basePower = (samuraiLevel.value + 10) * (zeninageGil.value / 100) * 1.5
+  return Math.round(basePower / targetCount.value)
+})
+
+const zeninageEfficiency = computed(() => {
+  const eff = ((samuraiLevel.value + 10) * 1.5).toFixed(1)
+  return `${eff}`
+})
 </script>
 
 <style scoped>
