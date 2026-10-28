@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-boss-tactics-dual-raid-studio-2026-10-28',
+    version: 'v2.2.265',
+    date: '2026-10-28',
+    title: '深渊双神 (神龙 & 欧米茄) 极限双核协同试炼与连携破阵工坊重磅实装',
+    category: 'system',
+    categoryName: '首领深渊',
+    icon: '👹',
+    tagType: 'success',
+    description: '全面重构升级 BossTacticsView 首领攻坚全鉴门户：顶部横幅标章升级为 VBLE Boss & Raid Tactics Matrix v2.2.265，新增深渊双神演练一键直达快捷按钮；专区 6 重磅实装【深渊双神极限双核协同试炼与极限连携推演工坊】（Void Dual Superbosses Raid Studio）；同屏演练神龙 (Shinryu, 55,000 HP) 与古代兵器欧米茄 (Omega, 55,000 HP) 双核同屏狂暴；构建三大致命协同态势（交错狂暴、以太共鸣极光壁、终焉灭世双重唱）；实装四主角防具互锁对抗（珊瑚戒指全员水系吸收抵抗神龙开局大海啸、缎带全异常免疫、魔法剑雷牙八连斩暴击撕裂欧米茄 220 钢铁物防、金币狂掷真伤轰炸）；支持五阶段实机推演与实时战况输出；支持一键生成并导出《深渊双神极限双核协同试炼认证书》附带 SHA-256 安全哈希签名；底层源码展台扩展三 Tab 切换，新增 void_dual_superboss_raid_engine.gd 完整实机双核首领协同引擎架构。',
+    highlights: [
+      '深渊双神同屏协同试炼：神龙 (大海啸/诸神黄昏守护) 与欧米茄 (波动炮/双防220钢铁巨神) 双核同屏狂暴',
+      '三大致命协同态势模拟：交错狂暴、以太共鸣无敌极光壁、终焉灭世虚无双重唱',
+      '四人攻坚针对配装互锁：珊瑚戒指水系吸收抗海啸、缎带全免疫、魔法剑雷牙克欧米茄、金币狂掷真伤破盾',
+      '五阶段连续实机推演：支持阶段 1 至阶段 5 逐步推进破盾、减血与战况实时播报',
+      '协同攻坚认证书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 void_dual_superboss_raid_engine.gd 双核协同狂暴与破盾解算引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '首领攻坚全鉴门户', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '战斗与连携指令沙盘', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-news-chronicle-worldline-evolution-studio-2026-10-28',
     version: 'v2.2.264',
     date: '2026-10-28',

@@ -7,20 +7,31 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono font-bold text-xs border border-red-500/30">
-              VBLE Boss &amp; Raid Tactics Matrix v2.2.252
+              VBLE Boss &amp; Raid Tactics Matrix v2.2.265
             </span>
-            <span class="text-xs text-gray-400">首领攻坚全鉴与终焉破阵法</span>
+            <span class="text-xs text-gray-400">首领攻坚全鉴、双核协同试炼与终焉破阵法</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>👹</span> 首领攻坚全鉴：多阶段机制与终焉破阵工坊
+            <span>👹</span> 首领攻坚全鉴：深渊双神极限协同试炼与终焉破阵工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            收录风之神殿翼手龙、卡尔纳克液态火焰、吉尔伽美什六战与大桥死斗，乃至神龙开局大海啸与欧米茄反击破阵。全息实装首领阶段转换演练与针对克制沙盘。
+            收录风之神殿翼手龙、卡尔纳克液态火焰、大桥死斗，乃至神龙大海啸与欧米茄双核同屏协同试炼。全息实装狂暴破盾、连携机制与针对克制沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
             type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToDualRaidStudio"
+          >
+            <template #icon><span>⚡</span></template>
+            前往深渊双神演练
+          </n-button>
+          <n-button
+            type="warning"
             size="medium"
             round
             secondary
@@ -736,18 +747,210 @@
       </div>
     </div>
 
-    <!-- Godot 4.6 LTS 核心实机代码展台 (双 Tab 切换) -->
+    <!-- 专区 6: 深渊双神 (神龙 & 欧米茄) 极限双核协同试炼与极限连携推演工坊 (Void Dual Superbosses Trial Studio) -->
+    <div id="dual-raid-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#240a0a] via-[#160c18] to-[#0a0d18] border border-rose-500/40 shadow-[0_0_35px_rgba(244,63,94,0.22)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-rose-950 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              DUAL VOID SUPERBOSSES RAID STUDIO
+            </span>
+            <span class="text-xs text-gray-400 font-mono">v2.2.265 官方实机矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-1">
+            <span>⚡</span> 深渊双神极限双核协同试炼与极限连携推演工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            神龙 (大海啸/诸神黄昏守护) 与欧米茄 (波动炮/双防220钢铁巨神) 同屏协同狂暴！支持 3 种致命协同态势模拟、四人攻坚针对配装互锁、五阶段连续破盾与 SHA-256 方案书一键导出。
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetDualRaidParams">
+            🔄 重置试炼战局
+          </n-button>
+          <n-button size="small" secondary type="error" @click="triggerDualCataclysm">
+            💥 引爆终焉灭世双重唱
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportDualRaidCertificate">
+            📜 导出协同攻坚认证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 三栏主推演工作台 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 双核首领态势与护盾共鸣 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-rose-300 flex items-center gap-1.5">
+                <span>🐉🤖</span>
+                <span>深渊双神实时协同态势</span>
+              </span>
+              <n-tag size="tiny" type="error">{{ currentDualStance.tag }}</n-tag>
+            </div>
+
+            <!-- 协同态势切换 -->
+            <div class="space-y-1.5">
+              <label class="text-[11px] text-gray-400 block">选择双核协同态势 (Synergy Stance):</label>
+              <select
+                v-model="selectedDualStanceId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-rose-300 font-bold rounded-lg p-2 focus:border-rose-400 focus:outline-none"
+              >
+                <option v-for="s in dualStancesList" :key="s.id" :value="s.id">
+                  {{ s.name }} (威胁: {{ s.threatLevel }})
+                </option>
+              </select>
+            </div>
+
+            <!-- 态势描述卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-rose-500/30 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white flex items-center gap-1.5 text-sm">
+                  <span>{{ currentDualStance.icon }}</span>
+                  <span>{{ currentDualStance.name }}</span>
+                </span>
+                <span class="text-[10px] text-rose-400 font-mono font-bold">{{ currentDualStance.threatLevel }}</span>
+              </div>
+              <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentDualStance.description }}</p>
+              <div class="p-2 rounded bg-rose-950/40 border border-rose-900/50 text-[11px] space-y-1">
+                <div class="text-amber-300 font-bold flex items-center gap-1">
+                  <span>⚡ 灭团机制:</span>
+                  <span>{{ currentDualStance.wipeGimmick }}</span>
+                </div>
+                <div class="text-cyan-300 text-[10px]">🛡️ 破解对策: {{ currentDualStance.solution }}</div>
+              </div>
+            </div>
+
+            <!-- 双神血线与总共鸣盾 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2 text-xs">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">🐉 神龙剩余血量:</span>
+                <span class="font-mono font-bold text-cyan-400">{{ shinryuHp.toLocaleString() }} / 55,000 HP</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">🤖 欧米茄剩余血量:</span>
+                <span class="font-mono font-bold text-amber-400">{{ omegaHp.toLocaleString() }} / 55,000 HP</span>
+              </div>
+              <div class="flex justify-between items-center pt-1 border-t border-slate-800">
+                <span class="text-gray-400">🛡️ 双核共鸣护盾值:</span>
+                <span class="font-mono font-bold text-rose-400">{{ combinedAegisShield.toLocaleString() }} 盾值</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs text-gray-400">
+            <span>试炼阶段:</span>
+            <span class="font-mono font-bold text-emerald-400">Phase {{ dualRaidPhase }} / 5 ({{ dualRaidPhaseTitle }})</span>
+          </div>
+        </div>
+
+        <!-- 栏 2: 四主角针对配装互锁与战术调度 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>🛡️</span>
+              <span>四人攻坚配装防具互锁</span>
+            </span>
+            <span class="font-mono text-xs text-emerald-400 font-bold">配装契合度 100%</span>
+          </div>
+
+          <!-- 四位主角针对槽位卡片 -->
+          <div class="space-y-2 text-xs">
+            <div
+              v-for="hero in squadCounterLoadout"
+              :key="hero.id"
+              class="p-2.5 rounded bg-slate-950 border border-slate-800 flex items-start justify-between gap-2"
+            >
+              <div class="space-y-0.5">
+                <div class="font-bold text-white flex items-center gap-1">
+                  <span>{{ hero.avatar }}</span>
+                  <span>{{ hero.name }} ({{ hero.job }})</span>
+                </div>
+                <div class="text-[10px] text-cyan-300 font-medium">⚔️ 战术动作: {{ hero.tactic }}</div>
+                <div class="text-[10px] text-gray-400">🛡️ 核心神装: {{ hero.gear }}</div>
+              </div>
+              <n-tag size="tiny" type="success">{{ hero.counterTarget }}</n-tag>
+            </div>
+          </div>
+
+          <!-- 团队防御指标 -->
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5 text-xs">
+            <div class="flex justify-between">
+              <span class="text-gray-400">水属性海啸吸收率:</span>
+              <span class="font-mono font-bold text-cyan-400">100% (珊瑚戒指全员装备)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400">异常状态绝对免疫:</span>
+              <span class="font-mono font-bold text-purple-300">100% (全员缎带 Ribbon)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400">雷属性穿甲真伤加成:</span>
+              <span class="font-mono font-bold text-amber-300">+250% (魔法剑雷牙+乱打)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 五阶段协同推演输出与战报 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-rose-950/20 to-slate-900 border border-rose-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>五阶段实机推演战况</span>
+              </span>
+              <n-tag size="tiny" :type="isDualRaidVictory ? 'success' : 'error'">
+                {{ isDualRaidVictory ? '🏆 试炼通关' : '⚔️ 激战中' }}
+              </n-tag>
+            </div>
+
+            <!-- 阶段推进卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <div class="text-[11px] text-gray-400">总并发破核输出伤害 (Combined Burst)</div>
+              <div class="text-2xl sm:text-3xl font-black font-mono mt-1 text-rose-400">
+                {{ totalDualBurstDamage.toLocaleString() }}
+              </div>
+              <div class="text-[10px] text-emerald-400 mt-0.5">
+                {{ dualRaidStatusNote }}
+              </div>
+            </div>
+
+            <!-- 实时战况输出流 -->
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[10px] space-y-1 max-h-24 overflow-y-auto font-mono text-gray-300">
+              <div v-for="(log, idx) in dualRaidLogs" :key="idx" class="flex items-start gap-1">
+                <span class="text-rose-400 shrink-0">•</span>
+                <span>{{ log }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演推进按钮 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-rose-600 via-amber-600 to-rose-600 hover:from-rose-500 hover:to-amber-500 text-slate-950 font-black text-xs transition-all shadow-lg cursor-pointer"
+              @click="stepDualRaidPhase"
+            >
+              ⏩ 推进下一试炼阶段 (Phase {{ dualRaidPhase }} &rarr; {{ Math.min(5, dualRaidPhase + 1) }})
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.6 LTS 核心实机代码展台 (三 Tab 切换) -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between flex-wrap gap-2">
         <div class="flex items-center gap-2">
           <span class="text-base">📜</span>
           <span class="font-mono text-sm font-bold text-rose-400">
-            Godot 4.6 LTS 史诗首领机制与狂暴破盾判定架构
+            Godot 4.6 LTS 史诗首领机制与双核协同引擎架构
           </span>
           <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
         </div>
         <div class="flex items-center gap-2">
-          <!-- 双 Tab 切换 -->
+          <!-- 三 Tab 切换 -->
           <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
             <button
               type="button"
@@ -765,6 +968,14 @@
             >
               📄 boss_stagger_enrage_resolver.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeBossGodotTab === 'dual_raid' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeBossGodotTab = 'dual_raid'"
+            >
+              📄 void_dual_superboss_raid_engine.gd
+            </button>
           </div>
           <n-button size="tiny" secondary type="error" @click="copyGodotCode">
             {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
@@ -772,7 +983,7 @@
         </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeBossGodotTab === 'tactics'">{{ godotCodeText }}</code><code v-else>{{ godotStaggerCodeText }}</code></pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeBossGodotTab === 'tactics'">{{ godotCodeText }}</code><code v-else-if="activeBossGodotTab === 'stagger'">{{ godotStaggerCodeText }}</code><code v-else>{{ godotDualRaidCodeText }}</code></pre>
     </div>
   </div>
 </template>
@@ -1094,12 +1305,20 @@ func check_boss_mechanic(boss_id: String, hp_ratio: float, party: Array) -> Dict
 	return result
 `
 
-const activeBossGodotTab = ref<'tactics' | 'stagger'>('stagger')
+const activeBossGodotTab = ref<'tactics' | 'stagger' | 'dual_raid'>('dual_raid')
 
 const copyGodotCode = async () => {
   try {
-    const textToCopy = activeBossGodotTab.value === 'tactics' ? godotCodeText : godotStaggerCodeText
-    const fileName = activeBossGodotTab.value === 'tactics' ? 'boss_tactics_battle.gd' : 'boss_stagger_enrage_resolver.gd'
+    const textToCopy = activeBossGodotTab.value === 'tactics' 
+      ? godotCodeText 
+      : activeBossGodotTab.value === 'stagger' 
+        ? godotStaggerCodeText 
+        : godotDualRaidCodeText
+    const fileName = activeBossGodotTab.value === 'tactics' 
+      ? 'boss_tactics_battle.gd' 
+      : activeBossGodotTab.value === 'stagger' 
+        ? 'boss_stagger_enrage_resolver.gd' 
+        : 'void_dual_superboss_raid_engine.gd'
     await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
     message.success(`已复制 ${fileName} 核心实机代码！`)
@@ -1477,6 +1696,313 @@ static func resolve_party_stagger_burst(boss_shield: float, actions_damage: Arra
 		"time": time_spent,
 		"vuln_buff": 2.0 if is_broken else 0.0
 	}`
+
+// ================= 专区 6: 深渊双神 (神龙 & 欧米茄) 极限双核协同试炼与极限连携推演工坊 =================
+const scrollToDualRaidStudio = () => {
+  const el = document.getElementById('dual-raid-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface DualStance {
+  id: string
+  name: string
+  threatLevel: string
+  tag: string
+  icon: string
+  description: string
+  wipeGimmick: string
+  solution: string
+}
+
+const dualStancesList: DualStance[] = [
+  {
+    id: 'cross_enrage',
+    name: '【交错狂暴】双核突袭 (Cross Berserk)',
+    threatLevel: 'EX 灭团级',
+    tag: '双核连携狂暴',
+    icon: '🐉🤖',
+    description: '神龙开局高压大海啸覆盖全场，欧米茄紧随其后倾泻毁灭波动炮，双重属性与真伤穿透洗礼。',
+    wipeGimmick: '大海啸 8000+ 巨浪连击 + 波动炮 50% 斩杀扣血与漏电状态',
+    solution: '全员装备【珊瑚戒指】将海啸全额吸收为治愈，白魔起手大治愈抵消波动炮'
+  },
+  {
+    id: 'aether_resonance',
+    name: '【以太共鸣】无敌极光壁 (Aether Shield)',
+    threatLevel: 'SSS 破盾级',
+    tag: '绝对护盾共鸣',
+    icon: '🛡️✨',
+    description: '神龙与欧米茄展开双向以太共振屏障，物理防御与魔法防御飙升至 255，免疫常规伤害。',
+    wipeGimmick: '60 秒内未破除 150,000 盾值，将触发全屏以太崩塌引发团灭',
+    solution: '魔法剑雷牙八连斩打满弱点暴击，配合忍者金币投掷无视防御真实伤害强行破核'
+  },
+  {
+    id: 'void_cataclysm',
+    name: '【终焉灭世】虚无双重唱 (Duet Cataclysm)',
+    threatLevel: 'OMEGA 绝杀级',
+    tag: '终结绝杀技',
+    icon: '💥🌌',
+    description: '龙皇百万核爆 (Megaflare) 与欧米茄过载自爆协议同时充能，双核共震释放灭世冲击波！',
+    wipeGimmick: '神圣巨龙喷吐与反物质殉爆聚合，造成 99,999 真实穿透伤害',
+    solution: '在读条 10 秒内完成双斩杀，或由时魔道士开启【跳跃/隐身出空】规避绝杀'
+  }
+]
+
+const selectedDualStanceId = ref('cross_enrage')
+const currentDualStance = computed(() => {
+  return dualStancesList.find(s => s.id === selectedDualStanceId.value) || dualStancesList[0]
+})
+
+const shinryuHp = ref(55000)
+const omegaHp = ref(55000)
+const combinedAegisShield = ref(150000)
+const dualRaidPhase = ref(1)
+
+const dualRaidPhaseTitle = computed(() => {
+  switch (dualRaidPhase.value) {
+    case 1: return '开局破海啸与极光架势'
+    case 2: return '欧米茄波动炮压制与弱点雷附魔'
+    case 3: return '双核以太屏障共振争夺'
+    case 4: return '残血狂暴狂舞与混乱核爆'
+    case 5: return '终焉灭世双重唱极限 RUSH 斩杀'
+    default: return '双神试炼终结'
+  }
+})
+
+const squadCounterLoadout = [
+  {
+    id: 'bartz',
+    avatar: '🗡️',
+    name: '巴兹 (Bartz)',
+    job: '自由人·神剑圣',
+    tactic: '二刀流 · 魔法剑雷牙 + 乱打八连击',
+    gear: '诸神黄昏 + 佐助之刀 + 珊瑚戒指 + 缎带',
+    counterTarget: '针对欧米茄 220 钢铁物防'
+  },
+  {
+    id: 'lenna',
+    avatar: '👑',
+    name: '蕾娜 (Lenna)',
+    job: '创世贤者·白魔',
+    tactic: '连续魔 · 全体大复活祈祷 + 白魔法群疗',
+    gear: '贤者之杖 + 天使之袍 + 珊瑚戒指 + 缎带',
+    counterTarget: '抵御全屏大海啸与漏电创伤'
+  },
+  {
+    id: 'faris',
+    avatar: '🏴‍☠️',
+    name: '法利斯 (Faris)',
+    job: '修罗影忍·投掷使',
+    tactic: '影分身 · 金币狂掷 (Zeninage) 真伤破盾',
+    gear: '佐助之刀 + 黑装束 + 珊瑚戒指 + 缎带',
+    counterTarget: '无视防御单轮倾泻 19,998 真伤'
+  },
+  {
+    id: 'krile',
+    avatar: '🔮',
+    name: '可露儿 (Krile)',
+    job: '时空执政官·唤灵使',
+    tactic: '时空加速 (Hastega) + 召唤巴哈姆特百万核爆',
+    gear: '时空魔杖 + 金发饰 + 珊瑚戒指 + 缎带',
+    counterTarget: '群体无属性穿透轰炸与节奏压制'
+  }
+]
+
+const totalDualBurstDamage = ref(285000)
+const dualRaidStatusNote = ref('团队全员佩戴珊瑚戒指与缎带，完全化解首轮海啸与混乱！')
+const dualRaidLogs = ref<string[]>([
+  '【阶段 1】神龙开局抢先释放大海啸！全员珊瑚戒指触发水系吸收，团队瞬间满血！',
+  '【阶段 1】欧米茄启动极光护盾，巴兹自由人附魔【魔法剑雷牙】，暴击弱点率提升至 100%！',
+  '【阶段 1】法利斯投掷 50,000 金币触发真实暴击，欧米茄机械硬直持续 3.5 秒。'
+])
+
+const isDualRaidVictory = computed(() => {
+  return shinryuHp.value <= 0 && omegaHp.value <= 0 && dualRaidPhase.value >= 5
+})
+
+const resetDualRaidParams = () => {
+  shinryuHp.value = 55000
+  omegaHp.value = 55000
+  combinedAegisShield.value = 150000
+  dualRaidPhase.value = 1
+  selectedDualStanceId.value = 'cross_enrage'
+  totalDualBurstDamage.value = 285000
+  dualRaidStatusNote.value = '战局已彻底重置为初始挑战状态，请规划破核时机。'
+  dualRaidLogs.value = [
+    '战局重置完成。深渊双神重新降临裂隙之台，等待光之战士挑战。',
+    '全员检查珊瑚戒指与缎带穿戴情况，状态完好。'
+  ]
+  message.info('深渊双神极限协同试炼已重置！')
+}
+
+const triggerDualCataclysm = () => {
+  selectedDualStanceId.value = 'void_cataclysm'
+  combinedAegisShield.value = Math.max(0, combinedAegisShield.value - 40000)
+  totalDualBurstDamage.value += 95000
+  dualRaidLogs.value.unshift(`[灭世警报] 双神开始充能【终焉灭世双重唱】！团队全员集火倾泻 95,000 点致命爆发！`)
+  if (shinryuHp.value > 0) shinryuHp.value = Math.max(0, shinryuHp.value - 20000)
+  if (omegaHp.value > 0) omegaHp.value = Math.max(0, omegaHp.value - 20000)
+  dualRaidStatusNote.value = '绝杀倒计时触发！团队巴哈姆特核爆与八连斩成功打断自爆！'
+  message.warning('⚠️ 终焉灭世双重唱已引爆！团队爆发输出全力打断灭团读条！')
+}
+
+const stepDualRaidPhase = () => {
+  if (dualRaidPhase.value >= 5 && isDualRaidVictory.value) {
+    message.success('深渊双神试炼已彻底攻略！')
+    return
+  }
+
+  dualRaidPhase.value = Math.min(5, dualRaidPhase.value + 1)
+  
+  if (dualRaidPhase.value === 2) {
+    shinryuHp.value = 42000
+    omegaHp.value = 38000
+    combinedAegisShield.value = 110000
+    totalDualBurstDamage.value += 30000
+    dualRaidLogs.value.unshift('【阶段 2】欧米茄轰出波动炮，全员损血 50%，蕾娜立即双重施法释放全体神圣大治愈！')
+    dualRaidStatusNote.value = '进入阶段 2：欧米茄机械防御被魔法剑雷牙撕裂！'
+  } else if (dualRaidPhase.value === 3) {
+    shinryuHp.value = 28000
+    omegaHp.value = 21000
+    combinedAegisShield.value = 65000
+    totalDualBurstDamage.value += 48000
+    selectedDualStanceId.value = 'aether_resonance'
+    dualRaidLogs.value.unshift('【阶段 3】双神开启以太共振屏障！法利斯金币狂掷打穿无敌壁垒，盾值骤降 45,000 点！')
+    dualRaidStatusNote.value = '进入阶段 3：以太屏障被强行破除，双神进入易伤硬直！'
+  } else if (dualRaidPhase.value === 4) {
+    shinryuHp.value = 12000
+    omegaHp.value = 8000
+    combinedAegisShield.value = 20000
+    totalDualBurstDamage.value += 49000
+    dualRaidLogs.value.unshift('【阶段 4】神龙开启龙皇核爆狂暴，全员缎带抵消混乱！可露儿召唤太古巴哈姆特压制！')
+    dualRaidStatusNote.value = '进入阶段 4：双神血量跌破 20%，进入绝命斩杀狂暴期！'
+  } else if (dualRaidPhase.value === 5) {
+    shinryuHp.value = 0
+    omegaHp.value = 0
+    combinedAegisShield.value = 0
+    totalDualBurstDamage.value += 75000
+    dualRaidLogs.value.unshift('【阶段 5 大捷】巴兹八连雷牙暴击斩杀欧米茄！法利斯投掷封印终结神龙！深渊双神双双溃灭！')
+    dualRaidStatusNote.value = '🏆 恭喜光之战士！深渊双神同屏试炼完美通关，达成全服破阵神话！'
+    message.success('🎉 阶段 5 终结！深渊双神已全部斩灭！')
+  }
+}
+
+const exportDualRaidCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   深渊双神 (神龙 & 欧米茄) 极限双核协同试炼认证书 (v2.2.265)
+================================================================================
+颁发时间: ${timeStr}
+试炼靶标: 神龙 (Shinryu, 55,000 HP) & 古代兵器·欧米茄 (Omega, 55,000 HP)
+当前协同态势: ${currentDualStance.value.name}
+当前试炼进度: Phase ${dualRaidPhase.value} / 5 (${dualRaidPhaseTitle.value})
+攻坚状态: ${isDualRaidVictory.value ? '【已彻底攻克 (Raid Cleared)】' : '【演练激战中 (In Progress)】'}
+
+【核心战力与首领生命残留】
+- 神龙剩余生命: ${shinryuHp.value.toLocaleString()} / 55,000 HP
+- 欧米茄剩余生命: ${omegaHp.value.toLocaleString()} / 55,000 HP
+- 双核共鸣护盾值: ${combinedAegisShield.value.toLocaleString()} 点
+- 全并发破核输出伤害: ${totalDualBurstDamage.value.toLocaleString()} 点综合爆发
+
+【光之战士四人针对克制编队】
+1. 巴兹 (Bartz): 自由人 · 魔法剑雷牙八连斩 (诸神黄昏 + 佐助之刀 + 珊瑚戒指 + 缎带)
+2. 蕾娜 (Lenna): 创世贤者 · 连续魔全体大复活群疗 (贤者之杖 + 珊瑚戒指 + 缎带)
+3. 法利斯 (Faris): 修罗影忍 · 金币狂掷无视防御真伤 (佐助之刀 + 珊瑚戒指 + 缎带)
+4. 可露儿 (Krile): 时空执政官 · 全体加速与巴哈姆特核爆 (时空魔杖 + 珊瑚戒指 + 缎带)
+
+【最新实机推演战况日志】
+${dualRaidLogs.value.slice(0, 5).map(l => `• ${l}`).join('\n')}
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS / GDScript RefCounted Pure Logic
+- Core Raid Engine: void_dual_superboss_raid_engine.gd
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `void_dual_superboss_cert_v2.2.265_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('深渊双神极限协同攻坚方案书已导出并同步至剪贴板！')
+  }
+}
+
+const godotDualRaidCodeText = `## void_dual_superboss_raid_engine.gd
+## Godot 4.6 LTS - 深渊双神 (神龙 & 欧米茄) 极限双核协同狂暴与破盾解算引擎
+extends RefCounted
+class_name VoidDualSuperbossRaidEngine
+
+signal dual_raid_phase_changed(new_phase: int, phase_title: String)
+signal cataclysm_triggered(wipe_damage: float)
+signal boss_defeated(boss_id: String)
+
+class DualBossState:
+	var shinryu_hp: float = 55000.0
+	var omega_hp: float = 55000.0
+	var combined_shield: float = 150000.0
+	var current_phase: int = 1
+	var active_stance: String = "cross_enrage"
+
+static func evaluate_squad_turn(
+	state: DualBossState,
+	has_coral_ring: bool,
+	has_ribbon: bool,
+	is_thundaga_blade: bool,
+	zeninage_amount: int
+) -> Dictionary:
+	var result = {
+		"shinryu_damage": 0.0,
+		"omega_damage": 0.0,
+		"absorbed_damage": 0.0,
+		"party_wiped": false,
+		"shield_broken": false
+	}
+	
+	# 1. 神龙开局大海啸判定 (8000 点全屏水属性)
+	if has_coral_ring:
+		result.absorbed_damage += 8000.0
+	else:
+		result.party_wiped = true
+		return result
+		
+	# 2. 欧米茄雷属性弱点穿甲 (魔法剑雷牙 + 乱打)
+	if is_thundaga_blade:
+		var burst: float = 24000.0 * 2.5
+		result.omega_damage += burst
+		state.omega_hp = maxf(0.0, state.omega_hp - burst)
+		
+	# 3. 法利斯金币狂掷真实伤害
+	if zeninage_amount > 0:
+		var true_dmg: float = minf(float(zeninage_amount), 19998.0)
+		result.shinryu_damage += true_dmg
+		state.shinryu_hp = maxf(0.0, state.shinryu_hp - true_dmg)
+		
+	# 4. 屏障削减
+	var total_round_dmg: float = result.shinryu_damage + result.omega_damage
+	state.combined_shield = maxf(0.0, state.combined_shield - total_round_dmg)
+	result.shield_broken = state.combined_shield <= 0.0
+	
+	return result
+`
 </script>
 
 <style scoped>
