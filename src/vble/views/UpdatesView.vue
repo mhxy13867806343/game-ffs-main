@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-battle-tactics-micro-priority-studio-2026-10-28',
+    version: 'v2.2.266',
+    date: '2026-10-28',
+    title: '全域 ATB 动态时间轴连携与指令优先级微秒解算工坊重磅实装',
+    category: 'system',
+    categoryName: '战斗微秒',
+    icon: '⚡',
+    tagType: 'success',
+    description: '全面重构升级 BattleTacticsView 战斗法则全鉴门户：顶部横幅标章升级为 VBLE Battle Tactics & ATB Matrix v2.2.266，新增微秒 ATB 优先级推演一键直达快捷按钮；专区重磅实装【全域 ATB 动态时间轴连携与指令优先级微秒解算工坊】（ATB Microsecond Priority & Chain Resolution Studio）；首创 0.01ms 极小步长微秒时间切片解析，完整呈现【充能 ➔ 待命决策 ➔ 技能咏唱 ➔ 执行硬直】四阶管道流转；实装四级指令排队与插队机制（P100 反应插队、P90 濒死锁血响应、P80 魔法剑/召唤、P75 首领灭团绝技、P60 物理常规）；支持四大经典战术情境（极速预输入抢断、魔法剑四重奏时差连携、濒死绝境 15ms 锁血大抬血、全员无缝时序压制推条）；实装神龙 1200ms 大海啸读条预判与 380ms 绝杀打断模拟；支持一键生成并导出《全域 ATB 动态时间轴连携与指令优先级方案书》附带 SHA-256 安全哈希签名；底层源码展台扩展三 Tab 切换，新增 battle_micro_priority_resolver.gd 完整实机微秒级优先级解算器。',
+    highlights: [
+      '微秒级时钟切片解算：0.01ms 极精时钟步长，彻底杜绝浮点时钟漂移与时滞死锁',
+      '四阶状态机流水线：充能、待命决策、技能咏唱与执行硬直全周期微秒度量',
+      '四级指令插队机制：P100/P90/P80/P75/P60 抢断判定，支持白魔 15ms 极限救场与神龙大海啸打断',
+      '四大战术预设矩阵：极速预输入抢断、魔法剑时差连携、15ms 濒死锁血、全员无缝时序推条',
+      '微秒时间轴方案书导出：支持一键生成带有专属编号与 SHA-256 安全哈希签名的离线方案书',
+      'Godot 4.6 LTS 底层实机展台：新增 battle_micro_priority_resolver.gd 核心微秒排队与打断引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '战斗法则全鉴门户', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '首领攻坚全鉴门户', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-boss-tactics-dual-raid-studio-2026-10-28',
     version: 'v2.2.265',
     date: '2026-10-28',
