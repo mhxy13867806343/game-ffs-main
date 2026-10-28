@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-teachings-blue-magic-learning-lab-2026-10-28',
+    version: 'v2.2.235',
+    date: '2026-10-28',
+    title: '青魔法实战受击领悟与魔兽使操纵推演工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🎯',
+    tagType: 'success',
+    description: '深度重构升级 TeachingsView 秘传绝技研习院：全新实装【青魔法实战受击领悟与魔兽使操纵推演工坊】（Blue Magic Learning & Beast Control Studio）。高精推演青魔道士核心拟态法则：白风（需魔兽使操纵鸟妖反施）、强力守护（需控制坚甲海龟）、等级5即死（角色等级需为5的整数倍）、赤红自爆（肉身硬抗且HP>0存活）、哥布林重拳与微型导弹等经典技能；支持动态配置受测者等级（Lv.1~99）、HP健康度与【学习】被动状态；实装一键受击判读、生还条件裁决与青魔法魔导全典激活机制；并严谨对齐 Godot 4.6 LTS blue_magic_learning_system.gd 受击捕获内核。',
+    highlights: [
+      '四大经典拟态机制高精推演：肉身受击生还（HP>0）、魔兽使【操纵】强控、等级倍数命中与自爆硬抗',
+      '六大代表性野外魔物实机沙盘：狂风鸟妖、坚甲巨海龟、古代死灵法师、赤红爆弹怪、机械火枪与哥布林拳师',
+      '等级倍数命中与免疫判定：模拟 Lv.5 即死命中 Lv.25 / Lv.30 及非 5 倍数判定 MISS 机制',
+      '青魔法魔导全典刻录回响：战斗中实时判读技能习得状态，即时入库青魔魔法名录',
+      'Godot 4.6 底层拟态捕获内核对齐：无缝衔接 blue_magic_learning_system.gd 事件监听与 VFX 触发'
+    ],
+    relatedLinks: [
+      { label: '秘传绝技与青魔法', path: '/vble/teachings', icon: '✨' },
+      { label: '魔物与高阶悬赏', path: '/vble/monsters', icon: '👾' },
+      { label: '职业大师与双职构筑', path: '/vble/jobs', icon: '🛡️' }
+    ]
+  },
+  {
     id: 'up-jobs-dual-class-synergy-studio-2026-10-28',
     version: 'v2.2.234',
     date: '2026-10-28',

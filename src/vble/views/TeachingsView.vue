@@ -201,6 +201,155 @@
       </div>
     </div>
 
+    <!-- 🎯 视图 3: 青魔法实战受击领悟与魔兽使操纵推演工坊 (Interactive Learning & Beast Control Studio) -->
+    <div v-if="activeViewTab === 'learning_lab'" class="space-y-6">
+      <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-teal-950/30 to-slate-950 border border-teal-500/50 shadow-2xl space-y-6 relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-teal-900/40 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🎯</span>
+              <h3 class="text-lg sm:text-xl font-black text-teal-300">
+                青魔法实战受击领悟与魔兽使操纵推演工坊 (Learning & Beast Control Studio)
+              </h3>
+              <n-tag size="small" type="success" round strong>生还判定机制</n-tag>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              经典拟态法则高精推演：肉身受创生还（HP &gt; 0）、魔兽使【操纵】强令反施与等级倍数对偶校验；一键体验真实学成瞬间！
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-tag size="small" type="warning" round>
+              已习得青魔法: {{ learnedSpells.length }} / {{ learningTargets.length }} 卷
+            </n-tag>
+            <n-button size="small" secondary @click="resetLearningLab">
+              🔄 重置领悟状态
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 3步交互式实战参数装配 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- 第 1 步: 选定遭遇魔物与技能目标 -->
+          <div class="lg:col-span-4 p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+            <div class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>1️⃣</span> 遭遇野外魔物与拟态目标 (Target Monster)
+            </div>
+            <div class="space-y-2">
+              <button
+                v-for="target in learningTargets"
+                :key="target.id"
+                type="button"
+                class="w-full p-2.5 rounded-lg border text-left cursor-pointer transition-all flex items-center justify-between text-xs"
+                :class="selectedLearnTargetId === target.id
+                  ? 'bg-teal-900/50 border-teal-400 text-teal-200 font-bold shadow'
+                  : 'bg-slate-950/70 border-slate-800 text-gray-300 hover:bg-slate-850'"
+                @click="selectedLearnTargetId = target.id"
+              >
+                <div>
+                  <div class="font-bold flex items-center gap-1">
+                    <span>{{ target.icon }}</span>
+                    <span>{{ target.name }}</span>
+                    <span v-if="learnedSpells.includes(target.id)" class="text-emerald-400 text-[10px]">✓ 已学会</span>
+                  </div>
+                  <div class="text-[10px] text-gray-400 mt-0.5">来源: {{ target.monster }}</div>
+                </div>
+                <n-tag size="tiny" :type="target.reqControl ? 'warning' : 'info'">
+                  {{ target.reqControl ? '需操纵' : '直接挨打' }}
+                </n-tag>
+              </button>
+            </div>
+          </div>
+
+          <!-- 第 2 步: 受测光之战士生理与技能参数 -->
+          <div class="lg:col-span-4 p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+            <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>2️⃣</span> 青魔道士生理与被动配给 (Mage Status)
+            </div>
+
+            <!-- 等级设置 (支持测试等级5即死) -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>角色当前等级 (Level):</span>
+                <span class="font-mono text-cyan-400 font-bold text-sm">
+                  Lv.{{ mageLevel }} {{ mageLevel % 5 === 0 ? '(5的倍数)' : '' }}
+                </span>
+              </div>
+              <n-slider v-model:value="mageLevel" :min="1" :max="99" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span class="cursor-pointer text-cyan-400" @click="mageLevel = 25">快速设为 Lv.25</span>
+                <span class="cursor-pointer text-cyan-400" @click="mageLevel = 28">设为 Lv.28 (避开5倍数)</span>
+              </div>
+            </div>
+
+            <!-- 当前 HP 与血线健康度 -->
+            <div class="space-y-1 text-xs pt-2 border-t border-slate-800">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>当前生命值 (HP / Max HP):</span>
+                <span class="font-mono font-bold" :class="mageHp > 1000 ? 'text-emerald-400' : 'text-rose-400'">
+                  {{ mageHp }} / {{ mageMaxHp }}
+                </span>
+              </div>
+              <n-slider v-model:value="mageHp" :min="100" :max="mageMaxHp" :step="100" />
+            </div>
+
+            <!-- 关键前置开关 -->
+            <div class="pt-2 border-t border-slate-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">已配备【学习 (Learning)】被动:</span>
+                <n-switch v-model:value="hasLearningPassive" size="small" />
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">魔兽使已成功【操纵 (Control)】魔物:</span>
+                <n-switch v-model:value="beastControlSuccess" size="small" />
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <n-button type="primary" block size="medium" class="font-bold shadow" @click="triggerLearnAttempt">
+                ⚡ 承受技能打击并判读领悟结果
+              </n-button>
+            </div>
+          </div>
+
+          <!-- 第 3 步: 实战判读回响视窗与日志流 -->
+          <div class="lg:col-span-4 p-4 rounded-xl bg-slate-950/90 border border-teal-900/50 flex flex-col justify-between space-y-3 shadow-xl">
+            <div>
+              <div class="flex items-center justify-between text-xs font-bold text-gray-300 border-b border-slate-800 pb-2">
+                <span class="text-teal-300 flex items-center gap-1">
+                  <span>📜</span> 战斗拟态演算判定屏
+                </span>
+                <span class="text-[10px] text-gray-500 font-mono">Learning Result</span>
+              </div>
+
+              <!-- 目标技能特征速览 -->
+              <div class="p-3 mt-2 rounded bg-slate-900 border border-slate-800 space-y-1 text-xs">
+                <div class="text-amber-300 font-bold flex items-center justify-between">
+                  <span>{{ currentLearnTargetObj.name }}</span>
+                  <span class="text-[11px] text-gray-400">预估伤害: {{ currentLearnTargetObj.dmg }}</span>
+                </div>
+                <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentLearnTargetObj.desc }}</p>
+              </div>
+            </div>
+
+            <!-- 即时演算日志流 -->
+            <div class="space-y-1.5 flex-1 min-h-[140px] max-h-[180px] overflow-y-auto custom-scrollbar p-2 bg-slate-900/90 rounded border border-slate-800 text-[11px] font-mono">
+              <div v-for="(log, idx) in learningLogs" :key="idx" class="p-1 rounded leading-relaxed border-l-2" :class="getLearnLogClass(log)">
+                {{ log }}
+              </div>
+              <div v-if="learningLogs.length === 0" class="text-gray-500 text-center py-8">
+                就绪！点击【⚡ 承受技能打击】展开实战领悟模拟...
+              </div>
+            </div>
+
+            <div class="text-[10px] text-gray-500 pt-1 border-t border-slate-800 flex items-center justify-between">
+              <span>底层引擎契约: blue_magic_learning_resolver.gd</span>
+              <span class="text-teal-400">HP &gt; 0 生还法则</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 视图 3: 绝技伤害与实战演练台 -->
     <div v-if="activeViewTab === 'simulator'" class="space-y-6">
       <div class="p-5 bg-[#121626]/90 border border-slate-700/60 rounded-xl space-y-6">
@@ -418,12 +567,13 @@ import { teachingsList, type TeachingItem } from '../config/teachingsConfig'
 
 const message = useMessage()
 
-type ViewTab = 'catalog' | 'bluemagic_matrix' | 'simulator' | 'engine_code'
+type ViewTab = 'catalog' | 'bluemagic_matrix' | 'learning_lab' | 'simulator' | 'engine_code'
 
 const activeViewTab = ref<ViewTab>('catalog')
 const tabList: { key: ViewTab; label: string; icon: string; badge?: string }[] = [
   { key: 'catalog', label: '秘传绝技全典', icon: '📜' },
   { key: 'bluemagic_matrix', label: '青魔法拟态全图鉴', icon: '👾', badge: 'NEW' },
+  { key: 'learning_lab', label: '受击领悟与操纵沙盘', icon: '🎯', badge: 'HOT' },
   { key: 'simulator', label: '伤害与演练研习所', icon: '⚡' },
   { key: 'engine_code', label: '引擎拟态源码', icon: '🛠️' }
 ]
@@ -861,6 +1011,166 @@ const copyGdScript = () => {
     message.info('源码已复制')
   })
 }
+
+// ==========================================
+// 🎯 青魔法实战受击领悟与魔兽使操纵工坊
+// ==========================================
+interface BlueMagicLearningTarget {
+  id: string
+  name: string
+  icon: string
+  monster: string
+  reqControl: boolean
+  reqLevelMultiple: number
+  dmg: number
+  heal: number
+  desc: string
+}
+
+const learningTargets: BlueMagicLearningTarget[] = [
+  {
+    id: 'white_wind',
+    name: '白风 (White Wind)',
+    icon: '🍃',
+    monster: '狂风鸟妖 (Harpy)',
+    reqControl: true,
+    reqLevelMultiple: 0,
+    dmg: 0,
+    heal: 3200,
+    desc: '狂风鸟妖天生只对友方施展白风！必须使用魔兽使【操纵】指令控制鸟妖，强制其对光之战士施放方可领悟！'
+  },
+  {
+    id: 'mighty_guard',
+    name: '强力守护 (Mighty Guard)',
+    icon: '🛡️',
+    monster: '坚甲巨海龟 (Ironback Turtle)',
+    reqControl: true,
+    reqLevelMultiple: 0,
+    dmg: 0,
+    heal: 0,
+    desc: '坚甲海龟防守本能极强，仅在被魔兽使深度操纵下才会为敌方施加全屏壳防与物防！'
+  },
+  {
+    id: 'lv5_death',
+    name: '等级5即死 (Level 5 Death)',
+    icon: '💀',
+    monster: '古代死灵法师 (Necromancer)',
+    reqControl: false,
+    reqLevelMultiple: 5,
+    dmg: 9999,
+    heal: 0,
+    desc: '死灵咒语仅对等级为 5 的倍数（如 Lv.25, 30, 35）的目标起效！必须提前预备复活，或生还瞬间方可学会！'
+  },
+  {
+    id: 'self_destruct',
+    name: '自爆 (Self-Destruct)',
+    icon: '💥',
+    monster: '赤红爆弹怪 (Red Bomb)',
+    reqControl: false,
+    reqLevelMultiple: 0,
+    dmg: 3800,
+    heal: 0,
+    desc: '残血时狂暴自爆！青魔道士必须亲自肉身硬抗爆炸伤害并且不能阵亡（HP > 0），战后立即习得！'
+  },
+  {
+    id: 'goblin_punch',
+    name: '哥布林重拳 (Goblin Punch)',
+    icon: '🥊',
+    monster: '哥布林拳师 (Goblin Brawler)',
+    reqControl: false,
+    reqLevelMultiple: 0,
+    dmg: 1200,
+    heal: 0,
+    desc: '新手序章最具代表性的青魔法！只要让哥布林挥拳命中我方青魔道士，生还后立即领悟！'
+  },
+  {
+    id: 'missile',
+    name: '微型导弹 (Missile)',
+    icon: '🚀',
+    monster: '机械火枪火箭塔 (Rocket Mecha)',
+    reqControl: false,
+    reqLevelMultiple: 0,
+    dmg: 2500,
+    heal: 0,
+    desc: '重创当前 HP 的 75%，极危险的削血绝技！'
+  }
+]
+
+const selectedLearnTargetId = ref('white_wind')
+const mageLevel = ref(30)
+const mageHp = ref(4500)
+const mageMaxHp = ref(5000)
+const hasLearningPassive = ref(true)
+const beastControlSuccess = ref(true)
+const learningLogs = ref<string[]>([])
+const learnedSpells = ref<string[]>(['goblin_punch'])
+
+const currentLearnTargetObj = computed(() => {
+  return learningTargets.find(t => t.id === selectedLearnTargetId.value) || learningTargets[0]
+})
+
+const getLearnLogClass = (log: string) => {
+  if (log.includes('🎉') || log.includes('成功')) return 'border-emerald-500 bg-emerald-950/20 text-emerald-300'
+  if (log.includes('💀') || log.includes('❌') || log.includes('阵亡')) return 'border-rose-500 bg-rose-950/20 text-rose-300'
+  if (log.includes('⚠️') || log.includes('未能') || log.includes('提示')) return 'border-amber-500 bg-amber-950/20 text-amber-300'
+  return 'border-cyan-500 bg-cyan-950/20 text-cyan-300'
+}
+
+const triggerLearnAttempt = () => {
+  const target = currentLearnTargetObj.value
+  learningLogs.value = []
+
+  // 1. 检查被动能力
+  if (!hasLearningPassive.value) {
+    learningLogs.value.unshift('❌ 领悟失败：角色未装备【学习 (Learning)】被动特性！目睹了技能施展，但无法解析其魔力构造成分！')
+    return
+  }
+
+  // 2. 检查需操纵机制
+  if (target.reqControl && !beastControlSuccess.value) {
+    learningLogs.value.unshift(`⚠️ 领悟失败：【${target.monster}】本能地将【${target.name}】施放到了敌方魔物自己身上！提示：必须开启魔兽使【操纵】开关方能令其对我方施放！`)
+    return
+  }
+
+  // 3. 检查等级倍数机制 (如等级5即死)
+  if (target.reqLevelMultiple > 0) {
+    if (mageLevel.value % target.reqLevelMultiple !== 0) {
+      learningLogs.value.unshift(`🛡️ 判定免疫：角色当前为 Lv.${mageLevel.value}，并非 ${target.reqLevelMultiple} 的整数倍！【${target.name}】判定为 MISS 穿身而过，未实际命中无法触发生还记忆！`)
+      return
+    }
+  }
+
+  // 4. 生还与伤害扣减检查 (HP > 0)
+  if (target.dmg > 0) {
+    if (target.dmg >= mageHp.value) {
+      mageHp.value = 0
+      learningLogs.value.unshift(`💀 致命重创：角色承受了 ${target.dmg} 点超量伤害，HP 归零倒地力竭！阵亡状态下无法记忆法术！领悟失败！`)
+      return
+    } else {
+      mageHp.value -= target.dmg
+      learningLogs.value.unshift(`💥 承受重击：角色承受了 ${target.dmg} 点伤害（剩余 HP: ${mageHp.value}），咬牙坚挺屹立不倒！`)
+    }
+  } else if (target.heal > 0) {
+    mageHp.value = Math.min(mageMaxHp.value, mageHp.value + target.heal)
+    learningLogs.value.unshift(`✨ 圣风沐浴：角色的心灵感受到了温煦的以太回流（HP 回复至: ${mageHp.value}）！`)
+  }
+
+  // 5. 达成领悟！
+  if (!learnedSpells.value.includes(target.id)) {
+    learnedSpells.value.push(target.id)
+  }
+  learningLogs.value.unshift(`🎉 领悟成功！角色在受击后成功洞悉了魔物以太循环，已将青魔法【${target.name}】刻录入青魔道全典！`)
+}
+
+const resetLearningLab = () => {
+  mageHp.value = 4500
+  hasLearningPassive.value = true
+  beastControlSuccess.value = true
+  learningLogs.value = []
+  learnedSpells.value = ['goblin_punch']
+  message.success('已重置青魔法实战演练台参数与学习状态')
+}
+
 </script>
 
 <style scoped>
