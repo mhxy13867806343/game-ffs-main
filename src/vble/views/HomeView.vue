@@ -4,7 +4,7 @@
     <div class="portal-marquee flex items-center justify-between px-3 md:px-4 py-2 bg-gradient-to-r from-amber-950/40 via-purple-950/50 to-cyan-950/40 border-y border-amber-500/20 text-xs">
       <div class="flex items-center gap-2 overflow-hidden">
         <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] md:text-[11px] animate-pulse flex-shrink-0">RELEASE</span>
-        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.221 正式版】</span>
+        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.241 正式版】</span>
         <span class="text-gray-300 truncate text-[11px] md:text-xs">
           【最新发布】十六卷架构白皮书、全地形载具动力矩阵、十二柱召唤兽圣痕、二刀流伤害工坊与四大纪元排期沙盘全面就绪！
         </span>
@@ -141,7 +141,7 @@
             <div class="mb-4">
               <span class="text-xs text-amber-400 tracking-widest font-semibold uppercase">Standalone JRPG Engine</span>
               <h3 class="text-xl font-extrabold text-white mt-1">最终幻想：时空之轮</h3>
-              <p class="text-[11px] text-gray-400 mt-1">版本 v2.2.221 · 离线单机桌面运行端</p>
+              <p class="text-[11px] text-gray-400 mt-1">版本 v2.2.241 · 离线单机桌面运行端</p>
             </div>
 
             <!-- 巨型下载客户端启动按钮 (直通四大网盘下载中心) -->
@@ -172,7 +172,7 @@
                 <span class="text-base">🔄</span>
                 <div class="text-left">
                   <div class="font-bold text-cyan-200">最新更新</div>
-                  <div class="text-[10px] text-gray-400">v2.2.221动态</div>
+                  <div class="text-[10px] text-gray-400">v2.2.241动态</div>
                 </div>
               </div>
 

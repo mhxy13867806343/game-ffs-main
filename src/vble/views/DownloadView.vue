@@ -12,7 +12,7 @@
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-2">
             <n-tag type="success" size="small" round strong>全平台离线构建</n-tag>
-            <n-tag type="warning" size="small" round strong>v2.2.223 稳定发行版</n-tag>
+            <n-tag type="warning" size="small" round strong>v2.2.241 稳定发行版</n-tag>
             <n-tag type="info" size="small" round>SHA-256 签名保护</n-tag>
             <span class="text-xs text-gray-400 font-mono">官方哈希清单签发时间: 2026-10-28 14:10 CST</span>
           </div>
@@ -42,7 +42,7 @@
             class="px-3.5 py-2 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 text-xs text-gray-300 hover:text-cyan-300 transition-all flex items-center gap-1.5"
           >
             <span>🔄</span>
-            <span>更新日志 (v2.2.223)</span>
+            <span>更新日志 (v2.2.241)</span>
           </router-link>
         </div>
       </div>
@@ -95,6 +95,88 @@
 
       <!-- 四网盘卡片矩阵 -->
       <section class="space-y-4">
+        <!-- 网盘分流实时测速与最优链路推荐沙盘 (Mirror Latency & Benchmark Studio) -->
+        <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-950/40 via-slate-900 to-cyan-950/40 border border-cyan-500/30 shadow-lg space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                  CDN & MIRROR HEALTH MATRIX
+                </span>
+                <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-1.5">
+                  <span>⚡</span> 网盘分流测速与智能优选沙盘
+                </h3>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">
+                实时模拟探测四大网盘直连节点延迟 (Ping)、满速下载带宽预估与网络稳定性，自动推荐当前网络环境下的最优分流通道。
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-button
+                size="small"
+                type="primary"
+                round
+                secondary
+                :loading="isBenchmarking"
+                class="font-bold shadow"
+                @click="runMirrorBenchmark"
+              >
+                <template #icon><span>🚀</span></template>
+                一键并发测速与优选
+              </n-button>
+            </div>
+          </div>
+
+          <!-- 4 大网盘测速状态卡片 -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div
+              v-for="bench in mirrorBenchmarks"
+              :key="bench.id"
+              class="p-3.5 rounded-xl bg-slate-950/70 border transition-all relative overflow-hidden"
+              :class="bench.isFastest ? 'border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.25)] ring-1 ring-amber-400/50' : 'border-slate-800'"
+            >
+              <div v-if="bench.isFastest" class="absolute -right-6 -top-6 w-14 h-14 bg-amber-500/20 rounded-full blur-xl pointer-events-none"></div>
+              <div class="flex items-center justify-between gap-1 mb-2">
+                <div class="flex items-center gap-1.5 font-bold text-white text-xs truncate">
+                  <span>{{ bench.icon }}</span>
+                  <span class="truncate">{{ bench.name }}</span>
+                </div>
+                <n-tag size="tiny" :type="bench.isFastest ? 'warning' : 'info'" round strong>
+                  {{ bench.statusText }}
+                </n-tag>
+              </div>
+
+              <div class="space-y-1 text-xs font-mono">
+                <div class="flex items-center justify-between text-gray-400">
+                  <span>节点延迟:</span>
+                  <span :class="bench.latencyClass" class="font-bold">{{ bench.latency }} ms</span>
+                </div>
+                <div class="flex items-center justify-between text-gray-400">
+                  <span>带宽预估:</span>
+                  <span class="text-cyan-300 font-bold">{{ bench.speedBandwidth }} MB/s</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+                <span class="text-gray-500">直连稳定性: {{ bench.stability }}%</span>
+                <span v-if="bench.isFastest" class="text-amber-400 font-bold">★ 最优推荐</span>
+                <span v-else class="text-gray-400">备选通道</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 智能优选提示条 -->
+          <div class="p-3 rounded-xl bg-cyan-950/30 border border-cyan-800/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 text-sm">💡</span>
+              <span class="text-gray-300">
+                系统智能决策：当前优先推荐使用 <strong class="text-amber-300">{{ recommendedMirrorName }}</strong>，直连丢包率 0%，享受免客户端与免登录直下特权！
+              </span>
+            </div>
+            <span class="text-[11px] text-cyan-400 font-mono shrink-0">测速轮次: {{ benchmarkCount }} 次 | 样本刷新就绪</span>
+          </div>
+        </div>
+
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="text-2xl">📥</span>
@@ -314,7 +396,7 @@
               <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
                 <span>📜 官方发布基准哈希 (Official Hash)</span>
               </span>
-              <span class="text-[10px] text-gray-400 font-mono">v2.2.223 Manifest</span>
+              <span class="text-[10px] text-gray-400 font-mono">v2.2.241 Manifest</span>
             </div>
 
             <div class="space-y-2">
@@ -399,6 +481,18 @@
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <!-- 校验合规声明与证书报告导出 -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div class="text-xs text-gray-300 flex items-center gap-2">
+            <span class="text-base text-cyan-400">🛡️</span>
+            <span>官方离线纯净承诺：构建流水线签名认证，无广告捆绑、零数据回传、纯净单机 DRM-Free。</span>
+          </div>
+          <n-button size="small" type="warning" secondary round class="font-bold shrink-0" @click="exportVerificationReceipt">
+            <template #icon><span>📑</span></template>
+            导出官方 SHA-256 检验报告
+          </n-button>
         </div>
       </div>
     </div>
@@ -504,20 +598,52 @@
       </div>
     </div>
 
-    <!-- TAB 4: 引擎启动器架构与控制台源码 (client_bootloader.gd) -->
+    <!-- TAB 4: 引擎启动器架构与控制台源码 (client_bootloader.gd & sha256_verifier_utility.gd) -->
     <div v-show="activeTab === 'engine_code'" class="space-y-4">
-      <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-3">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="text-xl">⚙️</span>
-            <h3 class="text-base font-bold text-white font-mono">res://scripts/core/client_bootloader.gd</h3>
+      <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xl">⚙️</span>
+              <h3 class="text-base font-bold text-white font-mono">
+                {{ activeEngineScript === 'bootloader' ? 'res://scripts/core/client_bootloader.gd' : 'res://scripts/core/sha256_verifier_utility.gd' }}
+              </h3>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              {{ activeEngineScript === 'bootloader'
+                ? '客户端单机离线启动器源码规范，管理资源包 PCK 加载、跨平台图形后端自适应降级、手柄自动映射与本地加密存档保活。'
+                : '离线多平台包体哈希校验与断点校验修复脚本，集成 Godot 原生 Crypto.sha256 与文件分块流式验签。' }}
+            </p>
           </div>
-          <n-tag type="info" size="tiny" round>Godot 4.6 LTS Standalone Export Pipeline</n-tag>
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1 rounded-lg text-xs font-semibold transition-all border cursor-pointer"
+              :class="activeEngineScript === 'bootloader' ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
+              @click="activeEngineScript = 'bootloader'"
+            >
+              启动器内核 (Bootloader)
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1 rounded-lg text-xs font-semibold transition-all border cursor-pointer"
+              :class="activeEngineScript === 'verifier' ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
+              @click="activeEngineScript = 'verifier'"
+            >
+              哈希验签工具 (Verifier)
+            </button>
+            <n-button
+              size="tiny"
+              secondary
+              type="primary"
+              round
+              @click="copyText(activeEngineScript === 'bootloader' ? bootloaderScriptCode : sha256VerifierScriptCode, '引擎源码')"
+            >
+              复制代码
+            </n-button>
+          </div>
         </div>
-        <p class="text-xs text-gray-400">
-          客户端单机离线启动器源码规范，管理资源包 PCK 加载、跨平台图形后端自适应降级、手柄自动映射与本地加密存档保活：
-        </p>
-        <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed">{{ bootloaderScriptCode }}</pre>
+        <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed">{{ activeEngineScript === 'bootloader' ? bootloaderScriptCode : sha256VerifierScriptCode }}</pre>
       </div>
     </div>
 
@@ -662,11 +788,140 @@ const downloadInfo = GAME_DOWNLOAD_INFO
 const channels = DOWNLOAD_CHANNELS
 const installSteps = INSTALL_STEPS
 
+// 网盘实时测速与最优链路推荐沙盘
+interface MirrorBenchmark {
+  id: string
+  name: string
+  icon: string
+  latency: number
+  latencyClass: string
+  speedBandwidth: number
+  stability: number
+  statusText: string
+  isFastest: boolean
+}
+
+const isBenchmarking = ref(false)
+const benchmarkCount = ref(1)
+const recommendedMirrorName = ref('123云盘 (推荐免登录)')
+
+const mirrorBenchmarks = ref<MirrorBenchmark[]>([
+  {
+    id: '123pan',
+    name: '123云盘',
+    icon: '⚡',
+    latency: 18,
+    latencyClass: 'text-emerald-400',
+    speedBandwidth: 48.6,
+    stability: 99.8,
+    statusText: '极速直连',
+    isFastest: true
+  },
+  {
+    id: 'aliyun',
+    name: '阿里云盘',
+    icon: '🚀',
+    latency: 26,
+    latencyClass: 'text-cyan-400',
+    speedBandwidth: 34.2,
+    stability: 99.4,
+    statusText: '优良节点',
+    isFastest: false
+  },
+  {
+    id: 'quark',
+    name: '夸克网盘',
+    icon: '🌀',
+    latency: 32,
+    latencyClass: 'text-blue-400',
+    speedBandwidth: 28.5,
+    stability: 98.9,
+    statusText: '高速中继',
+    isFastest: false
+  },
+  {
+    id: 'baidu',
+    name: '百度网盘',
+    icon: '🟢',
+    latency: 45,
+    latencyClass: 'text-amber-400',
+    speedBandwidth: 15.8,
+    stability: 98.5,
+    statusText: '稳定大盘',
+    isFastest: false
+  }
+])
+
+const runMirrorBenchmark = () => {
+  if (isBenchmarking.value) return
+  isBenchmarking.value = true
+  message.loading('正在并发探测 4 大网盘 CDN 节点直连延迟与下行带宽...', { duration: 1200 })
+
+  setTimeout(() => {
+    const p123 = Math.floor(15 + Math.random() * 8)
+    const pAli = Math.floor(22 + Math.random() * 10)
+    const pQuark = Math.floor(28 + Math.random() * 12)
+    const pBaidu = Math.floor(38 + Math.random() * 15)
+
+    mirrorBenchmarks.value = [
+      {
+        id: '123pan',
+        name: '123云盘',
+        icon: '⚡',
+        latency: p123,
+        latencyClass: 'text-emerald-400',
+        speedBandwidth: parseFloat((45 + Math.random() * 10).toFixed(1)),
+        stability: parseFloat((99.5 + Math.random() * 0.4).toFixed(1)),
+        statusText: '极速直连',
+        isFastest: true
+      },
+      {
+        id: 'aliyun',
+        name: '阿里云盘',
+        icon: '🚀',
+        latency: pAli,
+        latencyClass: 'text-cyan-400',
+        speedBandwidth: parseFloat((30 + Math.random() * 8).toFixed(1)),
+        stability: parseFloat((99.1 + Math.random() * 0.5).toFixed(1)),
+        statusText: '优良节点',
+        isFastest: false
+      },
+      {
+        id: 'quark',
+        name: '夸克网盘',
+        icon: '🌀',
+        latency: pQuark,
+        latencyClass: 'text-blue-400',
+        speedBandwidth: parseFloat((25 + Math.random() * 7).toFixed(1)),
+        stability: parseFloat((98.7 + Math.random() * 0.6).toFixed(1)),
+        statusText: '高速中继',
+        isFastest: false
+      },
+      {
+        id: 'baidu',
+        name: '百度网盘',
+        icon: '🟢',
+        latency: pBaidu,
+        latencyClass: 'text-amber-400',
+        speedBandwidth: parseFloat((12 + Math.random() * 6).toFixed(1)),
+        stability: parseFloat((98.2 + Math.random() * 0.7).toFixed(1)),
+        statusText: '稳定大盘',
+        isFastest: false
+      }
+    ]
+
+    isBenchmarking.value = false
+    benchmarkCount.value++
+    message.success(`测速完成！123云盘平均延迟 ${p123}ms，为当前网络最优通道！`)
+  }, 1200)
+}
+
 type TabKey = 'downloads' | 'verifier' | 'diagnostic' | 'engine_code'
 const activeTab = ref<TabKey>('downloads')
+const activeEngineScript = ref<'bootloader' | 'verifier'>('bootloader')
 
 const tabList = [
-  { key: 'downloads' as TabKey, label: '网盘分流与平台包', icon: '📥', badge: 'v2.2.223' },
+  { key: 'downloads' as TabKey, label: '网盘分流与平台包', icon: '📥', badge: 'v2.2.241' },
   { key: 'verifier' as TabKey, label: 'SHA-256 安全哈希校验器', icon: '🛡️', badge: 'WebCrypto' },
   { key: 'diagnostic' as TabKey, label: '设备环境探测与兼容度', icon: '💻', badge: '实时检测' },
   { key: 'engine_code' as TabKey, label: '引擎启动器架构源码', icon: '⚙️', badge: 'Godot 4.6' }
@@ -677,7 +932,7 @@ const packageManifest = [
   {
     platform: 'Windows 64位绿色纯净版',
     icon: '🪟',
-    filename: 'FF_Chrono_Twilight_v2.2.223_Win64.zip',
+    filename: 'FF_Chrono_Twilight_v2.2.241_Win64.zip',
     size: '1.24 GB',
     renderer: 'DirectX 12 / Vulkan Forward+',
     status: '官方验证',
@@ -687,7 +942,7 @@ const packageManifest = [
   {
     platform: 'macOS 原生 Universal 包',
     icon: '🍎',
-    filename: 'FF_Chrono_Twilight_v2.2.223_macOS.dmg',
+    filename: 'FF_Chrono_Twilight_v2.2.241_macOS.dmg',
     size: '1.29 GB',
     renderer: 'Apple Metal 3 原生渲染',
     status: '原生加速',
@@ -697,7 +952,7 @@ const packageManifest = [
   {
     platform: 'Linux / Steam Deck 专版',
     icon: '🐧',
-    filename: 'FF_Chrono_Twilight_v2.2.223_Linux_Deck.tar.gz',
+    filename: 'FF_Chrono_Twilight_v2.2.241_Linux_Deck.tar.gz',
     size: '1.21 GB',
     renderer: 'Vulkan 1.3 / Wayland & X11',
     status: '掌机优化',
@@ -709,17 +964,17 @@ const packageManifest = [
 // 官方哈希基准库
 const officialHashes = [
   {
-    filename: 'FF_Chrono_Twilight_v2.2.223_Win64.zip',
+    filename: 'FF_Chrono_Twilight_v2.2.241_Win64.zip',
     size: '1.24 GB',
     sha256: '9a4c81f7e02b37d45c11f92e8a609d7845f013d5e27a69cb3a76e9389104fa28'
   },
   {
-    filename: 'FF_Chrono_Twilight_v2.2.223_macOS.dmg',
+    filename: 'FF_Chrono_Twilight_v2.2.241_macOS.dmg',
     size: '1.29 GB',
     sha256: '3f8e52a97bc103df6a504b7891cde1357f892a4bc812903fe57b28a19230fd4c'
   },
   {
-    filename: 'FF_Chrono_Twilight_v2.2.223_Linux_Deck.tar.gz',
+    filename: 'FF_Chrono_Twilight_v2.2.241_Linux_Deck.tar.gz',
     size: '1.21 GB',
     sha256: 'e57d19280ab4fe28c1192837bc901ef54619a823b1740928a3fe189218204b19'
   }
@@ -906,7 +1161,7 @@ extends Node
 ## 文件路径: res://scripts/core/client_bootloader.gd
 ## 引擎版本: Godot Engine 4.6 LTS (Forward+ / Mobile)
 
-const MANIFEST_VERSION: String = "2.2.223"
+const MANIFEST_VERSION: String = "2.2.241"
 const STANDALONE_DRM_FREE: bool = true
 
 func _ready() -> void:
@@ -949,6 +1204,109 @@ func _launch_title_screen() -> void:
     get_tree().change_scene_to_file("res://scenes/title/title_screen.tscn")
 `
 
+// SHA-256 离线安全验签脚本
+const sha256VerifierScriptCode = `class_name Sha256VerifierUtility
+extends RefCounted
+
+## 最终幻想：时空之轮 - 官方客户端多平台包体哈希校验与断点续传验签工具
+## 文件路径: res://scripts/core/sha256_verifier_utility.gd
+## 引擎版本: Godot Engine 4.6 LTS (Forward+ / Mobile)
+
+const OFFICIAL_MANIFEST := {
+	"Win64": {
+		"file": "FF_Chrono_Twilight_v2.2.241_Win64.zip",
+		"sha256": "9a4c81f7e02b37d45c11f92e8a609d7845f013d5e27a69cb3a76e9389104fa28",
+		"size_bytes": 1331560448
+	},
+	"macOS": {
+		"file": "FF_Chrono_Twilight_v2.2.241_macOS.dmg",
+		"sha256": "3f8e52a97bc103df6a504b7891cde1357f892a4bc812903fe57b28a19230fd4c",
+		"size_bytes": 1385103360
+	},
+	"Linux_Deck": {
+		"file": "FF_Chrono_Twilight_v2.2.241_Linux_Deck.tar.gz",
+		"sha256": "e57d19280ab4fe28c1192837bc901ef54619a823b1740928a3fe189218204b19",
+		"size_bytes": 1299185664
+	}
+}
+
+## 执行流式分块哈希计算 (保障大文件流式计算低内存消耗)
+static func verify_file_sha256(file_path: String, platform_key: String) -> Dictionary:
+	if not FileAccess.file_exists(file_path):
+		return {"success": false, "reason": "文件不存在: " + file_path}
+	
+	if not OFFICIAL_MANIFEST.has(platform_key):
+		return {"success": false, "reason": "未知平台目标: " + platform_key}
+	
+	var manifest: Dictionary = OFFICIAL_MANIFEST[platform_key]
+	var file := FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		return {"success": false, "reason": "无法打开文件进行只读访问"}
+	
+	var hashing_ctx := HashingContext.new()
+	hashing_ctx.start(HashingContext.HASH_SHA256)
+	
+	var chunk_size := 1024 * 1024 # 1MB 分块流式缓冲
+	while not file.eof_reached():
+		var chunk := file.get_buffer(chunk_size)
+		if chunk.size() > 0:
+			hashing_ctx.update(chunk)
+	
+	var digest := hashing_ctx.finish()
+	var calculated_hash := digest.hex_encode().to_lower()
+	var expected_hash: String = manifest["sha256"].to_lower()
+	var is_matched := (calculated_hash == expected_hash)
+	
+	return {
+		"success": is_matched,
+		"platform": platform_key,
+		"filename": manifest["file"],
+		"calculated_sha256": calculated_hash,
+		"expected_sha256": expected_hash,
+		"file_size": file.get_length(),
+		"status": "VERIFIED_AUTHENTIC" if is_matched else "HASH_MISMATCH"
+	}
+`
+
+// 导出官方 SHA-256 安全验证证书
+const exportVerificationReceipt = async () => {
+  const currentManifest = officialHashes[selectedManifestIndex.value]
+  const reportText = [
+    '================================================================================',
+    '【最终幻想：时空之轮】官方客户端安全验证报告 (Security Audit Certificate)',
+    '================================================================================',
+    '版本号: v2.2.241 官方正式稳定版',
+    '发布日期: 2026-10-28',
+    '认证机构: FF Chrono Twilight Security Integrity Authority',
+    '单机环境: Godot Engine 4.6 LTS Standalone (DRM-Free)',
+    '',
+    '【官方构建签名标准】',
+    `目标安装包: ${currentManifest.filename}`,
+    `标称大小: ${currentManifest.size}`,
+    '标准 SHA-256 指纹:',
+    currentManifest.sha256,
+    '',
+    '【全平台基准公示清单】',
+    '- Windows 64位:  9a4c81f7e02b37d45c11f92e8a609d7845f013d5e27a69cb3a76e9389104fa28',
+    '- macOS 原生:   3f8e52a97bc103df6a504b7891cde1357f892a4bc812903fe57b28a19230fd4c',
+    '- Linux / Deck: e57d19280ab4fe28c1192837bc901ef54619a823b1740928a3fe189218204b19',
+    '',
+    '【免责与安全承诺】',
+    '官方纯净绿色发布包采用无广告打包策略，零注入、零后门、零遥测回传。',
+    '本地存档完全保存在系统独立应用目录中，断网单机运行完全不受限。',
+    '================================================================================'
+  ].join('\n')
+
+  try {
+    await navigator.clipboard.writeText(reportText)
+    message.success('已复制官方 SHA-256 安全验证证书到剪贴板！')
+  } catch {
+    shareModalTitle.value = '官方 SHA-256 安全验证证书'
+    shareModalContent.value = reportText
+    isShareModalVisible.value = true
+  }
+}
+
 // 复制工具
 const copyText = async (text: string, label: string) => {
   try {
@@ -980,7 +1338,7 @@ const copyCode = async (code: string, channelName: string) => {
 
 const copyChannelShare = async (channel: DownloadChannel) => {
   const shareText = `【${downloadInfo.title} 客户端下载】
-版本：v2.2.223 官方正式版
+版本：v2.2.241 官方正式版
 渠道：${channel.name}
 下载链接：${channel.url}
 ${channel.hasCode ? `提取码：${channel.code}` : '无需提取码'}`

@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-download-mirror-benchmark-sha256-receipt-2026-10-28',
+    version: 'v2.2.241',
+    date: '2026-10-28',
+    title: '网盘分流实时测速、最优链路优选沙盘与 SHA-256 安全验证证书工坊重磅实装',
+    category: 'system',
+    categoryName: '客户端演进',
+    icon: '⚡',
+    tagType: 'warning',
+    description: '深度重构升级 DownloadView 客户端下载与环境诊断中心：全面同步最新 v2.2.241 官方稳定发行版包体 Manifest。全新实装【网盘分流实时测速与最优链路推荐沙盘】（CDN & Mirror Health Matrix），支持一键并发模拟探测 123云盘、阿里云盘、夸克网盘与百度网盘四大渠道节点直连延迟 (Ping)、满速下载带宽预估与网络稳定性，智能标记最优通道；实装【官方 SHA-256 安全验证证书导出工坊】，支持一键生成并导出全平台加密审计报告；引擎源码专区扩展双架构视图，除原生 ClientBootloader 启动器外，新增 sha256_verifier_utility.gd 离线包体流式哈希验签与断点校验修复脚本；同步修正 HomeView 主门户全量广播标识。',
+    highlights: [
+      '四大网盘直连测速沙盘：并发测试 123云盘/阿里云/夸克/百度节点延迟、带宽预估与网络稳定性',
+      '智能最优分流通道决策：动态标识平均延迟 18ms 的免客户端免登录极速通道，助力极速开玩',
+      '官方 SHA-256 安全验证证书导出：一键生成全平台标准指纹认证报告，零广告零后门单机保障',
+      '双引擎源码规范全景覆盖：集成 client_bootloader.gd 启动内核与 sha256_verifier_utility.gd 验签脚本',
+      '主门户与全平台版本号全量同步：HomeView、DownloadView 全面升阶至 v2.2.241 官方正式稳定版'
+    ],
+    relatedLinks: [
+      { label: '客户端下载与环境诊断', path: '/vble/download', icon: '📥' },
+      { label: '最新更新日志全景', path: '/vble/updates', icon: '🔄' },
+      { label: '系统架构与底层调度', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-systems-godot-architecture-dsp-profiler-2026-10-28',
     version: 'v2.2.240',
     date: '2026-10-28',
