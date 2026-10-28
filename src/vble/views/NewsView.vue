@@ -547,28 +547,222 @@
       </div>
     </div>
 
+    <!-- 模式 B5：版本热更补丁清单与单机存档无损迁徙沙盘 -->
+    <div v-else-if="activeMode === 'patch_manifest'" class="space-y-6">
+      <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#12162a] via-[#101426] to-[#0c1020] border border-cyan-500/40 shadow-2xl space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">📦</span>
+              <h3 class="text-lg sm:text-xl font-black text-white text-glow-cyan">版本热更补丁清单与单机存档无损迁徙沙盘 (Patch & Savefile Migration Lab)</h3>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              追踪从 v1.0.0 到 v2.2.248 全生命周期架构二进制增量补丁包，模拟单机存档向前兼容结构升级、字段自动补全与 SHA-256 完整性验签。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="small" type="primary" secondary round @click="runSaveMigrationCheck">
+              ⚡ 模拟全量迁徙校验
+            </n-button>
+            <n-button size="small" type="warning" class="font-bold shadow" @click="exportPatchAuditCert">
+              📜 导出存档迁徙审计证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 补丁包完整性矩阵 -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>📋</span>
+              <span>核心版本增量差异清单 (Binary Delta Patch Manifest)</span>
+            </span>
+            <span class="text-gray-400 font-mono text-[11px]">全量 SHA-256 已签署 · 100% 向前兼容</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div
+              v-for="patch in patchList"
+              :key="patch.version"
+              class="p-3.5 rounded-xl border bg-slate-950/80 transition-all flex flex-col justify-between space-y-2 hover:border-cyan-500/50"
+              :class="patch.isLatest ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'border-slate-800'"
+            >
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono font-bold text-amber-300 text-xs">{{ patch.version }}</span>
+                  <n-tag size="tiny" :type="patch.tagType">{{ patch.targetModule }}</n-tag>
+                </div>
+                <div class="text-xs font-bold text-white truncate">{{ patch.title }}</div>
+                <div class="text-[10px] text-gray-400 leading-snug">{{ patch.featureSummary }}</div>
+              </div>
+
+              <div class="pt-2 border-t border-slate-800/80 space-y-1 text-[10px] font-mono">
+                <div class="flex justify-between text-gray-500">
+                  <span>差量包体:</span>
+                  <span class="text-gray-300">{{ patch.deltaSize }}</span>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                  <span>安全哈希:</span>
+                  <span class="text-cyan-400 truncate max-w-[120px]">{{ patch.hash }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 跨版本存档向前迁徙互动测试工作台 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
+          <!-- 栏 1: 原始存档版本配置 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+            <span class="text-xs font-bold text-amber-300 block flex items-center gap-1.5">
+              <span>💾</span>
+              <span>旧版存档导入与诊断 (Save Origin)</span>
+            </span>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="text-gray-400 block mb-1">选择导入的原版存档年代:</label>
+                <select
+                  v-model="sourceSaveVersion"
+                  class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+                  @change="handleSourceVersionChange"
+                >
+                  <option v-for="ver in saveLegacyOptions" :key="ver.id" :value="ver.id">
+                    {{ ver.name }} ({{ ver.period }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- 原始存档状态检测 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5">
+                <div class="flex justify-between text-gray-400">
+                  <span>结构版本:</span>
+                  <span class="font-mono text-amber-300 font-bold">{{ selectedLegacyInfo.versionTag }}</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                  <span>缺失数据段:</span>
+                  <span class="font-mono text-rose-400 font-bold">{{ selectedLegacyInfo.missingFields.length }} 项</span>
+                </div>
+                <div class="text-[11px] text-gray-400 pt-1 border-t border-slate-800">
+                  包含: {{ selectedLegacyInfo.missingFields.join('、') }}
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-gray-400 block">自动补全校验策略:</label>
+                <div class="p-2 rounded bg-slate-950/70 border border-slate-800 text-[11px] text-emerald-400">
+                  ✓ 激活 100% 结构幂等修复，绝不损坏既有等级与金币
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 栏 2: 迁徙解算与进度 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+            <span class="text-xs font-bold text-cyan-300 block flex items-center gap-1.5">
+              <span>⚙️</span>
+              <span>无损升阶引擎演算 (Migration Resolver)</span>
+            </span>
+
+            <div class="space-y-3 text-xs">
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2">
+                <div class="flex justify-between text-gray-400">
+                  <span>目标迁移版本:</span>
+                  <span class="font-mono text-cyan-400 font-bold">v2.2.248 (最新稳定版)</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                  <span>自动注入补全表:</span>
+                  <span class="font-mono text-emerald-400 font-bold">{{ selectedLegacyInfo.injectList.length }} 模块</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                  <span>向下兼容性评级:</span>
+                  <span class="font-mono text-amber-300 font-bold">A+ 无损级</span>
+                </div>
+              </div>
+
+              <!-- 迁徙操作按钮 -->
+              <button
+                type="button"
+                class="w-full py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer disabled:opacity-50"
+                :disabled="isMigrating"
+                @click="runSaveMigrationCheck"
+              >
+                {{ isMigrating ? '⚡ 正在执行全字段无损升阶...' : '⚡ 启动存档版本无损升阶' }}
+              </button>
+
+              <div v-if="isMigrating" class="space-y-1">
+                <div class="flex justify-between text-[11px] text-cyan-300">
+                  <span>校验进度:</span>
+                  <span>{{ migrationProgress }}%</span>
+                </div>
+                <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
+                  <div class="bg-gradient-to-r from-cyan-400 to-blue-500 h-2 transition-all duration-100" :style="{ width: `${migrationProgress}%` }" />
+                </div>
+              </div>
+
+              <div v-if="migrationNotice" class="text-[11px] text-center font-bold font-mono pt-1 text-emerald-400">
+                {{ migrationNotice }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 栏 3: 迁徙日志与审计哈希 -->
+          <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between space-y-3">
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-gray-400 block">实时迁徙审计流水 (Audit Log):</span>
+              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 text-xs font-mono space-y-1.5 h-44 overflow-y-auto leading-relaxed">
+                <div v-for="(log, idx) in migrationLogs" :key="idx" class="text-gray-300 text-[11px]">
+                  {{ log }}
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-[11px] text-gray-400 flex items-center justify-between">
+              <span>审计签发单例:</span>
+              <span class="font-mono text-cyan-400 font-bold">save_migration_patch_resolver.gd</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 模式 B4：Godot 4.x 引擎广播分发系统源码 -->
     <div v-if="activeMode === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
-          <div>
+          <div class="flex flex-wrap items-center gap-3">
             <div class="flex items-center gap-2">
               <span class="text-xs font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">
-                GODOT 4.X BULLETIN ENGINE
+                GODOT 4.6 LTS BULLETIN ENGINE
               </span>
-              <h3 class="text-base font-bold text-white">game_event_bulletin_manager.gd</h3>
+              <h3 class="text-base font-bold text-white">官方离线广播与存档补丁架构源码</h3>
             </div>
-            <p class="text-xs text-gray-400 mt-1">
-              离线单机周期活动日历解析器、城镇跑马灯横幅广播与未读补丁标记持久化单例。
-            </p>
+            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+                :class="activeCodeTab === 'bulletin' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeCodeTab = 'bulletin'"
+              >
+                game_event_bulletin_manager.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+                :class="activeCodeTab === 'patch' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeCodeTab = 'patch'"
+              >
+                save_migration_patch_resolver.gd
+              </button>
+            </div>
           </div>
           <n-button size="small" round secondary type="info" @click="copyGdScript">
             <template #icon><span>📋</span></template>
-            复制代码
+            {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
           </n-button>
         </div>
 
-        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ gdScriptCode }}</pre>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeTab === 'bulletin' ? gdScriptCode : gdSaveMigrationCode }}</pre>
       </div>
     </div>
   </div>
@@ -587,11 +781,12 @@ const { width: windowWidth } = useWindowSize()
 const isMobile = computed(() => windowWidth.value < 640)
 
 // 视图模式切换
-type ViewMode = 'articles' | 'event_radar' | 'community_qa' | 'engine_code'
+type ViewMode = 'articles' | 'event_radar' | 'patch_manifest' | 'community_qa' | 'engine_code'
 const activeMode = ref<ViewMode>('articles')
 const viewModes: { key: ViewMode; label: string; icon: string; badge?: string }[] = [
   { key: 'articles', label: '单机档案全量资讯', icon: '📢' },
   { key: 'event_radar', label: '周期活动与版本雷达', icon: '📡', badge: 'HOT' },
+  { key: 'patch_manifest', label: '热更补丁与存档迁徙', icon: '📦', badge: 'v2.2.248' },
   { key: 'community_qa', label: '官方问答交流所', icon: '💬' },
   { key: 'engine_code', label: '广播分发引擎源码', icon: '💻' }
 ]
@@ -933,6 +1128,197 @@ const copyAllQaText = () => {
   })
 }
 
+// ================= 模式 B5: 版本热更补丁与单机存档无损迁徙系统 =================
+interface PatchItem {
+  version: string
+  title: string
+  targetModule: string
+  tagType: 'default' | 'info' | 'warning' | 'error' | 'success'
+  deltaSize: string
+  hash: string
+  isLatest?: boolean
+  featureSummary: string
+}
+
+interface LegacySaveOption {
+  id: string
+  name: string
+  period: string
+  versionTag: string
+  missingFields: string[]
+  injectList: string[]
+}
+
+const patchList = ref<PatchItem[]>([
+  {
+    version: 'v2.2.248',
+    title: '版本热更清单与离线单机存档向前无损迁徙沙盘',
+    targetModule: '存档核心',
+    tagType: 'warning',
+    deltaSize: '148.5 KB',
+    hash: 'SHA256-7A4DB2FE',
+    isLatest: true,
+    featureSummary: '无损补齐库扎12圣兵孔位、八色彩尾、陆行鸟繁育血脉与奥丁试炼旗标。'
+  },
+  {
+    version: 'v2.2.247',
+    title: '十二神兽契约大典升级与奥丁60秒斩铁限时试炼双禁术',
+    targetModule: '召唤神殿',
+    tagType: 'info',
+    deltaSize: '184.2 KB',
+    hash: 'SHA256-9F1EC4A8',
+    featureSummary: '实装时魔道士双重星陨与游侠与一神弓穿甲圣箭，突破99999伤害上限。'
+  },
+  {
+    version: 'v2.2.246',
+    title: '多维载具矩阵升级与六色陆行鸟基因杂交育种沙盘',
+    targetModule: '多维载具',
+    tagType: 'success',
+    deltaSize: '516.8 KB',
+    hash: 'SHA256-3C8AD194',
+    featureSummary: '实装黄蓝黑红白金全系陆行鸟马厩血统管理与芝奥坚果黄金突变机。'
+  },
+  {
+    version: 'v2.2.245',
+    title: '宏观经济与调合工坊八彩尾巴隐士洞窟契约觉醒',
+    targetModule: '经济调合',
+    tagType: 'error',
+    deltaSize: '901.3 KB',
+    hash: 'SHA256-13E8D56A',
+    featureSummary: '实装布丁公主1/64掉落判定单抽十连刷与三阶太古神兵觉醒突破。'
+  }
+])
+
+const saveLegacyOptions: LegacySaveOption[] = [
+  {
+    id: 'ver_100',
+    name: 'v1.0.0 远古初代存档',
+    period: '2025初版',
+    versionTag: 'v1.0.0-LEGACY',
+    missingFields: ['kuzar_sealed_12_weapons', 'rainbow_tails_bag', 'chocobo_stables', 'odin_trial_covenant'],
+    injectList: ['库扎封印城12圣兵孔位', '八色极罕彩尾随身仓储', '马厩六大陆行鸟血统基因', '奥丁60秒斩铁试炼状态']
+  },
+  {
+    id: 'ver_200',
+    name: 'v2.0.120 水晶时代存档',
+    period: '2026年中',
+    versionTag: 'v2.0.120-CRYSTAL',
+    missingFields: ['chocobo_breeding_genetics', 'twelve_signet_resonance', 'odin_dualcast_meteor'],
+    injectList: ['陆行鸟全色谱基因杂交槽', '十二神兽印绶共鸣槽位', '奥丁斩铁试炼禁术拓展']
+  },
+  {
+    id: 'ver_220',
+    name: 'v2.2.210 调合版本存档',
+    period: '2026近期',
+    versionTag: 'v2.2.210-ALCHEMY',
+    missingFields: ['gold_chocobo_mutation', 'odin_cert_hash'],
+    injectList: ['究极黄金陆行鸟全地形特权', '试炼通关安全凭证哈希签章']
+  }
+]
+
+const sourceSaveVersion = ref('ver_100')
+const isMigrating = ref(false)
+const migrationProgress = ref(0)
+const migrationNotice = ref('')
+const migrationLogs = ref<string[]>([
+  '=== 存档向前迁徙分析机就绪，请选择源版本并启动无损升阶 ==='
+])
+const activeCodeTab = ref<'bulletin' | 'patch'>('bulletin')
+const copiedCode = ref(false)
+let migrationTimer: ReturnType<typeof setInterval> | null = null
+
+const selectedLegacyInfo = computed(() => {
+  return saveLegacyOptions.find(o => o.id === sourceSaveVersion.value) || saveLegacyOptions[0]
+})
+
+const handleSourceVersionChange = () => {
+  migrationNotice.value = ''
+  migrationLogs.value = [
+    `[INFO] 已装载源版本【${selectedLegacyInfo.value.name}】，检测到 ${selectedLegacyInfo.value.missingFields.length} 个新结构待补齐`
+  ]
+}
+
+const runSaveMigrationCheck = () => {
+  if (isMigrating.value) return
+  isMigrating.value = true
+  migrationProgress.value = 0
+  const info = selectedLegacyInfo.value
+
+  migrationLogs.value = [
+    `[0.0s] 🔍 开始扫描旧版单机存档【${info.versionTag}】二进制结构段...`,
+    `[0.3s] 🛡️ 创建安全冷备份快照：save_snapshot_${Date.now().toString(16)}.bak`,
+    `[0.6s] ⚡ 自动注入结构字段：[${info.missingFields.join(', ')}]`
+  ]
+
+  if (migrationTimer) clearInterval(migrationTimer)
+
+  migrationTimer = setInterval(() => {
+    migrationProgress.value += 20
+    if (migrationProgress.value === 60) {
+      migrationLogs.value.unshift(`[1.0s] 🧬 补齐【${info.injectList.join('、')}】核心数据段，保持金币与等级 100% 幂等！`)
+    }
+    if (migrationProgress.value >= 100) {
+      if (migrationTimer) clearInterval(migrationTimer)
+      migrationTimer = null
+      isMigrating.value = false
+      migrationProgress.value = 100
+      migrationLogs.value.unshift('[1.8s] ✨ SHA-256 完整性验签通过！存档无损升阶至最新 v2.2.248！')
+      migrationNotice.value = `🎉 迁徙大成！【${info.name}】已成功升阶至最新 v2.2.248，零数据丢失！`
+      message.success(`存档无损迁徙完成！已完美适配 v2.2.248 最新系统！`)
+    }
+  }, 180)
+}
+
+const exportPatchAuditCert = () => {
+  const info = selectedLegacyInfo.value
+  const lines: string[] = [
+    '========================================================================',
+    '    《光之战士：时空裂隙》版本热更补丁与单机存档迁徙审计证书 (VBLE Audit)',
+    '========================================================================',
+    '签发引擎: Godot 4.6 LTS / save_migration_patch_resolver.gd',
+    `安全哈希: SHA256-PATCH-${Date.now().toString(16).toUpperCase()}`,
+    `签发时间: ${new Date().toISOString()}`,
+    '------------------------------------------------------------------------',
+    '【源版本与目标架构】:',
+    `  - 源存档年代: ${info.name} (${info.period})`,
+    `  - 原始版本号: ${info.versionTag}`,
+    `  - 目标架构版本: v2.2.248 (最新正式版)`,
+    `  - 兼容性评级: A+ 无损幂等级`,
+    '------------------------------------------------------------------------',
+    '【已注入与对齐之数据字段】:'
+  ]
+
+  info.injectList.forEach((item, idx) => {
+    lines.push(`  ${idx + 1}. [补齐字段] ${item} (对齐 v2.2.248 规范)`)
+  })
+
+  lines.push('------------------------------------------------------------------------')
+  lines.push('【全版本增量差量包体清单】:')
+  patchList.value.forEach(p => {
+    lines.push(`  ★ [${p.version}] ${p.title} (${p.deltaSize}) - Hash: ${p.hash}`)
+  })
+
+  lines.push('========================================================================')
+  lines.push('单机存档箴言: 岁月流转，英雄不朽。历经万千版本，旅程如初！')
+
+  const report = lines.join('\n')
+
+  try {
+    navigator.clipboard.writeText(report)
+    message.success('已复制《版本热更补丁与单机存档迁徙审计证书》至剪贴板！')
+  } catch {
+    // ignore
+  }
+
+  const blob = new Blob([report], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `savefile_migration_cert_v2.2.248_${Date.now()}.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 // Godot 4.x 代码
 const gdScriptCode = `# ==============================================================================
 # GameEventBulletinManager - 游戏离线周期日历活动与版本广播管理器
@@ -1002,9 +1388,64 @@ func mark_bulletin_as_read(bulletin_id: String) -> void:
 	_read_bulletin_ids[bulletin_id] = true
 `
 
+const gdSaveMigrationCode = [
+  '# ============================================================================== ',
+  '# SaveMigrationPatchResolver - 单机存档向前兼容结构升级与热更补丁解析器',
+  '# 文件路径: res://scripts/core/save_migration_patch_resolver.gd',
+  '# 架构定位: VBLE Bulletin & Save Migration Matrix v2.2.248',
+  '# ============================================================================== ',
+  'class_name SaveMigrationPatchResolver',
+  'extends Node',
+  '',
+  'signal migration_started(from_version: String, to_version: String)',
+  'signal field_injected(field_key: String, default_value: Variant)',
+  'signal migration_completed(success: bool, final_hash: String)',
+  '',
+  'const CURRENT_SAVE_VERSION: String = "v2.2.248"',
+  '',
+  'const MIGRATION_RULES = {',
+  '	"v1.0.0": {',
+  '		"inject_fields": {',
+  '			"kuzar_weapons": [],',
+  '			"rainbow_tails": {},',
+  '			"chocobo_stables": { "yellow": 1, "blue": 0, "black": 0, "red": 0, "gold": 0 },',
+  '			"odin_trial_cleared": false',
+  '		}',
+  '	},',
+  '	"v2.0.120": {',
+  '		"inject_fields": {',
+  '			"chocobo_genetics": {},',
+  '			"active_signets": ["bahamut"]',
+  '		}',
+  '	}',
+  '}',
+  '',
+  'func migrate_save_data(save_dict: Dictionary) -> Dictionary:',
+  '	var source_ver: String = save_dict.get("version", "v1.0.0")',
+  '	emit_signal("migration_started", source_ver, CURRENT_SAVE_VERSION)',
+  '	',
+  '	if MIGRATION_RULES.has(source_ver):',
+  '		var rule: Dictionary = MIGRATION_RULES[source_ver]',
+  '		for key in rule.inject_fields.keys():',
+  '			if not save_dict.has(key):',
+  '				save_dict[key] = rule.inject_fields[key]',
+  '				emit_signal("field_injected", key, rule.inject_fields[key])',
+  '	',
+  '	save_dict["version"] = CURRENT_SAVE_VERSION',
+  '	var sha := save_dict.hash()',
+  '	emit_signal("migration_completed", true, str(sha))',
+  '	return save_dict'
+].join('\n')
+
 const copyGdScript = () => {
-  navigator.clipboard.writeText(gdScriptCode).then(() => {
-    message.success('game_event_bulletin_manager.gd 源码已复制到剪贴板！')
+  const code = activeCodeTab.value === 'bulletin' ? gdScriptCode : gdSaveMigrationCode
+  navigator.clipboard.writeText(code).then(() => {
+    copiedCode.value = true
+    const filename = activeCodeTab.value === 'bulletin' ? 'game_event_bulletin_manager.gd' : 'save_migration_patch_resolver.gd'
+    message.success(`${filename} 源码已复制到剪贴板！`)
+    setTimeout(() => {
+      copiedCode.value = false
+    }, 3000)
   })
 }
 </script>

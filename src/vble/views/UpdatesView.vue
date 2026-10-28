@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-news-patch-manifest-save-migration-lab-2026-10-28',
+    version: 'v2.2.248',
+    date: '2026-10-28',
+    title: '单机资讯中心第五模式升级、版本热更清单与离线单机存档无损迁徙沙盘实装',
+    category: 'system',
+    categoryName: '架构演进',
+    icon: '📦',
+    tagType: 'success',
+    description: '深度重构升级 NewsView 资讯中心：重磅实装第五大核心交互模式【版本热更补丁清单与单机存档无损迁徙沙盘】（Patch & Savefile Migration Lab），系统化追踪从 v1.0.0 到 v2.2.248 全生命周期架构二进制增量补丁包与全量 SHA-256 哈希完整性；支持旧版单机存档向前兼容结构升级、字段自动补全与无损升阶验签，提供 100% 幂等修复保障（绝不损坏既有等级与金币）；新增一键导出《版本热更补丁与单机存档迁徙审计证书》工坊；底层代码升级双架构视图，新增 save_migration_patch_resolver.gd 单机存档向前兼容解析引擎，对齐 VBLE Bulletin & Save Migration Matrix v2.2.248 规范。',
+    highlights: [
+      '全生命周期二进制差量补丁清单：全景追踪核心系统增量包体大小与 SHA-256 安全哈希',
+      '旧版单机存档向前无损迁徙机：高精模拟从 v1.0.0/v2.0.120/v2.2.210 升阶至最新 v2.2.248',
+      '结构字段幂等自动注入补齐：安全补齐库扎神兵、八色彩尾、马厩血统与奥丁试炼旗标',
+      '存档迁徙安全审计证书一键导出：实时生成包含 SHA-256 安全哈希的离线迁徙审计凭证文本',
+      'Godot 4.6 LTS 双架构引擎实装：新增 save_migration_patch_resolver.gd 存档校验引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '单机档案与版本资讯', path: '/vble/news', icon: '📢' },
+      { label: '宏观经济与调合工坊', path: '/vble/economy', icon: '⚗️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-summons-covenant-odin-trial-expansion-2026-10-28',
     version: 'v2.2.247',
     date: '2026-10-28',
