@@ -350,6 +350,168 @@
       </div>
     </div>
 
+    <!-- 专区 4: 飞空艇模块化改装与折跃巡航工坊 (Airship Customization & Warp Studio) -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#121626] via-[#101426] to-[#0c1020] border border-amber-500/40 shadow-2xl space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🛠️</span>
+            <h3 class="text-lg sm:text-xl font-black text-white text-glow-amber">魔导飞空艇模块化动力改装与折跃巡航工坊 (Airship Warp Studio)</h3>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            自由装配以太涡轮动力核心、深海声呐雷达与宇宙加压生命舱，规划跨大陆与双月星轨航线，实时推演巡航耗时与折跃跃迁。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-tag type="warning" round size="small">四维模块化改装</n-tag>
+          <n-tag type="success" round size="small">全域自动巡航</n-tag>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 飞空艇核心模块改装选项 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-amber-300 block flex items-center gap-1.5">
+            <span>⚙️</span>
+            <span>机体核心改装模块 (Ship Modules)</span>
+          </span>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-gray-400 block mb-1">动力引擎核心 (Propulsion Engine):</label>
+              <select
+                v-model="selectedEngineId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+              >
+                <option v-for="eng in engineModules" :key="eng.id" :value="eng.id">
+                  {{ eng.name }} ({{ eng.speedMultiplier }}x 航速)
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-400 block mb-1">探知与声呐系统 (Sensory & Radar):</label>
+              <select
+                v-model="selectedRadarId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+              >
+                <option v-for="rad in radarModules" :key="rad.id" :value="rad.id">
+                  {{ rad.name }} ({{ rad.feature }})
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-400 block mb-1">装甲与生命维持舱 (Armor & Life Support):</label>
+              <select
+                v-model="selectedHullId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+              >
+                <option v-for="hull in hullModules" :key="hull.id" :value="hull.id">
+                  {{ hull.name }} ({{ hull.capability }})
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 航线规划与航程目的地设定 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-cyan-300 block flex items-center gap-1.5">
+            <span>🗺️</span>
+            <span>航线航路规划 (Flight Waypoint Routing)</span>
+          </span>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-gray-400 block mb-1">启航港口基地 (Port of Departure):</label>
+              <select
+                v-model="routeOrigin"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-cyan-400 focus:outline-none"
+              >
+                <option v-for="port in flightDestinations" :key="'orig-' + port.id" :value="port.id">
+                  {{ port.name }} ({{ port.layer }})
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-400 block mb-1">目标航程彼岸 (Target Destination):</label>
+              <select
+                v-model="routeDestination"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-cyan-400 focus:outline-none"
+              >
+                <option v-for="port in flightDestinations" :key="'dest-' + port.id" :value="port.id">
+                  {{ port.name }} ({{ port.layer }})
+                </option>
+              </select>
+            </div>
+
+            <!-- 自动巡航操作 -->
+            <div class="pt-2">
+              <button
+                type="button"
+                class="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-cyan-500 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer disabled:opacity-50"
+                :disabled="isCruising"
+                @click="startCruiseFlight"
+              >
+                {{ isCruising ? '🛸 自动巡航航行中...' : '🚀 启动全域自动巡航折跃' }}
+              </button>
+            </div>
+
+            <div v-if="isCruising" class="space-y-1">
+              <div class="flex justify-between text-[11px] text-cyan-300">
+                <span>巡航推进进度:</span>
+                <span>{{ cruiseProgress.toFixed(0) }}%</span>
+              </div>
+              <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
+                <div class="bg-gradient-to-r from-amber-400 to-cyan-400 h-2 transition-all duration-100" :style="{ width: `${cruiseProgress}%` }" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 航行综合指标与实时航行日志 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-slate-950 to-slate-900 border border-amber-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>航行情报与实机测算</span>
+              </span>
+              <n-tag size="tiny" type="success">{{ currentEngine.name }}</n-tag>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">最终巡航极速:</span>
+                <span class="font-mono font-bold text-amber-300">{{ calculatedSpeedText }}</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">航程物理距离:</span>
+                <span class="font-mono font-bold text-cyan-300">{{ calculatedDistance }} km</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">预计飞抵耗时:</span>
+                <span class="font-mono font-bold text-emerald-300">{{ calculatedDurationText }}</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">遇敌屏蔽状态:</span>
+                <span class="font-mono font-bold text-emerald-400">100% 绝对隐匿免遇敌</span>
+              </div>
+            </div>
+
+            <!-- 航行日志 -->
+            <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800 text-[11px] font-mono space-y-1 text-gray-300 max-h-24 overflow-y-auto">
+              <div v-for="(log, idx) in cruiseLogs" :key="idx" class="text-gray-300">
+                {{ log }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between">
@@ -725,6 +887,133 @@ const copyGodotCode = async () => {
     message.error('复制失败，请手动选取复制')
   }
 }
+
+// ================= 专区 4: 飞空艇模块化改装与折跃巡航系统 =================
+interface EngineModule {
+  id: string
+  name: string
+  speedMultiplier: number
+  description: string
+}
+
+interface RadarModule {
+  id: string
+  name: string
+  feature: string
+}
+
+interface HullModule {
+  id: string
+  name: string
+  capability: string
+}
+
+interface FlightDestination {
+  id: string
+  name: string
+  layer: string
+  distanceBase: number
+}
+
+const engineModules: EngineModule[] = [
+  { id: 'eng_steam', name: '原装蒸汽活塞动力机', speedMultiplier: 1.0, description: '基础蒸汽锅炉，常规巡航平稳输出' },
+  { id: 'eng_gale', name: '龙骑士疾风以太涡轮', speedMultiplier: 1.8, description: '以太风暴增压，穿透高空强对流风暴' },
+  { id: 'eng_antigrav', name: '魔导反引力悬浮核心', speedMultiplier: 2.8, description: '希德太古反重力专利，支持任意水面超低空悬停' },
+  { id: 'eng_void', name: '虚无次元折跃跃迁核', speedMultiplier: 6.0, description: '提取次元裂隙暗能，实现跨大陆秒级瞬间折跃' }
+]
+
+const radarModules: RadarModule[] = [
+  { id: 'rad_eagle', name: '鹰眼高空光学全景镜', feature: '驱散大地图迷雾，高空俯瞰' },
+  { id: 'rad_sonar', name: '深海回声声呐探测仪', feature: '自动标记沉船宝藏与沉没神殿' },
+  { id: 'rad_aether', name: '太古以太波相位雷达', feature: '追踪隐匿幻兽神殿与次元裂缝' }
+]
+
+const hullModules: HullModule[] = [
+  { id: 'hull_adamant', name: '精金黑铁强化防冲板', capability: '免疫高山气流与碎石撞击' },
+  { id: 'hull_reflect', name: '魔导绝对偏转结界机', capability: '吸收高空雷暴与空中暗怪俯冲' },
+  { id: 'hull_cosmic', name: '宇宙加压生命维持舱', capability: '突破卡门线飞向双月环形山' }
+]
+
+const flightDestinations: FlightDestination[] = [
+  { id: 'tycoon', name: '泰空王国 平原航空港', layer: '地表海陆', distanceBase: 120 },
+  { id: 'karnak', name: '卡尔纳克 蒸汽动力军港', layer: '地表海陆', distanceBase: 480 },
+  { id: 'sunken_walse', name: '沉没沃鲁斯塔 深渊裂口', layer: '深海海沟', distanceBase: 760 },
+  { id: 'moore_forest', name: '穆亚大森林 长老圣树之冠', layer: '密林高空', distanceBase: 950 },
+  { id: 'void_rift', name: '次元之隙 虚无空间裂隙口', layer: '次元裂谷', distanceBase: 1800 },
+  { id: 'lunar_palace', name: '红之月 月之巨鲸停泊台', layer: '月轨星际', distanceBase: 3800 }
+]
+
+const selectedEngineId = ref('eng_antigrav')
+const selectedRadarId = ref('rad_aether')
+const selectedHullId = ref('hull_cosmic')
+const routeOrigin = ref('tycoon')
+const routeDestination = ref('lunar_palace')
+
+const isCruising = ref(false)
+const cruiseProgress = ref(0)
+const cruiseLogs = ref<string[]>([
+  '=== 飞空艇导航系统已待命，请选择航线并点击启动巡航 ==='
+])
+let cruiseTimer: ReturnType<typeof setInterval> | null = null
+
+const currentEngine = computed(() => {
+  return engineModules.find(e => e.id === selectedEngineId.value) || engineModules[0]
+})
+
+const calculatedSpeedText = computed(() => {
+  return `${(3.5 * currentEngine.value.speedMultiplier).toFixed(1)}x 音速巡航`
+})
+
+const calculatedDistance = computed(() => {
+  const dest = flightDestinations.find(d => d.id === routeDestination.value) || flightDestinations[1]
+  const orig = flightDestinations.find(d => d.id === routeOrigin.value) || flightDestinations[0]
+  return Math.abs(dest.distanceBase - orig.distanceBase) + 300
+})
+
+const calculatedDurationText = computed(() => {
+  const dist = calculatedDistance.value
+  const speed = currentEngine.value.speedMultiplier
+  const sec = Math.max(1.5, (dist / 400) / speed)
+  return `${sec.toFixed(1)} 秒`
+})
+
+const startCruiseFlight = () => {
+  if (isCruising.value) return
+  isCruising.value = true
+  cruiseProgress.value = 0
+
+  const origName = flightDestinations.find(d => d.id === routeOrigin.value)?.name || '原港口'
+  const destName = flightDestinations.find(d => d.id === routeDestination.value)?.name || '目标港口'
+
+  cruiseLogs.value = [
+    `[0.0s] 🚀 动力核心【${currentEngine.value.name}】点火，从【${origName}】离地升空！`,
+    `[0.5s] 🧭 航向校准，导航雷达锁定【${destName}】，航距 ${calculatedDistance.value} km`
+  ]
+
+  if (cruiseTimer) clearInterval(cruiseTimer)
+
+  cruiseTimer = setInterval(() => {
+    cruiseProgress.value += 10
+    if (cruiseProgress.value === 50) {
+      cruiseLogs.value.unshift(`[1.0s] ⚡ 达到最高巡航极速 ${calculatedSpeedText.value}，开启绝对隐匿免遇敌力场！`)
+    }
+    if (cruiseProgress.value >= 100) {
+      if (cruiseTimer) clearInterval(cruiseTimer)
+      cruiseTimer = null
+      isCruising.value = false
+      cruiseProgress.value = 100
+      cruiseLogs.value.unshift(`[2.0s] 🛬 飞空艇抵达【${destName}】着陆场，反引力锚定完成！`)
+      message.success(`飞空艇已顺利抵达【${destName}】！`)
+    }
+  }, 180)
+}
+
+onUnmounted(() => {
+  if (cruiseTimer) {
+    clearInterval(cruiseTimer)
+    cruiseTimer = null
+  }
+})
 </script>
 
 <style scoped>

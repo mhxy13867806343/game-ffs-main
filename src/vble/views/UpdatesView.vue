@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicles-modular-airship-warp-studio-2026-10-28',
+    version: 'v2.2.227',
+    date: '2026-10-28',
+    title: '魔导飞空艇模块化动力改装与折跃航线自动巡航推演工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🛸',
+    tagType: 'success',
+    description: '深度重构升级 VehiclesView 载具矩阵大殿：全新实装【魔导飞空艇模块化动力改装与折跃巡航工坊】（Airship Warp Studio），支持自由选配以太涡轮/反引力核心/虚无次元折跃核等 4 阶动力引擎、深海声呐/以太波雷达、以及精金防冲板/宇宙加压生命维持舱；打造【全域航线自动巡航推演器】，支持在泰空王国、卡尔纳克港、沉没沃鲁斯塔、次元裂隙与双月停泊台之间规划航路，实时测算航程物理距离、极速耗时与 100% 绝对免遇敌隐匿状态；并严谨对齐 Godot 4.6 LTS vehicle_navigation_system.gd 航行碰撞与空间维度内核。',
+    highlights: [
+      '魔导飞空艇模块化改装：自由搭载以太涡轮、反重力悬停核心与虚无次元折跃核，极速提升至最高 6.0x 音速巡航',
+      '全域航线航路规划推演器：支持地表海陆、深海海沟与双月宇宙星际跨维度选港，自动计算距离与飞抵耗时',
+      '高保真自动巡航动画与日志：可视化巡航进度百分比，实时广播点火、提速、避障与反引力锚定全流程',
+      'Godot 4.6 底层航行内核对齐：无缝匹配 vehicle_navigation_system.gd 遇敌屏蔽与全地形降落安全窗算法'
+    ],
+    relatedLinks: [
+      { label: '载具矩阵与折跃工坊', path: '/vble/vehicles', icon: '🛸' },
+      { label: '大世界全域场景', path: '/vble/scenes', icon: '🗺️' },
+      { label: '首领战术推演', path: '/vble/boss-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-summons-covenant-resonance-odin-60s-trial-2026-10-28',
     version: 'v2.2.226',
     date: '2026-10-28',
