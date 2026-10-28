@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-whitepapers-topology-studio-2026-10-28',
+    version: 'v2.2.215',
+    date: '2026-10-28',
+    title: '十六卷核心架构白皮书规范文库与依赖拓扑沙盘工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '📚',
+    tagType: 'info',
+    description: '深度重构升级 DocsView 十六卷核心白皮书文库：全景展出叙事圣经、地貌拓扑、首领攻坚、职业体系、装备经济、载具矩阵与底层引擎等 16 部核心架构白皮书；构建对齐 Godot 4.x whitepaper_registry.gd 的上下游依赖拓扑与规范校验沙盘，推演各卷册规范前置母法则、下游受控模块与实机 GDScript 脚本双向绑定，并支持全本 Markdown 抽屉阅读与原始规范下载。',
+    highlights: [
+      '十六卷核心架构白皮书文库：覆盖 Vol.01 世界圣经至 Vol.16 调合工坊，完备收录核心设计模块与技术要点',
+      '规范交叉依赖拓扑沙盘：自由选择白皮书卷册，全息推演上游前置、当前核心、下游受控模块与实机引擎代码映射',
+      'GDScript 双向接口一致性审计：动态核验各卷册与 job_system.gd、atb_engine.gd、boss_tactics_battle.gd 等脚本的契合度',
+      '全本 Markdown 抽屉阅读器：集成 marked 高性能渲染引擎，支持正文阅读、原始 .md 规范一键下载与社交分享',
+      'Godot 4.x 核心引擎代码对齐：内置 whitepaper_registry.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '架构白皮书文库', path: '/vble/docs', icon: '📚' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' },
+      { label: '未来功能规划', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
+  {
     id: 'up-omni-search-relation-studio-2026-10-28',
     version: 'v2.2.214',
     date: '2026-10-28',
