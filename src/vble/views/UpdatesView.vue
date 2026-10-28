@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-sidequests-rift-expedition-legendary-armory-2026-10-28',
+    version: 'v2.2.238',
+    date: '2026-10-28',
+    title: '世界时空裂隙委托派遣与远古神兵封印解禁工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🌌',
+    tagType: 'warning',
+    description: '深度重构升级 SidequestsView 支线任务与探索全书：全新实装【世界时空裂隙委托派遣与远古神兵封印解禁工坊】（Rift Expedition & Legendary Armory Studio）。支持玩家调度队伍深入蜃气楼沙漠流沙塔、幻影森林秘境、机械废都欧米茄兵工厂与虚无核心裂隙中枢 4 大裂隙层级；动态指派圣骑士、盗贼、黑魔道士、召唤士队长职能与探宝罗盘、时空帐篷、圣灵药水探索物资，实时推演探索深潜度与战利品结算；同步实装孤岛金字塔十二圣兵解禁殿堂，基于四大远古石板收集数量（每块赋予 3 点额度）交互式解禁王者之剑、正宗、佐助之刀、神圣之枪、毁灭之斧等 12 柄传奇神兵；严谨对齐 Godot 4.6 LTS rift_expedition_dispatcher.gd 与 legendary_seal_breaker.gd 状态机。',
+    highlights: [
+      '四大时空裂隙层级探险队列：支持沙漠塔、幻影森林、机械废都与虚无中枢阶梯式探索派遣',
+      '队长职能与物资战略配给：圣骑士生还、盗贼摸金加权、法师破障与探宝罗盘速度倍增联动',
+      '十二远古圣兵封印金字塔殿堂：王者之剑、正宗、佐助之刀、圣枪等 12 柄神器交互式逐阶解封',
+      '石板额度动态约束计算器：严密遵循每块远古石板解禁 3 件武器契约法则，支持一键配满额度',
+      'Godot 4.6 底层跨维派遣契约对齐：无缝衔接 rift_expedition_dispatcher.gd 与 legendary_seal_breaker.gd'
+    ],
+    relatedLinks: [
+      { label: '支线任务与探索全书', path: '/vble/sidequests', icon: '📜' },
+      { label: '神装锻造与远古神兵', path: '/vble/equipment', icon: '⚔️' },
+      { label: '地下迷宫与深渊裂隙', path: '/vble/dungeons', icon: '🏰' }
+    ]
+  },
+  {
     id: 'up-monsters-ai-decision-tree-drop-radar-lab-2026-10-28',
     version: 'v2.2.237',
     date: '2026-10-28',

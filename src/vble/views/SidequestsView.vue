@@ -830,6 +830,236 @@
       </div>
     </div>
 
+    <!-- 🌌 世界时空裂隙委托派遣与远古神兵封印解禁工坊 (Rift Expedition & Legendary Armory Studio) -->
+    <div class="bg-gradient-to-br from-[#12162a]/95 via-[#1a1432]/90 to-[#0e1628]/95 border border-purple-500/50 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-5 relative overflow-hidden">
+      <!-- 头部与控制栏 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-purple-900/40 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🌌</span>
+            <h2 class="text-lg sm:text-xl font-black text-purple-300">
+              世界时空裂隙委托派遣与远古神兵封印解禁工坊 (Rift Expedition & Armory Studio)
+            </h2>
+            <n-tag size="small" type="warning" round strong>跨维调度内核</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            推演多元裂隙探险队列分配、队长职能加成、探险补给配给，并以四大远古石板解禁封印在孤岛金字塔的十二柄传奇圣兵！
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetRiftStudio">
+            🔄 重置工坊参数
+          </n-button>
+          <n-button
+            size="small"
+            type="primary"
+            class="font-bold shadow"
+            :disabled="expeditionState !== 'exploring'"
+            @click="fastForwardExpedition"
+          >
+            ⚡ 即刻完成派遣探索
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 双核心工坊阵列 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 栏 1: 时空裂隙委托探险队调度面板 (6 cols) -->
+        <div class="lg:col-span-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3.5 flex flex-col justify-between">
+          <div class="space-y-3.5">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-purple-300 flex items-center gap-1.5">
+                <span>🛰️</span> 时空裂隙探险调度 (Rift Expeditions)
+              </span>
+              <n-tag size="tiny" :type="expeditionState === 'exploring' ? 'warning' : expeditionState === 'completed' ? 'success' : 'default'">
+                {{ expeditionState === 'exploring' ? '探险队列进行中' : expeditionState === 'completed' ? '探险圆满归来' : '待命整装' }}
+              </n-tag>
+            </div>
+
+            <!-- 目标裂隙选择 -->
+            <div class="space-y-1.5">
+              <label class="text-[11px] text-gray-400 block font-bold">1. 选定目标裂隙探险层级:</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button
+                  v-for="dest in riftDestinations"
+                  :key="dest.id"
+                  type="button"
+                  class="p-2.5 rounded-lg border text-left cursor-pointer transition-all flex flex-col justify-between select-none"
+                  :class="selectedRiftDestId === dest.id
+                    ? 'bg-purple-900/40 border-purple-400 text-purple-200 shadow-md shadow-purple-900/30'
+                    : 'bg-slate-900/80 border-slate-800 text-gray-300 hover:border-slate-700'"
+                  :disabled="expeditionState === 'exploring'"
+                  @click="selectedRiftDestId = dest.id"
+                >
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold">{{ dest.icon }} {{ dest.name }}</span>
+                    <n-tag size="tiny" :type="dest.dangerTag">{{ dest.danger.toUpperCase() }}</n-tag>
+                  </div>
+                  <div class="text-[10px] text-gray-400 mt-1 font-mono">⏱️ {{ dest.durationDesc }}</div>
+                  <div class="text-[10px] text-amber-300/90 mt-0.5 truncate">🎁 {{ dest.baseReward }}</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- 队长职能与物资配给 -->
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1">2. 指派派遣队长职能:</label>
+                <n-select
+                  v-model:value="expeditionLeader"
+                  :options="leaderOptions"
+                  size="small"
+                  :disabled="expeditionState === 'exploring'"
+                />
+              </div>
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1">3. 配备核心探索物资:</label>
+                <n-select
+                  v-model:value="expeditionSupply"
+                  :options="supplyOptions"
+                  size="small"
+                  :disabled="expeditionState === 'exploring'"
+                />
+              </div>
+            </div>
+
+            <!-- 探险进度条 -->
+            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300">探险探索深潜度:</span>
+                <span class="font-mono font-bold" :class="expeditionProgress === 100 ? 'text-emerald-400' : 'text-purple-400'">
+                  {{ expeditionProgress }}%
+                </span>
+              </div>
+              <n-progress
+                type="line"
+                :percentage="expeditionProgress"
+                :status="expeditionProgress === 100 ? 'success' : 'default'"
+                :show-indicator="false"
+              />
+            </div>
+
+            <!-- 派遣控制按钮 -->
+            <div class="flex items-center gap-2">
+              <n-button
+                v-if="expeditionState !== 'exploring'"
+                size="small"
+                type="primary"
+                block
+                class="font-bold"
+                @click="startExpedition"
+              >
+                🚀 组建并派遣时空探险小队
+              </n-button>
+              <n-button
+                v-else
+                size="small"
+                type="error"
+                secondary
+                block
+                @click="cancelExpedition"
+              >
+                🛑 紧急召回小队 (放弃收益)
+              </n-button>
+            </div>
+          </div>
+
+          <!-- 探险动态日志 -->
+          <div class="p-2.5 rounded bg-slate-900/90 border border-slate-800 text-[10px] font-mono space-y-1 mt-2">
+            <div class="text-purple-400 font-bold">时空派遣实时回响 (Expedition Echoes):</div>
+            <div v-for="(log, idx) in expeditionLog" :key="idx" class="text-gray-300 truncate">
+              &gt; {{ log }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 远古金字塔十二圣兵封印解禁殿堂 (6 cols) -->
+        <div class="lg:col-span-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3.5 flex flex-col justify-between">
+          <div class="space-y-3.5">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-amber-300 flex items-center gap-1.5">
+                <span>🗡️</span> 十二远古圣兵封印阵列 (12 Sealed Weapons)
+              </span>
+              <div class="flex items-center gap-1 font-mono text-xs">
+                <span class="text-gray-400">已解禁:</span>
+                <span class="text-amber-400 font-bold">{{ unlockedWeaponsCount }}</span>
+                <span class="text-gray-500">/ 12</span>
+              </div>
+            </div>
+
+            <!-- 远古石板收集滑块与额度计算器 -->
+            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-2 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>已获得远古石板数量 (每块解禁 3 件):</span>
+                <span class="font-mono font-bold text-amber-300">
+                  {{ ancientTabletsFound }} / 4 块 (总额度: {{ totalSealQuota }} 件)
+                </span>
+              </div>
+              <n-slider v-model:value="ancientTabletsFound" :min="0" :max="4" :step="1" />
+              <div class="flex items-center justify-between text-[11px] pt-0.5">
+                <span class="text-gray-400">当前可用解禁点数:</span>
+                <span
+                  class="font-mono font-bold px-2 py-0.5 rounded"
+                  :class="remainingSealQuota > 0 ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/40' : 'bg-slate-800 text-gray-400'"
+                >
+                  {{ remainingSealQuota }} 剩余点数
+                </span>
+              </div>
+            </div>
+
+            <!-- 十二圣兵卡片列表 (紧凑 3 列) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div
+                v-for="weapon in legendaryWeapons"
+                :key="weapon.id"
+                class="p-2 rounded-lg border text-xs flex flex-col justify-between select-none cursor-pointer transition-all"
+                :class="weapon.unlocked
+                  ? 'bg-amber-950/30 border-amber-500/60 text-amber-200 shadow-sm shadow-amber-900/20'
+                  : 'bg-slate-900/60 border-slate-800/80 text-gray-500 hover:border-slate-700'"
+                @click="toggleWeaponUnlock(weapon)"
+              >
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-base">{{ weapon.icon }}</span>
+                    <n-tag size="tiny" :type="weapon.unlocked ? 'warning' : 'default'" round>
+                      {{ weapon.unlocked ? '已解印' : '受封印' }}
+                    </n-tag>
+                  </div>
+                  <div class="font-bold text-[11px] mt-1 truncate" :class="weapon.unlocked ? 'text-amber-300' : 'text-gray-400'">
+                    {{ weapon.name }}
+                  </div>
+                  <div class="text-[9px] text-gray-500 font-mono">{{ weapon.type }}</div>
+                </div>
+                <div class="text-[9px] text-gray-400 mt-1 line-clamp-2 leading-tight">
+                  {{ weapon.effect }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 解禁审计状态条 -->
+          <div class="p-2 rounded bg-slate-900/90 border border-slate-800 text-[10px] font-mono text-gray-300 min-h-[36px] flex items-center justify-between">
+            <span class="truncate">🛡️ {{ sealBreakerLog }}</span>
+            <n-button size="tiny" tertiary type="warning" @click="unlockAllAffordable">
+              一键配满
+            </n-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实装审计底栏 -->
+      <div class="p-3.5 rounded-xl bg-slate-950/90 border border-purple-900/40 text-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="text-purple-400 text-base">⚡</span>
+          <span class="font-bold text-purple-300">工坊底层调度日志：</span>
+          <span class="text-gray-200 font-mono">{{ riftAuditLog }}</span>
+        </div>
+        <div class="text-[11px] text-gray-500 font-mono">
+          底层契约: rift_expedition_dispatcher.gd & legendary_seal_breaker.gd
+        </div>
+      </div>
+    </div>
+
     <!-- 筛选与搜索工具栏 -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-[#121626]/80 border border-slate-800">
       <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
@@ -1312,6 +1542,209 @@ const resetBountySStudio = () => {
   bountySLog.value = [
     '重置完成: S级悬赏演练台回到初始状态',
     '默认状态: 拥有通关星标，十二前置已达成，等待玩家揭榜'
+  ]
+}
+
+// ================= 🌌 世界时空裂隙委托派遣与远古神兵封印解禁工坊 (rift_expedition_dispatcher.gd / legendary_seal_breaker.gd) =================
+interface RiftDestination {
+  id: string
+  name: string
+  icon: string
+  danger: 'low' | 'medium' | 'high' | 'deadly'
+  dangerTag: 'success' | 'info' | 'warning' | 'error'
+  durationDesc: string
+  baseReward: string
+  desc: string
+}
+
+const riftDestinations: RiftDestination[] = [
+  {
+    id: 'desert_ruins',
+    name: '蜃气楼沙漠流沙塔',
+    icon: '🏜️',
+    danger: 'low',
+    dangerTag: 'success',
+    durationDesc: '常规 15 分钟',
+    baseReward: '古代金币 ×3500 + 拟态矿石',
+    desc: '穿越随风飘移的蜃气楼沙漠流沙层，搜寻沉睡在流沙漏斗下层的遗迹宝箱。'
+  },
+  {
+    id: 'illusion_forest',
+    name: '幻影森林与次元大瀑布',
+    icon: '🌲',
+    danger: 'medium',
+    dangerTag: 'info',
+    durationDesc: '深入 30 分钟',
+    baseReward: '深渊魔草 ×5 + 幻影布料',
+    desc: '水声轰鸣的幻觉之森，常年被浓稠以太迷雾笼罩，藏匿有古代隐士的失落卷轴。'
+  },
+  {
+    id: 'omega_factory',
+    name: '机械废都欧米茄兵工厂',
+    icon: '⚙️',
+    danger: 'high',
+    dangerTag: 'warning',
+    durationDesc: '高危 45 分钟',
+    baseReward: '钛合金装甲板 + 纳米核心',
+    desc: '古代灭绝兵器的废弃量产线，警备自律机甲依旧在巡逻，潜伏致命雷光陷阱。'
+  },
+  {
+    id: 'void_nexus',
+    name: '虚无核心裂隙中枢',
+    icon: '🌌',
+    danger: 'deadly',
+    dangerTag: 'error',
+    durationDesc: '绝厄 60 分钟',
+    baseReward: '神兵解禁以太之核 + 圣光露珠',
+    desc: '多元宇宙秩序崩塌的暴风眼，时空碎片在此撕裂，仅有顶尖传奇小队方可生还。'
+  }
+]
+
+const selectedRiftDestId = ref('desert_ruins')
+const expeditionLeader = ref<'knight' | 'thief' | 'mage' | 'summoner'>('thief')
+const expeditionSupply = ref<'rations' | 'compass' | 'elixir'>('compass')
+const expeditionState = ref<'idle' | 'exploring' | 'completed'>('idle')
+const expeditionProgress = ref(0)
+const expeditionLog = ref<string[]>([
+  '时空裂隙派遣看板就绪：请指派队长职能与探索补给后启动派遣。',
+  '底层调度契约: rift_expedition_dispatcher.gd 状态就绪。'
+])
+
+const leaderOptions = [
+  { label: '🛡️ 圣骑士 (遭遇强敌生还率 +25%)', value: 'knight' },
+  { label: '🖐️ 盗贼大盗 (宝箱额外掉落率 +30%)', value: 'thief' },
+  { label: '🧙 黑魔道士 (清除环境障壁速度 +20%)', value: 'mage' },
+  { label: '✨ 召唤士 (免疫次元乱流与环境灼伤)', value: 'summoner' }
+]
+
+const supplyOptions = [
+  { label: '🧭 探宝罗盘 (探险速度加倍)', value: 'compass' },
+  { label: '⛺ 时空帐篷 (全队损耗降低 50%)', value: 'rations' },
+  { label: '🧪 圣灵药水套组 (容错率极高，防止减员)', value: 'elixir' }
+]
+
+let expeditionInterval: ReturnType<typeof setInterval> | null = null
+
+const startExpedition = () => {
+  expeditionState.value = 'exploring'
+  expeditionProgress.value = 0
+  const dest = riftDestinations.find(d => d.id === selectedRiftDestId.value)!
+  expeditionLog.value.unshift(`🚀 小队从主基地出发，向【${dest.name}】进发！`)
+  riftAuditLog.value = `[时空派遣启动] 探险小队已进入裂隙网络: ${dest.id} (rift_expedition_dispatcher.gd)`
+  if (expeditionInterval) clearInterval(expeditionInterval)
+  expeditionInterval = setInterval(() => {
+    if (expeditionProgress.value < 100) {
+      expeditionProgress.value = Math.min(100, expeditionProgress.value + 20)
+      if (expeditionProgress.value === 40) {
+        expeditionLog.value.unshift(`⚠️ 小队在【${dest.name}】遭遇时空乱流，队长特技成功化解！`)
+      } else if (expeditionProgress.value === 80) {
+        expeditionLog.value.unshift(`💎 侦测到远古密室宝箱反应，正在全力破解力场障壁...`)
+      } else if (expeditionProgress.value === 100) {
+        if (expeditionInterval) clearInterval(expeditionInterval)
+        expeditionState.value = 'completed'
+        expeditionLog.value.unshift(`👑 探险小队圆满凯旋！获得基础战利品: ${dest.baseReward}！`)
+        riftAuditLog.value = `[时空派遣圆满] 小队归来，发放结算战利品: ${dest.baseReward}`
+      }
+    }
+  }, 1000)
+}
+
+const fastForwardExpedition = () => {
+  if (expeditionInterval) clearInterval(expeditionInterval)
+  expeditionProgress.value = 100
+  expeditionState.value = 'completed'
+  const dest = riftDestinations.find(d => d.id === selectedRiftDestId.value)!
+  expeditionLog.value.unshift(`⚡ [即刻推演] 小队完成探索，成功带回: ${dest.baseReward}！`)
+  riftAuditLog.value = `[即刻完成] 时空派遣极速演算完成: ${dest.id}`
+}
+
+const cancelExpedition = () => {
+  if (expeditionInterval) clearInterval(expeditionInterval)
+  expeditionState.value = 'idle'
+  expeditionProgress.value = 0
+  expeditionLog.value.unshift(`🛑 探险队已被紧急召回，未带回探索战利品。`)
+  riftAuditLog.value = `[时空派遣召回] 小队已返航。`
+}
+
+// 远古神兵封印解禁器
+interface LegendaryWeaponItem {
+  id: string
+  tabletIndex: number
+  name: string
+  type: string
+  icon: string
+  effect: string
+  unlocked: boolean
+}
+
+const ancientTabletsFound = ref<number>(3) // 0~4
+const legendaryWeapons = ref<LegendaryWeaponItem[]>([
+  { id: 'excalibur', tabletIndex: 1, name: '王者之剑 (Excalibur)', type: '骑士圣剑', icon: '⚔️', effect: '圣属性攻击 + 常驻力量强化，对亡灵与魔族特攻', unlocked: true },
+  { id: 'sage_staff', tabletIndex: 1, name: '贤者之杖 (Sage\'s Staff)', type: '白魔法杖', icon: '🪄', effect: '使用可触发免费【全回复】，圣系魔法威力 1.5x', unlocked: true },
+  { id: 'masamune', tabletIndex: 1, name: '正宗 (Masamune)', type: '武士刀', icon: '🗡️', effect: '战斗开局必定首位行动（ATB常驻满溢），物理高爆率', unlocked: true },
+
+  { id: 'sasuke_katana', tabletIndex: 2, name: '佐助之刀 (Sasuke)', type: '忍者短刃', icon: '🗡️', effect: '高回避率加成，速度+10，双持连击触发率倍增', unlocked: true },
+  { id: 'holy_lance', tabletIndex: 2, name: '神圣之枪 (Holy Lance)', type: '龙骑士长枪', icon: '🔱', effect: '跳跃落地命中率 100%，附带圣光穿透与破甲', unlocked: true },
+  { id: 'rune_axe', tabletIndex: 2, name: '毁灭之斧 (Rune Axe)', type: '狂战符文巨斧', icon: '🪓', effect: '消耗少量 MP 换取 100% 暴击斩击，物理贯通护甲', unlocked: true },
+
+  { id: 'magus_rod', tabletIndex: 3, name: '魔道士之杖 (Magus Rod)', type: '黑魔法杖', icon: '🪄', effect: '火/冰/雷三系禁咒伤害全面增幅 50%', unlocked: true },
+  { id: 'assassin_dagger', tabletIndex: 3, name: '刺客匕首 (Assassin)', type: '盗贼匕首', icon: '🗡️', effect: '近战命中 25% 几率触发【即死断罪】一击必杀', unlocked: true },
+  { id: 'apollo_harp', tabletIndex: 3, name: '阿波罗之竖琴 (Apollo)', type: '吟游乐器', icon: '🪕', effect: '对龙系与不死魔物造成 8.0x 毁灭级以太音波共振', unlocked: true },
+
+  { id: 'dragon_whisker', tabletIndex: 4, name: '龙之髭 (Dragon Whisker)', type: '魔兽使硬鞭', icon: '➰', effect: '对龙族造成极巨伤害，攻击附带 100% 麻痹拘束', unlocked: false },
+  { id: 'murasame', tabletIndex: 4, name: '妖刀村雨 (Murasame)', type: '武士妖刀', icon: '🗡️', effect: '暴击率极高，使用可施放【白魔法全愈】，保命神器', unlocked: false },
+  { id: 'gaia_bell', tabletIndex: 4, name: '大地之铃 (Gaia Bell)', type: '风水师圣铃', icon: '🔔', effect: '大地属性攻击，引发【地震】与【泰坦天崩】震击', unlocked: false }
+])
+
+const totalSealQuota = computed(() => ancientTabletsFound.value * 3)
+const unlockedWeaponsCount = computed(() => legendaryWeapons.value.filter(w => w.unlocked).length)
+const remainingSealQuota = computed(() => Math.max(0, totalSealQuota.value - unlockedWeaponsCount.value))
+
+const sealBreakerLog = ref<string>('已就绪：点击神兵卡片可消耗石板额度解开远古封印。')
+const riftAuditLog = ref<string>('时空裂隙探险看板与远古神兵金字塔已同步至最新世界合流纪元。')
+
+const toggleWeaponUnlock = (weapon: LegendaryWeaponItem) => {
+  if (weapon.unlocked) {
+    weapon.unlocked = false
+    sealBreakerLog.value = `🔒 重新封印：【${weapon.name}】神力归位，返还 1 点解禁额度。`
+    riftAuditLog.value = `[神兵封印归位] 重新封存印记: ${weapon.id} (legendary_seal_breaker.gd)`
+  } else {
+    if (remainingSealQuota.value <= 0) {
+      sealBreakerLog.value = `⚠️ 解禁额度已用罄！请在金字塔中收集更多远古石板（当前额度 ${totalSealQuota.value} 件）。`
+      return
+    }
+    weapon.unlocked = true
+    sealBreakerLog.value = `✨ 远古神圣符文破裂！【${weapon.name}】成功解开封印！剩余额度: ${remainingSealQuota.value} 点。`
+    riftAuditLog.value = `[神兵封印解禁] 触发解除印记: ${weapon.id} (legendary_seal_breaker.gd)`
+  }
+}
+
+const unlockAllAffordable = () => {
+  let quota = remainingSealQuota.value
+  for (const w of legendaryWeapons.value) {
+    if (quota <= 0) break
+    if (!w.unlocked) {
+      w.unlocked = true
+      quota--
+    }
+  }
+  sealBreakerLog.value = `✨ 已一键配满当前石板赋予的全部神兵解禁名额！`
+}
+
+const resetRiftStudio = () => {
+  cancelExpedition()
+  selectedRiftDestId.value = 'desert_ruins'
+  expeditionLeader.value = 'thief'
+  expeditionSupply.value = 'compass'
+  ancientTabletsFound.value = 3
+  legendaryWeapons.value.forEach((w, idx) => {
+    w.unlocked = idx < 9
+  })
+  sealBreakerLog.value = '已就绪：点击神兵卡片可消耗石板额度解开远古封印。'
+  riftAuditLog.value = '已重置工坊状态至标准测试环境。'
+  expeditionLog.value = [
+    '时空裂隙派遣看板就绪：请指派队长职能与探索补给后启动派遣。',
+    '底层调度契约: rift_expedition_dispatcher.gd 状态就绪。'
   ]
 }
 </script>
