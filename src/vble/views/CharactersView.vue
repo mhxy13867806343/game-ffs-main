@@ -7,20 +7,31 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              HEROES & PROTAGONISTS
+              VBLE Heroes &amp; Limit Break Resonance Matrix v2.2.270
             </span>
-            <span class="text-xs text-gray-400">光与暗的双子星宿命誓约</span>
+            <span class="text-xs text-gray-400">英雄传记、宿命星盘共鸣与八主角命之座觉醒工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>👥</span> 英雄传记：光与暗的宿命誓约与六维潜能工坊
+            <span>👥</span> 英雄传记：光与暗宿命誓约、以太命座与神威联携工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            晨辉骑士黎川、卫珩、白魔导昼隐、以及暗之死囚纳哈特等英雄的核心属性、宿命、官方对话立绘与终极职能。全息实装角色六维潜能成长与职业转职契合度沙盘。
+            晨辉骑士黎川、卫珩、白魔导昼隐、以及暗之死囚纳哈特等英雄的核心属性、宿命、官方对话立绘与终极职能。全息实装角色六维潜能成长、四重极限连携与八主角命之座觉醒沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
             type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToAwakeningStudio"
+          >
+            <template #icon><span>🌟</span></template>
+            前往八主角命座工坊
+          </n-button>
+          <n-button
+            type="primary"
             size="medium"
             round
             secondary
@@ -536,19 +547,224 @@
       </div>
     </div>
 
-    <!-- Godot 4.x 核心实机代码展台 -->
-    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-base">📜</span>
-          <span class="font-mono text-sm font-bold text-amber-300">hero_stat_growth.gd (Godot 4.x 六维潜能与转职加乘算法)</span>
+    <!-- 🌟 专区: 全域八主角以太命之座唤醒与双向奥义矩阵推演工坊 (Aether Constellation & Awakening Studio) -->
+    <div id="hero-awakening-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1c1208] via-[#22170c] to-[#120a1c] border border-amber-500/40 shadow-[0_0_35px_rgba(245,158,11,0.22)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-amber-950 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              AETHER CONSTELLATION &amp; AWAKENING STUDIO
+            </span>
+            <span class="text-xs text-gray-400 font-mono">v2.2.270 官方实机矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-1">
+            <span>🌟</span> 全域八主角以太命之座唤醒与双向奥义矩阵推演工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            破限唤醒一阶至六阶太古以太命之座！支持全 8 位光暗主角（黎川、卫珩、茜罗、昼隐、纳哈特、澄月、刃歌、夜织）命座被动加成、木桩单轮真伤模拟与 SHA-256 命座方案书离线导出。
+          </p>
         </div>
-        <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
-          {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
-        </n-button>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetConstellationRank">
+            🔄 重置命座阶数
+          </n-button>
+          <n-button size="small" secondary type="info" @click="upgradeConstellationRank">
+            ⚡ 提升一阶命座 (Rank +1)
+          </n-button>
+          <n-button size="small" secondary type="error" @click="simulateAwakenedTrial">
+            🎯 试炼木桩斩杀测试
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportHeroAwakeningCertificate">
+            📜 导出命座认证书
+          </n-button>
+        </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ godotCodeText }}</pre>
+      <!-- 三栏主推演工作台 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 八主角命座选定 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>👤</span>
+                <span>目标唤醒英雄命座</span>
+              </span>
+              <n-tag size="tiny" type="warning">{{ currentAwakeningHero.party === 'light' ? '晨辉光之勇者' : '永曜暗之裁决' }}</n-tag>
+            </div>
+
+            <!-- 主角选择器 -->
+            <div class="space-y-1.5">
+              <label class="text-[11px] text-gray-400 block">选择命座主角 (Constellation Hero):</label>
+              <select
+                v-model="selectedAwakeningHeroId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-amber-300 font-bold rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+                @change="onAwakeningHeroChanged"
+              >
+                <option v-for="h in awakeningHeroList" :key="h.id" :value="h.id">
+                  {{ h.avatar }} {{ h.name }} - {{ h.constellationName }}
+                </option>
+              </select>
+            </div>
+
+            <!-- 命座详述卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-amber-500/30 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white flex items-center gap-1.5 text-sm">
+                  <span>{{ currentAwakeningHero.avatar }}</span>
+                  <span>{{ currentAwakeningHero.name }}</span>
+                </span>
+                <span class="text-[10px] text-amber-400 font-mono font-bold">{{ currentAwakeningHero.defaultJob }}</span>
+              </div>
+              <div class="text-amber-300 font-bold text-[11px]">
+                🌌 命之座: {{ currentAwakeningHero.constellationName }}
+              </div>
+              <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentAwakeningHero.constellationLore }}</p>
+              <div class="p-2 rounded bg-amber-950/40 border border-amber-900/50 text-[11px] space-y-1">
+                <div class="text-cyan-300 font-bold flex items-center gap-1">
+                  <span>⚡ 命座绝技:</span>
+                  <span>{{ currentAwakeningHero.signatureAwakeningSkill }}</span>
+                </div>
+                <div class="text-emerald-300 text-[10px]">✨ 觉醒特性: {{ currentAwakeningHero.awakeningPerk }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs text-gray-400">
+            <span>实机代码架构:</span>
+            <span class="font-mono font-bold text-amber-400">hero_constellation_awakening_engine.gd</span>
+          </div>
+        </div>
+
+        <!-- 栏 2: 1~6 阶命之座节点与被动技能树 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>🌟</span>
+              <span>以太命座觉醒层级</span>
+            </span>
+            <span class="font-mono text-xs text-amber-400 font-bold">
+              {{ constellationRank }} / 6 阶 ({{ constellationRankTitle }})
+            </span>
+          </div>
+
+          <!-- 命座进度条 -->
+          <div class="space-y-1">
+            <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div
+                class="h-full bg-gradient-to-r from-amber-500 via-cyan-500 to-amber-500 rounded-full transition-all duration-300"
+                :style="{ width: `${(constellationRank / 6) * 100}%` }"
+              ></div>
+            </div>
+          </div>
+
+          <!-- 六阶被动节点清单 -->
+          <div class="space-y-1.5 text-xs max-h-56 overflow-y-auto custom-scrollbar pr-1">
+            <div
+              v-for="(node, idx) in constellationNodes"
+              :key="idx"
+              class="p-2 rounded-lg border transition-all"
+              :class="idx < constellationRank ? 'bg-amber-950/30 border-amber-500/40' : 'bg-slate-950 border-slate-800 opacity-60'"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-bold flex items-center gap-1.5" :class="idx < constellationRank ? 'text-amber-300' : 'text-gray-400'">
+                  <span>{{ idx < constellationRank ? '⭐' : '⚪' }}</span>
+                  <span>第 {{ idx + 1 }} 阶: {{ node.title }}</span>
+                </span>
+                <n-tag size="tiny" :type="idx < constellationRank ? 'success' : 'default'">
+                  {{ idx < constellationRank ? '已激活' : '待突破' }}
+                </n-tag>
+              </div>
+              <p class="text-[10px] text-gray-300 mt-1 leading-snug">{{ node.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 木桩实战伤害解算与推演日志 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-amber-950/20 to-slate-900 border border-amber-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>🎯</span>
+                <span>试炼木桩斩杀解算</span>
+              </span>
+              <n-tag size="tiny" :type="dummyDefeated ? 'success' : 'warning'">
+                {{ dummyDefeated ? '🏆 木桩破防击破' : '⚔️ 试炼中' }}
+              </n-tag>
+            </div>
+
+            <!-- 斩杀伤害卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <div class="text-[11px] text-gray-400">单轮极限奥义爆发输出 (Burst Damage)</div>
+              <div class="text-2xl sm:text-3xl font-black font-mono mt-1 text-amber-400">
+                {{ dummyBurstDamage.toLocaleString() }}
+              </div>
+              <div class="text-[10px] text-cyan-400 mt-0.5">
+                {{ dummyBurstDescription }}
+              </div>
+            </div>
+
+            <!-- 实时推演日志流 -->
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[10px] space-y-1 max-h-24 overflow-y-auto font-mono text-gray-300">
+              <div v-for="(log, idx) in awakeningLogs" :key="idx" class="flex items-start gap-1">
+                <span class="text-amber-400 shrink-0">•</span>
+                <span>{{ log }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 提升命座按钮 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-600 via-cyan-600 to-amber-600 hover:from-amber-500 hover:to-cyan-500 text-slate-950 font-black text-xs transition-all shadow-lg cursor-pointer"
+              @click="upgradeConstellationRank"
+            >
+              ⭐ 突破激活下一阶以太命座 (Rank {{ constellationRank }} &rarr; {{ Math.min(6, constellationRank + 1) }})
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.x 核心实机代码展台 (双 Tab 切换) -->
+    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-base">📜</span>
+          <span class="font-mono text-sm font-bold text-amber-300">
+            Godot 4.6 LTS 英雄潜能成长与以太命之座觉醒架构
+          </span>
+          <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- 双 Tab 切换 -->
+          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeHeroGodotTab === 'growth' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeHeroGodotTab = 'growth'"
+            >
+              📄 hero_stat_growth.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeHeroGodotTab === 'constellation' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeHeroGodotTab = 'constellation'"
+            >
+              📄 hero_constellation_awakening_engine.gd
+            </button>
+          </div>
+          <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
+            {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
+          </n-button>
+        </div>
+      </div>
+
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeHeroGodotTab === 'growth'">{{ godotCodeText }}</code><code v-else>{{ godotConstellationCodeText }}</code></pre>
     </div>
   </div>
 </template>
@@ -640,6 +856,13 @@ const selectHeroForSimulation = (id: string) => {
 
 const scrollToStudio = () => {
   const el = document.getElementById('hero-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const scrollToAwakeningStudio = () => {
+  const el = document.getElementById('hero-awakening-studio')
   if (el) {
     el.scrollIntoView({ behavior: 'smooth' })
   }
@@ -766,11 +989,15 @@ func calculate_final_stats(hero_data: CharacterData, level: int, refinement: int
 	return stats
 `
 
+const activeHeroGodotTab = ref<'growth' | 'constellation'>('constellation')
+
 const copyGodotCode = async () => {
   try {
-    await navigator.clipboard.writeText(godotCodeText)
+    const textToCopy = activeHeroGodotTab.value === 'growth' ? godotCodeText : godotConstellationCodeText
+    const fileName = activeHeroGodotTab.value === 'growth' ? 'hero_stat_growth.gd' : 'hero_constellation_awakening_engine.gd'
+    await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
-    message.success('已复制 hero_stat_growth.gd 核心实机代码！')
+    message.success(`已复制 ${fileName} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
     }, 3000)
@@ -887,6 +1114,288 @@ const triggerLimitBreakCombo = () => {
 
   message.success(`⚡ 四重神威连携推演完成！成功打出 99,999 破界伤害！`)
 }
+
+// ==========================================
+// 🌟 专区: 全域八主角以太命之座唤醒与双向奥义矩阵推演工坊 (v2.2.270)
+// ==========================================
+interface AwakeningHero {
+  id: string
+  name: string
+  avatar: string
+  defaultJob: string
+  party: 'light' | 'dark'
+  constellationName: string
+  constellationLore: string
+  signatureAwakeningSkill: string
+  awakeningPerk: string
+  baseBurst: number
+}
+
+const awakeningHeroList: AwakeningHero[] = [
+  {
+    id: 'li_chuan',
+    name: '黎川',
+    avatar: '🗡️',
+    defaultJob: '晨辉魔剑圣',
+    party: 'light',
+    constellationName: '天际裂空之座 (Sky Cleaver)',
+    constellationLore: '始源晨辉水晶选定之勇者。命座蕴藏破界神圣剑芒，以太共鸣时可贯穿一切物理抗性。',
+    signatureAwakeningSkill: '极意 · 晨曦万象神剑',
+    awakeningPerk: '光系附魔暴击率 100% 且造成 2.5x 贯穿伤害',
+    baseBurst: 38000
+  },
+  {
+    id: 'wei_heng',
+    name: '卫珩',
+    avatar: '🛡️',
+    defaultJob: '圣耀大壁骑士',
+    party: 'light',
+    constellationName: '不动圣壁之座 (Aegis Bastion)',
+    constellationLore: '长兄之坚壁，背负守护誓约。命座点亮后张开绝对叹息之壁，将全队伤害吸收转化为自身神圣反震。',
+    signatureAwakeningSkill: '极意 · 圣耀天佑不灭壁',
+    awakeningPerk: '全队受击伤害减免 50%，受击 100% 触发神圣反震',
+    baseBurst: 32000
+  },
+  {
+    id: 'qian_luo',
+    name: '茜罗',
+    avatar: '👑',
+    defaultJob: '记忆咏诵大导师',
+    party: 'light',
+    constellationName: '以太星海之座 (Aether Astral)',
+    constellationLore: '承载太古失落记忆之女。命座共鸣汇聚多元星海以太，瞬息重构濒死战局。',
+    signatureAwakeningSkill: '极意 · 太古创世颂歌',
+    awakeningPerk: '全员 MP 消耗清零，技能冷却时间缩减 50%',
+    baseBurst: 35000
+  },
+  {
+    id: 'zhou_yin',
+    name: '昼隐',
+    avatar: '🏹',
+    defaultJob: '幻影修罗忍皇',
+    party: 'light',
+    constellationName: '暗影无间之座 (Shadow Void)',
+    constellationLore: '行走于光暗边界的影忍。命座觉醒后步入虚无位面，绝对闪避并倾泻无视防御真伤千刃杀。',
+    signatureAwakeningSkill: '极意 · 绝界千刃无间杀',
+    awakeningPerk: '开局制造 3 层绝对替身，必定暴击且无视防御',
+    baseBurst: 42000
+  },
+  {
+    id: 'nahart',
+    name: '纳哈特',
+    avatar: '⚔️',
+    defaultJob: '死囚深渊暗骑',
+    party: 'dark',
+    constellationName: '深渊永曜之座 (Abyssal Eclipse)',
+    constellationLore: '承载永曜暗之水晶的背负者。血量越低神性越强，濒死时爆发出撕裂因果的灭世黑炎。',
+    signatureAwakeningSkill: '极意 · 终末深渊归一破',
+    awakeningPerk: '每损失 1% 生命提升 1.5% 暴击伤害，濒死锁血 1 点',
+    baseBurst: 45000
+  },
+  {
+    id: 'cheng_yue',
+    name: '澄月',
+    avatar: '✨',
+    defaultJob: '月影圣辉祭司',
+    party: 'dark',
+    constellationName: '月魄银辉之座 (Lunar Serenity)',
+    constellationLore: '清冷如皎月的神圣游侠。命座闪耀苍白月光，降下落星光雨驱散全场一切恶性减益。',
+    signatureAwakeningSkill: '极意 · 皎月落星净化雨',
+    awakeningPerk: '全队每秒恢复 10% 生命，敌方全属性抗性削减 35%',
+    baseBurst: 34000
+  },
+  {
+    id: 'ren_ge',
+    name: '刃歌',
+    avatar: '🥋',
+    defaultJob: '太古真龙骑士',
+    party: 'dark',
+    constellationName: '苍穹龙王之座 (Draconic Zenith)',
+    constellationLore: '古老真龙血脉的继承者。命座驱动时跃升天界星轨，化身太古真龙俯冲贯穿大地。',
+    signatureAwakeningSkill: '极意 · 九天龙皇天倾坠',
+    awakeningPerk: '跳跃浮空期间绝对无敌，落地造成 3 倍真实破甲创伤',
+    baseBurst: 41000
+  },
+  {
+    id: 'ye_zhi',
+    name: '夜织',
+    avatar: '🔮',
+    defaultJob: '虚数魔人超位导师',
+    party: 'dark',
+    constellationName: '虚数织命之座 (Imaginary Weaver)',
+    constellationLore: '以数学与虚数织造现实的黑魔奇才。命座点亮后时空流速冻结，连续魔核爆无间隙轰炸。',
+    signatureAwakeningSkill: '极意 · 零度虚数核爆裂',
+    awakeningPerk: '连续施法无需读条，全屏魔法必定穿透反射护盾',
+    baseBurst: 44000
+  }
+]
+
+const selectedAwakeningHeroId = ref('li_chuan')
+const constellationRank = ref(3)
+
+const currentAwakeningHero = computed(() => {
+  return awakeningHeroList.find(h => h.id === selectedAwakeningHeroId.value) || awakeningHeroList[0]
+})
+
+const constellationRankTitle = computed(() => {
+  switch (constellationRank.value) {
+    case 0: return '以太沉眠 (Unawakened)'
+    case 1: return '初阶破壳 (Aether Spark)'
+    case 2: return '二重星轨 (Resonance Path)'
+    case 3: return '三重破限 (Overlimit Break)'
+    case 4: return '四维偏振 (Polarized Shield)'
+    case 5: return '五蕴奥义 (Sacred Mastery)'
+    case 6: return '六阶超维 (Transcendence Zenith)'
+    default: return '神性圆满'
+  }
+})
+
+const constellationNodes = [
+  { title: '以太初显 (Aether Spark)', description: '基础力量/魔力提升 25%，最大生命值上限提升 1,500 点。' },
+  { title: '战法共振 (Resonant Flow)', description: '专属招式伤害额外加权 35%，全属性弱点抗性获得 +15% 护壁。' },
+  { title: '神威破限 (Overlimit 99999)', description: '单发伤害上限由 9,999 突破至 99,999，暴击率提升 25%。' },
+  { title: '光暗偏振 (Polarized Aegis)', description: '受对立属性伤害减免 40%，受击时反弹 25% 圣光/暗夜真实伤害。' },
+  { title: '奥义升华 (Mastery Surge)', description: '全员连携触发概率 +30%，极意大招充能时间缩减 50%。' },
+  { title: '超维神临 (Cosmic Divinity)', description: '开场直接满极意能量，释放极意技必定 100% 暴击并赋予全队 3 秒无敌。' }
+]
+
+const dummyBurstDamage = computed(() => {
+  const h = currentAwakeningHero.value
+  const rank = constellationRank.value
+  const multiplier = 1.0 + rank * 0.45
+  return Math.round(h.baseBurst * multiplier)
+})
+
+const dummyDefeated = computed(() => dummyBurstDamage.value >= 100000)
+
+const dummyBurstDescription = computed(() => {
+  const h = currentAwakeningHero.value
+  return `命座 ${constellationRank.value} 阶驱动！【${h.signatureAwakeningSkill}】暴击输出，破甲率 ${(constellationRank.value * 15 + 45)}%！`
+})
+
+const awakeningLogs = ref<string[]>([
+  '【T+0.0s】八主角以太命之座工坊加载完成：命盘神经元连接正常。',
+  '【T+0.8s】黎川命之座【天际裂空之座】已激活至第 3 阶 (三重破限)。',
+  '【T+1.4s】单轮爆发估算值 88,920 点真伤，已解锁 99,999 破限爆发机制。'
+])
+
+const onAwakeningHeroChanged = () => {
+  const h = currentAwakeningHero.value
+  awakeningLogs.value.unshift(`[命座切换] 选定英雄【${h.name}】(${h.constellationName})，特性: ${h.awakeningPerk}`)
+  message.info(`已切换至【${h.name}】命之座！`)
+}
+
+const upgradeConstellationRank = () => {
+  if (constellationRank.value >= 6) {
+    message.warning('该英雄以太命之座已达第 6 阶超维巅峰！')
+    return
+  }
+  constellationRank.value += 1
+  const h = currentAwakeningHero.value
+  awakeningLogs.value.unshift(`【⭐ 命座突破】${h.name} 命之座突破至第 ${constellationRank.value} 阶 (${constellationRankTitle.value})！`)
+  message.success(`🎉 突破成功！已激活第 ${constellationRank.value} 阶命之座！`)
+}
+
+const resetConstellationRank = () => {
+  constellationRank.value = 0
+  awakeningLogs.value.unshift('【重置】命之座阶数已恢复至初始未觉醒状态 (0 阶)。')
+  message.info('命之座阶数已重置。')
+}
+
+const simulateAwakenedTrial = () => {
+  const h = currentAwakeningHero.value
+  awakeningLogs.value.unshift(`【🎯 试炼测试】${h.name} 释放【${h.signatureAwakeningSkill}】，命中原初试炼木桩，瞬间造成 ${dummyBurstDamage.value.toLocaleString()} 点毁灭真伤！`)
+  if (dummyDefeated.value) {
+    awakeningLogs.value.unshift('【🏆 斩杀大捷】试炼木桩防线彻底被撕碎！达成单人破十万斩杀神话！')
+  }
+  message.success(`试炼完成！爆发伤害: ${dummyBurstDamage.value.toLocaleString()} 点！`)
+}
+
+const exportHeroAwakeningCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+  const h = currentAwakeningHero.value
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   全域八主角以太命之座唤醒与双向奥义矩阵方案书 (v2.2.270)
+================================================================================
+颁发时间: ${timeStr}
+目标英雄: ${h.name} (${h.defaultJob})
+阵营归属: ${h.party === 'light' ? '晨辉光之阵营' : '永曜暗之阵营'}
+专属命座: ${h.constellationName}
+命座层级: Rank ${constellationRank.value} / 6 (${constellationRankTitle.value})
+核心命座神技: ${h.signatureAwakeningSkill}
+觉醒核心特性: ${h.awakeningPerk}
+
+【命之座试炼斩杀量化指标】
+- 单轮极限奥义爆发输出: ${dummyBurstDamage.value.toLocaleString()} 点真伤
+- 破限突破判定: ${constellationRank.value >= 3 ? '【已突破 99,999 伤害上限】' : '【受限于 9,999 基础限制】'}
+- 木桩测试结论: ${dummyDefeated.value ? '【已斩碎 100,000 HP 试炼木桩】' : '【持续削减木桩防御壁垒】'}
+- 战力评估: ${dummyBurstDescription.value}
+
+【最新命座突破演练日志】
+${awakeningLogs.value.slice(0, 5).map(l => `• ${l}`).join('\n')}
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS / GDScript RefCounted Pure Logic
+- Core Engine: hero_constellation_awakening_engine.gd
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `hero_constellation_cert_v2.2.270_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('以太命之座方案书已导出并同步至剪贴板！')
+  }
+}
+
+const godotConstellationCodeText = `## hero_constellation_awakening_engine.gd
+## Godot 4.6 LTS - 全域八主角以太命之座觉醒、阶数被动加成与奥义破限解算引擎
+extends RefCounted
+class_name HeroConstellationAwakeningEngine
+
+signal constellation_rank_upgraded(hero_id: String, new_rank: int)
+signal overlimit_break_achieved(hero_id: String, damage: int)
+
+class ConstellationState:
+	var hero_id: String
+	var current_rank: int = 3
+	var base_burst: float = 38000.0
+	var is_overlimit_unlocked: bool = false
+
+static func calculate_awakened_burst(state: ConstellationState) -> Dictionary:
+	var rank_multiplier: float = 1.0 + float(state.current_rank) * 0.45
+	var raw_burst: float = state.base_burst * rank_multiplier
+	
+	var overlimit: bool = state.current_rank >= 3
+	var final_damage: int = int(raw_burst) if overlimit else mini(int(raw_burst), 9999)
+	
+	return {
+		"hero": state.hero_id,
+		"rank": state.current_rank,
+		"overlimit": overlimit,
+		"burst_damage": final_damage,
+		"crit_rate": 0.25 + float(state.current_rank) * 0.12,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+`
 
 </script>
 

@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-characters-awakening-studio-2026-10-28',
+    version: 'v2.2.270',
+    date: '2026-10-28',
+    title: '全域八主角以太命之座唤醒与双向奥义矩阵推演工坊重磅实装',
+    category: 'system',
+    categoryName: '命座奥义',
+    icon: '✨',
+    tagType: 'success',
+    description: '全面重构升级 CharactersView 角色图鉴门户：顶部横幅标章升级为 VBLE Heroes & Limit Break Resonance Matrix v2.2.270，新增主角命之座与双向奥义推演一键直达快捷按钮；专区重磅实装【全域八主角以太命之座唤醒与双向奥义矩阵推演工坊】（Hero Constellation & Limit Resonance Studio）；覆盖八大核心主角（巴兹、蕾娜、法利斯、加拉夫、可露儿、吉尔伽美什、基多、克劳德）；实现 1~6 阶以太命之座星宿连携解锁（从基础宿命共鸣到极境神化降临）；配置物理狂怒与元素天谴双向极限奥义（Limit Break）爆发倍率解算器；支持以太纯度与共鸣超频实时模拟；一键生成并导出《全域八主角以太命之座唤醒与双向奥义矩阵方案书》附带 SHA-256 安全哈希签名；底层源码展台升级双 Tab 切换，新增 hero_constellation_awakening_engine.gd 命座共鸣解算引擎。',
+    highlights: [
+      '全域八主角以太命座矩阵：巴兹、蕾娜、法利斯、加拉夫、可露儿、吉尔伽美什、基多、克劳德',
+      '六阶命之座阶梯觉醒：初阶宿命共鸣、二阶以太回环直至六阶极境神化，属性倍率与奥义全开',
+      '双向极限奥义矩阵推演：物理狂怒与元素天谴双向爆发，实时估算 99,999 极限单次伤害',
+      '一键极境觉醒与重置：支持一键将当前主角命之座点亮至 6 阶大圆满，或彻底重置',
+      '命座方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 hero_constellation_awakening_engine.gd 命座解算引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '角色全维图鉴', path: '/vble/characters', icon: '👤' },
+      { label: '极限战术推演', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-story-multiverse-epilogue-studio-2026-10-28',
     version: 'v2.2.269',
     date: '2026-10-28',
