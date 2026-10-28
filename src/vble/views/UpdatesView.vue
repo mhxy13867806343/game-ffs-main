@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-omni-search-relation-studio-2026-10-28',
+    version: 'v2.2.214',
+    date: '2026-10-28',
+    title: '全域跨系统全字段模糊索引引擎与三维关联图谱沙盘重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🔍',
+    tagType: 'info',
+    description: '深度重构升级 SearchView 全域数据库检索系统：将索引范围扩充至魔物首领、秘境地宫、神兵装备、全职业矩阵、英雄传记、幻兽契约、载具、支线任务与调合药剂 10 大子系统超 300+ 核心条目；构建对齐 Godot 4.x omni_database_search.gd 的倒排索引与三维深度关联图谱沙盘，支持热门推荐一键填入与跨系统关联跳转。',
+    highlights: [
+      '十大子系统全域倒排索引：全字段模糊匹配怪物技能、装备面板、职业被动、调合公式与支线触发地',
+      '三维深度关联图谱沙盘：推演单核心词汇（如奥丁、欧米茄、巨人之药）跨越地宫、绝技、职业与机制的三维网状节点树',
+      '热门高频检索词推荐：一键即搜巴哈姆特、神龙、欧米茄、斩铁剑、巨人之药、粉色尾巴等顶级热词',
+      '分类多维统计标签过滤器：支持按全部、魔物、神兵、职业、英雄、地城、幻兽、调合药剂精准过滤',
+      'Godot 4.x 核心引擎代码对齐：内置 omni_database_search.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '全域数据库检索', path: '/vble/search', icon: '🔍' },
+      { label: '魔物与游荡首领', path: '/vble/monsters', icon: '👾' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-character-growth-studio-2026-10-28',
     version: 'v2.2.213',
     date: '2026-10-28',
