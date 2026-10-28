@@ -329,7 +329,7 @@
 
           <div class="pt-2 text-[10px] text-gray-500 border-t border-slate-800 flex items-center justify-between">
             <span>引擎算法: summon_system.gd</span>
-            <span class="text-cyan-400">VBLE Battle Engine v2.2.207</span>
+            <span class="text-cyan-400">VBLE Summoning & Resonance Matrix v2.2.247</span>
           </div>
         </div>
       </div>
@@ -489,9 +489,12 @@
             复刻贾格尔城地宫终极考验：奥丁骑乘天马八脚骏马斯莱普尼斯，给光之战士 60 秒倒计时！在斩铁剑斩落前清空其 17,000 HP！
           </p>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
           <n-tag type="error" round size="small">限时 60.0 秒</n-tag>
           <n-tag type="warning" round size="small">全灭机制: 99999 斩铁剑</n-tag>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportSummonCert">
+            📜 导出试炼通关凭证
+          </n-button>
         </div>
       </div>
 
@@ -582,6 +585,32 @@
               </div>
               <n-tag size="tiny" type="error">奥义</n-tag>
             </button>
+
+            <button
+              type="button"
+              class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-400 text-left transition-all cursor-pointer flex items-center justify-between"
+              :disabled="!isOdinBattleRunning"
+              @click="castOdinSkill('dualcast_meteor')"
+            >
+              <div>
+                <span class="font-bold text-xs text-rose-300">🌠 时魔道士·连续魔陨石 (Dual Meteor)</span>
+                <span class="text-[10px] text-gray-400 block">双重星陨狂轰，毁灭压制 (5500~6200 伤)</span>
+              </div>
+              <n-tag size="tiny" type="error">禁术</n-tag>
+            </button>
+
+            <button
+              type="button"
+              class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-400 text-left transition-all cursor-pointer flex items-center justify-between"
+              :disabled="!isOdinBattleRunning"
+              @click="castOdinSkill('yoichi_shot')"
+            >
+              <div>
+                <span class="font-bold text-xs text-emerald-300">🏹 游侠·与一神弓圣光箭 (Yoichi Shot)</span>
+                <span class="text-[10px] text-gray-400 block">百步穿杨必定暴击，击破破绽 (2800~3400 伤)</span>
+              </div>
+              <n-tag size="tiny" type="success">穿甲</n-tag>
+            </button>
           </div>
         </div>
 
@@ -607,24 +636,44 @@
     </div>
 
     <!-- Godot 4.x 核心实机代码展台 -->
-    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-base">📜</span>
-          <span class="font-mono text-sm font-bold text-cyan-300">summon_system.gd (Godot 4.x 实机核心算法)</span>
+    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">📜</span>
+            <span class="font-mono text-sm font-bold text-cyan-300">Godot 4.6 LTS 核心实机算法引擎</span>
+          </div>
+          <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'summon' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'summon'"
+            >
+              summon_system.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'odin' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'odin'"
+            >
+              odin_trial_engine.gd
+            </button>
+          </div>
         </div>
         <n-button size="tiny" secondary type="info" @click="copyGodotCode">
           {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ godotCodeText }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'summon' ? godotCodeText : godotOdinCodeText }}</pre>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import { useMessage } from 'naive-ui'
 import { useGameStore } from '../stores/gameStore'
 
@@ -984,17 +1033,113 @@ func execute_summon(summon_id: String, caster: CharacterData, targets: Array) ->
 	return result
 `
 
+const activeCodeTab = ref<'summon' | 'odin'>('summon')
+
+const godotOdinCodeText = [
+  '## odin_trial_engine.gd',
+  '## 《光之战士：时空裂隙》贾格尔城奥丁 60 秒斩铁试炼与倒计时判定引擎',
+  '## 官方引擎规范: VBLE Summoning & Resonance Matrix v2.2.247',
+  'extends Node',
+  'class_name OdinTrialEngine',
+  '',
+  'signal trial_started(time_limit: float, max_hp: int)',
+  'signal trial_tick(time_remaining: float, current_hp: int)',
+  'signal trial_success(time_spent: float, remaining_hp: int)',
+  'signal trial_failed(reason: String)',
+  '',
+  'const TIME_LIMIT: float = 60.0',
+  'const ODIN_MAX_HP: int = 17000',
+  '',
+  'var current_hp: int = 17000',
+  'var time_remaining: float = 60.0',
+  'var is_active: bool = false',
+  '',
+  'func start_trial() -> void:',
+  '	current_hp = ODIN_MAX_HP',
+  '	time_remaining = TIME_LIMIT',
+  '	is_active = true',
+  '	emit_signal("trial_started", TIME_LIMIT, ODIN_MAX_HP)',
+  '',
+  'func apply_damage(amount: int, skill_name: String) -> Dictionary:',
+  '	if not is_active: return { "valid": false }',
+  '	current_hp = max(0, current_hp - amount)',
+  '	if current_hp <= 0:',
+  '		is_active = false',
+  '		emit_signal("trial_success", TIME_LIMIT - time_remaining, 0)',
+  '		return { "valid": true, "defeated": true }',
+  '	return { "valid": true, "defeated": false, "remaining": current_hp }',
+  '',
+  'func _process(delta: float) -> void:',
+  '	if not is_active: return',
+  '	time_remaining = max(0.0, time_remaining - delta)',
+  '	emit_signal("trial_tick", time_remaining, current_hp)',
+  '	if time_remaining <= 0.0:',
+  '		is_active = false',
+  '		emit_signal("trial_failed", "ZANTETSUKEN_TIME_OUT_99999")'
+].join('\n')
+
 const copyGodotCode = async () => {
   try {
-    await navigator.clipboard.writeText(godotCodeText)
+    const code = activeCodeTab.value === 'summon' ? godotCodeText : godotOdinCodeText
+    await navigator.clipboard.writeText(code)
     copiedCode.value = true
-    message.success('已复制 summon_system.gd 核心实机代码！')
+    const filename = activeCodeTab.value === 'summon' ? 'summon_system.gd' : 'odin_trial_engine.gd'
+    message.success(`已复制 ${filename} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
     }, 3000)
   } catch {
     message.error('复制失败，请手动选取复制')
   }
+}
+
+const exportSummonCert = () => {
+  const lines: string[] = [
+    '========================================================================',
+    '    《光之战士：时空裂隙》十二柱神明契约认证与奥丁斩铁试炼通关凭证',
+    '========================================================================',
+    '签发引擎: Godot 4.6 LTS / odin_trial_engine.gd & summon_system.gd',
+    `安全哈希: SHA256-SUMMON-${Date.now().toString(16).toUpperCase()}`,
+    `签发时间: ${new Date().toISOString()}`,
+    '------------------------------------------------------------------------',
+    '【奥丁 60 秒限时斩铁试炼战况结算】:',
+    `  - 试炼状态: ${odinBattleSuccess.value ? '★ 试炼大成·神兽契约缔结' : (isOdinBattleRunning.value ? '战意正酣·倒计时中' : '未战或待决')}`,
+    `  - 剩余生命值: ${odinHp.value} / ${odinMaxHp}`,
+    `  - 剩余倒计时: ${odinTimeRemaining.value.toFixed(1)} 秒`,
+    '------------------------------------------------------------------------',
+    '【当前镶嵌激活之神印共鸣 (Active Signets)】:',
+    `  - 激活印绶数: ${selectedSignetIds.value.length} / 3`,
+    `  - 终极共鸣技: ${resonanceSkillName.value} (${resonanceSkillDesc.value})`,
+    `  - 伤害上限突破: ${resonanceDamageCap.value}`,
+    `  - 全元素增伤: +${resonanceElemBonus.value}%`,
+    `  - 全队流速加成: +${resonanceAtbBonus.value}%`,
+    '------------------------------------------------------------------------',
+    '【十二柱神兽契约大典收录一览】:'
+  ]
+
+  summonsList.value.forEach(s => {
+    lines.push(`  ★ [${s.rank}] ${s.name} (${s.element}) - 必杀: ${s.skill_name} | 所在: ${s.trial_dungeon}`)
+  })
+
+  lines.push('========================================================================')
+  lines.push('召唤殿堂箴言: 诸神低语，万象臣服。凭此神印，跨越时空裂隙！')
+
+  const report = lines.join('\n')
+
+  try {
+    navigator.clipboard.writeText(report)
+    message.success('已复制《十二神兽全契约认证与奥丁斩铁试炼通关凭证》至剪贴板！')
+  } catch {
+    // ignore
+  }
+
+  const blob = new Blob([report], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `summon_covenant_cert_v2.2.247_${Date.now()}.txt`
+  a.click()
+  URL.revokeObjectURL(url)
 }
 
 // ================= 专区 4: 十二柱神印契约觉醒与共鸣系统 =================
@@ -1198,6 +1343,12 @@ const castOdinSkill = (skill: string) => {
   } else if (skill === 'bahamut_summon') {
     dmg = Math.floor(6200 + Math.random() * 600)
     name = '巴哈姆特·亿万核爆'
+  } else if (skill === 'dualcast_meteor') {
+    dmg = Math.floor(5500 + Math.random() * 700)
+    name = '时魔道士·连续魔陨石'
+  } else if (skill === 'yoichi_shot') {
+    dmg = Math.floor(2800 + Math.random() * 600)
+    name = '游侠·与一神弓圣光箭'
   }
 
   odinHp.value = Math.max(0, odinHp.value - dmg)

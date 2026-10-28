@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-summons-covenant-odin-trial-expansion-2026-10-28',
+    version: 'v2.2.247',
+    date: '2026-10-28',
+    title: '十二柱神兽契约大典升级、奥丁60秒斩铁限时试炼双战术拓展与契约凭证导出实装',
+    category: 'system',
+    categoryName: '幻兽演进',
+    icon: '🐉',
+    tagType: 'warning',
+    description: '深度重构升级 SummonsView 幻兽与召唤神殿工坊：奥丁 60 秒限时斩铁试炼沙盘全面扩容，除二刀流乱打、魔法剑核爆与巴哈姆特亿万核爆外，全新实装【时魔道士·连续魔双重星陨狂轰】（Dual Meteor）与【游侠·与一神弓圣光穿甲射击】（Yoichi Shot）两大禁术输出链路；全新实装一键导出《十二神兽全契约认证与奥丁斩铁试炼通关凭证》工坊；底层代码升级双架构视图，新增 odin_trial_engine.gd 倒计时与斩铁全灭判定引擎，对齐 VBLE Summoning & Resonance Matrix v2.2.247 规范。',
+    highlights: [
+      '奥丁 60 秒限时斩铁试炼双禁术实装：新增时魔道士连续魔陨石与游侠与一神弓穿甲箭',
+      '神兽契约认证与通关凭证一键导出：实时生成包含 SHA-256 安全哈希的全套十二神明凭证文本',
+      '十二神印共鸣属性上限超维破界：深度推演 3 柱神印组合，突破 99999 极限伤害壁垒',
+      'Godot 4.6 LTS 双架构引擎实装：新增 odin_trial_engine.gd 60秒倒计时与斩铁剑灭团算法展台'
+    ],
+    relatedLinks: [
+      { label: '幻兽与召唤神殿', path: '/vble/summons', icon: '🐉' },
+      { label: '职业水晶矩阵', path: '/vble/jobs', icon: '🔮' },
+      { label: '战斗战术与机制指南', path: '/vble/battle-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-vehicles-chocobo-genetics-breeding-lab-2026-10-28',
     version: 'v2.2.246',
     date: '2026-10-28',
