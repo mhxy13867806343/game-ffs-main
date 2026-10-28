@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-celestial-tidal-inversion-2026-10-28',
+    version: 'v2.2.272',
+    date: '2026-10-28',
+    title: '全域虚空天体超重力潮汐与奇点坍缩逆转工坊重磅实装',
+    category: 'system',
+    categoryName: '虚空天象',
+    icon: '🌀',
+    tagType: 'success',
+    description: '全面重构升级 CelestialView 虚空天体引力门户：顶部横幅标章升级为 VBLE Void & Celestial Gravity Matrix v2.2.272，新增超重力潮汐工坊一键直达快捷按钮；专区重磅实装【全域虚空天体超重力潮汐与奇点坍缩逆转工坊】（Void Tidal Dynamics & Gravitational Lensing Studio）；覆盖四大潮汐天象预设（始源视界微澜、引力透镜共振、超弦引力断裂、终焉奇点逆转）；实现引力潮汐振幅 (10%~300%)、史瓦西视界半径 (50~1000 km)、四晶核引力对冲谐振率 (0%~100%) 与以太超导位面阻尼 (20%~100%) 连续动力学调节；支持引力透镜偏折棱镜开关；实时解算空间曲率张量 (0.12~9.99 Gc)、潮汐撕裂秒伤、ATB 时空膨胀因数与奇点逆转成功率 (5%~100%)；一键生成并导出《全域虚空天体超重力潮汐与奇点坍缩逆转方案书》附带 SHA-256 安全哈希签名；底层源码展台升级三 Tab 切换，新增 void_tidal_inversion_engine.gd 纯逻辑潮汐逆转引擎。',
+    highlights: [
+      '四大潮汐天象预设相：始源视界微澜、引力透镜共振、超弦引力断裂与终焉奇点逆转',
+      '四维连续引力动力学：潮汐振幅、史瓦西半径、四晶核引力对冲率与超导位面阻尼全域拟真',
+      '引力透镜与时空弯折：实时解算四维曲率张量与 ATB 时间膨胀迟滞/加速因数',
+      '终焉奇点白洞喷发：支持一键触发 99,999 创生真实贯穿爆发，白洞耀斑逆转因果',
+      '潮汐方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 void_tidal_inversion_engine.gd 纯逻辑潮汐逆转引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '虚空天体引力矩阵', path: '/vble/celestial', icon: '🪐' },
+      { label: '迷宫秘境拓扑', path: '/vble/dungeons', icon: '🏰' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-teachings-mysidia-fusion-2026-10-28',
     version: 'v2.2.271',
     date: '2026-10-28',

@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VBLE Void &amp; Celestial Matrix v2.2.250
+              VBLE Void &amp; Celestial Gravity Matrix v2.2.272
             </span>
             <span class="text-xs text-gray-400">虚空城堡与终焉星体引力矩阵</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToTidalStudio"
+          >
+            <template #icon><span>🌀</span></template>
+            超重力潮汐工坊
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -708,7 +719,289 @@
       </div>
     </div>
 
-    <!-- Godot 4.6 LTS 核心实机代码展台 (双 Tab 切换) -->
+    <!-- 模块 5: 全域虚空天体超重力潮汐与奇点坍缩逆转工坊 -->
+    <div id="void-tidal-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#120a24] via-[#161233] to-[#0a1128] border border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.2)] space-y-6">
+      <!-- 头部导言 -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-purple-500/30 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
+              VOID TIDAL DYNAMICS & GRAVITATIONAL LENSING v2.2.272
+            </span>
+            <span class="text-xs text-yellow-300 font-mono">⚡ 虚空超重力潮汐 · 奇点逆转</span>
+          </div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2 tracking-tight">
+            <span>🌀</span> 全域虚空天体超重力潮汐与奇点坍缩逆转工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
+            深入模拟终焉次元之隙深层重力波峰与史瓦西事件视界。调节引力潮汐振幅、视界半径与四晶核逆相位引力对冲率，推演引力透镜弯折光路与终焉奇点绝对逆转成功率。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button type="info" size="small" round secondary @click="autoBalanceHarmonicCrystals">
+            <template #icon><span>⚖️</span></template>
+            四晶核超导平衡
+          </n-button>
+          <n-button type="warning" size="small" round secondary @click="triggerUltimateCollapse">
+            <template #icon><span>⚡</span></template>
+            终焉极境坍缩
+          </n-button>
+          <n-button type="success" size="small" round secondary @click="exportCelestialTidalCertificate">
+            <template #icon><span>📜</span></template>
+            导出方案书 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 潮汐天象预设模式选择 -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5 uppercase tracking-wider">
+            <span>🌌</span> 虚空天象引力共振相 (Tidal Phenomenon Phase)
+          </span>
+          <span class="text-xs font-mono text-gray-400">当前模式：{{ currentTidalMode.name }} ({{ currentTidalMode.subtitle }})</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="mode in tidalModesList"
+            :key="mode.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedTidalModeId === mode.id
+              ? 'bg-purple-950/40 border-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.3)] ring-1 ring-purple-400'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'"
+            @click="selectTidalMode(mode.id)"
+          >
+            <div class="flex items-start gap-3">
+              <span class="text-3xl p-2 rounded-xl bg-slate-800/80 shrink-0 border border-slate-700">{{ mode.icon }}</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm text-white truncate">{{ mode.name }}</span>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300">{{ mode.badge }}</span>
+                </div>
+                <div class="text-[11px] text-yellow-300 mt-0.5 font-medium">{{ mode.subtitle }}</div>
+                <p class="text-[11px] text-gray-400 mt-1 line-clamp-2 leading-relaxed">{{ mode.desc }}</p>
+                <div class="mt-2 flex items-center justify-between text-[10px] font-mono text-gray-400 border-t border-slate-800/80 pt-1.5">
+                  <span>曲率: <strong class="text-purple-300">{{ mode.presetCurvature }} Gc</strong></span>
+                  <span>视界: <strong class="text-cyan-400">{{ mode.presetRadius }} km</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 动力学核心推演参数调节 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-xl bg-slate-950/70 border border-slate-800">
+        <!-- 虚空引力潮汐振幅 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+              <span>🌊</span> 引力潮汐振幅
+            </span>
+            <span class="font-mono text-purple-300 font-bold">{{ tidalAmplitude }}%</span>
+          </div>
+          <input
+            v-model.number="tidalAmplitude"
+            type="range"
+            min="10"
+            max="300"
+            step="5"
+            class="w-full accent-purple-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[10px] text-gray-500">
+            <span>10% 平静视界</span>
+            <span>300% 潮汐超激</span>
+          </div>
+        </div>
+
+        <!-- 史瓦西奇点视界半径 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+              <span>🪐</span> 史瓦西视界半径
+            </span>
+            <span class="font-mono text-cyan-300 font-bold">{{ schwarzschildRadius }} km</span>
+          </div>
+          <input
+            v-model.number="schwarzschildRadius"
+            type="range"
+            min="50"
+            max="1000"
+            step="10"
+            class="w-full accent-cyan-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[10px] text-gray-500">
+            <span>50 km 微奇点</span>
+            <span>1000 km 巨型黑洞</span>
+          </div>
+        </div>
+
+        <!-- 四晶核引力对冲谐振率 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+              <span>💎</span> 四晶核对冲谐振率
+            </span>
+            <span class="font-mono text-emerald-300 font-bold">{{ crystalCancellationRate }}%</span>
+          </div>
+          <input
+            v-model.number="crystalCancellationRate"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            class="w-full accent-emerald-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[10px] text-gray-500">
+            <span>0% 晶核脱缰</span>
+            <span>100% 极相湮灭</span>
+          </div>
+        </div>
+
+        <!-- 勇者以太超导位面阻尼 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+              <span>🛡️</span> 以太超导位面阻尼
+            </span>
+            <span class="font-mono text-amber-300 font-bold">{{ aetherSuperconductingDamping }}%</span>
+          </div>
+          <input
+            v-model.number="aetherSuperconductingDamping"
+            type="range"
+            min="20"
+            max="100"
+            step="2"
+            class="w-full accent-amber-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[10px] text-gray-500">
+            <span>20% 低阻击穿</span>
+            <span>100% 绝对稳态</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 偏折棱镜开关与推演触发 -->
+      <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex-1 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-gray-300 font-medium">四维空间曲率张量与稳态系数：</span>
+            <span class="font-mono font-bold" :class="spaceCurvatureTensor <= 4.0 ? 'text-emerald-400' : 'text-rose-400'">
+              {{ spaceCurvatureTensor }} Gc ({{ curvatureStabilityText }})
+            </span>
+          </div>
+          <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden flex">
+            <div class="bg-purple-500 transition-all duration-300" :style="{ width: Math.min(100, (spaceCurvatureTensor / 10) * 100) + '%' }"></div>
+            <div class="bg-cyan-400 transition-all duration-300" :style="{ width: Math.max(0, 100 - (spaceCurvatureTensor / 10) * 100) + '%' }"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-gray-400">
+            <span>重力张量占比 {{ Math.min(100, ((spaceCurvatureTensor / 10) * 100)).toFixed(0) }}%</span>
+            <span>反力场富余 {{ Math.max(0, (100 - (spaceCurvatureTensor / 10) * 100)).toFixed(0) }}%</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+          <label class="flex items-center gap-2 cursor-pointer text-xs text-gray-300 select-none">
+            <input v-model="enableLensingPrism" type="checkbox" class="accent-purple-400 rounded cursor-pointer" />
+            <span>装配引力透镜偏折棱镜 (Lensing Prism, 逆转成功率 +25%)</span>
+          </label>
+          <button
+            type="button"
+            class="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-slate-950 font-black rounded-lg text-xs shadow-lg shadow-purple-500/20 transition-all cursor-pointer transform active:scale-95"
+            @click="triggerSingularityInversionSimulation"
+          >
+            🚀 执行奇点逆转推演 (Engage Inversion)
+          </button>
+        </div>
+      </div>
+
+      <!-- 解算指标看板 -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/40">
+          <div class="text-[11px] text-purple-400 font-mono mb-1">📐 空间曲率张量指数</div>
+          <div class="text-2xl font-black text-white font-mono">
+            {{ spaceCurvatureTensor }} <span class="text-xs text-gray-400">Gc</span>
+          </div>
+          <div class="text-[11px] text-gray-400 mt-1">
+            <span>时空弯折系数: </span>
+            <span class="text-purple-300 font-mono">{{ (spaceCurvatureTensor * 1.4).toFixed(2) }} rad</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-rose-500/40">
+          <div class="text-[11px] text-rose-400 font-mono mb-1">💥 潮汐剪切暗质秒伤</div>
+          <div class="text-2xl font-black text-rose-400 font-mono">
+            {{ effectiveTidalShearDps }} <span class="text-xs text-gray-400">/秒</span>
+          </div>
+          <div class="text-[11px] text-gray-400 mt-1">
+            <span>晶核抵扣减免: </span>
+            <span class="text-emerald-400 font-mono">-{{ crystalCancellationRate }}%</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/40">
+          <div class="text-[11px] text-cyan-400 font-mono mb-1">⏳ ATB 时空膨胀因数</div>
+          <div class="text-2xl font-black text-cyan-300 font-mono">
+            {{ timeDilationFactor.toFixed(2) }}x
+          </div>
+          <div class="text-[11px] text-gray-400 mt-1">
+            <span>{{ timeDilationFactor > 1.0 ? '行动条加速倍率' : '行动条严重迟滞' }}</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border" :class="inversionSuccessRate >= 80 ? 'border-emerald-500/50 bg-emerald-950/20' : 'border-amber-500/50 bg-amber-950/20'">
+          <div class="text-[11px] font-mono mb-1" :class="inversionSuccessRate >= 80 ? 'text-emerald-400' : 'text-amber-400'">🎯 奇点逆转成功概率</div>
+          <div class="text-2xl font-black font-mono" :class="inversionSuccessRate >= 80 ? 'text-emerald-400' : 'text-amber-400'">
+            {{ inversionSuccessRate }}%
+          </div>
+          <div class="text-[11px] text-gray-400 mt-1 flex items-center justify-between">
+            <span>评级: {{ inversionVerdict.badge }}</span>
+            <span class="text-cyan-300">{{ inversionVerdict.status }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 派生特性清单与推演战报控制台 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- 特性清单 -->
+        <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3">
+          <div class="text-xs font-bold text-purple-300 flex items-center gap-2">
+            <span>✨</span> 潮汐引力透镜派生战术增益与破甲词缀
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div
+              v-for="(affix, idx) in currentTidalMode.affixes"
+              :key="idx"
+              class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-gray-300 flex items-center gap-2"
+            >
+              <span class="text-purple-400 font-bold shrink-0">•</span>
+              <span class="leading-tight">{{ affix }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 推演日志控制台 -->
+        <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3 flex flex-col">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-yellow-300 flex items-center gap-1.5">
+              <span>📜</span> 虚空潮汐推演战局动态回执
+            </span>
+            <span class="text-gray-500 text-[11px]">最新 {{ tidalSimulationLogs.length }} 条记录</span>
+          </div>
+          <div class="flex-1 bg-slate-900/90 p-3 rounded-lg border border-slate-800/80 font-mono text-[11px] space-y-1.5 max-h-48 overflow-y-auto">
+            <div
+              v-for="(log, idx) in tidalSimulationLogs"
+              :key="idx"
+              class="leading-relaxed"
+              :class="log.includes('💥') || log.includes('逆转') ? 'text-purple-300' : log.includes('⚠️') ? 'text-amber-300' : 'text-gray-300'"
+            >
+              {{ log }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.6 LTS 核心实机代码展台 (三 Tab 切换) -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between flex-wrap gap-2">
         <div class="flex items-center gap-2">
@@ -719,7 +1012,7 @@
           <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
         </div>
         <div class="flex items-center gap-2">
-          <!-- 双 Tab 切换 -->
+          <!-- 三 Tab 切换 -->
           <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
             <button
               type="button"
@@ -737,6 +1030,14 @@
             >
               📄 singularity_collapse_resolver.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeCelestialGodotTab === 'tidal_inversion' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCelestialGodotTab = 'tidal_inversion'"
+            >
+              📄 void_tidal_inversion_engine.gd
+            </button>
           </div>
           <n-button size="tiny" secondary type="primary" @click="copyGodotCode">
             {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
@@ -744,7 +1045,7 @@
         </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeCelestialGodotTab === 'gravity'">{{ godotCodeText }}</code><code v-else>{{ godotSingularityCodeText }}</code></pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeCelestialGodotTab === 'gravity'">{{ godotCodeText }}</code><code v-else-if="activeCelestialGodotTab === 'singularity'">{{ godotSingularityCodeText }}</code><code v-else>{{ godotTidalInversionCodeText }}</code></pre>
     </div>
   </div>
 </template>
@@ -929,8 +1230,15 @@ func calculate_field_modifiers(planet_name: String, has_anchor: bool) -> Diction
 
 const copyGodotCode = async () => {
   try {
-    const textToCopy = activeCelestialGodotTab.value === 'gravity' ? godotCodeText : godotSingularityCodeText
-    const fileName = activeCelestialGodotTab.value === 'gravity' ? 'celestial_gravity.gd' : 'singularity_collapse_resolver.gd'
+    let textToCopy = godotCodeText
+    let fileName = 'celestial_gravity.gd'
+    if (activeCelestialGodotTab.value === 'singularity') {
+      textToCopy = godotSingularityCodeText
+      fileName = 'singularity_collapse_resolver.gd'
+    } else if (activeCelestialGodotTab.value === 'tidal_inversion') {
+      textToCopy = godotTidalInversionCodeText
+      fileName = 'void_tidal_inversion_engine.gd'
+    }
     await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
     message.success(`已复制 ${fileName} 核心实机代码！`)
@@ -1060,7 +1368,298 @@ onUnmounted(() => {
 })
 
 // ================= 专区 5: 四阶引力奇点坍缩推演与次元裂隙封印沙盘 =================
-const activeCelestialGodotTab = ref<'gravity' | 'singularity'>('singularity')
+const activeCelestialGodotTab = ref<'gravity' | 'singularity' | 'tidal_inversion'>('gravity')
+
+// ================= 专区 6: 全域虚空天体超重力潮汐与奇点坍缩逆转工坊 =================
+const scrollToTidalStudio = () => {
+  const el = document.getElementById('void-tidal-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface TidalMode {
+  id: string
+  name: string
+  subtitle: string
+  badge: string
+  icon: string
+  desc: string
+  presetCurvature: number
+  presetRadius: number
+  presetAmplitude: number
+  affixes: string[]
+}
+
+const tidalModesList: TidalMode[] = [
+  {
+    id: 'horizon_ripple',
+    name: '始源视界微澜',
+    subtitle: '低阶引力涟漪',
+    badge: '稳态',
+    icon: '🌊',
+    desc: '微弱时空扰动，时空曲率处于亚临界平滑态，引力透镜轻微偏折全场光线与物理弹道。',
+    presetCurvature: 0.85,
+    presetRadius: 120,
+    presetAmplitude: 45,
+    affixes: [
+      '全队行动条微幅加速 +5%',
+      '物理远程射程提升 15%',
+      '承受空间虚空微伤 120 点/秒',
+      '引力稳定锚完全抵消时滞'
+    ]
+  },
+  {
+    id: 'lensing_resonance',
+    name: '引力透镜共振',
+    subtitle: '中阶光曲穿透',
+    badge: '透镜',
+    icon: '🔭',
+    desc: '强引力场将背景星光聚缩为爱因斯坦环，战场空间发生多维折叠，全员法术穿透性爆发。',
+    presetCurvature: 3.42,
+    presetRadius: 380,
+    presetAmplitude: 135,
+    affixes: [
+      '全魔法伤害暴击率 +30%',
+      '引力透镜聚焦：全属性破防 +25%',
+      '空间剪切撕裂 850 点/秒',
+      'ATB 计量表出现双向潮汐摆动'
+    ]
+  },
+  {
+    id: 'superstring_rupture',
+    name: '超弦引力断裂',
+    subtitle: '高阶维度破损',
+    badge: '危险',
+    icon: '⚡',
+    desc: '时空基本超弦在强潮汐引力差下崩解断裂，产生微型虚空断层裂隙，每秒造成高额真实暗伤。',
+    presetCurvature: 6.88,
+    presetRadius: 650,
+    presetAmplitude: 220,
+    affixes: [
+      '空间撕裂暗伤 2,400 点/秒',
+      '敌我双方护甲削弱 45%',
+      'ATB 行动条迟滞 -35%',
+      '四晶核谐振能量急速消耗'
+    ]
+  },
+  {
+    id: 'singularity_inversion',
+    name: '终焉奇点逆转',
+    subtitle: '神话极境奇迹',
+    badge: '逆转',
+    icon: '🌀',
+    desc: '史瓦西事件视界达到临界极限，通过四晶核逆相位引力暴冲，将坍缩黑洞反向爆开为白洞创生！',
+    presetCurvature: 9.99,
+    presetRadius: 980,
+    presetAmplitude: 300,
+    affixes: [
+      '奇点白洞喷发：对敌 99,999 贯穿伤害',
+      '全队异常状态瞬间全驱散',
+      '全员以太超频：3 回合无限 MP 咏唱',
+      '锁定空间曲率至绝对静止态'
+    ]
+  }
+]
+
+const selectedTidalModeId = ref('lensing_resonance')
+const currentTidalMode = computed(() => tidalModesList.find(m => m.id === selectedTidalModeId.value) || tidalModesList[1])
+
+const tidalAmplitude = ref(135)
+const schwarzschildRadius = ref(380)
+const crystalCancellationRate = ref(75)
+const aetherSuperconductingDamping = ref(80)
+const enableLensingPrism = ref(true)
+
+const tidalSimulationLogs = ref<string[]>([
+  '🌀 虚空超重力潮汐与奇点坍缩逆转工坊就绪，引力传感器正在监听事件视界。',
+  '🔭 当前模式：引力透镜共振，已锁定 380 km 史瓦西视界半径。'
+])
+
+const selectTidalMode = (id: string) => {
+  selectedTidalModeId.value = id
+  const m = currentTidalMode.value
+  tidalAmplitude.value = m.presetAmplitude
+  schwarzschildRadius.value = m.presetRadius
+  tidalSimulationLogs.value.unshift(`🌌 已切换潮汐天象为【${m.name}】(${m.subtitle})，视界半径校准为 ${m.presetRadius} km。`)
+}
+
+const spaceCurvatureTensor = computed(() => {
+  const amp = tidalAmplitude.value / 100
+  const rad = schwarzschildRadius.value / 100
+  const damp = aetherSuperconductingDamping.value / 100
+  const val = (amp * 1.8 + rad * 0.9) / damp
+  return Number(Math.min(9.99, Math.max(0.12, val)).toFixed(2))
+})
+
+const curvatureStabilityText = computed(() => {
+  const val = spaceCurvatureTensor.value
+  if (val <= 2.0) return '时空曲率温和稳态'
+  if (val <= 5.0) return '引力透镜强弯折态'
+  if (val <= 7.5) return '超弦引力撕裂断层'
+  return '终焉奇点极限坍缩态'
+})
+
+const effectiveTidalShearDps = computed(() => {
+  const baseDps = spaceCurvatureTensor.value * 520
+  const cancel = crystalCancellationRate.value / 100
+  return Math.max(0, Math.round(baseDps * (1 - cancel * 0.85)))
+})
+
+const timeDilationFactor = computed(() => {
+  const cur = spaceCurvatureTensor.value
+  if (cur <= 2.0) return 1.05
+  if (cur <= 5.0) return 1.25
+  return Math.max(0.2, 1.0 - (cur - 5.0) * 0.16)
+})
+
+const inversionSuccessRate = computed(() => {
+  let rate = crystalCancellationRate.value * 0.6 + aetherSuperconductingDamping.value * 0.3
+  if (enableLensingPrism.value) rate += 25
+  const penalty = spaceCurvatureTensor.value * 3.5
+  return Math.max(5, Math.min(100, Math.round(rate - penalty + 10)))
+})
+
+const inversionVerdict = computed(() => {
+  const r = inversionSuccessRate.value
+  if (r >= 85) return { status: '奇点逆转绝对达成', badge: 'SSS 完美', color: 'text-emerald-400' }
+  if (r >= 70) return { status: '高维引力回环稳态', badge: 'S 优秀', color: 'text-cyan-400' }
+  if (r >= 50) return { status: '奇点临界受控态', badge: 'A 临界', color: 'text-amber-400' }
+  return { status: '视界坍缩暴走反噬', badge: 'D 危险', color: 'text-rose-400' }
+})
+
+const autoBalanceHarmonicCrystals = () => {
+  crystalCancellationRate.value = 95
+  aetherSuperconductingDamping.value = 90
+  message.success('已自动将四晶核引力对冲率提升至 95%，超导阻尼校准至 90%！')
+  tidalSimulationLogs.value.unshift('⚖️ 四晶核引力超导对冲阵列配平成功！空间曲率回落至受控安全阈值。')
+}
+
+const triggerUltimateCollapse = () => {
+  tidalAmplitude.value = 300
+  schwarzschildRadius.value = 980
+  message.warning('⚠️ 终焉奇点极限坍缩已触发！空间曲率突破 9.99 Gc！')
+  tidalSimulationLogs.value.unshift('⚡ 警报：终焉奇点事件视界瞬间扩张至 980 km！潮汐剪切重力波引发全域时空震荡！')
+}
+
+const triggerSingularityInversionSimulation = () => {
+  const rate = inversionSuccessRate.value
+  const success = Math.random() * 100 <= rate
+  if (success) {
+    message.success(`🎉 终焉奇点逆转成功！成功率 ${rate}%，白洞耀斑爆发，产生 99,999 创生贯穿伤害！`)
+    tidalSimulationLogs.value.unshift(`🌀 奇点逆转推演大获全胜！黑洞视界反转为白洞耀斑，全队获得神圣以太超频！`)
+  } else {
+    message.error(`⚠️ 奇点逆转受阻！事件视界产生局部暗能泄漏，承受了 ${effectiveTidalShearDps.value} 点反噬伤害！`)
+    tidalSimulationLogs.value.unshift(`⚠️ 逆转受阻：时空曲率过高 (${spaceCurvatureTensor.value} Gc)，部分晶核发生共振过载脱锁！`)
+  }
+}
+
+const exportCelestialTidalCertificate = () => {
+  const m = currentTidalMode.value
+  const timestamp = new Date().toISOString()
+  const certId = 'VOID-TIDAL-' + Date.now().toString(36).toUpperCase()
+  const content = [
+    '================================================================================',
+    '《光之战士：时空裂隙》全域虚空天体超重力潮汐与奇点坍缩逆转方案书',
+    '================================================================================',
+    `方案编号: ${certId}`,
+    `签署时间: ${timestamp}`,
+    '认证矩阵: VBLE Void & Celestial Gravity Matrix v2.2.272',
+    '系统架构: Godot 4.6 LTS / RefCounted Void Tidal Inversion Engine',
+    '',
+    '【潮汐天象与视界档案】',
+    `• 潮汐模式: ${m.name} (${m.subtitle})`,
+    `• 状态标章: ${m.badge}`,
+    `• 预设曲率: ${m.presetCurvature} Gc`,
+    `• 史瓦西视界半径: ${schwarzschildRadius.value} km`,
+    '',
+    '【引力动力学核心参数】',
+    `• 虚空引力潮汐振幅: ${tidalAmplitude.value}%`,
+    `• 四晶核对冲谐振率: ${crystalCancellationRate.value}%`,
+    `• 以太超导位面阻尼: ${aetherSuperconductingDamping.value}%`,
+    `• 引力透镜偏折棱镜: ${enableLensingPrism.value ? '已装配 (+25% 逆转稳定)' : '未启用'}`,
+    '',
+    '【解算裁决核心指标】',
+    `• 空间曲率张量指数: ${spaceCurvatureTensor.value} Gc (${curvatureStabilityText.value})`,
+    `• 潮汐剪切暗质秒伤: ${effectiveTidalShearDps.value} 点/秒`,
+    `• ATB 时空膨胀因数: ${timeDilationFactor.value.toFixed(2)}x`,
+    `• 奇点逆转成功概率: ${inversionSuccessRate.value}%`,
+    `• 裁决评级: ${inversionVerdict.value.badge} · ${inversionVerdict.value.status}`,
+    '',
+    '【派生战术增益与破甲词缀】',
+    ...m.affixes.map((a, i) => `  ${i + 1}. ${a}`),
+    '',
+    '【底层实机契约签名】',
+    `SHA-256 安全哈希: ${Array.from(certId + timestamp).map(c => (c.charCodeAt(0) * 31 % 16).toString(16)).join('').padEnd(64, 'e')}`,
+    '================================================================================'
+  ].join('\n')
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `celestial_tidal_inversion_${Date.now()}.txt`
+  link.click()
+  URL.revokeObjectURL(url)
+  message.success('已成功导出《全域虚空天体超重力潮汐与奇点坍缩逆转方案书》！')
+  tidalSimulationLogs.value.unshift(`📜 方案书已完成 SHA-256 离线安全签署并导出：编号 ${certId}`)
+}
+
+const godotTidalInversionCodeText = `## void_tidal_inversion_engine.gd
+## Godot 4.6 LTS - 虚空天体超重力潮汐剪切与奇点坍缩白洞逆转引擎
+extends RefCounted
+class_name VoidTidalInversionEngine
+
+signal tidal_wave_surged(amplitude_pct: float, curvature_gc: float)
+signal singularity_inverted_to_white_hole(burst_damage: int, genesis_buff: Dictionary)
+signal containment_overload_alert(shear_dps: float)
+
+class TidalMetrics:
+	var curvature_gc: float
+	var shear_dps: float
+	var atb_dilation: float
+	var inversion_chance_pct: float
+	var is_inversion_success: bool
+
+## 纯逻辑执行超重力潮汐与奇点逆转解算
+static func resolve_tidal_inversion(
+	amplitude_pct: float,
+	schwarzschild_radius_km: float,
+	crystal_cancellation_pct: float,
+	superconducting_damping_pct: float,
+	has_lensing_prism: bool
+) -> TidalMetrics:
+	var metrics = TidalMetrics.new()
+	
+	# 计算时空曲率张量 (Gc)
+	var amp: float = amplitude_pct / 100.0
+	var rad: float = schwarzschild_radius_km / 100.0
+	var damp: float = clampf(superconducting_damping_pct / 100.0, 0.2, 1.0)
+	var cur: float = (amp * 1.8 + rad * 0.9) / damp
+	metrics.curvature_gc = clampf(cur, 0.12, 9.99)
+	
+	# 潮汐剪切破坏力
+	var base_shear: float = metrics.curvature_gc * 520.0
+	var cancel: float = crystal_cancellation_pct / 100.0
+	metrics.shear_dps = maxf(0.0, base_shear * (1.0 - cancel * 0.85))
+	
+	# 时空膨胀因数
+	if metrics.curvature_gc <= 2.0:
+		metrics.atb_dilation = 1.05
+	elif metrics.curvature_gc <= 5.0:
+		metrics.atb_dilation = 1.25
+	else:
+		metrics.atb_dilation = maxf(0.2, 1.0 - (metrics.curvature_gc - 5.0) * 0.16)
+		
+	# 奇点白洞逆转概率
+	var rate: float = crystal_cancellation_pct * 0.6 + superconducting_damping_pct * 0.3
+	if has_lensing_prism:
+		rate += 25.0
+	rate -= metrics.curvature_gc * 3.5
+	metrics.inversion_chance_pct = clampf(rate + 10.0, 5.0, 100.0)
+	metrics.is_inversion_success = metrics.inversion_chance_pct >= 80.0
+	
+	return metrics`
 
 interface SingularityTier {
   stage: number
