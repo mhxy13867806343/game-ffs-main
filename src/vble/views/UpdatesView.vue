@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicles-hyperdrive-warp-studio-2026-10-28',
+    version: 'v2.2.257',
+    date: '2026-10-28',
+    title: '全地形海陆空多维跃迁与超光速折跃星舰巡航推演工坊重磅实装',
+    category: 'system',
+    categoryName: '载具演进',
+    icon: '🛸',
+    tagType: 'warning',
+    description: '深度重构升级 VehiclesView 多维载具矩阵与大世界探索门户：全新上线奢华极光横幅标章与折跃工坊直达锚点；核心专区重磅实装【全地形海陆空多维跃迁与超光速折跃星舰巡航推演工坊】（Starship Warp Studio），覆盖红月近地轨道环形空间站、始源行星卡门线对流层、虚空裂隙中继引力透镜与幻影深渊海底暗物质裂谷四大超空间目的地；支持曲率能级 (Warp 1.0~9.9)、防护罩谐振偏振角 (0°~360°)、反物质燃料配比 (10%~100%) 与四大领航专家选派（希德、米德、法丽丝、巴兹）；实时解算主观跃迁耗时、时空稳定性、透镜畸变度与次元风暴率并驱动 5 阶段折跃动画；全新实装一键导出《大世界超光速星舰折跃与跨次元航行认证方案书》工坊与 SHA-256 安全哈希签名；底层实机代码升级为 Godot 4.6 LTS 三架构引擎展台，新增 starship_warp_navigator.gd 超光速曲率导航源码展台，对齐 VBLE Exploration Vehicles Matrix v2.2.257 规范。',
+    highlights: [
+      '四大超空间折跃坐标矩阵：覆盖红月空间站、卡门线对流层、虚空奇点透镜与深海暗物质海渊',
+      '四维曲率动力与力场校准：支持 Warp 1.0~9.9 曲率调节、0°~360° 偏振防蚀力场与反物质配比',
+      '四大星舰领航专家选派：希德（稳定+25%）、米德（畸变-40%）、法丽丝（风暴规避+50%）、巴兹（全能平衡）',
+      '动态折跃序列动画与遥测控制台：高精解算时空稳定性、透镜畸变度、风暴概率与反物质夸克损耗',
+      '折跃方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机折跃认证方案文档',
+      'Godot 4.6 LTS 三架构引擎展台：集成 vehicle_navigation_system.gd、chocobo_breeding_system.gd 与 starship_warp_navigator.gd'
+    ],
+    relatedLinks: [
+      { label: '多维载具探索矩阵', path: '/vble/vehicles', icon: '🛸' },
+      { label: '全域大地图风土志', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-dungeon-topology-labyrinth-studio-2026-10-28',
     version: 'v2.2.256',
     date: '2026-10-28',

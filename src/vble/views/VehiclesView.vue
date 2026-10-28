@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              MATRIX EXPLORATION VEHICLES
+              VBLE Exploration Vehicles Matrix v2.2.257
             </span>
             <span class="text-xs text-gray-400">大世界航行与次元动力</span>
           </div>
@@ -29,6 +29,17 @@
           >
             <template #icon><span>🚀</span></template>
             前往动力巡航沙盘
+          </n-button>
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToWarpStudio"
+          >
+            <template #icon><span>🌌</span></template>
+            前往星舰折跃工坊
           </n-button>
           <router-link to="/vble/scenes">
             <n-button size="medium" round tertiary>
@@ -715,6 +726,250 @@
       </div>
     </div>
 
+    <!-- 专区 5: 全地形海陆空多维跃迁与超光速折跃星舰巡航推演工坊 (v2.2.257) -->
+    <div id="starship-warp-studio" class="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/70 via-slate-900/90 to-purple-950/70 border border-indigo-500/30 shadow-[0_0_35px_rgba(99,102,241,0.15)] space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-indigo-500/20 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🌌</span>
+            <h3 class="text-lg sm:text-xl font-black text-white text-glow-amber">全地形星际超光速折跃星舰巡航推演工坊 (Starship Warp Studio)</h3>
+          </div>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            基于太古魔导曲率力学与虚空暗物质湮灭矩阵，模拟星舰在行星卡门线、深海暗物质裂谷、红月近地轨道与虚空奇点间的超维超光速滑移折跃。可实时调谐曲率能级、偏振防蚀力场、反物质配比并配置领航专家。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-tag type="info" round size="small">超光速曲率泡</n-tag>
+          <n-tag type="warning" round size="small">四维透镜校准</n-tag>
+          <n-tag type="success" round size="small">v2.2.257 规范</n-tag>
+        </div>
+      </div>
+
+      <!-- 四大超空间折跃目的地选择 -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+            <span>🪐</span>
+            <span>选择跃迁目的地坐标 (Warp Destination Matrix)</span>
+          </span>
+          <span class="text-xs text-gray-400 font-mono">已选: {{ currentWarpDest.name }}</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="dest in warpDestinations"
+            :key="dest.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer bg-slate-900/80 hover:scale-[1.01]"
+            :class="selectedWarpDestId === dest.id ? 'border-indigo-400 bg-indigo-950/40 shadow-[0_0_15px_rgba(99,102,241,0.3)] ring-1 ring-indigo-400/50' : 'border-slate-800 hover:border-slate-700'"
+            @click="selectedWarpDestId = dest.id"
+          >
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="font-bold text-sm text-gray-100">{{ dest.name }}</span>
+              <n-tag size="tiny" :type="dest.dangerTier === 'Tier V' ? 'error' : (dest.dangerTier === 'Tier IV' ? 'warning' : 'info')">{{ dest.dangerTier }}</n-tag>
+            </div>
+            <div class="text-[11px] text-cyan-300 font-mono mb-1">
+              <span>距离: {{ dest.distanceLabel }}</span> · <span>{{ dest.gravity }}</span>
+            </div>
+            <div class="text-[10px] text-gray-400 leading-snug line-clamp-2">
+              {{ dest.description }}
+            </div>
+            <div class="mt-2 text-[10px] font-mono text-indigo-300 flex items-center gap-1">
+              <span>🛡️ 推荐偏振角:</span>
+              <span class="font-bold">{{ dest.recommendedPolarization }}°</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与领航专家配置 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 动力与曲率参数调节 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-indigo-300 block flex items-center gap-1.5">
+            <span>⚙️</span>
+            <span>折跃动力与力场校准 (Warp Propulsion & Field)</span>
+          </span>
+
+          <div class="space-y-4 text-xs">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">折跃曲率能级 (Warp Factor):</span>
+                <span class="font-mono font-bold text-amber-300">Warp {{ warpFactor.toFixed(1) }}</span>
+              </div>
+              <input
+                v-model.number="warpFactor"
+                type="range"
+                min="1.0"
+                max="9.9"
+                step="0.1"
+                class="w-full accent-amber-400 cursor-pointer"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5 font-mono">
+                <span>Warp 1.0 (次光速临界)</span>
+                <span>Warp 9.9 (超弦极限)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">防护罩谐振偏振角 (Shield Angle):</span>
+                <span class="font-mono font-bold text-cyan-300">{{ shieldPolarization }}°</span>
+              </div>
+              <input
+                v-model.number="shieldPolarization"
+                type="range"
+                min="0"
+                max="360"
+                step="5"
+                class="w-full accent-cyan-400 cursor-pointer"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5 font-mono">
+                <span>0° (正向中和)</span>
+                <span>目标推荐: {{ currentWarpDest.recommendedPolarization }}°</span>
+                <span>360° (全相位闭环)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">反物质湮灭燃料配比 (Antimatter Ratio):</span>
+                <span class="font-mono font-bold text-rose-300">{{ antimatterRatio }}%</span>
+              </div>
+              <input
+                v-model.number="antimatterRatio"
+                type="range"
+                min="10"
+                max="100"
+                step="5"
+                class="w-full accent-rose-400 cursor-pointer"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5 font-mono">
+                <span>10% (低能待机)</span>
+                <span>75% (标准跃迁)</span>
+                <span>100% (满载过载)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 领航专家配置 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-cyan-300 block flex items-center gap-1.5">
+            <span>🧑‍✈️</span>
+            <span>星舰领航专家选派 (Navigator Specialist)</span>
+          </span>
+
+          <div class="space-y-2.5">
+            <div
+              v-for="nav in warpNavigators"
+              :key="nav.id"
+              class="p-2.5 rounded-lg border transition-all cursor-pointer flex items-start gap-2.5"
+              :class="selectedNavigatorId === nav.id ? 'border-cyan-400 bg-cyan-950/30 ring-1 ring-cyan-400/40' : 'border-slate-800 bg-slate-950 hover:border-slate-700'"
+              @click="selectedNavigatorId = nav.id"
+            >
+              <span class="text-2xl shrink-0 mt-0.5">{{ nav.avatar }}</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-gray-100">{{ nav.name }}</span>
+                  <span class="text-[10px] text-cyan-300 font-mono">{{ nav.title }}</span>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-0.5 leading-snug">{{ nav.desc }}</p>
+                <div class="flex items-center gap-2 mt-1.5 text-[9px] font-mono text-gray-400">
+                  <span class="text-emerald-400">稳定+{{ nav.stabilityBonus }}%</span>
+                  <span class="text-amber-400">畸变-{{ nav.distortionReduction }}%</span>
+                  <span class="text-indigo-400">风暴规避+{{ nav.stormAvoidance }}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 实时折跃解算与启动控制台 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-slate-950 to-indigo-950/40 border border-indigo-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>曲率折跃实时遥测</span>
+              </span>
+              <n-tag size="tiny" type="info">{{ currentWarpDest.dimension }}</n-tag>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">跃迁主观耗时:</span>
+                <span class="font-mono font-bold text-amber-300">{{ calculatedWarpDuration.toFixed(2) }} 秒 (主观时)</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">折跃时空稳定性:</span>
+                <span class="font-mono font-bold" :class="calculatedWarpStability >= 80 ? 'text-emerald-400' : (calculatedWarpStability >= 60 ? 'text-amber-400' : 'text-rose-400')">
+                  {{ calculatedWarpStability.toFixed(1) }}%
+                </span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">引力透镜畸变度:</span>
+                <span class="font-mono font-bold text-cyan-300">{{ calculatedGravDistortion.toFixed(1) }}%</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">次元风暴遭遇率:</span>
+                <span class="font-mono font-bold text-purple-300">{{ calculatedVoidStormChance.toFixed(1) }}%</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">反物质损耗预估:</span>
+                <span class="font-mono font-bold text-rose-300">{{ calculatedAntimatterQuarks }} 夸克</span>
+              </div>
+            </div>
+
+            <!-- 折跃进度条 -->
+            <div v-if="isWarping" class="space-y-1 pt-1">
+              <div class="flex justify-between text-[11px] text-cyan-300 font-mono">
+                <span>{{ warpCurrentPhase }}</span>
+                <span>{{ warpProgress }}%</span>
+              </div>
+              <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden border border-slate-800">
+                <div class="bg-gradient-to-r from-indigo-500 via-cyan-400 to-amber-400 h-2.5 transition-all duration-150" :style="{ width: `${warpProgress}%` }" />
+              </div>
+            </div>
+
+            <!-- 折跃日志控制台 -->
+            <div class="p-2.5 rounded bg-slate-950/90 border border-slate-800 text-[11px] font-mono space-y-1 text-gray-300 max-h-24 overflow-y-auto">
+              <div v-for="(log, idx) in warpLogs" :key="idx" class="text-gray-300 leading-snug">
+                {{ log }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 操作按钮组 -->
+          <div class="space-y-2 pt-2">
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-amber-500 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer disabled:opacity-50"
+              :disabled="isWarping"
+              @click="startWarpSequence"
+            >
+              {{ isWarping ? '💫 超光速曲率折跃跃迁中...' : '💫 启动超光速折跃序列 (Engage Hyperdrive)' }}
+            </button>
+
+            <div class="flex gap-2">
+              <button
+                type="button"
+                class="flex-1 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs text-gray-300 border border-slate-700 transition-colors cursor-pointer"
+                @click="copyWarpConfig"
+              >
+                📋 复制航线参数
+              </button>
+              <button
+                type="button"
+                class="flex-1 py-1.5 rounded-lg bg-indigo-900/40 hover:bg-indigo-800/60 text-xs text-indigo-300 border border-indigo-700/60 transition-colors cursor-pointer"
+                @click="exportWarpCertificate"
+              >
+                📄 导出折跃凭证
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
@@ -740,6 +995,14 @@
             >
               chocobo_breeding_system.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'warp' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'warp'"
+            >
+              starship_warp_navigator.gd
+            </button>
           </div>
         </div>
         <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
@@ -747,7 +1010,7 @@
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'nav' ? godotCodeText : godotChocoboCodeText }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'nav' ? godotCodeText : (activeCodeTab === 'breeding' ? godotChocoboCodeText : godotWarpNavigatorCodeText) }}</pre>
     </div>
   </div>
 </template>
@@ -1097,7 +1360,7 @@ const selectedNutId = ref('nut_zeio')
 const totalHatchedCount = ref(4)
 const hatchNotice = ref('')
 const hatchSuccessGold = ref(false)
-const activeCodeTab = ref<'nav' | 'breeding'>('nav')
+const activeCodeTab = ref<'nav' | 'breeding' | 'warp'>('nav')
 
 const chocoboStash = ref<Record<string, number>>({
   yellow: 3,
@@ -1358,10 +1621,20 @@ const godotChocoboCodeText = [
 
 const copyGodotCode = async () => {
   try {
-    const code = activeCodeTab.value === 'nav' ? godotCodeText : godotChocoboCodeText
+    let code = ''
+    let filename = ''
+    if (activeCodeTab.value === 'nav') {
+      code = godotCodeText
+      filename = 'vehicle_navigation_system.gd'
+    } else if (activeCodeTab.value === 'breeding') {
+      code = godotChocoboCodeText
+      filename = 'chocobo_breeding_system.gd'
+    } else {
+      code = godotWarpNavigatorCodeText
+      filename = 'starship_warp_navigator.gd'
+    }
     await navigator.clipboard.writeText(code)
     copiedCode.value = true
-    const filename = activeCodeTab.value === 'nav' ? 'vehicle_navigation_system.gd' : 'chocobo_breeding_system.gd'
     message.success(`已复制 ${filename} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
@@ -1491,10 +1764,379 @@ const startCruiseFlight = () => {
   }, 180)
 }
 
+const scrollToWarpStudio = () => {
+  const el = document.getElementById('starship-warp-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+// ================= 专区 5: 全地形海陆空多维跃迁与超光速折跃星舰巡航推演工坊 =================
+interface WarpDestination {
+  id: string
+  name: string
+  distanceKm: number
+  distanceLabel: string
+  dimension: string
+  gravity: string
+  dangerTier: string
+  description: string
+  recommendedPolarization: number
+}
+
+interface WarpNavigator {
+  id: string
+  name: string
+  title: string
+  avatar: string
+  stabilityBonus: number
+  distortionReduction: number
+  stormAvoidance: number
+  desc: string
+}
+
+const warpDestinations: WarpDestination[] = [
+  {
+    id: 'lunar_orbit',
+    name: '红月近地轨道环形空间站',
+    distanceKm: 384400,
+    distanceLabel: '384,400 km',
+    dimension: '外层真空 · 双月星际',
+    gravity: '0.16 g (微重力)',
+    dangerTier: 'Tier IV',
+    description: '月之巨鲸母港锚泊轨道，环绕红之月公转，太古魔导遗迹核心中继器。',
+    recommendedPolarization: 120
+  },
+  {
+    id: 'karman_troposphere',
+    name: '始源行星卡门线对流层',
+    distanceKm: 100,
+    distanceLabel: '100 km',
+    dimension: '行星大气圈 · 苍穹平流层',
+    gravity: '0.98 g (标准重力)',
+    dangerTier: 'Tier I',
+    description: '突破星球引力圈临界卡门线，俯瞰第一与第二世界合体后的广袤大平原。',
+    recommendedPolarization: 45
+  },
+  {
+    id: 'void_singularity',
+    name: '虚空裂隙中继引力透镜',
+    distanceKm: 1200000,
+    distanceLabel: '1,200,000 km',
+    dimension: '次元裂隙 · 虚无奇点',
+    gravity: '3.85 g (强引力畸变)',
+    dangerTier: 'Tier V',
+    description: '时空裂谷深处四维奇点引力透镜，连接埃克斯迪斯虚无核心领域。',
+    recommendedPolarization: 280
+  },
+  {
+    id: 'abyssal_trench',
+    name: '幻影深渊海底暗物质裂谷',
+    distanceKm: 11,
+    distanceLabel: '11,000 m (海渊深度)',
+    dimension: '深海极渊 · 暗物质流层',
+    gravity: '1.12 g (超高流体压强)',
+    dangerTier: 'Tier III',
+    description: '沉没沃尔斯塔遗迹最底端裂隙，高浓度暗物质洋流与远古水神祭坛。',
+    recommendedPolarization: 195
+  }
+]
+
+const warpNavigators: WarpNavigator[] = [
+  {
+    id: 'cid',
+    name: '希德 (Cid Previa)',
+    title: '太古动力学宗师',
+    avatar: '👴',
+    stabilityBonus: 25,
+    distortionReduction: 10,
+    stormAvoidance: 15,
+    desc: '飞空艇反重力核心发明者，使曲率引擎热载荷降低 30%，折跃稳定性提升 25%'
+  },
+  {
+    id: 'mid',
+    name: '米德 (Mid Previa)',
+    title: '以太航电工程师',
+    avatar: '🧑‍💻',
+    stabilityBonus: 15,
+    distortionReduction: 40,
+    stormAvoidance: 20,
+    desc: '太古传感器天才，引力透镜空间张量修正率大幅提升，畸变度降低 40%'
+  },
+  {
+    id: 'faris',
+    name: '法丽丝 (Faris Scherwiz)',
+    title: '星海与风暴舵手',
+    avatar: '🏴‍☠️',
+    stabilityBonus: 10,
+    distortionReduction: 15,
+    stormAvoidance: 50,
+    desc: '操舵海盗王女与海龙契约者，直觉预判次元风暴激波，规避率暴增 50%'
+  },
+  {
+    id: 'bartz',
+    name: '巴兹 (Bartz Klauser)',
+    title: '纯粹直觉探险家',
+    avatar: '🗡️',
+    stabilityBonus: 20,
+    distortionReduction: 20,
+    stormAvoidance: 25,
+    desc: '风之水晶钦定传承者，凭借自由之风的直觉洞察时空流向，全指标综合平衡'
+  }
+]
+
+const selectedWarpDestId = ref('lunar_orbit')
+const selectedNavigatorId = ref('cid')
+const warpFactor = ref(6.5)
+const shieldPolarization = ref(120)
+const antimatterRatio = ref(75)
+
+const isWarping = ref(false)
+const warpProgress = ref(0)
+const warpCurrentPhase = ref('')
+const warpLogs = ref<string[]>([
+  '=== 超光速星舰折跃系统已待命，请配置曲率与领航专家后启动跃迁 ==='
+])
+let warpTimer: ReturnType<typeof setInterval> | null = null
+
+const currentWarpDest = computed(() => {
+  return warpDestinations.find(d => d.id === selectedWarpDestId.value) || warpDestinations[0]
+})
+
+const currentNavigator = computed(() => {
+  return warpNavigators.find(n => n.id === selectedNavigatorId.value) || warpNavigators[0]
+})
+
+const calculatedWarpStability = computed(() => {
+  const base = 100 - (warpFactor.value * 4) + currentNavigator.value.stabilityBonus
+  const polarDiff = Math.abs(shieldPolarization.value - currentWarpDest.value.recommendedPolarization)
+  const penalty = polarDiff * 0.15
+  const fuelBonus = antimatterRatio.value >= 50 ? 5 : -10
+  const finalVal = base - penalty + fuelBonus
+  return Math.min(99.9, Math.max(20.0, finalVal))
+})
+
+const calculatedGravDistortion = computed(() => {
+  const base = (warpFactor.value * 3.5) - currentNavigator.value.distortionReduction
+  const distAdd = currentWarpDest.value.distanceKm > 100000 ? 15 : 5
+  return Math.min(85.0, Math.max(5.0, base + distAdd))
+})
+
+const calculatedVoidStormChance = computed(() => {
+  const base = (warpFactor.value * 2.8) - currentNavigator.value.stormAvoidance
+  const tierRisk = currentWarpDest.value.dangerTier === 'Tier V' ? 25 : (currentWarpDest.value.dangerTier === 'Tier IV' ? 15 : 5)
+  return Math.min(65.0, Math.max(1.0, base + tierRisk))
+})
+
+const calculatedWarpDuration = computed(() => {
+  const dist = currentWarpDest.value.distanceKm
+  const baseSec = (Math.log10(dist + 10) * 1.2) / Math.pow(warpFactor.value, 0.8)
+  return Math.min(4.5, Math.max(0.15, baseSec))
+})
+
+const calculatedAntimatterQuarks = computed(() => {
+  const mult = currentWarpDest.value.distanceKm > 100000 ? 2.5 : 1.0
+  return (warpFactor.value * 1.8 * (antimatterRatio.value / 100) * mult).toFixed(1)
+})
+
+const startWarpSequence = () => {
+  if (isWarping.value) return
+  isWarping.value = true
+  warpProgress.value = 0
+  warpCurrentPhase.value = '阶段 1: 磁约束点火'
+
+  const dest = currentWarpDest.value
+  const nav = currentNavigator.value
+
+  warpLogs.value = [
+    `[0.0s] 🌌 领航专家【${nav.name}】下达指令，反物质约束管道注入 ${antimatterRatio.value}% 高纯能流！`,
+    `[0.2s] 🛡️ 偏振防蚀力场校准至 ${shieldPolarization.value}° (目标偏振: ${dest.recommendedPolarization}°)`,
+    `[0.4s] ⚡ 曲率引擎切入 Warp ${warpFactor.value.toFixed(1)}，空间张量发生弯曲，引力畸变率 ${calculatedGravDistortion.value.toFixed(1)}%`
+  ]
+
+  if (warpTimer) clearInterval(warpTimer)
+
+  const phases = [
+    { at: 20, name: '阶段 2: 曲率张量泡生成', log: `[0.6s] 🌀 形成局部闵可夫斯基曲率泡，外部光锥闭锁，规避一切物理撞击！` },
+    { at: 50, name: '阶段 3: 穿越引力透镜视界', log: `[1.0s] ✨ 成功突破引力透镜视界，超光速滑移进行中，时空稳定性 ${calculatedWarpStability.value.toFixed(1)}%！` },
+    { at: 80, name: '阶段 4: 亚光速相位减速', log: `[1.4s] 🧲 偏振反冲减速喷口展开，吸收超光速相对论动量，次元风暴威胁率 ${calculatedVoidStormChance.value.toFixed(1)}%` },
+    { at: 100, name: '阶段 5: 坐标锚定达成', log: `[1.8s] 🚀 跃迁成功！星舰已进入【${dest.name}】(${dest.dimension}) 轨道！` }
+  ]
+
+  warpTimer = setInterval(() => {
+    warpProgress.value += 10
+    const matchedPhase = phases.find(p => p.at === warpProgress.value)
+    if (matchedPhase) {
+      warpCurrentPhase.value = matchedPhase.name
+      warpLogs.value.unshift(matchedPhase.log)
+    }
+
+    if (warpProgress.value >= 100) {
+      if (warpTimer) clearInterval(warpTimer)
+      warpTimer = null
+      isWarping.value = false
+      warpProgress.value = 100
+      message.success(`星舰已完成超光速折跃，成功抵达【${dest.name}】！`)
+    }
+  }, 160)
+}
+
+const copyWarpConfig = () => {
+  const dest = currentWarpDest.value
+  const nav = currentNavigator.value
+  const configText = `[星舰折跃遥测] 目标:${dest.name}(${dest.distanceLabel}) | 航速:Warp ${warpFactor.value.toFixed(1)} | 偏振:${shieldPolarization.value}° | 燃料:${antimatterRatio.value}% | 领航:${nav.name} | 稳定性:${calculatedWarpStability.value.toFixed(1)}% | 耗时:${calculatedWarpDuration.value.toFixed(2)}s`
+  navigator.clipboard.writeText(configText).then(() => {
+    message.success('星舰折跃航线参数已复制到剪贴板！')
+  }).catch(() => {
+    message.info('参数已复制')
+  })
+}
+
+const exportWarpCertificate = () => {
+  const dest = currentWarpDest.value
+  const nav = currentNavigator.value
+  const now = new Date()
+  const dateStr = now.toISOString().replace('T', ' ').substring(0, 19)
+
+  const content = `================================================================================
+《光之战士：时空裂隙》大世界超光速星舰折跃与跨次元航行认证方案书
+================================================================================
+推演方案: Starship Warp & Hyperdrive Certificate
+颁发机构: VBLE Exploration Vehicles Matrix / 皇家技师工坊
+推演版本: VBLE Exploration Vehicles Matrix v2.2.257
+引擎规范: Godot 4.6 LTS Starship Warp Navigator Architecture
+签发时间: ${dateStr} (CST)
+
+【超光速跃迁航程与环境参数】
+- 跃迁目的地: ${dest.name} (${dest.id})
+- 空间维度层: ${dest.dimension}
+- 航程物理测距: ${dest.distanceLabel}
+- 本地引力系数: ${dest.gravity}
+- 目标危险层级: ${dest.dangerTier}
+- 航点地质情报: ${dest.description}
+
+【动力机体与力场谐振工况】
+- 折跃曲率能级: Warp ${warpFactor.value.toFixed(1)} (超光速滑移系数: 3.333)
+- 防护罩偏振共鸣角: ${shieldPolarization.value}° (最佳匹配偏振: ${dest.recommendedPolarization}°)
+- 反物质湮灭燃料配比: ${antimatterRatio.value}% 纯化暗能
+- 选派星舰领航专家: ${nav.name} (${nav.title})
+- 领航专家职能天赋: 稳定性+${nav.stabilityBonus}%, 畸变-${nav.distortionReduction}%, 风暴规避+${nav.stormAvoidance}%
+
+【实时遥测与航行解算指标】
+- 主观跃迁耗时: ${calculatedWarpDuration.value.toFixed(2)} 秒
+- 时空连续体稳定性: ${calculatedWarpStability.value.toFixed(1)}% (基准评价: ${calculatedWarpStability.value >= 80 ? '极佳' : calculatedWarpStability.value >= 60 ? '优良' : '高危警报'})
+- 空间张量透镜畸变度: ${calculatedGravDistortion.value.toFixed(1)}%
+- 次元风暴遭遇概率: ${calculatedVoidStormChance.value.toFixed(1)}%
+- 反物质预估损耗: ${calculatedAntimatterQuarks.value} 夸克能级单位
+
+================================================================================
+数字防伪哈希: SHA256-WARP-${Math.random().toString(36).substring(2, 10).toUpperCase()}${Math.random().toString(36).substring(2, 10).toUpperCase()}
+================================================================================`
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `starship_warp_certificate_v2.2.257_${dest.id}.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success(`已导出超光速星舰折跃认证方案书: ${dest.name}`)
+}
+
+const godotWarpNavigatorCodeText = `# ==============================================================================
+# StarshipWarpNavigator - 超光速曲率星舰折跃与跨次元航行导航解算器
+# 文件路径: res://scripts/vehicles/starship_warp_navigator.gd
+# 架构规范: Godot 4.6 LTS / VBLE Cosmic Hyperdrive Matrix v2.2.257
+# 核心职责: 管理超光速曲率泡张量、引力透镜偏振角纠偏、反物质消耗与微秒级跃迁调度
+# ==============================================================================
+class_name StarshipWarpNavigator
+extends Node
+
+signal warp_sequence_initiated(dest_id: String, warp_factor: float)
+signal warp_phase_changed(phase_index: int, phase_description: String, progress: float)
+signal warp_transit_completed(arrival_telemetry: Dictionary)
+signal void_storm_encountered(intensity: float, shield_absorbed: bool)
+
+const LIGHT_SPEED_C: float = 299792.458 # km/s 光速基准常量
+const WARP_POWER_FACTOR: float = 3.333
+
+@export var current_warp_factor: float = 6.5
+@export var shield_polarization_deg: float = 120.0
+@export var antimatter_ratio_pct: float = 75.0
+@export var assigned_navigator: String = "cid"
+
+var is_warping: bool = false
+var elapsed_warp_time: float = 0.0
+
+const DESTINATIONS: Dictionary = {
+	"lunar_orbit": { "name": "红月近地轨道环形空间站", "dist_km": 384400.0, "gravity": 0.16, "polar_deg": 120.0, "tier": 4 },
+	"karman_troposphere": { "name": "始源行星卡门线对流层", "dist_km": 100.0, "gravity": 0.98, "polar_deg": 45.0, "tier": 1 },
+	"void_singularity": { "name": "虚空裂隙中继引力透镜", "dist_km": 1200000.0, "gravity": 3.85, "polar_deg": 280.0, "tier": 5 },
+	"abyssal_trench": { "name": "幻影深渊海底暗物质裂谷", "dist_km": 11.0, "gravity": 1.12, "polar_deg": 195.0, "tier": 3 }
+}
+
+func calculate_warp_stability(dest_id: String) -> float:
+	var dest = DESTINATIONS.get(dest_id, DESTINATIONS["lunar_orbit"])
+	var base_stability: float = 100.0 - (current_warp_factor * 4.0)
+	var polar_diff: float = abs(shield_polarization_deg - dest.polar_deg)
+	var polar_penalty: float = polar_diff * 0.15
+	var nav_bonus: float = 25.0 if assigned_navigator == "cid" else (15.0 if assigned_navigator == "mid" else 10.0)
+	var fuel_factor: float = 5.0 if antimatter_ratio_pct >= 50.0 else -10.0
+	return clampf(base_stability - polar_penalty + nav_bonus + fuel_factor, 20.0, 99.9)
+
+func calculate_gravitational_distortion(dest_id: String) -> float:
+	var dest = DESTINATIONS.get(dest_id, DESTINATIONS["lunar_orbit"])
+	var base_dist: float = current_warp_factor * 3.5
+	var nav_reduct: float = 40.0 if assigned_navigator == "mid" else 15.0
+	var dist_add: float = 15.0 if dest.dist_km > 100000.0 else 5.0
+	return clampf(base_dist - nav_reduct + dist_add, 5.0, 85.0)
+
+func calculate_void_storm_chance(dest_id: String) -> float:
+	var dest = DESTINATIONS.get(dest_id, DESTINATIONS["lunar_orbit"])
+	var base_chance: float = current_warp_factor * 2.8
+	var nav_avoid: float = 50.0 if assigned_navigator == "faris" else 20.0
+	var tier_risk: float = float(dest.tier) * 5.0
+	return clampf(base_chance - nav_avoid + tier_risk, 1.0, 65.0)
+
+func engage_hyperdrive_warp(dest_id: String) -> Dictionary:
+	if is_warping:
+		push_warning("[StarshipWarp] 折跃引擎已在运行中，请勿重复点火")
+		return { "success": false, "reason": "already_active" }
+	
+	is_warping = true
+	var dest = DESTINATIONS.get(dest_id, DESTINATIONS["lunar_orbit"])
+	emit_signal("warp_sequence_initiated", dest_id, current_warp_factor)
+	print("[StarshipWarp] 开启超光速曲率折跃 -> 目标: %s, 曲率: %.1f" % [dest.name, current_warp_factor])
+
+	var stability: float = calculate_warp_stability(dest_id)
+	var distortion: float = calculate_gravitational_distortion(dest_id)
+	var storm_chance: float = calculate_void_storm_chance(dest_id)
+	var duration: float = (log(dest.dist_km + 10.0) * 1.2) / pow(current_warp_factor, 0.8)
+
+	var telemetry: Dictionary = {
+		"dest_name": dest.name,
+		"warp_factor": current_warp_factor,
+		"stability": stability,
+		"distortion": distortion,
+		"storm_chance": storm_chance,
+		"subjective_duration_sec": duration,
+		"antimatter_used": current_warp_factor * 1.8 * (antimatter_ratio_pct / 100.0),
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+	
+	emit_signal("warp_transit_completed", telemetry)
+	is_warping = false
+	return telemetry
+`
+
 onUnmounted(() => {
   if (cruiseTimer) {
     clearInterval(cruiseTimer)
     cruiseTimer = null
+  }
+  if (warpTimer) {
+    clearInterval(warpTimer)
+    warpTimer = null
   }
 })
 </script>
