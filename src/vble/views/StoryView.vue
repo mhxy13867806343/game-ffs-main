@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              THIRTY CHAPTERS EPIC CHRONICLES & RADAR
+              VBLE Story &amp; Chronicle Matrix v2.2.253
             </span>
             <span class="text-xs text-gray-400">光暗双线叙事与时空因果推演</span>
           </div>
@@ -447,16 +447,27 @@
     <div v-if="activeMode === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">
-                GODOT 4.X STORY DISPATCHER
-              </span>
-              <h3 class="text-base font-bold text-white">story_timeline_manager.gd</h3>
-            </div>
-            <p class="text-xs text-gray-400 mt-1">
-              主线 30 章节状态机推进、44 节拍雷达实体弱引用标记注册与因果分支持久化控制器。
-            </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all"
+              :class="activeGdTab === 'timeline'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
+                : 'bg-slate-950 text-gray-400 border border-slate-800 hover:text-white'"
+              @click="activeGdTab = 'timeline'"
+            >
+              story_timeline_manager.gd
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all"
+              :class="activeGdTab === 'ending'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
+                : 'bg-slate-950 text-gray-400 border border-slate-800 hover:text-white'"
+              @click="activeGdTab = 'ending'"
+            >
+              ending_destiny_resolver.gd
+            </button>
           </div>
           <n-button size="small" round secondary type="info" @click="copyGdScript">
             <template #icon><span>📋</span></template>
@@ -464,7 +475,324 @@
           </n-button>
         </div>
 
-        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ gdScriptCode }}</pre>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]"><code v-if="activeGdTab === 'timeline'">{{ gdScriptCode }}</code><code v-else>{{ gdScriptEndingCode }}</code></pre>
+      </div>
+    </div>
+
+    <!-- 5. 七大终焉宿命归宿与真结局推演沙盘 -->
+    <div v-if="activeMode === 'ending_matrix'" class="space-y-6">
+      <!-- 快捷预设与全局操作栏 -->
+      <div class="p-4 sm:p-5 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-wrap items-center justify-between gap-3 shadow-lg">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">👑</span>
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              七大终焉宿命归宿与真结局推演矩阵
+              <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 font-mono font-semibold border border-amber-500/30">
+                FINAL CAUSALITY MATRIX
+              </span>
+            </h3>
+            <p class="text-xs text-gray-400 mt-0.5">
+              联动同伴存活、12神兵封印、虚空稳定度、欧米茄神龙讨伐与圣典智慧，解算最终世界收敛态与隐藏真结局。
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button size="small" round secondary type="warning" @click="applyEndingPreset('true_canon')">
+            真·四灵破晓 (100%)
+          </n-button>
+          <n-button size="small" round secondary type="info" @click="applyEndingPreset('cosmic_transcend')">
+            太古逆熵超越
+          </n-button>
+          <n-button size="small" round secondary type="error" @click="applyEndingPreset('void_sacrifice')">
+            暗黑虚空封印
+          </n-button>
+          <n-button size="small" round secondary type="success" @click="applyEndingPreset('sage_heritage')">
+            贤者隐世传承
+          </n-button>
+          <n-button size="small" round secondary @click="applyEndingPreset('wanderer_odyssey')">
+            飞空艇游历四海
+          </n-button>
+          <n-button size="small" round tertiary @click="applyEndingPreset('reset')">
+            重置默认参数
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 核心推演工作区：左侧因果控制台 + 右侧终焉收敛态展示 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧：多维因果调节控制台 (5列) -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="p-5 rounded-2xl bg-[#0f1422] border border-slate-800/80 space-y-5 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+                <span>🎛️</span> 时空因果核心参数调谐
+              </span>
+              <span class="text-xs font-mono text-gray-400">CAUSALITY REGULATOR</span>
+            </div>
+
+            <!-- 参数 1：同伴生还率 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+                  <span>🛡️</span> 核心光暗同伴全员生还率
+                </span>
+                <span class="font-mono font-bold text-amber-300">{{ heroSurvivalRate }}%</span>
+              </div>
+              <n-slider v-model:value="heroSurvivalRate" :step="5" :min="25" :max="100" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>25% (惨烈伤亡)</span>
+                <span>50% (半数牺牲)</span>
+                <span>75% (核心幸存)</span>
+                <span>100% (全员生还)</span>
+              </div>
+            </div>
+
+            <!-- 参数 2：12太古封印神兵解封数 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+                  <span>⚔️</span> 库扎封印城12神兵解封数
+                </span>
+                <span class="font-mono font-bold text-cyan-300">{{ unsealedWeaponsCount }} / 12 把</span>
+              </div>
+              <n-slider v-model:value="unsealedWeaponsCount" :step="1" :min="0" :max="12" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>0把 (纯肉身抗衡)</span>
+                <span>4把 (基础觉醒)</span>
+                <span>8把 (中枢贯通)</span>
+                <span>12把 (太古圆满)</span>
+              </div>
+            </div>
+
+            <!-- 参数 3：虚空奇点封印稳定度 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+                  <span>🌀</span> 最终决战虚空奇点稳定度
+                </span>
+                <span class="font-mono font-bold text-purple-300">{{ singularityStability }}%</span>
+              </div>
+              <n-slider v-model:value="singularityStability" :step="1" :min="10" :max="100" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>10% (坍缩瓦解)</span>
+                <span>50% (临界失控)</span>
+                <span>80% (稳定遏制)</span>
+                <span>100% (完美抚平)</span>
+              </div>
+            </div>
+
+            <!-- 参数 4：始源白皮书智慧解锁度 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+                  <span>📜</span> 始源学者白皮书矩阵解析度
+                </span>
+                <span class="font-mono font-bold text-emerald-300">{{ sacredKnowledgeRate }}%</span>
+              </div>
+              <n-slider v-model:value="sacredKnowledgeRate" :step="5" :min="0" :max="100" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>0% (无知盲目)</span>
+                <span>50% (通晓晶理)</span>
+                <span>100% (神圣全知)</span>
+              </div>
+            </div>
+
+            <!-- 参数 5：欧米茄 & 神龙终极讨伐 -->
+            <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-semibold text-gray-200 flex items-center gap-1.5">
+                  <span>🐉</span> 击破欧米茄 & 神龙终极双神
+                </div>
+                <div class="text-[10px] text-gray-400 mt-0.5">解除次元夹缝的超远古机械与龙神枷锁</div>
+              </div>
+              <n-switch v-model:value="omegaShinryuDefeated" />
+            </div>
+
+            <!-- 参数 6：英雄决战意愿抉择 -->
+            <div class="space-y-2">
+              <label class="text-xs text-gray-300 font-semibold flex items-center gap-1.5">
+                <span>🕊️</span> 最终决战灵魂誓约倾向：
+              </label>
+              <div class="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  class="p-2.5 rounded-xl text-xs border text-left transition-all"
+                  :class="selfSacrificeChoice === 'none'
+                    ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-bold shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+                    : 'bg-slate-900/80 border-slate-800 text-gray-400 hover:bg-slate-800'"
+                  @click="selfSacrificeChoice = 'none'"
+                >
+                  <div class="font-bold">☀️ 绝不牺牲</div>
+                  <div class="text-[10px] text-gray-500 mt-0.5">全员携手同归晨曦</div>
+                </button>
+                <button
+                  type="button"
+                  class="p-2.5 rounded-xl text-xs border text-left transition-all"
+                  :class="selfSacrificeChoice === 'bartz_lenna'
+                    ? 'bg-purple-500/20 border-purple-400 text-purple-300 font-bold shadow-[0_0_12px_rgba(168,85,247,0.2)]'
+                    : 'bg-slate-900/80 border-slate-800 text-gray-400 hover:bg-slate-800'"
+                  @click="selfSacrificeChoice = 'bartz_lenna'"
+                >
+                  <div class="font-bold">🌑 舍身镇封</div>
+                  <div class="text-[10px] text-gray-500 mt-0.5">化作次元封印晶桩</div>
+                </button>
+                <button
+                  type="button"
+                  class="p-2.5 rounded-xl text-xs border text-left transition-all"
+                  :class="selfSacrificeChoice === 'faris_krile'
+                    ? 'bg-sky-500/20 border-sky-400 text-sky-300 font-bold shadow-[0_0_12px_rgba(56,189,248,0.2)]'
+                    : 'bg-slate-900/80 border-slate-800 text-gray-400 hover:bg-slate-800'"
+                  @click="selfSacrificeChoice = 'faris_krile'"
+                >
+                  <div class="font-bold">⛵ 远航自由</div>
+                  <div class="text-[10px] text-gray-500 mt-0.5">卸下王室重担游历</div>
+                </button>
+                <button
+                  type="button"
+                  class="p-2.5 rounded-xl text-xs border text-left transition-all"
+                  :class="selfSacrificeChoice === 'galuf_spirit'
+                    ? 'bg-fuchsia-500/20 border-fuchsia-400 text-fuchsia-300 font-bold shadow-[0_0_12px_rgba(217,70,239,0.2)]'
+                    : 'bg-slate-900/80 border-slate-800 text-gray-400 hover:bg-slate-800'"
+                  @click="selfSacrificeChoice = 'galuf_spirit'"
+                >
+                  <div class="font-bold">🌌 加拉夫英灵共鸣</div>
+                  <div class="text-[10px] text-gray-500 mt-0.5">超脱宇宙因果矩阵</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- 操作按钮组 -->
+            <div class="flex items-center gap-2 pt-2">
+              <n-button type="info" size="medium" class="flex-1" round secondary @click="exportEndingCertificate">
+                <template #icon><span>📜</span></template>
+                导出宿命终章证书
+              </n-button>
+              <n-button type="default" size="medium" round secondary @click="copyCausalityChain">
+                <template #icon><span>🔗</span></template>
+                复制因果链
+              </n-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：宿命收敛态与达成结局详情 (7列) -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- 核心收敛态评分仪表板 -->
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950/40 border border-slate-800 shadow-xl space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="text-2xl">{{ activeEnding.icon }}</span>
+                <div>
+                  <div class="text-xs text-gray-400 font-mono">CURRENT DESTINY ALIGNMENT</div>
+                  <h4 class="text-lg font-black text-white tracking-wide">{{ activeEnding.title }}</h4>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-xs text-gray-400">宿命推演积分</div>
+                <div class="text-2xl font-black font-mono" :class="destinyRating >= 850 ? 'text-amber-400' : (destinyRating >= 600 ? 'text-cyan-400' : 'text-purple-400')">
+                  {{ destinyRating }} <span class="text-xs text-gray-500">/ 1000</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 当前激活结局主卡片 -->
+            <div class="p-5 rounded-xl border bg-gradient-to-br" :class="[activeEnding.cardBg, activeEnding.cardBorder]">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded border" :class="activeEnding.tagClass">
+                  {{ activeEnding.id }} · {{ activeEnding.badge }}
+                </span>
+                <span class="text-xs text-gray-300">
+                  达成因果契合率：<strong class="font-mono text-amber-300 text-sm">{{ calculateEndingMatch(activeEnding.id) }}%</strong>
+                </span>
+              </div>
+              <div class="text-sm font-semibold text-cyan-200 mt-1">{{ activeEnding.subtitle }}</div>
+              <p class="text-xs text-gray-300 mt-2 leading-relaxed bg-black/30 p-3 rounded-lg border border-white/5">
+                {{ activeEnding.synopsis }}
+              </p>
+
+              <!-- 终焉解锁特典与史诗嘉奖 -->
+              <div class="mt-4 space-y-2">
+                <div class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <span>✨</span> 终局因果解锁特典与世界线烙印：
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div
+                    v-for="(feat, fIdx) in activeEnding.rewards"
+                    :key="fIdx"
+                    class="p-2 rounded-lg bg-slate-900/70 border border-slate-800 text-[11px] text-gray-300 flex items-start gap-1.5"
+                  >
+                    <span class="text-amber-400 shrink-0 font-bold">✔</span>
+                    <span class="leading-snug">{{ feat }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 四维因果流速状态柱 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+              <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800/80 text-center">
+                <div class="text-[10px] text-gray-400">同伴羁绊共鸣</div>
+                <div class="text-base font-bold text-cyan-400 font-mono mt-0.5">{{ heroSurvivalRate }}%</div>
+                <div class="text-[9px] text-gray-500">全员守护系数</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800/80 text-center">
+                <div class="text-[10px] text-gray-400">神兵解封完整度</div>
+                <div class="text-base font-bold text-amber-400 font-mono mt-0.5">{{ Math.round(unsealedWeaponsCount / 12 * 100) }}%</div>
+                <div class="text-[9px] text-gray-500">太古武装矩阵</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800/80 text-center">
+                <div class="text-[10px] text-gray-400">虚空奇点收敛</div>
+                <div class="text-base font-bold text-purple-400 font-mono mt-0.5">{{ singularityStability }}%</div>
+                <div class="text-[9px] text-gray-500">空间坍缩抗性</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800/80 text-center">
+                <div class="text-[10px] text-gray-400">创世真理洞察</div>
+                <div class="text-base font-bold text-emerald-400 font-mono mt-0.5">{{ sacredKnowledgeRate }}%</div>
+                <div class="text-[9px] text-gray-500">因果律超越度</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 七大终焉归宿图鉴概览矩阵 -->
+          <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>🗂️</span> 七大终焉宿命图鉴归档矩阵（点击卡片查看达成细则）
+              </h4>
+              <span class="text-[10px] text-gray-500 font-mono">7 DESTINY CODICES</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+              <div
+                v-for="ending in allEndingsList"
+                :key="ending.id"
+                class="p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+                :class="activeEnding.id === ending.id
+                  ? 'bg-slate-800/90 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]'
+                  : 'bg-slate-950/60 border-slate-800/80 hover:bg-slate-900/80 hover:border-slate-700'"
+                @click="selectedEndingDetailId = ending.id"
+              >
+                <div v-if="activeEnding.id === ending.id" class="absolute top-0 right-0 w-2 h-2 bg-cyan-400 rounded-bl-md"></div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">{{ ending.icon }}</span>
+                  <div class="min-w-0">
+                    <div class="text-xs font-bold text-white truncate">{{ ending.title }}</div>
+                    <div class="text-[10px] text-gray-400 font-mono truncate">{{ ending.id }}</div>
+                  </div>
+                </div>
+                <div class="mt-2 text-[10px] text-gray-400 line-clamp-2 leading-tight">
+                  {{ ending.subtitle }}
+                </div>
+                <div class="mt-2 pt-1.5 border-t border-slate-800/60 flex items-center justify-between text-[10px]">
+                  <span class="text-gray-500">匹配契合度</span>
+                  <span class="font-mono font-bold" :class="calculateEndingMatch(ending.id) >= 80 ? 'text-amber-400' : 'text-gray-400'">
+                    {{ calculateEndingMatch(ending.id) }}%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -486,8 +814,334 @@ const navModes = [
   { key: 'lore', label: '三十章节史诗编年', icon: '📖' },
   { key: 'radar', label: '44节拍雷达导航', icon: '🧭', badge: 'NEW' },
   { key: 'branches', label: '时空因果沙盘', icon: '🔀' },
+  { key: 'ending_matrix', label: '七大终焉宿命归宿与真结局推演沙盘', icon: '👑', badge: 'HOT' },
   { key: 'engine_code', label: '主线状态机源码', icon: '🛠️' }
 ]
+
+// 宿命结局推演沙盘状态
+const heroSurvivalRate = ref(100)
+const unsealedWeaponsCount = ref(12)
+const singularityStability = ref(95)
+const omegaShinryuDefeated = ref(true)
+const sacredKnowledgeRate = ref(90)
+const selfSacrificeChoice = ref<'none' | 'bartz_lenna' | 'faris_krile' | 'galuf_spirit'>('none')
+const selectedEndingDetailId = ref<string>('END-TRUE-01')
+const activeGdTab = ref<'timeline' | 'ending'>('timeline')
+
+interface EndingData {
+  id: string
+  title: string
+  subtitle: string
+  badge: string
+  icon: string
+  cardBg: string
+  cardBorder: string
+  tagClass: string
+  synopsis: string
+  rewards: string[]
+}
+
+const allEndingsList: EndingData[] = [
+  {
+    id: 'END-TRUE-01',
+    title: '真·四灵破晓神话 (True Canon: Dawn of Four Elements)',
+    subtitle: '光与暗完全调和 · 晨辉大地永恒繁荣',
+    badge: '正统真结局 · 100% 同调',
+    icon: '🌅',
+    cardBg: 'from-amber-950/40 via-slate-900 to-cyan-950/40',
+    cardBorder: 'border-amber-400/60 shadow-[0_0_30px_rgba(245,158,11,0.25)]',
+    tagClass: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+    synopsis: '四柱原初晶石在战士们的决心中重塑，光暗两界不再对立而是如阴阳般和谐共生。失落的时空裂隙化为丰饶的星海之井，巴兹、蕾娜、法利斯、库露露与暗之战士们共同站在新生的世界树下，迎接新时代的破晓晨光。',
+    rewards: [
+      '全员解锁太古神王誓约：全能力值与极意技能威力 +25%',
+      '获得全域飞行坐骑【超限界光暗星空巨舰】',
+      '永久解锁二周目自由职业初始自带二刀流与连续魔',
+      '载入水晶殿堂史诗丰碑，世界居民全好感度达到崇敬'
+    ]
+  },
+  {
+    id: 'END-TRANSCEND-07',
+    title: '太古逆熵终极超越 (Cosmic Transmutation: Beyond Reality)',
+    subtitle: '超越凡世因果 · 执掌宇宙观星王座',
+    badge: '神话极意 · 弑神超脱',
+    icon: '🌌',
+    cardBg: 'from-fuchsia-950/50 via-purple-950/40 to-slate-900',
+    cardBorder: 'border-fuchsia-400/60 shadow-[0_0_35px_rgba(217,70,239,0.25)]',
+    tagClass: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/40',
+    synopsis: '光之战士们不仅征服了新艾克斯迪斯，更斩断了神龙与欧米茄的机械熵增因果锁链。借由太古始源之光，他们超脱了物质躯壳与时间维度的局限，登临星界王座，成为守望数亿平行多元宇宙的水晶主宰。',
+    rewards: [
+      '获得超神阶极意被动【逆熵因果之环】：免疫全即死与时空退化',
+      '解锁全能创世模式：自由调整所有敌方Boss数值与AI节拍',
+      '获得宇宙至宝【太古超光速奇点法典】',
+      '开启隐藏真·超绝境副本【多元宇宙观测者试炼】'
+    ]
+  },
+  {
+    id: 'END-SACRIFICE-02',
+    title: '暗黑虚空永劫封印 (Void Sacrifice: Eternal Vigil)',
+    subtitle: '英雄舍身化碑 · 孤寂镇守次元裂隙',
+    badge: '悲壮史诗归宿 · 牺牲之桩',
+    icon: '🛡️',
+    cardBg: 'from-indigo-950/50 via-purple-950/40 to-slate-900',
+    cardBorder: 'border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.2)]',
+    tagClass: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
+    synopsis: '在奇点不可逆崩溃的千钧一发之际，核心英雄决然将自己的灵魂与晶石合而为一，构筑起阻隔虚无的永恒晶壁。晨辉大陆虽免遭毁灭，但世界只留下了英雄生前的佩剑与一曲悲凉的挽歌。',
+    rewards: [
+      '全队继承牺牲之魂意志：濒死状态全防御力 +80%',
+      '获得圣遗物【不灭誓约之结晶羽毛】',
+      '在始源神殿建立英雄圣棺，触发特殊祭奠剧情',
+      '解锁特殊乐章《次元狭间的孤星挽歌》'
+    ]
+  },
+  {
+    id: 'END-ODYSSEY-03',
+    title: '飞空艇游历四海 (Wanderer\'s Odyssey: Sky Pirates)',
+    subtitle: '卸下神权冠冕 · 追寻自由地平线',
+    badge: '浪迹天涯 · 自由羁绊',
+    icon: '⛵',
+    cardBg: 'from-sky-950/50 via-blue-950/40 to-slate-900',
+    cardBorder: 'border-sky-400/50 shadow-[0_0_25px_rgba(56,189,248,0.2)]',
+    tagClass: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+    synopsis: '世界重归和平后，巴兹与伙伴们谢绝了泰空与图尔王国的加冕封赏。他们重新修缮了席德打造的双核飞空艇，向着未知的汪洋与外层空岛启航，成为大洋彼岸最受传颂的自由冒险家。',
+    rewards: [
+      '全员敏捷与闪避率永久提升 +15%',
+      '飞空艇巡航速度翻倍，且无视全地形雷暴与气流阻碍',
+      '开放隐藏大洋宝藏坐标与海盗公会专属黑市商店',
+      '获得传世饰品【天际领航之罗盘】'
+    ]
+  },
+  {
+    id: 'END-HERITAGE-04',
+    title: '贤者隐世传承 (Sage\'s Heritage: Library of Karnak)',
+    subtitle: '卡纳克万卷法典 · 太古秘法百世师',
+    badge: '学者丰碑 · 智者归宿',
+    icon: '📜',
+    cardBg: 'from-emerald-950/50 via-teal-950/40 to-slate-900',
+    cardBorder: 'border-emerald-400/50 shadow-[0_0_25px_rgba(52,211,153,0.2)]',
+    tagClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+    synopsis: '英雄们将虚空之战的所有魔法矩阵、晶石能量共振方程式与魔物生态学谱系编纂成册，建立卡纳克皇家大学士学院。太古魔法不再是灭世的禁咒，而是化作造福万民的水利与医疗工程学典范。',
+    rewards: [
+      '黑白时空召全魔法MP消耗永久降低 30%',
+      '解锁白皮书全九阶禁术研究成果图录',
+      '获得传奇学者法杖【千智万象之源】',
+      '所有魔法系职业经验与ABP获取速率 +50%'
+    ]
+  },
+  {
+    id: 'END-COLLAPSE-05',
+    title: '孤星陨落决绝破局 (Fallen Star: Mutual Annihilation)',
+    subtitle: '十二神兵逆序引爆 · 与虚空真祖同归于尽',
+    badge: '绝境破局 · 灰烬重生',
+    icon: '💥',
+    cardBg: 'from-red-950/50 via-slate-950 to-slate-900',
+    cardBorder: 'border-red-500/50 shadow-[0_0_25px_rgba(239,68,68,0.2)]',
+    tagClass: 'bg-red-500/20 text-red-300 border-red-500/40',
+    synopsis: '面对无法遏制的熵寂黑洞与狂暴的虚空奇点，英雄们决绝地引爆了十二太古神兵的全部晶核，将黑洞反向中和为一片静止的星云。大地虽化为焦土，但生命的火种已悄然深埋，等待千万年后的再次复苏。',
+    rewards: [
+      '二周目获得初始【逆熵灰烬护符】，濒死自爆不减命',
+      '解锁特殊挑战副本【焦土废土遗迹生存模式】',
+      '获得绝境称号【破灭世界的焚星者】',
+      '解锁终焉乐章《星辰熄灭之刻》'
+    ]
+  },
+  {
+    id: 'END-TWILIGHT-06',
+    title: '双界分裂寂静长夜 (Bifurcated Worlds: Silent Twilight)',
+    subtitle: '光暗次元断联 · 永恒隔世遥相守望',
+    badge: '平衡分离 · 静谧黄昏',
+    icon: '🌓',
+    cardBg: 'from-slate-950 via-slate-900 to-indigo-950/40',
+    cardBorder: 'border-slate-600/50 shadow-[0_0_25px_rgba(100,116,139,0.2)]',
+    tagClass: 'bg-slate-700/40 text-slate-300 border-slate-600/40',
+    synopsis: '为了阻止双界的连锁崩解，时空裂隙被两界长老施加了永久物理隔离。光之界享有永远的晨昏循环，暗之界归于宁静的星空月夜。彼此无法再互通，但人们都知晓，星空的另一侧有曾经并肩作战的战友在凝视着同一个太阳。',
+    rewards: [
+      '光暗阵营职业双向转换无消耗惩罚',
+      '解锁黄昏信标传送系统与专属时空信件系统',
+      '获得护符【双生星辉挂坠】',
+      '全属性抗性与异常状态抗性永久 +15%'
+    ]
+  }
+]
+
+const applyEndingPreset = (presetKey: string) => {
+  if (presetKey === 'true_canon') {
+    heroSurvivalRate.value = 100
+    unsealedWeaponsCount.value = 12
+    singularityStability.value = 98
+    omegaShinryuDefeated.value = true
+    sacredKnowledgeRate.value = 95
+    selfSacrificeChoice.value = 'none'
+    message.success('已装载预设：真·四灵破晓神话 (100% 达成)')
+  } else if (presetKey === 'void_sacrifice') {
+    heroSurvivalRate.value = 50
+    unsealedWeaponsCount.value = 8
+    singularityStability.value = 65
+    omegaShinryuDefeated.value = false
+    sacredKnowledgeRate.value = 60
+    selfSacrificeChoice.value = 'bartz_lenna'
+    message.warning('已装载预设：暗黑虚空永劫封印')
+  } else if (presetKey === 'wanderer_odyssey') {
+    heroSurvivalRate.value = 100
+    unsealedWeaponsCount.value = 6
+    singularityStability.value = 82
+    omegaShinryuDefeated.value = false
+    sacredKnowledgeRate.value = 40
+    selfSacrificeChoice.value = 'none'
+    message.info('已装载预设：飞空艇游历四海 (自由流浪探险)')
+  } else if (presetKey === 'sage_heritage') {
+    heroSurvivalRate.value = 100
+    unsealedWeaponsCount.value = 9
+    singularityStability.value = 85
+    omegaShinryuDefeated.value = false
+    sacredKnowledgeRate.value = 100
+    selfSacrificeChoice.value = 'none'
+    message.info('已装载预设：贤者隐世传承 (卡纳克传世法典)')
+  } else if (presetKey === 'cosmic_transcend') {
+    heroSurvivalRate.value = 100
+    unsealedWeaponsCount.value = 12
+    singularityStability.value = 100
+    omegaShinryuDefeated.value = true
+    sacredKnowledgeRate.value = 100
+    selfSacrificeChoice.value = 'galuf_spirit'
+    message.success('已装载预设：太古逆熵终极超越 (破界弑神)')
+  } else {
+    heroSurvivalRate.value = 100
+    unsealedWeaponsCount.value = 12
+    singularityStability.value = 95
+    omegaShinryuDefeated.value = true
+    sacredKnowledgeRate.value = 90
+    selfSacrificeChoice.value = 'none'
+    message.success('已重置宿命推演默认参数')
+  }
+}
+
+const destinyRating = computed(() => {
+  let score = 0
+  score += heroSurvivalRate.value * 3.5
+  score += (unsealedWeaponsCount.value / 12) * 200
+  score += singularityStability.value * 2.5
+  if (omegaShinryuDefeated.value) score += 100
+  score += sacredKnowledgeRate.value * 1.0
+  return Math.min(1000, Math.round(score))
+})
+
+const calculateEndingMatch = (endingId: string) => {
+  const weapons = unsealedWeaponsCount.value
+  const survival = heroSurvivalRate.value
+  const stab = singularityStability.value
+  const boss = omegaShinryuDefeated.value
+  const sac = selfSacrificeChoice.value
+
+  if (endingId === 'END-TRANSCEND-07') {
+    let score = (weapons / 12) * 30 + (survival / 100) * 20 + (stab / 100) * 20 + (boss ? 20 : 0) + (sac === 'galuf_spirit' ? 10 : 0)
+    return Math.min(100, Math.round(score))
+  }
+  if (endingId === 'END-TRUE-01') {
+    let score = (weapons / 12) * 35 + (survival / 100) * 25 + (stab / 100) * 20 + (boss ? 20 : 0)
+    return Math.min(100, Math.round(score))
+  }
+  if (endingId === 'END-SACRIFICE-02') {
+    let score = (sac === 'bartz_lenna' ? 50 : 10) + ((100 - survival) / 100) * 25 + ((100 - stab) / 100) * 25
+    return Math.min(100, Math.round(score))
+  }
+  if (endingId === 'END-ODYSSEY-03') {
+    let score = (survival / 100) * 40 + (sac === 'faris_krile' ? 40 : 10) + (weapons <= 8 ? 20 : 10)
+    return Math.min(100, Math.round(score))
+  }
+  if (endingId === 'END-HERITAGE-04') {
+    let score = (sacredKnowledgeRate.value / 100) * 50 + (weapons / 12) * 30 + (survival / 100) * 20
+    return Math.min(100, Math.round(score))
+  }
+  if (endingId === 'END-COLLAPSE-05') {
+    let score = ((100 - stab) / 100) * 60 + ((100 - survival) / 100) * 40
+    return Math.min(100, Math.round(score))
+  }
+  if (endingId === 'END-TWILIGHT-06') {
+    return 75
+  }
+  return 50
+}
+
+const activeEnding = computed(() => {
+  const weapons = unsealedWeaponsCount.value
+  const survival = heroSurvivalRate.value
+  const stab = singularityStability.value
+  const boss = omegaShinryuDefeated.value
+  const sac = selfSacrificeChoice.value
+
+  if (weapons === 12 && survival === 100 && stab >= 95 && boss && sac === 'galuf_spirit') {
+    return allEndingsList.find(e => e.id === 'END-TRANSCEND-07')!
+  }
+  if (weapons === 12 && survival === 100 && stab >= 90 && boss && sac === 'none') {
+    return allEndingsList.find(e => e.id === 'END-TRUE-01')!
+  }
+  if (sac === 'bartz_lenna' || (stab < 70 && survival < 75)) {
+    return allEndingsList.find(e => e.id === 'END-SACRIFICE-02')!
+  }
+  if (stab < 40 || survival < 40) {
+    return allEndingsList.find(e => e.id === 'END-COLLAPSE-05')!
+  }
+  if (sacredKnowledgeRate.value >= 90 && weapons >= 8) {
+    return allEndingsList.find(e => e.id === 'END-HERITAGE-04')!
+  }
+  if (weapons <= 6 && stab >= 75) {
+    return allEndingsList.find(e => e.id === 'END-ODYSSEY-03')!
+  }
+  return allEndingsList.find(e => e.id === 'END-TWILIGHT-06')!
+})
+
+const exportEndingCertificate = () => {
+  const ending = activeEnding.value
+  const ts = new Date().toISOString()
+  const certId = `CERT-DESTINY-${Date.now().toString(36).toUpperCase()}`
+  const content = `================================================================================
+《光之战士：时空裂隙》(VBLE) 史诗终焉宿命与真结局推演凭证
+================================================================================
+凭证编号: ${certId}
+时间截记: ${ts}
+推演版本: VBLE Story & Chronicle Matrix v2.2.253
+引擎标准: Godot 4.6 LTS Story Timeline & Causality Architecture
+
+【核心因果推演参数输入】
+- 契约同伴生还率: ${heroSurvivalRate.value}%
+- 太古12神兵解封数: ${unsealedWeaponsCount.value} / 12 把
+- 虚空奇点封印稳定度: ${singularityStability.value}%
+- 欧米茄 & 神龙双神讨伐: ${omegaShinryuDefeated.value ? '已破除' : '未破除'}
+- 始源白皮书智慧解锁度: ${sacredKnowledgeRate.value}%
+- 终战牺牲意志倾向: ${selfSacrificeChoice.value}
+- 宿命总因果评分: ${destinyRating.value} / 1000 pts
+
+【终局收敛判定结果】
+- 归属结局: ${ending.title} (${ending.id})
+- 结局标识: ${ending.badge}
+- 世界线归宿概要:
+  ${ending.synopsis}
+
+【终局因果特典与烙印】
+${ending.rewards.map((r, i) => `  ${i + 1}. ${r}`).join('\n')}
+
+================================================================================
+数字校验指纹: SHA256-${Math.random().toString(36).substring(2, 10)}${Math.random().toString(36).substring(2, 10)}
+================================================================================`
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `story_destiny_certificate_${ending.id.toLowerCase()}_v2.2.253.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success(`已导出终局宿命凭证: ${ending.title}`)
+}
+
+const copyCausalityChain = () => {
+  const chainText = `[因果推演链] 同伴生还:${heroSurvivalRate.value}% | 12神兵:${unsealedWeaponsCount.value}/12 | 虚空稳定:${singularityStability.value}% | 双神讨伐:${omegaShinryuDefeated.value} | 智慧:${sacredKnowledgeRate.value}% => 结局:${activeEnding.value.title}`
+  navigator.clipboard.writeText(chainText).then(() => {
+    message.success('因果推演链已复制到剪贴板！')
+  }).catch(() => {
+    message.info('因果推演链已复制')
+  })
+}
 
 // 编年史篇章过滤
 const selectedParty = ref('all')
@@ -752,9 +1406,81 @@ func evaluate_ending() -> String:
 		return "SHADOW_END_HEGEMONY"
 `
 
+const gdScriptEndingCode = `# ==============================================================================
+# EndingDestinyResolver - 七大终焉宿命归宿算法与因果加权解算器
+# 文件路径: res://scripts/core/ending_destiny_resolver.gd
+# 架构定位: 根据全域因果状态、同伴生存率与神兵解封数解算最终世界收敛态
+# ==============================================================================
+class_name EndingDestinyResolver
+extends RefCounted
+
+signal ending_resolved(ending_id: String, destiny_rating: int, epilogue_payload: Dictionary)
+
+enum EndingType {
+	TRUE_CANON,        # END-TRUE-01: 真·四灵破晓神话
+	VOID_SACRIFICE,    # END-SACRIFICE-02: 暗黑虚空永劫封印
+	WANDERER_ODYSSEY,  # END-ODYSSEY-03: 飞空艇游历四海
+	SAGE_HERITAGE,     # END-HERITAGE-04: 贤者隐世传承
+	FALLEN_STAR,       # END-COLLAPSE-05: 孤星陨落决绝破局
+	SILENT_TWILIGHT,   # END-TWILIGHT-06: 双界分裂寂静长夜
+	COSMIC_TRANSCEND   # END-TRANSCEND-07: 太古逆熵终极超越
+}
+
+## 评估宿命收敛态
+static func resolve_destiny(params: Dictionary) -> Dictionary:
+	var hero_survival: float = params.get("hero_survival_rate", 1.0)
+	var unsealed_weapons: int = params.get("unsealed_weapons_count", 12)
+	var singularity_stability: float = params.get("singularity_stability", 0.95)
+	var omega_shinryu_defeated: bool = params.get("omega_shinryu_defeated", true)
+	var sacred_knowledge: float = params.get("sacred_knowledge_rate", 0.90)
+	var sacrifice_choice: String = params.get("sacrifice_choice", "none")
+
+	var score: int = int(
+		hero_survival * 350.0 +
+		(float(unsealed_weapons) / 12.0) * 200.0 +
+		singularity_stability * 250.0 +
+		(100.0 if omega_shinryu_defeated else 0.0) +
+		sacred_knowledge * 100.0
+	)
+
+	var ending_id: String = "END-TRUE-01"
+	var ending_enum: int = EndingType.TRUE_CANON
+
+	if unsealed_weapons == 12 and hero_survival >= 0.99 and singularity_stability >= 0.95 and omega_shinryu_defeated and sacrifice_choice == "galuf_spirit":
+		ending_id = "END-TRANSCEND-07"
+		ending_enum = EndingType.COSMIC_TRANSCEND
+	elif unsealed_weapons == 12 and hero_survival >= 0.99 and singularity_stability >= 0.90 and omega_shinryu_defeated and sacrifice_choice == "none":
+		ending_id = "END-TRUE-01"
+		ending_enum = EndingType.TRUE_CANON
+	elif sacrifice_choice == "bartz_lenna" or (singularity_stability < 0.70 and hero_survival < 0.75):
+		ending_id = "END-SACRIFICE-02"
+		ending_enum = EndingType.VOID_SACRIFICE
+	elif singularity_stability < 0.40 or hero_survival < 0.40:
+		ending_id = "END-COLLAPSE-05"
+		ending_enum = EndingType.FALLEN_STAR
+	elif sacred_knowledge >= 0.90 and unsealed_weapons >= 8:
+		ending_id = "END-HERITAGE-04"
+		ending_enum = EndingType.SAGE_HERITAGE
+	elif unsealed_weapons <= 6 and singularity_stability >= 0.75:
+		ending_id = "END-ODYSSEY-03"
+		ending_enum = EndingType.WANDERER_ODYSSEY
+	else:
+		ending_id = "END-TWILIGHT-06"
+		ending_enum = EndingType.SILENT_TWILIGHT
+
+	return {
+		"ending_id": ending_id,
+		"ending_enum": ending_enum,
+		"destiny_rating": score,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+`
+
 const copyGdScript = () => {
-  navigator.clipboard.writeText(gdScriptCode).then(() => {
-    message.success('story_timeline_manager.gd 源码已复制到剪贴板！')
+  const codeToCopy = activeGdTab.value === 'timeline' ? gdScriptCode : gdScriptEndingCode
+  const filename = activeGdTab.value === 'timeline' ? 'story_timeline_manager.gd' : 'ending_destiny_resolver.gd'
+  navigator.clipboard.writeText(codeToCopy).then(() => {
+    message.success(`${filename} 源码已复制到剪贴板！`)
   }).catch(() => {
     message.info('源码已复制')
   })

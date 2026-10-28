@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-story-multi-ending-destiny-matrix-studio-2026-10-28',
+    version: 'v2.2.253',
+    date: '2026-10-28',
+    title: '七大终焉宿命归宿与真结局推演沙盘重磅实装',
+    category: 'system',
+    categoryName: '剧情演进',
+    icon: '👑',
+    tagType: 'warning',
+    description: '深度重构升级 StoryView 史诗编年史工坊：全新实装第五大核心模式【七大终焉宿命归宿与真结局推演沙盘】（Multi-Ending Destiny Matrix & True Ending Studio）。联动光暗同伴生还率、12太古封印神兵解封数、最终决战虚空奇点稳定度、欧米茄与神龙双神讨伐状态以及始源白皮书真理洞察度，解算七大终焉世界线收敛归宿（真·四灵破晓神话、暗黑虚空永劫封印、飞空艇游历四海、贤者隐世传承、孤星陨落决绝破局、双界分裂寂静长夜、太古逆熵终极超越）；提供六大快速因果预设套用与一键导出《史诗终焉宿命与真结局推演凭证》工坊；底层状态机升级为 Godot 4.6 LTS 双架构展台，新增 ending_destiny_resolver.gd 宿命判定算法源码展台，对齐 VBLE Story & Chronicle Matrix v2.2.253 规范。',
+    highlights: [
+      '七大终局世界线收敛矩阵：全域推演真结局神话、英雄悲歌牺牲、飞空艇自由探险与太古超脱',
+      '五维因果核心调谐控制台：同伴生还率、12神兵封印、奇点稳定性、双神讨伐与学者白皮书矩阵',
+      '动态宿命因果评分仪表板：实时测算 0~1000 宿命评分，四维因果流速状态柱与终局达成契合率',
+      '六大经典世界线快速预设：一键装载四灵破晓、虚空封印、天际远航、卡纳克法典与弑神逆熵',
+      '终焉宿命凭证离线导出：生成带有专属编号与 SHA-256 安全哈希签名的史诗终章认证文档',
+      'Godot 4.6 LTS 双架构状态机：集成 story_timeline_manager.gd 与 ending_destiny_resolver.gd'
+    ],
+    relatedLinks: [
+      { label: '史诗编年史与终焉结局', path: '/vble/story', icon: '📖' },
+      { label: '首领攻坚全鉴与终焉破阵', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-boss-tactics-stagger-enrage-synergy-studio-2026-10-28',
     version: 'v2.2.252',
     date: '2026-10-28',
