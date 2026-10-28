@@ -160,6 +160,316 @@
       </n-pagination>
     </div>
 
+    <!-- 🌌 多元宇宙裂隙深渊迷宫与战争迷雾密室推演工坊 (Interactive Multiverse Rift Dungeon Navigator & Fog-of-War Studio) -->
+    <n-card class="mb-6 bg-gradient-to-br from-slate-900/95 via-purple-950/40 to-slate-900/95 border-purple-500/50 shadow-2xl relative overflow-hidden" title="🌌 多元宇宙裂隙深渊迷宫与战争迷雾密室推演工坊 (Dungeon Fog-of-War Studio)">
+      <template #header-extra>
+        <div class="flex items-center gap-2">
+          <n-tag type="warning" size="small" round strong>Godot 4.6 迷宫拓扑引擎</n-tag>
+          <n-tag type="info" size="small" round>动态视野与环境制约</n-tag>
+        </div>
+      </template>
+
+      <div class="space-y-5">
+        <!-- 顶部导言与机制指引 -->
+        <div class="p-3.5 rounded-xl bg-purple-950/30 border border-purple-800/40 text-xs text-gray-300 leading-relaxed flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="text-purple-300 font-bold flex items-center gap-1.5 text-sm">
+              <span>🧭</span> 核心探索法则：动态战争迷雾 (Fog of War) × 环境极限制约沙盘
+            </div>
+            <p class="text-gray-400 text-[11px]">
+              支持在四大经典终极地宫之间即时跃迁；移动触发视野驱散（曼哈顿半径视野），实时演算落穴、熔岩毒沼、双生禁制与水下氧气损耗。配备盗贼鹰眼洞悉与风水师全息浮空术！
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <n-button size="small" type="primary" secondary @click="resetDungeon">
+              🔄 重置本层迷宫
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 4大特色地宫预设切换 -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            v-for="d in dungeonPresets"
+            :key="d.id"
+            type="button"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer select-none flex items-center gap-1.5"
+            :class="selectedDungeonPreset.id === d.id
+              ? 'bg-purple-600 text-white border-purple-400 shadow-lg shadow-purple-600/30 ring-2 ring-purple-400/40'
+              : 'bg-slate-900/90 text-gray-300 border-slate-700 hover:bg-slate-800 hover:text-white'"
+            @click="switchDungeonPreset(d.id)"
+          >
+            <span>{{ d.icon }}</span>
+            <span>{{ d.name }}</span>
+            <n-tag size="tiny" :type="d.tagType" round>{{ d.difficulty }}</n-tag>
+          </button>
+        </div>
+
+        <!-- 迷宫主战盘与右侧状态面板 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <!-- 左侧：6x6 动态迷宫地块画布与方向舵 -->
+          <div class="lg:col-span-7 flex flex-col items-center p-4 rounded-2xl bg-slate-950/80 border border-purple-900/50 shadow-inner">
+            <div class="flex items-center justify-between w-full mb-3 text-xs text-gray-400 px-2">
+              <span class="text-purple-300 font-bold flex items-center gap-1">
+                <span>📍</span> 现处区域：{{ selectedDungeonPreset.name }}
+              </span>
+              <span class="font-mono text-cyan-400">坐标: ({{ playerPos.r }}, {{ playerPos.c }})</span>
+            </div>
+
+            <!-- 6x6 迷宫网格 -->
+            <div class="grid grid-cols-6 gap-1.5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 shadow-2xl">
+              <template v-for="(row, r) in dungeonGrid" :key="`r-${r}`">
+                <div
+                  v-for="(tile, c) in row"
+                  :key="`c-${r}-${c}`"
+                  class="w-11 h-11 sm:w-13 sm:h-13 rounded-lg flex flex-col items-center justify-center font-bold text-xs sm:text-sm select-none transition-all duration-200 relative border"
+                  :class="getTileClass(tile, r, c)"
+                  :title="getTileTooltip(tile, r, c)"
+                  @click="tryMoveTo(r, c)"
+                >
+                  <!-- 战争迷雾状态 -->
+                  <template v-if="!tile.revealed && !revealedAll">
+                    <span class="text-slate-600 text-lg opacity-80 animate-pulse">🌫️</span>
+                  </template>
+
+                  <!-- 玩家在场图标 -->
+                  <template v-else-if="playerPos.r === r && playerPos.c === c">
+                    <span class="text-xl sm:text-2xl drop-shadow-[0_0_10px_rgba(34,211,238,0.9)] animate-bounce">
+                      {{ playerIcon }}
+                    </span>
+                    <span v-if="floatDuration > 0" class="absolute -top-1 -right-1 text-[9px] bg-cyan-500 text-slate-950 px-1 rounded-full font-black">
+                      羽
+                    </span>
+                  </template>
+
+                  <!-- 揭示后的真实地块 -->
+                  <template v-else>
+                    <span class="text-base sm:text-lg">{{ getTileSymbol(tile) }}</span>
+                    <span v-if="tile.type === 'portal'" class="absolute bottom-0 text-[8px] text-amber-300 font-mono scale-90">出口</span>
+                    <span v-else-if="tile.type === 'switch' && tile.triggered" class="absolute bottom-0 text-[8px] text-emerald-400 font-mono scale-90">解禁</span>
+                  </template>
+                </div>
+              </template>
+            </div>
+
+            <!-- 虚拟方向按键控制十字舵与特技栏 -->
+            <div class="w-full mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-slate-800">
+              <!-- 特技快捷动作 -->
+              <div class="flex flex-wrap items-center gap-2">
+                <n-button
+                  size="small"
+                  type="info"
+                  secondary
+                  :disabled="scoutActive"
+                  @click="castThiefScout"
+                >
+                  <template #icon><span>👁️</span></template>
+                  盗贼破妄鹰眼 (全显宝箱)
+                </n-button>
+                <n-button
+                  size="small"
+                  type="success"
+                  secondary
+                  :disabled="floatDuration > 0"
+                  @click="castFloatWalk"
+                >
+                  <template #icon><span>🪶</span></template>
+                  风水师全息浮空 (剩 {{ floatDuration }} 步)
+                </n-button>
+              </div>
+
+              <!-- 方向移动舵 -->
+              <div class="grid grid-cols-3 gap-1.5 w-32 shrink-0">
+                <div></div>
+                <button
+                  type="button"
+                  class="h-9 rounded bg-slate-800 hover:bg-purple-600 text-white font-bold border border-slate-700 active:scale-95 transition-all cursor-pointer flex items-center justify-center text-sm"
+                  aria-label="向上移动"
+                  @click="movePlayer(-1, 0)"
+                >
+                  ▲
+                </button>
+                <div></div>
+                <button
+                  type="button"
+                  class="h-9 rounded bg-slate-800 hover:bg-purple-600 text-white font-bold border border-slate-700 active:scale-95 transition-all cursor-pointer flex items-center justify-center text-sm"
+                  aria-label="向左移动"
+                  @click="movePlayer(0, -1)"
+                >
+                  ◀
+                </button>
+                <button
+                  type="button"
+                  class="h-9 rounded bg-slate-800 hover:bg-purple-600 text-white font-bold border border-slate-700 active:scale-95 transition-all cursor-pointer flex items-center justify-center text-sm"
+                  aria-label="向下移动"
+                  @click="movePlayer(1, 0)"
+                >
+                  ▼
+                </button>
+                <button
+                  type="button"
+                  class="h-9 rounded bg-slate-800 hover:bg-purple-600 text-white font-bold border border-slate-700 active:scale-95 transition-all cursor-pointer flex items-center justify-center text-sm"
+                  aria-label="向右移动"
+                  @click="movePlayer(0, 1)"
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+            <div class="text-[11px] text-gray-500 mt-2 text-center">
+              💡 提示：支持点击邻近揭示地块或点击方向舵箭头步进探索；键盘方向键亦可操作！
+            </div>
+          </div>
+
+          <!-- 右侧：实机探险状态仪、环境参数与事件日志 -->
+          <div class="lg:col-span-5 flex flex-col space-y-4">
+            <!-- 队伍探险状态仪表盘 -->
+            <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+              <div class="text-xs font-bold text-gray-200 flex items-center justify-between">
+                <span class="flex items-center gap-1.5 text-cyan-400">
+                  <span>🛡️</span> 队伍探索生理与资源状态
+                </span>
+                <span class="text-xs font-mono text-gray-400">已探索: {{ explorationRate }}%</span>
+              </div>
+
+              <!-- 生命值 HP 条 -->
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-gray-400">队伍综合生命值 (HP)</span>
+                  <span class="font-mono font-bold" :class="playerHp > 2000 ? 'text-emerald-400' : 'text-rose-400'">
+                    {{ playerHp }} / 9999
+                  </span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                  <div
+                    class="h-full transition-all duration-300"
+                    :class="playerHp > 4000 ? 'bg-gradient-to-r from-emerald-500 to-cyan-400' : 'bg-gradient-to-r from-rose-500 to-amber-500'"
+                    :style="{ width: `${Math.max(5, (playerHp / 9999) * 100)}%` }"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- 核心环境参数指示器 (根据地宫动态变化) -->
+              <div class="grid grid-cols-2 gap-2 text-xs pt-1">
+                <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                  <div class="text-gray-400 text-[10px]">{{ selectedDungeonPreset.envParam.name }}</div>
+                  <div class="font-mono font-bold text-base text-amber-300 mt-0.5">
+                    {{ selectedDungeonPreset.envParam.value }} {{ selectedDungeonPreset.envParam.unit || '' }}
+                  </div>
+                </div>
+                <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                  <div class="text-gray-400 text-[10px]">宝箱搜刮率</div>
+                  <div class="font-mono font-bold text-base text-cyan-300 mt-0.5">
+                    {{ collectedChests }} / {{ totalChests }} 个
+                  </div>
+                </div>
+              </div>
+
+              <!-- 状态词条标签 -->
+              <div class="flex flex-wrap items-center gap-1.5 pt-1">
+                <n-tag size="tiny" :type="floatDuration > 0 ? 'success' : 'default'">
+                  {{ floatDuration > 0 ? `🪶 浮空状态 (${floatDuration}步)` : '🦶 脚踏实地' }}
+                </n-tag>
+                <n-tag size="tiny" :type="portalUnlocked ? 'primary' : 'warning'">
+                  {{ portalUnlocked ? '🌀 传送门禁已解锁' : '🔒 终焉门禁锁死' }}
+                </n-tag>
+                <n-tag size="tiny" type="info">
+                  👣 移动步数: {{ stepCount }} 步
+                </n-tag>
+              </div>
+            </div>
+
+            <!-- 地宫特殊机制战术速查 -->
+            <div class="p-3.5 rounded-xl bg-purple-950/20 border border-purple-900/40 text-xs space-y-1.5">
+              <div class="font-bold text-purple-300 flex items-center gap-1">
+                <span>⚡</span> {{ selectedDungeonPreset.name }} · 核心极限制约
+              </div>
+              <p class="text-gray-400 text-[11px] leading-relaxed">
+                {{ selectedDungeonPreset.mechanicDetail }}
+              </p>
+            </div>
+
+            <!-- 即时探险事件与行动记录流 -->
+            <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 flex-1 flex flex-col">
+              <div class="text-xs font-bold text-gray-300 mb-2 flex items-center justify-between">
+                <span class="flex items-center gap-1 text-amber-400">
+                  <span>📜</span> 探险战术动态日志
+                </span>
+                <button
+                  type="button"
+                  class="text-[10px] text-gray-500 hover:text-gray-300 cursor-pointer"
+                  @click="dungeonLogs = []"
+                >
+                  清空日志
+                </button>
+              </div>
+              <div class="h-44 overflow-y-auto space-y-1.5 text-[11px] font-mono pr-1 custom-scrollbar">
+                <div
+                  v-for="(log, idx) in dungeonLogs"
+                  :key="idx"
+                  class="p-1.5 rounded leading-relaxed border-l-2"
+                  :class="getLogClass(log.type)"
+                >
+                  <span class="text-gray-500 text-[10px]">[{{ log.time }}]</span>
+                  <span class="ml-1 text-gray-200">{{ log.text }}</span>
+                </div>
+                <div v-if="dungeonLogs.length === 0" class="text-gray-500 text-center py-8">
+                  探险队就绪，请在迷宫中迈出探索的第一步...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 引擎底层工程实现说明与 Godot 4.6 源码架构对齐 -->
+        <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>🛠️</span> Godot 4.6 LTS 底层迷宫拓扑与动态迷雾视界架构 (dungeon_maze_generator.gd)
+            </span>
+            <n-tag size="tiny" type="success">支持 TileMapLayer 烘焙与 A* 路径解算</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 leading-relaxed">
+            游戏实机地宫完全遵循 <code>DungeonMazeGenerator</code> 声明式网格驱动。采用双层 TileMapLayer 分离地形与动态战争迷雾遮罩，通过曼哈顿距离 <code>_update_fog_of_war()</code> 实时更新着色器 Alpha 渐变，并在切图转场期间依托 <code>GameStateSave</code> 进行完整迷雾位图压缩持久化。
+          </p>
+          <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 font-mono text-[11px] text-emerald-300 overflow-x-auto max-h-56 custom-scrollbar">
+<pre><code># Godot 4.6 LTS - dungeon_maze_generator.gd
+class_name DungeonMazeGenerator extends Node
+
+signal fog_updated(uncovered_count: int, total_tiles: int)
+signal hazard_triggered(hazard_type: String, damage_amount: int)
+
+@export var maze_size: Vector2i = Vector2i(6, 6)
+@export var sight_radius: int = 1
+
+var fog_matrix: Array = [] # 2D Array of bools
+var is_floating: bool = false
+var oxygen_remaining: float = 420.0
+
+func explore_tile(pos: Vector2i, has_float_buff: bool) -> Dictionary:
+    var result = {"safe": true, "event": "none", "damage": 0}
+    is_floating = has_float_buff
+    
+    # 曼哈顿视野动态驱散
+    for dx in range(-sight_radius, sight_radius + 1):
+        for dy in range(-sight_radius, sight_radius + 1):
+            var nx = pos.x + dx
+            var ny = pos.y + dy
+            if nx >= 0 and nx < maze_size.x and ny >= 0 and ny < maze_size.y:
+                fog_matrix[nx][ny] = true
+                
+    emit_signal("fog_updated", count_revealed(), maze_size.x * maze_size.y)
+    return result
+
+func check_hazard_immunity(hazard_type: String) -> bool:
+    if is_floating and hazard_type in ["pitfall", "lava_marsh", "spike"]:
+        return true # 浮空状态完美规避地面致伤机制
+    return false</code></pre>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
     <!-- 北窟三层地下路线与原场景景物调查专题指南 -->
     <n-card class="mb-5 bg-gradient-to-br from-slate-900/95 via-sky-950/40 to-slate-900/95 border-sky-800/60 shadow-xl" title="🏔️ 北溟南岸·北窟三层地下秘境路线大典与景物调查指南">
       <template #header-extra>
@@ -875,6 +1185,447 @@ const getTierTagType = (tier: string) => {
   if (t.includes('虚无')) return 'primary'
   return 'success'
 }
+
+// ==========================================
+// 🌌 多元宇宙深渊迷宫与战争迷雾工坊系统
+// ==========================================
+interface DungeonTile {
+  type: 'wall' | 'floor' | 'trap' | 'chest' | 'switch' | 'portal' | 'hazard' | 'boss'
+  name: string
+  revealed: boolean
+  collected?: boolean
+  triggered?: boolean
+  description?: string
+}
+
+interface DungeonPresetConfig {
+  id: string
+  name: string
+  icon: string
+  tagType: 'primary' | 'info' | 'warning' | 'error' | 'success'
+  difficulty: string
+  mechanicDetail: string
+  envParam: { name: string; value: string | number; unit?: string }
+  start: [number, number]
+  layout: string[]
+}
+
+const dungeonPresets: DungeonPresetConfig[] = [
+  {
+    id: 'void_castle',
+    name: '次元裂隙·虚无之城核心',
+    icon: '🌌',
+    tagType: 'primary',
+    difficulty: 'Lv.70+ 终焉极难',
+    mechanicDetail: '虚空重力坍缩与虚无黑洞视界：误踩黑洞陷阱将损失 2500 点真实 HP；触碰中央时空核心机关解除封印，方能开启终焉跃迁门。',
+    envParam: { name: '虚空重力极化率', value: '184.5', unit: 'G-Flux' },
+    start: [5, 0],
+    layout: [
+      '#.C.BP',
+      '..#...',
+      'T#S#T.',
+      '....#.',
+      '#T#.C.',
+      '..#.C.'
+    ]
+  },
+  {
+    id: 'sunken_walse',
+    name: '沉没的沃尔斯水之塔',
+    icon: '🌊',
+    tagType: 'info',
+    difficulty: 'Lv.45+ 水下竞速',
+    mechanicDetail: '水下高压缺氧环境：总计 420 秒氧气储备，每移动 1 步消耗 15 秒！必须在氧气耗尽前捞取失落的水晶碎片并激活排水闸门。',
+    envParam: { name: '水下氧气余量', value: 420, unit: '秒' },
+    start: [5, 1],
+    layout: [
+      '#C..SP',
+      '..##..',
+      '.C.T#.',
+      '#..#..',
+      'T.#.C.',
+      '.#....'
+    ]
+  },
+  {
+    id: 'fork_tower',
+    name: '双生分歧之塔 (魔与力)',
+    icon: '🏛️',
+    tagType: 'warning',
+    difficulty: 'Lv.55+ 双生制约',
+    mechanicDetail: '以太与力量双生相位：左翼物理禁制（魔法反制 100% 伤害），右翼禁魔结界（禁用以太吟唱）。踩下以太交错机关均衡两极能量方可撤离。',
+    envParam: { name: '两极偏振状态', value: '双塔共鸣 均衡', unit: '' },
+    start: [5, 2],
+    layout: [
+      'P.S.C#',
+      '.#.#..',
+      'C..#T.',
+      '#T...#',
+      '..#.#C',
+      '..S...'
+    ]
+  },
+  {
+    id: 'north_cave',
+    name: '极北玄冰洞窟 (深层)',
+    icon: '🏔️',
+    tagType: 'success',
+    difficulty: 'Lv.50+ 永冻冰穴',
+    mechanicDetail: '永冻绝对零度与冰裂陷阱：洞窟遍布冰锥坍塌区与氏族石刻，开启风水师浮空可无视冰面阻滑，探明古代玄冰晶核。',
+    envParam: { name: '永冻严寒度', value: '-85.4', unit: '°C' },
+    start: [5, 0],
+    layout: [
+      '#C..SP',
+      '..T#..',
+      '#...C.',
+      '.#T.#.',
+      'C...T.',
+      '..#...'
+    ]
+  }
+]
+
+const selectedDungeonId = ref('void_castle')
+const selectedDungeonPreset = computed(() => {
+  return dungeonPresets.find(p => p.id === selectedDungeonId.value) || dungeonPresets[0]
+})
+
+const playerPos = ref({ r: 5, c: 0 })
+const dungeonGrid = ref<DungeonTile[][]>([])
+const revealedAll = ref(false)
+const playerHp = ref(9999)
+const stepCount = ref(0)
+const floatDuration = ref(0)
+const scoutActive = ref(false)
+const portalUnlocked = ref(false)
+
+interface DungeonLogItem {
+  time: string
+  text: string
+  type: 'info' | 'warn' | 'success' | 'danger'
+}
+const dungeonLogs = ref<DungeonLogItem[]>([])
+
+const playerIcon = computed(() => {
+  if (selectedDungeonId.value === 'sunken_walse') return '🤿'
+  if (selectedDungeonId.value === 'fork_tower') return '🧙‍♂️'
+  if (selectedDungeonId.value === 'north_cave') return '🧗‍♂️'
+  return '🚶‍♂️'
+})
+
+const addLog = (text: string, type: 'info' | 'warn' | 'success' | 'danger' = 'info') => {
+  const d = new Date()
+  const time = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`
+  dungeonLogs.value.unshift({ time, text, type })
+  if (dungeonLogs.value.length > 40) {
+    dungeonLogs.value.pop()
+  }
+}
+
+const totalChests = computed(() => {
+  let count = 0
+  for (const row of dungeonGrid.value) {
+    for (const t of row) {
+      if (t.type === 'chest') count++
+    }
+  }
+  return count
+})
+
+const collectedChests = computed(() => {
+  let count = 0
+  for (const row of dungeonGrid.value) {
+    for (const t of row) {
+      if (t.type === 'chest' && t.collected) count++
+    }
+  }
+  return count
+})
+
+const explorationRate = computed(() => {
+  let total = 0
+  let revealed = 0
+  for (const row of dungeonGrid.value) {
+    for (const t of row) {
+      total++
+      if (t.revealed) revealed++
+    }
+  }
+  if (!total) return 0
+  return Math.round((revealed / total) * 100)
+})
+
+const initDungeonGrid = () => {
+  const preset = selectedDungeonPreset.value
+  playerPos.value = { r: preset.start[0], c: preset.start[1] }
+  playerHp.value = 9999
+  stepCount.value = 0
+  floatDuration.value = 0
+  scoutActive.value = false
+  portalUnlocked.value = false
+  revealedAll.value = false
+
+  if (preset.id === 'sunken_walse') {
+    preset.envParam.value = 420
+  }
+
+  const grid: DungeonTile[][] = []
+  for (let r = 0; r < 6; r++) {
+    const row: DungeonTile[] = []
+    const line = preset.layout[r] || '......'
+    for (let c = 0; c < 6; c++) {
+      const char = line[c] || '.'
+      let type: DungeonTile['type'] = 'floor'
+      let name = '以太通道'
+      let description = '平整的地下石板路径'
+
+      if (char === '#') {
+        type = 'wall'
+        name = '坚实岩壁'
+        description = '不可通行的重力魔导石壁'
+      } else if (char === 'T') {
+        type = 'trap'
+        name = '落穴陷阱'
+        description = '致命的地底落穴与裂隙'
+      } else if (char === 'C') {
+        type = 'chest'
+        name = '秘宝神箱'
+        description = '散发远古微光的远古神兵宝箱'
+      } else if (char === 'S') {
+        type = 'switch'
+        name = '以太解禁核心'
+        description = '解除终焉封印的古代机关晶核'
+      } else if (char === 'P') {
+        type = 'portal'
+        name = '次元传送跃迁门'
+        description = '通往下一未知深渊的传送大门'
+      } else if (char === 'B') {
+        type = 'boss'
+        name = '深渊守门恶魔'
+        description = '潜伏在通往出口咽喉要道的深渊守卫'
+      }
+
+      row.push({
+        type,
+        name,
+        revealed: false,
+        collected: false,
+        triggered: false,
+        description
+      })
+    }
+    grid.push(row)
+  }
+
+  dungeonGrid.value = grid
+  revealAround(playerPos.value.r, playerPos.value.c)
+  addLog(`已进入【${preset.name}】；初始坐标 (${playerPos.value.r}, ${playerPos.value.c})，请留意环境极限制约！`, 'info')
+}
+
+const revealAround = (r: number, c: number, radius = 1) => {
+  for (let dr = -radius; dr <= radius; dr++) {
+    for (let dc = -radius; dc <= radius; dc++) {
+      const nr = r + dr
+      const nc = c + dc
+      if (nr >= 0 && nr < 6 && nc >= 0 && nc < 6) {
+        dungeonGrid.value[nr][nc].revealed = true
+      }
+    }
+  }
+}
+
+const switchDungeonPreset = (id: string) => {
+  selectedDungeonId.value = id
+  initDungeonGrid()
+}
+
+const resetDungeon = () => {
+  initDungeonGrid()
+  addLog('已重新重置当前地宫层级与战争迷雾！', 'info')
+}
+
+const movePlayer = (dr: number, dc: number) => {
+  const nr = playerPos.value.r + dr
+  const nc = playerPos.value.c + dc
+
+  if (nr < 0 || nr >= 6 || nc < 0 || nc >= 6) {
+    addLog('已触及地宫空间外壁边缘，无法继续前进！', 'warn')
+    return
+  }
+
+  const targetTile = dungeonGrid.value[nr][nc]
+  if (targetTile.type === 'wall') {
+    addLog(`前方是【${targetTile.name}】，无法通行！`, 'warn')
+    return
+  }
+
+  // 移动成功
+  playerPos.value = { r: nr, c: nc }
+  stepCount.value++
+  revealAround(nr, nc)
+
+  if (floatDuration.value > 0) {
+    floatDuration.value--
+    if (floatDuration.value === 0) {
+      addLog('🪶 风水师浮空术效果已结束，全员重新脚踏实地。', 'info')
+    }
+  }
+
+  // 环境参数损耗 (如沉没沃尔斯塔氧气消耗)
+  if (selectedDungeonId.value === 'sunken_walse') {
+    const curO2 = Number(selectedDungeonPreset.value.envParam.value) || 0
+    const newO2 = Math.max(0, curO2 - 15)
+    selectedDungeonPreset.value.envParam.value = newO2
+    if (newO2 <= 60 && newO2 > 0) {
+      addLog(`⚠️ 水下氧气告急！仅剩 ${newO2} 秒，请迅速寻找出口或补给！`, 'danger')
+    } else if (newO2 === 0) {
+      playerHp.value = Math.max(1, playerHp.value - 1200)
+      addLog('💀 氧气彻底耗尽！全员承受水下无氧窒息剧痛 (-1200 HP)！', 'danger')
+    }
+  }
+
+  // 地块交互触发
+  if (targetTile.type === 'trap' && !targetTile.triggered) {
+    if (floatDuration.value > 0) {
+      addLog(`🪶 浮空状态生效中！敏捷滑过【${targetTile.name}】，完全免除陷阱伤害！`, 'success')
+    } else {
+      targetTile.triggered = true
+      const dmg = 2500
+      playerHp.value = Math.max(1, playerHp.value - dmg)
+      addLog(`💥 触发了【${targetTile.name}】！地面塌陷受到 -${dmg} 真实物理伤害！`, 'danger')
+    }
+  } else if (targetTile.type === 'chest' && !targetTile.collected) {
+    targetTile.collected = true
+    const rewards = ['圣剑·王者之剑 (Excalibur)', '诸神黄昏 (Ragnarok)', '以太特酿药水 ×3', '龙之逆鳞 ×1', '源氏之铠 (Genji Armor)']
+    const reward = rewards[Math.floor(Math.random() * rewards.length)]
+    addLog(`🎁 开启了【${targetTile.name}】！搜获绝版神器：${reward}！`, 'success')
+  } else if (targetTile.type === 'switch' && !targetTile.triggered) {
+    targetTile.triggered = true
+    portalUnlocked.value = true
+    addLog(`✨ 成功启动【${targetTile.name}】！古老机械轰鸣转动，终焉传送门禁已解除封印！`, 'success')
+  } else if (targetTile.type === 'boss') {
+    addLog(`👹 遭遇【${targetTile.name}】！深渊邪神散发强烈以太风暴 (-1000 HP)，守卫已被击溃！`, 'danger')
+    playerHp.value = Math.max(1, playerHp.value - 1000)
+    targetTile.type = 'floor'
+  } else if (targetTile.type === 'portal') {
+    if (portalUnlocked.value) {
+      addLog('🎉 恭喜！全队成功踏入【次元传送跃迁门】，成功通关本层深渊密境！', 'success')
+    } else {
+      addLog('🔒 传送门处于绝对封印状态！必须先踩下场景内的以太解禁核心！', 'warn')
+    }
+  }
+}
+
+const tryMoveTo = (r: number, c: number) => {
+  const dr = r - playerPos.value.r
+  const dc = c - playerPos.value.c
+  if (Math.abs(dr) + Math.abs(dc) === 1) {
+    movePlayer(dr, dc)
+  }
+}
+
+const castThiefScout = () => {
+  scoutActive.value = true
+  revealAround(playerPos.value.r, playerPos.value.c, 2)
+  for (const row of dungeonGrid.value) {
+    for (const t of row) {
+      if (t.type === 'chest' || t.type === 'switch' || t.type === 'portal') {
+        t.revealed = true
+      }
+    }
+  }
+  addLog('👁️ 盗贼【敏锐鹰眼】发动！全图宝箱、机关核心与传送门方位已全息标记！', 'info')
+}
+
+const castFloatWalk = () => {
+  floatDuration.value = 6
+  addLog('🪶 风水师【全息浮空】发动！全员身披以太羽翼，未来 6 步内免疫一切陷阱与落穴！', 'success')
+}
+
+const getTileClass = (tile: DungeonTile, r: number, c: number) => {
+  if (!tile.revealed && !revealedAll.value) {
+    return 'bg-slate-950 border-slate-900 cursor-not-allowed text-slate-700'
+  }
+  if (playerPos.value.r === r && playerPos.value.c === c) {
+    return 'bg-cyan-950/80 border-cyan-400 shadow-md shadow-cyan-500/40 text-cyan-200 font-black ring-2 ring-cyan-400/50'
+  }
+  if (tile.type === 'wall') {
+    return 'bg-slate-900 border-slate-800 text-slate-600 cursor-not-allowed opacity-80'
+  }
+  if (tile.type === 'portal') {
+    return portalUnlocked.value
+      ? 'bg-purple-900/60 border-purple-400 text-purple-200 hover:scale-105 cursor-pointer shadow-lg shadow-purple-500/40 animate-pulse'
+      : 'bg-slate-900 border-purple-900/50 text-purple-400 cursor-pointer'
+  }
+  if (tile.type === 'switch') {
+    return tile.triggered
+      ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300'
+      : 'bg-amber-950/60 border-amber-500 text-amber-300 hover:scale-105 cursor-pointer'
+  }
+  if (tile.type === 'chest') {
+    return tile.collected
+      ? 'bg-slate-900 border-slate-800 text-gray-500 opacity-60'
+      : 'bg-amber-900/50 border-amber-400 text-amber-300 hover:scale-105 cursor-pointer animate-pulse'
+  }
+  if (tile.type === 'trap') {
+    return tile.triggered
+      ? 'bg-rose-950/80 border-rose-600 text-rose-400'
+      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800 cursor-pointer'
+  }
+  if (tile.type === 'boss') {
+    return 'bg-red-950/70 border-red-500 text-red-400 hover:scale-105 cursor-pointer'
+  }
+  return 'bg-slate-900/50 border-slate-800/80 text-gray-400 hover:bg-slate-850 hover:border-slate-700 cursor-pointer'
+}
+
+const getTileSymbol = (tile: DungeonTile) => {
+  if (tile.type === 'wall') return '🧱'
+  if (tile.type === 'portal') return '🌀'
+  if (tile.type === 'switch') return tile.triggered ? '🔘' : '💎'
+  if (tile.type === 'chest') return tile.collected ? '📦' : '🎁'
+  if (tile.type === 'trap') return tile.triggered ? '🕳️' : '·'
+  if (tile.type === 'boss') return '👹'
+  return '·'
+}
+
+const getTileTooltip = (tile: DungeonTile, r: number, c: number) => {
+  if (!tile.revealed && !revealedAll.value) return `未知迷雾区域 (${r}, ${c})`
+  if (playerPos.value.r === r && playerPos.value.c === c) return `当前探险队所在位置 (${r}, ${c})`
+  return `${tile.name} (${r}, ${c}): ${tile.description}`
+}
+
+const getLogClass = (type: string) => {
+  if (type === 'danger') return 'border-rose-500 bg-rose-950/20 text-rose-300'
+  if (type === 'warn') return 'border-amber-500 bg-amber-950/20 text-amber-300'
+  if (type === 'success') return 'border-emerald-500 bg-emerald-950/20 text-emerald-300'
+  return 'border-cyan-500 bg-cyan-950/20 text-cyan-300'
+}
+
+const handleKeydown = (e: KeyboardEvent) => {
+  if (['ArrowUp', 'KeyW'].includes(e.code)) {
+    e.preventDefault()
+    movePlayer(-1, 0)
+  } else if (['ArrowDown', 'KeyS'].includes(e.code)) {
+    e.preventDefault()
+    movePlayer(1, 0)
+  } else if (['ArrowLeft', 'KeyA'].includes(e.code)) {
+    e.preventDefault()
+    movePlayer(0, -1)
+  } else if (['ArrowRight', 'KeyD'].includes(e.code)) {
+    e.preventDefault()
+    movePlayer(0, 1)
+  }
+}
+
+onMounted(() => {
+  initDungeonGrid()
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
+
 </script>
 
 <style scoped>

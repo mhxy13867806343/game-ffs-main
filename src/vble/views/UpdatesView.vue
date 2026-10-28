@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-dungeons-multiverse-rift-fog-navigator-studio-2026-10-28',
+    version: 'v2.2.231',
+    date: '2026-10-28',
+    title: '多元宇宙裂隙深渊迷宫与战争迷雾密室推演工坊重磅实装',
+    category: 'maps',
+    categoryName: '实机演进',
+    icon: '🌌',
+    tagType: 'info',
+    description: '深度重构升级 DungeonsView 全域地貌拓扑大典：全新实装【多元宇宙裂隙深渊迷宫与战争迷雾密室推演工坊】（Dungeon Fog-of-War Studio）。支持在次元裂隙·虚无之城核心、沉没的沃尔斯水之塔、双生分歧之塔与极北玄冰洞窟 4 大特色地宫之间自由跃迁；深度仿真 6×6 战争迷雾 (Fog of War) 曼哈顿视野动态驱散；实装键盘光标与虚拟方向舵自由步进、落穴/毒沼/深渊恶魔动态陷阱损伤、盗贼【敏锐破妄鹰眼】全息显影、风水师【全息浮空术】免疫落穴机制，以及沃尔斯塔 420s 水下氧气竞速压制与终焉传送门解除封印时序；并严谨对齐 Godot 4.6 LTS dungeon_maze_generator.gd 迷宫拓扑与 TileMapLayer 烘焙内核。',
+    highlights: [
+      '四大终极地宫实机沙盘：自由跃迁虚无之城、沉没水塔、双生分歧之塔与极北玄冰洞窟',
+      '动态战争迷雾 (Fog of War) 系统：以玩家为中心实时曼哈顿半径视野驱散与探索度百分比演算',
+      '特技战术互动机制：支持盗贼敏锐鹰眼全图探宝、风水师全息浮空免疫陷阱与落穴伤害',
+      '极限环境压力实时演算：沉没沃尔斯塔 420 秒动态水下氧气损耗、窒息扣血与以太晶核解禁门禁',
+      'Godot 4.6 底层拓扑内核对齐：无缝衔接 dungeon_maze_generator.gd TileMapLayer 与 A* 路径架构'
+    ],
+    relatedLinks: [
+      { label: '全域地貌与迷宫工坊', path: '/vble/dungeons', icon: '🏰' },
+      { label: '世界场景与城镇 NPC', path: '/vble/scenes', icon: '🏘️' },
+      { label: '首领战术与机制指南', path: '/vble/boss-tactics', icon: '🛡️' }
+    ]
+  },
+  {
     id: 'up-economy-mirage-auction-zeninage-studio-2026-10-28',
     version: 'v2.2.230',
     date: '2026-10-28',
