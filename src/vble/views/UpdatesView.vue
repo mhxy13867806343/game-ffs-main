@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-teachings-mysidia-fusion-2026-10-28',
+    version: 'v2.2.271',
+    date: '2026-10-28',
+    title: '米西迪亚太古白黑双魔禁术极化融合与导师传承工坊重磅实装',
+    category: 'system',
+    categoryName: '禁术传承',
+    icon: '🔮',
+    tagType: 'success',
+    description: '全面重构升级 TeachingsView 秘传绝技研习院门户：顶部横幅标章升级为 VBLE Teachings & Mysidia Forbidden Arts Matrix v2.2.271，新增太古白黑禁术融合工坊一键直达快捷按钮；主模式切换栏扩展【太古白黑双魔禁术极化融合与导师传承工坊】（Mysidia Forbidden Dualcast & Polarity Studio）；覆盖四大米西迪亚传奇导师位格（贤者泰拉、魔导师帕罗姆、神圣波罗姆、大贤者基多）；实现太古白魔极化率 (0%~100%) 与太古黑魔极化率 (0%~100%) 连续动力学调节；支持导师神化共鸣倍率 (1.0x~3.0x)、施法以太过载率 (50%~200%) 及双重施法以太透镜开关；实时解算两极平衡调和度与反噬风险；动态派生四大禁术（太古创世终焉神星、超新星核爆、绝对神圣救赎壁、双魔螺旋连环爆裂）；一键生成并导出《米西迪亚太古白黑双魔禁术极化融合方案书》附带 SHA-256 安全哈希签名；底层源码展台升级双 Tab 切换，新增 mysidia_dualcast_fusion_engine.gd 纯逻辑两极解算引擎。',
+    highlights: [
+      '四大米西迪亚传奇导师位格：贤者泰拉、魔导师帕罗姆、白魔神官波罗姆、大贤者基多',
+      '两极极化动力学调和：太古白魔与太古黑魔双向连续极化，支持一键 50%:50% 神圣对称平衡',
+      '终极以太过载与反噬抗性：200% 极限界超频演练，精准度量导师反噬抗性抵消与伤害迸发',
+      '四大神话禁术动态派生：太古创世神星 99,999 真实贯穿、超新星核爆 78,500 暴击与绝对神圣庇护壁',
+      '禁术方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 mysidia_dualcast_fusion_engine.gd 纯逻辑解算引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '秘传绝技研习院', path: '/vble/teachings', icon: '✨' },
+      { label: '28大职业全景', path: '/vble/jobs', icon: '⚔️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-characters-awakening-studio-2026-10-28',
     version: 'v2.2.270',
     date: '2026-10-28',

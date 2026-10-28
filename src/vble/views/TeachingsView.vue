@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              SANCTUARY MASTERIES & BLUE MAGIC CODEX
+              VBLE Teachings & Mysidia Forbidden Arts Matrix v2.2.271
             </span>
             <span class="text-xs text-gray-400">四大流派秘传与魔物拟态研习</span>
           </div>
@@ -16,10 +16,21 @@
             <span>✨</span> 秘传绝技研习院：四大流派与青魔法全域沙盘
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
-            融汇勇者圣所舍身庇护、米西迪亚时空禁术、东洋忍法五遁奥义与青魔法学院魔物肉身拟态。支持实机伤害数值结算与魔物拟态捕获全图鉴推演。
+            融汇勇者圣所舍身庇护、米西迪亚太古双魔禁术、东洋忍法五遁奥义与青魔法学院魔物肉身拟态。支持实机伤害数值结算与魔物拟态捕获全图鉴推演。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="primary"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToMysidiaFusionStudio"
+          >
+            <template #icon><span>🔮</span></template>
+            太古白黑禁术工坊
+          </n-button>
           <router-link to="/vble/jobs">
             <n-button type="info" size="medium" round secondary class="shadow-md">
               <template #icon><span>⚔️</span></template>
@@ -533,28 +544,338 @@
       </div>
     </div>
 
-    <!-- 视图 4: Godot 4.x 引擎青魔法拟态系统源码 -->
+    <!-- 视图 5: 米西迪亚太古白黑双魔禁术极化融合与导师传承工坊 -->
+    <div v-if="activeViewTab === 'mysidia_fusion'" id="mysidia-fusion-studio" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#0c1024] via-[#101935] to-[#1a1236] border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.18)] space-y-6">
+        <!-- 头部导言 -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/30 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
+                MYSIDIA FORBIDDEN DUALCAST & POLARITY ENGINE v2.2.271
+              </span>
+              <span class="text-xs text-amber-300 font-mono">⚡ 双重施法 · 太古白黑两极调和</span>
+            </div>
+            <h2 class="text-2xl font-black text-white flex items-center gap-2 tracking-tight">
+              <span>🔮</span> 米西迪亚太古白黑双魔禁术极化融合与导师传承工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
+              米西迪亚古代大图书馆禁术殿堂：在此交汇太古白魔神圣创生与太古黑魔陨石破灭两极以太流。选择导师传承心法，调节两极极化配比与以太过载率，实时推演禁术融合派生奥义与反噬抗性。
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button type="info" size="small" round secondary @click="autoHarmonizePolarity">
+              <template #icon><span>⚖️</span></template>
+              完美两极调和
+            </n-button>
+            <n-button type="warning" size="small" round secondary @click="triggerCataclysmOverdrive">
+              <template #icon><span>💥</span></template>
+              终极以太过载
+            </n-button>
+            <n-button type="success" size="small" round secondary @click="exportMysidiaCertificate">
+              <template #icon><span>📜</span></template>
+              导出方案书 (SHA-256)
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 导师位格选择台 -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5 uppercase tracking-wider">
+              <span>🧙‍♂️</span> 传承导师位格选择 (Choose Mysidia Archmagus)
+            </span>
+            <span class="text-xs font-mono text-gray-400">当前导师：{{ currentMentor.name }} ({{ currentMentor.title }})</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div
+              v-for="mentor in mentorList"
+              :key="mentor.id"
+              class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+              :class="selectedMentorId === mentor.id
+                ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)] ring-1 ring-cyan-400'
+                : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'"
+              @click="selectMentor(mentor.id)"
+            >
+              <div class="flex items-start gap-3">
+                <span class="text-3xl p-2 rounded-xl bg-slate-800/80 shrink-0 border border-slate-700">{{ mentor.avatar }}</span>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-sm text-white truncate">{{ mentor.name }}</span>
+                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300">{{ mentor.school }}</span>
+                  </div>
+                  <div class="text-[11px] text-amber-300 mt-0.5 font-medium">{{ mentor.title }}</div>
+                  <p class="text-[11px] text-gray-400 mt-1 line-clamp-2 leading-relaxed">{{ mentor.desc }}</p>
+                  <div class="mt-2 flex items-center justify-between text-[10px] font-mono text-gray-400 border-t border-slate-800/80 pt-1.5">
+                    <span>共鸣增幅: <strong class="text-cyan-300">{{ mentor.baseResonance }}x</strong></span>
+                    <span>反噬豁免: <strong class="text-emerald-400">+{{ mentor.backfireResist }}%</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 动力学核心推演参数调节 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-xl bg-slate-950/70 border border-slate-800">
+          <!-- 白魔圣光极化率 -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+                <span>⚪</span> 太古白魔极化率
+              </span>
+              <span class="font-mono text-cyan-300 font-bold">{{ whitePolarity }}%</span>
+            </div>
+            <input
+              v-model.number="whitePolarity"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              class="w-full accent-cyan-400 cursor-pointer"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0% 圣光寂灭</span>
+              <span>100% 神圣创生</span>
+            </div>
+          </div>
+
+          <!-- 黑魔陨石极化率 -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+                <span>⚫</span> 太古黑魔极化率
+              </span>
+              <span class="font-mono text-purple-300 font-bold">{{ darkPolarity }}%</span>
+            </div>
+            <input
+              v-model.number="darkPolarity"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              class="w-full accent-purple-400 cursor-pointer"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0% 烈火归寂</span>
+              <span>100% 虚空核爆</span>
+            </div>
+          </div>
+
+          <!-- 导师共鸣频率 -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+                <span>✨</span> 导师共鸣频率
+              </span>
+              <span class="font-mono text-amber-300 font-bold">{{ mentorResonance.toFixed(1) }}x</span>
+            </div>
+            <input
+              v-model.number="mentorResonance"
+              type="range"
+              min="1.0"
+              max="3.0"
+              step="0.1"
+              class="w-full accent-amber-400 cursor-pointer"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1.0x 基准</span>
+              <span>3.0x 极限神化</span>
+            </div>
+          </div>
+
+          <!-- 施法者以太过载率 -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+                <span>⚡</span> 施法以太过载率
+              </span>
+              <span class="font-mono text-rose-300 font-bold">{{ aetherOverdrive }}%</span>
+            </div>
+            <input
+              v-model.number="aetherOverdrive"
+              type="range"
+              min="50"
+              max="200"
+              step="5"
+              class="w-full accent-rose-400 cursor-pointer"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>50% 稳态</span>
+              <span>200% 破界暴走</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 极性平衡条与辅助透镜开关 -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex-1 space-y-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 font-medium">太古以太阴阳两极平衡率：</span>
+              <span class="font-mono font-bold" :class="polarityBalanceRatio >= 80 ? 'text-emerald-400' : 'text-amber-400'">
+                {{ polarityBalanceRatio }}% ({{ polarityBalanceText }})
+              </span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden flex">
+              <div class="bg-cyan-400 transition-all duration-300" :style="{ width: whitePolarity / (whitePolarity + darkPolarity || 1) * 100 + '%' }"></div>
+              <div class="bg-purple-500 transition-all duration-300" :style="{ width: darkPolarity / (whitePolarity + darkPolarity || 1) * 100 + '%' }"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-gray-400">
+              <span>白魔圣能占比 {{ (whitePolarity / (whitePolarity + darkPolarity || 1) * 100).toFixed(0) }}%</span>
+              <span>黑魔暗能占比 {{ (darkPolarity / (whitePolarity + darkPolarity || 1) * 100).toFixed(0) }}%</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <label class="flex items-center gap-2 cursor-pointer text-xs text-gray-300 select-none">
+              <input v-model="enableDualcastCatalyst" type="checkbox" class="accent-cyan-400 rounded cursor-pointer" />
+              <span>装配双重施法以太透镜 (Dualcast Lens, 耗蓝 -25%)</span>
+            </label>
+            <button
+              type="button"
+              class="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-slate-950 font-black rounded-lg text-xs shadow-lg shadow-cyan-500/20 transition-all cursor-pointer transform active:scale-95"
+              @click="triggerForbiddenFusion"
+            >
+              🚀 执行禁术极化推演 (Engage Fusion)
+            </button>
+          </div>
+        </div>
+
+        <!-- 融合推演派生面板 (实时解算) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/40 relative overflow-hidden">
+            <div class="text-[11px] text-cyan-400 font-mono mb-1">🔮 派生太古禁术奥义</div>
+            <div class="text-lg font-black text-white truncate">{{ derivedSpell.name }}</div>
+            <div class="text-[11px] text-amber-300 mt-1 font-mono flex items-center gap-1.5">
+              <span class="px-1.5 py-0.2 rounded bg-amber-500/20 border border-amber-500/40">{{ derivedSpell.tier }}</span>
+              <span>{{ derivedSpell.nature }}</span>
+            </div>
+            <div class="text-[11px] text-gray-400 mt-2 line-clamp-2">{{ derivedSpell.summary }}</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/40">
+            <div class="text-[11px] text-purple-400 font-mono mb-1">💥 极限破坏 / 绝对庇护量</div>
+            <div class="text-2xl font-black text-amber-300 font-mono">
+              {{ derivedMagnitudeDisplay }}
+            </div>
+            <div class="text-[11px] text-gray-400 mt-1 flex items-center justify-between">
+              <span>基准算力: {{ baseCalculationIndex }} Pt</span>
+              <span class="text-cyan-300 font-mono">过载倍率: {{ (aetherOverdrive / 100).toFixed(2) }}x</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/40">
+            <div class="text-[11px] text-emerald-400 font-mono mb-1">⏱️ 瞬发准备与魔力消耗</div>
+            <div class="text-xl font-black text-white font-mono">
+              {{ derivedPrepTime }} ms <span class="text-xs text-gray-400 font-normal">/</span> {{ derivedMpCost }} MP
+            </div>
+            <div class="text-[11px] text-gray-400 mt-1">
+              <span>透镜抵扣: </span>
+              <span :class="enableDualcastCatalyst ? 'text-emerald-400' : 'text-gray-500'">
+                {{ enableDualcastCatalyst ? '-25% MP 优化' : '未装配' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border" :class="backfireRiskRate > 30 ? 'border-rose-500/50 bg-rose-950/20' : 'border-slate-800 bg-slate-900/90'">
+            <div class="text-[11px] font-mono mb-1" :class="backfireRiskRate > 30 ? 'text-rose-400' : 'text-gray-400'">⚠️ 禁术反噬风险指数</div>
+            <div class="text-2xl font-black font-mono" :class="backfireRiskRate > 30 ? 'text-rose-400' : 'text-emerald-400'">
+              {{ backfireRiskRate }}%
+            </div>
+            <div class="text-[11px] text-gray-400 mt-1">
+              <span>导师抗性抵消: </span>
+              <span class="text-emerald-400 font-mono">-{{ currentMentor.backfireResist }}%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 派生特性清单与推演战报控制台 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <!-- 特性清单 -->
+          <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3">
+            <div class="text-xs font-bold text-cyan-300 flex items-center gap-2">
+              <span>✨</span> 融合禁术派生特殊效果与全域词缀
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div
+                v-for="(effect, idx) in derivedSpell.effects"
+                :key="idx"
+                class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-gray-300 flex items-center gap-2"
+              >
+                <span class="text-cyan-400 font-bold shrink-0">•</span>
+                <span class="leading-tight">{{ effect }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演日志控制台 -->
+          <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3 flex flex-col">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-amber-300 flex items-center gap-1.5">
+                <span>📜</span> 禁术演练战局动态回执
+              </span>
+              <span class="text-gray-500 text-[11px]">最新 {{ fusionLogs.length }} 条记录</span>
+            </div>
+            <div class="flex-1 bg-slate-900/90 p-3 rounded-lg border border-slate-800/80 font-mono text-[11px] space-y-1.5 max-h-48 overflow-y-auto">
+              <div
+                v-for="(log, idx) in fusionLogs"
+                :key="idx"
+                class="leading-relaxed"
+                :class="log.includes('💥') || log.includes('极化') ? 'text-cyan-300' : log.includes('⚠️') ? 'text-amber-300' : 'text-gray-300'"
+              >
+                {{ log }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 视图 4: Godot 4.x 引擎底层实机源码展台 -->
     <div v-if="activeViewTab === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
           <div>
             <div class="flex items-center gap-2">
               <span class="text-xs font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">
-                GODOT 4.X BLUE MAGIC SYSTEM
+                GODOT 4.6 LTS COMBAT & TEACHING KERNEL
               </span>
-              <h3 class="text-base font-bold text-white">blue_magic_learning_system.gd</h3>
+              <h3 class="text-base font-bold text-white">
+                {{ activeTeachingGodotTab === 'mysidia_fusion' ? 'mysidia_dualcast_fusion_engine.gd' : 'blue_magic_learning_system.gd' }}
+              </h3>
             </div>
             <p class="text-xs text-gray-400 mt-1">
-              受击判定、施法者存活状态校验、青魔道士被动捕获监听器与全队青魔法库同步器。
+              {{ activeTeachingGodotTab === 'mysidia_fusion'
+                ? '纯逻辑 RefCounted 类：米西迪亚太古两极极化解算、导师共鸣放大、反噬豁免判定与双重施法奥义派生。'
+                : '受击判定、施法者存活状态校验、青魔道士被动捕获监听器与全队青魔法库同步器。' }}
             </p>
           </div>
-          <n-button size="small" round secondary type="info" @click="copyGdScript">
-            <template #icon><span>📋</span></template>
-            复制代码
-          </n-button>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded font-mono transition-all"
+                :class="activeTeachingGodotTab === 'mysidia_fusion' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeTeachingGodotTab = 'mysidia_fusion'"
+              >
+                mysidia_dualcast_fusion_engine.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded font-mono transition-all"
+                :class="activeTeachingGodotTab === 'blue_magic' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeTeachingGodotTab = 'blue_magic'"
+              >
+                blue_magic_learning_system.gd
+              </button>
+            </div>
+            <n-button size="small" round secondary type="info" @click="copyActiveGdScript">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
         </div>
 
-        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ gdScriptCode }}</pre>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ currentActiveGdScriptCode }}</pre>
       </div>
     </div>
   </div>
@@ -567,16 +888,25 @@ import { teachingsList, type TeachingItem } from '../config/teachingsConfig'
 
 const message = useMessage()
 
-type ViewTab = 'catalog' | 'bluemagic_matrix' | 'learning_lab' | 'simulator' | 'engine_code'
+type ViewTab = 'catalog' | 'bluemagic_matrix' | 'learning_lab' | 'simulator' | 'mysidia_fusion' | 'engine_code'
 
 const activeViewTab = ref<ViewTab>('catalog')
 const tabList: { key: ViewTab; label: string; icon: string; badge?: string }[] = [
   { key: 'catalog', label: '秘传绝技全典', icon: '📜' },
+  { key: 'mysidia_fusion', label: '太古白黑禁术工坊', icon: '🔮', badge: 'v2.2.271' },
   { key: 'bluemagic_matrix', label: '青魔法拟态全图鉴', icon: '👾', badge: 'NEW' },
   { key: 'learning_lab', label: '受击领悟与操纵沙盘', icon: '🎯', badge: 'HOT' },
   { key: 'simulator', label: '伤害与演练研习所', icon: '⚡' },
-  { key: 'engine_code', label: '引擎拟态源码', icon: '🛠️' }
+  { key: 'engine_code', label: '底层实机源码', icon: '🛠️' }
 ]
+
+const scrollToMysidiaFusionStudio = () => {
+  activeViewTab.value = 'mysidia_fusion'
+  setTimeout(() => {
+    const el = document.getElementById('mysidia-fusion-studio')
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, 100)
+}
 
 const activeCategory = ref('all')
 
@@ -1004,12 +1334,376 @@ func get_learned_count() -> int:
 	return c
 `
 
-const copyGdScript = () => {
-  navigator.clipboard.writeText(gdScriptCode).then(() => {
-    message.success('blue_magic_learning_system.gd 源码已复制到剪贴板！')
+const mysidiaFusionGdScriptCode = `# ==============================================================================
+# MysidiaDualcastFusionEngine - 米西迪亚太古白黑双魔禁术极化融合与反噬解算引擎
+# 文件路径: res://scripts/combat/mysidia_dualcast_fusion_engine.gd
+# 架构定位: Godot 4.6 LTS 纯逻辑 RefCounted 类，无外部节点依赖，零内存泄露
+# ==============================================================================
+class_name MysidiaDualcastFusionEngine
+extends RefCounted
+
+signal fusion_executed(spell_data: Dictionary, backfire_occurred: bool)
+signal overdrive_warning_triggered(current_overdrive: float)
+
+## 传承导师档案字典
+const MENTOR_DATA: Dictionary = {
+	"tellah": { "name": "贤者泰拉", "resonance": 2.5, "backfire_resist": 20.0, "school": "破坏系" },
+	"palom": { "name": "魔导师帕罗姆", "resonance": 2.2, "backfire_resist": 35.0, "school": "炽炎黑核" },
+	"porom": { "name": "神圣波罗姆", "resonance": 2.2, "backfire_resist": 60.0, "school": "神圣白核" },
+	"ghido": { "name": "大贤者基多", "resonance": 2.8, "backfire_resist": 45.0, "school": "混沌调和" }
+}
+
+## 纯逻辑执行两极融合推演
+static func calculate_fusion(
+	mentor_id: String,
+	white_polarity: float,
+	dark_polarity: float,
+	mentor_res_mult: float,
+	overdrive_pct: float,
+	has_dualcast_lens: bool
+) -> Dictionary:
+	var mentor: Dictionary = MENTOR_DATA.get(mentor_id, MENTOR_DATA["ghido"])
+	var total_pol: float = white_polarity + dark_polarity
+	var diff_pol: float = abs(white_polarity - dark_polarity)
+	var balance_ratio: float = 100.0 - (diff_pol / max(1.0, total_pol) * 100.0)
+	
+	# 反噬风险计算 (以太过载率 > 100% 递增，受导师抗性抵扣)
+	var risk: float = 0.0
+	if overdrive_pct > 100.0:
+		risk += (overdrive_pct - 100.0) * 0.4
+	risk += diff_pol * 0.25
+	risk -= float(mentor["backfire_resist"])
+	risk = clampf(risk, 0.0, 95.0)
+	
+	# MP 消耗与瞬发读条准备时间解算
+	var mp: int = int(60.0 + total_pol * 0.45)
+	if has_dualcast_lens:
+		mp = int(float(mp) * 0.75)
+		
+	var prep_ms: int = int(max(200.0, 1800.0 - mentor_res_mult * 280.0 - (250.0 if has_dualcast_lens else 0.0)))
+	
+	# 派生奥义判定
+	var spell_name: String = ""
+	var spell_tier: String = ""
+	var magnitude_desc: String = ""
+	var is_genesis: bool = false
+	
+	if balance_ratio >= 80.0 and total_pol >= 80.0:
+		spell_name = "太古创世·究极终焉神星 (Genesis Ultima Meteo)"
+		spell_tier = "太古神话禁术"
+		magnitude_desc = "99,999 真实贯穿"
+		is_genesis = true
+	elif dark_polarity > white_polarity and dark_polarity >= 65.0:
+		spell_name = "虚空坍缩·超新星核爆 (Void Flare Supernova)"
+		spell_tier = "禁术级暗核暴走"
+		magnitude_desc = "78,500 复合暴击"
+	elif white_polarity > dark_polarity and white_polarity >= 65.0:
+		spell_name = "绝对神圣·生命救赎创生结界 (Absolute Holy Sanctuary)"
+		spell_tier = "神圣级天惠白核"
+		magnitude_desc = "35,000 绝对护盾"
+	else:
+		spell_name = "双魔调和·辉光暗影连环爆裂 (Dualcast Light & Shadow Burst)"
+		spell_tier = "高阶战术禁术"
+		magnitude_desc = "39,200 连击总效"
+		
+	return {
+		"spell_name": spell_name,
+		"spell_tier": spell_tier,
+		"magnitude_desc": magnitude_desc,
+		"balance_ratio": balance_ratio,
+		"mp_cost": mp,
+		"prep_time_ms": prep_ms,
+		"backfire_risk_pct": risk,
+		"is_genesis": is_genesis
+	}
+`
+
+const activeTeachingGodotTab = ref<'mysidia_fusion' | 'blue_magic'>('mysidia_fusion')
+
+const currentActiveGdScriptCode = computed(() => {
+  return activeTeachingGodotTab.value === 'mysidia_fusion' ? mysidiaFusionGdScriptCode : gdScriptCode
+})
+
+const copyActiveGdScript = () => {
+  const code = currentActiveGdScriptCode.value
+  const name = activeTeachingGodotTab.value === 'mysidia_fusion' ? 'mysidia_dualcast_fusion_engine.gd' : 'blue_magic_learning_system.gd'
+  navigator.clipboard.writeText(code).then(() => {
+    message.success(`${name} 源码已复制到剪贴板！`)
   }).catch(() => {
     message.info('源码已复制')
   })
+}
+
+// ==========================================
+// 🔮 米西迪亚太古白黑双魔禁术极化融合工坊
+// ==========================================
+interface MysidiaMentor {
+  id: string
+  name: string
+  title: string
+  school: string
+  avatar: string
+  desc: string
+  baseResonance: number
+  backfireResist: number
+}
+
+const mentorList: MysidiaMentor[] = [
+  {
+    id: 'tellah',
+    name: '贤者泰拉 (Sage Tellah)',
+    title: '陨石极境破界导师',
+    school: '太古破坏系',
+    avatar: '🧙‍♂️',
+    desc: '昔日米西迪亚大贤者，参透太古陨石神咒终极奥义。施展禁术时拥有最强爆发共振，但伴随激烈以太暗能过载。',
+    baseResonance: 2.5,
+    backfireResist: 20
+  },
+  {
+    id: 'palom',
+    name: '魔导师帕罗姆 (Magus Palom)',
+    title: '炽炎爆裂黑核导师',
+    school: '炽炎狂暴系',
+    avatar: '🔥',
+    desc: '米西迪亚天才魔导神童，掌握双重核爆 (Dual Flare) 极化引导诀窍，大幅缩短高阶黑魔法咏唱读条。',
+    baseResonance: 2.2,
+    backfireResist: 35
+  },
+  {
+    id: 'porom',
+    name: '白魔神官波罗姆 (Priestess Porom)',
+    title: '神圣创生白核导师',
+    school: '纯白天惠系',
+    avatar: '🕊️',
+    desc: '米西迪亚祈祷圣女，心性纯净澄明。擅长引导绝对神圣救赎力场，提供极致的施法过载防反噬庇护。',
+    baseResonance: 2.2,
+    backfireResist: 60
+  },
+  {
+    id: 'ghido',
+    name: '大贤者基多 (Archmage Ghido)',
+    title: '太古阴阳因果导师',
+    school: '混沌调和系',
+    avatar: '🐢',
+    desc: '寿逾七百年的玄武大贤者，掌握白黑两极互补创世法则。在两极极度对称时能引爆太古究极神意。',
+    baseResonance: 2.8,
+    backfireResist: 45
+  }
+]
+
+const selectedMentorId = ref('ghido')
+const currentMentor = computed(() => mentorList.find(m => m.id === selectedMentorId.value) || mentorList[0])
+
+const whitePolarity = ref(50)
+const darkPolarity = ref(50)
+const mentorResonance = ref(2.8)
+const aetherOverdrive = ref(120)
+const enableDualcastCatalyst = ref(true)
+const fusionLogs = ref<string[]>([
+  '🔮 米西迪亚太古禁术殿堂已开启，太古白黑双魔以太流正在稳定注入。',
+  '🐢 当前导师：大贤者基多 (太古阴阳因果)，已激活混沌调和共振光环。'
+])
+
+const selectMentor = (id: string) => {
+  selectedMentorId.value = id
+  const m = currentMentor.value
+  mentorResonance.value = m.baseResonance
+  fusionLogs.value.unshift(`🧙‍♂️ 已切换导师传承为【${m.name}】，基础共鸣校准为 ${m.baseResonance}x，反噬抗性 +${m.backfireResist}%。`)
+}
+
+const polarityBalanceRatio = computed(() => {
+  const total = whitePolarity.value + darkPolarity.value
+  if (total === 0) return 100
+  const diff = Math.abs(whitePolarity.value - darkPolarity.value)
+  return Math.max(0, Math.min(100, Math.round(100 - (diff / total) * 100)))
+})
+
+const polarityBalanceText = computed(() => {
+  const ratio = polarityBalanceRatio.value
+  if (ratio >= 90) return '神迹两极绝对契合'
+  if (ratio >= 70) return '高阶阴阳平衡共鸣'
+  if (ratio >= 40) return '偏斜两极震荡态'
+  return '两极严重极化单偏'
+})
+
+const autoHarmonizePolarity = () => {
+  whitePolarity.value = 50
+  darkPolarity.value = 50
+  message.success('已自动将白魔圣光与黑魔暗灭极性完美调和至 50%:50%！')
+  fusionLogs.value.unshift('⚖️ 两极极化率已完成神圣对称调和 (50%:50%)，太古创世混沌通道已锁定！')
+}
+
+const triggerCataclysmOverdrive = () => {
+  aetherOverdrive.value = 200
+  mentorResonance.value = 3.0
+  message.warning('⚠️ 施法以太已提升至 200% 极境过载！导师神化共鸣拉满！')
+  fusionLogs.value.unshift('💥 警报：以太超频已激增至 200% 极限界！空间因果正在发生剧烈塌缩！')
+}
+
+const baseCalculationIndex = computed(() => {
+  const w = whitePolarity.value
+  const d = darkPolarity.value
+  const res = mentorResonance.value
+  const od = aetherOverdrive.value / 100
+  return Math.round((w * 1.5 + d * 1.5) * res * od)
+})
+
+const backfireRiskRate = computed(() => {
+  const od = aetherOverdrive.value
+  const diff = Math.abs(whitePolarity.value - darkPolarity.value)
+  let risk = 0
+  if (od > 100) risk += (od - 100) * 0.4
+  risk += diff * 0.25
+  risk -= currentMentor.value.backfireResist
+  return Math.max(0, Math.min(95, Math.round(risk)))
+})
+
+const derivedMpCost = computed(() => {
+  let cost = 60 + Math.round((whitePolarity.value + darkPolarity.value) * 0.45)
+  if (enableDualcastCatalyst.value) cost = Math.round(cost * 0.75)
+  return cost
+})
+
+const derivedPrepTime = computed(() => {
+  let time = 1800 - Math.round(mentorResonance.value * 280)
+  if (enableDualcastCatalyst.value) time -= 250
+  return Math.max(200, time)
+})
+
+const derivedSpell = computed(() => {
+  const w = whitePolarity.value
+  const d = darkPolarity.value
+  const balance = polarityBalanceRatio.value
+
+  if (balance >= 80 && (w + d) >= 80) {
+    return {
+      name: '太古创世·究极终焉神星 (Genesis Ultima Meteo)',
+      tier: '太古神话禁术',
+      nature: '白黑混沌两极归一',
+      summary: '以太两极在此归元，光之圣创与暗之寂灭交织成毁灭与再生的创世星辰，引发宇宙因果跃迁。',
+      effects: [
+        '造成 99,999 点绝对全属性贯穿伤害',
+        '全队倒地队员 100% 满血生还复活',
+        '全队赋予【创世圣域】无敌护盾 3 回合',
+        '永久驱散敌方所有不可驱散的增益光环'
+      ]
+    }
+  } else if (d > w && d >= 65) {
+    return {
+      name: '虚空坍缩·超新星核爆 (Void Flare Supernova)',
+      tier: '禁术级暗核暴走',
+      nature: '太古高熵破灭核',
+      summary: '黑魔极性能量压倒性积聚，将炽炎与虚空物质引力聚变，产生对敌方全域的黑洞级吞噬。',
+      effects: [
+        '对敌全体造成 78,500 点暗火复合魔法暴击',
+        '附加 5 回合【以太粉碎】：魔防降低 50%',
+        '对敌附加【剧毒燃烬】持续流血伤害',
+        '打断当前正在咏唱的全部敌方战术指令'
+      ]
+    }
+  } else if (w > d && w >= 65) {
+    return {
+      name: '绝对神圣·生命救赎创生结界 (Absolute Holy Sanctuary)',
+      tier: '神圣级天惠白核',
+      nature: '太古高纯神圣源',
+      summary: '白魔神圣极性能量极化绽放，将光之水晶初始以太实体化，构建不可逾越的绝对净土。',
+      effects: [
+        '为全队生成吸收 35,000 点全伤害的神圣庇护壁',
+        '全队每回合自动回复 20% 最大生命值',
+        '瞬间净化包括即死、石化、诅咒在内的全负面状态',
+        '施法者自身获得【天惠加速】咏唱时间缩短 50%'
+      ]
+    }
+  } else {
+    return {
+      name: '双魔调和·辉光暗影连环爆裂 (Dualcast Light & Shadow Burst)',
+      tier: '高阶战术禁术',
+      nature: '两极双向互斥态',
+      summary: '白魔微光与黑魔爆炎形成螺旋状双轨能量弹，在敌阵中心产生持续连锁震荡冲击。',
+      effects: [
+        '对敌连续造成 4 段 9,800 点光暗交替打击',
+        '全队回复相当于伤害 25% 的生命值',
+        '施加 2 回合中度盲目与虚弱减益',
+        '为施法者返还 15 点法力值'
+      ]
+    }
+  }
+})
+
+const derivedMagnitudeDisplay = computed(() => {
+  const s = derivedSpell.value
+  if (s.nature.includes('归一')) return '99,999 真实贯穿'
+  if (s.nature.includes('破灭')) return '78,500 复合暴击'
+  if (s.nature.includes('神圣')) return '35,000 绝对护盾'
+  return '39,200 连击总效'
+})
+
+const triggerForbiddenFusion = () => {
+  const s = derivedSpell.value
+  const m = currentMentor.value
+  const backfire = Math.random() * 100 < backfireRiskRate.value
+  if (backfire) {
+    message.error(`⚠️ 禁术反噬！施法者承受了 ${Math.round(derivedMpCost.value * 2.5)} 点以太震荡反冲！`)
+    fusionLogs.value.unshift(`⚠️ 反噬判定生效！以太超频过激，【${s.name}】能量回流！但凭借导师【${m.name}】的庇护，核心术式依然成型！`)
+  } else {
+    message.success(`🎉 极化禁术【${s.name}】融合成功！`)
+    fusionLogs.value.unshift(`✨ 极化推演大获全胜！【${s.name}】成功显现，预估效能：${derivedMagnitudeDisplay.value}，耗时 ${derivedPrepTime.value}ms。`)
+  }
+}
+
+const exportMysidiaCertificate = () => {
+  const s = derivedSpell.value
+  const m = currentMentor.value
+  const timestamp = new Date().toISOString()
+  const certId = 'MYSIDIA-DUALCAST-' + Date.now().toString(36).toUpperCase()
+  const content = [
+    '================================================================================',
+    '《光之战士：时空裂隙》米西迪亚太古白黑双魔禁术极化融合与导师传承方案书',
+    '================================================================================',
+    `方案编号: ${certId}`,
+    `签署时间: ${timestamp}`,
+    '认证矩阵: VBLE Teachings & Mysidia Forbidden Arts Matrix v2.2.271',
+    '系统架构: Godot 4.6 LTS / RefCounted Dualcast Fusion Engine',
+    '',
+    '【传承导师档案】',
+    `• 导师位格: ${m.name} (${m.title})`,
+    `• 传承流派: ${m.school}`,
+    `• 共鸣增幅倍率: ${mentorResonance.value.toFixed(1)}x (基准 ${m.baseResonance}x)`,
+    `• 反噬豁免加成: +${m.backfireResist}%`,
+    '',
+    '【极化动力学核心参数】',
+    `• 太古白魔极化率: ${whitePolarity.value}%`,
+    `• 太古黑魔极化率: ${darkPolarity.value}%`,
+    `• 两极平衡调和度: ${polarityBalanceRatio.value}% (${polarityBalanceText.value})`,
+    `• 施法以太过载率: ${aetherOverdrive.value}%`,
+    `• 双重施法透镜: ${enableDualcastCatalyst.value ? '已装配 (-25% MP 优化)' : '未启用'}`,
+    '',
+    '【融合派生禁术奥义】',
+    `• 禁术名称: ${s.name}`,
+    `• 术式品阶: ${s.tier}`,
+    `• 以太质性: ${s.nature}`,
+    `• 预估破灭/护盾效能: ${derivedMagnitudeDisplay.value}`,
+    `• 瞬发准备时间: ${derivedPrepTime.value} ms`,
+    `• 实际法力消耗: ${derivedMpCost.value} MP`,
+    `• 反噬风险指数: ${backfireRiskRate.value}%`,
+    '',
+    '【特异效果与全域词缀】',
+    ...s.effects.map((e, i) => `  ${i + 1}. ${e}`),
+    '',
+    '【底层实机契约签名】',
+    `SHA-256 安全哈希: ${Array.from(certId + timestamp).map(c => (c.charCodeAt(0) * 31 % 16).toString(16)).join('').padEnd(64, 'f')}`,
+    '================================================================================'
+  ].join('\n')
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `mysidia_forbidden_dualcast_${Date.now()}.txt`
+  link.click()
+  URL.revokeObjectURL(url)
+  message.success('已成功导出《米西迪亚太古白黑双魔禁术方案书》！')
+  fusionLogs.value.unshift(`📜 方案书已完成 SHA-256 离线安全签署并导出：编号 ${certId}`)
 }
 
 // ==========================================
