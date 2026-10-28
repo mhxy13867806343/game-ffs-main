@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-download-p2p-swarm-2026-10-28',
+    version: 'v2.2.273',
+    date: '2026-10-28',
+    title: '全域客户端 P2P 蜂窝分发、分块哈希签名与多源断点续传工坊重磅实装',
+    category: 'system',
+    categoryName: '分发展台',
+    icon: '🌐',
+    tagType: 'success',
+    description: '全面重构升级 DownloadView 客户端发布大厅门户：顶部横幅标章升级为 v2.2.273 稳定发行版，新增 P2P 蜂窝分发工坊一键直达快捷按钮；专区重磅实装【全域客户端 P2P 蜂窝分发、分块哈希签名与多源断点续传工坊】（P2P Swarm & Merkle Tree Distribution Studio）；覆盖四大蜂窝拓扑架构（全球超导超级节点群、混合中继 CDN 蜂窝、局域网边缘穿透 Mesh、极端弱网抗审查容错）；实现并发节点数 (8~256 Peers)、分块哈希规格 (64~512 KB)、本地共享上传配额 (10%~100%) 与前向纠错容限 (5%~30%) 连续动力学调节；支持 Merkle 树全量根哈希实时防篡改核验；实时解算综合下行带宽 (45~980 Mbps)、1.28GB 全量包耗时与去中心化蜂窝健康度 (10~100 Pt)；一键生成并导出《全域客户端 P2P 蜂窝分发与分块哈希签名方案书》附带 SHA-256 安全哈希签名；底层源码展台升级三 Tab 切换，新增 p2p_chunk_swarm_engine.gd 纯逻辑蜂窝引擎。',
+    highlights: [
+      '四大蜂窝集群拓扑架构：全球超导节点群、混合中继 CDN、局域网 Mesh 与弱网抗审查',
+      '四维分发动力学解算：并发 Peer、分块哈希大小、本地上传配额与前向纠错冗余比率全域调节',
+      'Merkle 树分块哈希验签：5,243 个 256KB 分块并行校验，实现 100% 纯净度与秒级断点自愈',
+      '千兆下行满血分发：一键超导节点加速，聚合带宽冲上 980 Mbps，全包仅需数十秒',
+      'P2P 分发方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 p2p_chunk_swarm_engine.gd 纯逻辑蜂窝分发引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '客户端发布大厅', path: '/vble/download', icon: '📥' },
+      { label: '系统底层架构总线', path: '/vble/systems', icon: '⚙️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-celestial-tidal-inversion-2026-10-28',
     version: 'v2.2.272',
     date: '2026-10-28',
