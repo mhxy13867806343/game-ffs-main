@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-summons-simulation-studio-2026-10-28',
+    version: 'v2.2.207',
+    date: '2026-10-28',
+    title: '十二柱幻兽神殿全息契约 & 实机战斗召唤沙盘演练工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🐉',
+    tagType: 'warning',
+    description: '深度重构升级 SummonsView 幻兽与召唤神殿：全景收录晶石纪元太古十二柱神兽（巴哈姆特、利维亚桑、奥丁、不死鸟、希瓦、伊芙利特等）详细属性、必杀技、常驻庇佑与秘境试炼；全息构建对齐 Godot 4.x 引擎 summon_system.gd 的战斗伤害与机制结算沙盘，并实装龙王破灭击、三元混沌炼狱等 4 大跨职业隐藏融合奥义。',
+    highlights: [
+      '十二柱太古神明矩阵：覆盖无、水、火、冰、雷、地、圣 7 大元素体系，提供品阶分类与瞬时全文字段过滤',
+      '实机战斗推演沙盘：可自主调节施术角色魔力资质、MP 储备、召唤师纹章与白魔同行羁绊，动态推演单体/全体期望伤害',
+      '极效特殊机制结算：支持巴哈姆特真实穿透核爆、奥丁首领 9999 破界转换/杂兵 100% 斩断、利维亚桑 40% 咏唱打断、不死鸟全员复活等全息判定',
+      '跨职业隐藏融合奥义 (Fusion Artes)：收录【龙王破灭击】、【三元混沌炼狱】、【涅槃再生神愈】与【万钧飞羽泰山重压】',
+      'Godot 4.x 核心引擎代码对齐：内置 summon_system.gd 源码查看与一键复制功能'
+    ],
+    relatedLinks: [
+      { label: '十二柱幻兽神殿', path: '/vble/summons', icon: '🐉' },
+      { label: '全职业矩阵总览', path: '/vble/jobs', icon: '🛡️' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-version-polling-enhancement-2026-10-28',
     version: 'v2.2.206',
     date: '2026-10-28',
