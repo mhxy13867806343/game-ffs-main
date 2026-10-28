@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-celestial-gravity-studio-2026-10-28',
+    version: 'v2.2.210',
+    date: '2026-10-28',
+    title: '虚空天体次元之隙四阶与九大星体引力修正沙盘重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🪐',
+    tagType: 'info',
+    description: '深度重构升级 CelestialView 虚空天体：全景展出次元之隙四大阶层湮灭空间（荒芜流沙砂漠、静止幻影蜃楼、机械齿轮遗迹、终焉虚无核心）；解构风、水、火、土、虚五大始源水晶元素共鸣；构建对齐 Godot 4.x celestial_gravity.gd 的九大行星引力场演算沙盘，推演 ATB 时间流速阻尼、元素环境增益与奇点坍缩反噬危险度。',
+    highlights: [
+      '次元之隙四阶湮灭空间：完整收录各层领域意境、盘踞霸主与空间机制，支持自由选定演算阶层',
+      '九大行星引力修正沙盘：自主配置水星极寒、火星熔岩、木星风暴、土星时滞、海王星潮汐与冥王星冥界等行星投影',
+      '引力稳定锚与虚空晶石共鸣：实装【星体引力稳定锚】化解 15% 行动时滞，【虚空晶石共鸣】压制奇点坍缩危险度',
+      '五大始源水晶共鸣矩阵：展现风、水、火、土、虚五重秩序基石，支持一键切换并激活队伍元素亲和',
+      'Godot 4.x 核心引擎代码对齐：内置 celestial_gravity.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '虚空天体探索', path: '/vble/celestial', icon: '🪐' },
+      { label: '迷宫秘境总览', path: '/vble/dungeons', icon: '🏰' },
+      { label: '系统架构总览', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-boss-tactics-raid-studio-2026-10-28',
     version: 'v2.2.209',
     date: '2026-10-28',
