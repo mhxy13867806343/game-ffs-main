@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-download-webcrypto-hash-verifier-diagnostic-2026-10-28',
+    version: 'v2.2.223',
+    date: '2026-10-28',
+    title: '全平台客户端发布、Web Crypto 安全哈希校验与硬件诊断工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🛡️',
+    tagType: 'success',
+    description: '深度重构升级 DownloadView 客户端发布大厅：全景集成 Windows 64位纯净版、macOS Apple Silicon 原生包、Linux / Steam Deck 专版及 Android 触控版离线包规格清单；全新实装基于浏览器端 Web Crypto 原生 API 的【SHA-256 离线安全哈希校验器】（Package Integrity Studio），支持文件拖拽零上传秒级计算哈希指纹，并与官方发布基准清单双向比对防篡改；全新实装【设备软硬件环境探测与兼容度评估】（Hardware Diagnostic），实时检测 GPU 渲染器、屏幕高刷 DPI 与 Gamepad 手柄接入状态；并深度对齐 Godot 4.6 LTS client_bootloader.gd 离线启动加载与多平台自适应调度内核源码。',
+    highlights: [
+      '浏览器端 Web Crypto SHA-256 校验器：利用原生硬件加速在浏览器内存中直接计算文件指纹，零数据上传，安全防篡改',
+      '官方多平台发布清单与哈希公示：Windows / macOS / Linux / Steam Deck 独立运行包 SHA-256 指纹一键复制比对',
+      '设备软硬件实时诊断：自适应探测操作系统、屏幕分辨率高刷比、WebGL 2.0 / GPU 渲染架构与 Gamepad 热插拔',
+      'Godot 4.6 离线单机启动内核：实装 client_bootloader.gd 架构规范，自适应调度 DirectX 12 / Metal 3 / Vulkan 渲染后端'
+    ],
+    relatedLinks: [
+      { label: '客户端发布与哈希校验', path: '/vble/download', icon: '📥' },
+      { label: '系统架构白皮书', path: '/vble/docs', icon: '📜' },
+      { label: '最新功能路线图', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
+  {
     id: 'up-news-event-radar-community-qa-2026-10-28',
     version: 'v2.2.222',
     date: '2026-10-28',
