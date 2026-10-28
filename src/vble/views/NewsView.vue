@@ -20,17 +20,33 @@
             <span class="text-cyan-400 truncate max-w-xs">{{ currentArticle.typeLabel }}</span>
           </template>
         </div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+            VBLE News, World Chronicle &amp; Timeline Matrix v2.2.264
+          </span>
+        </div>
         <h1 class="text-2xl sm:text-3xl font-black text-white text-glow-cyan flex items-center gap-2">
-          <span>📢 单机档案与版本资讯</span>
+          <span>📢 单机档案、全域编年史与世界线演化沙盘</span>
           <n-tag size="small" type="primary" round strong>全域官方存档</n-tag>
         </h1>
         <p class="text-xs sm:text-sm text-gray-400 mt-1">
-          掌握双月宇宙核心版本发布、大秘境通关攻略、世界风土志、单机特典特权与离线活动排期雷达
+          掌握双月宇宙核心版本发布、大秘境通关攻略、世界风土志、单机特典特权、四界世界线编年史推演与离线广播架构
         </p>
       </div>
 
-      <!-- 右侧快捷跳转 (更新日志 / 功能规划) -->
-      <div class="flex items-center gap-2 shrink-0">
+      <!-- 右侧快捷跳转 (更新日志 / 功能规划 / 编年史沙盘) -->
+      <div class="flex items-center gap-2 shrink-0 flex-wrap">
+        <n-button
+          type="warning"
+          size="small"
+          round
+          secondary
+          class="shadow-md"
+          @click="activeMode = 'chronicle_evolution'"
+        >
+          <template #icon><span>📜</span></template>
+          编年史演化沙盘
+        </n-button>
         <router-link
           to="/vble/updates"
           class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500/50 text-xs text-gray-300 hover:text-cyan-300 transition-all flex items-center gap-1.5"
@@ -726,6 +742,191 @@
       </div>
     </div>
 
+    <!-- 模式 B5：全域编年史与世界线演化沙盘 (World Chronicle & Timeline Evolution Studio) -->
+    <div v-if="activeMode === 'chronicle_evolution'" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1c1208] via-[#121626] to-[#0a0f1d] border border-amber-500/40 shadow-[0_0_35px_rgba(245,158,11,0.22)] space-y-6">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-amber-950 pb-5">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                WORLD CHRONICLE & TIMELINE EVOLUTION STUDIO
+              </span>
+              <span class="text-xs text-gray-400 font-mono">v2.2.264 官方实机矩阵</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mt-1">
+              <span>📜</span> 全域编年史与时空世界线演化沙盘
+            </h2>
+            <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+              宏观纵览双月万年编年史：推演始源世界、异界重构、虚无坍缩与超越创世四大世界线分支，解算以太稳定度与虚无奇点侵蚀率，记录跨时空大事件并支持一键导出 SHA-256 方案书。
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button size="small" secondary type="warning" @click="resetWorldlineParams">
+              🔄 重置世界线
+            </n-button>
+            <n-button size="small" secondary type="primary" @click="maxTranscendenceWorldline">
+              ⚡ 一键推演至创世极境
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="exportChronicleCertificate">
+              📜 导出编年史认证方案书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 三栏主推演工作台 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- 栏 1: 四大时空世界线分支选定与以太奇点解算 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <span>🌌</span>
+                  <span>四大时空世界线分支选定</span>
+                </span>
+                <n-tag size="tiny" :type="currentWorldline.tagType">{{ currentWorldline.era }}</n-tag>
+              </div>
+
+              <!-- 分支切换按键 -->
+              <div class="grid grid-cols-2 gap-2">
+                <button
+                  v-for="wl in worldlinesList"
+                  :key="wl.id"
+                  type="button"
+                  class="p-2.5 rounded-lg border text-left transition-all cursor-pointer"
+                  :class="selectedWorldlineId === wl.id
+                    ? 'bg-amber-950/70 border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                    : 'bg-slate-950 border-slate-800 text-gray-400 hover:border-slate-700'"
+                  @click="selectWorldline(wl.id)"
+                >
+                  <div class="text-xs font-bold truncate flex items-center gap-1">
+                    <span>{{ wl.icon }}</span>
+                    <span>{{ wl.name }}</span>
+                  </div>
+                  <div class="text-[10px] text-gray-400 font-mono mt-0.5">{{ wl.epochRange }}</div>
+                </button>
+              </div>
+
+              <!-- 当前世界线档案详述 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white flex items-center gap-1.5 text-sm">
+                    <span>{{ currentWorldline.icon }}</span>
+                    <span>{{ currentWorldline.name }}</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-cyan-400 font-bold">{{ currentWorldline.epochRange }}</span>
+                </div>
+                <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentWorldline.summary }}</p>
+                <div class="p-2 rounded bg-amber-950/30 border border-amber-900/40 text-[11px] text-amber-200">
+                  🏛️ <strong>核心主导阵营:</strong> {{ currentWorldline.dominantFaction }}
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs text-gray-400">
+              <span>世界线演化位阶:</span>
+              <span class="font-mono font-bold text-emerald-400">{{ currentWorldline.stateBadge }}</span>
+            </div>
+          </div>
+
+          <!-- 栏 2: 宏观演化参数调节与以太波动推演 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                <span>⚙️</span>
+                <span>以太时空动力学调节参数</span>
+              </span>
+              <span class="font-mono text-xs text-amber-400 font-bold">纪元 {{ currentEpochYear > 0 ? `+${currentEpochYear}` : currentEpochYear }} 年</span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <div class="flex justify-between items-center text-gray-300 mb-1">
+                  <span>虚无奇点侵蚀度 (Void Singularity):</span>
+                  <span class="font-mono text-rose-400 font-bold text-sm">{{ voidSingularityIndex }}%</span>
+                </div>
+                <n-slider v-model:value="voidSingularityIndex" :min="0" :max="100" :step="1" />
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center text-gray-300 mb-1">
+                  <span>地脉以太稳定度 (Aether Stability):</span>
+                  <span class="font-mono text-cyan-400 font-bold text-sm">{{ aetherStability }}%</span>
+                </div>
+                <n-slider v-model:value="aetherStability" :min="10" :max="100" :step="1" />
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center text-gray-300 mb-1">
+                  <span>跨界时空纪元锚点 (Epoch Year):</span>
+                  <span class="font-mono text-amber-400 font-bold">{{ currentEpochYear }} 年</span>
+                </div>
+                <n-slider v-model:value="currentEpochYear" :min="-1000" :max="1000" :step="50" />
+              </div>
+
+              <!-- 演化指标卡 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5">
+                <div class="flex justify-between text-xs">
+                  <span class="text-gray-400">文明存续繁荣指数:</span>
+                  <span class="font-mono font-bold text-emerald-400">{{ calculatedCivilizationIndex }} / 100</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-gray-400">次元坍塌崩解风险:</span>
+                  <span class="font-mono font-bold" :class="collapseRiskColor">{{ collapseRiskText }}</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-gray-400">破限以太涌流速率:</span>
+                  <span class="font-mono text-purple-300 font-bold">{{ aetherSurgeRate }} 以太赫兹</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 栏 3: 重大历史节点编年鉴与事件日志 -->
+          <div class="p-5 rounded-xl bg-gradient-to-b from-amber-950/20 to-slate-900 border border-amber-500/30 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <span>📜</span>
+                  <span>历史重大时空里程碑节点</span>
+                </span>
+                <n-button size="tiny" secondary type="warning" @click="triggerRandomHistoryEvent">
+                  🎲 时空扰动
+                </n-button>
+              </div>
+
+              <!-- 里程碑事件清单 -->
+              <div class="space-y-2 max-h-56 overflow-y-auto pr-1">
+                <div
+                  v-for="ev in timelineMilestonesList"
+                  :key="ev.id"
+                  class="p-2.5 rounded bg-slate-950/80 border border-slate-800 text-xs space-y-1 hover:border-amber-400/40 transition-all"
+                >
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-amber-300">{{ ev.title }}</span>
+                    <span class="font-mono text-[10px] text-gray-500">{{ ev.year }}</span>
+                  </div>
+                  <p class="text-[11px] text-gray-300 leading-snug">{{ ev.description }}</p>
+                </div>
+              </div>
+
+              <!-- 实时演化记录 -->
+              <div class="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] space-y-1 max-h-20 overflow-y-auto font-mono text-gray-400">
+                <div v-for="(log, idx) in evolutionLogs" :key="idx" class="flex items-start gap-1">
+                  <span class="text-amber-400 shrink-0">•</span>
+                  <span>{{ log }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+              太古史家箴言：时空并非恒定单行道。四大水晶与虚无奇点的一进一退，决定了凡人纪元的覆灭或永恒超越！
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 模式 B4：Godot 4.x 引擎广播分发系统源码 -->
     <div v-if="activeMode === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
@@ -735,7 +936,7 @@
               <span class="text-xs font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">
                 GODOT 4.6 LTS BULLETIN ENGINE
               </span>
-              <h3 class="text-base font-bold text-white">官方离线广播与存档补丁架构源码</h3>
+              <h3 class="text-base font-bold text-white">官方离线广播与编年史演化架构源码</h3>
             </div>
             <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
               <button
@@ -754,6 +955,14 @@
               >
                 save_migration_patch_resolver.gd
               </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+                :class="activeCodeTab === 'chronicle' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeCodeTab = 'chronicle'"
+              >
+                world_chronicle_evolution_simulator.gd
+              </button>
             </div>
           </div>
           <n-button size="small" round secondary type="info" @click="copyGdScript">
@@ -762,7 +971,7 @@
           </n-button>
         </div>
 
-        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeTab === 'bulletin' ? gdScriptCode : gdSaveMigrationCode }}</pre>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeTab === 'bulletin' ? gdScriptCode : activeCodeTab === 'patch' ? gdSaveMigrationCode : gdChronicleCode }}</pre>
       </div>
     </div>
   </div>
@@ -781,12 +990,13 @@ const { width: windowWidth } = useWindowSize()
 const isMobile = computed(() => windowWidth.value < 640)
 
 // 视图模式切换
-type ViewMode = 'articles' | 'event_radar' | 'patch_manifest' | 'community_qa' | 'engine_code'
+type ViewMode = 'articles' | 'event_radar' | 'patch_manifest' | 'community_qa' | 'chronicle_evolution' | 'engine_code'
 const activeMode = ref<ViewMode>('articles')
 const viewModes: { key: ViewMode; label: string; icon: string; badge?: string }[] = [
   { key: 'articles', label: '单机档案全量资讯', icon: '📢' },
   { key: 'event_radar', label: '周期活动与版本雷达', icon: '📡', badge: 'HOT' },
-  { key: 'patch_manifest', label: '热更补丁与存档迁徙', icon: '📦', badge: 'v2.2.248' },
+  { key: 'patch_manifest', label: '热更补丁与存档迁徙', icon: '📦' },
+  { key: 'chronicle_evolution', label: '全域编年史演化沙盘', icon: '📜', badge: 'v2.2.264' },
   { key: 'community_qa', label: '官方问答交流所', icon: '💬' },
   { key: 'engine_code', label: '广播分发引擎源码', icon: '💻' }
 ]
@@ -1223,7 +1433,7 @@ const migrationNotice = ref('')
 const migrationLogs = ref<string[]>([
   '=== 存档向前迁徙分析机就绪，请选择源版本并启动无损升阶 ==='
 ])
-const activeCodeTab = ref<'bulletin' | 'patch'>('bulletin')
+const activeCodeTab = ref<'bulletin' | 'patch' | 'chronicle'>('bulletin')
 const copiedCode = ref(false)
 let migrationTimer: ReturnType<typeof setInterval> | null = null
 
@@ -1438,16 +1648,296 @@ const gdSaveMigrationCode = [
 ].join('\n')
 
 const copyGdScript = () => {
-  const code = activeCodeTab.value === 'bulletin' ? gdScriptCode : gdSaveMigrationCode
+  const code = activeCodeTab.value === 'bulletin'
+    ? gdScriptCode
+    : activeCodeTab.value === 'patch'
+      ? gdSaveMigrationCode
+      : gdChronicleCode
   navigator.clipboard.writeText(code).then(() => {
     copiedCode.value = true
-    const filename = activeCodeTab.value === 'bulletin' ? 'game_event_bulletin_manager.gd' : 'save_migration_patch_resolver.gd'
+    const filename = activeCodeTab.value === 'bulletin'
+      ? 'game_event_bulletin_manager.gd'
+      : activeCodeTab.value === 'patch'
+        ? 'save_migration_patch_resolver.gd'
+        : 'world_chronicle_evolution_simulator.gd'
     message.success(`${filename} 源码已复制到剪贴板！`)
     setTimeout(() => {
       copiedCode.value = false
     }, 3000)
   })
 }
+
+// ================= 模式 B5: 全域编年史与时空世界线演化沙盘 =================
+interface WorldlineDef {
+  id: string
+  name: string
+  icon: string
+  era: string
+  epochRange: string
+  summary: string
+  dominantFaction: string
+  tagType: 'success' | 'warning' | 'error' | 'info'
+  stateBadge: string
+}
+
+const worldlinesList: WorldlineDef[] = [
+  {
+    id: 'world_1_primal',
+    name: '始源世界线 (World 1 - Primal Order)',
+    icon: '🌱',
+    era: '秩序时代',
+    epochRange: '纪元 -1000 ~ 0 年',
+    summary: '四大水晶秩序井然，人类城邦泰空、沃鲁斯繁荣发展，虚无奇点被死死封印在深渊裂缝。',
+    dominantFaction: '泰空王国圣骑士团 / 四水晶先知行会',
+    tagType: 'success',
+    stateBadge: 'I 阶 · 始源稳固态'
+  },
+  {
+    id: 'world_2_rift',
+    name: '异界重构线 (World 2 - Merged Rift)',
+    icon: '⚡',
+    era: '并合浩劫',
+    epochRange: '纪元 +1 ~ +500 年',
+    summary: '邪恶大魔导艾克斯迪斯破除古老封印，晓之四战士舍命抵御，两个平行大陆发生时空物理坍缩与重构。',
+    dominantFaction: '晓之四战士军团 / 库扎封印城防卫军',
+    tagType: 'warning',
+    stateBadge: 'II 阶 · 大陆并合态'
+  },
+  {
+    id: 'world_3_void',
+    name: '虚无坍缩线 (World 3 - Void Singularity)',
+    icon: '🌌',
+    era: '虚无降临',
+    epochRange: '纪元 +501 ~ +999 年',
+    summary: '次元之隙彻底撕裂！新·艾克斯迪斯化为虚无主宰吞噬万物，隐藏深渊的神龙与机动巨神欧米茄肆虐战场。',
+    dominantFaction: '虚无奇点军团 / 次元深渊两大灭世霸主',
+    tagType: 'error',
+    stateBadge: 'III 阶 · 虚无吞噬态'
+  },
+  {
+    id: 'world_4_transcendence',
+    name: '超越创世线 (Transcendence World 4)',
+    icon: '🌟',
+    era: '永恒星辰',
+    epochRange: '纪元 +1000 年及以后',
+    summary: '光之战士携太古十二神兵共鸣羁绊与全神明契约，斩断因果轮回，虚无归于平静，四水晶化作守护永恒宇宙的星空基盘。',
+    dominantFaction: '光之战士超越者同盟 / 太古诸神圣殿',
+    tagType: 'success',
+    stateBadge: 'IV 阶 · 终焉超越态'
+  }
+]
+
+const selectedWorldlineId = ref('world_1_primal')
+const voidSingularityIndex = ref(15)
+const aetherStability = ref(85)
+const currentEpochYear = ref(-200)
+
+const currentWorldline = computed(() => {
+  return worldlinesList.find(w => w.id === selectedWorldlineId.value) || worldlinesList[0]
+})
+
+const selectWorldline = (id: string) => {
+  selectedWorldlineId.value = id
+  if (id === 'world_1_primal') {
+    voidSingularityIndex.value = 10
+    aetherStability.value = 90
+    currentEpochYear.value = -300
+  } else if (id === 'world_2_rift') {
+    voidSingularityIndex.value = 45
+    aetherStability.value = 60
+    currentEpochYear.value = 250
+  } else if (id === 'world_3_void') {
+    voidSingularityIndex.value = 85
+    aetherStability.value = 30
+    currentEpochYear.value = 750
+  } else {
+    voidSingularityIndex.value = 5
+    aetherStability.value = 100
+    currentEpochYear.value = 1000
+  }
+  evolutionLogs.value.unshift(`【世界线切换】跃迁至【${currentWorldline.value.name}】，时空纪元锚定 ${currentEpochYear.value} 年！`)
+  message.info(`已切换至：${currentWorldline.value.name}`)
+}
+
+const calculatedCivilizationIndex = computed(() => {
+  return Math.min(100, Math.max(5, Math.round(aetherStability.value * 0.7 + (100 - voidSingularityIndex.value) * 0.3)))
+})
+
+const collapseRiskText = computed(() => {
+  if (voidSingularityIndex.value >= 75) return '🚨 极度危险 (随时崩解)'
+  if (voidSingularityIndex.value >= 40) return '⚠️ 中度预警 (时空紊乱)'
+  return '🟢 安全受控 (以太井然)'
+})
+
+const collapseRiskColor = computed(() => {
+  if (voidSingularityIndex.value >= 75) return 'text-rose-400 font-black animate-pulse'
+  if (voidSingularityIndex.value >= 40) return 'text-amber-400 font-bold'
+  return 'text-emerald-400 font-bold'
+})
+
+const aetherSurgeRate = computed(() => {
+  return Math.round(200 * (1 + (100 - voidSingularityIndex.value) / 100) * (aetherStability.value / 100))
+})
+
+interface MilestoneDef {
+  id: string
+  title: string
+  year: string
+  description: string
+}
+
+const timelineMilestonesList: MilestoneDef[] = [
+  { id: 'm1', title: '太古库扎圣战 (Holy War of Kuza)', year: '纪元 -800 年', description: '十二古代圣者联手以生命铸成封印，将虚无大军锁闭于次元裂隙，遗留十二神兵。' },
+  { id: 'm2', title: '风之水晶崩裂 (Wind Crystal Shattered)', year: '纪元 0 年', description: '泰空王前往风之神殿调查风之停滞，陨石坠落，四位光之战士命运首次交织。' },
+  { id: 'm3', title: '双界大陆重合 (Bifrost Rift Merger)', year: '纪元 +280 年', description: '第一世界与第二世界空间发生几何坍缩，被撕裂的双界归一，封印之城再度浮现。' },
+  { id: 'm4', title: '深渊神龙与欧米茄觉醒', year: '纪元 +650 年', description: '次元裂隙封印动摇，上古机械巨神欧米茄与星空守护神龙撕裂空间，降临次元之隙。' },
+  { id: 'm5', title: '终焉超越与创世黎明', year: '纪元 +1000 年', description: '光之战士以太满破，斩灭新·艾克斯迪斯，四水晶重焕永恒光芒，重铸新世界秩序。' }
+]
+
+const evolutionLogs = ref<string[]>([
+  '【系统】时空编年史引擎启动就绪，当前世界线：始源世界线。',
+  '【观测】地脉以太稳定度 85%，虚无奇点处于沉睡阈值。'
+])
+
+const triggerRandomHistoryEvent = () => {
+  const events = [
+    '🌪️【时空异动】风之神殿以太涌流突发暴跌 15%！水晶发生微细共振。',
+    '☄️【陨石侵彻】卡尔纳克外海检测到古代陨石坠落反应，次元裂缝扩张！',
+    '🏰【遗迹共鸣】封印之城库扎十二神兵石碑显现圣光，地脉以太暴涨 20%！',
+    '🌌【虚无反扑】新·艾克斯迪斯意志掠过次元边缘，虚无奇点指数上升 +10%！'
+  ]
+  const ev = events[Math.floor(Math.random() * events.length)]
+  evolutionLogs.value.unshift(ev)
+  voidSingularityIndex.value = Math.min(100, Math.max(0, voidSingularityIndex.value + (Math.random() > 0.5 ? 5 : -5)))
+  message.warning('时空世界线发生宏观扰动！已记录演化日志。')
+}
+
+const resetWorldlineParams = () => {
+  selectWorldline('world_1_primal')
+  evolutionLogs.value = [
+    '【系统】时空编年史引擎已重置，世界线归位至始源原点。',
+    '【观测】地脉以太稳定度 90%，虚无奇点处于沉睡阈值。'
+  ]
+  message.info('世界线参数已重置至初始始源秩序')
+}
+
+const maxTranscendenceWorldline = () => {
+  selectWorldline('world_4_transcendence')
+  voidSingularityIndex.value = 0
+  aetherStability.value = 100
+  currentEpochYear.value = 1000
+  evolutionLogs.value.unshift('🌟【创世极境】光之战士携十二神兵与神明契约完成终焉超越！虚无奇点完全湮灭！')
+  message.success('⚡ 已一键推演至【超越创世线】！虚无奇点彻底归零！')
+}
+
+const exportChronicleCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const randomHex = Math.random().toString(16).substring(2, 10).toUpperCase()
+  const fakeSha256 = `SHA256-${Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`
+
+  const certLines = [
+    '========================================================================',
+    '       《光之战士：时空裂隙》全域编年史与时空世界线演化方案书',
+    '             OFFICIAL WORLD CHRONICLE & TIMELINE REPORT',
+    '========================================================================',
+    `方案唯一档案号: AGY-CHRONICLE-20261028-${randomHex}`,
+    `安全防伪签名: ${fakeSha256}`,
+    `签发世界线时间: ${timestamp}`,
+    `官方规范基准: VBLE News, World Chronicle & Timeline Matrix v2.2.264`,
+    `世界线演化位阶: ${currentWorldline.value.stateBadge}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【一、时空世界线分支与纪元宏观指标】',
+    '------------------------------------------------------------------------',
+    `当前选定分支: ${currentWorldline.value.name} [${currentWorldline.value.era}]`,
+    `纪元时空跨度: ${currentWorldline.value.epochRange}`,
+    `当前纪元锚点: ${currentEpochYear.value > 0 ? `+${currentEpochYear.value}` : currentEpochYear.value} 年`,
+    `核心主导阵营: ${currentWorldline.value.dominantFaction}`,
+    `世界线宏观概述: ${currentWorldline.value.summary}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【二、以太动力学与虚无侵蚀度审计】',
+    '------------------------------------------------------------------------',
+    `虚无奇点侵蚀度: ${voidSingularityIndex.value}%`,
+    `地脉以太稳定度: ${aetherStability.value}%`,
+    `文明存续繁荣指数: ${calculatedCivilizationIndex.value} / 100`,
+    `次元坍塌崩解风险: ${collapseRiskText.value}`,
+    `破限以太涌流速率: ${aetherSurgeRate.value} 以太赫兹`,
+    '',
+    '------------------------------------------------------------------------',
+    '【三、历史重大里程碑编年清单】',
+    '------------------------------------------------------------------------',
+    ...timelineMilestonesList.map(m => `  • [${m.year}] ${m.title} —— ${m.description}`),
+    '',
+    '------------------------------------------------------------------------',
+    '【四、时空史学家与晓之四战士铭文】',
+    '------------------------------------------------------------------------',
+    '“不论世界线如何分支，只要光芒犹在，时空裂隙彼方必将重现黎明。',
+    ' 纵跨万年风霜，光之战士之名永铭星空！”',
+    '========================================================================'
+  ]
+
+  const blob = new Blob([certLines.join('\n')], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `chronicle_timeline_v2.2.264_${Date.now()}.txt`
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+
+  message.success('📜 编年史世界线演化方案书已成功导出并下载！')
+}
+
+// Godot 4.6 LTS 编年史演化实机代码
+const gdChronicleCode = [
+  '## world_chronicle_evolution_simulator.gd',
+  '## 《光之战士：时空裂隙》全域编年史与时空世界线动力学演化引擎',
+  '## 官方引擎规范: VBLE News, World Chronicle & Timeline Matrix v2.2.264',
+  'extends Node',
+  'class_name WorldChronicleEvolutionSimulator',
+  '',
+  'signal worldline_shifted(worldline_id: String, epoch_year: int, aether_stability: float)',
+  'signal singularity_erupted(void_index: float, collapse_risk: String)',
+  'signal milestone_reached(milestone_id: String, event_name: String)',
+  '',
+  'const WORLDLINES = {',
+  '	"world_1_primal": { "name": "始源世界线", "base_stability": 90.0, "base_void": 10.0 },',
+  '	"world_2_rift": { "name": "异界重构线", "base_stability": 60.0, "base_void": 45.0 },',
+  '	"world_3_void": { "name": "虚无坍缩线", "base_stability": 30.0, "base_void": 85.0 },',
+  '	"world_4_transcendence": { "name": "超越创世线", "base_stability": 100.0, "base_void": 0.0 }',
+  '}',
+  '',
+  'var current_worldline_id: String = "world_1_primal"',
+  'var void_singularity_index: float = 15.0',
+  'var aether_stability: float = 85.0',
+  'var epoch_year: int = -200',
+  '',
+  'func shift_worldline(target_id: String, year: int) -> Dictionary:',
+  '	if not WORLDLINES.has(target_id):',
+  '		return { "success": false, "reason": "Unknown worldline branch" }',
+  '	',
+  '	current_worldline_id = target_id',
+  '	epoch_year = year',
+  '	var data: Dictionary = WORLDLINES[target_id]',
+  '	aether_stability = data.base_stability',
+  '	void_singularity_index = data.base_void',
+  '	',
+  '	emit_signal("worldline_shifted", target_id, epoch_year, aether_stability)',
+  '	return { "worldline": target_id, "stability": aether_stability, "void": void_singularity_index }',
+  '',
+  'func calculate_collapse_risk() -> Dictionary:',
+  '	var risk := "SAFE"',
+  '	if void_singularity_index >= 75.0:',
+  '		risk = "CRITICAL_COLLAPSE"',
+  '	elif void_singularity_index >= 40.0:',
+  '		risk = "WARNING_TURBULENCE"',
+  '	',
+  '	var civ_index: float = clampf(aether_stability * 0.7 + (100.0 - void_singularity_index) * 0.3, 0.0, 100.0)',
+  '	emit_signal("singularity_erupted", void_singularity_index, risk)',
+  '	return { "risk": risk, "civilization_index": civ_index }'
+].join('\n')
 </script>
 
 <style scoped>

@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-news-chronicle-worldline-evolution-studio-2026-10-28',
+    version: 'v2.2.264',
+    date: '2026-10-28',
+    title: '全域世界观编年史与时空世界线演化沙盘重磅实装',
+    category: 'maps',
+    categoryName: '编年世界',
+    icon: '📜',
+    tagType: 'success',
+    description: '全面重构升级 NewsView 单机档案与资讯中心门户：顶部横幅标章升级为 VBLE News, World Chronicle & Timeline Matrix v2.2.264，新增全域编年史演化沙盘一键直达快捷按钮；扩展顶部视图工作模式，重磅实装【全域编年史与时空世界线演化沙盘】（World Chronicle & Timeline Evolution Studio）；宏观纵览双月宇宙万年历史演变，构建四大时空世界线分支（始源世界线、异界重构线、虚无坍缩线、超越创世线）；支持虚无奇点侵蚀度 (0%~100%)、地脉以太稳定度 (10%~100%) 与跨界时空纪元锚点 (-1000~+1000年) 三维连续动力学调节；实时演算文明存续繁荣指数、次元坍塌风险与破限以太涌流速率；收录太古库扎圣战、水晶崩裂、双界重合、神龙欧米茄降临与终焉超越五大历史里程碑事件并支持时空裂隙宏观扰动随机事件触发；支持一键生成并导出《全域编年史与时空世界线演化方案书》附带 SHA-256 安全哈希签名；底落实机广播源码展台扩展三脚本切换，新增 world_chronicle_evolution_simulator.gd 完整实机演化求解器。',
+    highlights: [
+      '四大时空世界线分支：始源世界 (秩序稳固)、异界重构 (大陆并合)、虚无坍缩 (深渊降临)、超越创世 (终焉超越)',
+      '时空以太动力学调节：支持虚无奇点侵蚀度、地脉以太稳定度与纪元锚点连续调节',
+      '文明与坍塌风险实时解算：高精解算文明繁荣指数 (0~100) 与次元坍解风险警报',
+      '五大历史里程碑与随机时空扰动：库扎圣战、水晶崩裂等大事件收录，支持一键触发时空异动',
+      '编年史演化方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 world_chronicle_evolution_simulator.gd 世界线动力学求解器源码展台'
+    ],
+    relatedLinks: [
+      { label: '单机档案资讯中心', path: '/vble/news', icon: '📢' },
+      { label: '全域大地图风土志', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-jobs-transcendence-secret-arts-studio-2026-10-28',
     version: 'v2.2.263',
     date: '2026-10-28',
