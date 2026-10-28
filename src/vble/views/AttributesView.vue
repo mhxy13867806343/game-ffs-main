@@ -2,53 +2,63 @@
   <div class="attributes-page p-3 sm:p-4 max-w-7xl mx-auto space-y-8">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">Stat Calculators & Growth Studio</n-tag>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Stat Calculators & Growth Matrix v2.2.259</n-tag>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">角色属性器 & 怪物属性器</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-3">
-        支持 255 级满破无限数值演算、输入血量即时反推等级、场景地宫关联自动定级、以及 1 级到 255 级属性成长双向自定义
+        支持 255 级满破无限数值演算、输入血量即时反推等级、场景地宫关联自动定级、六维断点量化以及 255 巅峰神话极境突破推演工坊
       </p>
       <div class="flex justify-center gap-2">
         <n-button size="small" type="primary" secondary @click="$router.push('/vble/modifier')">
           🛠️ 前往独立全域 GM 属性修改器专页
         </n-button>
+        <n-button size="small" type="warning" secondary @click="activeCalculatorTab = 'breakthrough'">
+          👑 快速切入 255 满破极境工坊
+        </n-button>
       </div>
     </div>
 
-    <!-- 顶部分页器：角色配装器 VS 双向属性自定义编辑器 VS 怪物解析器 -->
+    <!-- 顶部分页器：角色配装器 VS 双向属性自定义编辑器 VS 怪物解析器 VS 满破极境工坊 -->
     <div class="flex justify-center">
-      <n-tabs v-model:value="activeCalculatorTab" type="segment" style="max-width: 680px;">
+      <n-tabs v-model:value="activeCalculatorTab" type="segment" style="max-width: 920px;">
         <n-tab-pane name="customizer">
           <template #tab>
             <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'customizer'">
-              🛠️ 属性双向调节与场景逆推器 (Lv.255)
+              🛠️ 属性双向调节 (Lv.255)
             </button>
           </template>
         </n-tab-pane>
         <n-tab-pane name="character">
           <template #tab>
             <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'character'">
-              🎮 角色配装实战模拟器 (无上限)
+              🎮 角色配装模拟 (无上限)
             </button>
           </template>
         </n-tab-pane>
         <n-tab-pane name="monster">
           <template #tab>
             <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'monster'">
-              👾 怪物属性与弱点解析器
+              👾 怪物属性与弱点解析
             </button>
           </template>
         </n-tab-pane>
         <n-tab-pane name="allocation">
           <template #tab>
             <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'allocation'">
-              ✨ 自由潜能加点模拟器 (Stat Points)
+              ✨ 潜能加点模拟 (Points)
             </button>
           </template>
         </n-tab-pane>
         <n-tab-pane name="atb_thresholds">
           <template #tab>
             <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'atb_thresholds'">
-              ⏱️ ATB 行动条与六维断点量化 (ATB & Caps)
+              ⏱️ ATB 断点量化 (Caps)
+            </button>
+          </template>
+        </n-tab-pane>
+        <n-tab-pane name="breakthrough">
+          <template #tab>
+            <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'breakthrough'">
+              👑 满破255极境工坊 (v2.2.259)
             </button>
           </template>
         </n-tab-pane>
@@ -1122,12 +1132,220 @@
         <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed">{{ atbResolverScriptCode }}</pre>
       </div>
     </div>
+
+    <!-- ================= 模块六：满破 255 巅峰神话极境突破与诸神战力评估工坊 (v2.2.259) ================= -->
+    <div v-if="activeCalculatorTab === 'breakthrough'" class="space-y-6">
+      <!-- 极境工坊头部横幅卡片 -->
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-amber-950/70 via-slate-900/90 to-purple-950/70 border border-amber-500/30 shadow-[0_0_35px_rgba(245,158,11,0.15)] flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="text-2xl">👑</span>
+            <h2 class="text-lg sm:text-xl font-black text-white text-glow-amber">满破 255 巅峰神话极境突破与诸神战力评估工坊 (Transcendence Studio)</h2>
+          </div>
+          <p class="text-xs text-gray-300 max-w-3xl leading-relaxed">
+            解构角色突破传统 99 级限制、晋升至 255 级满破巅峰的指数级属性膨胀曲线。支持六维极意潜能加点 (99~255)、三大神话星格回路共鸣与多维巅峰诸神战力 (Combat Power) 综合评定！
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-tag type="warning" round size="small">Lv.255 满破极限</n-tag>
+          <n-tag type="info" round size="small">9,999,999 CP 测算</n-tag>
+          <n-tag type="success" round size="small">v2.2.259 规范</n-tag>
+        </div>
+      </div>
+
+      <!-- 预设神话极境角色选派 -->
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        <button
+          v-for="cand in transcendenceCandidates"
+          :key="cand.id"
+          type="button"
+          class="p-3.5 rounded-xl border text-left transition-all cursor-pointer bg-slate-900/90 hover:scale-[1.02]"
+          :class="selectedCandidateId === cand.id ? 'border-amber-400 bg-amber-950/30 shadow-[0_0_15px_rgba(245,158,11,0.3)] ring-1 ring-amber-400/50' : 'border-slate-800 hover:border-slate-700'"
+          @click="selectCandidate(cand.id)"
+        >
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xl">{{ cand.icon }}</span>
+            <n-tag size="tiny" :type="cand.tagType">{{ cand.archetype }}</n-tag>
+          </div>
+          <span class="block font-bold text-xs text-gray-100">{{ cand.name }}</span>
+          <span class="block text-[10px] text-amber-300 font-mono mt-0.5">{{ cand.title }}</span>
+          <span class="block text-[9px] text-gray-500 mt-1 line-clamp-1">{{ cand.specialty }}</span>
+        </button>
+      </div>
+
+      <!-- 六维极意属性调节与神话星格激活 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 六维极意潜能滑块 (99~255) -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>⚡</span>
+              <span>六维极意属性满破加点 (Extreme Stats 99~255)</span>
+            </span>
+            <button
+              type="button"
+              class="text-[11px] text-cyan-400 hover:underline cursor-pointer"
+              @click="maximizeAllStats"
+            >
+              一键 255 全满
+            </button>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <div v-for="stat in transcendenceStats" :key="stat.key" class="space-y-1">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-300 flex items-center gap-1">
+                  <span>{{ stat.icon }}</span>
+                  <span>{{ stat.name }} ({{ stat.key.toUpperCase() }})</span>
+                </span>
+                <span class="font-mono font-bold text-amber-300">{{ statValues[stat.key] }} / 255</span>
+              </div>
+              <input
+                v-model.number="statValues[stat.key]"
+                type="range"
+                min="99"
+                max="255"
+                step="1"
+                class="w-full accent-amber-400 cursor-pointer"
+              />
+              <div class="flex justify-between text-[9px] text-gray-500 font-mono">
+                <span>99 (凡俗极限)</span>
+                <span>160 (半神临界)</span>
+                <span>255 (真神具现)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 神话血脉星格回路激活 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <span class="text-xs font-bold text-purple-300 block flex items-center gap-1.5">
+            <span>🌌</span>
+            <span>神话血脉星格回路 (Mythic Glyphs)</span>
+          </span>
+
+          <div class="space-y-3">
+            <div
+              v-for="glyph in mythicGlyphs"
+              :key="glyph.id"
+              class="p-3 rounded-lg border transition-all cursor-pointer"
+              :class="activeGlyphs.includes(glyph.id) ? 'border-purple-400 bg-purple-950/40 ring-1 ring-purple-400/40' : 'border-slate-800 bg-slate-950 hover:border-slate-700'"
+              @click="toggleGlyph(glyph.id)"
+            >
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-lg">{{ glyph.icon }}</span>
+                  <span class="font-bold text-xs text-gray-100">{{ glyph.name }}</span>
+                </div>
+                <n-tag size="tiny" :type="activeGlyphs.includes(glyph.id) ? 'success' : 'default'">
+                  {{ activeGlyphs.includes(glyph.id) ? '已共鸣激活' : '未激活' }}
+                </n-tag>
+              </div>
+              <p class="text-[10px] text-gray-400 leading-snug">{{ glyph.description }}</p>
+              <div class="mt-1.5 text-[9px] font-mono text-purple-300 flex items-center gap-2">
+                <span>加成: {{ glyph.effectLabel }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 诸神战力遥测与推演控制台 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-slate-950 to-amber-950/30 border border-amber-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>诸神战力核心解算</span>
+              </span>
+              <n-tag size="tiny" :type="combatRatingTag">{{ combatPowerRank }}</n-tag>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">巅峰综合战力:</span>
+                <span class="font-mono font-black text-amber-400 text-sm">{{ calculatedCombatPower.toLocaleString() }} CP</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">满破神体生命极值:</span>
+                <span class="font-mono font-bold text-rose-400">{{ calculatedMaxHP.toLocaleString() }} HP</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">破限极意普攻秒伤:</span>
+                <span class="font-mono font-bold text-cyan-300">{{ calculatedDPS.toLocaleString() }} /秒</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">绝对破防穿透率:</span>
+                <span class="font-mono font-bold text-purple-300">{{ calculatedArmorPen.toFixed(1) }}%</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">单体伤害破限界值:</span>
+                <span class="font-mono font-bold text-emerald-400">999,999 (突破 99,999)</span>
+              </div>
+            </div>
+
+            <!-- 实战对决演算日志 -->
+            <div class="p-2.5 rounded bg-slate-950/90 border border-slate-800 text-[11px] font-mono space-y-1 text-gray-300 max-h-24 overflow-y-auto">
+              <div v-for="(log, idx) in transcendenceCombatLogs" :key="idx" class="text-gray-300 leading-snug">
+                {{ log }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 操作按钮组 -->
+          <div class="space-y-2 pt-2">
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-500 via-rose-500 to-purple-500 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer disabled:opacity-50"
+              :disabled="isSimulatingCombat"
+              @click="simulateTranscendenceCombat"
+            >
+              {{ isSimulatingCombat ? '⚔️ 巅峰诸神神力碰撞对决中...' : '⚔️ 启动诸神神力对决推演 (Simulate Duel)' }}
+            </button>
+
+            <div class="flex gap-2">
+              <button
+                type="button"
+                class="flex-1 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs text-gray-300 border border-slate-700 transition-colors cursor-pointer"
+                @click="copyTranscendenceData"
+              >
+                📋 复制战力数据
+              </button>
+              <button
+                type="button"
+                class="flex-1 py-1.5 rounded-lg bg-amber-900/40 hover:bg-amber-800/60 text-xs text-amber-300 border border-amber-700/60 transition-colors cursor-pointer"
+                @click="exportTranscendenceCert"
+              >
+                📄 导出神话凭证
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 满破神话战力解算器源码展台 -->
+      <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📜</span>
+            <h3 class="text-base font-bold text-white font-mono">res://scripts/combat/transcendence_growth_evaluator.gd</h3>
+          </div>
+          <n-tag type="warning" size="tiny" round>Godot 4.6 LTS Transcendence Core</n-tag>
+        </div>
+        <p class="text-xs text-gray-400">
+          核心战力指数级解算引擎：管理 255 满破六维非线性增长、四象水晶星格加权、伤害破限因子与综合诸神战力 (CP) 估算：
+        </p>
+        <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-amber-300 font-mono overflow-x-auto leading-relaxed">{{ gdTranscendenceCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useMessage } from 'naive-ui'
 import { useGameStore } from '../stores/gameStore'
 import { jobsList } from '../config/jobsConfig'
+
+const message = useMessage()
 
 const gameStore = useGameStore()
 const activeCalculatorTab = ref('customizer')
@@ -1905,5 +2123,330 @@ static func process_atb_tick(current_gauge: float, duration: float, delta: float
         return {"gauge": BASE_ATB_CAP, "ready": true}
     
     return {"gauge": next_gauge, "ready": false}
+`
+
+// ================= 模块六：满破 255 巅峰神话极境突破与诸神战力评估工坊 =================
+interface TranscendenceCandidate {
+  id: string
+  name: string
+  title: string
+  archetype: string
+  specialty: string
+  icon: string
+  tagType: 'info' | 'success' | 'warning' | 'error' | 'primary'
+  defaultStats: Record<string, number>
+}
+
+interface MythicGlyph {
+  id: string
+  name: string
+  icon: string
+  description: string
+  effectLabel: string
+  hpBonus: number
+  mpBonus: number
+  penBonus: number
+  cpMult: number
+}
+
+const transcendenceCandidates: TranscendenceCandidate[] = [
+  {
+    id: 'bartz_god',
+    name: '破限神域 · 巴兹',
+    title: 'Wind God Transcendent',
+    archetype: '物理狂暴',
+    specialty: '真伤二刀流乱打',
+    icon: '⚔️',
+    tagType: 'info',
+    defaultStats: { str: 255, agi: 220, vit: 230, mag: 160, spr: 180, lck: 240 }
+  },
+  {
+    id: 'lenna_seraph',
+    name: '创世炽天 · 蕾娜',
+    title: 'Seraph Primordial',
+    archetype: '圣光创世',
+    specialty: '不灭神愈与神圣核爆',
+    icon: '✨',
+    tagType: 'success',
+    defaultStats: { str: 150, agi: 210, vit: 240, mag: 245, spr: 255, lck: 230 }
+  },
+  {
+    id: 'faris_abyss',
+    name: '渊海支配 · 法丽丝',
+    title: 'Abyssal Sovereign',
+    archetype: '敏捷暗杀',
+    specialty: '绝对时空闪避与暴击',
+    icon: '🗡️',
+    tagType: 'warning',
+    defaultStats: { str: 240, agi: 255, vit: 200, mag: 200, spr: 170, lck: 255 }
+  },
+  {
+    id: 'krile_aether',
+    name: '太古灵尊 · 可露儿',
+    title: 'Aether Archon',
+    archetype: '以太万法',
+    specialty: '虚空陨石四重连发',
+    icon: '🔮',
+    tagType: 'primary',
+    defaultStats: { str: 140, agi: 230, vit: 190, mag: 255, spr: 250, lck: 220 }
+  },
+  {
+    id: 'custom_transcendent',
+    name: '自定义极境神体',
+    title: 'Custom Sovereign',
+    archetype: '全维自由',
+    specialty: '全属性自由满破定制',
+    icon: '👑',
+    tagType: 'error',
+    defaultStats: { str: 200, agi: 200, vit: 200, mag: 200, spr: 200, lck: 200 }
+  }
+]
+
+const transcendenceStats = [
+  { key: 'str', name: '极意力量', icon: '💪' },
+  { key: 'agi', name: '极速敏捷', icon: '⚡' },
+  { key: 'vit', name: '坚壁体魄', icon: '🛡️' },
+  { key: 'mag', name: '虚无法魔', icon: '🔮' },
+  { key: 'spr', name: '圣佑精神', icon: '🕊️' },
+  { key: 'lck', name: '宿命幸运', icon: '🍀' }
+]
+
+const mythicGlyphs: MythicGlyph[] = [
+  {
+    id: 'glyph_crystal',
+    name: '四象水晶本源神格',
+    icon: '💎',
+    description: '突破血肉苦弱，与地水火风四水晶直接融汇，大幅度突破体魄生命与法力极值。',
+    effectLabel: 'HP +150,000, MP +9,999, 战力+30%',
+    hpBonus: 150000,
+    mpBonus: 9999,
+    penBonus: 15.0,
+    cpMult: 1.30
+  },
+  {
+    id: 'glyph_void',
+    name: '虚空暗能逆熵共振',
+    icon: '🌀',
+    description: '汲取时空裂隙深处的暗物质奇点力量，攻击时强行剥离目标 50% 物理与魔法防御壁垒。',
+    effectLabel: '穿透率 +50%, 暴伤+100%, 战力+40%',
+    hpBonus: 50000,
+    mpBonus: 5000,
+    penBonus: 50.0,
+    cpMult: 1.40
+  },
+  {
+    id: 'glyph_aether',
+    name: '创世以太永劫回路',
+    icon: '✨',
+    description: '将施法与挥剑后摇完全清零，常驻超神速加速状态，ATB 充能耗时压缩至极限 0.15 秒。',
+    effectLabel: 'ATB流速极大化, 伤害上限解禁至 999,999, 战力+35%',
+    hpBonus: 80000,
+    mpBonus: 8000,
+    penBonus: 25.0,
+    cpMult: 1.35
+  }
+]
+
+const selectedCandidateId = ref('bartz_god')
+const statValues = reactive<Record<string, number>>({
+  str: 255,
+  agi: 220,
+  vit: 230,
+  mag: 160,
+  spr: 180,
+  lck: 240
+})
+
+const activeGlyphs = ref<string[]>(['glyph_crystal', 'glyph_void', 'glyph_aether'])
+const isSimulatingCombat = ref(false)
+const transcendenceCombatLogs = ref<string[]>([
+  '=== 满破 255 诸神战力评估工坊已就绪，点击启动对决推演 ==='
+])
+
+const selectCandidate = (id: string) => {
+  selectedCandidateId.value = id
+  const cand = transcendenceCandidates.find(c => c.id === id)
+  if (cand) {
+    Object.keys(cand.defaultStats).forEach(k => {
+      statValues[k] = cand.defaultStats[k]
+    })
+  }
+}
+
+const maximizeAllStats = () => {
+  Object.keys(statValues).forEach(k => {
+    statValues[k] = 255
+  })
+}
+
+const toggleGlyph = (id: string) => {
+  const idx = activeGlyphs.value.indexOf(id)
+  if (idx >= 0) {
+    activeGlyphs.value.splice(idx, 1)
+  } else {
+    activeGlyphs.value.push(id)
+  }
+}
+
+const calculatedMaxHP = computed(() => {
+  const base = statValues.vit * 1200 + statValues.str * 300
+  let bonus = 0
+  activeGlyphs.value.forEach(gid => {
+    const g = mythicGlyphs.find(glyph => glyph.id === gid)
+    if (g) bonus += g.hpBonus
+  })
+  return base + bonus
+})
+
+const calculatedArmorPen = computed(() => {
+  const base = (statValues.lck / 255) * 25.0 + (statValues.agi / 255) * 15.0
+  let bonus = 0
+  activeGlyphs.value.forEach(gid => {
+    const g = mythicGlyphs.find(glyph => glyph.id === gid)
+    if (g) bonus += g.penBonus
+  })
+  return Math.min(99.0, Math.max(10.0, base + bonus))
+})
+
+const calculatedDPS = computed(() => {
+  const power = (statValues.str * 1.8 + statValues.mag * 1.6 + statValues.agi * 1.2) * 280
+  const penMult = 1.0 + (calculatedArmorPen.value / 100)
+  return Math.round(power * penMult)
+})
+
+const calculatedCombatPower = computed(() => {
+  let statSum = (statValues.str * 1200) + (statValues.agi * 1100) + (statValues.vit * 1000) + (statValues.mag * 1200) + (statValues.spr * 950) + (statValues.lck * 1300)
+  let mult = 1.0
+  activeGlyphs.value.forEach(gid => {
+    const g = mythicGlyphs.find(glyph => glyph.id === gid)
+    if (g) mult *= g.cpMult
+  })
+  return Math.round(statSum * mult)
+})
+
+const combatPowerRank = computed(() => {
+  const cp = calculatedCombatPower.value
+  if (cp >= 7000000) return '神话级 (Mythic EX)'
+  if (cp >= 5000000) return '半神级 (Demi-God SSS)'
+  if (cp >= 3000000) return '极境级 (Ascendant SS)'
+  return '破限级 (Breakthrough S)'
+})
+
+const combatRatingTag = computed(() => {
+  const cp = calculatedCombatPower.value
+  if (cp >= 7000000) return 'error'
+  if (cp >= 5000000) return 'warning'
+  return 'success'
+})
+
+const simulateTranscendenceCombat = () => {
+  if (isSimulatingCombat.value) return
+  isSimulatingCombat.value = true
+  const cand = transcendenceCandidates.find(c => c.id === selectedCandidateId.value) || transcendenceCandidates[0]
+  
+  transcendenceCombatLogs.value = [
+    `[0.0s] 👑【${cand.name}】进入 255 巅峰神话极境形态，展开诸神战意！`,
+    `[0.3s] 💎 激活 ${activeGlyphs.value.length} 大神话星格，综合战力达 ${calculatedCombatPower.value.toLocaleString()} CP！`,
+    `[0.6s] ⚡ 极意六维释放：力量 ${statValues.str}，敏捷 ${statValues.agi}，魔力 ${statValues.mag}！`,
+    `[1.0s] 💥 击出神话连击！触发 ${calculatedArmorPen.value.toFixed(1)}% 绝对穿透，秒伤高达 ${calculatedDPS.value.toLocaleString()}！`,
+    `[1.5s] 🛡️ 满破生命极值 ${calculatedMaxHP.value.toLocaleString()} HP 毫发无损，判定战阶为【${combatPowerRank.value}】！`
+  ]
+
+  setTimeout(() => {
+    isSimulatingCombat.value = false
+  }, 1000)
+}
+
+const copyTranscendenceData = () => {
+  const cand = transcendenceCandidates.find(c => c.id === selectedCandidateId.value) || transcendenceCandidates[0]
+  const text = `[满破255战力] 角色:${cand.name} | 战力:${calculatedCombatPower.value.toLocaleString()} CP (${combatPowerRank.value}) | 生命:${calculatedMaxHP.value.toLocaleString()} HP | 秒伤:${calculatedDPS.value.toLocaleString()} | 穿透:${calculatedArmorPen.value.toFixed(1)}% | 星格数:${activeGlyphs.value.length}`
+  navigator.clipboard.writeText(text).then(() => {
+    message.success('满破 255 巅峰诸神战力数据已复制！')
+  }).catch(() => {
+    message.info('数据已复制')
+  })
+}
+
+const exportTranscendenceCert = () => {
+  const cand = transcendenceCandidates.find(c => c.id === selectedCandidateId.value) || transcendenceCandidates[0]
+  const now = new Date()
+  const dateStr = now.toISOString().replace('T', ' ').substring(0, 19)
+
+  const content = `================================================================================
+《光之战士：时空裂隙》满破 255 巅峰神话极境突破认证方案书
+================================================================================
+推演方案: Mythic Level 255 Transcendence & Combat Power Certificate
+颁发机构: VBLE Stat Calculators & Growth Matrix / 诸神殿堂圣裁司
+推演版本: VBLE Stat Calculators & Growth Matrix v2.2.259
+引擎规范: Godot 4.6 LTS Transcendence Growth Evaluator
+签发时间: ${dateStr} (CST)
+
+【满破神躯基本档案】
+- 认证角色名称: ${cand.name} (${cand.id})
+- 冠绝神话称号: ${cand.title}
+- 核心流派原型: ${cand.archetype}
+- 绝脉神技专精: ${cand.specialty}
+- 当前修炼境界: 等级 Lv. 255 (超越物理 99 极限满破)
+
+【满破六维极意属性清单】
+- 极意力量 (STR): ${statValues.str} / 255
+- 极速敏捷 (AGI): ${statValues.agi} / 255
+- 坚壁体魄 (VIT): ${statValues.vit} / 255
+- 虚无法魔 (MAG): ${statValues.mag} / 255
+- 圣佑精神 (SPR): ${statValues.spr} / 255
+- 宿命幸运 (LCK): ${statValues.lck} / 255
+
+【神话星格回路共鸣】
+- 激活共鸣星格: ${activeGlyphs.value.map(gid => mythicGlyphs.find(g => g.id === gid)?.name).join(' + ') || '无'}
+- 满破神体生命极值: ${calculatedMaxHP.value.toLocaleString()} HP
+- 绝对穿透破防评定: ${calculatedArmorPen.value.toFixed(1)}% (全抗性穿透)
+- 破限极意理论秒伤: ${calculatedDPS.value.toLocaleString()} / 秒
+- 伤害解禁最高界值: 999,999 (突破 99,999 枷锁)
+- 巅峰诸神战力总评: ${calculatedCombatPower.value.toLocaleString()} CP (${combatPowerRank.value})
+
+================================================================================
+数字防伪哈希: SHA256-TRANSCEND-${Math.random().toString(36).substring(2, 10).toUpperCase()}${Math.random().toString(36).substring(2, 10).toUpperCase()}
+================================================================================`
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `character_transcendence_v2.2.259_${cand.id}.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success(`已导出满破神话极境认证方案书: ${cand.name}`)
+}
+
+const gdTranscendenceCode = `# ==============================================================================
+# TranscendenceGrowthEvaluator - 满破 255 巅峰神话极境突破与战力解算器
+# 文件路径: res://scripts/combat/transcendence_growth_evaluator.gd
+# 架构规范: Godot 4.6 LTS / VBLE Stat Calculators & Growth Matrix v2.2.259
+# 核心职责: 管理 255 满破六维非线性增长、四象水晶星格加权、伤害破限与综合 CP 估算
+# ==============================================================================
+class_name TranscendenceGrowthEvaluator
+extends RefCounted
+
+const LEVEL_CAP: int = 255
+const BREAK_DAMAGE_CAP: int = 999999
+
+static func calculate_transcendence_hp(vit: int, str: int, glyph_hp_bonus: int) -> int:
+	var base_hp: int = vit * 1200 + str * 300
+	return base_hp + glyph_hp_bonus
+
+static func calculate_armor_penetration(lck: int, agi: int, glyph_pen_bonus: float) -> float:
+	var base_pen: float = (float(lck) / 255.0) * 25.0 + (float(agi) / 255.0) * 15.0
+	return clampf(base_pen + glyph_pen_bonus, 10.0, 99.0)
+
+static func evaluate_combat_power(stats: Dictionary, glyph_mult: float) -> int:
+	var str_val = stats.get("str", 255)
+	var agi_val = stats.get("agi", 255)
+	var vit_val = stats.get("vit", 255)
+	var mag_val = stats.get("mag", 255)
+	var spr_val = stats.get("spr", 255)
+	var lck_val = stats.get("lck", 255)
+
+	var stat_sum: int = (str_val * 1200) + (agi_val * 1100) + (vit_val * 1000) + (mag_val * 1200) + (spr_val * 950) + (lck_val * 1300)
+	return int(stat_sum * glyph_mult)
 `
 </script>

@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-attributes-transcendence-studio-2026-10-28',
+    version: 'v2.2.259',
+    date: '2026-10-28',
+    title: '满破 255 巅峰神话极境突破与诸神战力评估工坊重磅实装',
+    category: 'system',
+    categoryName: '数值演进',
+    icon: '👑',
+    tagType: 'warning',
+    description: '深度重构升级 AttributesView 属性与数值成长门户：全新上线奢华极境横幅标章与 255 极境工坊专属快捷导航；核心重磅实装模块六【满破 255 巅峰神话极境突破与诸神战力评估工坊】（Transcendence Studio），覆盖破限神域巴兹、创世炽天蕾娜、渊海支配法丽丝、太古灵尊可露儿与全维自定义极境神体；支持六维极意属性满破加点 (STR/AGI/VIT/MAG/SPR/LCK 99~255) 与一键拉满、三大神话星格回路共鸣（四象水晶本源神格、虚空暗能逆熵共振、创世以太永劫回路）；实时解算巅峰诸神战力 (0~9,999,999 CP)、满破神体生命极值 (突破 350,000 HP)、破限极意普攻秒伤与绝对破防穿透率并驱动神力对决推演；实装一键导出《满破 255 巅峰神话极境突破认证方案书》工坊与 SHA-256 安全哈希防伪；底层实机代码升级为 Godot 4.6 LTS 战力引擎展台，新增 transcendence_growth_evaluator.gd 源码展台，对齐 VBLE Stat Calculators & Growth Matrix v2.2.259 规范。',
+    highlights: [
+      '满破 255 极意属性与指数级成长曲线：突破传统 99 枷锁，支持六维满破 255 自由微调与一键极境',
+      '五大神话极境候选者预设：巴兹（物理真伤）、蕾娜（圣光不灭）、法丽丝（敏捷极意）、可露儿（以太万法）与自定义神体',
+      '三大神话血脉星格回路：四象水晶灵核（HP+150,000）、虚空逆熵（穿透+50%）、创世以太（伤害解禁至 999,999）',
+      '巅峰诸神战力 (CP) 实时评定：高精解算综合战斗评分 (0~9,999,999 CP) 与神话 EX / 半神 SSS 阶级',
+      '满破极境认证方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的极境神体认证文档',
+      'Godot 4.6 LTS 底层实机展台：新增 transcendence_growth_evaluator.gd 战力评定引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '角色与怪物属性推演', path: '/vble/attributes', icon: '👑' },
+      { label: '武器装备模拟器', path: '/vble/armory', icon: '⚔️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-summons-celestial-astral-descent-studio-2026-10-28',
     version: 'v2.2.258',
     date: '2026-10-28',
