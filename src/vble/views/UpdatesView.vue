@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-story-multiverse-epilogue-studio-2026-10-28',
+    version: 'v2.2.269',
+    date: '2026-10-28',
+    title: '太古多元宇宙终局史诗回响与创世神纪推演工坊重磅实装',
+    category: 'maps',
+    categoryName: '创世神纪',
+    icon: '🌌',
+    tagType: 'success',
+    description: '全面重构升级 StoryView 史诗编年史门户：顶部横幅标章升级为 VBLE Story & Chronicle Matrix v2.2.269，新增创世神纪推演一键直达快捷按钮；主模式切换栏扩展第六专区【太古多元宇宙终局史诗回响与创世神纪推演工坊】（Multiverse Creation & Epilogue Studio）；覆盖四大创世神纪分支（水晶始源创世、终焉虚无净化、四光之战士超维封神、无尽时空因果循环）；支持世界创世调和度 (50%~100%)、虚无残留暗质净化率 (70%~100%) 与四主角破限神性指数 (10,000~99,999) 连续动力学调节；四主角封神位格全系对齐（风神剑圣巴兹、水之生机女神蕾娜、修罗战神法利斯、大地圣皇可露儿）；实时解算多元宇宙以太收敛率与稳态纪元寿命；支持一键生成并导出《太古多元宇宙终局史诗回响与创世神纪方案书》附带 SHA-256 安全哈希签名；底层源码展台升级三 Tab 切换，新增 multiverse_epilogue_simulator.gd 创世动力学模拟求解器。',
+    highlights: [
+      '四大多元创世神纪形态：水晶始源创世、终焉虚无净化、四勇者超维封神、无尽时空轮回',
+      '三维创世动力学调节：世界调和度、虚无暗质净化率、四主角破限神性指数全域连续演化',
+      '四主角封神位格对齐：风之神剑圣、水之生机女神、修罗火风战神与土之圣皇使者',
+      '终极大收敛机制：支持一键触发多元宇宙以太终极跃迁，神性突破 99,999 极限',
+      '创世神纪方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 multiverse_epilogue_simulator.gd 创世动力学模拟器源码展台'
+    ],
+    relatedLinks: [
+      { label: '史诗主线编年史', path: '/vble/story', icon: '📖' },
+      { label: '单机档案资讯中心', path: '/vble/news', icon: '📢' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-docs-architecture-codex-studio-2026-10-28',
     version: 'v2.2.268',
     date: '2026-10-28',

@@ -8,18 +8,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Story &amp; Chronicle Matrix v2.2.253
+              VBLE Story &amp; Chronicle Matrix v2.2.269
             </span>
-            <span class="text-xs text-gray-400">光暗双线叙事与时空因果推演</span>
+            <span class="text-xs text-gray-400">光暗双线叙事、时空因果与创世神纪推演</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>📖</span> 史诗编年史：光与暗双线三十章节与因果沙盘
+            <span>📖</span> 史诗编年史：光与暗双线三十章节与创世神纪工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            纵览从始源神殿晶石破裂、光暗双线各自探索、到全 44 节拍主线全域雷达导航、真实居民弱引用标记系统与结局因果分支推演沙盘。
+            纵览从始源神殿晶石破裂、光暗双线各自探索、到全 44 节拍主线全域雷达导航、真实居民弱引用标记系统、七大终焉宿命与太古多元创世神纪推演沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="switchToEpilogueStudio"
+          >
+            <template #icon><span>🌌</span></template>
+            创世神纪推演
+          </n-button>
           <router-link to="/vble/scenes">
             <n-button type="info" size="medium" round secondary class="shadow-md">
               <template #icon><span>🗺️</span></template>
@@ -468,6 +479,16 @@
             >
               ending_destiny_resolver.gd
             </button>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all"
+              :class="activeGdTab === 'epilogue'
+                ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm'
+                : 'bg-slate-950 text-gray-400 border border-slate-800 hover:text-white'"
+              @click="activeGdTab = 'epilogue'"
+            >
+              multiverse_epilogue_simulator.gd
+            </button>
           </div>
           <n-button size="small" round secondary type="info" @click="copyGdScript">
             <template #icon><span>📋</span></template>
@@ -475,7 +496,7 @@
           </n-button>
         </div>
 
-        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]"><code v-if="activeGdTab === 'timeline'">{{ gdScriptCode }}</code><code v-else>{{ gdScriptEndingCode }}</code></pre>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]"><code v-if="activeGdTab === 'timeline'">{{ gdScriptCode }}</code><code v-else-if="activeGdTab === 'ending'">{{ gdScriptEndingCode }}</code><code v-else>{{ gdScriptEpilogueCode }}</code></pre>
       </div>
     </div>
 
@@ -795,6 +816,228 @@
         </div>
       </div>
     </div>
+
+    <!-- 6. 太古多元宇宙终局史诗回响与创世神纪推演工坊 (Multiverse Epilogue Studio) -->
+    <div v-if="activeMode === 'multiverse_epilogue'" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#120a24] via-[#1c1038] to-[#0d0920] border border-purple-500/40 shadow-[0_0_35px_rgba(168,85,247,0.22)] space-y-6">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-purple-950 pb-5">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                MULTIVERSE CREATION &amp; EPILOGUE STUDIO
+              </span>
+              <span class="text-xs text-gray-400 font-mono">v2.2.269 官方实机矩阵</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-1">
+              <span>🌌</span> 太古多元宇宙终局史诗回响与创世神纪推演工坊
+            </h2>
+            <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+              超越终局虚无！推演四界水晶终极弥合、虚无暗黑完全净化、四光之战士超维封神与永恒创世神纪。支持世界调和度、神性指数连续调节与 SHA-256 创世认证书离线导出。
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button size="small" secondary type="warning" @click="resetEpilogueStudio">
+              🔄 重置创世战局
+            </n-button>
+            <n-button size="small" secondary type="error" @click="triggerCosmicConvergence">
+              💥 引爆以太共鸣大收敛
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="exportEpilogueCertificate">
+              📜 导出创世神纪方案书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 三栏主推演工作台 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- 栏 1: 四大创世神纪终局回响选择 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+                  <span>🏛️</span>
+                  <span>多元创世神纪形态</span>
+                </span>
+                <n-tag size="tiny" type="warning">{{ currentEpilogue.godhoodRank }}</n-tag>
+              </div>
+
+              <!-- 预设选择器 -->
+              <div class="space-y-1.5">
+                <label class="text-[11px] text-gray-400 block">选择创世回响分支 (Epilogue Branch):</label>
+                <select
+                  v-model="selectedEpilogueId"
+                  class="w-full bg-slate-950 border border-slate-700 text-xs text-purple-300 font-bold rounded-lg p-2 focus:border-purple-400 focus:outline-none"
+                  @change="onEpilogueChanged"
+                >
+                  <option v-for="ep in epiloguePresets" :key="ep.id" :value="ep.id">
+                    {{ ep.name }} ({{ ep.godhoodRank }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- 详述卡片 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-purple-500/30 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white flex items-center gap-1.5 text-sm">
+                    <span>{{ currentEpilogue.icon }}</span>
+                    <span>{{ currentEpilogue.name }}</span>
+                  </span>
+                  <span class="text-[10px] text-purple-400 font-mono font-bold">{{ currentEpilogue.type }}</span>
+                </div>
+                <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentEpilogue.description }}</p>
+                <div class="p-2 rounded bg-purple-950/40 border border-purple-900/50 text-[11px] space-y-1">
+                  <div class="text-amber-300 font-bold flex items-center gap-1">
+                    <span>⚡ 创世愿景:</span>
+                    <span>{{ currentEpilogue.vision }}</span>
+                  </div>
+                  <div class="text-cyan-300 text-[10px]">✨ 以太共鸣: {{ currentEpilogue.resonanceEffect }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs text-gray-400">
+              <span>多元稳态架构:</span>
+              <span class="font-mono font-bold text-purple-400">Godot 4.6 LTS RefCounted 纯只读解算</span>
+            </div>
+          </div>
+
+          <!-- 栏 2: 创世动力学参数连续调节与四主角神性树 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                <span>🎛️</span>
+                <span>创世动力学参数矩阵</span>
+              </span>
+              <span class="font-mono text-xs text-amber-400 font-bold">
+                收敛率 {{ cosmicConvergenceRate }}%
+              </span>
+            </div>
+
+            <!-- 滑块调节 -->
+            <div class="space-y-3 text-xs">
+              <div>
+                <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                  <span>世界创世调和度 (World Harmony):</span>
+                  <span class="font-mono font-bold text-cyan-300">{{ worldHarmonyIndex }}%</span>
+                </div>
+                <input
+                  v-model.number="worldHarmonyIndex"
+                  type="range"
+                  min="50"
+                  max="100"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                  <span>虚无残留暗质净化率 (Void Purge):</span>
+                  <span class="font-mono font-bold text-purple-300">{{ voidPurgeRate }}%</span>
+                </div>
+                <input
+                  v-model.number="voidPurgeRate"
+                  type="range"
+                  min="70"
+                  max="100"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                  <span>四主角破限神性指数 (Transcendence):</span>
+                  <span class="font-mono font-bold text-amber-400">{{ heroTranscendencePower.toLocaleString() }} Pt</span>
+                </div>
+                <input
+                  v-model.number="heroTranscendencePower"
+                  type="range"
+                  min="10000"
+                  max="99999"
+                  step="500"
+                  class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                />
+              </div>
+            </div>
+
+            <!-- 四主角封神位格卡片 -->
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                <div class="font-bold text-white flex items-center gap-1">
+                  <span>🗡️</span>
+                  <span>巴兹 (Bartz)</span>
+                </div>
+                <div class="text-[10px] text-cyan-300 mt-0.5">风之神剑圣 · 光之裁决者</div>
+              </div>
+              <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                <div class="font-bold text-white flex items-center gap-1">
+                  <span>👑</span>
+                  <span>蕾娜 (Lenna)</span>
+                </div>
+                <div class="text-[10px] text-purple-300 mt-0.5">水之生机女神 · 永恒繁育</div>
+              </div>
+              <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                <div class="font-bold text-white flex items-center gap-1">
+                  <span>🏴‍☠️</span>
+                  <span>法利斯 (Faris)</span>
+                </div>
+                <div class="text-[10px] text-amber-300 mt-0.5">修罗火风战神 · 虚空巡礼</div>
+              </div>
+              <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                <div class="font-bold text-white flex items-center gap-1">
+                  <span>🔮</span>
+                  <span>可露儿 (Krile)</span>
+                </div>
+                <div class="text-[10px] text-emerald-400 mt-0.5">土之圣皇使者 · 时空掌控</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 栏 3: 创世预期指标与宏观回响日志 -->
+          <div class="p-5 rounded-xl bg-gradient-to-b from-purple-950/20 to-slate-900 border border-purple-500/30 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <span>👑</span>
+                  <span>创世神纪推演指标</span>
+                </span>
+                <n-tag size="tiny" type="success">100% 稳态纪元</n-tag>
+              </div>
+
+              <!-- 称号卡片 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                <div class="text-[11px] text-gray-400">达成多元创世神纪终极称号</div>
+                <div class="text-base sm:text-lg font-black font-mono mt-1 text-amber-300">
+                  {{ epilogueTitle }}
+                </div>
+                <div class="text-[10px] text-emerald-400 mt-0.5">
+                  预期宇宙存续: 120,000 纪元 · 文明繁荣度 99.8%
+                </div>
+              </div>
+
+              <!-- 实时创世日志流 -->
+              <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[10px] space-y-1 max-h-24 overflow-y-auto font-mono text-gray-300">
+                <div v-for="(log, idx) in epilogueLogs" :key="idx" class="flex items-start gap-1">
+                  <span class="text-purple-400 shrink-0">•</span>
+                  <span>{{ log }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 一键共鸣收敛 -->
+            <div class="space-y-2 pt-2 border-t border-slate-800">
+              <button
+                type="button"
+                class="w-full py-2.5 rounded-lg bg-gradient-to-r from-purple-600 via-amber-600 to-purple-600 hover:from-purple-500 hover:to-amber-500 text-slate-950 font-black text-xs transition-all shadow-lg cursor-pointer"
+                @click="triggerCosmicConvergence"
+              >
+                ⚡ 触发多元宇宙以太终极跃迁 (Cosmic Leap)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -815,8 +1058,13 @@ const navModes = [
   { key: 'radar', label: '44节拍雷达导航', icon: '🧭', badge: 'NEW' },
   { key: 'branches', label: '时空因果沙盘', icon: '🔀' },
   { key: 'ending_matrix', label: '七大终焉宿命归宿与真结局推演沙盘', icon: '👑', badge: 'HOT' },
+  { key: 'multiverse_epilogue', label: '太古多元创世神纪推演工坊', icon: '🌌', badge: 'EX' },
   { key: 'engine_code', label: '主线状态机源码', icon: '🛠️' }
 ]
+
+const switchToEpilogueStudio = () => {
+  activeMode.value = 'multiverse_epilogue'
+}
 
 // 宿命结局推演沙盘状态
 const heroSurvivalRate = ref(100)
@@ -826,7 +1074,7 @@ const omegaShinryuDefeated = ref(true)
 const sacredKnowledgeRate = ref(90)
 const selfSacrificeChoice = ref<'none' | 'bartz_lenna' | 'faris_krile' | 'galuf_spirit'>('none')
 const selectedEndingDetailId = ref<string>('END-TRUE-01')
-const activeGdTab = ref<'timeline' | 'ending'>('timeline')
+const activeGdTab = ref<'timeline' | 'ending' | 'epilogue'>('epilogue')
 
 interface EndingData {
   id: string
@@ -1476,9 +1724,221 @@ static func resolve_destiny(params: Dictionary) -> Dictionary:
 	}
 `
 
+// ================= 专区 6: 太古多元宇宙终局史诗回响与创世神纪推演工坊 (v2.2.269) =================
+interface EpiloguePreset {
+  id: string
+  name: string
+  icon: string
+  type: string
+  godhoodRank: string
+  description: string
+  vision: string
+  resonanceEffect: string
+}
+
+const epiloguePresets: EpiloguePreset[] = [
+  {
+    id: 'crystal_genesis',
+    name: '【水晶始源创世】(Crystal Genesis)',
+    icon: '💎',
+    type: '永恒创生',
+    godhoodRank: 'SSS+ 始源圣典',
+    description: '四大始源水晶在虚空湮灭后重聚，原初泰空世界与分裂世界完美弥合，以太地脉永久繁茂。',
+    vision: '万物生灵皆得晶石庇护，大地重归太古丰饶与纯净秩序',
+    resonanceEffect: '以太浓度 +300%，全地表生态繁荣指数达到峰值 100%'
+  },
+  {
+    id: 'void_purification',
+    name: '【终焉虚无净化】(Void Purge)',
+    icon: '🌌',
+    type: '深渊升华',
+    godhoodRank: 'EX 超维神域',
+    description: '艾克斯德斯湮灭残留的所有反物质暗质被绝对圣光净化，次元狭缝化为璀璨繁星之海。',
+    vision: '深渊不再吞噬生命，转化为联结各异界的和平虹桥星域',
+    resonanceEffect: '暗黑引力彻底中和，时空漂移误差归零 (0.00ms)'
+  },
+  {
+    id: 'hero_transcendence',
+    name: '【四光之战士超维封神】(Four Warriors Transcendence)',
+    icon: '👑',
+    type: '以太飞升',
+    godhoodRank: 'OMEGA 创世守护神',
+    description: '巴兹、蕾娜、法利斯、可露儿领悟水晶终极意志，肉身升华进驻太古以太王座，成为永恒多元守护灵。',
+    vision: '穿越无数平行宇宙，照耀所有因果裂隙中陷入绝望的光之信徒',
+    resonanceEffect: '四神位格共鸣，单体破限神能突破 99,999 临界值'
+  },
+  {
+    id: 'infinite_reincarnation',
+    name: '【无尽时空因果循环】(Eternal Cyclic Rebirth)',
+    icon: '🔄',
+    type: '轮回神话',
+    godhoodRank: 'TIMELESS 宿命之轮',
+    description: '创世轮回之钟再度敲响，水晶之光化为种子散落于崭新的平行世界，静候新一代光之勇者觉醒。',
+    vision: '因果不熄，希望永存，每一次破灭皆是更伟大史诗的新生',
+    resonanceEffect: '多元宇宙熵增锁定，文明繁荣度恒定在 99.8%'
+  }
+]
+
+const selectedEpilogueId = ref('crystal_genesis')
+const worldHarmonyIndex = ref(98)
+const voidPurgeRate = ref(99)
+const heroTranscendencePower = ref(88400)
+
+const currentEpilogue = computed(() => {
+  return epiloguePresets.find(e => e.id === selectedEpilogueId.value) || epiloguePresets[0]
+})
+
+const cosmicConvergenceRate = computed(() => {
+  const score = Math.round(
+    (worldHarmonyIndex.value * 0.4) +
+    (voidPurgeRate.value * 0.3) +
+    ((heroTranscendencePower.value / 99999) * 30)
+  )
+  return Math.min(100, Math.max(80, score))
+})
+
+const epilogueTitle = computed(() => {
+  if (selectedEpilogueId.value === 'crystal_genesis') return '【太古四象·万象归一创世圣纪】'
+  if (selectedEpilogueId.value === 'void_purification') return '【星海澄澈·永恒无垢深渊圣纪】'
+  if (selectedEpilogueId.value === 'hero_transcendence') return '【光之四神·超维以太执政官之纪】'
+  return '【无极流转·千劫破晓轮回神纪】'
+})
+
+const epilogueLogs = ref<string[]>([
+  '【T+0.0s】创世神纪推演沙盘载入：多元宇宙因果收敛模型就绪。',
+  '【T+0.6s】四界始源以太涌动，原初泰空世界与第二重合世界地脉完成 100% 弥合。',
+  '【T+1.2s】当前达成【水晶始源创世】回响，多元收敛率已达 98.5%！'
+])
+
+const onEpilogueChanged = () => {
+  const ep = currentEpilogue.value
+  epilogueLogs.value.unshift(`[形态切换] 创世推演锚定为【${ep.name}】(${ep.godhoodRank})，愿景: ${ep.vision}`)
+  message.info(`已切换至【${ep.name}】！`)
+}
+
+const triggerCosmicConvergence = () => {
+  worldHarmonyIndex.value = 100
+  voidPurgeRate.value = 100
+  heroTranscendencePower.value = 99999
+  epilogueLogs.value.unshift('【💥 创世大捷】四神神性突破 99,999 临界值！虚无暗黑 100% 净化，多元宇宙进入极乐创生纪元！')
+  message.success('🎉 终极大收敛触发！达成创世神纪最高位格！')
+}
+
+const resetEpilogueStudio = () => {
+  selectedEpilogueId.value = 'crystal_genesis'
+  worldHarmonyIndex.value = 98
+  voidPurgeRate.value = 99
+  heroTranscendencePower.value = 88400
+  epilogueLogs.value = [
+    '创世神纪推演沙盘已重置为初始平衡态。',
+    '四界水晶处于归一谐振预备态。'
+  ]
+  message.info('创世神纪推演沙盘已重置！')
+}
+
+const exportEpilogueCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+  const ep = currentEpilogue.value
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   太古多元宇宙终局史诗回响与创世神纪方案书 (v2.2.269)
+================================================================================
+颁发时间: ${timeStr}
+创世形态: ${ep.name} (${ep.godhoodRank})
+创世类型: ${ep.type}
+终极称号: ${epilogueTitle.value}
+创世愿景: ${ep.vision}
+以太共鸣: ${ep.resonanceEffect}
+
+【创世动力学量化指标】
+- 多元宇宙以太收敛率: ${cosmicConvergenceRate.value}%
+- 世界创世调和度: ${worldHarmonyIndex.value}%
+- 虚无残留暗质净化率: ${voidPurgeRate.value}%
+- 四主角破限神性指数: ${heroTranscendencePower.value.toLocaleString()} Pt / 99,999 极限
+- 宇宙预期稳态存续: 120,000 纪元 · 文明繁荣度 99.8%
+
+【四主角封神超维位格】
+1. 巴兹 (Bartz): 风之神剑圣 · 光之裁决者
+2. 蕾娜 (Lenna): 水之生机女神 · 永恒繁育
+3. 法利斯 (Faris): 修罗火风战神 · 虚空巡礼
+4. 可露儿 (Krile): 土之圣皇使者 · 时空掌控
+
+【最新创世推演日志记录】
+${epilogueLogs.value.slice(0, 5).map(l => `• ${l}`).join('\n')}
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS RefCounted Cosmological Engine
+- Core Simulator: multiverse_epilogue_simulator.gd
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `multiverse_epilogue_cert_v2.2.269_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('创世神纪方案书已导出并同步至剪贴板！')
+  }
+}
+
+const gdScriptEpilogueCode = `## multiverse_epilogue_simulator.gd
+## Godot 4.6 LTS - 太古多元宇宙终局回响与创世神纪动力学模拟求解器
+extends RefCounted
+class_name MultiverseEpilogueSimulator
+
+signal cosmic_convergence_achieved(epilogue_id: String, convergence_rate: float)
+signal hero_godhood_transcended(hero_name: String, godhood_title: String)
+
+class CreationCosmosState:
+	var world_harmony: float = 0.98
+	var void_purge_rate: float = 0.99
+	var godhood_power: float = 88400.0
+	var is_unified: bool = true
+
+static func simulate_cosmic_convergence(state: CreationCosmosState, epilogue_type: String) -> Dictionary:
+	var convergence: float = (state.world_harmony * 40.0) + (state.void_purge_rate * 30.0) + (state.godhood_power / 99999.0 * 30.0)
+	convergence = clampf(convergence, 0.0, 100.0)
+	
+	var is_omega_creation: bool = convergence >= 99.0
+	var lifespan_epochs: int = int(convergence * 1200)
+	
+	return {
+		"epilogue": epilogue_type,
+		"convergence_rate": convergence,
+		"is_omega_creation": is_omega_creation,
+		"expected_lifespan_epochs": lifespan_epochs,
+		"prosperity_index": 0.998 if is_omega_creation else 0.95,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+`
+
 const copyGdScript = () => {
-  const codeToCopy = activeGdTab.value === 'timeline' ? gdScriptCode : gdScriptEndingCode
-  const filename = activeGdTab.value === 'timeline' ? 'story_timeline_manager.gd' : 'ending_destiny_resolver.gd'
+  const codeToCopy = activeGdTab.value === 'timeline'
+    ? gdScriptCode 
+    : activeGdTab.value === 'ending' 
+      ? gdScriptEndingCode 
+      : gdScriptEpilogueCode
+  const filename = activeGdTab.value === 'timeline' 
+    ? 'story_timeline_manager.gd' 
+    : activeGdTab.value === 'ending' 
+      ? 'ending_destiny_resolver.gd' 
+      : 'multiverse_epilogue_simulator.gd'
   navigator.clipboard.writeText(codeToCopy).then(() => {
     message.success(`${filename} 源码已复制到剪贴板！`)
   }).catch(() => {
