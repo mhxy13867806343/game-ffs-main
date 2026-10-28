@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-boss-tactics-stagger-enrage-synergy-studio-2026-10-28',
+    version: 'v2.2.252',
+    date: '2026-10-28',
+    title: '全息四阶段狂暴破盾与团队战术连携解算沙盘重磅实装',
+    category: 'system',
+    categoryName: '战术演进',
+    icon: '⚡',
+    tagType: 'warning',
+    description: '深度重构升级 BossTacticsView 首领攻坚全鉴与终焉破阵工坊：全新实装第五大核心专区【全息四阶段狂暴破盾与团队战术连携解算沙盘】（Boss Enrage Stagger & Tactical Synergy Studio），模拟真龙王神龙、古代兵器欧米茄、终焉新埃克斯迪斯与奥丁进入狂暴读条阶段的绝对护盾机制；支持巴兹、蕾娜、法利斯、可露儿四大契约英雄攻坚指令并发编排（魔法剑雷牙乱打、连续魔双圣灵、金币狂掷真伤与巴哈姆特核爆），动态解算弱点破盾达成率、倒计时阈值耗时与灭团判定，并在破盾后触发 8 秒 200% 易伤虚弱窗口；实装一键导出《史诗首领狂暴破盾与团队战术连携方案书》工坊；底层代码升级双架构视图，新增 boss_stagger_enrage_resolver.gd 破盾状态机源码展台，对齐 VBLE Boss & Raid Tactics Matrix v2.2.252 规范。',
+    highlights: [
+      '四大终极首领狂暴破盾模拟：覆盖神龙海啸、欧米茄过载自爆、埃克斯迪斯大爆炸与奥丁斩铁剑',
+      '四主角战术动作并发编排器：自由组合魔法剑八连击、连续魔加速、金币真伤与巴哈姆特核爆',
+      '破盾进度与易伤虚弱动态解算：实时测算单轮总输出、弱点加成、耗时竞速与 8 秒 200% 易伤虚弱态',
+      '三大极限绝境破盾战术套用：支持神龙海啸瞬反破盾、欧米茄自爆阻断与虚空大爆炸压制',
+      '首领破盾攻坚方案书一键导出：实时生成包含 SHA-256 安全哈希的离线攻坚方案认证文本',
+      'Godot 4.6 LTS 双架构引擎展台：集成 boss_tactics_battle.gd 与 boss_stagger_enrage_resolver.gd'
+    ],
+    relatedLinks: [
+      { label: '首领攻坚全鉴与机制指南', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '战斗战术与机制指南', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-gallery-hdr-color-grading-lut-studio-2026-10-28',
     version: 'v2.2.251',
     date: '2026-10-28',

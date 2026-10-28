@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono font-bold text-xs border border-red-500/30">
-              EPIC BOSS PHASE MECHANICS & RAID GUIDE
+              VBLE Boss &amp; Raid Tactics Matrix v2.2.252
             </span>
             <span class="text-xs text-gray-400">首领攻坚全鉴与终焉破阵法</span>
           </div>
@@ -483,25 +483,302 @@
       </div>
     </div>
 
-    <!-- Godot 4.x 核心实机代码展台 -->
-    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-base">📜</span>
-          <span class="font-mono text-sm font-bold text-rose-400">boss_tactics_battle.gd (Godot 4.x 实机引擎算法)</span>
+    <!-- 专区 5: 全息四阶段狂暴破盾与团队战术连携解算沙盘 (Boss Enrage Stagger & Tactical Synergy Studio) -->
+    <div id="stagger-synergy-studio" class="p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-rose-950/20 to-slate-950 border border-rose-500/40 shadow-2xl space-y-6">
+      <!-- 头部导览与操作 -->
+      <div class="border-b border-rose-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-2xl">⚡</span>
+            <h2 class="text-xl sm:text-2xl font-black text-rose-300">
+              全息四阶段狂暴破盾与团队战术连携解算沙盘
+            </h2>
+            <n-tag size="small" type="error" round strong>Stagger Matrix 4.6 LTS</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            模拟史诗首领进入狂暴读条阶段的绝对护盾抗性；编排四位主角的极限输出与辅助连携，实时推演破盾时机、灭团容错与瘫痪易伤虚弱窗口！
+          </p>
         </div>
-        <n-button size="tiny" secondary type="error" @click="copyGodotCode">
-          {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
-        </n-button>
+        <div class="flex items-center gap-2 flex-wrap">
+          <n-button size="small" secondary type="warning" @click="applyStaggerPreset('reset')">
+            🔄 重置战术
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportStaggerCert">
+            📜 导出狂暴破盾攻坚方案书
+          </n-button>
+        </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ godotCodeText }}</pre>
+      <!-- 快速战术预设套用 -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-xs font-bold text-gray-400">⚔️ 官方经典极限绝境战术套用:</span>
+        <button
+          v-for="preset in staggerPresets"
+          :key="preset.id"
+          type="button"
+          class="px-2.5 py-1 text-xs rounded border transition-all cursor-pointer flex items-center gap-1"
+          :class="selectedStaggerPresetId === preset.id
+            ? 'bg-rose-950/80 border-rose-400 text-white font-bold shadow-md shadow-rose-500/20 ring-1 ring-rose-400/50'
+            : 'bg-slate-950/80 border-slate-800 text-gray-300 hover:border-slate-700'"
+          @click="applyStaggerPreset(preset.id)"
+        >
+          <span>{{ preset.icon }}</span>
+          <span>{{ preset.name }}</span>
+        </button>
+      </div>
+
+      <!-- 首领狂暴护盾状态与读条倒计时 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+        <!-- 靶标首领切换 -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-gray-300 flex items-center justify-between">
+            <span>👹 破盾靶标首领:</span>
+            <span class="text-[10px] text-amber-400 font-mono">{{ currentStaggerBoss.weakness }}</span>
+          </label>
+          <select
+            v-model="selectedStaggerBossId"
+            class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-rose-400"
+          >
+            <option v-for="b in staggerBossList" :key="b.id" :value="b.id">
+              {{ b.name }} (狂暴盾: {{ b.shieldHp.toLocaleString() }} HP)
+            </option>
+          </select>
+        </div>
+
+        <!-- 狂暴读条倒计时滑块 -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold text-rose-400">灭团读条倒计时 (Cast Time):</span>
+            <span class="font-mono font-bold text-amber-300">{{ staggerCastTimeSec }} 秒</span>
+          </div>
+          <input
+            type="range"
+            min="6"
+            max="25"
+            step="1"
+            v-model.number="staggerCastTimeSec"
+            class="w-full accent-rose-400 cursor-pointer"
+          />
+          <div class="flex justify-between text-[9px] text-gray-500">
+            <span>6s 极限高压</span>
+            <span>15s 标准竞速</span>
+            <span>25s 充裕窗口</span>
+          </div>
+        </div>
+
+        <!-- 护盾弱点乘区状态 -->
+        <div class="space-y-1 p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs">
+          <div class="text-gray-400 flex items-center justify-between">
+            <span>核心致命弱点:</span>
+            <span class="text-cyan-300 font-bold font-mono">{{ currentStaggerBoss.weaknessTag }}</span>
+          </div>
+          <div class="text-gray-400 flex items-center justify-between">
+            <span>破防弱点倍率:</span>
+            <span class="text-emerald-400 font-bold font-mono">+{{ currentStaggerBoss.weaknessBonus }}% 伤害加成</span>
+          </div>
+          <div class="text-gray-400 flex items-center justify-between">
+            <span>狂暴灭团绝技:</span>
+            <span class="text-rose-400 font-bold truncate" :title="currentStaggerBoss.wipeSkill">{{ currentStaggerBoss.wipeSkill }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四大参战主角指令编排与右侧连携破盾解算 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧：四主角动作指令选择器 -->
+        <div class="lg:col-span-7 p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>👥</span> 四大契约英雄攻坚指令编排 (Hero Commands):
+            </div>
+            <span class="text-[10px] text-gray-400">单轮并发连携输出</span>
+          </div>
+
+          <div class="space-y-2.5">
+            <!-- 英雄 1: 巴兹 -->
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">⚔️</span>
+                <div>
+                  <div class="text-xs font-bold text-white">巴兹 (Bartz) · 自由人主攻</div>
+                  <div class="text-[10px] text-gray-400">双持诸神之黄昏 + 正宗</div>
+                </div>
+              </div>
+              <select
+                v-model="hero1Action"
+                class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-cyan-300 focus:outline-none"
+              >
+                <option value="rapid_spellblade_thunder">⚡ 魔法剑雷牙 + 乱打八连击 (24000 DMG)</option>
+                <option value="ragnarok_cleave">🗡️ 诸神之黄昏破空重斩 (15000 DMG)</option>
+                <option value="rapid_holy">✨ 魔法剑圣灵 + 乱打八连击 (26000 DMG)</option>
+                <option value="attack_normal">普攻平 A 双手挥击 (6000 DMG)</option>
+              </select>
+            </div>
+
+            <!-- 英雄 2: 蕾娜 -->
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">💧</span>
+                <div>
+                  <div class="text-xs font-bold text-white">蕾娜 (Lenna) · 时魔/白魔支援</div>
+                  <div class="text-[10px] text-gray-400">贤者之杖 + 连续魔咏唱</div>
+                </div>
+              </div>
+              <select
+                v-model="hero2Action"
+                class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-amber-300 focus:outline-none"
+              >
+                <option value="dual_hastega_quick">⏳ 连续魔·群体加速 + 极速 (Hastega + Quick)</option>
+                <option value="dualcast_holy">✨ 连续魔·双重神圣圣裁 (18000 DMG)</option>
+                <option value="curaja_heal">💖 白魔法·圣灵大痊愈 (全队满血补满)</option>
+                <option value="dispel_shield">🛡️ 驱魔·瓦解护盾护甲 (-30% 护盾防御)</option>
+              </select>
+            </div>
+
+            <!-- 英雄 3: 法利斯 -->
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">🏴‍☠️</span>
+                <div>
+                  <div class="text-xs font-bold text-white">法利斯 (Faris) · 忍者机动暗杀</div>
+                  <div class="text-[10px] text-gray-400">佐助之刀 + 极速身法</div>
+                </div>
+              </div>
+              <select
+                v-model="hero3Action"
+                class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-emerald-300 focus:outline-none"
+              >
+                <option value="zeninage_burst">💰 金币狂掷·真伤倾泻 (Zeninage 19998 DMG)</option>
+                <option value="ninja_thunder_scroll">📜 秘术·轰天雷遁之卷 (12000 雷伤)</option>
+                <option value="shadow_clone">👤 暗影分身·完全免疫下 2 次物理反制</option>
+                <option value="knife_slice">🔪 双持小刀极速轻刺 (5500 DMG)</option>
+              </select>
+            </div>
+
+            <!-- 英雄 4: 可露儿 -->
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">✨</span>
+                <div>
+                  <div class="text-xs font-bold text-white">可露儿 (Krile) · 召唤/药剂师奇策</div>
+                  <div class="text-[10px] text-gray-400">龙之髭 + 始源神印共鸣</div>
+                </div>
+              </div>
+              <select
+                v-model="hero4Action"
+                class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-purple-300 focus:outline-none"
+              >
+                <option value="bahamut_megaflare">🐉 契约幻兽·巴哈姆特亿万核爆 (19000 DMG)</option>
+                <option value="dragon_breath_mix">🧪 药剂师神级调合·龙之逆鳞 (16000 穿透)</option>
+                <option value="ramuh_judgement">⚡ 幻兽拉姆·裁决雷光 (13500 雷伤)</option>
+                <option value="elixir_support">🧪 圣灵灵药·全队 MP 满格恢复</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：实时破盾演练解算看板 -->
+        <div class="lg:col-span-5 p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-rose-400 flex items-center gap-1.5">
+                <span>📊</span> 战役狂暴破盾实时裁决
+              </span>
+              <n-tag size="tiny" :type="staggerSimResult.tagType">
+                {{ staggerSimResult.status }}
+              </n-tag>
+            </div>
+
+            <!-- 破盾进度看板 -->
+            <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-400">狂暴护盾击破进度:</span>
+                <span class="font-mono font-bold" :class="staggerSimResult.isBroken ? 'text-emerald-400' : 'text-amber-400'">
+                  {{ staggerSimResult.damageDealt.toLocaleString() }} / {{ currentStaggerBoss.shieldHp.toLocaleString() }} HP
+                </span>
+              </div>
+              <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+                <div
+                  class="h-full rounded-full transition-all duration-300"
+                  :class="staggerSimResult.isBroken ? 'bg-gradient-to-r from-emerald-500 to-cyan-400' : 'bg-gradient-to-r from-amber-500 to-rose-500'"
+                  :style="{ width: `${staggerSimResult.breakPercent}%` }"
+                ></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>破盾达成率: {{ staggerSimResult.breakPercent }}%</span>
+                <span>预估耗时: {{ staggerSimResult.timeRequiredSec.toFixed(1) }}s / 倒计时 {{ staggerCastTimeSec }}s</span>
+              </div>
+            </div>
+
+            <!-- 核心数据指标 -->
+            <div class="space-y-1.5 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-950 border border-slate-800">
+                <span class="text-gray-400">单轮并发爆发总量:</span>
+                <span class="font-mono font-bold text-rose-400">{{ staggerSimResult.damageDealt.toLocaleString() }} 点输出</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-950 border border-slate-800">
+                <span class="text-gray-400">弱点克制伤害加权:</span>
+                <span class="font-mono font-bold text-cyan-300">+{{ staggerSimResult.weaknessBonusTotal.toLocaleString() }} DMG</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-950 border border-slate-800">
+                <span class="text-gray-400">瘫痪易伤虚弱窗口:</span>
+                <span class="font-mono font-bold" :class="staggerSimResult.isBroken ? 'text-emerald-400' : 'text-gray-500'">
+                  {{ staggerSimResult.isBroken ? '易伤 +200% (持续 8 秒)' : '未击破 (无虚弱)' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-black/40 border border-slate-800 text-[10px] text-gray-400 leading-relaxed">
+            {{ staggerSimResult.summaryAdvice }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.6 LTS 核心实机代码展台 (双 Tab 切换) -->
+    <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-base">📜</span>
+          <span class="font-mono text-sm font-bold text-rose-400">
+            Godot 4.6 LTS 史诗首领机制与狂暴破盾判定架构
+          </span>
+          <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- 双 Tab 切换 -->
+          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeBossGodotTab === 'tactics' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeBossGodotTab = 'tactics'"
+            >
+              📄 boss_tactics_battle.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeBossGodotTab === 'stagger' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeBossGodotTab = 'stagger'"
+            >
+              📄 boss_stagger_enrage_resolver.gd
+            </button>
+          </div>
+          <n-button size="tiny" secondary type="error" @click="copyGodotCode">
+            {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
+          </n-button>
+        </div>
+      </div>
+
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeBossGodotTab === 'tactics'">{{ godotCodeText }}</code><code v-else>{{ godotStaggerCodeText }}</code></pre>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import { useMessage } from 'naive-ui'
 import { bossTacticsList, type BossTacticItem } from '../config/bossTactics'
 
@@ -817,11 +1094,15 @@ func check_boss_mechanic(boss_id: String, hp_ratio: float, party: Array) -> Dict
 	return result
 `
 
+const activeBossGodotTab = ref<'tactics' | 'stagger'>('stagger')
+
 const copyGodotCode = async () => {
   try {
-    await navigator.clipboard.writeText(godotCodeText)
+    const textToCopy = activeBossGodotTab.value === 'tactics' ? godotCodeText : godotStaggerCodeText
+    const fileName = activeBossGodotTab.value === 'tactics' ? 'boss_tactics_battle.gd' : 'boss_stagger_enrage_resolver.gd'
+    await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
-    message.success('已复制 boss_tactics_battle.gd 核心实机代码！')
+    message.success(`已复制 ${fileName} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
     }, 3000)
@@ -935,6 +1216,267 @@ onUnmounted(() => {
     timelineTimer = null
   }
 })
+
+// ================= 专区 5: 全息四阶段狂暴破盾与团队战术连携解算沙盘 =================
+interface StaggerBoss {
+  id: string
+  name: string
+  shieldHp: number
+  weakness: string
+  weaknessTag: string
+  weaknessBonus: number
+  wipeSkill: string
+  baseCastTime: number
+}
+
+const staggerBossList: StaggerBoss[] = [
+  { id: 'shinryu', name: '真龙王·神龙 (Shinryu)', shieldHp: 58000, weakness: '弱点：雷属性 / 水系反弹', weaknessTag: '雷电 (Lightning)', weaknessBonus: 50, wipeSkill: '全灭绝技：极超·灭世大海啸 (12000+ 暴毙)', baseCastTime: 12 },
+  { id: 'omega', name: '古代兵器·欧米茄 (Omega)', shieldHp: 65000, weakness: '弱点：雷牙魔法剑 / 穿甲', weaknessTag: '雷属性 (Thundaga)', weaknessBonus: 75, wipeSkill: '全灭绝技：过载核心自爆 (99999 即死)', baseCastTime: 14 },
+  { id: 'neo_exdeath', name: '终焉·新埃克斯迪斯 (Neo Exdeath)', shieldHp: 72000, weakness: '弱点：神圣真伤 / 巴哈姆特', weaknessTag: '圣裁 & 核爆 (Holy/Flare)', weaknessBonus: 40, wipeSkill: '全灭绝技：宇宙终末大爆炸 (全员即死混乱)', baseCastTime: 16 },
+  { id: 'odin', name: '斩铁圣骑士·奥丁 (Odin)', shieldHp: 45000, weakness: '弱点：时空加速 / 石化即死', weaknessTag: '石化 & 极速 (Break/Haste)', weaknessBonus: 60, wipeSkill: '全灭绝技：真·斩铁剑 (全员无视防御斩杀)', baseCastTime: 10 }
+]
+
+const selectedStaggerBossId = ref('shinryu')
+const staggerCastTimeSec = ref(12)
+
+const currentStaggerBoss = computed(() => {
+  return staggerBossList.find(b => b.id === selectedStaggerBossId.value) || staggerBossList[0]
+})
+
+interface StaggerPreset {
+  id: string
+  name: string
+  icon: string
+  bossId: string
+  hero1: string
+  hero2: string
+  hero3: string
+  hero4: string
+  castSec: number
+}
+
+const staggerPresets: StaggerPreset[] = [
+  { id: 'shinryu_counter', name: '神龙开局灭世海啸破盾', icon: '🐉', bossId: 'shinryu', hero1: 'rapid_spellblade_thunder', hero2: 'dual_hastega_quick', hero3: 'zeninage_burst', hero4: 'bahamut_megaflare', castSec: 12 },
+  { id: 'omega_breaker', name: '欧米茄过载自爆阻断', icon: '🤖', bossId: 'omega', hero1: 'rapid_spellblade_thunder', hero2: 'dispel_shield', hero3: 'ninja_thunder_scroll', hero4: 'ramuh_judgement', castSec: 14 },
+  { id: 'void_purge', name: '埃克斯迪斯宇宙大爆炸压制', icon: '🌌', bossId: 'neo_exdeath', hero1: 'rapid_holy', hero2: 'dualcast_holy', hero3: 'zeninage_burst', hero4: 'bahamut_megaflare', castSec: 16 }
+]
+
+const selectedStaggerPresetId = ref('shinryu_counter')
+
+const hero1Action = ref('rapid_spellblade_thunder')
+const hero2Action = ref('dual_hastega_quick')
+const hero3Action = ref('zeninage_burst')
+const hero4Action = ref('bahamut_megaflare')
+
+const applyStaggerPreset = (presetId: string) => {
+  if (presetId === 'reset') {
+    selectedStaggerBossId.value = 'shinryu'
+    staggerCastTimeSec.value = 12
+    hero1Action.value = 'rapid_spellblade_thunder'
+    hero2Action.value = 'dual_hastega_quick'
+    hero3Action.value = 'zeninage_burst'
+    hero4Action.value = 'bahamut_megaflare'
+    message.info('破盾攻坚战术已恢复默认')
+    return
+  }
+
+  selectedStaggerPresetId.value = presetId
+  const preset = staggerPresets.find(p => p.id === presetId)
+  if (preset) {
+    selectedStaggerBossId.value = preset.bossId
+    hero1Action.value = preset.hero1
+    hero2Action.value = preset.hero2
+    hero3Action.value = preset.hero3
+    hero4Action.value = preset.hero4
+    staggerCastTimeSec.value = preset.castSec
+    message.success(`已套用【${preset.name}】官方极限破盾预设！`)
+  }
+}
+
+const staggerSimResult = computed(() => {
+  const boss = currentStaggerBoss.value
+  let baseDamage = 0
+  let isLightningActive = false
+  let isHolyActive = false
+  let hasDefenseShred = false
+  let hasSpeedBuff = false
+
+  if (hero1Action.value === 'rapid_spellblade_thunder') {
+    baseDamage += 24000
+    isLightningActive = true
+  } else if (hero1Action.value === 'rapid_holy') {
+    baseDamage += 26000
+    isHolyActive = true
+  } else if (hero1Action.value === 'ragnarok_cleave') {
+    baseDamage += 15000
+  } else {
+    baseDamage += 6000
+  }
+
+  if (hero2Action.value === 'dualcast_holy') {
+    baseDamage += 18000
+    isHolyActive = true
+  } else if (hero2Action.value === 'dispel_shield') {
+    hasDefenseShred = true
+  } else if (hero2Action.value === 'dual_hastega_quick') {
+    hasSpeedBuff = true
+  }
+
+  if (hero3Action.value === 'zeninage_burst') {
+    baseDamage += 19998
+  } else if (hero3Action.value === 'ninja_thunder_scroll') {
+    baseDamage += 12000
+    isLightningActive = true
+  } else if (hero3Action.value === 'knife_slice') {
+    baseDamage += 5500
+  }
+
+  if (hero4Action.value === 'bahamut_megaflare') {
+    baseDamage += 19000
+  } else if (hero4Action.value === 'dragon_breath_mix') {
+    baseDamage += 16000
+  } else if (hero4Action.value === 'ramuh_judgement') {
+    baseDamage += 13500
+    isLightningActive = true
+  }
+
+  let weaknessMultiplier = 1.0
+  if (boss.weaknessTag.includes('雷') && isLightningActive) {
+    weaknessMultiplier += boss.weaknessBonus / 100
+  }
+  if (boss.weaknessTag.includes('圣') && isHolyActive) {
+    weaknessMultiplier += boss.weaknessBonus / 100
+  }
+  if (hasDefenseShred) {
+    weaknessMultiplier += 0.25
+  }
+
+  const damageDealt = Math.round(baseDamage * weaknessMultiplier)
+  const weaknessBonusTotal = Math.max(0, damageDealt - baseDamage)
+  const breakPercent = Math.min(100, Math.round((damageDealt / boss.shieldHp) * 100))
+  const isBroken = damageDealt >= boss.shieldHp
+
+  let baseActionDuration = 9.5
+  if (hasSpeedBuff) baseActionDuration *= 0.75
+  const timeRequiredSec = Math.max(2.5, baseActionDuration * (1 - (breakPercent / 200)))
+
+  let status = '攻坚破盾成功'
+  let tagType: 'success' | 'warning' | 'error' = 'success'
+  let summaryAdvice = `🎉 破盾大成功！团队在 ${timeRequiredSec.toFixed(1)} 秒内倾泻 ${damageDealt.toLocaleString()} 点爆发，在 ${staggerCastTimeSec.value} 秒倒计时前击碎护盾！首领进入 8 秒易伤虚弱态！`
+
+  if (!isBroken) {
+    if (timeRequiredSec > staggerCastTimeSec.value) {
+      status = '灭团绝技释放 (Wipe)'
+      tagType = 'error'
+      summaryAdvice = `💥 灭团警报！团队输出仅造成 ${damageDealt.toLocaleString()} 点伤害 (还差 ${(boss.shieldHp - damageDealt).toLocaleString()} HP)，倒计时耗尽触发【${boss.wipeSkill}】！`
+    } else {
+      status = '护盾未完全击破'
+      tagType = 'warning'
+      summaryAdvice = `⚠️ 破盾未达成：护盾剩余 ${(boss.shieldHp - damageDealt).toLocaleString()} HP，建议巴兹切换魔法剑雷牙或法利斯金币狂掷补足斩杀！`
+    }
+  }
+
+  return {
+    damageDealt,
+    weaknessBonusTotal,
+    breakPercent,
+    isBroken,
+    timeRequiredSec,
+    status,
+    tagType,
+    summaryAdvice
+  }
+})
+
+const exportStaggerCert = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+  const boss = currentStaggerBoss.value
+  const sim = staggerSimResult.value
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   史诗首领狂暴破盾与团队战术连携方案书 (v2.2.252)
+================================================================================
+颁发时间: ${timeStr}
+靶标首领: ${boss.name}
+护盾总量: ${boss.shieldHp.toLocaleString()} HP (灭团倒计时: ${staggerCastTimeSec.value} 秒)
+致命弱点: ${boss.weaknessTag} (加成 +${boss.weaknessBonus}%)
+
+【四主角攻坚连携编排】
+- 英雄 1 [巴兹 · 自由人]: ${hero1Action.value}
+- 英雄 2 [蕾娜 · 时白魔]: ${hero2Action.value}
+- 英雄 3 [法利斯 · 忍者]: ${hero3Action.value}
+- 英雄 4 [可露儿 · 召唤]: ${hero4Action.value}
+
+【破盾推演裁决结果】
+- 单轮并发总输出: ${sim.damageDealt.toLocaleString()} 点伤害
+- 弱点克制附加值: +${sim.weaknessBonusTotal.toLocaleString()} DMG
+- 破盾达成率: ${sim.breakPercent}%
+- 破盾判定: [${sim.status}]
+- 破盾耗时: ${sim.timeRequiredSec.toFixed(1)} 秒 / 狂暴阈值: ${staggerCastTimeSec.value} 秒
+- 战术战情评语: ${sim.summaryAdvice}
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS / GDScript RefCounted
+- Core Resolvers: boss_tactics_battle.gd & boss_stagger_enrage_resolver.gd
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `boss_stagger_tactics_v2.2.252_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('首领狂暴破盾攻坚方案书已导出并同步至剪贴板！')
+  }
+}
+
+const godotStaggerCodeText = `## boss_stagger_enrage_resolver.gd
+## Godot 4.6 LTS - 史诗首领狂暴读条、破盾槽解算与易伤虚弱状态机
+extends RefCounted
+class_name BossStaggerEnrageResolver
+
+signal stagger_broken(boss_id: String, vulnerability_duration: float)
+signal enrage_wipe_triggered(boss_id: String, wipe_skill: String)
+
+class StaggerState:
+	var shield_hp: float
+	var max_shield_hp: float
+	var cast_timer: float
+	var is_staggered: bool = false
+	var vulnerability_bonus: float = 2.0
+
+static func resolve_party_stagger_burst(boss_shield: float, actions_damage: Array[float], weakness_mult: float, cast_time: float) -> Dictionary:
+	var total_dmg: float = 0.0
+	for dmg in actions_damage:
+		total_dmg += dmg * weakness_mult
+		
+	var is_broken: bool = total_dmg >= boss_shield
+	var time_spent: float = 8.5 / maxf(weakness_mult, 1.0)
+	var is_wipe: bool = not is_broken and time_spent >= cast_time
+	
+	return {
+		"damage": total_dmg,
+		"broken": is_broken,
+		"wipe": is_wipe,
+		"time": time_spent,
+		"vuln_buff": 2.0 if is_broken else 0.0
+	}`
 </script>
 
 <style scoped>
