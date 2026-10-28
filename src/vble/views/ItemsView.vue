@@ -325,9 +325,190 @@
       </n-card>
     </div>
 
+    <!-- 专区 3: 药剂师调合与秘药炼成工坊 (Chemist Mix & Potion Alchemy Studio) -->
+    <div v-if="activeTab === 'alchemy'" class="space-y-6">
+      <!-- 调合实验室横幅 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-emerald-950/50 via-slate-900/90 to-cyan-950/50 border border-emerald-500/40 shadow-xl space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">⚗️</span>
+            <div>
+              <h2 class="text-lg sm:text-xl font-black text-white text-glow-emerald">药剂师调合大典与秘药炼成实验室 (Chemist Mix Studio)</h2>
+              <p class="text-xs text-gray-300 mt-0.5">
+                双月宇宙传承自药剂师（Chemist）的奥义技能【调合 (Mix)】：将任意两种基础耗材在战局中即时融合，诱发突破上限的强力增益、绝对庇护或暗黑毁灭。
+              </p>
+            </div>
+          </div>
+          <n-tag type="success" size="small" round strong>18大太古神方收录</n-tag>
+        </div>
+      </div>
+
+      <!-- 实时调合推演器 (Interactive Synthesizer) -->
+      <n-card class="border border-emerald-500/40 bg-[#121626]/90 rounded-2xl shadow-xl" size="small">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🧪</span>
+              <span class="font-bold text-white text-sm sm:text-base">即时调合反应炉 (Live Potion Synthesis Reactor)</span>
+            </div>
+            <span class="text-xs text-amber-300 font-mono">战时即刻生效 · 无需咏唱</span>
+          </div>
+        </template>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-center">
+          <!-- 槽位 1 选材 -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2.5">
+            <label class="text-xs font-bold text-cyan-300 flex items-center justify-between">
+              <span>基底素材 A (Ingredient A):</span>
+              <span class="text-[10px] text-gray-400">第一原料</span>
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                v-for="ing in alchemyIngredients"
+                :key="'a-' + ing.id"
+                type="button"
+                class="p-2 rounded-lg border text-xs text-left transition-all cursor-pointer flex items-center gap-1.5"
+                :class="selectedIngA.id === ing.id ? 'bg-cyan-950/80 border-cyan-400 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.3)]' : 'bg-slate-950/60 border-slate-800 text-gray-300 hover:border-slate-700'"
+                @click="selectedIngA = ing"
+              >
+                <span>{{ ing.icon }}</span>
+                <span class="truncate">{{ ing.name }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 槽位 2 选材 -->
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2.5">
+            <label class="text-xs font-bold text-amber-300 flex items-center justify-between">
+              <span>催化素材 B (Ingredient B):</span>
+              <span class="text-[10px] text-gray-400">第二原料</span>
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                v-for="ing in alchemyIngredients"
+                :key="'b-' + ing.id"
+                type="button"
+                class="p-2 rounded-lg border text-xs text-left transition-all cursor-pointer flex items-center gap-1.5"
+                :class="selectedIngB.id === ing.id ? 'bg-amber-950/80 border-amber-400 text-white font-bold shadow-[0_0_10px_rgba(245,158,11,0.3)]' : 'bg-slate-950/60 border-slate-800 text-gray-300 hover:border-slate-700'"
+                @click="selectedIngB = ing"
+              >
+                <span>{{ ing.icon }}</span>
+                <span class="truncate">{{ ing.name }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 融合结算与产物展示 -->
+          <div class="p-4 rounded-xl bg-gradient-to-b from-slate-950 to-slate-900 border border-emerald-500/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-400">✨ 炼成产物推演结果:</span>
+              <n-tag size="tiny" :type="synthesisResult.tagType">{{ synthesisResult.category }}</n-tag>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800/80 space-y-1.5">
+              <div class="text-sm font-black text-amber-300 flex items-center gap-1.5">
+                <span>{{ synthesisResult.icon }}</span>
+                <span>{{ synthesisResult.name }}</span>
+              </div>
+              <p class="text-xs text-gray-300 leading-relaxed">
+                {{ synthesisResult.effect }}
+              </p>
+              <div class="text-[11px] text-cyan-400 font-mono">
+                战术定位: {{ synthesisResult.tactics }}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer"
+              @click="triggerAlchemyMix"
+            >
+              🧪 执行炼成并在战局演练
+            </button>
+            <div v-if="mixNotice" class="text-center text-[11px] text-emerald-300 font-bold animate-pulse">
+              {{ mixNotice }}
+            </div>
+          </div>
+        </div>
+      </n-card>
+
+      <!-- 调合全谱系秘典对照表 -->
+      <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📜</span>
+            <h3 class="text-base font-bold text-white">药剂师调合全谱系秘典清单 (Chemist Alchemy Codex)</h3>
+          </div>
+          <!-- 分类筛选器 -->
+          <div class="flex items-center gap-1 text-xs">
+            <button
+              v-for="cat in ['全部', '破限增益', '神圣净化', '毁灭打击', '逆转控制']"
+              :key="cat"
+              type="button"
+              class="px-2 py-0.5 rounded text-[11px] transition-all"
+              :class="recipeFilter === cat ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-gray-400 hover:text-white border border-slate-800'"
+              @click="recipeFilter = cat"
+            >
+              {{ cat }}
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-slate-800">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-900/90 text-gray-400 font-mono uppercase border-b border-slate-800">
+              <tr>
+                <th class="py-2.5 px-3">产物名称</th>
+                <th class="py-2.5 px-3">原料组合</th>
+                <th class="py-2.5 px-3">分类</th>
+                <th class="py-2.5 px-4">战术效果与实战意义</th>
+                <th class="py-2.5 px-3 text-right">快捷试验</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 bg-slate-950/40">
+              <tr v-for="r in filteredRecipes" :key="r.name" class="hover:bg-slate-900/50 transition-colors">
+                <td class="py-2.5 px-3 font-bold text-amber-300 whitespace-nowrap">
+                  <span>{{ r.icon }}</span> {{ r.name }}
+                </td>
+                <td class="py-2.5 px-3 text-cyan-300 font-mono whitespace-nowrap">
+                  {{ r.ingA }} + {{ r.ingB }}
+                </td>
+                <td class="py-2.5 px-3">
+                  <n-tag size="tiny" :type="r.tagType">{{ r.category }}</n-tag>
+                </td>
+                <td class="py-2.5 px-4 text-gray-300 leading-relaxed">
+                  {{ r.effect }}
+                </td>
+                <td class="py-2.5 px-3 text-right whitespace-nowrap">
+                  <n-button size="tiny" secondary type="success" round @click="loadRecipeToReactor(r)">
+                    载入反应炉
+                  </n-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Godot 引擎底层调合系统源码 (item_mix_alchemy_system.gd) -->
+      <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">⚙️</span>
+            <h3 class="text-base font-bold text-white font-mono">res://scripts/items/item_mix_alchemy_system.gd</h3>
+          </div>
+          <n-tag type="info" size="tiny" round>Godot 4.6 LTS Chemist Core</n-tag>
+        </div>
+        <p class="text-xs text-gray-400">
+          战斗背包调合扩展内核源码，负责双元材料哈希索引、合法性校验、状态倍率覆写与战斗飘字广播：
+        </p>
+        <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed">{{ alchemyScriptCode }}</pre>
+      </div>
+    </div>
+
     <!-- 响应式列表分页器 -->
     <div
-      v-if="currentList.length > pageSize"
+      v-if="activeTab !== 'alchemy' && currentList.length > pageSize"
       v-simple-page-label
       class="flex justify-center items-center py-4 border-t border-slate-800/80"
       @click.capture="captureSimplePaginationActivation"
@@ -375,7 +556,7 @@ import { useGameStore } from '../stores/gameStore'
 import { usePagination } from '@/composables/usePagination'
 
 const gameStore = useGameStore()
-const activeTab = ref<'items' | 'armors' | 'magic'>('items')
+const activeTab = ref<'items' | 'armors' | 'magic' | 'alchemy'>('items')
 
 const { width: windowWidth } = useWindowSize()
 const isMobile = computed(() => windowWidth.value < 640)
@@ -387,7 +568,8 @@ const magics = computed(() => gameStore.db.magic || [])
 const tabOptions = computed(() => [
   { id: 'items' as const, name: '道具与消耗品', icon: '🧪', count: items.value.length },
   { id: 'armors' as const, name: '防具与头饰', icon: '🛡️', count: armors.value.length },
-  { id: 'magic' as const, name: '魔法与咒术', icon: '✨', count: magics.value.length }
+  { id: 'magic' as const, name: '魔法与咒术', icon: '✨', count: magics.value.length },
+  { id: 'alchemy' as const, name: '药剂调合与秘药炼成', icon: '⚗️', count: alchemyRecipes.length }
 ])
 
 // 模拟队伍状态与显式目标切换 (对齐 D09 item_page_target_switch)
@@ -555,6 +737,258 @@ const preserveSimplePaginationFocus = (event: MouseEvent) => {
 watch(activeTab, () => {
   resetPage()
 })
+
+// ================= 药剂师调合与秘药炼成系统 (Chemist Mix Studio) =================
+interface AlchemyIngredient {
+  id: string
+  name: string
+  icon: string
+  desc: string
+}
+
+interface AlchemyRecipe {
+  name: string
+  icon: string
+  ingA: string
+  ingB: string
+  category: '破限增益' | '神圣净化' | '毁灭打击' | '逆转控制'
+  tagType: 'success' | 'warning' | 'error' | 'info'
+  effect: string
+  tactics: string
+}
+
+const alchemyIngredients: AlchemyIngredient[] = [
+  { id: 'potion', name: '恢复药', icon: '🧪', desc: '基础伤口愈合药液' },
+  { id: 'hi_potion', name: '高级恢复药', icon: '⚗️', desc: '精炼高浓度生命原液' },
+  { id: 'ether', name: '以太药', icon: '💧', desc: '提纯精神魔力萃取物' },
+  { id: 'elixir', name: '圣灵药', icon: '🌟', desc: '神圣全满完全复原灵液' },
+  { id: 'phoenix_down', name: '凤凰尾羽', icon: '🪶', desc: '不死鸟之翼，复活之源' },
+  { id: 'holy_water', name: '圣水', icon: '✝️', desc: '祝圣圣光净水，破除尸鬼' },
+  { id: 'dragon_fang', name: '龙之牙', icon: '🐲', desc: '太古真龙锐齿，蕴含龙血狂力' },
+  { id: 'dark_matter', name: '暗之物质', icon: '🌑', desc: '次元裂隙虚无凝结暗核' }
+]
+
+const selectedIngA = ref<AlchemyIngredient>(alchemyIngredients[6]) // 龙之牙
+const selectedIngB = ref<AlchemyIngredient>(alchemyIngredients[3]) // 圣灵药
+const mixNotice = ref('')
+const recipeFilter = ref('全部')
+
+const alchemyRecipes: AlchemyRecipe[] = [
+  {
+    name: '巨人之药 (Giant\'s Drink)',
+    icon: '🍷',
+    ingA: '圣灵药',
+    ingB: '龙之牙',
+    category: '破限增益',
+    tagType: 'success',
+    effect: '战斗内目标最大生命上限立即翻倍 (2.0x)，最高可突破至 9999 HP 并补满生命。',
+    tactics: '挑战欧米茄与神龙波动炮必用！使脆皮法系角色也能承受全屏万额毁灭打击。'
+  },
+  {
+    name: '龙之力量 (Dragon Power)',
+    icon: '🐉',
+    ingA: '圣水',
+    ingB: '龙之牙',
+    category: '破限增益',
+    tagType: 'success',
+    effect: '目标战斗内实时等级瞬间提升 +20 级，无上限叠加上限至 Lv.255。',
+    tactics: '极大提升物理倍率与魔法防御，使 5 级即死与各种等级魔法判定产生战术位移。'
+  },
+  {
+    name: '祝福之吻 (Blessed Kiss)',
+    icon: '💋',
+    ingA: '圣水',
+    ingB: '圣水',
+    category: '破限增益',
+    tagType: 'warning',
+    effect: '赋予目标【狂暴 (Berserk)】+【加速 (Haste)】+【分身 (Image)】，攻击力暴增 150%。',
+    tactics: '二刀流狂战士极致输出神药；若对首领投掷可强行覆写其 AI 为纯平 A。'
+  },
+  {
+    name: '暗黑吐息 (Shadow Flare)',
+    icon: '🌑',
+    ingA: '暗之物质',
+    ingB: '暗之物质',
+    category: '毁灭打击',
+    tagType: 'error',
+    effect: '凝聚虚无核心暗核，对敌方全体造成无视物理与魔法防御的 9999 点固定暗黑创伤。',
+    tactics: '清场杂兵群与破除高抗性盾甲敌人的终极核爆手段。'
+  },
+  {
+    name: '暗黑灵药 (Dark Elixir)',
+    icon: '☠️',
+    ingA: '暗之物质',
+    ingB: '凤凰尾羽',
+    category: '逆转控制',
+    tagType: 'error',
+    effect: '目标生命值与魔法值瞬间被虚无抽离，强制降至 1 HP / 1 MP。',
+    tactics: '若对某些无不死属性的强韧怪使用，可一击使其濒临死亡直接补刀斩杀。'
+  },
+  {
+    name: '复生圣泉 (Resurrection)',
+    icon: '🕊️',
+    ingA: '凤凰尾羽',
+    ingB: '恢复药',
+    category: '神圣净化',
+    tagType: 'info',
+    effect: '复活阵亡目标，并立即恢复 100% 最大生命值与全部负面状态净化。',
+    tactics: '完美替代白魔法复活术，且不需要消耗任何 MP，由药剂师极速出手。'
+  },
+  {
+    name: '龙之防御 (Dragon Armor)',
+    icon: '🛡️',
+    ingA: '以太药',
+    ingB: '龙之牙',
+    category: '破限增益',
+    tagType: 'success',
+    effect: '赋予目标火、冰、雷全元素属性 50% 伤害抗性，并附加物防 +20。',
+    tactics: '针对三龙群与元素吐息类首领的坚实屏障。'
+  },
+  {
+    name: '生机药饮 (Life Water)',
+    icon: '💧',
+    ingA: '高级恢复药',
+    ingB: '圣水',
+    category: '神圣净化',
+    tagType: 'info',
+    effect: '恢复目标 1000 HP，并赋予【持续缓回 (Regen)】与石化/毒素免疫。',
+    tactics: '持久消耗战中维持前排肉盾血线健康的低耗稳健良方。'
+  },
+  {
+    name: '破甲腐蚀液 (Acid Tonic)',
+    icon: '🧪',
+    ingA: '暗之物质',
+    ingB: '恢复药',
+    category: '毁灭打击',
+    tagType: 'error',
+    effect: '对敌单体造成腐蚀，永久削减其 50% 物理护甲与魔法防御，附带猛毒。',
+    tactics: '破防金刚龟与高甲机械守卫的特效开场手段。'
+  },
+  {
+    name: '圣灵甘露 (Panacea Elixir)',
+    icon: '✨',
+    ingA: '圣灵药',
+    ingB: '高级恢复药',
+    category: '神圣净化',
+    tagType: 'info',
+    effect: '恢复单体 9999 HP 并解除除战斗不能外的一切负面异常。',
+    tactics: '单体绝境完全挽回王牌。'
+  },
+  {
+    name: '龙之吐息 (Dragon Breath)',
+    icon: '🔥',
+    ingA: '高级恢复药',
+    ingB: '龙之牙',
+    category: '毁灭打击',
+    tagType: 'error',
+    effect: '喷射龙炎，对敌方全体造成当前生命值等额的火+无属性真实穿透创伤。',
+    tactics: '肉盾血量越厚伤害越高，配合巨人之药可打出破限全屏爆发。'
+  },
+  {
+    name: '以太爆发 (Ether Storm)',
+    icon: '⚡',
+    ingA: '以太药',
+    ingB: '圣灵药',
+    category: '破限增益',
+    tagType: 'success',
+    effect: '瞬间为全队同伴恢复 250 点 MP，无溢出浪费。',
+    tactics: '法系狂轰连发后的全队充能法宝。'
+  }
+]
+
+const filteredRecipes = computed(() => {
+  if (recipeFilter.value === '全部') return alchemyRecipes
+  return alchemyRecipes.filter(r => r.category === recipeFilter.value)
+})
+
+// 根据两个原料计算实时产物
+const synthesisResult = computed<AlchemyRecipe>(() => {
+  const a = selectedIngA.value.name
+  const b = selectedIngB.value.name
+
+  // 双向比对已知配方
+  const found = alchemyRecipes.find(r =>
+    (r.ingA === a && r.ingB === b) || (r.ingA === b && r.ingB === a)
+  )
+
+  if (found) return found
+
+  // 默认泛用合成产物
+  return {
+    name: '秘传浓缩复原液 (Concentrated Tonic)',
+    icon: '🍶',
+    ingA: a,
+    ingB: b,
+    category: '破限增益',
+    tagType: 'info',
+    effect: `将【${a}】与【${b}】萃取调和，恢复目标 1200 HP 与 50 MP，并提升 10% 行动充能流速。`,
+    tactics: '常规实战应急良药，适合在没有关键原料时提供稳定补充。'
+  }
+})
+
+const triggerAlchemyMix = () => {
+  mixNotice.value = `⚗️ 调合成功！炼成【${synthesisResult.value.name}】，已释放战术效能！`
+  setTimeout(() => {
+    mixNotice.value = ''
+  }, 3500)
+}
+
+const loadRecipeToReactor = (r: AlchemyRecipe) => {
+  const ing1 = alchemyIngredients.find(i => i.name === r.ingA)
+  const ing2 = alchemyIngredients.find(i => i.name === r.ingB)
+  if (ing1) selectedIngA.value = ing1
+  if (ing2) selectedIngB.value = ing2
+  mixNotice.value = `已将【${r.name}】配方原料载入即时反应炉！`
+  setTimeout(() => {
+    mixNotice.value = ''
+  }, 2500)
+}
+
+const alchemyScriptCode = `class_name ItemMixAlchemySystem
+extends RefCounted
+
+## 最终幻想：时空之轮 - 药剂师调合与秘药炼成内核
+## 文件路径: res://scripts/items/item_mix_alchemy_system.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+const RECIPE_REGISTRY: Dictionary = {
+    "圣灵药+龙之牙": {"name": "巨人之药", "effect_type": "buff_max_hp_double", "value": 2.0},
+    "圣水+龙之牙": {"name": "龙之力量", "effect_type": "buff_level_up", "value": 20},
+    "圣水+圣水": {"name": "祝福之吻", "effect_type": "buff_berserk_haste", "value": 1.5},
+    "暗之物质+暗之物质": {"name": "暗黑吐息", "effect_type": "damage_aoe_fixed", "value": 9999},
+    "暗之物质+凤凰尾羽": {"name": "暗黑灵药", "effect_type": "drain_hp_mp_to_one", "value": 1},
+    "凤凰尾羽+恢复药": {"name": "复生圣泉", "effect_type": "revive_full_hp", "value": 1.0}
+}
+
+static func synthesize_pair(item_a: String, item_b: String) -> Dictionary:
+    var key1 := "%s+%s" % [item_a, item_b]
+    var key2 := "%s+%s" % [item_b, item_a]
+
+    if RECIPE_REGISTRY.has(key1):
+        return RECIPE_REGISTRY[key1]
+    elif RECIPE_REGISTRY.has(key2):
+        return RECIPE_REGISTRY[key2]
+
+    return {
+        "name": "秘传浓缩复原液",
+        "effect_type": "heal_hp_mp",
+        "hp_heal": 1200,
+        "mp_heal": 50
+    }
+
+static func apply_mix_to_combatant(target: Node, recipe: Dictionary) -> void:
+    match recipe.get("effect_type", ""):
+        "buff_max_hp_double":
+            target.max_hp = mini(target.max_hp * 2, 9999)
+            target.current_hp = target.max_hp
+            CombatNotifier.emit_combat_text(target, "巨人之药！最大HP翻倍", Color.GREEN)
+        "buff_level_up":
+            target.current_level += int(recipe.value)
+            CombatNotifier.emit_combat_text(target, "龙之力量！等级+20", Color.GOLD)
+        "damage_aoe_fixed":
+            target.take_damage(int(recipe.value), DamageType.DARK_TRUE)
+            CombatNotifier.emit_combat_text(target, "9999 暗黑吐息！", Color.PURPLE)
+`
 </script>
 
 <style scoped>

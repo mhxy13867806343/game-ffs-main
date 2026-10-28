@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-items-chemist-mix-alchemy-studio-2026-10-28',
+    version: 'v2.2.225',
+    date: '2026-10-28',
+    title: '药剂师即时调合反应炉、18大太古神方秘典与炼成工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '⚗️',
+    tagType: 'success',
+    description: '深度重构升级 ItemsView 道具大典：全新实装第四维核心标签【药剂师调合与秘药炼成工坊】（Chemist Mix Studio）；打造交互式【即时调合反应炉】（Live Potion Synthesis Reactor），支持恢复药、以太药、圣灵药、凤凰尾羽、圣水、龙之牙与暗之物质等 8 大核心耗材双向无缝组合；全量收录 18 大太古神方秘典（巨人之药、龙之力量、祝福之吻、暗黑吐息 9999 固定核爆、暗黑灵药 1HP 抽离等）；支持分类筛选、一键载入反应炉并在队伍中实机演练；并严谨对齐 Godot 4.6 LTS item_mix_alchemy_system.gd 调合内核源码。',
+    highlights: [
+      '药剂师即时调合反应炉：任意选取双元基础原料，实时计算破限增益、毁灭伤害与战术定位',
+      '18 大经典调合神方秘典：全景归纳巨人之药 (最大 HP 翻倍突破 9999)、龙之力量 (实时等级 +20)、祝福之吻与暗黑吐息',
+      '战术分类检索与一键载入：支持按破限增益、神圣净化、毁灭打击与逆转控制快捷过滤并载入反应炉',
+      'Godot 4.6 底层调合内核对齐：内置 item_mix_alchemy_system.gd 源码并支持一键查阅'
+    ],
+    relatedLinks: [
+      { label: '道具大典与调合工坊', path: '/vble/items', icon: '⚗️' },
+      { label: '职业大师谱系', path: '/vble/jobs', icon: '🛡️' },
+      { label: '战斗战术推演', path: '/vble/battle-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-attributes-atb-flow-stat-softcap-studio-2026-10-28',
     version: 'v2.2.224',
     date: '2026-10-28',
