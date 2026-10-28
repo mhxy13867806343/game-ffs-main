@@ -137,6 +137,212 @@
       </div>
     </div>
 
+    <!-- 👾 魔物全息 AI 行动树、弱点抗性雷达与掉落物概率工坊 (Monster AI & Drop Probability Studio) -->
+    <div class="bg-gradient-to-br from-[#121626]/95 via-[#1c1830]/90 to-[#0e1424]/95 border border-purple-500/50 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-5 relative overflow-hidden">
+      <!-- 头部与操作栏 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-purple-900/40 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🧠</span>
+            <h2 class="text-lg sm:text-xl font-black text-purple-300">
+              魔物全息 AI 仇恨行动树、弱点抗性雷达与掉落物概率工坊 (Monster AI Studio)
+            </h2>
+            <n-tag size="small" type="error" round strong>AI 决策树</n-tag>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            解密深渊魔物的核心逻辑：阶段转换血线、仇恨锁定规则、八元属性克制/吸收/反弹雷达，以及盗贼偷盗与战利品概率模拟！
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetAiStudio">
+            🔄 重置推演参数
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="simulateAiRound">
+            ⚡ 触发 AI 动作推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 经典代表性首领/精英快速切换 -->
+      <div class="space-y-1.5">
+        <div class="text-xs font-bold text-gray-400 flex items-center gap-1.5">
+          <span>🎯</span> 选定受测魔物标本 (Target Monster Prototype):
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="proto in monsterAiPrototypes"
+            :key="proto.id"
+            type="button"
+            class="px-3 py-1.5 rounded-xl border text-xs cursor-pointer transition-all flex items-center gap-1.5 select-none"
+            :class="selectedAiProtoId === proto.id
+              ? 'bg-purple-900/60 border-purple-400 text-purple-200 font-black shadow-lg shadow-purple-600/30'
+              : 'bg-slate-900/80 border-slate-800 text-gray-300 hover:border-slate-700 hover:bg-slate-850'"
+            @click="selectAiProto(proto.id)"
+          >
+            <span>{{ proto.icon }}</span>
+            <span>{{ proto.name }}</span>
+            <n-tag size="tiny" :type="proto.rankTag" round>{{ proto.rank }}</n-tag>
+          </button>
+        </div>
+      </div>
+
+      <!-- 三大核心工坊面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 栏 1: AI 行动树与仇恨决策模型 -->
+        <div class="lg:col-span-4 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-purple-300 flex items-center gap-1.5">
+                <span>🤖</span> AI 仇恨模型与血线阶段
+              </span>
+              <span class="text-gray-400 font-mono">{{ activeAiProto.aiType }}</span>
+            </div>
+
+            <!-- 当前推演 HP 阶段滑块 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>魔物当前血线 (HP 阶段):</span>
+                <span class="font-mono font-bold" :class="aiHpPct <= 25 ? 'text-rose-400' : aiHpPct <= 50 ? 'text-amber-400' : 'text-emerald-400'">
+                  {{ aiHpPct }}% ({{ getHpPhaseName(aiHpPct) }})
+                </span>
+              </div>
+              <n-slider v-model:value="aiHpPct" :min="1" :max="100" :step="5" />
+            </div>
+
+            <!-- 仇恨锁定策略选择 -->
+            <div>
+              <label class="text-[11px] text-gray-400 block mb-1">当前仇恨导向逻辑 (Aggro Target Target):</label>
+              <n-select
+                v-model:value="aiAggroMode"
+                :options="aggroModeOptions"
+                size="small"
+              />
+            </div>
+
+            <!-- AI 预判下一步指令 -->
+            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1.5">
+              <div class="text-[10px] text-purple-400 font-mono uppercase tracking-wider">AI 下一步行动预判</div>
+              <div class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                <span>💥</span> {{ predictedAction.skill }}
+              </div>
+              <p class="text-[10px] text-gray-400 leading-relaxed">{{ predictedAction.desc }}</p>
+            </div>
+          </div>
+
+          <div class="p-2 rounded bg-purple-950/20 border border-purple-900/30 text-[10px] text-purple-300">
+            <strong>反击机制：</strong>{{ activeAiProto.counterRule }}
+          </div>
+        </div>
+
+        <!-- 栏 2: 八元属性抗性雷达与战术对策建议 -->
+        <div class="lg:col-span-4 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-cyan-300 flex items-center gap-1.5">
+                <span>⚡</span> 八元属性偏振与克制雷达
+              </span>
+              <span class="text-gray-400 font-mono">Affinity Radar</span>
+            </div>
+
+            <!-- 8 大属性矩阵 -->
+            <div class="grid grid-cols-4 gap-1.5 text-center">
+              <div
+                v-for="elem in activeAiProto.elements"
+                :key="elem.name"
+                class="p-1.5 rounded-lg border text-[11px] space-y-0.5"
+                :class="getElementClass(elem.effect)"
+              >
+                <div class="font-bold">{{ elem.name }}</div>
+                <div class="text-[10px] font-mono scale-90">{{ elem.effect }}</div>
+              </div>
+            </div>
+
+            <!-- 专家战术对策建议 -->
+            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1.5 text-xs">
+              <div class="text-cyan-300 font-bold flex items-center gap-1">
+                <span>🛡️</span> 黄金对策指南:
+              </div>
+              <div class="text-[11px] text-gray-300 space-y-1">
+                <div>• <strong>最佳附魔推荐：</strong><span class="text-amber-300">{{ activeAiProto.bestSpellblade }}</span></div>
+                <div>• <strong>最优召唤契约：</strong><span class="text-purple-300">{{ activeAiProto.bestSummon }}</span></div>
+                <div>• <strong>严重禁忌规避：</strong><span class="text-rose-400">{{ activeAiProto.forbiddenWarning }}</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 rounded bg-cyan-950/20 border border-cyan-900/30 text-[10px] text-cyan-300">
+            <strong>状态免疫：</strong>{{ activeAiProto.statusImmunities.join('、') || '无' }}
+          </div>
+        </div>
+
+        <!-- 栏 3: 盗贼偷盗与战利品掉落模拟器 -->
+        <div class="lg:col-span-4 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
+              <span class="text-emerald-300 flex items-center gap-1.5">
+                <span>💰</span> 盗贼偷盗与战利品掉落
+              </span>
+              <span class="text-gray-400 font-mono">Drop & Steal</span>
+            </div>
+
+            <!-- 掉落表条目 -->
+            <div class="space-y-1.5 text-xs">
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-gray-200">普通掉落: {{ activeAiProto.dropCommon.name }}</div>
+                  <div class="text-[10px] text-gray-400">常规通关击杀后掉落</div>
+                </div>
+                <n-tag size="tiny" type="info">{{ activeAiProto.dropCommon.rate }}%</n-tag>
+              </div>
+
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-amber-300">稀有掉落: {{ activeAiProto.dropRare.name }}</div>
+                  <div class="text-[10px] text-gray-400">神器级战利品</div>
+                </div>
+                <n-tag size="tiny" type="warning">{{ activeAiProto.dropRare.rate }}%</n-tag>
+              </div>
+
+              <div class="p-2 rounded bg-slate-900 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-cyan-300">盗贼偷盗: {{ activeAiProto.stealItem.name }}</div>
+                  <div class="text-[10px] text-gray-400">受盗贼护腕 1.5x 加权</div>
+                </div>
+                <n-tag size="tiny" type="success">{{ activeAiProto.stealItem.rate }}%</n-tag>
+              </div>
+            </div>
+
+            <!-- 模拟刷取按钮 -->
+            <div class="flex items-center gap-2 pt-1">
+              <n-button size="small" type="success" secondary block @click="simulateStealAction">
+                🖐️ 进行 1 次盗贼偷盗
+              </n-button>
+              <n-button size="small" type="warning" secondary block @click="simulateBatchDrop">
+                🎲 模拟 10 连战刷落
+              </n-button>
+            </div>
+          </div>
+
+          <!-- 模拟反馈日志 -->
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-[10px] font-mono text-gray-300 leading-relaxed min-h-[36px] flex items-center">
+            {{ lootSimFeedback }}
+          </div>
+        </div>
+      </div>
+
+      <!-- 实战单回合 AI 决策推演输出流 -->
+      <div class="p-3.5 rounded-xl bg-slate-950/90 border border-purple-900/40 text-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="text-amber-400 text-base">⚡</span>
+          <span class="font-bold text-purple-300">实战 AI 决策演练回响：</span>
+          <span class="text-gray-200 font-mono">{{ aiCombatSimLog }}</span>
+        </div>
+        <div class="text-[11px] text-gray-500 font-mono">
+          底层契约: monster_ai_combat_resolver.gd
+        </div>
+      </div>
+    </div>
+
     <!-- 顶部状态栏与类型切换 -->
     <div class="bg-[#121626]/90 border border-slate-700/60 p-4 rounded-2xl shadow-xl space-y-4">
       <!-- 主分类 Tab -->
@@ -780,6 +986,274 @@ import type { Directive } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const gameStore = useGameStore()
+
+// ================= 👾 魔物全息 AI 仇恨行动树与掉落工坊 (monster_ai_combat_resolver.gd) =================
+interface MonsterAiPrototype {
+  id: string
+  name: string
+  icon: string
+  rank: string
+  rankTag: 'error' | 'warning' | 'info' | 'primary' | 'success'
+  aiType: string
+  counterRule: string
+  elements: Array<{ name: string; effect: string }>
+  bestSpellblade: string
+  bestSummon: string
+  forbiddenWarning: string
+  statusImmunities: string[]
+  dropCommon: { name: string; rate: number }
+  dropRare: { name: string; rate: number }
+  stealItem: { name: string; rate: number }
+}
+
+const monsterAiPrototypes: MonsterAiPrototype[] = [
+  {
+    id: 'exdeath',
+    name: '虚空邪树·艾克斯迪斯',
+    icon: '🌲',
+    rank: '最终反派 BOSS',
+    rankTag: 'error',
+    aiType: '三阶段多重施法树',
+    counterRule: '受到物理近战攻击时 33% 几率以【真空波】瞬发反击并附加流血',
+    elements: [
+      { name: '火', effect: '常规(1.0x)' },
+      { name: '冰', effect: '常规(1.0x)' },
+      { name: '雷', effect: '常规(1.0x)' },
+      { name: '水', effect: '吸收(+1.0x)' },
+      { name: '风', effect: '弱点(2.0x)' },
+      { name: '地', effect: '无效(0x)' },
+      { name: '圣', effect: '弱点(2.0x)' },
+      { name: '暗', effect: '吸收(+1.0x)' }
+    ],
+    bestSpellblade: '圣剑术附魔 (Holy Spellblade) · 2.0x 真实穿透',
+    bestSummon: '巴哈姆特 (百万亿火光) / 希瓦 (风雪破结界)',
+    forbiddenWarning: '严禁使用暗黑魔法或水系核爆，将全额转化为其血量！',
+    statusImmunities: ['致盲', '沉默', '即死', '石化', '蛙化', '缩小', '混乱'],
+    dropCommon: { name: '暗黑圣灵药', rate: 100 },
+    dropRare: { name: '原初虚空结晶', rate: 12 },
+    stealItem: { name: '源氏之铠 (绝版神器)', rate: 25 }
+  },
+  {
+    id: 'shinryu',
+    name: '宝箱神龙·真龙王',
+    icon: '🐉',
+    rank: '隐藏超越超绝 BOSS',
+    rankTag: 'warning',
+    aiType: '开局水灾海啸+全屏核融',
+    counterRule: '承受非弱点属性攻击时，立即释放全屏【冰霜风暴】冻结前排',
+    elements: [
+      { name: '火', effect: '常规(1.0x)' },
+      { name: '冰', effect: '吸收(+1.0x)' },
+      { name: '雷', effect: '常规(1.0x)' },
+      { name: '水', effect: '吸收(+1.0x)' },
+      { name: '风', effect: '常规(1.0x)' },
+      { name: '地', effect: '无效(0x)' },
+      { name: '圣', effect: '弱点(2.0x)' },
+      { name: '暗', effect: '无效(0x)' }
+    ],
+    bestSpellblade: '龙骑士飞龙枪 + 飞天避海啸 / 龙之髭鞭',
+    bestSummon: '利维亚桑 (珊瑚戒指反弹水灾) / 凤凰复活保底',
+    forbiddenWarning: '开局若无【珊瑚之戒】水吸收防护，全队首回合直接承受 7500+ 水灾秒杀！',
+    statusImmunities: ['全部状态异常免疫', '即死免疫', '停滞免疫'],
+    dropCommon: { name: '飞龙之枪', rate: 100 },
+    dropRare: { name: '龙王逆鳞·圣戒', rate: 8 },
+    stealItem: { name: '天丛云剑 (高暴击太刀)', rate: 20 }
+  },
+  {
+    id: 'omega',
+    name: '古代灭绝兵器·欧米茄',
+    icon: '🤖',
+    rank: '太古自律型机甲',
+    rankTag: 'error',
+    aiType: '波动炮+火箭飞拳超速运转',
+    counterRule: '被直接物理击中时 100% 触发【火箭飞拳】附带濒死与混乱反击',
+    elements: [
+      { name: '火', effect: '吸收(+1.0x)' },
+      { name: '冰', effect: '吸收(+1.0x)' },
+      { name: '雷', effect: '弱点(2.0x)' },
+      { name: '水', effect: '吸收(+1.0x)' },
+      { name: '风', effect: '吸收(+1.0x)' },
+      { name: '地', effect: '吸收(+1.0x)' },
+      { name: '圣', effect: '吸收(+1.0x)' },
+      { name: '暗', effect: '吸收(+1.0x)' }
+    ],
+    bestSpellblade: '雷魔法剑三级 (Thundaga Spellblade) + 二刀流乱打',
+    bestSummon: '拉姆 (古代雷霆轰击，过载机体核心) / 诱敌爱之歌',
+    forbiddenWarning: '仅弱雷！其余 7 种属性全吸收！不可直接普通平砍，必须使用乱打规避反击！',
+    statusImmunities: ['除停止 (Stop) 外全免疫', '即死无效', '石化无效'],
+    dropCommon: { name: '欧米茄装甲徽记', rate: 100 },
+    dropRare: { name: '驱动力力场护盾核心', rate: 5 },
+    stealItem: { name: '力场发生装置 (极珍稀材料)', rate: 15 }
+  },
+  {
+    id: 'tiamat',
+    name: '多头灾厄龙·提亚马特',
+    icon: '🐲',
+    rank: '深渊守门恶龙',
+    rankTag: 'info',
+    aiType: '四首元素轮转吐息',
+    counterRule: '每回合开始时随血线重置首领吐息属性',
+    elements: [
+      { name: '火', effect: '反射(Reflect)' },
+      { name: '冰', effect: '弱点(2.0x)' },
+      { name: '雷', effect: '常规(1.0x)' },
+      { name: '水', effect: '常规(1.0x)' },
+      { name: '风', effect: '半减(0.5x)' },
+      { name: '地', effect: '无效(0x)' },
+      { name: '圣', effect: '常规(1.0x)' },
+      { name: '暗', effect: '弱点(2.0x)' }
+    ],
+    bestSpellblade: '暴风雪魔法剑 / 冰霜吐息封印',
+    bestSummon: '希瓦 (冰封千里) / 奥丁 (斩铁剑概率斩杀)',
+    forbiddenWarning: '常驻火系反射！绝对不可对其盲目施放三级烈火魔法！',
+    statusImmunities: ['失明', '沉默', '中毒'],
+    dropCommon: { name: '龙牙刃', rate: 100 },
+    dropRare: { name: '提亚马特的宝珠', rate: 15 },
+    stealItem: { name: '龙鳞胸甲', rate: 30 }
+  },
+  {
+    id: 'behemoth',
+    name: '极荒兽王·贝希摩斯',
+    icon: '🐂',
+    rank: '狂暴原野巨兽',
+    rankTag: 'warning',
+    aiType: '濒死陨石天谴',
+    counterRule: '致命濒死 (HP<=15%) 时必定瞬发吟唱【死前天谴·陨石降临】',
+    elements: [
+      { name: '火', effect: '半减(0.5x)' },
+      { name: '冰', effect: '弱点(2.0x)' },
+      { name: '雷', effect: '半减(0.5x)' },
+      { name: '水', effect: '常规(1.0x)' },
+      { name: '风', effect: '常规(1.0x)' },
+      { name: '地', effect: '吸收(+1.0x)' },
+      { name: '圣', effect: '常规(1.0x)' },
+      { name: '暗', effect: '常规(1.0x)' }
+    ],
+    bestSpellblade: '冰结剑斩裂 / 沉默术压制魔法',
+    bestSummon: '泰坦 (大地崩裂抗震) / 巨像护盾',
+    forbiddenWarning: '击杀前排务必提前布设【高阶护盾】或【白魔法复活术】，硬扛死前陨石！',
+    statusImmunities: ['蛙化', '缩小', '魅惑'],
+    dropCommon: { name: '兽王生肉', rate: 100 },
+    dropRare: { name: '战角巨斧', rate: 18 },
+    stealItem: { name: '巨兽重铠', rate: 35 }
+  }
+]
+
+const selectedAiProtoId = ref<string>('exdeath')
+const activeAiProto = computed<MonsterAiPrototype>(() => {
+  return monsterAiPrototypes.find(p => p.id === selectedAiProtoId.value) || monsterAiPrototypes[0]
+})
+
+const aiHpPct = ref<number>(80)
+const aiAggroMode = ref<string>('highest_dps')
+const aggroModeOptions = [
+  { label: '🎯 仇恨最高输出者 (Highest DPS Focus)', value: 'highest_dps' },
+  { label: '🚑 锁定队伍最虚弱目标 (Lowest HP Assassination)', value: 'lowest_hp' },
+  { label: '🧙 压制施法者/治疗职业 (Caster / Healer Counter)', value: 'caster_lock' },
+  { label: '🎲 混沌随机仇恨 (Chaos Random Swing)', value: 'random_chaos' }
+]
+
+const lootSimFeedback = ref<string>('尚未进行掉落或偷盗推演，点击上方按钮触发 RNG 判定。')
+const aiCombatSimLog = ref<string>('就绪：选定魔物标本与血线阶段后，点击【⚡ 触发 AI 动作推演】。')
+
+const getHpPhaseName = (hp: number): string => {
+  if (hp > 75) return '阶段一·常规压制'
+  if (hp > 50) return '阶段二·狂暴蓄力'
+  if (hp > 25) return '阶段三·连环强袭'
+  return '阶段四·终极绝灭'
+}
+
+const getElementClass = (effect: string) => {
+  if (effect.includes('弱点')) return 'border-rose-500/60 bg-rose-950/40 text-rose-300'
+  if (effect.includes('吸收')) return 'border-emerald-500/60 bg-emerald-950/40 text-emerald-300'
+  if (effect.includes('无效')) return 'border-slate-700 bg-slate-900/60 text-gray-500'
+  if (effect.includes('反射')) return 'border-amber-500/60 bg-amber-950/40 text-amber-300'
+  if (effect.includes('半减')) return 'border-blue-500/60 bg-blue-950/40 text-blue-300'
+  return 'border-slate-800 bg-slate-950/40 text-gray-400'
+}
+
+const predictedAction = computed(() => {
+  const p = activeAiProto.value
+  const hp = aiHpPct.value
+  const aggro = aiAggroMode.value
+
+  let targetDesc = '队伍仇恨最高输出者'
+  if (aggro === 'lowest_hp') targetDesc = '当前残血最危急队友'
+  else if (aggro === 'caster_lock') targetDesc = '后排白魔/黑魔施法者'
+  else if (aggro === 'random_chaos') targetDesc = '随机前排/后排目标'
+
+  if (p.id === 'exdeath') {
+    if (hp <= 25) return { skill: '原初虚空崩解 (Neo Void Collapse)', desc: `血线低于 25%，锁定【${targetDesc}】，引发不可阻挡的全域无属性混沌湮灭！` }
+    if (hp <= 50) return { skill: '三连极效魔法 (Meteor + Flare + Holy)', desc: `血线进入狂暴期，连续施展 3 发上古禁咒打击阵线！` }
+    if (hp <= 75) return { skill: '真空波 (Vacuum Wave)', desc: `对【${targetDesc}】释放物理风刃切裂，附带严重流血与致盲效果。` }
+    return { skill: '常规平砍 + 减速咒', desc: `试探性打击前排，并对治疗者附着减速诅咒。` }
+  }
+
+  if (p.id === 'shinryu') {
+    if (hp <= 25) return { skill: '毁灭龙息·超新星 (Gigastorm)', desc: `对全队释放双重闪电风暴与海啸连击，需高阶魔防硬抗！` }
+    if (hp <= 50) return { skill: '死宣光环 + 冰霜风暴', desc: `赋予【${targetDesc}】30秒倒计时死宣，并降下全屏寒霜。` }
+    if (hp <= 75) return { skill: '原子射线 (Atomic Ray)', desc: `对【${targetDesc}】造成高额火属性魔法贯穿！` }
+    return { skill: '开局水灾海啸 (Tidal Wave)', desc: `全队极巨量水系冲击，非吸收防具将瞬间致命。` }
+  }
+
+  if (p.id === 'omega') {
+    if (hp <= 25) return { skill: '超重力过载波动炮 (Overcharged Wave Cannon)', desc: `对全体造成最大 HP 50% 的真实伤害，并附加高频灼烧！` }
+    if (hp <= 50) return { skill: '增压原子射线 + 圈套防御', desc: `激活绝对物理护盾，锁定【${targetDesc}】进行激光扫射。` }
+    if (hp <= 75) return { skill: '火箭飞拳 (Rocket Punch)', desc: `发射高能飞拳使【${targetDesc}】陷入混乱与濒死状态。` }
+    return { skill: '黄光警戒射击 + 芥子气', desc: `释放高腐蚀气体，前排队员持续损失生命。` }
+  }
+
+  if (p.id === 'tiamat') {
+    if (hp <= 25) return { skill: '四重毁灭吐息 (Quad Breath)', desc: `火/冰/雷/毒四种元素混合吐息，全面轰炸全阵线！` }
+    if (hp <= 50) return { skill: '毒龙怒啸 + 烈火吐息', desc: `压制【${targetDesc}】，造成巨额火伤与剧毒侵蚀。` }
+    return { skill: '双头撕咬 + 冰霜喷射', desc: `普通物理两段突袭，附带减速冰冻。` }
+  }
+
+  // behemoth
+  if (hp <= 25) return { skill: '死前天谴·陨石降临 (Meteor Fall)', desc: `濒死触发被动蓄力！阵亡瞬间将砸落 4 颗毁天灭地巨型陨石！` }
+  if (hp <= 50) return { skill: '巨角冲锋 (Horn Charge)', desc: `极高破甲物理冲击，直接击飞【${targetDesc}】并破除常驻防御。` }
+  return { skill: '兽王重爪 (Claw Strike)', desc: `对前排单一目标造成 1.5x 爆裂重击。` }
+})
+
+const selectAiProto = (id: string) => {
+  selectedAiProtoId.value = id
+  simulateAiRound()
+}
+
+const resetAiStudio = () => {
+  aiHpPct.value = 80
+  aiAggroMode.value = 'highest_dps'
+  lootSimFeedback.value = '已重置推演环境与掉落统计参数。'
+  aiCombatSimLog.value = '已重置：等待触发下一轮 AI 行动树演算。'
+}
+
+const simulateAiRound = () => {
+  const p = activeAiProto.value
+  const act = predictedAction.value
+  aiCombatSimLog.value = `[AI实时演练] ${p.name} 在 ${aiHpPct.value}% 血线下响应决策：施放【${act.skill}】！${act.desc}（底层触发契约: monster_ai_combat_resolver.gd:evaluate_turn）`
+}
+
+const simulateStealAction = () => {
+  const p = activeAiProto.value
+  const rate = Math.min(100, Math.round(p.stealItem.rate * 1.5))
+  const roll = Math.random() * 100
+  if (roll <= rate) {
+    lootSimFeedback.value = `✅ [盗贼偷盗成功] 掷骰 ${roll.toFixed(1)} <= ${rate}% (盗贼护腕加权)：成功从 ${p.name} 身上窃得【${p.stealItem.name}】！`
+  } else {
+    lootSimFeedback.value = `❌ [盗贼偷盗落空] 掷骰 ${roll.toFixed(1)} > ${rate}%：未能发现有价值物品，目标警觉度上升！`
+  }
+}
+
+const simulateBatchDrop = () => {
+  const p = activeAiProto.value
+  let commonCount = 0
+  let rareCount = 0
+  for (let i = 0; i < 10; i++) {
+    if (Math.random() * 100 <= p.dropCommon.rate) commonCount++
+    if (Math.random() * 100 <= p.dropRare.rate) rareCount++
+  }
+  lootSimFeedback.value = `🎲 [10连战刷取结算] 讨伐 ${p.name}：普通掉落【${p.dropCommon.name}】×${commonCount} 件；稀有神器【${p.dropRare.name}】×${rareCount} 件！`
+}
 
 // ================= 独立只读招式面板与抗性翻译 (monster_known_moves.gd / monster_physical_resistance.gd) =================
 const showKnownMovesInnerModal = ref(false)

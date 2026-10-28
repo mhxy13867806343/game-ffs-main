@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-monsters-ai-decision-tree-drop-radar-lab-2026-10-28',
+    version: 'v2.2.237',
+    date: '2026-10-28',
+    title: '魔物全息 AI 仇恨行动树、弱点抗性雷达与战利品概率工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '👾',
+    tagType: 'error',
+    description: '深度重构升级 MonstersView 深渊魔物全典：全新实装【魔物全息 AI 仇恨行动树、弱点抗性雷达与掉落物概率工坊】（Monster AI & Drop Probability Studio）。内置虚空邪树·艾克斯迪斯、宝箱神龙·真龙王、古代灭绝兵器·欧米茄、多头灾厄龙·提亚马特与极荒兽王·贝希摩斯 5 大代表性首领与霸主魔物标本；深度揭示魔物血线阶段转换（100%~1% 四阶段绝灭）与仇恨模式（最高DPS、最虚弱残血、施法治疗压制、混沌随机）；实装八元属性偏振雷达（弱点2.0x/吸收/无效/反射/半减）与黄金战术指南；集成盗贼偷盗（盗贼护腕加权）与 10 连战刷取掉落模拟器；并严谨对齐 Godot 4.6 LTS monster_ai_combat_resolver.gd 战斗决策状态机。',
+    highlights: [
+      '五大终极首领标本预设：艾克斯迪斯、真神龙、古代机甲欧米茄、多头龙与兽王贝希摩斯',
+      '血线阶梯与仇恨决策树：根据 HP% 实时推演三阶段法术崩解、死前陨石天谴与超新星龙息',
+      '八元属性克制与反射雷达：直观标定火冰雷水风地圣暗抗性分布，提供魔法剑与召唤兽对策',
+      '盗贼偷盗与10连战掉落沙盘：模拟盗贼护腕 1.5x 加权盗取绝版神器源氏之铠与欧米茄装甲徽记',
+      'Godot 4.6 底层 AI 决策契约对齐：无缝衔接 monster_ai_combat_resolver.gd 仇恨轮询与反击树'
+    ],
+    relatedLinks: [
+      { label: '魔物全典与战术图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '战斗战术与机制指南', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '神兵锻造与战利品工坊', path: '/vble/equipment', icon: '🗡️' }
+    ]
+  },
+  {
     id: 'up-characters-destiny-resonance-limit-break-lab-2026-10-28',
     version: 'v2.2.236',
     date: '2026-10-28',
