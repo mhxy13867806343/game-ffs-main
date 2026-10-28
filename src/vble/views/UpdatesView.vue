@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-equipment-twelve-relics-resonance-forge-2026-10-28',
+    version: 'v2.2.262',
+    date: '2026-10-28',
+    title: '太古十二神兵共鸣羁绊与破限精炼工坊重磅实装',
+    category: 'equipment',
+    categoryName: '神装精炼',
+    icon: '⚔️',
+    tagType: 'success',
+    description: '全面重构升级 EquipmentView 神兵装备矩阵门户：顶部横幅标章升级为 VBLE Mythic Weapons & Relic Forge Matrix v2.2.262，新增太古神兵共鸣工坊一键直达快捷按钮；标签体系扩展第四核心工坊【太古十二神兵共鸣与破限精炼工坊】（Ancient Twelve Relics Resonance & Overlimit Forge Studio），全息实装库扎封印城十二太古神兵（王者之剑、神圣之枪、佐助之刀、正宗、符文之斧、贤者之杖、魔道士之杖、暗杀短剑、与一之弓、阿波罗之琴、大地之铃、火焰之鞭）；独创四大至高共鸣羁绊判定模型（光圣双辉、疾风修罗、天地万象、宿命斩灭）与太古传承底蕴；配备 +0~+10 极境破限锻造熔炉、四大太古附魔宝石注入（诸神黄昏碎屑、创世以太晶核、圣灵圣水结晶、虚空湮灭暗核）、暴击倍率加成 (1.5x~3.5x) 与 0%~100% 真实穿甲深度解算；无缝对接次元神龙、欧米茄巨神与新·艾克斯迪斯首领对战斩杀期望推演；支持一键生成并导出《太古十二神兵共鸣与破限精炼认证方案书》附带 SHA-256 安全数字签名；底落实机源码展台扩展双脚本切换，新增 relic_resonance_forge_engine.gd 实机引擎源码展台。',
+    highlights: [
+      '库扎十二太古神兵全域收录：支持王者之剑、神圣之枪、佐助之刀、正宗等 12 具太古圣遗物主副手自由契约装配',
+      '四大至高共鸣羁绊系统：光圣双辉 (全体神圣+80%圣光审判)、疾风修罗 (暴击100%先制回避)、天地万象 (元素减半破上限)、宿命斩灭 (100%穿甲即死)',
+      '+10 破限熔炉与附魔宝石注入：阶位逐级提升攻击倍率，支持注入创世以太与诸神黄昏附魔石',
+      '首领对战斩杀沙盘：针对神龙、欧米茄 220 钢铁防御高精演算单轮期望爆发真伤与斩杀回合',
+      '精炼认证方案书一键导出：生成带有专属编号与 SHA-256 安全数字防伪签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 relic_resonance_forge_engine.gd 神兵共鸣与破限熔炼引擎源码展台'
+    ],
+    relatedLinks: [
+      { label: '神装武器装备图鉴', path: '/vble/equipment', icon: '⚔️' },
+      { label: '配装模拟器', path: '/vble/armory-simulator', icon: '🛡️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-economy-black-market-spacetime-auction-2026-10-28',
     version: 'v2.2.261',
     date: '2026-10-28',

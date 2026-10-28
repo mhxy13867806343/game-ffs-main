@@ -8,18 +8,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              LEGENDARY WEAPONS & RAGNAROK RELICS
+              VBLE Mythic Weapons & Relic Forge Matrix v2.2.262
             </span>
-            <span class="text-xs text-gray-400">至高超越神兵与二刀流伤害工坊</span>
+            <span class="text-xs text-gray-400">至高超越神兵、太古十二圣器与共鸣破限精炼</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🗡️</span> 神兵矩阵：诸神之黄昏、太古封印与二刀流推演
+            <span>🗡️</span> 神兵矩阵：诸神之黄昏、太古十二神兵共鸣与破限精炼工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
-            收录次元神龙守护的至高超越神兵【诸神之黄昏 (Ragnarok)】、库扎封印城十二太古圣器、二刀流乱打伤害结算沙盘与 Godot 4.x 装备属性守恒解析器。
+            收录次元神龙守护的至高超越神兵【诸神之黄昏 (Ragnarok)】、库扎封印城十二太古神兵契约共鸣羁绊、二刀流乱打伤害结算沙盘、+10 极境破限锻造与 Godot 4.6 LTS 核心实机引擎。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="activeTab = 'relic_forge'"
+          >
+            <template #icon><span>✨</span></template>
+            太古神兵共鸣工坊
+          </n-button>
           <router-link to="/vble/armory-simulator">
             <n-button type="info" size="medium" round secondary class="shadow-md">
               <template #icon><span>🛡️</span></template>
@@ -438,28 +449,267 @@
       </div>
     </div>
 
-    <!-- 4. 属性加成与守恒解析源码 -->
+    <!-- 4. 太古十二神兵共鸣与破限精炼工坊 (Ancient Twelve Relics Resonance & Overlimit Forge Studio) -->
+    <div v-if="activeTab === 'relic_forge'" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1c1308] via-[#141824] to-[#0c101a] border border-amber-500/40 shadow-[0_0_35px_rgba(245,158,11,0.22)] space-y-6">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-amber-950 pb-5">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                ANCIENT TWELVE RELICS RESONANCE & OVERLIMIT FORGE
+              </span>
+              <span class="text-xs text-gray-400 font-mono">v2.2.262 官方实机矩阵</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mt-1">
+              <span>✨</span> 太古十二神兵共鸣与破限精炼工坊
+            </h2>
+            <p class="text-xs text-gray-400 mt-1 max-w-3xl leading-relaxed">
+              封印之城库扎十二太古神兵终极觉醒：支持多神兵契约共鸣羁绊（光圣双辉、疾风修罗、天地万象、宿命斩灭）、+10 极境破限锻造与属性附魔、动态对战神龙与欧米茄伤害测算及 SHA-256 方案书一键导出。
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button size="small" secondary type="warning" @click="resetForgeStudio">
+              🔄 重置锻造台
+            </n-button>
+            <n-button size="small" secondary type="primary" @click="maxOverlimitForge">
+              ⚡ 一键满破 (+10 极境)
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="exportForgeCertificate">
+              📜 导出精炼方案书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 三栏主推演工作台 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- 栏 1: 太古神兵插槽与羁绊共鸣矩阵 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <span>🗡️</span>
+                  <span>主副手太古神兵契约装配</span>
+                </span>
+                <n-tag size="tiny" type="warning">12 神兵自由组装</n-tag>
+              </div>
+
+              <!-- 主手选择 -->
+              <div class="space-y-1">
+                <label class="text-[11px] text-gray-400 block">主手太古神兵 (Primary Relic):</label>
+                <select
+                  v-model="primaryRelicId"
+                  class="w-full bg-slate-950 border border-slate-700 text-xs text-amber-300 font-bold rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+                >
+                  <option v-for="w in twelveRelicsList" :key="w.id" :value="w.id">
+                    {{ w.icon }} {{ w.name }} (基础攻 +{{ w.atk }}) - {{ w.job }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- 副手/共鸣契约神兵选择 -->
+              <div class="space-y-1">
+                <label class="text-[11px] text-gray-400 block">副手/共鸣神兵 (Secondary Relic):</label>
+                <select
+                  v-model="secondaryRelicId"
+                  class="w-full bg-slate-950 border border-slate-700 text-xs text-cyan-300 font-bold rounded-lg p-2 focus:border-cyan-400 focus:outline-none"
+                >
+                  <option v-for="w in twelveRelicsList" :key="w.id" :value="w.id">
+                    {{ w.icon }} {{ w.name }} (基础攻 +{{ w.atk }}) - {{ w.job }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- 激活的羁绊共鸣卡片 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-amber-500/30 space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                    <span>✨</span>
+                    <span>共鸣羁绊: {{ currentResonanceBond.title }}</span>
+                  </span>
+                  <n-tag size="tiny" :type="currentResonanceBond.tagType">{{ currentResonanceBond.tier }}</n-tag>
+                </div>
+                <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentResonanceBond.description }}</p>
+                <div class="p-1.5 rounded bg-amber-950/40 border border-amber-900/50 text-[10px] text-amber-200">
+                  ⚡ <strong>特效增益:</strong> {{ currentResonanceBond.bonusEffect }}
+                </div>
+              </div>
+            </div>
+
+            <!-- 神兵基底面板汇总 -->
+            <div class="pt-2 border-t border-slate-800 space-y-1 text-xs text-gray-400">
+              <div class="flex justify-between">
+                <span>主副基准攻击合算:</span>
+                <span class="font-mono font-bold text-white">{{ baseRelicsAtk }} Atk</span>
+              </div>
+              <div class="flex justify-between">
+                <span>共鸣攻击力修正:</span>
+                <span class="font-mono font-bold text-emerald-400">+{{ currentResonanceBond.atkBonus }} Atk</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 栏 2: 破限精炼熔炉与附魔宝石注入 -->
+          <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                <span>🔥</span>
+                <span>太古熔炉精炼与附魔参数</span>
+              </span>
+              <span class="font-mono text-xs text-amber-400 font-bold">+{{ overlimitLevel }} 破限阶位</span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <div class="flex justify-between items-center text-gray-300 mb-1">
+                  <span>精炼突破阶位 (Overlimit Level):</span>
+                  <span class="font-mono text-amber-400 font-bold text-sm">+{{ overlimitLevel }} 阶</span>
+                </div>
+                <n-slider v-model:value="overlimitLevel" :min="0" :max="10" :step="1" />
+              </div>
+
+              <!-- 附魔宝石选择 -->
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1">太古附魔宝石注入 (Enchant Gem):</label>
+                <select
+                  v-model="selectedGemId"
+                  class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-cyan-400 focus:outline-none"
+                >
+                  <option v-for="g in enchantGemsList" :key="g.id" :value="g.id">
+                    {{ g.icon }} {{ g.name }} ({{ g.summary }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- 暴击倍率与护甲贯穿滑块 -->
+              <div>
+                <div class="flex justify-between items-center text-gray-300 mb-1">
+                  <span>暴击伤害加权倍率:</span>
+                  <span class="font-mono text-cyan-400 font-bold">{{ critMultiplier.toFixed(1) }}x</span>
+                </div>
+                <n-slider v-model:value="critMultiplier" :min="1.5" :max="3.5" :step="0.1" />
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center text-gray-300 mb-1">
+                  <span>真实穿甲率 (Armor Pierce):</span>
+                  <span class="font-mono text-emerald-400 font-bold">{{ armorPierceRate }}%</span>
+                </div>
+                <n-slider v-model:value="armorPierceRate" :min="0" :max="100" :step="5" />
+              </div>
+
+              <!-- 最终实机面板指标卡 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5">
+                <div class="flex justify-between text-xs">
+                  <span class="text-gray-400">最终实机攻击力:</span>
+                  <span class="font-mono font-bold text-amber-300 text-sm">{{ finalForgeAtk }} Atk</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-gray-400">综合暴击率:</span>
+                  <span class="font-mono font-bold text-cyan-300">{{ finalCritRate }}%</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-gray-400">附魔属性加持:</span>
+                  <span class="text-purple-300 font-bold">{{ currentEnchantGem.elementBonus }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 栏 3: 对战试炼解算与首领斩杀推演 -->
+          <div class="p-5 rounded-xl bg-gradient-to-b from-amber-950/20 to-slate-900 border border-amber-500/30 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <span>📊</span>
+                  <span>首领对战斩杀测算沙盘</span>
+                </span>
+                <n-tag size="tiny" type="error">{{ duelTrialResult.rating }} 评级</n-tag>
+              </div>
+
+              <div>
+                <label class="text-[11px] text-gray-400 block mb-1">推演挑战目标 (Simulation Target):</label>
+                <select
+                  v-model="selectedBossTargetId"
+                  class="w-full bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg p-2 focus:border-amber-400 focus:outline-none"
+                >
+                  <option v-for="b in bossTargetsList" :key="b.id" :value="b.id">
+                    {{ b.icon }} {{ b.name }} (HP: {{ b.hp.toLocaleString() }}, 防御: {{ b.def }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- 试炼伤害看板 -->
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                <div class="text-[11px] text-gray-400">单轮连击期望总伤害 (Expected Burst)</div>
+                <div class="text-2xl sm:text-3xl font-black font-mono mt-1 text-rose-400">
+                  {{ duelTrialResult.expectedBurstDamage.toLocaleString() }}
+                </div>
+                <div class="text-[10px] text-emerald-400 mt-0.5">
+                  预计 {{ duelTrialResult.turnsToKill }} 轮斩杀首领！(破限真实贯穿)
+                </div>
+              </div>
+
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                  <span class="text-gray-400">目标首领基础生命:</span>
+                  <span class="font-mono text-gray-200">{{ currentBossTarget.hp.toLocaleString() }} HP</span>
+                </div>
+                <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                  <span class="text-gray-400">穿甲后实际有效防御:</span>
+                  <span class="font-mono text-cyan-400">{{ duelTrialResult.effectiveDef }} Def</span>
+                </div>
+                <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                  <span class="text-gray-400">斩杀战术评级:</span>
+                  <span class="font-mono font-bold text-amber-400">{{ duelTrialResult.tacticalGrade }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+              锻造箴言：封印神兵达到 +10 满破后，搭配【光圣双辉】或【宿命斩灭】共鸣，可实现单轮 99999 极限暴击贯穿，无视欧米茄 220 钢铁防御！
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 属性加成与守恒解析源码 -->
     <div v-if="activeTab === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
-          <div>
-            <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="flex items-center gap-1.5">
               <span class="text-xs font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">
-                GODOT 4.X STAT RESOLVER SCRIPT
+                GODOT 4.6 LTS RELIC STAT RESOLVER ENGINE
               </span>
-              <h3 class="text-base font-bold text-white">equipment_stats_resolver.gd</h3>
             </div>
-            <p class="text-xs text-gray-400 mt-1">
-              装备属性加成叠加、HP/MP 上限守恒还原、双持二刀流惩罚消除与魔法剑附魔结算引擎。
-            </p>
+            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+                :class="activeCodeScriptTab === 'stats' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeCodeScriptTab = 'stats'"
+              >
+                equipment_stats_resolver.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+                :class="activeCodeScriptTab === 'forge' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeCodeScriptTab = 'forge'"
+              >
+                relic_resonance_forge_engine.gd
+              </button>
+            </div>
           </div>
           <n-button size="small" round secondary type="info" @click="copyGdScript">
             <template #icon><span>📋</span></template>
-            复制代码
+            {{ copiedScriptCode ? '✓ 已复制代码' : '复制代码' }}
           </n-button>
         </div>
 
-        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ gdScriptCode }}</pre>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeScriptTab === 'stats' ? gdScriptCode : gdForgeScriptCode }}</pre>
       </div>
     </div>
   </div>
@@ -474,12 +724,13 @@ const message = useMessage()
 const gameStore = useGameStore()
 const equipment = computed(() => gameStore.db.equipment || [])
 
-type EquipmentTab = 'catalog' | 'dual_wield' | 'awakening' | 'engine_code'
+type EquipmentTab = 'catalog' | 'dual_wield' | 'awakening' | 'relic_forge' | 'engine_code'
 const activeTab = ref<EquipmentTab>('catalog')
 const tabList: { key: EquipmentTab; label: string; icon: string; badge?: string }[] = [
   { key: 'catalog', label: '神兵图鉴矩阵', icon: '🗡️' },
-  { key: 'dual_wield', label: '二刀流伤害工坊', icon: '⚔️', badge: 'NEW' },
+  { key: 'dual_wield', label: '二刀流伤害工坊', icon: '⚔️' },
   { key: 'awakening', label: '太古开光与附魔', icon: '⚗️' },
+  { key: 'relic_forge', label: '太古神兵共鸣与精炼', icon: '✨', badge: 'v2.2.262' },
   { key: 'engine_code', label: '属性解析引擎源码', icon: '🛡️' }
 ]
 
@@ -799,6 +1050,9 @@ const sealedWeapons: SealedWeapon[] = [
 ]
 
 // Godot 4.x 代码
+const activeCodeScriptTab = ref<'stats' | 'forge'>('stats')
+const copiedScriptCode = ref(false)
+
 const gdScriptCode = `# ==============================================================================
 # EquipmentStatsResolver - 装备属性加成、双持二刀流与属性守恒解析器
 # 文件路径: res://scripts/armory/equipment_stats_resolver.gd
@@ -850,12 +1104,352 @@ func calculate_dual_wield_damage(main_weapon: Dictionary, off_weapon: Dictionary
 	}
 `
 
-const copyGdScript = () => {
-  navigator.clipboard.writeText(gdScriptCode).then(() => {
-    message.success('equipment_stats_resolver.gd 源码已复制到剪贴板！')
-  }).catch(() => {
-    message.info('源码已复制')
-  })
+const gdForgeScriptCode = [
+  '## relic_resonance_forge_engine.gd',
+  '## 《光之战士：时空裂隙》太古十二神兵共鸣羁绊与破限熔炼引擎',
+  '## 官方引擎规范: VBLE Mythic Weapons & Relic Forge Matrix v2.2.262',
+  'extends Node',
+  'class_name RelicResonanceForgeEngine',
+  '',
+  'signal relic_resonance_activated(bond_name: String, atk_bonus: int, passive_effect: String)',
+  'signal overlimit_forged(level: int, total_atk: int, crit_rate: float, pierce: float)',
+  'signal duel_simulated(boss_name: String, burst_damage: int, turns_to_kill: int, grade: String)',
+  '',
+  'const TWELVE_RELICS = {',
+  '	"excalibur": { "name": "王者之剑 (Excalibur)", "base_atk": 160, "element": "HOLY" },',
+  '	"holy_lance": { "name": "神圣之枪 (Holy Lance)", "base_atk": 155, "element": "HOLY" },',
+  '	"sasuke_katana": { "name": "佐助之刀 (Sasuke\'s Katana)", "base_atk": 145, "element": "WIND" },',
+  '	"masamune": { "name": "正宗 (Masamune)", "base_atk": 150, "element": "SLASH" },',
+  '	"rune_axe": { "name": "符文之斧 (Rune Axe)", "base_atk": 148, "element": "ARCANE" },',
+  '	"sage_staff": { "name": "贤者之杖 (Sage Staff)", "base_atk": 120, "element": "HOLY" },',
+  '	"magus_rod": { "name": "魔道士之杖 (Magus Rod)", "base_atk": 125, "element": "ALL_ELEMENT" },',
+  '	"assassin_dagger": { "name": "暗杀短剑 (Assassin Dagger)", "base_atk": 138, "element": "DEATH" },',
+  '	"yoichi_bow": { "name": "与一之弓 (Yoichi\'s Bow)", "base_atk": 142, "element": "PIERCE" },',
+  '	"apollo_harp": { "name": "阿波罗之琴 (Apollo\'s Harp)", "base_atk": 110, "element": "SOUND" },',
+  '	"gaia_bell": { "name": "大地之铃 (Gaia Bell)", "base_atk": 115, "element": "EARTH" },',
+  '	"firebute": { "name": "火焰之鞭 (Flame Whip)", "base_atk": 130, "element": "FIRE" }',
+  '}',
+  '',
+  'func evaluate_resonance_bond(primary_id: String, secondary_id: String) -> Dictionary:',
+  '	var pair = [primary_id, secondary_id]',
+  '	pair.sort()',
+  '	var key = pair[0] + "+" + pair[1]',
+  '	',
+  '	match key:',
+  '		"excalibur+holy_lance":',
+  '			return { "name": "光圣双辉", "atk_bonus": 80, "crit_bonus": 20, "desc": "全体神圣伤害提升80%，普攻召唤圣光审判" }',
+  '		"masamune+sasuke_katana":',
+  '			return { "name": "疾风修罗", "atk_bonus": 75, "crit_bonus": 100, "desc": "暴击率100%，绝对先制行动，物理闪避+50%" }',
+  '		"magus_rod+sage_staff":',
+  '			return { "name": "天地万象", "atk_bonus": 70, "crit_bonus": 15, "desc": "全元素魔法消耗减半，法伤突破9999" }',
+  '		"assassin_dagger+rune_axe":',
+  '			return { "name": "宿命斩灭", "atk_bonus": 85, "crit_bonus": 30, "desc": "贯穿100%物理防御，20%概率一击必杀" }',
+  '		_:',
+  '			return { "name": "太古传承", "atk_bonus": 35, "crit_bonus": 10, "desc": "基础全属性+10，全异常状态抗性提升50%" }',
+  '',
+  'func calculate_forge_stats(primary_id: String, secondary_id: String, overlimit: int, gem_bonus_atk: int, pierce_rate: float) -> Dictionary:',
+  '	var prim = TWELVE_RELICS.get(primary_id, { "base_atk": 150 })',
+  '	var sec = TWELVE_RELICS.get(secondary_id, { "base_atk": 150 })',
+  '	var bond = evaluate_resonance_bond(primary_id, secondary_id)',
+  '	',
+  '	var base_atk: int = prim.base_atk + sec.base_atk',
+  '	var multiplier: float = 1.0 + (overlimit * 0.08)',
+  '	var final_atk: int = int((base_atk + bond.atk_bonus + gem_bonus_atk) * multiplier)',
+  '	var final_crit: float = clampf(25.0 + overlimit * 4.0 + float(bond.crit_bonus), 0.0, 100.0)',
+  '	',
+  '	emit_signal("overlimit_forged", overlimit, final_atk, final_crit, pierce_rate)',
+  '	return { "final_atk": final_atk, "final_crit": final_crit, "bond": bond }'
+].join('\n')
+
+const copyGdScript = async () => {
+  try {
+    const code = activeCodeScriptTab.value === 'stats' ? gdScriptCode : gdForgeScriptCode
+    await navigator.clipboard.writeText(code)
+    copiedScriptCode.value = true
+    const filename = activeCodeScriptTab.value === 'stats' ? 'equipment_stats_resolver.gd' : 'relic_resonance_forge_engine.gd'
+    message.success(`${filename} 源码已复制到剪贴板！`)
+    setTimeout(() => {
+      copiedScriptCode.value = false
+    }, 3000)
+  } catch {
+    message.error('复制失败，请手动选取复制')
+  }
+}
+
+// ================= 太古十二神兵共鸣与破限精炼工坊状态 =================
+interface AncientRelicDef {
+  id: string
+  name: string
+  icon: string
+  atk: number
+  job: string
+}
+
+const twelveRelicsList: AncientRelicDef[] = [
+  { id: 'excalibur', name: '王者之剑 (Excalibur)', icon: '⚔️', atk: 160, job: '圣骑士 / 战士 / 自由人' },
+  { id: 'holy_lance', name: '神圣之枪 (Holy Lance)', icon: '🔱', atk: 155, job: '龙骑士 / 自由人' },
+  { id: 'sasuke_katana', name: '佐助之刀 (Sasuke\'s Katana)', icon: '🗡️', atk: 145, job: '忍者 / 自由人' },
+  { id: 'masamune', name: '正宗 (Masamune)', icon: '🗡️', atk: 150, job: '武士 / 自由人' },
+  { id: 'rune_axe', name: '符文之斧 (Rune Axe)', icon: '🪓', atk: 148, job: '狂战士 / 自由人' },
+  { id: 'sage_staff', name: '贤者之杖 (Sage Staff)', icon: '🦯', atk: 120, job: '白魔导士 / 药剂师 / 自由人' },
+  { id: 'magus_rod', name: '魔道士之杖 (Magus Rod)', icon: '🪄', atk: 125, job: '黑魔导士 / 时魔导士 / 召唤士' },
+  { id: 'assassin_dagger', name: '暗杀短剑 (Assassin Dagger)', icon: '🗡️', atk: 138, job: '盗贼 / 忍者 / 自由人' },
+  { id: 'yoichi_bow', name: '与一之弓 (Yoichi\'s Bow)', icon: '🏹', atk: 142, job: '猎人 / 自由人' },
+  { id: 'apollo_harp', name: '阿波罗之琴 (Apollo\'s Harp)', icon: '🪕', atk: 110, job: '吟游诗人 / 自由人' },
+  { id: 'gaia_bell', name: '大地之铃 (Gaia Bell)', icon: '🔔', atk: 115, job: '风水士 / 自由人' },
+  { id: 'firebute', name: '火焰之鞭 (Flame Whip)', icon: '🪢', atk: 130, job: '魔兽使 / 自由人' }
+]
+
+const primaryRelicId = ref('excalibur')
+const secondaryRelicId = ref('holy_lance')
+
+const currentPrimaryRelic = computed(() => {
+  return twelveRelicsList.find(r => r.id === primaryRelicId.value) || twelveRelicsList[0]
+})
+
+const currentSecondaryRelic = computed(() => {
+  return twelveRelicsList.find(r => r.id === secondaryRelicId.value) || twelveRelicsList[1]
+})
+
+const baseRelicsAtk = computed(() => {
+  return currentPrimaryRelic.value.atk + currentSecondaryRelic.value.atk
+})
+
+// 共鸣羁绊判定
+interface ResonanceBondDef {
+  title: string
+  tier: string
+  tagType: 'success' | 'warning' | 'error' | 'info'
+  atkBonus: number
+  description: string
+  bonusEffect: string
+}
+
+const currentResonanceBond = computed<ResonanceBondDef>(() => {
+  const p = primaryRelicId.value
+  const s = secondaryRelicId.value
+  const pair = [p, s].sort().join('+')
+
+  if (pair === 'excalibur+holy_lance') {
+    return {
+      title: '光圣双辉 (Holy Radiant Bond)',
+      tier: 'SSS 终极共鸣',
+      tagType: 'error',
+      atkBonus: 80,
+      description: '王者圣剑与神圣圣枪同调共振，唤醒上古光之战士的至高救世圣痕。',
+      bonusEffect: '全体神圣伤害提升 80%，普攻 35% 几率呼唤全体【神圣圣光审判 (Holy Judgment)】。'
+    }
+  }
+  if (pair === 'masamune+sasuke_katana') {
+    return {
+      title: '疾风修罗 (Gale Asura Bond)',
+      tier: 'SSS 终极共鸣',
+      tagType: 'error',
+      atkBonus: 75,
+      description: '东方刀宗双壁合一，极速与必杀交织成绝对无暇的居合斩阵。',
+      bonusEffect: '暴击率恒定 100%，战斗开局获得绝对先制行动，常驻物理回避率 +50%。'
+    }
+  }
+  if (pair === 'magus_rod+sage_staff') {
+    return {
+      title: '天地万象 (Universal Genesis Bond)',
+      tier: 'SSR 传奇共鸣',
+      tagType: 'warning',
+      atkBonus: 70,
+      description: '黑白双圣杖引发以太奇点坍缩，突破一切凡人魔法上限束缚。',
+      bonusEffect: '全元素魔法消耗减半，法伤突破上限并激活【以太聚爆 (Aether Flare)】。'
+    }
+  }
+  if (pair === 'assassin_dagger+rune_axe') {
+    return {
+      title: '宿命斩灭 (Destiny Decapitation)',
+      tier: 'SSR 传奇共鸣',
+      tagType: 'warning',
+      atkBonus: 85,
+      description: '狂暴巨斧与剧毒暗杀短刃的血色协奏，招招直切敌方致命死穴。',
+      bonusEffect: '完全贯穿 100% 物理护甲，暴击伤害提升 100%，平砍 20% 概率触发一击必杀。'
+    }
+  }
+
+  return {
+    title: '太古传承 (Ancient Legacy Resonance)',
+    tier: 'SR 标准共鸣',
+    tagType: 'info',
+    atkBonus: 35,
+    description: '两具封印神兵自然引动的远古微光共鸣，稳固全队基础体魄与气场。',
+    bonusEffect: '基础全属性 +10 点，全异常状态抗性提升 50%，战技命中率恒定 100%。'
+  }
+})
+
+// 附魔宝石
+interface EnchantGemDef {
+  id: string
+  name: string
+  icon: string
+  summary: string
+  bonusAtk: number
+  elementBonus: string
+}
+
+const enchantGemsList: EnchantGemDef[] = [
+  { id: 'ragnarok_shard', name: '诸神黄昏碎屑', icon: '💎', summary: '攻击+50 · 暴伤+30%', bonusAtk: 50, elementBonus: '终焉神圣斩断 (圣·暗双属性破防)' },
+  { id: 'genesis_core', name: '创世以太晶核', icon: '🔮', summary: '攻击+60 · MP+200', bonusAtk: 60, elementBonus: '全元素贯穿超魔导 (雷火冰圣)' },
+  { id: 'holy_dew', name: '圣灵圣水结晶', icon: '💧', summary: '吸血20% · 免疫异常', bonusAtk: 40, elementBonus: '圣水甘霖与全异常绝对净化' },
+  { id: 'void_annihilation', name: '虚空湮灭暗核', icon: '🌌', summary: '真实真伤 9999 附加', bonusAtk: 70, elementBonus: '次元湮灭真伤 (无视任何减伤结界)' }
+]
+
+const selectedGemId = ref('ragnarok_shard')
+const overlimitLevel = ref(5)
+const critMultiplier = ref(2.5)
+const armorPierceRate = ref(50)
+
+const currentEnchantGem = computed(() => {
+  return enchantGemsList.find(g => g.id === selectedGemId.value) || enchantGemsList[0]
+})
+
+const finalForgeAtk = computed(() => {
+  const sumAtk = baseRelicsAtk.value + currentResonanceBond.value.atkBonus + currentEnchantGem.value.bonusAtk
+  const mult = 1 + overlimitLevel.value * 0.08
+  return Math.round(sumAtk * mult)
+})
+
+const finalCritRate = computed(() => {
+  const isAsura = currentResonanceBond.value.title.includes('疾风修罗')
+  if (isAsura) return 100
+  return Math.min(100, Math.round(25 + overlimitLevel.value * 4))
+})
+
+// 首领挑战目标
+interface BossTargetDef {
+  id: string
+  name: string
+  icon: string
+  hp: number
+  def: number
+  elementWeakness: string
+}
+
+const bossTargetsList: BossTargetDef[] = [
+  { id: 'shinryu', name: '次元神龙 (Shinryu)', icon: '🐉', hp: 55000, def: 80, elementWeakness: '神圣属性 / 龙族特攻' },
+  { id: 'omega', name: '欧米茄巨神 (Omega)', icon: '🤖', hp: 55000, def: 220, elementWeakness: '雷电属性 / 机械特攻' },
+  { id: 'neo_exdeath', name: '始祖新·艾克斯迪斯 (Neo Exdeath)', icon: '🌌', hp: 65000, def: 120, elementWeakness: '虚空湮灭 / 神圣全属性' }
+]
+
+const selectedBossTargetId = ref('shinryu')
+
+const currentBossTarget = computed(() => {
+  return bossTargetsList.find(b => b.id === selectedBossTargetId.value) || bossTargetsList[0]
+})
+
+const duelTrialResult = computed(() => {
+  const target = currentBossTarget.value
+  const effDef = Math.max(0, Math.round(target.def * (1 - armorPierceRate.value / 100)))
+  const baseHit = Math.max(10, finalForgeAtk.value * 2.2 - effDef * 0.5)
+  const critWeight = 1 + (finalCritRate.value / 100) * (critMultiplier.value - 1)
+  const hitsPerTurn = 4 // 四连斩/双持连续攻击
+  const expectedBurst = Math.round(baseHit * critWeight * hitsPerTurn)
+  const turns = Math.max(1, Math.ceil(target.hp / expectedBurst))
+
+  let tacticalGrade = '一击瞬杀 (OTK 毁灭绝杀)'
+  if (turns > 1 && turns <= 2) tacticalGrade = '极速两轮斩杀 (Superior)'
+  else if (turns > 2) tacticalGrade = '稳定战术连击 (Standard)'
+
+  let rating = 'SSS+ 诸神破限'
+  if (finalForgeAtk.value < 380) rating = 'S 太古开刃'
+  else if (finalForgeAtk.value < 450) rating = 'SS 传奇极境'
+
+  return {
+    expectedBurstDamage: expectedBurst,
+    turnsToKill: turns,
+    effectiveDef: effDef,
+    tacticalGrade,
+    rating
+  }
+})
+
+const resetForgeStudio = () => {
+  primaryRelicId.value = 'excalibur'
+  secondaryRelicId.value = 'holy_lance'
+  selectedGemId.value = 'ragnarok_shard'
+  overlimitLevel.value = 5
+  critMultiplier.value = 2.5
+  armorPierceRate.value = 50
+  selectedBossTargetId.value = 'shinryu'
+  message.info('太古神兵锻造熔炉参数已重置')
+}
+
+const maxOverlimitForge = () => {
+  overlimitLevel.value = 10
+  armorPierceRate.value = 100
+  critMultiplier.value = 3.5
+  message.success('⚡ 太古熔炉已激荡至 +10 满破极境！穿甲率拉满至 100%！')
+}
+
+const exportForgeCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const randomHex = Math.random().toString(16).substring(2, 10).toUpperCase()
+  const fakeSha256 = `SHA256-${Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`
+
+  const certLines = [
+    '========================================================================',
+    '       《光之战士：时空裂隙》太古十二神兵共鸣与破限精炼认证方案书',
+    '               OFFICIAL ANCIENT RELIC FORGE & RESONANCE REPORT',
+    '========================================================================',
+    `方案唯一编号: AGY-FORGE-20261028-${randomHex}`,
+    `安全防伪签名: ${fakeSha256}`,
+    `签发世界线时间: ${timestamp}`,
+    `官方规范版本: VBLE Mythic Weapons & Relic Forge Matrix v2.2.262`,
+    `神兵评定品级: ${duelTrialResult.value.rating}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【一、主副手太古封印神兵与共鸣羁绊】',
+    '------------------------------------------------------------------------',
+    `主手神兵: ${currentPrimaryRelic.value.name} (基础攻击 +${currentPrimaryRelic.value.atk})`,
+    `副手神兵: ${currentSecondaryRelic.value.name} (基础攻击 +${currentSecondaryRelic.value.atk})`,
+    `激活共鸣羁绊: ${currentResonanceBond.value.title} [${currentResonanceBond.value.tier}]`,
+    `羁绊攻击力修正: +${currentResonanceBond.value.atkBonus} Atk`,
+    `羁绊特效: ${currentResonanceBond.value.bonusEffect}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【二、太古熔炉破限锻造与属性附魔】',
+    '------------------------------------------------------------------------',
+    `精炼破限阶位: +${overlimitLevel.value} 阶 (攻击力倍率: ${(1 + overlimitLevel.value * 0.08).toFixed(2)}x)`,
+    `注入附魔宝石: ${currentEnchantGem.value.name} (${currentEnchantGem.value.summary})`,
+    `附魔属性特性: ${currentEnchantGem.value.elementBonus}`,
+    `暴击加权倍率: ${critMultiplier.value.toFixed(1)}x`,
+    `真实穿甲率: ${armorPierceRate.value}%`,
+    `最终实机攻击面板: ${finalForgeAtk.value} Atk`,
+    `综合暴击几率: ${finalCritRate.value}%`,
+    '',
+    '------------------------------------------------------------------------',
+    '【三、试炼首领斩杀演算战果】',
+    '------------------------------------------------------------------------',
+    `推演模拟首领: ${currentBossTarget.value.name}`,
+    `目标基础生命: ${currentBossTarget.value.hp.toLocaleString()} HP / 原始防御: ${currentBossTarget.value.def}`,
+    `穿甲后有效防御: ${duelTrialResult.value.effectiveDef} Def`,
+    `单轮连击期望总伤害: ${duelTrialResult.value.expectedBurstDamage.toLocaleString()} 真实贯穿伤害`,
+    `预计首领斩杀回合: ${duelTrialResult.value.turnsToKill} 轮斩杀`,
+    `斩杀战术评级: ${duelTrialResult.value.tacticalGrade}`,
+    '',
+    '------------------------------------------------------------------------',
+    '【四、封印之城库扎大祭司认证箴言】',
+    '------------------------------------------------------------------------',
+    '“十二圣器各承一脉，当王者之剑与神圣之枪交辉，当佐助与正宗合一，',
+    ' 纵使神龙吐息、欧米茄降临，亦难挡光之战士破限一击！”',
+    '========================================================================'
+  ]
+
+  const blob = new Blob([certLines.join('\n')], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `relic_forge_v2.2.262_${Date.now()}.txt`
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+
+  message.success('📜 太古神兵精炼认证方案书已成功导出并下载！')
 }
 </script>
 
