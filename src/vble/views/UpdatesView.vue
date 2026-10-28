@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-monsters-ecology-evolution-studio-2026-10-28',
+    version: 'v2.2.260',
+    date: '2026-10-28',
+    title: '全域魔物生态食物链与基因变异演化沙盘重磅实装',
+    category: 'maps',
+    categoryName: '生态演进',
+    icon: '👾',
+    tagType: 'success',
+    description: '深度重构升级 MonstersView 全域魔物与首领大图鉴门户：全新上线奢华生态横幅标章与演化工坊专属快捷锚点；核心专区重磅实装【全域魔物生态食物链与基因变异演化沙盘】（Monster Ecology Studio），覆盖始源温带密林、卡尔纳克熔岩火山、沃尔斯深海海沟与次元裂隙虚无核心四大生态地质圈；支持地脉以太浓度 (10%~100%)、掠食淘汰压强 (1.0~5.0x)、基因突变诱导率 (0%~100%) 以及四大顶级霸主领主生态位选派（太古始祖古龙、深渊贝希摩斯、狂乱奇美拉、古代机动巨神）；实时解算生态系统承载力、种群动态平衡指数、精英突变几率与绝品战利品诱爆率并驱动 5 大演化纪元推进；实装一键导出《全域魔物生态食物链与基因变异演化认证方案书》工坊与 SHA-256 安全哈希防伪；底层实机代码升级为 Godot 4.6 LTS 生态引擎展台，新增 monster_ecology_simulator.gd 源码展台，对齐 VBLE Bestiary & Ecological Evolution Matrix v2.2.260 规范。',
+    highlights: [
+      '四大生态地质圈食物链模型：覆盖温带密林、熔岩火山、深海极渊与虚无奇点，包含顶层掠食与基底被捕食者群落',
+      '环境诱变与霸主统治工况：地脉以太浓度、掠食压强与基因突变诱导率三维参数实时互锁',
+      '四大顶级霸主领主生态位：始祖古龙（龙之威压）、贝希摩斯（大地震击）、奇美拉（元素杂交）、机动巨神（能量立场）',
+      'Lotka-Volterra 种群动力学解算：高精演算生态承载量、种群平衡指数与绝品神器掉落诱爆概率',
+      '生态演化方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机生态认证文档',
+      'Godot 4.6 LTS 底层实机展台：新增 monster_ecology_simulator.gd 生态模拟微分求解器源码展台'
+    ],
+    relatedLinks: [
+      { label: '全域魔物大图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '全域大地图风土志', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-attributes-transcendence-studio-2026-10-28',
     version: 'v2.2.259',
     date: '2026-10-28',

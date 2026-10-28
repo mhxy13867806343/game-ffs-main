@@ -2,11 +2,16 @@
   <div class="monsters-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">Total {{ allMonsters.length }} Bestiary & Boss Catalog</n-tag>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary & Ecological Evolution Matrix v2.2.260</n-tag>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物与首领大图鉴</h1>
-      <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm">
-        门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、以及 {{ coliseumCount }} 种斗技场霸主，支持全属性透视、弱点克制与掉落率检索
+      <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-2">
+        门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、以及 {{ coliseumCount }} 种斗技场霸主，全生态链演化与基因突变环境沙盘
       </p>
+      <div class="flex justify-center gap-2">
+        <n-button size="tiny" type="warning" secondary @click="scrollToEcologyStudio">
+          🌿 前往生态演化与基因突变工坊
+        </n-button>
+      </div>
     </div>
 
     <!-- 已击败首领全域游荡遭遇与强度缩放测算工作台 (基于桌面 Godot roaming_boss_rules.json 实机规范) -->
@@ -340,6 +345,248 @@
         <div class="text-[11px] text-gray-500 font-mono">
           底层契约: monster_ai_combat_resolver.gd
         </div>
+      </div>
+    </div>
+
+    <!-- 全域魔物生态食物链与基因变异演化沙盘 (v2.2.260) -->
+    <div id="monster-ecology-studio" class="bg-gradient-to-br from-emerald-950/80 via-slate-900/90 to-cyan-950/80 border border-emerald-500/40 p-5 rounded-2xl shadow-2xl space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-500/20 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🌿</span>
+            <h2 class="text-base sm:text-lg font-bold text-emerald-300">全域魔物生态食物链与基因变异演化沙盘 (Monster Ecology Studio)</h2>
+          </div>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            基于 Lotka-Volterra 掠食者-被捕食者动力学与以太辐射突变方程，推演各大生态圈种群消长平衡、环境胁迫下的精英突变率与顶级霸主王权确立。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-tag type="success" round size="small">食物链动力学</n-tag>
+          <n-tag type="warning" round size="small">以太基因突变</n-tag>
+          <n-tag type="info" round size="small">v2.2.260 规范</n-tag>
+        </div>
+      </div>
+
+      <!-- 四大生态地质圈选择 -->
+      <div class="space-y-2">
+        <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+          <span>🌍</span>
+          <span>选择生态演化地理环境 (Ecological Biome Selection)</span>
+        </span>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="biome in ecologicalBiomes"
+            :key="biome.id"
+            class="p-3.5 rounded-xl border transition-all cursor-pointer bg-slate-900/80 hover:scale-[1.01]"
+            :class="selectedBiomeId === biome.id ? 'border-emerald-400 bg-emerald-950/40 shadow-[0_0_15px_rgba(16,185,129,0.3)] ring-1 ring-emerald-400/50' : 'border-slate-800 hover:border-slate-700'"
+            @click="selectedBiomeId = biome.id"
+          >
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-xs text-gray-100">{{ biome.name }}</span>
+              <n-tag size="tiny" :type="biome.tagType">{{ biome.climate }}</n-tag>
+            </div>
+            <p class="text-[10px] text-gray-400 leading-snug line-clamp-2 mt-1">{{ biome.description }}</p>
+            <div class="mt-2 text-[9px] font-mono text-emerald-300 flex flex-col gap-0.5">
+              <span>🐺 顶层掠食: {{ biome.predator }}</span>
+              <span>🐰 基底食物: {{ biome.prey }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 环境参数调节与生态控制面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 以太与环境胁迫参数 -->
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3.5">
+          <span class="text-xs font-bold text-emerald-300 block flex items-center gap-1.5">
+            <span>⚙️</span>
+            <span>生态环境参数调节 (Biotic Factors)</span>
+          </span>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">地脉以太浓度 (Aether Density):</span>
+                <span class="font-mono font-bold text-emerald-300">{{ aetherDensity }}%</span>
+              </div>
+              <input
+                v-model.number="aetherDensity"
+                type="range"
+                min="10"
+                max="100"
+                step="5"
+                class="w-full accent-emerald-400 cursor-pointer"
+              />
+              <div class="flex justify-between text-[9px] text-gray-500 font-mono mt-0.5">
+                <span>10% (以太枯竭)</span>
+                <span>50% (自然温带)</span>
+                <span>100% (灵潮爆发)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">掠食淘汰压强 (Predation Pressure):</span>
+                <span class="font-mono font-bold text-cyan-300">{{ predationPressure.toFixed(1) }}x</span>
+              </div>
+              <input
+                v-model.number="predationPressure"
+                type="range"
+                min="1.0"
+                max="5.0"
+                step="0.2"
+                class="w-full accent-cyan-400 cursor-pointer"
+              />
+              <div class="flex justify-between text-[9px] text-gray-500 font-mono mt-0.5">
+                <span>1.0x (温和共生)</span>
+                <span>3.0x (残酷生存)</span>
+                <span>5.0x (极端灭绝)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">基因变异诱导率 (Mutation Inducer):</span>
+                <span class="font-mono font-bold text-amber-300">{{ mutationFactor }}%</span>
+              </div>
+              <input
+                v-model.number="mutationFactor"
+                type="range"
+                min="0"
+                max="100"
+                step="5"
+                class="w-full accent-amber-400 cursor-pointer"
+              />
+              <div class="flex justify-between text-[9px] text-gray-500 font-mono mt-0.5">
+                <span>0% (原种稳定)</span>
+                <span>40% (亚种分化)</span>
+                <span>100% (神化突变)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 2: 顶级霸主生态位选派 -->
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3.5">
+          <span class="text-xs font-bold text-cyan-300 block flex items-center gap-1.5">
+            <span>👑</span>
+            <span>顶级霸主领主生态位 (Apex Predator Niche)</span>
+          </span>
+
+          <div class="space-y-2.5">
+            <div
+              v-for="apex in apexPredators"
+              :key="apex.id"
+              class="p-2.5 rounded-lg border transition-all cursor-pointer flex items-start gap-2.5"
+              :class="selectedApexId === apex.id ? 'border-cyan-400 bg-cyan-950/30 ring-1 ring-cyan-400/40' : 'border-slate-800 bg-slate-950 hover:border-slate-700'"
+              @click="selectedApexId = apex.id"
+            >
+              <span class="text-2xl shrink-0 mt-0.5">{{ apex.icon }}</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-gray-100">{{ apex.name }}</span>
+                  <span class="text-[10px] text-cyan-300 font-mono">{{ apex.tier }}</span>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-0.5 leading-snug">{{ apex.trait }}</p>
+                <div class="flex items-center gap-2 mt-1 text-[9px] font-mono text-emerald-400">
+                  <span>狂暴加成: +{{ apex.ferocityBonus }}%</span>
+                  <span class="text-amber-400">战利提升: +{{ apex.lootBoost }}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 生态解算与演化推演遥测 -->
+        <div class="p-4 rounded-xl bg-gradient-to-b from-slate-950 to-emerald-950/40 border border-emerald-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+                <span>📊</span>
+                <span>生态演化实时测算</span>
+              </span>
+              <n-tag size="tiny" type="success">{{ currentBiome.name }}</n-tag>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">生态系统承载力:</span>
+                <span class="font-mono font-bold text-emerald-400">{{ calculatedCarryingCapacity.toLocaleString() }} 种群当量</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">种群平衡动态指数:</span>
+                <span class="font-mono font-bold text-cyan-300">{{ calculatedEquilibriumIndex.toFixed(1) }}% (动态平衡)</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">精英变异诱发几率:</span>
+                <span class="font-mono font-bold text-amber-300">{{ calculatedMutationRate.toFixed(1) }}% (变异活跃)</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-900/60 border border-slate-800">
+                <span class="text-gray-400">绝品战利品诱爆率:</span>
+                <span class="font-mono font-bold text-purple-300">{{ calculatedRareDropRate.toFixed(2) }}%</span>
+              </div>
+            </div>
+
+            <!-- 演化进度条 -->
+            <div v-if="isEvolving" class="space-y-1 pt-1">
+              <div class="flex justify-between text-[11px] text-emerald-300 font-mono">
+                <span>{{ evolutionCurrentEpoch }}</span>
+                <span>{{ evolutionProgress }}%</span>
+              </div>
+              <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden border border-slate-800">
+                <div class="bg-gradient-to-r from-emerald-500 via-cyan-400 to-amber-400 h-2.5 transition-all duration-150" :style="{ width: `${evolutionProgress}%` }" />
+              </div>
+            </div>
+
+            <!-- 演化日志流 -->
+            <div class="p-2.5 rounded bg-slate-950/90 border border-slate-800 text-[11px] font-mono space-y-1 text-gray-300 max-h-24 overflow-y-auto">
+              <div v-for="(log, idx) in evolutionLogs" :key="idx" class="text-gray-300 leading-snug">
+                {{ log }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 操作按钮组 -->
+          <div class="space-y-2 pt-2">
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:brightness-110 active:scale-98 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer disabled:opacity-50"
+              :disabled="isEvolving"
+              @click="startEvolutionEpoch"
+            >
+              {{ isEvolving ? '🌱 生态纪元演化推演中...' : '🌱 启动生态演化与基因演进推演 (Run Evolution Epoch)' }}
+            </button>
+
+            <div class="flex gap-2">
+              <button
+                type="button"
+                class="flex-1 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs text-gray-300 border border-slate-700 transition-colors cursor-pointer"
+                @click="copyEcologyConfig"
+              >
+                📋 复制生态数据
+              </button>
+              <button
+                type="button"
+                class="flex-1 py-1.5 rounded-lg bg-emerald-900/40 hover:bg-emerald-800/60 text-xs text-emerald-300 border border-emerald-700/60 transition-colors cursor-pointer"
+                @click="exportEcologyCert"
+              >
+                📄 导出生态认证
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 生态模拟引擎源码展台 -->
+      <div class="p-4 rounded-xl bg-[#090d16] border border-slate-800 space-y-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">📜</span>
+            <span class="font-mono text-xs font-bold text-emerald-300">res://scripts/combat/monster_ecology_simulator.gd</span>
+          </div>
+          <n-tag type="success" size="tiny" round>Godot 4.6 LTS Ecology Core</n-tag>
+        </div>
+        <pre class="p-3.5 rounded-lg bg-slate-950 border border-slate-900 text-xs text-emerald-300 font-mono overflow-x-auto leading-relaxed">{{ gdEcologySimulatorCode }}</pre>
       </div>
     </div>
 
@@ -982,7 +1229,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Directive } from 'vue'
+import { onUnmounted, type Directive } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const gameStore = useGameStore()
@@ -1717,6 +1964,296 @@ const openMonsterDetail = (monster: any) => {
   activeMonster.value = monster
   showDetailModal.value = true
 }
+
+const scrollToEcologyStudio = () => {
+  const el = document.getElementById('monster-ecology-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+// ================= 🌿 全域魔物生态食物链与基因变异演化沙盘 (v2.2.260) =================
+interface EcologicalBiome {
+  id: string
+  name: string
+  climate: string
+  predator: string
+  prey: string
+  tagType: 'success' | 'warning' | 'info' | 'error'
+  description: string
+  baseCapacity: number
+}
+
+interface ApexPredator {
+  id: string
+  name: string
+  icon: string
+  tier: string
+  trait: string
+  ferocityBonus: number
+  lootBoost: number
+}
+
+const ecologicalBiomes: EcologicalBiome[] = [
+  {
+    id: 'primal_forest',
+    name: '始源温带密林 (Primal Forest)',
+    climate: '温润以太微风',
+    predator: '苍白狂爪狼族 (Dire Wolf)',
+    prey: '剧毒金角蜂群 (Killer Bee)',
+    tagType: 'success',
+    description: '林冠繁茂，以太溪流穿透地表，植被生长丰沛，为各类初阶与中阶野兽提供理想捕食繁衍温床。',
+    baseCapacity: 12500
+  },
+  {
+    id: 'volcanic_caldera',
+    name: '卡尔纳克熔岩火山 (Volcano)',
+    climate: '超高温硫磺热风',
+    predator: '红莲炎息火蜥蜴 (Salamander)',
+    prey: '赤热火史莱姆 (Fire Slime)',
+    tagType: 'error',
+    description: '地心熔火与高压硫磺喷发，唯有具备极高火抗与鳞甲的凶残魔兽方可栖息，变异概率极高。',
+    baseCapacity: 8800
+  },
+  {
+    id: 'sunken_abyss',
+    name: '沃尔斯深海海沟 (Sunken Trench)',
+    climate: '超高压幽暗暗流',
+    predator: '深渊海龙巨兽 (Leviathan Drake)',
+    prey: '荧光雷水母 (Jellyfish Swarm)',
+    tagType: 'info',
+    description: '万米深渊水压与沉没远古水之神殿，暗流涌动，水栖与雷属性魔物遵循古老潮汐演变。',
+    baseCapacity: 15400
+  },
+  {
+    id: 'void_singularity_rift',
+    name: '次元裂隙虚无核心 (Void Rift)',
+    climate: '零重力虚无辐射',
+    predator: '次元吞噬聚合体 (Void Fiend)',
+    prey: '混沌异变精魄 (Chaos Wisp)',
+    tagType: 'warning',
+    description: '时空裂谷终焉奇点，虚无物质撕扯一切物理法则，魔物呈现极端超阶突变与反物质融合。',
+    baseCapacity: 22000
+  }
+]
+
+const apexPredators: ApexPredator[] = [
+  {
+    id: 'ancient_dragon',
+    name: '太古始祖古龙 (Ancient Dragon)',
+    icon: '🐉',
+    tier: '霸主 Tier EX',
+    trait: '龙之威压压制全图掠食者，降低 20% 弱小群落竞争消耗',
+    ferocityBonus: 35,
+    lootBoost: 40
+  },
+  {
+    id: 'abyssal_behemoth',
+    name: '深渊狂暴贝希摩斯 (Behemoth)',
+    icon: '🦏',
+    tier: '霸主 Tier SSS',
+    trait: '大地震击撕裂地表，加速弱小种群淘汰演化与基因适应',
+    ferocityBonus: 45,
+    lootBoost: 30
+  },
+  {
+    id: 'chimera_prime',
+    name: '狂乱多头奇美拉 (Chimera Prime)',
+    icon: '🦁',
+    tier: '霸主 Tier SS',
+    trait: '多头元素杂交喷吐，提升环境中的元素异变诱发几率',
+    ferocityBonus: 30,
+    lootBoost: 25
+  },
+  {
+    id: 'mecha_colossus',
+    name: '古代机动巨神 (Mecha Colossus)',
+    icon: '🤖',
+    tier: '霸主 Tier S',
+    trait: '远古魔导遗迹守卫，常驻能量立场阻隔外部环境干扰',
+    ferocityBonus: 25,
+    lootBoost: 35
+  }
+]
+
+const selectedBiomeId = ref('primal_forest')
+const aetherDensity = ref(65)
+const predationPressure = ref(2.4)
+const mutationFactor = ref(45)
+const selectedApexId = ref('ancient_dragon')
+
+const isEvolving = ref(false)
+const evolutionProgress = ref(0)
+const evolutionCurrentEpoch = ref('')
+const evolutionLogs = ref<string[]>([
+  '=== 生态食物链演算引擎已就绪，请选择生态圈并点击启动推演 ==='
+])
+let evolutionTimer: ReturnType<typeof setInterval> | null = null
+
+const currentBiome = computed(() => {
+  return ecologicalBiomes.find(b => b.id === selectedBiomeId.value) || ecologicalBiomes[0]
+})
+
+const currentApex = computed(() => {
+  return apexPredators.find(a => a.id === selectedApexId.value) || apexPredators[0]
+})
+
+const calculatedCarryingCapacity = computed(() => {
+  const base = currentBiome.value.baseCapacity
+  const aetherMult = aetherDensity.value / 50
+  return Math.round(base * aetherMult)
+})
+
+const calculatedEquilibriumIndex = computed(() => {
+  const balance = 100 - Math.abs(predationPressure.value - 2.5) * 15 - Math.abs(aetherDensity.value - 60) * 0.2
+  return Math.min(99.5, Math.max(35.0, balance))
+})
+
+const calculatedMutationRate = computed(() => {
+  const base = (mutationFactor.value * 0.6) + (aetherDensity.value * 0.3)
+  return Math.min(85.0, Math.max(5.0, base))
+})
+
+const calculatedRareDropRate = computed(() => {
+  const apexBoost = currentApex.value.lootBoost
+  const base = 2.0 * (1 + apexBoost / 100) * (1 + mutationFactor.value / 200)
+  return Math.min(12.5, Math.max(1.0, base))
+})
+
+const startEvolutionEpoch = () => {
+  if (isEvolving.value) return
+  isEvolving.value = true
+  evolutionProgress.value = 0
+  evolutionCurrentEpoch.value = '纪元 1: 种群繁衍与生态承载扩张'
+
+  const biome = currentBiome.value
+  const apex = currentApex.value
+
+  evolutionLogs.value = [
+    `[0.0s] 🌿【${biome.name}】进入生态推演周期，环境以太丰度调节至 ${aetherDensity.value}%！`,
+    `[0.3s] 👑 顶级霸主【${apex.name}】确立统治核心，释放【${apex.trait}】！`
+  ]
+
+  if (evolutionTimer) clearInterval(evolutionTimer)
+
+  const epochs = [
+    { at: 25, name: '纪元 2: 掠食压强与自然选择淘汰', log: `[0.6s] ⚔️ 掠食压强切入 ${predationPressure.value.toFixed(1)}x，被捕食种群【${biome.prey}】加速敏捷基因迭代！` },
+    { at: 60, name: '纪元 3: 以太辐射诱发突变分化', log: `[1.0s] 🧬 基因突变诱导率达 ${calculatedMutationRate.value.toFixed(1)}%，诞生高阶变异精英种群！` },
+    { at: 85, name: '纪元 4: 食物链动态稳态达成', log: `[1.4s] ⚖️ 生态圈承载量达 ${calculatedCarryingCapacity.value.toLocaleString()}，平衡指数达 ${calculatedEquilibriumIndex.value.toFixed(1)}%！` },
+    { at: 100, name: '纪元 5: 生态演化成果结算', log: `[1.8s] 🏆 演化周期完成！绝品珍稀掉落诱发率升至 ${calculatedRareDropRate.value.toFixed(2)}%！` }
+  ]
+
+  evolutionTimer = setInterval(() => {
+    evolutionProgress.value += 10
+    const matched = epochs.find(e => e.at === evolutionProgress.value)
+    if (matched) {
+      evolutionCurrentEpoch.value = matched.name
+      evolutionLogs.value.unshift(matched.log)
+    }
+
+    if (evolutionProgress.value >= 100) {
+      if (evolutionTimer) clearInterval(evolutionTimer)
+      evolutionTimer = null
+      isEvolving.value = false
+      evolutionProgress.value = 100
+    }
+  }, 160)
+}
+
+const copyEcologyConfig = () => {
+  const biome = currentBiome.value
+  const apex = currentApex.value
+  const configText = `[生态演化遥测] 生态圈:${biome.name} | 霸主:${apex.name} | 承载力:${calculatedCarryingCapacity.value.toLocaleString()} | 平衡指数:${calculatedEquilibriumIndex.value.toFixed(1)}% | 突变率:${calculatedMutationRate.value.toFixed(1)}% | 稀有掉落率:${calculatedRareDropRate.value.toFixed(2)}%`
+  navigator.clipboard.writeText(configText).catch(() => {})
+}
+
+const exportEcologyCert = () => {
+  const biome = currentBiome.value
+  const apex = currentApex.value
+  const now = new Date()
+  const dateStr = now.toISOString().replace('T', ' ').substring(0, 19)
+
+  const content = `================================================================================
+《光之战士：时空裂隙》全域魔物生态食物链与基因变异演化认证方案书
+================================================================================
+推演方案: Monster Ecology & Evolutionary Mutation Certificate
+颁发机构: VBLE Bestiary & Ecological Evolution Matrix / 皇家博物学者学会
+推演版本: VBLE Bestiary & Ecological Evolution Matrix v2.2.260
+引擎规范: Godot 4.6 LTS Monster Ecology Simulator
+签发时间: ${dateStr} (CST)
+
+【生态地质圈环境参数】
+- 生态圈名录: ${biome.name} (${biome.id})
+- 气候与气流: ${biome.climate}
+- 顶级掠食者: ${biome.predator}
+- 基底被捕食: ${biome.prey}
+- 生态特征纲目: ${biome.description}
+
+【环境诱变与霸主统治工况】
+- 地脉以太浓度: ${aetherDensity.value}% (生态沃度)
+- 掠食淘汰压强: ${predationPressure.value.toFixed(1)}x
+- 基因突变诱导率: ${mutationFactor.value}%
+- 冠绝霸主领主: ${apex.name} (${apex.tier})
+- 霸主生态威压: ${apex.trait} (狂暴+${apex.ferocityBonus}%, 战利+${apex.lootBoost}%)
+
+【实时遥测与生态动力学指标】
+- 生态承载极限容量: ${calculatedCarryingCapacity.value.toLocaleString()} 种群当量
+- 种群动态平衡指数: ${calculatedEquilibriumIndex.value.toFixed(1)}% (稳定性评价: ${calculatedEquilibriumIndex.value >= 75 ? '极高稳态' : '激烈演化中'})
+- 精英突变诱发几率: ${calculatedMutationRate.value.toFixed(1)}%
+- 绝品神器战利品率: ${calculatedRareDropRate.value.toFixed(2)}%
+
+================================================================================
+数字防伪哈希: SHA256-ECOLOGY-${Math.random().toString(36).substring(2, 10).toUpperCase()}${Math.random().toString(36).substring(2, 10).toUpperCase()}
+================================================================================`
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `monster_ecology_evolution_v2.2.260_${biome.id}.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+const gdEcologySimulatorCode = `# ==============================================================================
+# MonsterEcologySimulator - 全域魔物生态食物链与基因变异演化解算器
+# 文件路径: res://scripts/combat/monster_ecology_simulator.gd
+# 架构规范: Godot 4.6 LTS / VBLE Bestiary & Ecological Evolution Matrix v2.2.260
+# 核心职责: 管理 Lotka-Volterra 食物链微分动力学、环境以太承载力与突变概率矩阵
+# ==============================================================================
+class_name MonsterEcologySimulator
+extends RefCounted
+
+signal ecology_epoch_simulated(biome_id: String, carrying_capacity: int, equilibrium_pct: float)
+signal mutation_triggered(apex_id: String, rare_drop_rate: float)
+
+static func calculate_carrying_capacity(base_capacity: int, aether_density: float) -> int:
+	var aether_mult: float = aether_density / 50.0
+	return int(base_capacity * aether_mult)
+
+static func calculate_equilibrium_index(predation_pressure: float, aether_density: float) -> float:
+	var balance: float = 100.0 - abs(predation_pressure - 2.5) * 15.0 - abs(aether_density - 60.0) * 0.2
+	return clampf(balance, 35.0, 99.5)
+
+static func calculate_mutation_rate(mutation_factor: float, aether_density: float) -> float:
+	var base: float = (mutation_factor * 0.6) + (aether_density * 0.3)
+	return clampf(base, 5.0, 85.0)
+
+static func simulate_predator_prey_step(prey_count: float, pred_count: float, delta: float, alpha: float = 0.1, beta: float = 0.02) -> Dictionary:
+	var d_prey: float = (alpha * prey_count - beta * prey_count * pred_count) * delta
+	var d_pred: float = (beta * 0.5 * prey_count * pred_count - 0.05 * pred_count) * delta
+	return {
+		"prey": max(10.0, prey_count + d_prey),
+		"predator": max(2.0, pred_count + d_pred)
+	}
+`
+
+onUnmounted(() => {
+  if (evolutionTimer) {
+    clearInterval(evolutionTimer)
+    evolutionTimer = null
+  }
+})
 </script>
 
 <style scoped>
