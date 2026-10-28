@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-gm-modifier-memory-patch-studio-2026-10-28',
+    version: 'v2.2.219',
+    date: '2026-10-28',
+    title: '全域属性修改器与GM内存补丁控制台沙盘重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🛠️',
+    tagType: 'info',
+    description: '深度重构升级 ModifierView GM 属性修改器门户：全域支持角色 1~255 级完全无上限成长曲线与初始六维点数直接编辑；全新实装 GM 内存锁定补丁沙盘（Memory Patch & God Mode Sandbox），支持模拟生命/法力锁死、一击必杀 99999、幽灵穿墙与十六进制 RAM 快照实时监视；内置 Action Replay 金手指与 Godot CLI 作弊代码生成器；并实装 Godot 4.x gm_debugger_console.gd 波浪键控制台单例。',
+    highlights: [
+      '1~255级全域无上限数值修改：自由微调初始点数与每级成长步进，输入期望血量/力量即可逆向解算目标等级',
+      'GM 内存锁定补丁沙盘：涵盖无限生命 (NOP)、无限魔力、一击必杀 99999、穿墙模式与 16 倍经验狂飙',
+      '十六进制 RAM 快照仿真监视器：动态映射当前等级、HP/MP 与六维属性在底层内存结构体中的 Byte 序列',
+      'Action Replay 金手指生成器：一键生成全员锁死代码、稀有尾巴 99 个全填装指令与场景秒传 CLI',
+      'Godot 4.x 核心引擎代码对齐：内置 gm_debugger_console.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: 'GM 属性修改器', path: '/vble/modifier', icon: '🛠️' },
+      { label: '英雄传记图鉴', path: '/vble/characters', icon: '👥' },
+      { label: '配装模拟工坊', path: '/vble/armory-simulator', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-teachings-bluemagic-matrix-studio-2026-10-28',
     version: 'v2.2.218',
     date: '2026-10-28',
