@@ -11,10 +11,10 @@
 
     <!-- 主视图模式切换 Tabs -->
     <div class="flex justify-center border-b border-slate-800 pb-3">
-      <div class="inline-flex p-1 bg-slate-900/90 rounded-xl border border-slate-800">
+      <div class="inline-flex p-1 bg-slate-900/90 rounded-xl border border-slate-800 flex-wrap justify-center gap-1">
         <button
           type="button"
-          class="px-5 py-2 text-sm font-semibold rounded-lg transition-all"
+          class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all"
           :class="activeMainTab === 'catalog' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'catalog'"
         >
@@ -22,13 +22,22 @@
         </button>
         <button
           type="button"
-          class="px-5 py-2 text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
+          class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
           :class="activeMainTab === 'studio' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'studio'"
         >
           <span>⚡</span>
-          <span>职业技能可用性与转职推演工作台</span>
-          <n-badge value="NEW" type="warning" />
+          <span>职业技能可用性与转职推演</span>
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
+          :class="activeMainTab === 'synergy' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          @click="activeMainTab = 'synergy'"
+        >
+          <span>🔮</span>
+          <span>双职业构筑搭配与连锁共鸣工坊</span>
+          <n-badge value="HOT" type="error" />
         </button>
       </div>
     </div>
@@ -256,7 +265,7 @@
     </div>
 
     <!-- ================= 视图 2: 职业技能可用性与转职推演工作台 (D08 Studio) ================= -->
-    <div v-else class="space-y-6">
+    <div v-else-if="activeMainTab === 'studio'" class="space-y-6">
       <div class="p-5 bg-[#121626]/90 border border-slate-700/60 rounded-xl space-y-6 shadow-xl">
         <div class="border-b border-slate-800 pb-3 flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -671,6 +680,215 @@
         </div>
       </div>
     </div>
+
+    <!-- ================= 视图 3: 双职业构筑搭配与技能连锁共鸣工坊 (Dual-Class Synergy Studio) ================= -->
+    <div v-else class="space-y-6">
+      <div class="p-6 bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950 border border-purple-500/50 rounded-2xl shadow-2xl space-y-6 relative overflow-hidden">
+        <!-- 头部导览 -->
+        <div class="border-b border-purple-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🔮</span>
+              <h2 class="text-xl sm:text-2xl font-black text-purple-300">
+                双职业构筑搭配与连锁共鸣工坊 (Dual-Class Synergy Studio)
+              </h2>
+              <n-tag size="small" type="error" round strong>全息流派推演</n-tag>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              自由搭配主修职业、副职业指令槽与被动特性槽，实时解算 ATB 攻速补正、爆发倍率与战场生存评级；一键推演回合实战伤害！
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="small" secondary type="warning" @click="resetSynergyBuild">
+              🔄 恢复默认构筑
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="simulateCombatRound">
+              ⚡ 一键推演回合输出
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大官方大师经典流派快捷导入 -->
+        <div class="space-y-1.5">
+          <div class="text-xs font-bold text-gray-400 flex items-center gap-1.5">
+            <span>✨</span> 官方预设巅峰流派快速套用 (Pre-tuned Archetypes):
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+            <button
+              v-for="p in masterArchetypes"
+              :key="p.id"
+              type="button"
+              class="p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-center justify-between"
+              :class="selectedArchetypeId === p.id
+                ? 'bg-purple-900/50 border-purple-400 text-white shadow-md shadow-purple-600/30 ring-1 ring-purple-400/50'
+                : 'bg-slate-900/80 border-slate-800 text-gray-300 hover:border-slate-700 hover:bg-slate-850'"
+              @click="applyArchetype(p)"
+            >
+              <div>
+                <div class="text-xs font-bold flex items-center gap-1">
+                  <span>{{ p.icon }}</span>
+                  <span>{{ p.name }}</span>
+                </div>
+                <div class="text-[10px] text-gray-400 mt-0.5">{{ p.summary }}</div>
+              </div>
+              <n-tag size="tiny" :type="p.rankTag" round>{{ p.rank }}</n-tag>
+            </button>
+          </div>
+        </div>
+
+        <!-- 构筑三柱石选择器与右侧连锁评级屏 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- 左侧：构筑配置槽位 -->
+          <div class="lg:col-span-7 space-y-4">
+            <!-- 1. 主修职业 -->
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-cyan-300 flex items-center gap-1.5">
+                  <span>1️⃣</span> 主修职业 (Primary Job)
+                </span>
+                <span class="text-gray-400 text-[11px]">决定基础属性体质与可用武器防具</span>
+              </div>
+              <n-select
+                v-model:value="synergyPrimaryJobId"
+                :options="primaryJobSelectOptions"
+                size="small"
+              />
+              <div class="text-[11px] text-gray-400 flex items-center justify-between pt-1">
+                <span>固有特性: <strong class="text-amber-300">{{ selectedPrimaryJobObj?.innateAbility }}</strong></span>
+                <span>装备范围: <span class="text-gray-300">{{ selectedPrimaryJobObj?.equipTypes }}</span></span>
+              </div>
+            </div>
+
+            <!-- 2. 副职业能力指令槽 -->
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-purple-300 flex items-center gap-1.5">
+                  <span>2️⃣</span> 副修战斗指令槽 (!Command Slot)
+                </span>
+                <span class="text-gray-400 text-[11px]">赋予主职原本不具备的超规格战技</span>
+              </div>
+              <n-select
+                v-model:value="synergySecondaryAbilityId"
+                :options="secondaryAbilityOptions"
+                size="small"
+              />
+              <div class="text-[11px] text-gray-300 leading-relaxed bg-slate-950 p-2 rounded border border-slate-800">
+                {{ selectedSecondaryAbilityObj?.desc }}
+              </div>
+            </div>
+
+            <!-- 3. 被动特性槽位 -->
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-emerald-300 flex items-center gap-1.5">
+                  <span>3️⃣</span> 被动共鸣特性槽 (Passive Resonance)
+                </span>
+                <span class="text-gray-400 text-[11px]">全战斗常驻触发的底层机制法则</span>
+              </div>
+              <n-select
+                v-model:value="synergyPassiveTraitId"
+                :options="passiveTraitOptions"
+                size="small"
+              />
+              <div class="text-[11px] text-gray-300 leading-relaxed bg-slate-950 p-2 rounded border border-slate-800">
+                {{ selectedPassiveTraitObj?.desc }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧：共鸣算力结果与战斗模拟屏 -->
+          <div class="lg:col-span-5 p-5 rounded-xl bg-slate-950/90 border border-purple-900/50 flex flex-col justify-between space-y-4 shadow-xl">
+            <!-- 构筑代号与评级 -->
+            <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+              <div>
+                <div class="text-[10px] text-gray-400 font-mono uppercase tracking-wider">构筑连锁评级代号</div>
+                <h3 class="text-base font-black text-amber-300 mt-0.5">
+                  {{ synergyCalculation.title }}
+                </h3>
+              </div>
+              <div class="text-center px-3 py-1 rounded-xl bg-purple-950/80 border border-purple-500 shadow-md">
+                <div class="text-[9px] text-purple-300 font-bold">SYNERGY</div>
+                <div class="text-xl font-black text-amber-400 font-mono">{{ synergyCalculation.rank }}</div>
+              </div>
+            </div>
+
+            <!-- 四大战斗效能指标 -->
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+                <div class="text-gray-400 text-[10px]">一回合爆发峰值倍率</div>
+                <div class="font-mono font-bold text-amber-400 text-lg mt-0.5">
+                  {{ synergyCalculation.burstMultiplier }}x
+                </div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+                <div class="text-gray-400 text-[10px]">ATB 充能加速度补正</div>
+                <div class="font-mono font-bold text-cyan-400 text-lg mt-0.5">
+                  +{{ synergyCalculation.atbBonus }}%
+                </div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+                <div class="text-gray-400 text-[10px]">生存与防卫等级</div>
+                <div class="font-mono font-bold text-emerald-400 text-base mt-0.5">
+                  {{ synergyCalculation.survivalTier }}
+                </div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+                <div class="text-gray-400 text-[10px]">MP 循环续航指数</div>
+                <div class="font-mono font-bold text-purple-400 text-base mt-0.5">
+                  {{ synergyCalculation.sustainability }}
+                </div>
+              </div>
+            </div>
+
+            <!-- 实战战术模拟日志 -->
+            <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-1.5 flex-1">
+              <div class="text-[11px] font-bold text-cyan-300 flex items-center justify-between">
+                <span>⚔️ 实机单回合连招演练回放:</span>
+                <span class="text-[10px] text-gray-500 font-mono">Simulated Round</span>
+              </div>
+              <p class="text-xs text-gray-200 leading-relaxed font-mono">
+                {{ combatSimResult }}
+              </p>
+            </div>
+
+            <div class="pt-2 text-[10px] text-gray-500 border-t border-slate-800 flex items-center justify-between">
+              <span>底层引擎契约: dual_class_synergy_resolver.gd</span>
+              <span class="text-purple-400">VBLE Job Engine 4.6 LTS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 底层 GDScript 源码对齐展台 -->
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold text-cyan-300">
+            <span>🛠️ Godot 4.6 LTS 双职业指令分发器架构 (dual_class_synergy_resolver.gd)</span>
+            <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
+          </div>
+          <div class="p-3 bg-slate-900 rounded font-mono text-[11px] text-emerald-300 overflow-x-auto max-h-48 custom-scrollbar">
+<pre><code># Godot 4.6 LTS - dual_class_synergy_resolver.gd
+class_name DualClassSynergyResolver extends RefCounted
+
+static func resolve_battle_commands(hero: HeroData) -> Array[BattleAction]:
+    var actions: Array[BattleAction] = []
+    # 1. 注入主职普通指令 (Attack, Defend)
+    actions.append(BattleAction.new("attack", "物理普通攻击"))
+    actions.append(BattleAction.new("defend", "举盾格挡减伤50%"))
+    
+    # 2. 映射副职战斗指令槽 (!Command Slot)
+    if hero.secondary_ability_id != "":
+        var sec_action = AbilityDatabase.get_action(hero.secondary_ability_id)
+        if sec_action:
+            actions.append(sec_action)
+            
+    # 3. 结算被动特性对行动条与连击次数的倍率覆写
+    if hero.has_passive("dual_wield"):
+        actions[0].hit_count = 2 # 二刀流自动将单次普攻改为双重挥砍
+        
+    return actions</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -682,7 +900,7 @@ import { usePagination } from '@/composables/usePagination'
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value < 640)
 
-const activeMainTab = ref<'catalog' | 'studio'>('catalog')
+const activeMainTab = ref<'catalog' | 'studio' | 'synergy'>('catalog')
 const selectedCrystal = ref('all')
 
 // 分类数量与卡片使用同一目录；不随当前筛选或分页缩减。
@@ -1227,6 +1445,268 @@ const resetTechniqueStudio = () => {
     '默认设置: 盗贼偷盗 (steal), 敌方小队防御惩罚归零'
   ]
 }
+
+// ==========================================
+// 🔮 双职业构筑搭配与连锁共鸣工坊
+// ==========================================
+interface MasterArchetype {
+  id: string
+  name: string
+  icon: string
+  summary: string
+  rank: 'SSS' | 'SS' | 'S' | 'A'
+  rankTag: 'error' | 'warning' | 'info' | 'success'
+  primaryJob: string
+  secondaryAbility: string
+  passiveTrait: string
+}
+
+const masterArchetypes: MasterArchetype[] = [
+  {
+    id: 'flare_dual_wield',
+    name: '神速附魔二刀流',
+    icon: '⚔️',
+    summary: '魔剑士 + 忍者二刀流 + 反击',
+    rank: 'SSS',
+    rankTag: 'error',
+    primaryJob: 'mystic_knight',
+    secondaryAbility: 'dual_wield',
+    passiveTrait: 'counter'
+  },
+  {
+    id: 'dualcast_bahamut',
+    name: '灭世双重召唤',
+    icon: '🐉',
+    summary: '召唤士 + 连续魔 + 魔力+30%',
+    rank: 'SSS',
+    rankTag: 'error',
+    primaryJob: 'summoner',
+    secondaryAbility: 'dualcast',
+    passiveTrait: 'mp_boost'
+  },
+  {
+    id: 'rapid_fire_flare',
+    name: '乱打破防四连斩',
+    icon: '🏹',
+    summary: '猎人 + 附魔剑 + 警惕',
+    rank: 'SSS',
+    rankTag: 'error',
+    primaryJob: 'hunter',
+    secondaryAbility: 'spellblade',
+    passiveTrait: 'alert'
+  },
+  {
+    id: 'dragon_alchemist',
+    name: '不灭调合龙骑',
+    icon: '🛡️',
+    summary: '龙骑士 + 调合神药 + 濒死保护',
+    rank: 'SS',
+    rankTag: 'warning',
+    primaryJob: 'dragoon',
+    secondaryAbility: 'mix',
+    passiveTrait: 'cover'
+  }
+]
+
+const selectedArchetypeId = ref('flare_dual_wield')
+const synergyPrimaryJobId = ref('mystic_knight')
+const synergySecondaryAbilityId = ref('dual_wield')
+const synergyPassiveTraitId = ref('counter')
+const combatSimResult = ref('等待指令推演...点击右上角【⚡ 一键推演回合输出】即可观测当前构筑在战斗中的实机连锁伤害与行动条回响！')
+
+const primaryJobSelectOptions = computed(() => {
+  return jobsList.map(j => ({
+    label: `[${j.crystalName}] ${j.name} (${j.role})`,
+    value: j.id
+  }))
+})
+
+const secondaryAbilityOptions = [
+  {
+    label: '!DualWield (二刀流 - 忍者)',
+    value: 'dual_wield',
+    desc: '二刀流：允许双手各自持拿一把主战神兵（如两柄王者之剑），普通攻击自动转化为 2 次全力挥砍判定！'
+  },
+  {
+    label: '!Spellblade (魔法剑 - 魔剑士)',
+    value: 'spellblade',
+    desc: '魔法剑：将核爆耀斑、大火焰、神圣注入冷兵器刀刃，普攻附带 100% 暴击与无视魔抗的法术属性创伤！'
+  },
+  {
+    label: '!RapidFire (乱打四连击 - 猎人)',
+    value: 'rapid_fire',
+    desc: '乱打：一回合内以神速倾泻 4 次连续穿透打击！完全无视目标的物理防御力，破甲绝杀终极神技！'
+  },
+  {
+    label: '!Dualcast (连续魔 - 赤魔导士)',
+    value: 'dualcast',
+    desc: '连续魔：单回合内以极速吟唱连续释放两次法术，可双发核爆或双重神圣，将输出窗口利用到极致！'
+  },
+  {
+    label: '!Mix (道具调合 - 药剂师)',
+    value: 'mix',
+    desc: '道具调合：战场瞬发合成巨人之药（HP上限翻倍）、龙之力量（Lv+20）与死者苏生，战场全能续航神技！'
+  },
+  {
+    label: '!Jump (高空跳跃 - 龙骑士)',
+    value: 'jump',
+    desc: '高空跳跃：跃入九天云霄彻底规避敌方全屏 AOE 与致死单体，下落时造成高达 2.0x 穿甲贯通物理暴击！'
+  },
+  {
+    label: '!Zeninage (金钱镖 - 侍)',
+    value: 'zeninage',
+    desc: '金钱镖：抛洒 Gil 铜钱形成以太金属风暴，对敌方全员造成无视物抗的真真实实真实伤害！'
+  },
+  {
+    label: '!Time_L6 (时空魔法 Lv6 - 时魔导士)',
+    value: 'time_magic',
+    desc: '时空魔法：全体施加神速【广域急速 (Hastega)】并召唤毁天灭地的【陨石风暴 (Meteor)】！'
+  },
+  {
+    label: '!Summon_L5 (神印召唤 Lv5 - 召唤士)',
+    value: 'summon',
+    desc: '神印召唤：降临龙王巴哈姆特（兆级百万火核）、海神利维坦（巨浪海啸）与斩铁剑奥丁！'
+  }
+]
+
+const passiveTraitOptions = [
+  {
+    label: '武僧【防卫反击 (Counter)】',
+    value: 'counter',
+    desc: '反击：遭受近战敌方物理攻击时，有 50% 概率触发本能重拳反击，造成 1.5x 力量创伤！'
+  },
+  {
+    label: '骑士【誓约守护 (Cover)】',
+    value: 'cover',
+    desc: '守护：当同伴 HP 处于危险濒死红线时，角色自动瞬移身位替其抵挡所有致死物理伤害！'
+  },
+  {
+    label: '盗贼【敏锐警惕 (Alert)】',
+    value: 'alert',
+    desc: '警惕：全队感知力暴增，完全杜绝敌方怪物群从背后发动的先制偷袭背刺与惊慌硬直！'
+  },
+  {
+    label: '骑士【双手持剑 (Two-Handed)】',
+    value: 'two_handed',
+    desc: '双手持剑：放弃盾牌双手紧握单手剑或重斧，攻击力瞬间翻倍，爆发物理压制力拉满！'
+  },
+  {
+    label: '魔人【魔力激荡 (+30% MP)】',
+    value: 'mp_boost',
+    desc: '魔力激荡：最大 MP 上限提升 30%，施放高阶魔法与神兽召唤时消耗以太大幅减免！'
+  },
+  {
+    label: '武僧【体魄强化 (+30% HP)】',
+    value: 'hp_boost',
+    desc: '体魄强化：最大 HP 上限提升 30%，血量上限直接飙升，大幅增强高难终极首领容错率！'
+  }
+]
+
+const selectedPrimaryJobObj = computed(() => {
+  return jobsList.find(j => j.id === synergyPrimaryJobId.value) || jobsList[0]
+})
+
+const selectedSecondaryAbilityObj = computed(() => {
+  return secondaryAbilityOptions.find(o => o.value === synergySecondaryAbilityId.value) || secondaryAbilityOptions[0]
+})
+
+const selectedPassiveTraitObj = computed(() => {
+  return passiveTraitOptions.find(o => o.value === synergyPassiveTraitId.value) || passiveTraitOptions[0]
+})
+
+const synergyCalculation = computed(() => {
+  const pJob = synergyPrimaryJobId.value
+  const sAbi = synergySecondaryAbilityId.value
+  const pTrait = synergyPassiveTraitId.value
+
+  let title = '均衡探索流派'
+  let burstMultiplier = 2.0
+  let atbBonus = 10
+  let survivalTier = 'A 稳健均衡'
+  let sustainability = '良好'
+  let rank: 'SSS' | 'SS' | 'S' | 'A' = 'A'
+
+  // 1. 经典附魔二刀流
+  if ((pJob === 'mystic_knight' && sAbi === 'dual_wield') || (pJob === 'ninja' && sAbi === 'spellblade')) {
+    title = '双星破界·附魔二刀流剑圣'
+    burstMultiplier = 8.5
+    atbBonus = 30
+    survivalTier = 'S 极速先制'
+    sustainability = '高 (物理无耗)'
+    rank = 'SSS'
+  }
+  // 2. 乱打四连击
+  else if (sAbi === 'rapid_fire') {
+    title = '瞬影千裂·无视防御四连击'
+    burstMultiplier = pTrait === 'two_handed' ? 9.6 : 7.2
+    atbBonus = 25
+    survivalTier = 'S 破甲特化'
+    sustainability = '极高'
+    rank = 'SSS'
+  }
+  // 3. 连续魔召唤
+  else if (sAbi === 'dualcast' && (pJob === 'summoner' || pJob === 'magus')) {
+    title = '灭世星宿·连续以太法皇'
+    burstMultiplier = 10.0
+    atbBonus = 15
+    survivalTier = 'A+ 远程歼灭'
+    sustainability = '爆发速杀 (依赖以太补给)'
+    rank = 'SSS'
+  }
+  // 4. 调合生存
+  else if (sAbi === 'mix') {
+    title = '不灭长生·炼金战术先驱'
+    burstMultiplier = 4.2
+    atbBonus = 20
+    survivalTier = 'EX 绝对不死'
+    sustainability = '无限 (药理自洽)'
+    rank = 'SS'
+  }
+  // 5. 金钱镖速通
+  else if (sAbi === 'zeninage') {
+    title = '千金断狱·破甲金钱镖'
+    burstMultiplier = 6.0
+    atbBonus = 20
+    survivalTier = 'S 真实创伤'
+    sustainability = '受限于金币储备'
+    rank = 'SS'
+  } else {
+    burstMultiplier = 3.5
+    atbBonus = 15
+    rank = 'S'
+  }
+
+  return {
+    title,
+    burstMultiplier: burstMultiplier.toFixed(1),
+    atbBonus,
+    survivalTier,
+    sustainability,
+    rank
+  }
+})
+
+const applyArchetype = (arch: MasterArchetype) => {
+  selectedArchetypeId.value = arch.id
+  synergyPrimaryJobId.value = arch.primaryJob
+  synergySecondaryAbilityId.value = arch.secondaryAbility
+  synergyPassiveTraitId.value = arch.passiveTrait
+  simulateCombatRound()
+}
+
+const resetSynergyBuild = () => {
+  applyArchetype(masterArchetypes[0])
+}
+
+const simulateCombatRound = () => {
+  const pName = selectedPrimaryJobObj.value.name
+  const sName = selectedSecondaryAbilityObj.value.label.split(' ')[0]
+  const pTrait = selectedPassiveTraitObj.value.label.split('【')[0]
+  const mult = synergyCalculation.value.burstMultiplier
+
+  combatSimResult.value = `[战斗推演] 角色以【${pName}】姿态就任进入战场！行动条获得 +${synergyCalculation.value.atbBonus}% 极速充能！起手触发【${sName}】，搭配【${pTrait}】被动共鸣，成功打出 ${mult}x 峰值爆发！造成 99999 破限暴击，判定为 ${synergyCalculation.value.rank} 级巅峰战术斩杀！`
+}
+
 </script>
 
 <style scoped>

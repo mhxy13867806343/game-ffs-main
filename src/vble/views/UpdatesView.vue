@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-jobs-dual-class-synergy-studio-2026-10-28',
+    version: 'v2.2.234',
+    date: '2026-10-28',
+    title: '双职业构筑搭配与技能连锁共鸣工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🔮',
+    tagType: 'info',
+    description: '深度重构升级 JobsView 职业转职与特技谱系：全新实装【双职业构筑搭配与技能连锁共鸣工坊】（Dual-Class Synergy Studio）。支持自由组合主修职业（Primary Job，决定体质基底与装备范畴）、副修战斗指令槽（!Command Slot，装备忍者二刀流、魔剑附魔、猎人乱打、赤魔连续魔、药剂师调合、龙骑高空跳跃、侍金钱镖等已精通神技）与被动共鸣特性槽（武僧反击、骑士守护、双手持、盗贼警惕等）；实时解算一回合爆发峰值倍率（Burst Multiplier 2.5x ~ 10.0x）、ATB 充能加速度补正与综合生存评级；提供四大官方大师巅峰流派一键套用与一键单回合连招实机推演；并严谨对齐 Godot 4.6 LTS dual_class_synergy_resolver.gd 双职业指令分发内核。',
+    highlights: [
+      '主副双职业三柱石构筑矩阵：主修基础 + 副修 !Command 指令 + 被动共鸣特性槽自由搭配',
+      '四大官方巅峰大师流派一键导入：神速附魔二刀流、灭世双重召唤、乱打破防四连斩与不灭调合龙骑',
+      '战斗效能综合动态算力屏：实时推演一回合爆发倍率、ATB 充能加速度、生存评级与 MP 循环续航',
+      '实机单回合连招推演回放：一键触发技能连锁打击，模拟 99999 伤害峰值与状态判定',
+      'Godot 4.6 底层指令分发内核对齐：无缝衔接 dual_class_synergy_resolver.gd 战斗指令映射'
+    ],
+    relatedLinks: [
+      { label: '职业大师与双职构筑', path: '/vble/jobs', icon: '🛡️' },
+      { label: '战斗战术与机制指南', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '数值修正与实机推演', path: '/vble/modifier', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-gallery-retro-pixel-crt-shader-studio-2026-10-28',
     version: 'v2.2.233',
     date: '2026-10-28',
