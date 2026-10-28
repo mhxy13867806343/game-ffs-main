@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-news-event-radar-community-qa-2026-10-28',
+    version: 'v2.2.222',
+    date: '2026-10-28',
+    title: '单机档案资讯中心、离线周期活动雷达与问答交流所重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '📢',
+    tagType: 'info',
+    description: '深度重构升级 NewsView 资讯中心门户：全景收录官方单机档案与全分类攻略指南；全新实装离线单机周期活动与版本发布雷达（Event Radar Studio），模拟深渊竞技场狂欢周、次元裂隙尾巴寻宝热潮与米西迪亚双倍以太研修节；开放官方架构答疑与单机探索留言板（Community Q&A），支持玩家本地提交心得、点赞与导出问答；并实装 Godot 4.x game_event_bulletin_manager.gd 离线日历事件广播管理器。',
+    highlights: [
+      '离线单机周期活动雷达：基于本地系统时钟智能判定周末深渊狂欢、月初尾巴热潮与双倍以太研修节',
+      '官方问答与探索留言板：针对神龙海啸珊瑚戒指、欧米茄乱打雷剑、巨人之药调合公式等高频难点提供权威解答',
+      '全分类单机档案文献：涵盖版本、攻略、世界风土、单机特权、更新公告与路线规划，支持分页与关键词检索',
+      'Godot 4.x 核心引擎代码对齐：内置 game_event_bulletin_manager.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '资讯与活动雷达', path: '/vble/news', icon: '📢' },
+      { label: '首领机制指南', path: '/vble/boss-tactics', icon: '⚔️' },
+      { label: '功能规划路线图', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
+  {
     id: 'up-home-twenty-subsystems-matrix-2026-10-28',
     version: 'v2.2.221',
     date: '2026-10-28',
