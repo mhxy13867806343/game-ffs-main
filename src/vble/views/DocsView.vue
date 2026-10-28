@@ -282,7 +282,61 @@
 
           <div class="pt-2 text-[10px] text-gray-500 border-t border-slate-800 flex items-center justify-between">
             <span>引擎算法: whitepaper_registry.gd</span>
-            <span class="text-cyan-400">VBLE Spec Engine v2.2.215</span>
+            <span class="text-cyan-400">VBLE Spec Engine v2.2.242</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 全卷架构交叉引用与五层拓扑导览工坊 (Architecture Cross-Reference Studio) -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-slate-900 via-[#101728] to-blue-950/60 border border-cyan-500/30 space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              LAYERED SPEC MATRIX
+            </span>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🏛️</span> 十七卷架构五层依赖模型与实机导航
+            </h3>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            横跨叙事世界观、空间地貌、核心战斗、宏观经济与系统底层五大层级，提供各白皮书与前端互动沙盘的双向拓扑映射。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" type="primary" secondary round class="font-bold shadow" @click="exportArchitectureCatalog">
+            <template #icon><span>📋</span></template>
+            导出全卷技术白皮书大纲
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 五层架构微卡片网格 -->
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+        <div
+          v-for="layer in architectureLayers"
+          :key="layer.id"
+          class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2 hover:border-cyan-400/40 transition-all"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white flex items-center gap-1">
+              <span>{{ layer.icon }}</span>
+              <span>{{ layer.title }}</span>
+            </span>
+            <n-tag size="tiny" :type="layer.tagType">{{ layer.docs.length }} 卷</n-tag>
+          </div>
+          <p class="text-[11px] text-gray-400 leading-snug">{{ layer.desc }}</p>
+          <div class="space-y-1 pt-1.5 border-t border-slate-900">
+            <div
+              v-for="d in layer.docs"
+              :key="d.code"
+              class="text-[11px] text-cyan-300 hover:text-cyan-200 cursor-pointer flex items-center justify-between truncate"
+              @click="selectForTopology(d)"
+            >
+              <span class="truncate">Vol.{{ String(d.volume).padStart(2, '0') }} {{ d.title.split('(')[0] }}</span>
+              <span class="text-gray-500 text-[10px]">&rarr;</span>
+            </div>
           </div>
         </div>
       </div>
@@ -367,7 +421,7 @@
         <template #footer>
           <div class="flex justify-between items-center w-full">
             <span class="text-xs text-gray-500 font-mono">
-              Godot 2D Turn-Based Engine Whitepapers · vble spec v2.2.215
+              Godot 2D Turn-Based Engine Whitepapers · vble spec v2.2.242
             </span>
             <n-button size="small" secondary @click="isDrawerOpen = false">
               关闭阅读
@@ -409,19 +463,82 @@ const renderedMarkdown = computed(() => {
   return marked.parse(rawMarkdownContent.value)
 })
 
-const categories = [
-  '全部类别',
-  '叙事架构',
-  '空间关卡',
-  '首领战斗',
-  '角色成长',
-  '装备数值',
-  '大世界探索',
-  '系统底层',
-  '终焉深渊',
-  '战斗数值',
-  '战斗交互'
-]
+const categories = computed(() => {
+  const set = new Set<string>()
+  whitepapersList.forEach(d => set.add(d.category))
+  return ['全部类别', ...Array.from(set)]
+})
+
+// 五层架构依赖拓扑模型
+const architectureLayers = computed(() => [
+  {
+    id: 'layer_narrative',
+    title: '叙事与编年层',
+    icon: '📖',
+    tagType: 'info' as const,
+    desc: '三大世界宇宙观、水晶演进与光暗三十章节流程总谱',
+    docs: whitepapersList.filter(d => ['01_WORLD_BIBLE', '10_CRYSTALS_ELEMENTS'].includes(d.code))
+  },
+  {
+    id: 'layer_spatial',
+    title: '关卡与地貌层',
+    icon: '🏰',
+    tagType: 'success' as const,
+    desc: '18大核心地下城拓扑、虚空湮灭四阶与大世界载具航路',
+    docs: whitepapersList.filter(d => ['02_DUNGEON_TOPOLOGY', '06_TRAVEL_VEHICLES', '09_VOID_CASTLE'].includes(d.code))
+  },
+  {
+    id: 'layer_combat',
+    title: '战斗与数值层',
+    icon: '⚔️',
+    tagType: 'error' as const,
+    desc: '首领行动树、回合惩罚、即时猜拳破招与跨界魔物大典',
+    docs: whitepapersList.filter(d => ['03_BOSS_TACTICS', '11_TURN_LIMIT_SPEC', '12_BATTLE_EVENTS_RPS', '17_CROSS_WORLD_BOSSES'].includes(d.code))
+  },
+  {
+    id: 'layer_growth',
+    title: '职业与导师层',
+    icon: '🛡️',
+    tagType: 'warning' as const,
+    desc: '26大职业矩阵、勇者圣所、米西迪亚禁术与东洋忍法',
+    docs: whitepapersList.filter(d => ['04_JOB_SYSTEM', '13_HERO_SANCTUARY', '14_MYSIDIA_ACADEMY', '15_NINJA_TEACHING'].includes(d.code))
+  },
+  {
+    id: 'layer_system',
+    title: '神兵与底层层',
+    icon: '⚙️',
+    tagType: 'default' as const,
+    desc: '七色尾巴兑换、神兵矩阵、宏观经济与系统架构持久化',
+    docs: whitepapersList.filter(d => ['05_EQUIPMENT_ECONOMY', '07_SIDEQUESTS_SECRETS', '08_SYSTEM_ARCHITECTURE', '16_TAIL_EXCHANGE'].includes(d.code))
+  }
+])
+
+const exportArchitectureCatalog = async () => {
+  const lines = [
+    '================================================================================',
+    '《光之战士：时空裂隙》十七卷核心架构白皮书全景目录与实机映射规范',
+    '================================================================================',
+    '规范版本: vble spec v2.2.242 官方正式版',
+    '引擎环境: Godot Engine 4.6 LTS Standalone (Forward+ / Mobile)',
+    '收录总卷数: 17 卷全部完备',
+    ''
+  ]
+
+  whitepapersList.forEach(w => {
+    lines.push(`【VOL.${String(w.volume).padStart(2, '0')}】${w.title}`)
+    lines.push(`分类: ${w.category} | 标识: ${w.code}`)
+    lines.push(`概述: ${w.summary}`)
+    lines.push(`核心模块: ${w.keyFeatures.join(' · ')}`)
+    lines.push('--------------------------------------------------------------------------------')
+  })
+
+  try {
+    await navigator.clipboard.writeText(lines.join('\n'))
+    message.success('已复制十七卷白皮书架构全景目录至剪贴板！')
+  } catch {
+    message.info('目录已生成，请在拓扑面板查阅')
+  }
+}
 
 const docSelectOptions = computed(() => {
   return whitepapersList.map(d => ({
@@ -497,16 +614,82 @@ const topologyResult = computed(() => {
         { name: 'boss_tactics_battle.gd', type: '代码映射', icon: '📜', role: 'Godot 首领 AI 行为状态机', tagType: 'default' as const }
       ]
     }
-  } else if (curCode === '07_SYSTEM_ENGINE') {
+  } else if (curCode === '01_WORLD_BIBLE') {
     return {
       score: 99,
-      summary: 'ATB时间轴与回合制核心架构基底',
-      gdscript: 'atb_engine.gd',
-      bindingDesc: '时间流速公式、指令队列入栈、伤害结算总线与存档防伪机制的核心架构发源地。',
+      summary: '始源水晶四法则与三大世代编年史完备',
+      gdscript: 'world_manager.gd',
+      bindingDesc: '泰空、巴尔与第三融合世界宇宙观，艾克斯德斯千年起源与虚空裂隙坍缩主线对齐。',
       nodes: [
-        { name: 'Vol.07 底层系统引擎', type: '当前核心', icon: '⚙️', role: 'ATB流速与指令调度总线', tagType: 'success' as const },
-        { name: 'Vol.10 战斗数值规范', type: '下游依赖', icon: '📊', role: '受控于主时钟并触发伤害事件', tagType: 'warning' as const },
-        { name: 'atb_engine.gd', type: '代码映射', icon: '📜', role: 'Godot 游戏循环驱动与协程控制器', tagType: 'default' as const }
+        { name: 'Vol.01 世界圣经 (水晶法则)', type: '当前核心', icon: '💎', role: '四水晶始源与时空演进全景母典', tagType: 'success' as const },
+        { name: 'Vol.10 三十章编年史', type: '下游依赖', icon: '📖', role: '逐章推进主线光暗交汇节拍', tagType: 'info' as const },
+        { name: 'Vol.09 虚空天体终焉空间', type: '因果终局', icon: '🌌', role: '次元之隙虚无引力坍缩终局', tagType: 'warning' as const },
+        { name: 'world_manager.gd', type: '代码映射', icon: '📜', role: 'Godot 世界状态与纪元切换引擎', tagType: 'default' as const }
+      ]
+    }
+  } else if (curCode === '02_DUNGEON_TOPOLOGY') {
+    return {
+      score: 97,
+      summary: '18大核心地下城机关锁链与空间拓扑完备',
+      gdscript: 'dungeon_manager.gd',
+      bindingDesc: '涵盖风之神殿、卡尔纳克10分钟倒计时逃生、朗卡浮空遗迹与双子分歧之塔物理魔法分流。',
+      nodes: [
+        { name: 'Vol.01 世界圣经', type: '上游前置', icon: '📜', role: '世界地理与水晶遗迹分布', tagType: 'info' as const },
+        { name: 'Vol.02 地下城关卡拓扑', type: '当前核心', icon: '🏰', role: '18大迷宫陷阱密道与防线', tagType: 'success' as const },
+        { name: 'Vol.03 首领攻坚全书', type: '下游守卫', icon: '👹', role: '深渊守门魔物阶段遭遇', tagType: 'error' as const },
+        { name: 'dungeon_manager.gd', type: '代码映射', icon: '📜', role: 'Godot 地图加载与机关状态机', tagType: 'default' as const }
+      ]
+    }
+  } else if (curCode === '05_EQUIPMENT_ECONOMY') {
+    return {
+      score: 98,
+      summary: '十二太古封印神兵与宏观商业物价指数完备',
+      gdscript: 'economy_system.gd',
+      bindingDesc: '金字塔封印神兵解禁额度、五大商业城邦物价供求曲线与七色尾巴传承兑换双向绑定。',
+      nodes: [
+        { name: 'Vol.02 地下城密宝', type: '上游前置', icon: '🏰', role: '四大远古石板产出秘境', tagType: 'info' as const },
+        { name: 'Vol.05 神兵与宏观经济', type: '当前核心', icon: '🗡️', role: '诸神黄昏、石中剑与正宗解封', tagType: 'success' as const },
+        { name: 'Vol.16 七色尾巴兑换', type: '衍生拓展', icon: '🦚', role: '隐士洞窟专属神器淬炼', tagType: 'warning' as const },
+        { name: 'economy_system.gd', type: '代码映射', icon: '📜', role: 'Godot 商店物价与金币守恒流', tagType: 'default' as const }
+      ]
+    }
+  } else if (curCode === '06_TRAVEL_VEHICLES') {
+    return {
+      score: 97,
+      summary: '海陆空星全域载具动力与卡门线突破完备',
+      gdscript: 'vehicle_navigation_system.gd',
+      bindingDesc: '黄白黑胖陆行鸟、龙首帆船、蒸汽火力船、黑隼号飞空艇与月之巨鲸星际航渡全域对齐。',
+      nodes: [
+        { name: 'Vol.01 世界圣经', type: '上游前置', icon: '🌍', role: '三界大地图航线与海峡阻隔', tagType: 'info' as const },
+        { name: 'Vol.06 多维载具矩阵', type: '当前核心', icon: '🛸', role: '全地形巡航航速加权与反引力', tagType: 'success' as const },
+        { name: 'Vol.09 虚空天体星际', type: '跨界延伸', icon: '🪐', role: '突破卡门线飞向红月之海', tagType: 'warning' as const },
+        { name: 'vehicle_navigation_system.gd', type: '代码映射', icon: '📜', role: 'Godot 航行碰撞与免遇敌力场', tagType: 'default' as const }
+      ]
+    }
+  } else if (curCode === '08_SYSTEM_ARCHITECTURE') {
+    return {
+      score: 99,
+      summary: 'ATB时间轴、分帧削峰与音频DSP调度总线完备',
+      gdscript: 'engine_subsystem_orchestrator.gd',
+      bindingDesc: '主循环 60FPS 帧预算调度、5 路音频总线 DSP 滤波器与三层快照自动存盘防崩溃协议。',
+      nodes: [
+        { name: 'Vol.08 系统架构总线', type: '当前核心', icon: '⚙️', role: 'ATB 动态蓄力管线与帧预算削峰', tagType: 'success' as const },
+        { name: 'Vol.10 战斗数值规范', type: '协作下发', icon: '📊', role: '驱动主时钟触发伤害与回合结算', tagType: 'warning' as const },
+        { name: 'Vol.04 职业技能字典', type: '跨模块注入', icon: '🛡️', role: '装配槽位与指令出栈', tagType: 'info' as const },
+        { name: 'engine_subsystem_orchestrator.gd', type: '代码映射', icon: '📜', role: 'Godot 4.6 LTS 底层架构总线', tagType: 'default' as const }
+      ]
+    }
+  } else if (curCode === '09_VOID_CASTLE') {
+    return {
+      score: 98,
+      summary: '次元之隙四阶空间折叠与九大行星引力矩阵完备',
+      gdscript: 'celestial_gravity.gd',
+      bindingDesc: '流沙、蜃楼、齿轮与奇点四阶湮灭空间，九大行星战场环境引力流速与大十字异常防御。',
+      nodes: [
+        { name: 'Vol.01 始源圣经', type: '上游溯源', icon: '💎', role: '虚无之力封印破裂与世界交汇', tagType: 'info' as const },
+        { name: 'Vol.09 虚空天体与终焉', type: '当前核心', icon: '🪐', role: '行星投影引力阻尼与奇点坍缩', tagType: 'success' as const },
+        { name: 'Vol.03 终焉首领对决', type: '决战节点', icon: '👹', role: '新·艾克斯德斯四核绝灭', tagType: 'error' as const },
+        { name: 'celestial_gravity.gd', type: '代码映射', icon: '📜', role: 'Godot 引力物理与潮汐时滞', tagType: 'default' as const }
       ]
     }
   } else {

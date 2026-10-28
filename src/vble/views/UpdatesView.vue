@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-docs-layered-spec-matrix-architecture-catalog-2026-10-28',
+    version: 'v2.2.242',
+    date: '2026-10-28',
+    title: '十七卷架构白皮书五层依赖拓扑模型与规范全景大纲导出工坊重磅实装',
+    category: 'system',
+    categoryName: '文档架构',
+    icon: '📚',
+    tagType: 'info',
+    description: '深度重构升级 DocsView 十七卷架构白皮书大典：全新实装【十七卷架构五层依赖模型与实机导航】（Layered Spec Matrix），结构化拆解叙事编年层、关卡地貌层、战斗数值层、职业导师层与神兵底层五大层级，提供各白皮书与前端互动沙盘的双向拓扑映射；全面升级架构依赖拓扑沙盘算法，支持世界圣经、地下城拓扑、神兵经济、多维载具、底层系统架构与虚空天体深度多维上下游依赖链推演；实装【十七卷白皮书架构全景大纲一键导出工坊】，支持一键生成全量技术规范标准目录；同步修正文档阅读器与底层注册引擎规范版本号至 v2.2.242。',
+    highlights: [
+      '五层架构依赖模型微卡片网格：全景俯瞰叙事、关卡、战斗、成长与底层 17 卷技术规范分布',
+      '全景多维拓扑链条演算升级：全面覆盖世界圣经、地下城、神兵经济、载具矩阵与系统架构总线',
+      '十七卷白皮书架构大纲一键导出：一键复制全量卷册编号、分类、概述与核心模块标准清单',
+      '动态类别过滤器自适应扩容：基于 17 卷白皮书自动衍生 12 大技术领域，精准检索架构条目',
+      '规范引擎版本全量同步对齐：DocsView 全面升阶至 vble spec v2.2.242 官方正式稳定版'
+    ],
+    relatedLinks: [
+      { label: '核心架构白皮书文库', path: '/vble/docs', icon: '📚' },
+      { label: '系统架构与底层调度', path: '/vble/systems', icon: '⚙️' },
+      { label: '全域数据库检索工坊', path: '/vble/search', icon: '🔍' }
+    ]
+  },
+  {
     id: 'up-download-mirror-benchmark-sha256-receipt-2026-10-28',
     version: 'v2.2.241',
     date: '2026-10-28',
