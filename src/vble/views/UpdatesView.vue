@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-characters-destiny-resonance-limit-break-lab-2026-10-28',
+    version: 'v2.2.236',
+    date: '2026-10-28',
+    title: '宿命星盘共鸣与极限突破神威联携演练工坊重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '🌟',
+    tagType: 'info',
+    description: '深度重构升级 CharactersView 英雄传记与宿命大殿：全新实装【宿命星盘共鸣与极限突破神威联携演练工坊】（Destiny Resonance & Limit Break Studio）。支持在光之战士黎川、卫珩、茜罗、昼隐与暗之战士纳哈特、澄月、刃歌、夜织 8 大核心主角间自由调整出战 4 人战术小队；动态探测小队内部的【晨辉战誓】、【光暗双子星】、【血脉誓约】、【双生秘法】与【龙裔古契】等多维羁绊网络并评定 Lv.1~5 共振等级；实时演算光系暴击、暗系以太抗性与连击触发加权；并支持一键激发【神威四重奏】四段式终极极限技连锁与 99,999 破限爆发回放；严谨对齐 Godot 4.6 LTS destiny_bond_chain_resolver.gd 战斗连携内核。',
+    highlights: [
+      '自由编排 4 人出战小队：黎川、卫珩、茜罗、昼隐等 8 位光暗英雄支持战位无缝循环替换',
+      '小队羁绊共振矩阵计算器：实时探测双子星宿命组合，动态激活 Lv.1~5 小队增益法则',
+      '四阶极限突破神威连携推演：破甲斩击、圣盾力场、以太颂歌与虚空千刃杀四阶段时序爆发',
+      '全屏破限必杀回响：实时演算 99,999 极限暴击创伤与全屏粒子视效触发回响',
+      'Godot 4.6 底层连携内核对齐：无缝衔接 destiny_bond_chain_resolver.gd 战斗羁绊状态机'
+    ],
+    relatedLinks: [
+      { label: '英雄传记与潜能沙盘', path: '/vble/characters', icon: '👥' },
+      { label: '职业大师与双职构筑', path: '/vble/jobs', icon: '🛡️' },
+      { label: '战斗战术与机制指南', path: '/vble/battle-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-teachings-blue-magic-learning-lab-2026-10-28',
     version: 'v2.2.235',
     date: '2026-10-28',

@@ -394,6 +394,148 @@
       </div>
     </div>
 
+    <!-- 🌟 四位光之战士宿命星盘共鸣与极限突破神威联携演练工坊 (Destiny Constellation & Limit Break Studio) -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#121626] via-[#1a1738] to-[#0f1120] border border-cyan-500/50 shadow-[0_0_35px_rgba(6,182,212,0.18)] space-y-6 relative overflow-hidden">
+      <!-- 头部介绍 -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              LIMIT BREAK CHAIN LAB
+            </span>
+            <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+              <span>🌟</span> 宿命星盘共鸣与极限突破神威联携工坊 (Destiny Resonance Studio)
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            自由挑选 4 位英雄组成当前远征战队；全息解算双子羁绊共振等级、光暗偏振抗性，并一键推演四重终极神威极限连携轰炸！
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetFormation">
+            恢复经典四人编队
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="triggerLimitBreakCombo">
+            ⚡ 激发全队四重神威联携
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 4 人出战编队选择器与右侧共鸣算力屏 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧：4位出战队员编队槽 -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="flex items-center justify-between text-xs text-gray-400">
+            <span class="font-bold text-gray-200">当前出战 4 人战术小队 (点击头像切换队员)：</span>
+            <span class="text-cyan-400 font-mono">{{ activeFormationHeroes.length }} / 4 位英雄就位</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div
+              v-for="(slotHero, sIdx) in activeFormationHeroes"
+              :key="sIdx"
+              class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-400/50 transition-all flex flex-col items-center text-center space-y-2 relative group cursor-pointer"
+              @click="cycleSlotHero(sIdx)"
+            >
+              <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-700 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">
+                {{ slotHero.avatar }}
+              </div>
+              <div>
+                <div class="text-xs font-bold text-gray-100">{{ slotHero.name }}</div>
+                <div class="text-[10px] text-cyan-300 font-mono mt-0.5">{{ slotHero.defaultJob }}</div>
+              </div>
+              <div class="text-[9px] text-gray-400 px-1.5 py-0.2 rounded bg-slate-800 border border-slate-700 w-full truncate">
+                {{ slotHero.skill }}
+              </div>
+              <span class="absolute top-1 right-1.5 text-[9px] text-gray-500 font-mono">#{{ sIdx + 1 }}</span>
+            </div>
+          </div>
+
+          <!-- 备选英雄池快速替换胶囊 -->
+          <div class="p-3 bg-slate-950/70 border border-slate-800 rounded-xl space-y-2">
+            <div class="text-[11px] font-bold text-gray-400">可用主角阵容库 (点击直接替换第 4 席)：</div>
+            <div class="flex flex-wrap gap-1.5">
+              <button
+                v-for="hero in heroPool"
+                :key="hero.id"
+                type="button"
+                class="px-2.5 py-1 rounded-lg border text-[11px] cursor-pointer transition-all flex items-center gap-1"
+                :class="isHeroInFormation(hero.id)
+                  ? 'bg-cyan-900/50 border-cyan-400 text-cyan-200 font-bold'
+                  : 'bg-slate-900 border-slate-800 text-gray-400 hover:border-slate-700 hover:text-white'"
+                @click="swapHeroIntoFourthSlot(hero)"
+              >
+                <span>{{ hero.avatar }}</span>
+                <span>{{ hero.name }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：羁绊共振等级与极限连携日志 -->
+        <div class="lg:col-span-5 p-5 rounded-xl bg-slate-950/90 border border-cyan-900/50 flex flex-col justify-between space-y-4 shadow-xl">
+          <!-- 羁绊共鸣指数 -->
+          <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+            <div>
+              <div class="text-[10px] text-gray-400 font-mono uppercase tracking-wider">小队羁绊共振矩阵</div>
+              <h3 class="text-base font-black text-cyan-300 mt-0.5">
+                {{ detectedBonds.title }}
+              </h3>
+            </div>
+            <div class="text-center px-3 py-1 rounded-xl bg-cyan-950/80 border border-cyan-500 shadow-md">
+              <div class="text-[9px] text-cyan-300 font-bold">RESONANCE</div>
+              <div class="text-xl font-black text-amber-400 font-mono">Lv.{{ detectedBonds.level }}</div>
+            </div>
+          </div>
+
+          <!-- 队伍被动加成面板 -->
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <div class="text-gray-400 text-[10px]">晨辉光系暴击率</div>
+              <div class="font-mono font-bold text-amber-400 text-lg mt-0.5">
+                +{{ detectedBonds.lightCrit }}%
+              </div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <div class="text-gray-400 text-[10px]">永曜暗系以太抗性</div>
+              <div class="font-mono font-bold text-cyan-400 text-lg mt-0.5">
+                +{{ detectedBonds.darkResist }}%
+              </div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <div class="text-gray-400 text-[10px]">全员连击触发率</div>
+              <div class="font-mono font-bold text-emerald-400 text-base mt-0.5">
+                +{{ detectedBonds.comboRate }}%
+              </div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <div class="text-gray-400 text-[10px]">极限技充能速度</div>
+              <div class="font-mono font-bold text-purple-400 text-base mt-0.5">
+                +{{ detectedBonds.gaugeSpeed }}%
+              </div>
+            </div>
+          </div>
+
+          <!-- 极限神威连携回放日志 -->
+          <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-1.5 flex-1">
+            <div class="text-[11px] font-bold text-amber-300 flex items-center justify-between">
+              <span>⚡ 四重极限神威连携推演回放:</span>
+              <span class="text-[10px] text-gray-500 font-mono">Limit Break Sequence</span>
+            </div>
+            <p class="text-xs text-gray-200 leading-relaxed font-mono">
+              {{ limitBreakSequenceText }}
+            </p>
+          </div>
+
+          <div class="pt-2 text-[10px] text-gray-500 border-t border-slate-800 flex items-center justify-between">
+            <span>底层引擎契约: destiny_bond_chain_resolver.gd</span>
+            <span class="text-cyan-400">VBLE Hero Resonance 4.6 LTS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between">
@@ -636,6 +778,116 @@ const copyGodotCode = async () => {
     message.error('复制失败，请手动选取复制')
   }
 }
+
+// ==========================================
+// 🌟 四位光之战士宿命星盘共鸣与极限突破神威联携工坊
+// ==========================================
+interface FormationHero {
+  id: string
+  name: string
+  avatar: string
+  defaultJob: string
+  skill: string
+  party: 'light' | 'dark'
+}
+
+const heroPool: FormationHero[] = [
+  { id: 'li_chuan', name: '黎川', avatar: '🗡️', defaultJob: '魔剑士', skill: '天际裂空斩', party: 'light' },
+  { id: 'wei_heng', name: '卫珩', avatar: '🛡️', defaultJob: '圣骑士', skill: '圣盾回旋神威', party: 'light' },
+  { id: 'qian_luo', name: '茜罗', avatar: '👑', defaultJob: '记忆士', skill: '太古以太颂歌', party: 'light' },
+  { id: 'zhou_yin', name: '昼隐', avatar: '🏹', defaultJob: '忍者/白魔', skill: '暗影千刃杀', party: 'light' },
+  { id: 'nahart', name: '纳哈特', avatar: '⚔️', defaultJob: '暗黑骑士', skill: '暗夜归一破', party: 'dark' },
+  { id: 'cheng_yue', name: '澄月', avatar: '✨', defaultJob: '导师/游侠', skill: '皎月落星雨', party: 'dark' },
+  { id: 'ren_ge', name: '刃歌', avatar: '🥋', defaultJob: '龙骑士', skill: '九天龙王翔', party: 'dark' },
+  { id: 'ye_zhi', name: '夜织', avatar: '🔮', defaultJob: '魔人', skill: '绝望虚数爆', party: 'dark' }
+]
+
+const activeFormationHeroIds = ref<string[]>(['li_chuan', 'wei_heng', 'qian_luo', 'zhou_yin'])
+const activeFormationHeroes = computed(() => {
+  return activeFormationHeroIds.value.map(id => heroPool.find(h => h.id === id) || heroPool[0])
+})
+
+const limitBreakSequenceText = ref('全员战力待命...点击右上角【⚡ 激发全队四重神威联携】即可观测试演四位光之战士的终极极限技连锁与 99,999 破限爆发！')
+
+const isHeroInFormation = (id: string) => {
+  return activeFormationHeroIds.value.includes(id)
+}
+
+const swapHeroIntoFourthSlot = (hero: FormationHero) => {
+  if (activeFormationHeroIds.value.includes(hero.id)) {
+    message.warning(`【${hero.name}】已在出战编队中`)
+    return
+  }
+  activeFormationHeroIds.value[3] = hero.id
+  message.success(`已派遣【${hero.name}】加入第四战位！`)
+}
+
+const cycleSlotHero = (slotIdx: number) => {
+  const currentId = activeFormationHeroIds.value[slotIdx]
+  const available = heroPool.filter(h => !activeFormationHeroIds.value.includes(h.id) || h.id === currentId)
+  const curIdx = available.findIndex(h => h.id === currentId)
+  const nextHero = available[(curIdx + 1) % available.length]
+  activeFormationHeroIds.value[slotIdx] = nextHero.id
+  message.info(`战位 #${slotIdx + 1} 切换为【${nextHero.name}】`)
+}
+
+const resetFormation = () => {
+  activeFormationHeroIds.value = ['li_chuan', 'wei_heng', 'qian_luo', 'zhou_yin']
+  message.success('已恢复经典光之四战士出征编制')
+}
+
+const detectedBonds = computed(() => {
+  const ids = activeFormationHeroIds.value
+  let bondCount = 0
+  const bondNames: string[] = []
+
+  if (ids.includes('li_chuan') && ids.includes('wei_heng')) {
+    bondCount++
+    bondNames.push('晨辉战誓')
+  }
+  if (ids.includes('li_chuan') && ids.includes('nahart')) {
+    bondCount += 2
+    bondNames.push('光暗双子星')
+  }
+  if (ids.includes('wei_heng') && ids.includes('cheng_yue')) {
+    bondCount++
+    bondNames.push('血脉誓约')
+  }
+  if (ids.includes('zhou_yin') && ids.includes('ye_zhi')) {
+    bondCount++
+    bondNames.push('双生秘法')
+  }
+  if (ids.includes('qian_luo') && ids.includes('ren_ge')) {
+    bondCount++
+    bondNames.push('龙裔古契')
+  }
+
+  const level = Math.max(1, Math.min(5, bondCount + 1))
+  const title = bondNames.length > 0 ? bondNames.join(' × ') + ' 深度共振' : '常规协同步调'
+
+  return {
+    title,
+    level,
+    lightCrit: 12 + level * 4,
+    darkResist: 10 + level * 5,
+    comboRate: 8 + level * 4,
+    gaugeSpeed: 10 + level * 6
+  }
+})
+
+const triggerLimitBreakCombo = () => {
+  const heroes = activeFormationHeroes.value
+  const b = detectedBonds.value
+
+  limitBreakSequenceText.value = `[神威四重奏] 触发【${b.title}】(Lv.${b.level}共鸣)！\n` +
+    `▶ 阶段 1: ${heroes[0].name} 蓄力拔刃施展【${heroes[0].skill}】，击碎防御壁障造成 26,000 贯穿创伤！\n` +
+    `▶ 阶段 2: ${heroes[1].name} 踏步横枪施展【${heroes[1].skill}】，张开绝对以太屏障并为全员恢复 4,500 HP！\n` +
+    `▶ 阶段 3: ${heroes[2].name} 咏唱星海秘语施展【${heroes[2].skill}】，全队 MP 彻底回满，暴击率加权 100%！\n` +
+    `▶ 阶段 4: ${heroes[3].name} 撕裂虚空发动终焉【${heroes[3].skill}】，引爆光暗奇点斩出 99,999 破限必杀！`
+
+  message.success(`⚡ 四重神威连携推演完成！成功打出 99,999 破界伤害！`)
+}
+
 </script>
 
 <style scoped>
