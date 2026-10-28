@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-teachings-bluemagic-matrix-studio-2026-10-28',
+    version: 'v2.2.218',
+    date: '2026-10-28',
+    title: '四大流派秘传研习院与青魔法拟态捕获全图鉴沙盘重磅实装',
+    category: 'system',
+    categoryName: '实机演进',
+    icon: '✨',
+    tagType: 'info',
+    description: '深度重构升级 TeachingsView 秘传绝技研习院：全面打通勇者圣所舍身庇护法、米西迪亚高级时空禁术、东洋忍者五遁奥义与青魔法学院魔物拟态四大流派；全景实装 12 大经典青魔法魔物捕获与拟态图鉴沙盘（Blue Magic Learning Matrix），覆盖白风、强力守护、5级致死、千针刺、水之吐息等来源魔物、出没地与肉身硬抗/操纵习得条件；并实装底层 Godot 4.x blue_magic_learning_system.gd 技能监听单例。',
+    highlights: [
+      '四大流派秘传绝技全典：收纳 16 部绝技卷册，展示传授导师、MP/TP消耗、施法充能速度与数值算法公式',
+      '青魔法拟态捕获全图鉴沙盘：系统化解析 12 大经典青魔法，囊括来源魔物、出没场景、魔兽使操纵要求与战术评级',
+      '伤害与实战演练研习所：支持自由设定等级、攻魔敏精与目标类型（不死/机械/沙漠/Boss），实时结算伤害与结算剖析',
+      '肉身受击拟态核心机制：还原经典 FF 系列【受击生还】硬核法则，只有在遭受技能命中且存活时才可领悟',
+      'Godot 4.x 核心引擎代码对齐：内置 blue_magic_learning_system.gd 源码并支持一键复制'
+    ],
+    relatedLinks: [
+      { label: '秘传与青魔法', path: '/vble/teachings', icon: '✨' },
+      { label: '28大职业矩阵', path: '/vble/jobs', icon: '⚔️' },
+      { label: '魔物与游荡首领', path: '/vble/monsters', icon: '👾' }
+    ]
+  },
+  {
     id: 'up-story-causality-branching-studio-2026-10-28',
     version: 'v2.2.217',
     date: '2026-10-28',

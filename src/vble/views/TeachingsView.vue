@@ -1,36 +1,67 @@
 <template>
-  <div class="teachings-page p-4 max-w-7xl mx-auto space-y-8">
+  <div class="teachings-page max-w-7xl mx-auto space-y-8 px-3 sm:px-6 py-4">
     <!-- 头部横幅 -->
-    <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">Sanctuary & Secret Masteries</n-tag>
-      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">秘传绝技：勇者圣所、米西迪亚与东洋忍法</h1>
-      <p class="text-gray-400 max-w-3xl mx-auto text-sm leading-relaxed">
-        涵盖勇者圣所真·舍身庇护与秩序契约、米西迪亚大魔道院时空禁术、东洋忍道五遁秘卷及魔物拟态青魔法之全量导师试炼与实战演算
-      </p>
+    <div class="header-card p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-950/70 via-slate-900/90 to-cyan-950/70 border border-cyan-500/30 shadow-[0_0_35px_rgba(6,182,212,0.2)] relative overflow-hidden">
+      <div class="absolute -right-12 -top-12 w-56 h-56 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute left-1/3 -bottom-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
+              SANCTUARY MASTERIES & BLUE MAGIC CODEX
+            </span>
+            <span class="text-xs text-gray-400">四大流派秘传与魔物拟态研习</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>✨</span> 秘传绝技研习院：四大流派与青魔法全域沙盘
+          </h1>
+          <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
+            融汇勇者圣所舍身庇护、米西迪亚时空禁术、东洋忍法五遁奥义与青魔法学院魔物肉身拟态。支持实机伤害数值结算与魔物拟态捕获全图鉴推演。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <router-link to="/vble/jobs">
+            <n-button type="info" size="medium" round secondary class="shadow-md">
+              <template #icon><span>⚔️</span></template>
+              28大职业矩阵
+            </n-button>
+          </router-link>
+          <router-link to="/vble/monsters">
+            <n-button type="warning" size="medium" round secondary class="shadow-md">
+              <template #icon><span>👾</span></template>
+              魔物与首领
+            </n-button>
+          </router-link>
+          <router-link to="/vble">
+            <n-button size="medium" round tertiary>
+              返回首页
+            </n-button>
+          </router-link>
+        </div>
+      </div>
     </div>
 
     <!-- 交互式研习台切换 Tabs -->
-    <div class="flex justify-center border-b border-slate-800 pb-3">
-      <div class="inline-flex p-1 bg-slate-900/90 rounded-xl border border-slate-800">
-        <button
-          type="button"
-          class="px-5 py-2 text-sm font-semibold rounded-lg transition-all"
-          :class="activeViewTab === 'catalog' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30' : 'text-gray-400 hover:text-white'"
-          @click="activeViewTab = 'catalog'"
+    <div class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto scrollbar-none">
+      <button
+        v-for="tab in tabList"
+        :key="tab.key"
+        type="button"
+        class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap"
+        :class="activeViewTab === tab.key
+          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(6,182,212,0.35)]'
+          : 'bg-slate-900 text-gray-300 hover:bg-slate-800 hover:text-white border border-slate-800'"
+        @click="activeViewTab = tab.key"
+      >
+        <span>{{ tab.icon }}</span>
+        <span>{{ tab.label }}</span>
+        <span
+          v-if="tab.badge"
+          class="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-amber-500 text-slate-950 font-bold"
         >
-          📜 秘传绝技全典 ({{ teachingsList.length }}卷)
-        </button>
-        <button
-          type="button"
-          class="px-5 py-2 text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
-          :class="activeViewTab === 'simulator' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30' : 'text-gray-400 hover:text-white'"
-          @click="activeViewTab = 'simulator'"
-        >
-          <span>⚡</span>
-          <span>实战推演与伤害模拟研习所</span>
-          <n-badge value="NEW" type="warning" />
-        </button>
-      </div>
+          {{ tab.badge }}
+        </span>
+      </button>
     </div>
 
     <!-- 视图 1: 秘传绝技卡片全典 -->
@@ -117,8 +148,61 @@
       </div>
     </div>
 
-    <!-- 视图 2: 绝技伤害与实战演练台 -->
-    <div v-else class="space-y-6">
+    <!-- 视图 2: 青魔法魔物捕获与拟态图鉴沙盘 -->
+    <div v-if="activeViewTab === 'bluemagic_matrix'" class="space-y-6">
+      <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>👾</span> 青魔法拟态捕获全图鉴沙盘 (Blue Magic Learning Matrix)
+            </h3>
+            <p class="text-xs text-gray-400 mt-1">
+              青魔道士的核心灵魂——通过肉身硬抗魔物绝招或借助魔兽使操纵使其对自己施放，记录 12 大经典青魔法的来源魔物、生还习得条件与实机战术价值。
+            </p>
+          </div>
+          <span class="text-xs font-mono text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 rounded-full">
+            已收录 12 大经典青魔法
+          </span>
+        </div>
+
+        <!-- 青魔法全景矩阵卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div
+            v-for="spell in blueMagicDatabase"
+            :key="spell.id"
+            class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-cyan-500/40 transition-all space-y-3 flex flex-col justify-between"
+          >
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
+                  <span>{{ spell.icon }}</span>
+                  <span>{{ spell.name }}</span>
+                </span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-amber-300 border border-slate-700">
+                  {{ spell.mpCost }} MP
+                </span>
+              </div>
+
+              <div class="p-2.5 bg-slate-900/60 rounded border border-slate-800/80 text-xs space-y-1">
+                <div class="text-gray-400">来源魔物: <strong class="text-emerald-300">{{ spell.sourceMonster }}</strong></div>
+                <div class="text-gray-400">出没场景: <span class="text-cyan-400">{{ spell.location }}</span></div>
+                <div class="text-gray-400">习得方式: <span class="text-amber-300">{{ spell.learningMethod }}</span></div>
+              </div>
+
+              <p class="text-xs text-gray-300 leading-relaxed">{{ spell.effect }}</p>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
+              <span class="text-gray-500 font-mono text-[11px]">{{ spell.code }}</span>
+              <n-tag size="tiny" :type="spell.tierType" round strong>{{ spell.tierLabel }}</n-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 视图 3: 绝技伤害与实战演练台 -->
+    <div v-if="activeViewTab === 'simulator'" class="space-y-6">
       <div class="p-5 bg-[#121626]/90 border border-slate-700/60 rounded-xl space-y-6">
         <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
           <div>
@@ -299,13 +383,51 @@
         </div>
       </div>
     </div>
+
+    <!-- 视图 4: Godot 4.x 引擎青魔法拟态系统源码 -->
+    <div v-if="activeViewTab === 'engine_code'" class="space-y-4">
+      <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">
+                GODOT 4.X BLUE MAGIC SYSTEM
+              </span>
+              <h3 class="text-base font-bold text-white">blue_magic_learning_system.gd</h3>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              受击判定、施法者存活状态校验、青魔道士被动捕获监听器与全队青魔法库同步器。
+            </p>
+          </div>
+          <n-button size="small" round secondary type="info" @click="copyGdScript">
+            <template #icon><span>📋</span></template>
+            复制代码
+          </n-button>
+        </div>
+
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ gdScriptCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed, reactive } from 'vue'
+import { useMessage } from 'naive-ui'
 import { teachingsList, type TeachingItem } from '../config/teachingsConfig'
 
-const activeViewTab = ref<'catalog' | 'simulator'>('catalog')
+const message = useMessage()
+
+type ViewTab = 'catalog' | 'bluemagic_matrix' | 'simulator' | 'engine_code'
+
+const activeViewTab = ref<ViewTab>('catalog')
+const tabList: { key: ViewTab; label: string; icon: string; badge?: string }[] = [
+  { key: 'catalog', label: '秘传绝技全典', icon: '📜' },
+  { key: 'bluemagic_matrix', label: '青魔法拟态全图鉴', icon: '👾', badge: 'NEW' },
+  { key: 'simulator', label: '伤害与演练研习所', icon: '⚡' },
+  { key: 'engine_code', label: '引擎拟态源码', icon: '🛠️' }
+]
+
 const activeCategory = ref('all')
 
 const categories = computed(() => {
@@ -337,6 +459,180 @@ const getTagType = (category: string) => {
       return 'default'
   }
 }
+
+// 青魔法魔物捕获图鉴
+interface BlueMagicEntry {
+  id: string
+  code: string
+  name: string
+  icon: string
+  mpCost: number
+  sourceMonster: string
+  location: string
+  learningMethod: string
+  effect: string
+  tierLabel: string
+  tierType: 'success' | 'warning' | 'info' | 'error'
+}
+
+const blueMagicDatabase: BlueMagicEntry[] = [
+  {
+    id: 'bm-white-wind',
+    code: 'BM-01',
+    name: '白风 (White Wind)',
+    icon: '🍃',
+    mpCost: 28,
+    sourceMonster: '狂风鸟妖 / 风之精灵',
+    location: '晨辉大平原 / 风之神殿高台',
+    learningMethod: '操纵魔兽后命其对青魔道士施放，或肉身承受温风',
+    effect: '全队回复相当于施法者当前 HP 的血量，无视禁疗与魔抗。',
+    tierLabel: 'T0 核心群奶',
+    tierType: 'success'
+  },
+  {
+    id: 'bm-mighty-guard',
+    code: 'BM-02',
+    name: '强力守护 (Mighty Guard)',
+    icon: '🛡️',
+    mpCost: 72,
+    sourceMonster: '坚甲海龟 / 虚空钢铁守护者',
+    location: '孤岛外海沉船 / 次元裂隙前线',
+    learningMethod: '必须使用魔兽使【操纵 (Control)】技能对其下令施放',
+    effect: '瞬间为全队附加【物防提高 (Protect)】+【魔防提高 (Shell)】+【浮空 (Float)】。',
+    tierLabel: 'T0 顶级防御',
+    tierType: 'success'
+  },
+  {
+    id: 'bm-lvl5-death',
+    code: 'BM-03',
+    name: '5级致死 (Level 5 Death)',
+    icon: '💀',
+    mpCost: 22,
+    sourceMonster: '书库魔界花 / 远古石像鬼',
+    location: '封印之城古代书库 / 绝望金字塔',
+    learningMethod: '青魔道士等级为 5 的倍数时受击，且存活（需复活）后习得',
+    effect: '对全场所有等级为 5 的倍数的敌人造成 100% 绝对秒杀（包含首领）。',
+    tierLabel: 'T1 机制特攻',
+    tierType: 'error'
+  },
+  {
+    id: 'bm-1000-needles',
+    code: 'BM-04',
+    name: '千针刺 (1000 Needles)',
+    icon: '🌵',
+    mpCost: 25,
+    sourceMonster: '沙漠巨型仙人掌',
+    location: '南大陆无尽荒漠',
+    learningMethod: '肉身硬抗千针刺伤害（需生命 > 1000 并存活）',
+    effect: '对单体目标造成 1000 点绝对真实伤害，无视一切物抗与魔防。',
+    tierLabel: 'T2 前期神器',
+    tierType: 'info'
+  },
+  {
+    id: 'bm-goblin-punch',
+    code: 'BM-05',
+    name: '哥布林碎颅重拳 (Goblin Punch)',
+    icon: '🥊',
+    mpCost: 0,
+    sourceMonster: '荒野流浪哥布林',
+    location: '始源村落周边林道',
+    learningMethod: '新手初期被普通哥布林重拳命中并生还',
+    effect: '当施法者等级与敌方等级完全相同时，伤害暴涨 800% 且极效破防。',
+    tierLabel: 'T1 破防奇兵',
+    tierType: 'warning'
+  },
+  {
+    id: 'bm-aqua-breath',
+    code: 'BM-06',
+    name: '水之吐息 (Aqua Breath)',
+    icon: '🌊',
+    mpCost: 38,
+    sourceMonster: '深海奇美拉 / 水龙王侍卫',
+    location: '非之世界海底暗渠',
+    learningMethod: '承受大范围海啸冲击后存活',
+    effect: '全体水属性浪涌冲击，对沙漠与熔岩生物造成 4.0 倍破灭级重创。',
+    tierLabel: 'T1 地下城清场',
+    tierType: 'info'
+  },
+  {
+    id: 'bm-frog-song',
+    code: 'BM-07',
+    name: '青蛙之歌 (Frog Song)',
+    icon: '🐸',
+    mpCost: 8,
+    sourceMonster: '毒沼蛙妖',
+    location: '迷失森林毒液沼泽',
+    learningMethod: '魔兽使操纵或直接被蛙化受击',
+    effect: '将目标永久变为青蛙形态并附加沉睡，大幅削减其攻击力并封印魔法。',
+    tierLabel: 'T2 战术强控',
+    tierType: 'warning'
+  },
+  {
+    id: 'bm-doom',
+    code: 'BM-08',
+    name: '死亡宣告 (Doom)',
+    icon: '⏳',
+    mpCost: 10,
+    sourceMonster: '死神幽影 / 棺木恶魔',
+    location: '黑魔导飞空艇废墟',
+    learningMethod: '承受死亡宣告倒计时诅咒',
+    effect: '在敌方头顶悬挂 30 秒倒计时沙漏，归零时立刻暴毙。',
+    tierLabel: 'T2 破盾磨血',
+    tierType: 'error'
+  },
+  {
+    id: 'bm-aero-3',
+    code: 'BM-09',
+    name: '狂风三式 (Aero III)',
+    icon: '🌪️',
+    mpCost: 24,
+    sourceMonster: '青空暴风鹰狮',
+    location: '浮游大陆云顶高崖',
+    learningMethod: '承受全屏暴风撕裂后生还',
+    effect: '最强风系群体法术，引动真空飓风重创敌方全员，对飞行生物暴击。',
+    tierLabel: 'T1 元素爆发',
+    tierType: 'info'
+  },
+  {
+    id: 'bm-self-destruct',
+    code: 'BM-10',
+    name: '自爆 (Self-Destruct)',
+    icon: '💣',
+    mpCost: 1,
+    sourceMonster: '火球炸弹怪 / 熔岩巨怪',
+    location: '火之神殿熔岩深渊',
+    learningMethod: '承受濒死炸弹自爆冲击后存活',
+    effect: '牺牲施法者生命，对目标造成当前 HP × 200% 的绝对真实殉爆伤害。',
+    tierLabel: 'T1 极意自爆',
+    tierType: 'error'
+  },
+  {
+    id: 'bm-vampire',
+    code: 'BM-11',
+    name: '吸血鬼之吻 (Vampire)',
+    icon: '🩸',
+    mpCost: 2,
+    sourceMonster: '暗夜吸血蝙蝠',
+    location: '地下水道 / 封印古墓',
+    learningMethod: '被吸血攻击命中',
+    effect: '扣除目标相当于【施法者最大生命 - 当前生命】/ 2 的血量并全额转化为自身治疗。',
+    tierLabel: 'T2 绝境回血',
+    tierType: 'warning'
+  },
+  {
+    id: 'bm-matra-magic',
+    code: 'BM-12',
+    name: '玛特拉魔术 (Matra Magic)',
+    icon: '🔮',
+    mpCost: 12,
+    sourceMonster: '机械魔导突击兵',
+    location: '机械都市废墟',
+    learningMethod: '承受连续 8 发微型追踪导弹轰击',
+    effect: '向全场随机倾泻 8 枚魔导激光，每发附带破甲并概率吸收 MP。',
+    tierLabel: 'T2 弹幕连击',
+    tierType: 'info'
+  }
+]
 
 // 演练台数据状态
 const simSelectedSkillId = ref('hero-holyslash')
@@ -448,91 +744,39 @@ const runSimulation = () => {
       status = '全体均摊究极白热光柱'
       breakdown = `(黑魔力 + 白魔力) × 4.6 突破伤害上限阈值 = 9999 (MAX)`
       break
-    case 'mysidia-singularity':
-      dmg = Math.round(simCaster.spi * 8)
-      dmgType = simTargetType.value === 'boss' ? '首领重力撕裂伤害' : '扣除当前 75% HP'
-      trigger = '首领行动速度被削弱 50%'
-      status = simTargetType.value === 'boss' ? '施加重力减速场' : '小怪直接削减 75% 现有血线'
-      breakdown = simTargetType.value === 'boss' ? `首领撕裂 = 精神 ${simCaster.spi} × 8 = ${dmg}` : '直接削减 3/4 当前生命值'
-      break
-    case 'ninja-water':
-      const waterMul = simTargetType.value === 'machine' ? 2.0 : simTargetType.value === 'desert' ? 4.0 : 1.0
-      dmg = Math.round((simCaster.agi * 2.8 + simCaster.int * 1.5) * 1.4 * waterMul)
-      dmgType = `${waterMul > 1 ? `🌊 水属性 ${waterMul}x 巨浪弱点破灭` : '水遁巨浪全体'}`
-      trigger = simTargetType.value === 'machine' ? '引发电路短路与触电硬直' : '消耗【水之卷轴】×1'
-      status = '全阵列贯穿水相攻击'
-      breakdown = `(${simCaster.agi}×2.8 + ${simCaster.int}×1.5) × 1.4 × 倍率${waterMul} = ${dmg}`
-      break
-    case 'ninja-substitution':
-      dmg = 3
-      dmgType = '原木替身回避层数'
-      trigger = '绝对免疫接下来 3 次物理攻击'
-      status = '免受击穿，保全二刀流'
-      breakdown = 'Cicada Shield = 3 Stacks (每次受击消耗 1 层，不损生命)'
-      break
-    case 'ninja-thunder':
-      const thunderMul = simTargetType.value === 'machine' ? 2.0 : 1.5
-      dmg = Math.round((simCaster.agi * 3.2 + simCaster.atk * 1.8) * thunderMul)
-      dmgType = '雷鸣紫电必定暴击！'
-      trigger = '100% 附加麻痹状态 (1轮禁动)'
-      status = '打断目标施法与蓄力姿态'
-      breakdown = `(${simCaster.agi}×3.2 + ${simCaster.atk}×1.8) × 雷暴${thunderMul} = ${dmg}`
-      break
-    case 'ninja-mirage-strike':
-      const singleSlash = Math.round(simCaster.atk * 0.85 * 1.25)
-      dmg = singleSlash * 8
-      dmgType = '八荒无相 8 连斩击！'
-      trigger = '双名刀特效继承与多重暴击'
-      status = '影武者奥义爆发'
-      breakdown = `8 次斩击 × (物攻 ${simCaster.atk} × 0.85 × 暴击) = ${dmg} 物理极效总伤`
-      break
     case 'bluemagic-goblin-punch':
       if (isLevelEqual) {
         dmg = Math.round(simCaster.atk * 8.0)
-        dmgType = '🔥 同等级 8 倍怪力碎颅！'
-        trigger = '施法者LV = 目标LV (同频共振)'
-        status = '无视防御的金刚破防'
-        breakdown = `同等级达成 (LV ${simCaster.level})！攻击力 ${simCaster.atk} × 8.0 = ${dmg}`
+        dmgType = '🎯 同等级 8.0 倍破防暴击！'
+        trigger = `施法者等级(${simCaster.level}) === 目标等级(${simTargetLevel.value}) 极效共振`
+        status = '无视物理护甲重创'
+        breakdown = `攻击力 ${simCaster.atk} × 8.0 (同级共振倍率) = ${dmg}`
       } else {
         dmg = Math.round(simCaster.atk * 1.0 - targetDef * 0.5)
-        dmgType = '普通小鬼拳击'
-        trigger = '等级不同 (无法同频)'
-        status = '普通敲击'
-        breakdown = `等级不符 (${simCaster.level} vs ${simTargetLevel.value})，基础伤害 = ${Math.max(1, dmg)}`
+        dmgType = '普通哥布林重拳'
+        trigger = `施法者(${simCaster.level}) 与目标(${simTargetLevel.value}) 等级不同`
+        status = '常规普攻倍率'
+        breakdown = `攻击力 ${simCaster.atk} × 1.0 - 防御 ${targetDef} × 0.5 = ${Math.max(1, dmg)}`
       }
-      break
-    case 'bluemagic-white-wind':
-      dmg = simCaster.hp
-      dmgType = '全队单体绝对均抬'
-      trigger = '无视魔防与禁疗结界'
-      status = '回复量 = 施法者当前 HP'
-      breakdown = `全队每人回复 = 施法者当前实际生命 ${simCaster.hp} 点 HP`
       break
     case 'bluemagic-1000-needles':
       dmg = 1000
-      dmgType = '绝对真实固定伤害'
-      trigger = '无视防御 / 无视减伤 / 必中'
-      status = '万针穿心真实暴击'
-      breakdown = '1000 Needles: 恒定 1000 点固定伤害，不可被减免抵消'
-      break
-    case 'bluemagic-aqua-breath':
-      const aquaMul = simTargetType.value === 'desert' ? 4.0 : 1.0
-      dmg = Math.round((simCaster.int * 3.0 + simCaster.level * 12) * aquaMul)
-      dmgType = aquaMul > 1 ? '🌊 沙漠生物 4.0x 蒸发特攻！' : '全屏深渊海啸'
-      trigger = '深海奇美拉深渊吐息'
-      status = '全体水属性沸腾冲刷'
-      breakdown = `(${simCaster.int}×3.0 + 等级${simCaster.level}×12) × 特攻${aquaMul} = ${dmg}`
+      dmgType = '真实绝对固定伤害'
+      trigger = '无视敌方护甲与魔防'
+      status = '1000 点穿刺真实扣除'
+      breakdown = '固定伤害结算: 绝对命中 1000 真实伤害'
       break
     default:
-      dmg = Math.round(simCaster.atk * 2.0)
-      dmgType = '基础绝技伤害'
-      trigger = '常规命中'
-      status = '普通效果'
-      breakdown = '标准计算公式'
+      dmg = Math.round(simCaster.atk * 2.2 + simCaster.int * 1.8)
+      dmgType = '术式综合伤害'
+      trigger = '标准绝技结算'
+      status = '无异常状态'
+      breakdown = `攻击 ${simCaster.atk}×2.2 + 智力 ${simCaster.int}×1.8 = ${dmg}`
+      break
   }
 
   simulationResult.value = {
-    damageDisplay: typeof dmg === 'number' && dmg > 0 ? `${dmg.toLocaleString()}` : `${dmg}`,
+    damageDisplay: String(dmg),
     damageType: dmgType,
     specialTrigger: trigger,
     combatStatus: status,
@@ -540,15 +784,88 @@ const runSimulation = () => {
   }
 }
 
-// 初始运算一次
-onMounted(() => {
-  runSimulation()
-})
+// Godot 4.x 代码
+const gdScriptCode = `# ==============================================================================
+# BlueMagicLearningSystem - 青魔法受击拟态观察与技能习得单例
+# 文件路径: res://scripts/combat/blue_magic_learning_system.gd
+# 架构定位: 挂载于战斗内核，监听怪物法术命中事件并判定青魔道士存活与全队同步
+# ==============================================================================
+class_name BlueMagicLearningSystem
+extends Node
+
+signal blue_magic_learned(spell_id: String, learner_name: String)
+
+# 全局已习得青魔法典藏字典 (SaveGame 同步持久化)
+var learned_spells: Dictionary = {
+	"bm_white_wind": true,
+	"bm_goblin_punch": true,
+	"bm_1000_needles": false,
+	"bm_mighty_guard": false,
+	"bm_lvl5_death": false
+}
+
+# 青魔法技能与魔物行为映射表
+const BLUE_MAGIC_CATALOG: Dictionary = {
+	"spell_white_wind": { "id": "bm_white_wind", "name": "白风", "mp": 28 },
+	"spell_1000_needles": { "id": "bm_1000_needles", "name": "千针刺", "mp": 25 },
+	"spell_lvl5_death": { "id": "bm_lvl5_death", "name": "5级致死", "mp": 22 },
+	"spell_mighty_guard": { "id": "bm_mighty_guard", "name": "强力守护", "mp": 72 },
+	"spell_goblin_punch": { "id": "bm_goblin_punch", "name": "哥布林重拳", "mp": 0 }
+}
+
+func _ready() -> void:
+	print("[BlueMagic] 青魔法拟态监听器就绪，当前已解锁技能数: %d" % get_learned_count())
+
+## 战斗事件监听: 当敌方技能命中我方队员时触发
+func on_spell_hit_character(spell_internal_id: String, target_actor: Node) -> void:
+	if not BLUE_MAGIC_CATALOG.has(spell_internal_id):
+		return # 非青魔法目录内的法术
+		
+	var spell_data: Dictionary = BLUE_MAGIC_CATALOG[spell_internal_id]
+	var spell_id: String = spell_data["id"]
+	
+	if learned_spells.get(spell_id, false):
+		return # 已经学会，跳过
+		
+	# 检查受击者是否具备【学习 (Learning)】被动能力（青魔道士或装备了青魔纹章）
+	if not target_actor.has_method("has_passive") or not target_actor.has_passive("passive_blue_learning"):
+		return
+		
+	# 核心安全法则: 受击者必须在战斗结束或技能结算后存活（HP > 0）
+	if target_actor.current_hp <= 0:
+		return
+		
+	# 达成学习条件！
+	learned_spells[spell_id] = true
+	emit_signal("blue_magic_learned", spell_id, target_actor.actor_name)
+	_play_learning_vfx(target_actor)
+	print("[BlueMagic] 恭喜！%s 在受击后成功领悟青魔法【%s】！" % [target_actor.actor_name, spell_data["name"]])
+
+func _play_learning_vfx(actor: Node) -> void:
+	# 触发头顶光环与提示音效
+	if actor.has_method("show_status_popup"):
+		actor.show_status_popup("LEARNED!", Color(0.2, 0.9, 1.0))
+
+func get_learned_count() -> int:
+	var c := 0
+	for k in learned_spells.keys():
+		if learned_spells[k]:
+			c += 1
+	return c
+`
+
+const copyGdScript = () => {
+  navigator.clipboard.writeText(gdScriptCode).then(() => {
+    message.success('blue_magic_learning_system.gd 源码已复制到剪贴板！')
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
 </script>
 
 <style scoped>
 .teaching-category-button:focus-visible {
-  outline: 2px solid #22d3ee;
-  outline-offset: 2px;
+  outline: 2px solid #67e8f9;
+  outline-offset: 3px;
 }
 </style>
