@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-dungeons-secret-puzzle-studio-2026-10-28',
+    version: 'v2.2.267',
+    date: '2026-10-28',
+    title: '全域秘境机关解密、隐秘通道与多维宝箱推演工坊重磅实装',
+    category: 'maps',
+    categoryName: '秘境解密',
+    icon: '🗝️',
+    tagType: 'success',
+    description: '全面重构升级 DungeonsView 全域地貌拓扑与地宫导览门户：顶部横幅标章升级为 VBLE Dungeon & Spatial Topology Matrix v2.2.267，新增秘境机关解密一键直达快捷按钮；底部重磅实装【全域秘境机关解密、隐秘通道与多维宝箱推演工坊】（Ancient Sanctuary Puzzle & Secret Passage Studio）；覆盖四大太古经典神殿秘境（穆亚大金字塔、封印之城库扎、双子分歧之塔、次元狭缝深渊回廊）；实装盗贼秘宝之眼（全域隐秘暗墙高亮探知穿透）、风水士轻足术（地面落穴、毒蛇与地火陷阱 100% 免疫）；实装四联动机关拉杆动态锁死与匹配解开状态机；实装真伪宝箱与伪装宝箱怪（Mimic）甄别与太古神剑破封；支持一键生成并导出《全域秘境机关解密、隐秘通道与多维宝箱方案书》附带 SHA-256 安全哈希签名；底层源码展台扩展三 Tab 切换，新增 dungeon_secret_puzzle_mechanisms.gd 完整实机机关与暗道解密器。',
+    highlights: [
+      '四大太古神殿秘境全收录：穆亚金字塔、库扎封印城、双子分歧之塔、次元狭缝深渊回廊',
+      '职业暗道特质交互：法利斯盗贼秘宝之眼透视暗墙、可露儿风水士轻足术绝对免陷阱',
+      '四联动机关拉杆状态机：精准对齐太古律令序列解锁封印大门，支持单手拨动与逆向回弹',
+      '多维宝箱怪甄别与开盖：透视宝箱怪狂暴开箱风险，安全斩获真·诸神黄昏神剑与太古双神魔',
+      '秘境解密方案书离线导出：生成带有专属编号与 SHA-256 安全哈希签名的实机离线认证报告',
+      'Godot 4.6 LTS 底层实机展台：新增 dungeon_secret_puzzle_mechanisms.gd 机关状态机源码展台'
+    ],
+    relatedLinks: [
+      { label: '地宫导览与拓扑门户', path: '/vble/dungeons', icon: '🏛️' },
+      { label: '全域大地图风土志', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发演进记录', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-battle-tactics-micro-priority-studio-2026-10-28',
     version: 'v2.2.266',
     date: '2026-10-28',

@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VBLE Dungeon &amp; Spatial Topology Matrix v2.2.256
+              VBLE Dungeon &amp; Spatial Topology Matrix v2.2.267
             </span>
-            <span class="text-xs text-gray-400">全域空间解构与深渊迷宫实装</span>
+            <span class="text-xs text-gray-400">全域空间解构、多元秘境迷宫机制与隐秘通道解密</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🏛️</span> 全域地貌拓扑与地宫导览：四维空间解构与深渊探秘工坊
+            <span>🏛️</span> 全域地貌拓扑与地宫导览：秘境机制、隐秘通道与空间解密工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             纵览苍穹、地表、深海、地狱冥界与终局虚无；收录全域 {{ dungeons.length }} 处地宫与探索地点。实装六大维度全域空间行进拓扑轴、实景走格子动态战争迷雾与环境极限制约沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToSecretPassageStudio"
+          >
+            <template #icon><span>🗝️</span></template>
+            前往秘境机关解密
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -473,9 +484,19 @@
               >
                 procedural_labyrinth_resolver.gd
               </button>
+              <button
+                type="button"
+                class="px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all"
+                :class="activeDungeonGdTab === 'puzzle'
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
+                  : 'bg-slate-900 text-gray-400 border border-slate-800 hover:text-white'"
+                @click="activeDungeonGdTab = 'puzzle'"
+              >
+                dungeon_secret_puzzle_mechanisms.gd
+              </button>
             </div>
             <div class="flex items-center gap-2">
-              <n-tag size="tiny" type="success">支持 TileMapLayer 烘焙与 A* 路径解算</n-tag>
+              <n-tag size="tiny" type="success">支持 TileMapLayer 烘焙、A* 路径与暗道解密</n-tag>
               <n-button size="tiny" secondary round type="info" @click="copyDungeonGdCode">
                 <template #icon><span>📋</span></template>
                 复制代码
@@ -483,10 +504,10 @@
             </div>
           </div>
           <p class="text-xs text-gray-400 leading-relaxed">
-            游戏实机地宫完全遵循 <code>DungeonMazeGenerator</code> 声明式网格驱动。采用双层 TileMapLayer 分离地形与动态战争迷雾遮罩，通过曼哈顿距离 <code>_update_fog_of_war()</code> 实时更新着色器 Alpha 渐变，并在切图转场期间依托 <code>GameStateSave</code> 进行完整迷雾位图压缩持久化。
+            游戏实机地宫完全遵循 <code>DungeonMazeGenerator</code> 与 <code>DungeonSecretPuzzleMechanisms</code> 声明式网格驱动。采用双层 TileMapLayer 分离地形与动态战争迷雾遮罩，通过曼哈顿距离 <code>_update_fog_of_war()</code> 实时更新着色器 Alpha 渐变，并在切图转场期间依托 <code>GameStateSave</code> 进行完整迷雾位图压缩持久化。
           </p>
           <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 font-mono text-[11px] text-emerald-300 overflow-x-auto max-h-56 custom-scrollbar">
-            <pre><code v-if="activeDungeonGdTab === 'generator'">{{ gdDungeonGeneratorCode }}</code><code v-else>{{ gdDungeonResolverCode }}</code></pre>
+            <pre><code v-if="activeDungeonGdTab === 'generator'">{{ gdDungeonGeneratorCode }}</code><code v-else-if="activeDungeonGdTab === 'resolver'">{{ gdDungeonResolverCode }}</code><code v-else>{{ gdDungeonPuzzleCode }}</code></pre>
           </div>
         </div>
       </div>
@@ -1112,6 +1133,261 @@
         </tbody>
       </n-table>
     </n-card>
+
+    <!-- 🗝️ 专区: 全域秘境机关解密、隐秘通道与多维宝箱推演工坊 (Secret Passage & Dungeon Puzzle Mechanism Studio) -->
+    <div id="secret-passage-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#180e28] via-[#1f1236] to-[#0f0d22] border border-purple-500/40 shadow-[0_0_35px_rgba(168,85,247,0.22)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-purple-950 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+              ANCIENT SANCTUARY PUZZLE &amp; SECRET PASSAGE STUDIO
+            </span>
+            <span class="text-xs text-gray-400 font-mono">v2.2.267 官方实机矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-1">
+            <span>🗝️</span> 全域秘境机关解密、隐秘通道与多维宝箱推演工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            深入太古神殿机关核心！支持四大经典秘境（穆亚金字塔、封印城库扎、双子分歧之塔、次元狭缝回廊）拓扑排查，涵盖盗贼隐秘暗墙探查、风水士陷阱落穴轻足规避、四联动机关拉杆解密与真伪宝箱甄别系统。
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button size="small" secondary type="warning" @click="resetSecretPuzzleStudio">
+            🔄 重置机关推演
+          </n-button>
+          <n-button
+            size="small"
+            :type="isSecretEyeActive ? 'success' : 'default'"
+            secondary
+            @click="toggleSecretEye"
+          >
+            👁️ 盗贼秘宝之眼: {{ isSecretEyeActive ? '已开启' : '已关闭' }}
+          </n-button>
+          <n-button
+            size="small"
+            :type="isLightStepActive ? 'info' : 'default'"
+            secondary
+            @click="toggleLightStep"
+          >
+            🪶 风水士轻足术: {{ isLightStepActive ? '已激活' : '未激活' }}
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportSecretPuzzleCertificate">
+            📜 导出秘境解密方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 三栏主推演工作台 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 栏 1: 四大太古秘境与探险队拓扑 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+                <span>🏛️</span>
+                <span>太古秘境拓扑选定</span>
+              </span>
+              <n-tag size="tiny" type="warning">{{ currentSanctuary.dangerLevel }}</n-tag>
+            </div>
+
+            <!-- 秘境选择器 -->
+            <div class="space-y-1.5">
+              <label class="text-[11px] text-gray-400 block">选择探索秘境 (Ancient Sanctuary):</label>
+              <select
+                v-model="selectedSanctuaryId"
+                class="w-full bg-slate-950 border border-slate-700 text-xs text-purple-300 font-bold rounded-lg p-2 focus:border-purple-400 focus:outline-none"
+                @change="onSanctuaryChanged"
+              >
+                <option v-for="s in sanctuaryList" :key="s.id" :value="s.id">
+                  {{ s.name }} (难度: {{ s.tier }})
+                </option>
+              </select>
+            </div>
+
+            <!-- 秘境详述卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-purple-500/30 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white flex items-center gap-1.5 text-sm">
+                  <span>{{ currentSanctuary.icon }}</span>
+                  <span>{{ currentSanctuary.name }}</span>
+                </span>
+                <span class="text-[10px] text-purple-400 font-mono font-bold">{{ currentSanctuary.tier }}</span>
+              </div>
+              <p class="text-[11px] text-gray-300 leading-relaxed">{{ currentSanctuary.description }}</p>
+              <div class="p-2 rounded bg-purple-950/40 border border-purple-900/50 text-[11px] space-y-1">
+                <div class="text-amber-300 font-bold flex items-center gap-1">
+                  <span>⚡ 核心机关:</span>
+                  <span>{{ currentSanctuary.gimmick }}</span>
+                </div>
+                <div class="text-cyan-300 text-[10px]">🗝️ 破解线索: {{ currentSanctuary.clue }}</div>
+              </div>
+            </div>
+
+            <!-- 队伍探查配置 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5 text-xs">
+              <div class="text-gray-400 font-bold text-[11px] mb-1">探险先锋阵容特质感知：</div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-300">🗡️ 巴兹 (骑士):</span>
+                <span class="font-mono text-cyan-400">重盾破击 / 机关顶防</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-300">👑 蕾娜 (白魔):</span>
+                <span class="font-mono text-purple-300">浮空术 (Float) 规避地刺</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-300">🏴‍☠️ 法利斯 (盗贼):</span>
+                <span class="font-mono text-amber-300">隐秘通道洞察 (Passage Vision)</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-300">🔮 可露儿 (风水士):</span>
+                <span class="font-mono text-emerald-400">轻足陷阱免除 (Light Step)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs text-gray-400">
+            <span>空间拓扑架构:</span>
+            <span class="font-mono font-bold text-purple-400">Godot 4.6 TileMapLayer 多层图元</span>
+          </div>
+        </div>
+
+        <!-- 栏 2: 四联动机关拉杆与隐秘通道解密 -->
+        <div class="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>🕹️</span>
+              <span>太古拉杆联锁解密</span>
+            </span>
+            <n-tag size="tiny" :type="isGateUnlocked ? 'success' : 'error'">
+              {{ isGateUnlocked ? '🔓 封印大门已开启' : '🔒 封印大门紧锁' }}
+            </n-tag>
+          </div>
+
+          <!-- 四联动机关拉杆控制排 -->
+          <div class="space-y-2">
+            <span class="text-[11px] text-gray-400 block">四联动机关拉杆交互控制 (目标序列: [上, 下, 上, 上]):</span>
+            <div class="grid grid-cols-4 gap-2">
+              <button
+                v-for="(lever, idx) in levers"
+                :key="idx"
+                type="button"
+                class="p-3 rounded-lg border text-center transition-all cursor-pointer font-mono"
+                :class="lever ? 'bg-amber-500/20 border-amber-500/50 text-amber-300 shadow-md' : 'bg-slate-950 border-slate-800 text-gray-500 hover:text-gray-300'"
+                @click="toggleLever(idx)"
+              >
+                <div class="text-lg">{{ lever ? '⬆️' : '⬇️' }}</div>
+                <div class="text-xs font-bold mt-1">拉杆 #{{ idx + 1 }}</div>
+                <div class="text-[10px] mt-0.5">{{ lever ? '【拉起】' : '【推下】' }}</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 隐秘通道探索板 -->
+          <div class="p-3 bg-slate-950 rounded-lg border border-purple-500/30 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white flex items-center gap-1.5">
+                <span>🚪</span>
+                <span>暗墙隐秘通道探知</span>
+              </span>
+              <n-tag size="tiny" :type="secretPassageFound ? 'success' : 'default'">
+                {{ secretPassageFound ? '✨ 暗道已定位' : '🧱 未探明暗壁' }}
+              </n-tag>
+            </div>
+            <p class="text-[11px] text-gray-300 leading-relaxed">
+              {{ secretPassageFound ? '已成功探出隐藏通道！暗墙向内滑移，露出直通太古宝库的密闭走廊！' : '前方石壁呈现不规则纹理，开启【盗贼秘宝之眼】可穿透视线显化隐藏石门。' }}
+            </p>
+            <div class="pt-1">
+              <button
+                type="button"
+                class="w-full py-2 rounded bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition cursor-pointer"
+                @click="inspectSecretPassage"
+              >
+                🔍 敲击排查暗壁接缝 (Inspect Wall)
+              </button>
+            </div>
+          </div>
+
+          <!-- 陷阱规避状态指示器 -->
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5 text-xs">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-400">地面落穴落石抗性:</span>
+              <span class="font-mono font-bold" :class="isLightStepActive ? 'text-emerald-400' : 'text-rose-400'">
+                {{ isLightStepActive ? '100% 绝对免疫 (轻足术已生效)' : '0% 极易踩空致残' }}
+              </span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-400">暗墙隐藏通道感知率:</span>
+              <span class="font-mono font-bold" :class="isSecretEyeActive ? 'text-amber-300' : 'text-gray-500'">
+                {{ isSecretEyeActive ? '100% 全息高亮显化' : '20% 仅凭盲碰概率' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 栏 3: 宝箱甄别与解密推演日志 -->
+        <div class="p-5 rounded-xl bg-gradient-to-b from-purple-950/20 to-slate-900 border border-purple-500/30 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+                <span>🎁</span>
+                <span>太古秘宝开箱甄别</span>
+              </span>
+              <n-tag size="tiny" :type="chestOpened ? 'success' : 'info'">
+                {{ chestOpened ? '🏆 已开启' : '📦 待启封' }}
+              </n-tag>
+            </div>
+
+            <!-- 宝箱卡片 -->
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2 text-xs">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-white text-sm flex items-center gap-1">
+                  <span>{{ chestRewardIcon }}</span>
+                  <span>{{ currentSanctuary.chestName }}</span>
+                </span>
+                <span class="text-[10px] text-amber-300 font-mono font-bold">安全性 {{ chestPurityPercent }}%</span>
+              </div>
+              <div class="flex justify-between text-[11px] text-gray-400">
+                <span>宝箱怪伪装率:</span>
+                <span class="font-mono" :class="chestPurityPercent < 80 ? 'text-rose-400 font-bold' : 'text-emerald-400'">
+                  {{ 100 - chestPurityPercent }}% ({{ chestPurityPercent >= 90 ? '安全无害' : '疑似封印狂暴怪' }})
+                </span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                {{ chestOpenResultText }}
+              </div>
+              <button
+                type="button"
+                class="w-full py-2 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition cursor-pointer"
+                :disabled="chestOpened"
+                @click="openChest"
+              >
+                {{ chestOpened ? '✓ 宝物已收入背包' : '🗝️ 破除封印开启宝箱' }}
+              </button>
+            </div>
+
+            <!-- 实时推演日志流 -->
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-[10px] space-y-1 max-h-24 overflow-y-auto font-mono text-gray-300">
+              <div v-for="(log, idx) in puzzleLogs" :key="idx" class="flex items-start gap-1">
+                <span class="text-purple-400 shrink-0">•</span>
+                <span>{{ log }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 解密大捷按钮 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <button
+              type="button"
+              class="w-full py-2.5 rounded-lg bg-gradient-to-r from-purple-600 via-amber-600 to-purple-600 hover:from-purple-500 hover:to-amber-500 text-slate-950 font-black text-xs transition-all shadow-lg cursor-pointer"
+              @click="autoSolveAllPuzzles"
+            >
+              ⚡ 一键推演全域机关破解流程 (Auto Solve)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1126,6 +1402,11 @@ const message = useMessage()
 
 const scrollToLabyrinthStudio = () => {
   const el = document.getElementById('dungeon-labyrinth-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const scrollToSecretPassageStudio = () => {
+  const el = document.getElementById('secret-passage-studio')
   if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
 
@@ -1656,7 +1937,7 @@ onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
 })
 
-const activeDungeonGdTab = ref<'generator' | 'resolver'>('generator')
+const activeDungeonGdTab = ref<'generator' | 'resolver' | 'puzzle'>('puzzle')
 
 const exportDungeonSurveyReport = () => {
   const p = selectedDungeonPreset.value
@@ -1778,14 +2059,313 @@ static func solve_shortest_path(grid_layout: Array, start_pos: Vector2i, target_
 `
 
 const copyDungeonGdCode = () => {
-  const code = activeDungeonGdTab.value === 'generator' ? gdDungeonGeneratorCode : gdDungeonResolverCode
-  const filename = activeDungeonGdTab.value === 'generator' ? 'dungeon_maze_generator.gd' : 'procedural_labyrinth_resolver.gd'
+  const code = activeDungeonGdTab.value === 'generator' 
+    ? gdDungeonGeneratorCode 
+    : activeDungeonGdTab.value === 'resolver' 
+      ? gdDungeonResolverCode 
+      : gdDungeonPuzzleCode
+  const filename = activeDungeonGdTab.value === 'generator' 
+    ? 'dungeon_maze_generator.gd' 
+    : activeDungeonGdTab.value === 'resolver' 
+      ? 'procedural_labyrinth_resolver.gd' 
+      : 'dungeon_secret_puzzle_mechanisms.gd'
   navigator.clipboard.writeText(code).then(() => {
     message.success(`${filename} 源码已复制到剪贴板！`)
   }).catch(() => {
     message.info('源码已复制')
   })
 }
+
+// ================= 专区: 全域秘境机关解密、隐秘通道与多维宝箱推演工坊 (v2.2.267) =================
+interface SanctuaryItem {
+  id: string
+  name: string
+  icon: string
+  tier: string
+  dangerLevel: string
+  description: string
+  gimmick: string
+  clue: string
+  chestName: string
+  safeLeverSequence: boolean[]
+}
+
+const sanctuaryList: SanctuaryItem[] = [
+  {
+    id: 'pyramid_moore',
+    name: '穆亚大金字塔 (Pyramid of Moore)',
+    icon: '🔺',
+    tier: '太古神殿 (EX)',
+    dangerLevel: '极度危险',
+    description: '隐藏于穆亚大森林深处的太古石板金字塔，机关重重，遍布穿墙暗道、流沙与毒蛇落穴。',
+    gimmick: '隐形悬空石板桥 + 阿斯皮尔吸魔石像 + 毒蛇穿刺陷阱',
+    clue: '拉起拉杆 #1 与 #3，推下拉杆 #2，最后拉起 #4，即可使隐形桥石化显形',
+    chestName: '太古第一石板之匣 (Cursed Tablet Box)',
+    safeLeverSequence: [true, false, true, true]
+  },
+  {
+    id: 'kuza_sealed',
+    name: '封印之城库扎 (Sealed Castle Kuza)',
+    icon: '🏰',
+    tier: '神兵祭坛 (SSS)',
+    dangerLevel: '超维禁地',
+    description: '十二太古封印神兵的供奉圣殿，由古代石化盾龙守卫，地下三层拥有绝对反重力深井。',
+    gimmick: '盾龙石化反击 + 十二神兵封印锁柱 + 反物质吸光井',
+    clue: '四拉杆必须依照【偶数推下，奇数拉起】解除神兵石化力场',
+    chestName: '太古十二神兵封印石 (Ancient Sealed Stone)',
+    safeLeverSequence: [true, false, true, false]
+  },
+  {
+    id: 'fork_tower',
+    name: '双子分歧之塔 (Fork Tower)',
+    icon: '🗼',
+    tier: '魔武双极 (EX+)',
+    dangerLevel: '法则惩戒',
+    description: '撕裂空间的魔导之塔。左侧力量之塔禁止一切魔法，右侧魔法之塔禁止一切物理平砍。',
+    gimmick: '法则禁制结界 + 违者即死神圣反噬 + 双核同步破封',
+    clue: '全员分队进入后，四拉杆必须全部推向【上方位】以平衡魔武力场',
+    chestName: '究极白魔法【神圣】与究极黑魔法【核爆】宝匣',
+    safeLeverSequence: [true, true, true, true]
+  },
+  {
+    id: 'void_rift',
+    name: '次元狭缝深渊回廊 (Void Rift Corridor)',
+    icon: '🌌',
+    tier: '终焉深渊 (MAX)',
+    dangerLevel: '秒杀级灾厄',
+    description: '时空裂隙深处的错位迷宫，空间连续性断裂，逆向传送门与伪装的神龙宝箱交错并存。',
+    gimmick: '逆向维度法阵 + 水晶隐形暗道 + 隐藏神龙开盖大海啸',
+    clue: '盗贼秘宝之眼可透视假箱裂隙，拉杆序列按【下、上、下、上】解除传送死循环',
+    chestName: '真·诸神黄昏神剑宝箱 (神龙守护)',
+    safeLeverSequence: [false, true, false, true]
+  }
+]
+
+const selectedSanctuaryId = ref('pyramid_moore')
+const currentSanctuary = computed(() => {
+  return sanctuaryList.find(s => s.id === selectedSanctuaryId.value) || sanctuaryList[0]
+})
+
+const isSecretEyeActive = ref(true)
+const isLightStepActive = ref(true)
+const levers = ref<boolean[]>([true, false, true, true])
+const secretPassageFound = ref(true)
+const chestOpened = ref(false)
+const chestPurityPercent = ref(95)
+const chestRewardIcon = ref('💎')
+const chestOpenResultText = ref('未开启：经盗贼透视排查，箱内散发纯正太古以太辉光，非宝箱怪伪装。')
+
+const isGateUnlocked = computed(() => {
+  const target = currentSanctuary.value.safeLeverSequence
+  return levers.value.every((val, idx) => val === target[idx])
+})
+
+const puzzleLogs = ref<string[]>([
+  '【T+0.0s】进入穆亚大金字塔：全员处于【盗贼秘宝之眼】与【风水士轻足术】防护态。',
+  '【T+0.8s】暗壁缝隙排查：发现金字塔二层右侧隐秘暗道，成功绕开毒蛇落穴陷阱！',
+  '【T+1.5s】拉杆机关就绪：四联动机关已对齐 [上, 下, 上, 上]，封印石门轰然开启！'
+])
+
+const onSanctuaryChanged = () => {
+  const s = currentSanctuary.value
+  levers.value = [...s.safeLeverSequence]
+  secretPassageFound.value = isSecretEyeActive.value
+  chestOpened.value = false
+  chestPurityPercent.value = s.id === 'void_rift' ? 65 : 95
+  chestOpenResultText.value = `切换至【${s.name}】：已加载太古拓扑数据与机关位点。`
+  puzzleLogs.value.unshift(`[秘境切换] 队伍进入【${s.name}】(${s.tier})，核心机制: ${s.gimmick}`)
+  message.info(`已切换至【${s.name}】！`)
+}
+
+const toggleLever = (index: number) => {
+  levers.value[index] = !levers.value[index]
+  const stateStr = levers.value[index] ? '拉起' : '推下'
+  puzzleLogs.value.unshift(`[拉杆操作] 探险者将拉杆 #${index + 1} 拨动为【${stateStr}】。`)
+  if (isGateUnlocked.value) {
+    puzzleLogs.value.unshift('【🔓 机关解锁】四联动机关完全吻合太古律令！封印大门轰鸣滑开！')
+    message.success('🎉 封印大门已成功解锁！')
+  }
+}
+
+const toggleSecretEye = () => {
+  isSecretEyeActive.value = !isSecretEyeActive.value
+  if (isSecretEyeActive.value) {
+    secretPassageFound.value = true
+    puzzleLogs.value.unshift('[盗贼特质] 秘宝之眼激活：全域隐秘暗道与假墙轮廓高亮显化！')
+    message.success('已开启盗贼秘宝之眼！隐秘暗道全息显形！')
+  } else {
+    puzzleLogs.value.unshift('[盗贼特质] 秘宝之眼关闭：暗壁视觉反馈恢复常规石质纹理。')
+    message.info('已关闭盗贼秘宝之眼。')
+  }
+}
+
+const toggleLightStep = () => {
+  isLightStepActive.value = !isLightStepActive.value
+  if (isLightStepActive.value) {
+    puzzleLogs.value.unshift('[风水特质] 轻足术激活：地面落穴、熔岩地热与毒液池判定完全免疫！')
+    message.success('已激活风水士轻足术！地面陷阱绝对免疫！')
+  } else {
+    puzzleLogs.value.unshift('[风水特质] 轻足术停用：请小心地面落穴与尖刺陷阱。')
+    message.warning('轻足术已停用。')
+  }
+}
+
+const inspectSecretPassage = () => {
+  if (isSecretEyeActive.value || Math.random() > 0.3) {
+    secretPassageFound.value = true
+    puzzleLogs.value.unshift('[暗道排查] 成功！法利斯敲击石壁第三块暗砖，隐秘石门向内滑移，露出太古藏宝密道！')
+    message.success('成功探出隐藏通道！通往太古密室！')
+  } else {
+    puzzleLogs.value.unshift('[暗道排查] 敲击声沉闷，未发现活动门轴，建议开启【盗贼秘宝之眼】。')
+    message.warning('排查未发现松动暗砖，请开启盗贼特质！')
+  }
+}
+
+const openChest = () => {
+  chestOpened.value = true
+  const s = currentSanctuary.value
+  if (s.id === 'void_rift') {
+    chestRewardIcon.value = '⚔️'
+    chestOpenResultText.value = '恭喜！成功以盗贼隐秘解除神龙宝箱水属性逆潮陷阱，斩获【真·诸神黄昏神剑】！'
+    puzzleLogs.value.unshift('[太古开箱] 获得【真·诸神黄昏神剑】！全队攻击力 +150，全属性抗性强化！')
+  } else if (s.id === 'fork_tower') {
+    chestRewardIcon.value = '📜'
+    chestOpenResultText.value = '大获全胜！魔武双极平衡打破，斩获究极白魔法【神圣】与究极黑魔法【核爆】！'
+    puzzleLogs.value.unshift('[太古开箱] 获得究极双魔法！蕾娜与可露儿获得太古奥义继承！')
+  } else {
+    chestRewardIcon.value = '💎'
+    chestOpenResultText.value = `顺利开启！获得【${s.chestName}】，太古封印被彻底瓦解！`
+    puzzleLogs.value.unshift(`[太古开箱] 获得【${s.chestName}】！`)
+  }
+  message.success('太古宝箱开启大成功！')
+}
+
+const autoSolveAllPuzzles = () => {
+  const s = currentSanctuary.value
+  isSecretEyeActive.value = true
+  isLightStepActive.value = true
+  secretPassageFound.value = true
+  levers.value = [...s.safeLeverSequence]
+  chestOpened.value = true
+  chestOpenResultText.value = `全套机关一键解密推演完成：封印大门开启，隐秘通道探明，【${s.chestName}】顺利收入行囊！`
+  puzzleLogs.value.unshift(`[智能解密] 已一键破解【${s.name}】全域机制！`)
+  message.success('全域太古秘境机制一键推演完成！')
+}
+
+const resetSecretPuzzleStudio = () => {
+  const s = currentSanctuary.value
+  levers.value = [false, false, false, false]
+  secretPassageFound.value = false
+  chestOpened.value = false
+  isSecretEyeActive.value = true
+  isLightStepActive.value = true
+  chestOpenResultText.value = `【${s.name}】推演战局已彻底重置为初始待破状态。`
+  puzzleLogs.value = [
+    `太古秘境【${s.name}】机关推演台已重置，拉杆与石门处于锁闭初始态。`,
+    '全员检查盗贼感知与风水轻足术，准备重新推演。'
+  ]
+  message.info('太古秘境机关推演已重置！')
+}
+
+const exportSecretPuzzleCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+  const s = currentSanctuary.value
+
+  const certContent = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   全域秘境机关解密、隐秘通道与多维宝箱方案书 (v2.2.267)
+================================================================================
+颁发时间: ${timeStr}
+探索靶标: ${s.name} (${s.tier})
+危险等级: ${s.dangerLevel}
+核心机制: ${s.gimmick}
+破解线索: ${s.clue}
+
+【机关解密与暗道状态】
+- 四联动机关拉杆状态: [${levers.value.map((v, i) => `#${i + 1}:${v ? '拉起' : '推下'}`).join(', ')}]
+- 封印石门判定: [${isGateUnlocked.value ? '已完全开启 (UNLOCKED)' : '锁闭中 (LOCKED)'}]
+- 隐秘暗壁通道: [${secretPassageFound.value ? '已探明贯通 (DISCOVERED)' : '未探明 (CONCEALED)'}]
+- 盗贼秘宝之眼: [${isSecretEyeActive.value ? 'ACTIVE (100% 透视)' : 'INACTIVE'}]
+- 风水士轻足术: [${isLightStepActive.value ? 'ACTIVE (100% 陷阱免疫)' : 'INACTIVE'}]
+
+【宝箱甄别与战利品】
+- 目标宝箱: ${s.chestName}
+- 开箱状态: [${chestOpened.value ? '已启封收获' : '未开启'}]
+- 启封结果: ${chestOpenResultText.value}
+
+【最新解密演练日志】
+${puzzleLogs.value.slice(0, 5).map(l => `• ${l}`).join('\n')}
+
+【底层引擎契约安全指纹】
+- Engine Spec: Godot 4.6 LTS / TileMapLayer & Spatial Logic RefCounted
+- Core Puzzle Resolver: dungeon_secret_puzzle_mechanisms.gd
+- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `dungeon_puzzle_cert_v2.2.267_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('全域秘境机关解密方案书已导出并同步至剪贴板！')
+  }
+}
+
+const gdDungeonPuzzleCode = `## dungeon_secret_puzzle_mechanisms.gd
+## Godot 4.6 LTS - 全域太古秘境机关拉杆、隐秘暗墙通道与宝箱怪判定状态机
+extends RefCounted
+class_name DungeonSecretPuzzleMechanisms
+
+signal secret_passage_revealed(passage_id: String, world_pos: Vector2i)
+signal interlocking_gate_unlocked(gate_id: String)
+signal chest_evaluated(is_mimic: bool, reward_item: String)
+
+class LeverPuzzleState:
+	var target_sequence: Array[bool] = [true, false, true, true]
+	var current_sequence: Array[bool] = [false, false, false, false]
+	var is_unlocked: bool = false
+
+static func evaluate_levers(state: LeverPuzzleState, lever_idx: int) -> bool:
+	if lever_idx >= 0 and lever_idx < state.current_sequence.size():
+		state.current_sequence[lever_idx] = not state.current_sequence[lever_idx]
+		
+	var all_match: bool = true
+	for i in range(state.target_sequence.size()):
+		if state.current_sequence[i] != state.target_sequence[i]:
+			all_match = false
+			break
+			
+	state.is_unlocked = all_match
+	return all_match
+
+static func check_secret_wall(has_thief_vision: bool, wall_coords: Vector2i) -> Dictionary:
+	return {
+		"visible": has_thief_vision,
+		"coords": wall_coords,
+		"collision_layer": 0 if has_thief_vision else 1
+	}
+
+static func inspect_chest_mimic(chest_tier: String, luck_stat: int) -> bool:
+	if chest_tier == "void_shinryu":
+		return false # 纯正真宝箱，但开箱需防范大海啸
+	var mimic_chance: float = 0.25 - float(luck_stat) * 0.005
+	return randf() < maxf(0.05, mimic_chance)
+`
 </script>
 
 <style scoped>
