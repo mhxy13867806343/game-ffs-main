@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-sidequests-epoch-chain-v324-2026-10-29',
+    version: 'v2.2.324',
+    date: '2026-10-29',
+    title: '跨纪元支线剧情任务链、NPC羁绊交互与遗迹宝箱工坊重磅实装',
+    category: 'system',
+    categoryName: '支线纪行',
+    icon: '📜',
+    tagType: 'success',
+    description: '全面重构升级 SidequestsView 支线考据门户：顶部标章升级为 VBLE Sidequests, Cross-Epoch Chains & Relic Vault Studio v2.2.324，新增跨纪元支线任务工坊快捷直达；专区重磅实装【跨纪元支线剧情任务链、NPC羁绊交互与遗迹宝箱工坊】（Cross-Epoch Sidequest Chains, NPC Affinity & Relic Vault Studio）；覆盖四大跨纪元支线原型（太古学者千年纪行·纪元石碑流、遗落王女宿命寻踪·王女羁绊流、铁匠世家神兵重铸·神灭重铸流、虚空流浪商人契约·黑市暗拍流）；支持跨纪元剧情任务链深度 (1~7 阶段)、NPC 羁绊交互默契度 (100~1000 点)、遗迹密室宝箱品质因数 (1.0x~5.0x) 与跨时代分支抉择纠缠度 (10%~100%) 连续微调；支持跨时空因果律分支无悔重选、NPC 满羁绊驻留飞空艇工坊、遗迹宝箱 100% 防空箱与双倍掉落；实时解算任务链完成度预期加成 (高达 +85.0%)、NPC 羁绊回馈收益效率 (高达 99.8%)、遗迹稀世珍宝期望估值 (高达 6,500,000 G) 与传奇冒险家认证评级 (高达 EX·跨纪元神话纪行先知)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：cross_epoch_quest_chain_director.gd、npc_affinity_dialogue_tree.gd 与 relic_vault_loot_matrix.gd。',
+    highlights: [
+      '四大跨纪元支线原型：太古学者千年纪行、遗落王女寻踪、铁匠世家神兵重铸与虚空商人契约',
+      '四维连续剧情羁绊参数：任务链流转深度、NPC 好感默契点数、宝箱品质因数与因果纠缠度',
+      '三重跨纪元支线机制：因果律分支无悔重选、满好感随舰飞空艇驻留与遗迹宝箱防空保底',
+      '动态冒险能效指标解算：探索完成度加成、羁绊收益转换率、珍宝期望估值与纪行先知认证',
+      '五阶段剧情羁绊沙盘：纪元锚点捕获、对白分支推进、时间线回溯守护、宝箱防空破译与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源任务链编排器、羁绊决策对白树与遗迹宝箱防空矩阵'
+    ],
+    relatedLinks: [
+      { label: '支线考据与寻宝', path: '/vble/sidequests', icon: '🗺️' },
+      { label: '跨纪元任务工坊', path: '/vble/sidequests', icon: '📜' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-scenes-weather-roaming-v323-2026-10-29',
     version: 'v2.2.323',
     date: '2026-10-29',

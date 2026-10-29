@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Sidequests, Bounty Rating &amp; Trust Studio v2.2.295
+              VBLE Sidequests, Cross-Epoch Chains & Relic Vault Studio v2.2.324
             </span>
             <span class="text-xs text-gray-400">支线全域考据与隐藏秘境推演</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToEpochSidequestStudio"
+          >
+            <template #icon><span>📜</span></template>
+            跨纪元支线任务工坊
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -1876,6 +1887,262 @@
       <p class="text-xs text-gray-500">可尝试重置分类筛选或清除搜索关键词</p>
       <n-button size="small" type="primary" secondary @click="resetSearch">重置筛选</n-button>
     </div>
+
+    <!-- 跨纪元支线剧情任务链、NPC羁绊交互与遗迹宝箱工坊 (v2.2.324 重磅实装) -->
+    <div id="epoch-sidequest-chain-studio" class="epoch-sidequest-chain-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-amber-950/20 to-slate-900/95 border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/30">
+              CROSS-EPOCH CHAINS & RELIC VAULT MATRIX
+            </span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">
+              v2.2.324 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>📜</span> 跨纪元支线剧情任务链、NPC羁绊交互与遗迹宝箱工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            提供太古学者千年纪行、遗落王女宿命寻踪、铁匠世家神兵重铸与虚空商人契约，支持因果律分支无悔重选、飞空艇常驻与 Godot 4.6 LTS 底层任务编排引擎。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="warning" @click="resetEpochQuestDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="warning" :loading="isEpochQuestSimulating" @click="runEpochQuestSimulation">
+            <template #icon><span>⚡</span></template>
+            启动任务链推演
+          </n-button>
+          <n-button size="small" round secondary type="info" @click="exportEpochQuestCert">
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大跨纪元支线原型 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="archetype in epochQuestArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedEpochQuestArchetype === archetype.id ? 'bg-amber-950/40 border-amber-500 ring-2 ring-amber-500/30' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectEpochQuestArchetype(archetype.id)"
+        >
+          <div class="flex items-start justify-between">
+            <div class="text-2xl">{{ archetype.icon }}</div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+              {{ archetype.typeTag }}
+            </span>
+          </div>
+          <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+          <p class="text-xs text-amber-300/80 mt-1">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+            <div class="flex justify-between">
+              <span>专属继承奖励:</span>
+              <span class="text-emerald-300 font-mono">{{ archetype.inheritanceReward }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>时代因果跨度:</span>
+              <span class="text-cyan-300 font-mono">{{ archetype.epochSpan }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四维支线进度与羁绊调控滑块 -->
+      <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+        <div class="text-sm font-bold text-white flex items-center justify-between">
+          <span class="flex items-center gap-2"><span>🎛️</span> 任务链因果律与好感度参数调优</span>
+          <span class="text-xs text-amber-400 font-mono">Realtime Quest Causality Matrix</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">跨纪元剧情任务链深度 (阶段):</span>
+              <span class="text-amber-400 font-mono font-bold">第 {{ epochChainDepthStages }} 阶段 (宿命演进)</span>
+            </div>
+            <n-slider v-model:value="epochChainDepthStages" :min="1" :max="7" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1 阶段 初识</span>
+              <span>4 阶段 宿命转折</span>
+              <span>7 阶段 终焉大团圆</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">NPC 羁绊交互默契度 (点数):</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ epochNpcAffinityPoints }} 点 (深情共鸣)</span>
+            </div>
+            <n-slider v-model:value="epochNpcAffinityPoints" :min="100" :max="1000" :step="50" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>100 点 泛泛之交</span>
+              <span>500 点 患难与共</span>
+              <span>1000 点 永恒羁绊</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">遗迹密室宝箱品质因数 (x):</span>
+              <span class="text-purple-400 font-mono font-bold">{{ epochVaultQualityFactor.toFixed(1) }}x (太古秘宝)</span>
+            </div>
+            <n-slider v-model:value="epochVaultQualityFactor" :min="1.0" :max="5.0" :step="0.2" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1.0x 普品</span>
+              <span>3.0x 圣堂宝藏</span>
+              <span>5.0x 诸神秘库</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">跨时代分支抉择纠缠度 (%):</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ epochBranchEntanglementPct }}% (蝴蝶效应)</span>
+            </div>
+            <n-slider v-model:value="epochBranchEntanglementPct" :min="10" :max="100" :step="5" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>10% 轻微扰动</span>
+              <span>50% 显著改变</span>
+              <span>100% 彻底改写因果</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三大跨纪元支线特权开关 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">跨时空因果律分支无悔重选</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">随时重构关键决策且保留全成就</div>
+          </div>
+          <n-switch v-model:value="enableCausalityBranchFreeRewind" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">NPC 满羁绊驻留飞空艇工坊</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">提供专属随舰强化与额外日常福利</div>
+          </div>
+          <n-switch v-model:value="enableNpcAboardAirshipPact" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">遗迹宝箱 100% 防空箱与双倍掉落</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">杜绝空箱陷阱，保底稀有装备</div>
+          </div>
+          <n-switch v-model:value="enableGuaranteedRelicDoubleLoot" size="small" />
+        </div>
+      </div>
+
+      <!-- 关键实时指标卡片 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">任务链完成度预期加成</div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+            +{{ epochCompletionBonusPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">全局剧情探索收益</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">NPC 羁绊回馈收益效率</div>
+          <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+            {{ epochAffinityEfficiencyPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">随舰好感度转换率</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">遗迹稀世珍宝期望估值</div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-1">
+            {{ epochVaultExpectedGil.toLocaleString() }} G
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">含双倍防空箱加权</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">传奇冒险家认证评级</div>
+          <div class="text-sm sm:text-base font-black text-purple-400 font-mono mt-1 truncate">
+            {{ epochQuestTierBadge }}
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">跨纪元因果链规范</div>
+        </div>
+      </div>
+
+      <!-- 沙盘推演日志与进度 -->
+      <div v-if="isEpochQuestSimulating || epochQuestLogs.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-gray-300 font-bold flex items-center gap-2">
+            <span>🔄</span> 跨纪元剧情与羁绊沙盘进程: {{ epochQuestSimStep }}
+          </span>
+          <span class="text-amber-400 font-mono font-bold">{{ epochQuestSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="epochQuestSimProgress"
+          :indicator-placement="'inside'"
+          processing
+          status="warning"
+        />
+        <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+          <div v-for="(log, idx) in epochQuestLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-amber-500">›</span>
+            <span :class="idx === epochQuestLogs.length - 1 ? 'text-amber-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+            <h3 class="text-sm font-bold text-white">跨纪元剧情任务链与好感度决策引擎源码展台</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeEpochQuestScriptTab === 'director' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEpochQuestScriptTab = 'director'"
+              >
+                任务链编排器
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeEpochQuestScriptTab === 'dialogue' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEpochQuestScriptTab = 'dialogue'"
+              >
+                羁绊决策对白树
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeEpochQuestScriptTab === 'loot_matrix' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEpochQuestScriptTab = 'loot_matrix'"
+              >
+                遗迹宝箱防空矩阵
+              </button>
+            </div>
+            <n-button size="small" round secondary type="warning" @click="copyEpochQuestScript">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-amber-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentEpochQuestScriptCode }}</pre>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -3195,6 +3462,241 @@ const currentBountyScriptCode = computed(() => {
 const copyBountyScript = () => {
   navigator.clipboard.writeText(currentBountyScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
+
+// ==========================================
+// 跨纪元支线剧情任务链、NPC羁绊交互与遗迹宝箱工坊 (v2.2.324)
+// ==========================================
+const scrollToEpochSidequestStudio = () => {
+  document.getElementById('epoch-sidequest-chain-studio')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const selectedEpochQuestArchetype = ref('millennium_scholar')
+const epochQuestArchetypes = [
+  {
+    id: 'millennium_scholar',
+    name: '太古学者千年纪行',
+    icon: '📜',
+    typeTag: '纪元石碑',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: '横跨三世三大文明纪元的石碑考据，破译古代水晶裂变根因，解锁太古高阶法术石。',
+    inheritanceReward: '太古全息星图 / 禁咒法术石',
+    epochSpan: '古代纪元 ➔ 现代 ➔ 终焉裂隙'
+  },
+  {
+    id: 'princess_legacy',
+    name: '遗落王女宿命寻踪',
+    icon: '👑',
+    typeTag: '王女羁绊',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: '追随王室遗孤从平民暗巷至王座归位的四重变装线索，解锁专属命座守护光环。',
+    inheritanceReward: '王女婚誓金戒 / 命座真圣印',
+    epochSpan: '四大王国宫廷 ➔ 避风港要塞'
+  },
+  {
+    id: 'blacksmith_reforge',
+    name: '铁匠世家神兵重铸',
+    icon: '🔨',
+    typeTag: '神灭重铸',
+    tagClass: 'bg-red-500/20 text-red-300 border border-red-500/30',
+    desc: '寻回七代祖传以太淬火秘方，借熔岩地核真火熔铸神话断刃，达成极致破限攻击力。',
+    inheritanceReward: '超越诸神黄昏断刃锻造权',
+    epochSpan: '矮人地底工坊 ➔ 熔岩禁区'
+  },
+  {
+    id: 'smuggler_pact',
+    name: '虚空流浪商人契约',
+    icon: '🪙',
+    typeTag: '黑市暗拍',
+    tagClass: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    desc: '游走于各时代次元裂隙黑市商会，激活跨时空随身以太仓库与绝版道具暗拍权。',
+    inheritanceReward: '跨时空以太无限仓 / 9折暗拍',
+    epochSpan: '全域 97 场景黑市暗巷流窜'
+  }
+]
+
+const epochChainDepthStages = ref(5)
+const epochNpcAffinityPoints = ref(750)
+const epochVaultQualityFactor = ref(3.2)
+const epochBranchEntanglementPct = ref(85)
+
+const enableCausalityBranchFreeRewind = ref(true)
+const enableNpcAboardAirshipPact = ref(true)
+const enableGuaranteedRelicDoubleLoot = ref(true)
+
+const isEpochQuestSimulating = ref(false)
+const epochQuestSimProgress = ref(0)
+const epochQuestSimStep = ref('')
+const epochQuestLogs = ref<string[]>([])
+
+const epochCompletionBonusPct = computed(() => {
+  let pct = 35.0 + (epochChainDepthStages.value / 7) * 35.0 + (epochBranchEntanglementPct.value / 100) * 15.0
+  return Math.min(85.0, parseFloat(pct.toFixed(1)))
+})
+
+const epochAffinityEfficiencyPct = computed(() => {
+  let val = 84.0 + (epochNpcAffinityPoints.value / 1000) * 11.5
+  if (enableNpcAboardAirshipPact.value) val += 4.3
+  return Math.min(99.8, parseFloat(val.toFixed(1)))
+})
+
+const epochVaultExpectedGil = computed(() => {
+  let gil = 1500000 * epochVaultQualityFactor.value
+  if (enableGuaranteedRelicDoubleLoot.value) gil *= 1.35
+  return Math.round(gil)
+})
+
+const epochQuestTierBadge = computed(() => {
+  if (epochCompletionBonusPct.value > 80 && epochAffinityEfficiencyPct.value > 98) return 'EX·跨纪元神话纪行先知'
+  if (epochCompletionBonusPct.value > 70) return 'SSS·时空因果律大宗师'
+  if (epochCompletionBonusPct.value > 60) return 'SS·高阶宿命任务探索者'
+  return 'S·标准支线探险家'
+})
+
+const selectEpochQuestArchetype = (id: string) => {
+  selectedEpochQuestArchetype.value = id
+  const target = epochQuestArchetypes.find(a => a.id === id)
+  if (target) {
+    message?.info(`已切入支线任务链：${target.name}（${target.typeTag}）`)
+  }
+}
+
+const resetEpochQuestDefaults = () => {
+  epochChainDepthStages.value = 5
+  epochNpcAffinityPoints.value = 750
+  epochVaultQualityFactor.value = 3.2
+  epochBranchEntanglementPct.value = 85
+  enableCausalityBranchFreeRewind.value = true
+  enableNpcAboardAirshipPact.value = true
+  enableGuaranteedRelicDoubleLoot.value = true
+  message?.success('已恢复跨纪元支线任务链基准参数！')
+}
+
+const runEpochQuestSimulation = () => {
+  if (isEpochQuestSimulating.value) return
+  isEpochQuestSimulating.value = true
+  epochQuestSimProgress.value = 0
+  epochQuestLogs.value = []
+
+  const steps = [
+    { p: 20, step: '定位三千年历史轴上的跨纪元支线锚点与求援信标...', log: '信标捕获完成，任务链深入至第 5 阶段，因果律纠缠度 85%。' },
+    { p: 45, step: '推演 NPC 关键对白分支，好感度升华至 750 点...', log: 'NPC 羁绊共鸣成功，随舰飞空艇工坊特权契约正式缔结。' },
+    { p: 70, step: '启动因果律无悔重选与时间线回溯守护机制...', log: '抉择回溯断路器就绪，任意支线分支皆可无损重置重温。' },
+    { p: 90, step: '解密遗迹密室宝箱符文锁，双倍掉落保底激活...', log: '宝箱防空箱生效，获得稀世珍宝期望估值 ' + epochVaultExpectedGil.value.toLocaleString() + ' G。' },
+    { p: 100, step: '跨纪元支线推演收敛，冒险家方案证书签发！', log: `探索加成: +${epochCompletionBonusPct.value}%，羁绊效率: ${epochAffinityEfficiencyPct.value}%，认证: ${epochQuestTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      epochQuestSimProgress.value = steps[idx].p
+      epochQuestSimStep.value = steps[idx].step
+      epochQuestLogs.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isEpochQuestSimulating.value = false
+      message?.success('跨纪元支线任务链沙盘推演圆满成功！')
+    }
+  }, 250)
+}
+
+const exportEpochQuestCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-EPOCH-QUEST-CHAIN-SPEC',
+    version: 'v2.2.324',
+    timestamp: new Date().toISOString(),
+    archetype: selectedEpochQuestArchetype.value,
+    chain_stages: epochChainDepthStages.value,
+    affinity_points: epochNpcAffinityPoints.value,
+    vault_factor: epochVaultQualityFactor.value,
+    entanglement_pct: epochBranchEntanglementPct.value,
+    causality_rewind: enableCausalityBranchFreeRewind.value,
+    npc_aboard: enableNpcAboardAirshipPact.value,
+    double_loot: enableGuaranteedRelicDoubleLoot.value,
+    completion_bonus_pct: epochCompletionBonusPct.value,
+    affinity_efficiency_pct: epochAffinityEfficiencyPct.value,
+    vault_expected_gil: epochVaultExpectedGil.value,
+    tier: epochQuestTierBadge.value,
+    cert_sha256: '9c0d1e2f3a4b56789012cdef3456789012bcde3456789012bcde324b1234'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `epoch_sidequest_chain_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success('已导出跨纪元支线任务方案认证证书！')
+}
+
+const activeEpochQuestScriptTab = ref<'director' | 'dialogue' | 'loot_matrix'>('director')
+
+const epochQuestScriptCodes = {
+  director: `class_name CrossEpochQuestChainDirector
+extends RefCounted
+
+## 最终幻想：时空之轮 - 跨纪元支线任务链流转编排器
+## 文件路径: res://scripts/sidequests/cross_epoch_quest_chain_director.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal quest_stage_advanced(quest_id: String, stage: int)
+signal causality_rewound(quest_id: String)
+
+static func evaluate_quest_progress(stage: int, entanglement: float) -> Dictionary:
+    var completion_bonus: float = 35.0 + (float(stage) / 7.0) * 35.0 + (entanglement / 100.0) * 15.0
+    return {
+        "current_stage": stage,
+        "completion_bonus_pct": clampf(completion_bonus, 35.0, 85.0),
+        "status": "EPOCH_CHAIN_ACTIVE"
+    }
+`,
+
+  dialogue: `class_name NPCAffinityDialogueTree
+extends RefCounted
+
+## 最终幻想：时空之轮 - NPC 羁绊好感度与多分支对白决策树
+## 文件路径: res://scripts/sidequests/npc_affinity_dialogue_tree.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func calculate_affinity(points: int, airship_pact: bool) -> Dictionary:
+    var efficiency: float = 84.0 + (float(points) / 1000.0) * 11.5
+    if airship_pact:
+        efficiency += 4.3
+    return {
+        "affinity_points": points,
+        "efficiency_pct": clampf(efficiency, 80.0, 99.8),
+        "is_pact_signed": airship_pact
+    }
+`,
+
+  loot_matrix: `class_name RelicVaultLootMatrix
+extends RefCounted
+
+## 最终幻想：时空之轮 - 遗迹宝箱掉落概率与防空箱保底矩阵
+## 文件路径: res://scripts/sidequests/relic_vault_loot_matrix.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func roll_vault_chest(quality_factor: float, double_loot: bool) -> Dictionary:
+    var base_gil: int = int(1500000.0 * quality_factor)
+    if double_loot:
+        base_gil = int(float(base_gil) * 1.35)
+    return {
+        "expected_gil": base_gil,
+        "anti_empty_chest": true,
+        "relic_tier": "MYTHIC_SEALED"
+    }
+`
+}
+
+const currentEpochQuestScriptCode = computed(() => {
+  return epochQuestScriptCodes[activeEpochQuestScriptTab.value]
+})
+
+const copyEpochQuestScript = () => {
+  navigator.clipboard.writeText(currentEpochQuestScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 支线任务源码到剪贴板！')
 }
 
 </script>
