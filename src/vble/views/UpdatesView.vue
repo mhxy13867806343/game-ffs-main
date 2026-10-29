@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-news-broadcast-studio-2026-10-29',
+    version: 'v2.2.278',
+    date: '2026-10-29',
+    title: '全域时空战报广播与去中心化公告签名工坊重磅实装',
+    category: 'system',
+    categoryName: '战报广播',
+    icon: '📡',
+    tagType: 'success',
+    description: '全面重构升级 NewsView 资讯与编年史门户：顶部标章升级为 VBLE News, World Chronicle & Timeline Matrix v2.2.278，新增时空战报广播工坊快捷直达与全新模式切换页；专区重磅实装【全域时空战报广播与去中心化公告签名工坊】（Spatiotemporal Dispatch Broadcast & Decentralized Bulletin Signature Studio）；覆盖四大时空广播频道（全域以太潮汐警报、深渊次元首领讨伐战报、时空裂隙异常扰动公报、太古十二圣器觉醒通告）；实现广播发射功率 (50~500 MW)、中继节点密度 (16~256 Peers)、信号信噪比阈值 (12~48 dB) 与签名多重验签轮次 (3~15 轮) 连续微调；支持 Merkle 树根哈希分块验签、跨世界线零时延重投影与断网自组网 Mesh 漫游；实时解算时空辐射覆盖半径 (突破 6,000+ 光秒)、消息传播吞吐 (突破 2,500+ kbps) 与共识核签信任度 (99.8%+)；实装五阶段战报广播日志终端与离线方案书 SHA-256 证书导出；源码展台升级 4 Tab，新增 spatiotemporal_broadcast_engine.gd 纯逻辑引擎。',
+    highlights: [
+      '四大时空战报频道：以太潮汐警报、次元首领讨伐、时空裂隙公报与太古圣器通告全域广播',
+      '四维连续广播动力学：发射功率、中继节点密度、信噪比阈值与多重验签轮次全域动态适配',
+      '去中心化 Merkle 验签：分布式抗碰撞签名，彻底防止战报与公告信息遭遇篡改或劫持',
+      '离线自愈自组网漫游：支持单机与局域网节点秒级拓扑握手，断网状态仍可接收权威通报',
+      '离线认证方案书导出：自动生成附带 Merkle Root 与 SHA-256 专属签名的方案并同步剪贴板',
+      'Godot 4.6 LTS 4 Tab 展台：新增 spatiotemporal_broadcast_engine.gd 纯逻辑引擎源码'
+    ],
+    relatedLinks: [
+      { label: '单机档案与资讯中心', path: '/vble/news', icon: '📢' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' },
+      { label: '未来版本规划', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
+  {
     id: 'up-equipment-rune-infusion-2026-10-29',
     version: 'v2.2.277',
     date: '2026-10-29',

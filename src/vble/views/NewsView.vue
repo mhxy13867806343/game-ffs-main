@@ -22,20 +22,31 @@
         </div>
         <div class="flex items-center gap-2 mb-1">
           <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-            VBLE News, World Chronicle &amp; Timeline Matrix v2.2.264
+            VBLE News, World Chronicle &amp; Timeline Matrix v2.2.278
           </span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-black text-white text-glow-cyan flex items-center gap-2">
-          <span>📢 单机档案、全域编年史与世界线演化沙盘</span>
+          <span>📢 单机档案、全域编年史、时空战报广播与去中心化签名工坊</span>
           <n-tag size="small" type="primary" round strong>全域官方存档</n-tag>
         </h1>
         <p class="text-xs sm:text-sm text-gray-400 mt-1">
-          掌握双月宇宙核心版本发布、大秘境通关攻略、世界风土志、单机特典特权、四界世界线编年史推演与离线广播架构
+          掌握双月宇宙核心版本发布、大秘境通关攻略、世界风土志、单机特典特权、四界世界线编年史推演与时空战报广播签名架构
         </p>
       </div>
 
-      <!-- 右侧快捷跳转 (更新日志 / 功能规划 / 编年史沙盘) -->
+      <!-- 右侧快捷跳转 (更新日志 / 功能规划 / 战报广播 / 编年史沙盘) -->
       <div class="flex items-center gap-2 shrink-0 flex-wrap">
+        <n-button
+          type="info"
+          size="small"
+          round
+          secondary
+          class="shadow-md"
+          @click="activeMode = 'broadcast_studio'"
+        >
+          <template #icon><span>📡</span></template>
+          时空战报广播工坊
+        </n-button>
         <n-button
           type="warning"
           size="small"
@@ -927,7 +938,258 @@
       </div>
     </div>
 
-    <!-- 模式 B4：Godot 4.x 引擎广播分发系统源码 -->
+    <!-- 模式 B5：全域时空战报广播与去中心化公告签名工坊 -->
+    <div v-if="activeMode === 'broadcast_studio'" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-[#0b1020]/95 border border-cyan-500/30 space-y-6 shadow-[0_0_35px_rgba(6,182,212,0.18)] relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- 头部标章 -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                v2.2.278 重磅实装
+              </span>
+              <span class="text-xs text-gray-400">去中心化 P2P 战报 · Merkle 树防篡改验签</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+              <span>📡</span> 全域时空战报广播与去中心化公告签名工坊
+            </h2>
+            <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+              基于以太天体超导中继与分布式多重签名算法，解算全域深渊战报秒级广播分发、Merkle 根哈希验签、抗干扰信噪比与跨世界线重投影。
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <n-button
+              type="primary"
+              size="small"
+              round
+              secondary
+              :loading="isSimulatingBroadcast"
+              @click="simulateBroadcastDispatch"
+            >
+              <template #icon><span>⚡</span></template>
+              激发战报广播推演
+            </n-button>
+            <n-button
+              type="info"
+              size="small"
+              round
+              secondary
+              @click="exportBroadcastCertificate"
+            >
+              <template #icon><span>📜</span></template>
+              导出方案证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大频道预设 Channels -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div
+            v-for="ch in broadcastChannels"
+            :key="ch.id"
+            class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+            :class="selectedBroadcastChannelId === ch.id
+              ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]'
+              : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+            @click="applyBroadcastChannel(ch.id)"
+          >
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xl">{{ ch.icon }}</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedBroadcastChannelId === ch.id ? 'bg-cyan-500/30 text-cyan-200' : 'bg-slate-800 text-gray-400'">
+                  {{ ch.tag }}
+                </span>
+              </div>
+              <div class="font-bold text-xs text-gray-200">{{ ch.name }}</div>
+              <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{{ ch.summary }}</div>
+            </div>
+            <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+              <span class="text-gray-400">发射功率:</span>
+              <span class="font-mono font-bold text-cyan-300">{{ ch.powerMW }} MW</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 双栏交互面板 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- 左侧：实时广播视窗与物理计算 -->
+          <div class="lg:col-span-7 space-y-4">
+            <!-- 广播全息雷达视窗 -->
+            <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+              <!-- 背景光斑与雷达波纹 SVG 模拟 -->
+              <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+                <div
+                  class="absolute w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                  :style="{
+                    background: currentBroadcastChannel.gradient,
+                    opacity: (snrThreshold / 48 * 0.85).toFixed(2),
+                    transform: `scale(${1 + transmitterPower / 600})`
+                  }"
+                ></div>
+                <svg class="w-60 h-60 opacity-60 animate-[spin_50s_linear_infinite]" viewBox="0 0 200 200">
+                  <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(6,182,212,0.4)" stroke-width="1.5" stroke-dasharray="4 4" />
+                  <circle cx="100" cy="100" r="65" fill="none" stroke="rgba(59,130,246,0.4)" stroke-width="1" />
+                  <circle cx="100" cy="100" r="40" fill="none" stroke="rgba(168,85,247,0.5)" stroke-width="1" stroke-dasharray="2 2" />
+                  <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(6,182,212,0.3)" stroke-width="1" />
+                  <line x1="10" y1="100" x2="190" y2="100" stroke="rgba(6,182,212,0.3)" stroke-width="1" />
+                  <circle cx="100" cy="100" r="6" fill="rgba(6,182,212,0.9)" />
+                </svg>
+              </div>
+
+              <!-- 顶部状态指示灯与采样模式 -->
+              <div class="relative z-10 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="font-mono text-cyan-300 font-bold">BROADCAST TRANSMITTING</span>
+                  <span class="text-gray-400 font-mono text-[10px]">| {{ relayPeerDensity }} Relay Peers</span>
+                </div>
+                <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-amber-300">
+                  信噪比: {{ snrThreshold }} dB
+                </div>
+              </div>
+
+              <!-- 中间标语 -->
+              <div class="relative z-10 text-center my-auto">
+                <div class="text-2xl font-black text-white/90 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(6,182,212,0.8)]">
+                  {{ currentBroadcastChannel.name }}
+                </div>
+                <div class="text-xs text-cyan-200/80 mt-1 font-mono">
+                  传播吞吐: {{ broadcastMetrics.throughputKbps }} kbps · 覆盖半径: {{ broadcastMetrics.coverageRadius }} 光秒
+                </div>
+              </div>
+
+              <!-- 底部性能与管线参数微视窗 -->
+              <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+                <span>共识验签: {{ multiSigRounds }} 轮 Multi-Sig</span>
+                <span class="text-emerald-400 font-bold">节点信任度: {{ broadcastMetrics.consensusTrust }}%</span>
+              </div>
+            </div>
+
+            <!-- 4 维物理与战斗指标卡片 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">时空辐射半径</div>
+                <div class="font-mono text-cyan-400 font-bold text-sm mt-0.5">{{ broadcastMetrics.coverageRadius }} 光秒</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">四界以太穿透</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">消息传播吞吐</div>
+                <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ broadcastMetrics.throughputKbps }} kbps</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">P2P 蜂窝聚合</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">共识核签信任度</div>
+                <div class="font-mono text-emerald-400 font-bold text-sm mt-0.5">{{ broadcastMetrics.consensusTrust }}%</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">拜占庭容错 BFT</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">综合网络评级</div>
+                <div class="font-mono text-purple-400 font-bold text-xs mt-0.5 truncate">{{ broadcastMetrics.rating }}</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">全域去中心化</div>
+              </div>
+            </div>
+
+            <!-- 实时广播日志终端 -->
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+              <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+                <span class="flex items-center gap-1.5 text-cyan-300 font-bold">
+                  <span>💻</span> 战报广播分发与验签日志 (Dispatch Terminal)
+                </span>
+                <span class="text-[10px] text-gray-500">拓扑同步: 实时同步</span>
+              </div>
+              <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+                <div v-for="(log, idx) in broadcastSimulationLogs" :key="idx" class="flex items-start gap-1.5">
+                  <span class="text-cyan-500 select-none">&gt;</span>
+                  <span :class="log.includes('完成') || log.includes('成功') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧：无极物理调优与广播 Uniforms -->
+          <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+            <div class="text-xs font-bold text-cyan-300 flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="flex items-center gap-1.5">
+                <span>🎛️</span> 广播网络参数微调 (Network Uniforms)
+              </span>
+              <button
+                type="button"
+                class="text-[10px] text-gray-400 hover:text-cyan-300 cursor-pointer"
+                @click="resetBroadcastParams"
+              >
+                重置参数
+              </button>
+            </div>
+
+            <!-- 广播发射功率 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>广播发射功率 (Transmitter Power):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ transmitterPower }} MW</span>
+              </div>
+              <n-slider v-model:value="transmitterPower" :min="50" :max="500" :step="10" />
+              <div class="flex justify-between text-[9px] text-gray-500">
+                <span>50MW 局域驻守</span>
+                <span>280MW 全陆行省</span>
+                <span>500MW 跨界天体</span>
+              </div>
+            </div>
+
+            <!-- 中继节点密度 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>中继节点密度 (Relay Peer Density):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ relayPeerDensity }} Peers</span>
+              </div>
+              <n-slider v-model:value="relayPeerDensity" :min="16" :max="256" :step="8" />
+            </div>
+
+            <!-- 信号信噪比阈值 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>信号信噪比阈值 (SNR Threshold):</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ snrThreshold }} dB</span>
+              </div>
+              <n-slider v-model:value="snrThreshold" :min="12" :max="48" :step="1" />
+            </div>
+
+            <!-- 签名多重验签轮次 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>签名多重验签轮次 (Multi-Sig Rounds):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ multiSigRounds }} 轮</span>
+              </div>
+              <n-slider v-model:value="multiSigRounds" :min="3" :max="15" :step="1" />
+            </div>
+
+            <!-- 特性开关组 -->
+            <div class="pt-2 border-t border-slate-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">开启【Merkle 树根哈希分块验签】:</span>
+                <n-switch v-model:value="enableMerkleValidation" size="small" />
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">开启【跨世界线零时延重投影】:</span>
+                <n-switch v-model:value="enableSpatiotemporalReprojection" size="small" />
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">开启【断网自组网 Mesh 漫游传播】:</span>
+                <n-switch v-model:value="enableAdHocRoaming" size="small" />
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+              💡 广播原理：借助以太超导中继与 Merkle 树抗碰撞签名，即使处于无网络单机状态，亦可在队伍整备与局域网节点间实现秒级断点广播与权威通告认证。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 模式 B6：Godot 4.x 引擎广播分发系统源码 -->
     <div v-if="activeMode === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
@@ -938,7 +1200,7 @@
               </span>
               <h3 class="text-base font-bold text-white">官方离线广播与编年史演化架构源码</h3>
             </div>
-            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 flex-wrap">
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
@@ -963,6 +1225,14 @@
               >
                 world_chronicle_evolution_simulator.gd
               </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+                :class="activeCodeTab === 'broadcast' ? 'bg-emerald-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeCodeTab = 'broadcast'"
+              >
+                spatiotemporal_broadcast_engine.gd
+              </button>
             </div>
           </div>
           <n-button size="small" round secondary type="info" @click="copyGdScript">
@@ -971,7 +1241,7 @@
           </n-button>
         </div>
 
-        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeTab === 'bulletin' ? gdScriptCode : activeCodeTab === 'patch' ? gdSaveMigrationCode : gdChronicleCode }}</pre>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeTab === 'bulletin' ? gdScriptCode : activeCodeTab === 'patch' ? gdSaveMigrationCode : activeCodeTab === 'chronicle' ? gdChronicleCode : gdBroadcastCode }}</pre>
       </div>
     </div>
   </div>
@@ -990,13 +1260,14 @@ const { width: windowWidth } = useWindowSize()
 const isMobile = computed(() => windowWidth.value < 640)
 
 // 视图模式切换
-type ViewMode = 'articles' | 'event_radar' | 'patch_manifest' | 'community_qa' | 'chronicle_evolution' | 'engine_code'
+type ViewMode = 'articles' | 'event_radar' | 'patch_manifest' | 'community_qa' | 'chronicle_evolution' | 'broadcast_studio' | 'engine_code'
 const activeMode = ref<ViewMode>('articles')
 const viewModes: { key: ViewMode; label: string; icon: string; badge?: string }[] = [
   { key: 'articles', label: '单机档案全量资讯', icon: '📢' },
   { key: 'event_radar', label: '周期活动与版本雷达', icon: '📡', badge: 'HOT' },
   { key: 'patch_manifest', label: '热更补丁与存档迁徙', icon: '📦' },
   { key: 'chronicle_evolution', label: '全域编年史演化沙盘', icon: '📜', badge: 'v2.2.264' },
+  { key: 'broadcast_studio', label: '时空战报广播与签名工坊', icon: '📡', badge: 'v2.2.278' },
   { key: 'community_qa', label: '官方问答交流所', icon: '💬' },
   { key: 'engine_code', label: '广播分发引擎源码', icon: '💻' }
 ]
@@ -1433,7 +1704,7 @@ const migrationNotice = ref('')
 const migrationLogs = ref<string[]>([
   '=== 存档向前迁徙分析机就绪，请选择源版本并启动无损升阶 ==='
 ])
-const activeCodeTab = ref<'bulletin' | 'patch' | 'chronicle'>('bulletin')
+const activeCodeTab = ref<'bulletin' | 'patch' | 'chronicle' | 'broadcast'>('broadcast')
 const copiedCode = ref(false)
 let migrationTimer: ReturnType<typeof setInterval> | null = null
 
@@ -1648,18 +1919,23 @@ const gdSaveMigrationCode = [
 ].join('\n')
 
 const copyGdScript = () => {
-  const code = activeCodeTab.value === 'bulletin'
-    ? gdScriptCode
-    : activeCodeTab.value === 'patch'
-      ? gdSaveMigrationCode
-      : gdChronicleCode
+  let code = ''
+  let filename = ''
+  if (activeCodeTab.value === 'bulletin') {
+    code = gdScriptCode
+    filename = 'game_event_bulletin_manager.gd'
+  } else if (activeCodeTab.value === 'patch') {
+    code = gdSaveMigrationCode
+    filename = 'save_migration_patch_resolver.gd'
+  } else if (activeCodeTab.value === 'chronicle') {
+    code = gdChronicleCode
+    filename = 'world_chronicle_evolution_simulator.gd'
+  } else {
+    code = gdBroadcastCode
+    filename = 'spatiotemporal_broadcast_engine.gd'
+  }
   navigator.clipboard.writeText(code).then(() => {
     copiedCode.value = true
-    const filename = activeCodeTab.value === 'bulletin'
-      ? 'game_event_bulletin_manager.gd'
-      : activeCodeTab.value === 'patch'
-        ? 'save_migration_patch_resolver.gd'
-        : 'world_chronicle_evolution_simulator.gd'
     message.success(`${filename} 源码已复制到剪贴板！`)
     setTimeout(() => {
       copiedCode.value = false
@@ -1937,6 +2213,227 @@ const gdChronicleCode = [
   '	var civ_index: float = clampf(aether_stability * 0.7 + (100.0 - void_singularity_index) * 0.3, 0.0, 100.0)',
   '	emit_signal("singularity_erupted", void_singularity_index, risk)',
   '	return { "risk": risk, "civilization_index": civ_index }'
+].join('\n')
+
+// ==========================================
+// 📡 全域时空战报广播与去中心化公告签名工坊 (v2.2.278)
+// ==========================================
+interface BroadcastChannel {
+  id: string
+  name: string
+  tag: string
+  icon: string
+  summary: string
+  powerMW: number
+  gradient: string
+}
+
+const broadcastChannels: BroadcastChannel[] = [
+  {
+    id: 'astral_alert',
+    name: '全域以太潮汐警报 (Astral Aether Tidal Alert)',
+    tag: '紧急通报',
+    icon: '🚨',
+    summary: '虚空裂隙引力透镜偏转突变，全域水晶共鸣震颤预警',
+    powerMW: 320,
+    gradient: 'radial-gradient(circle, rgba(239,68,68,0.55) 0%, rgba(245,158,11,0.25) 50%, transparent 80%)'
+  },
+  {
+    id: 'boss_slain',
+    name: '深渊次元首领讨伐战报 (Abyss Boss Slain Dispatch)',
+    tag: '史诗战报',
+    icon: '⚔️',
+    summary: '欧米茄与始源神龙首领核心击破，光之战士缔结诸神契约',
+    powerMW: 280,
+    gradient: 'radial-gradient(circle, rgba(245,158,11,0.55) 0%, rgba(168,85,247,0.3) 50%, transparent 80%)'
+  },
+  {
+    id: 'void_rift',
+    name: '时空裂隙异常扰动公报 (Void Rift Distortion Bulletin)',
+    tag: '灾害公报',
+    icon: '🌌',
+    summary: '第三世界次元边缘坍缩，黑洞白洞对冲引力波监测',
+    powerMW: 420,
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.55) 0%, rgba(59,130,246,0.3) 50%, transparent 80%)'
+  },
+  {
+    id: 'relic_genesis',
+    name: '太古十二圣器觉醒通告 (Primordial Relic Awakening Gazette)',
+    tag: '奇迹通告',
+    icon: '✨',
+    summary: '王者之剑/诸神之黄昏+10破限开光，全域攻击上限突破',
+    powerMW: 240,
+    gradient: 'radial-gradient(circle, rgba(6,182,212,0.55) 0%, rgba(59,130,246,0.25) 50%, transparent 80%)'
+  }
+]
+
+const selectedBroadcastChannelId = ref('astral_alert')
+const transmitterPower = ref(320)
+const relayPeerDensity = ref(96)
+const snrThreshold = ref(36)
+const multiSigRounds = ref(7)
+const enableMerkleValidation = ref(true)
+const enableSpatiotemporalReprojection = ref(true)
+const enableAdHocRoaming = ref(true)
+const isSimulatingBroadcast = ref(false)
+
+const currentBroadcastChannel = computed(() => {
+  return broadcastChannels.find(c => c.id === selectedBroadcastChannelId.value) || broadcastChannels[0]
+})
+
+const applyBroadcastChannel = (channelId: string) => {
+  selectedBroadcastChannelId.value = channelId
+  const ch = broadcastChannels.find(c => c.id === channelId)
+  if (ch) {
+    transmitterPower.value = ch.powerMW
+    message.info(`已切换至【${ch.name}】广播频道`)
+  }
+}
+
+const resetBroadcastParams = () => {
+  applyBroadcastChannel('astral_alert')
+  relayPeerDensity.value = 96
+  snrThreshold.value = 36
+  multiSigRounds.value = 7
+  enableMerkleValidation.value = true
+  enableSpatiotemporalReprojection.value = true
+  enableAdHocRoaming.value = true
+}
+
+const broadcastSimulationLogs = ref<string[]>([
+  '系统就绪: Godot 4.6 LTS 全域时空战报广播分发与验签引擎载入完毕',
+  'P2P 蜂窝拓扑: 超导中继网络 96 个分布式信标节点握手成功',
+  'Merkle 根哈希: SHA-256 分块叶节点完整性自检通过',
+  '共识机制: BFT 拜占庭容错与多重门限签名准备'
+])
+
+const broadcastMetrics = computed(() => {
+  const coverageRadius = Math.round(transmitterPower.value * 12.5 + relayPeerDensity.value * 8.4)
+  const throughputKbps = Math.round(transmitterPower.value * 3.8 + relayPeerDensity.value * 6.5)
+  const consensusTrust = (98.0 + (multiSigRounds.value / 15.0) * 1.8 + (enableMerkleValidation.value ? 0.15 : 0.0)).toFixed(2)
+
+  let rating = 'Forward+ Clustered 广播超导级'
+  if (transmitterPower.value >= 400) rating = '跨界天体级全域穿透'
+  else if (transmitterPower.value >= 250) rating = '大陆行省级毫秒覆写'
+  else rating = '局域网边缘自组网'
+
+  return {
+    coverageRadius,
+    throughputKbps,
+    consensusTrust,
+    rating
+  }
+})
+
+const simulateBroadcastDispatch = () => {
+  isSimulatingBroadcast.value = true
+  const now = new Date()
+  const ts = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  broadcastSimulationLogs.value = [
+    `[${ts}] 🚀 启动全域时空战报广播分发推演...`,
+    `[${ts}] 阶段 1: 调谐【${currentBroadcastChannel.value.name}】，发射功率锁定 ${transmitterPower.value} MW`,
+    `[${ts}] 阶段 2: 激活 ${relayPeerDensity.value} 个 P2P 中继节点，时空辐射半径突破 ${broadcastMetrics.value.coverageRadius} 光秒`,
+    `[${ts}] 阶段 3: 执行 ${multiSigRounds.value} 轮多重签名核验，${enableMerkleValidation.value ? 'Merkle 根哈希防篡改校验通过' : '常规哈希核对'}`,
+    `[${ts}] 阶段 4: 信号信噪比稳定于 ${snrThreshold.value} dB，${enableAdHocRoaming.value ? 'Mesh 离线漫游自愈网络激活' : '单点路由分发'}`,
+    `[${ts}] ✨ 战报全网广播完成！传播吞吐 ${broadcastMetrics.value.throughputKbps} kbps，共识信任度 ${broadcastMetrics.value.consensusTrust}%！`
+  ]
+
+  setTimeout(() => {
+    isSimulatingBroadcast.value = false
+    message.success(`⚡ 战报广播分发完成！共识信任度 ${broadcastMetrics.value.consensusTrust}%`)
+  }, 600)
+}
+
+const exportBroadcastCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  const certLines = [
+    '================================================================================',
+    '   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)',
+    '   全域时空战报广播与去中心化公告签名方案证书 (v2.2.278)',
+    '================================================================================',
+    `颁发时间: ${timeStr}`,
+    `广播频道: ${currentBroadcastChannel.value.name}`,
+    `通报概要: ${currentBroadcastChannel.value.summary}`,
+    '运行架构: Godot 4.6 LTS / spatiotemporal_broadcast_engine.gd',
+    '',
+    '【时空战报广播分发 Uniform 参数】',
+    `- 广播发射功率 (Transmitter Power): ${transmitterPower.value} MW`,
+    `- 中继节点密度 (Relay Peer Density): ${relayPeerDensity.value} Peers`,
+    `- 信号信噪比阈值 (SNR Threshold): ${snrThreshold.value} dB`,
+    `- 签名多重验签轮次 (Multi-Sig Rounds): ${multiSigRounds.value} 轮`,
+    `- Merkle 树根哈希分块验签: ${enableMerkleValidation.value ? '已启用 (防篡改无碰撞)' : '关闭'}`,
+    `- 跨世界线零时延重投影: ${enableSpatiotemporalReprojection.value ? '已激活 (四界同步)' : '关闭'}`,
+    `- 断网自组网 Mesh 漫游传播: ${enableAdHocRoaming.value ? '已激活 (局域自愈)' : '关闭'}`,
+    '',
+    '【广播网络实机遥测指标】',
+    `- 时空辐射覆盖半径: ${broadcastMetrics.value.coverageRadius} 光秒`,
+    `- 消息传播吞吐速率: ${broadcastMetrics.value.throughputKbps} kbps`,
+    `- 共识核签信任度: ${broadcastMetrics.value.consensusTrust}%`,
+    `- 综合网络评级: ${broadcastMetrics.value.rating}`,
+    '',
+    '【底层引擎契约安全指纹】',
+    '- Engine Spec: Godot 4.6 LTS / GDScript RefCounted Pure Logic',
+    `- Merkle Root: 0x${Math.random().toString(16).substring(2, 10)}${Math.random().toString(16).substring(2, 10)}`,
+    `- Digital Fingerprint: SHA256-BROADCAST-${Math.random().toString(36).substring(2, 10).toUpperCase()}${Date.now().toString(36).toUpperCase()}`,
+    '================================================================================'
+  ]
+
+  const certContent = certLines.join('\n')
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `spatiotemporal_broadcast_v2.2.278_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  message.success('时空战报广播签名方案书已导出并同步至剪贴板！')
+}
+
+const gdBroadcastCode = [
+  '## spatiotemporal_broadcast_engine.gd',
+  '## Godot 4.6 LTS - 全域时空战报广播与去中心化公告签名引擎',
+  'extends RefCounted',
+  'class_name SpatiotemporalBroadcastEngine',
+  '',
+  'signal dispatch_broadcasted(channel_id: String, power_mw: float, peers_count: int)',
+  'signal consensus_verified(merkle_root: String, trust_rate: float)',
+  '',
+  'var transmitter_power: float = 320.0',
+  'var relay_peer_density: int = 96',
+  'var snr_threshold: float = 36.0',
+  'var multi_sig_rounds: int = 7',
+  'var enable_merkle: bool = true',
+  'var enable_roaming: bool = true',
+  '',
+  'func calculate_broadcast_coverage() -> Dictionary:',
+  '\tvar radius: float = transmitter_power * 12.5 + float(relay_peer_density) * 8.4',
+  '\tvar throughput: float = transmitter_power * 3.8 + float(relay_peer_density) * 6.5',
+  '\tvar trust: float = 98.0 + (float(multi_sig_rounds) / 15.0) * 1.8 + (0.15 if enable_merkle else 0.0)',
+  '\tvar merkle_hash: String = "0x" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
+  '\t',
+  '\treturn {',
+  '\t\t"coverage_radius_light_seconds": radius,',
+  '\t\t"throughput_kbps": throughput,',
+  '\t\t"consensus_trust": trust,',
+  '\t\t"merkle_root": merkle_hash,',
+  '\t\t"is_secure": trust >= 99.0,',
+  '\t\t"signature": "SHA256-BROADCAST-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
+  '\t}'
 ].join('\n')
 </script>
 
