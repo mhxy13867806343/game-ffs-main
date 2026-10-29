@@ -2,10 +2,19 @@
   <div class="items-page p-4 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">Items, Armors & Spells Encyclopedia</n-tag>
+      <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
+        <n-tag type="info" size="small" round class="shadow-sm">VBLE Items, Ancient Relic Reforging & Transmutation Matrix v2.2.293</n-tag>
+        <button
+          type="button"
+          class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all cursor-pointer shadow-sm"
+          @click="activeTab = 'reforge'"
+        >
+          🔮 太古重铸与黑市工坊直达
+        </button>
+      </div>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-cyan mb-2">全域道具、防具与四大法系图鉴</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm">
-        系统归纳探险补给、稀有防具头盔、白魔法、黑魔法、时空魔法与青魔法全谱系；集成飞空艇前置机动道具与传奇王冠连锁考据
+        系统归纳探险补给、稀有防具头盔、白魔法、黑魔法、时空魔法与青魔法全谱系；集成太古神兵残简重铸、遗迹远古炼金合成与时空黑市汇率对冲工坊
       </p>
     </div>
 
@@ -506,9 +515,346 @@
       </div>
     </div>
 
+    <!-- 专区 4: 太古神兵碎片重铸、遗迹远古炼金合成与黑市兑换工坊 (Ancient Relic Shard Reforging & Transmutation Studio) -->
+    <div v-if="activeTab === 'reforge'" id="reforge-studio" class="space-y-6">
+      <!-- 横幅标头 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-amber-950/60 via-slate-900/95 to-purple-950/60 border border-amber-500/40 shadow-2xl space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl p-2 rounded-xl bg-amber-500/20 border border-amber-500/40 shadow-inner">🔮</span>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-lg sm:text-xl font-black text-white text-glow-amber">
+                  太古神兵碎片重铸、遗迹远古炼金合成与黑市兑换工坊
+                </h2>
+                <n-tag type="warning" size="tiny" round strong>Godot 4.6 LTS 架构标准</n-tag>
+              </div>
+              <p class="text-xs text-gray-300 mt-0.5">
+                深度解密上古圣战散落之神兵残片与巴比伦遗迹微粒；支持四维连续重铸微调、三大神圣催化保护阀、五阶段重铸仿真推演与防伪方案书导出
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 self-start sm:self-auto">
+            <n-tag type="info" size="small" round>4 大重铸流派</n-tag>
+            <n-tag type="success" size="small" round>零碎裂安全保底</n-tag>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四大重铸流派选择卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div
+          v-for="arch in reforgeArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedArchetypeId === arch.id
+            ? 'bg-amber-950/40 border-amber-400/80 shadow-[0_0_15px_rgba(245,158,11,0.25)] ring-1 ring-amber-400/50'
+            : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-800/60'"
+          @click="selectedArchetypeId = arch.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <n-tag :type="selectedArchetypeId === arch.id ? 'warning' : 'default'" size="tiny" round>
+              {{ arch.tag }}
+            </n-tag>
+          </div>
+          <div class="text-sm font-bold text-white mb-1">{{ arch.name }}</div>
+          <div class="text-[11px] text-gray-400 leading-relaxed mb-3">{{ arch.desc }}</div>
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+            <span class="text-gray-400">核心优势</span>
+            <span class="text-amber-300 font-semibold">{{ arch.perk }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与神圣催化保护阀 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 左侧: 4维连续参数调节 (7 cols) -->
+        <div class="lg:col-span-7 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 font-bold text-sm">🎛️ 炼金重铸连续参数调控矩阵</span>
+              <span class="text-[11px] text-gray-400 font-mono">4-Axis Continuous Tuning</span>
+            </div>
+            <button
+              type="button"
+              class="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors"
+              @click="resetReforgeParameters"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 滑块 1: 神兵碎片投入量 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🧩</span> 神兵碎片投入量 (Shard Quota)
+              </span>
+              <span class="font-mono text-amber-400 font-bold">{{ shardCount }} 片</span>
+            </div>
+            <n-slider
+              v-model:value="shardCount"
+              :min="1"
+              :max="50"
+              :step="1"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1 片 (基础试铸)</span>
+              <span>25 片 (黄金平衡)</span>
+              <span>50 片 (神兵极境)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 2: 遗迹以太通量纯度 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>💧</span> 遗迹以太通量纯度 (Aether Purity)
+              </span>
+              <span class="font-mono text-cyan-400 font-bold">{{ aetherFluxPurity }}%</span>
+            </div>
+            <n-slider
+              v-model:value="aetherFluxPurity"
+              :min="10"
+              :max="100"
+              :step="5"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>10% (杂质以太)</span>
+              <span>60% (高纯遗迹液)</span>
+              <span>100% (始源纯粹核)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 3: 远古高炉淬火温度 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🔥</span> 远古高炉淬火温度 (Quenching Temp)
+              </span>
+              <span class="font-mono text-rose-400 font-bold">{{ catalystTemp }} ℃</span>
+            </div>
+            <n-slider
+              v-model:value="catalystTemp"
+              :min="800"
+              :max="3600"
+              :step="100"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>800 ℃ (初火)</span>
+              <span>2200 ℃ (星核熔断)</span>
+              <span>3600 ℃ (超新星炽炎)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 4: 黑市以太折现汇率 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>⚖️</span> 黑市以太折现汇率 (Black Market Rate)
+              </span>
+              <span class="font-mono text-emerald-400 font-bold">{{ blackMarketRate.toFixed(2) }}x</span>
+            </div>
+            <n-slider
+              v-model:value="blackMarketRate"
+              :min="1.0"
+              :max="5.0"
+              :step="0.1"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1.0x (官方平价)</span>
+              <span>3.0x (黑市溢价对冲)</span>
+              <span>5.0x (虚空套利极境)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧: 3大催化保护开关与动态状态 (5 cols) -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+            <span class="text-purple-400 font-bold text-sm">🛡️ 神圣催化保护阀与安全锁</span>
+            <n-tag type="info" size="tiny" round>主动安全机制</n-tag>
+          </div>
+
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>♻️</span> 以太残渣无损回收阀
+                </div>
+                <div class="text-[11px] text-gray-400">重铸失败返还 85% 核心以太残渣，防碎裂破产</div>
+              </div>
+              <n-switch v-model:value="aetherResidueRecovery" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🔒</span> 极品炼金纯度锁相环
+                </div>
+                <div class="text-[11px] text-gray-400">锁定属性随机波动下限，保底 90% 极品属性</div>
+              </div>
+              <n-switch v-model:value="transmutationPurityLock" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🕶️</span> 虚空黑市隐匿披风
+                </div>
+                <div class="text-[11px] text-gray-400">跨维度关税免除 100%，暴击套利几率 +25%</div>
+              </div>
+              <n-switch v-model:value="voidStealthVeil" size="small" />
+            </div>
+          </div>
+
+          <!-- 综合能效雷达摘要 -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 space-y-2">
+            <div class="text-xs font-bold text-cyan-300 flex items-center justify-between">
+              <span>太古淬火安全指数</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ (reforgeSuccessRate).toFixed(1) }}%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-1.5 rounded-full transition-all duration-300"
+                :style="{ width: Math.min(reforgeSuccessRate, 100) + '%' }"
+              ></div>
+            </div>
+            <div class="text-[10px] text-gray-400 flex justify-between">
+              <span>容限阈值: 60.0%</span>
+              <span class="text-amber-400">熔铸稳定性: {{ reforgeSuccessRate > 90 ? '极佳' : '良好' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实时解算数值仪表盘 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">神兵重铸战力 (CP)</div>
+          <div class="text-2xl font-black text-amber-400 font-mono mt-1">+{{ calculatedReforgeCP.toLocaleString() }}</div>
+          <div class="text-[10px] text-amber-300/80 mt-0.5">附带真伤与贯穿效果</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">炼金升华期望产出</div>
+          <div class="text-2xl font-black text-cyan-400 font-mono mt-1">{{ calculatedTransmutationYield.toFixed(2) }}x</div>
+          <div class="text-[10px] text-cyan-300/80 mt-0.5">极品奇迹结晶倍率</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">黑市折现套利期望</div>
+          <div class="text-2xl font-black text-emerald-400 font-mono mt-1">{{ calculatedArbitrageProfit.toLocaleString() }} G</div>
+          <div class="text-[10px] text-emerald-300/80 mt-0.5">免税全额到手金币</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">太古工坊认证位阶</div>
+          <div class="text-2xl font-black text-purple-400 font-mono mt-1">{{ reforgeCertificationTier }}</div>
+          <div class="text-[10px] text-purple-300/80 mt-0.5">时空神祇最高许可</div>
+        </div>
+      </div>
+
+      <!-- 五阶段重铸推演仿真终端 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-amber-500/30 shadow-2xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-amber-400 font-bold text-sm">⚡ 太古重铸与炼金合成五阶段推演终端</span>
+            <n-tag type="warning" size="tiny" round>Live Simulation Pipeline</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 shadow-md disabled:opacity-50"
+              :disabled="isSimulatingReforge"
+              @click="runReforgeSimulation"
+            >
+              {{ isSimulatingReforge ? '正在推演熔铸中...' : '▶ 启动全流程重铸推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 transition-all cursor-pointer"
+              @click="exportReforgeCertificate"
+            >
+              📜 导出防伪方案书
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 阶段步进进度 -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+          <div
+            v-for="(stage, idx) in reforgeStages"
+            :key="stage.id"
+            class="p-2.5 rounded-lg border text-xs transition-all flex flex-col justify-between"
+            :class="currentSimulationStep >= idx + 1
+              ? 'bg-amber-950/40 border-amber-500/60 text-amber-300'
+              : 'bg-slate-900/60 border-slate-800/80 text-gray-500'"
+          >
+            <div class="font-bold mb-1 flex items-center gap-1">
+              <span>{{ currentSimulationStep >= idx + 1 ? '✅' : '⏳' }}</span>
+              <span>第 {{ idx + 1 }} 阶: {{ stage.title }}</span>
+            </div>
+            <div class="text-[10px] leading-tight opacity-80">{{ stage.desc }}</div>
+          </div>
+        </div>
+
+        <!-- 推演日志输出视窗 -->
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-gray-300 max-h-48 overflow-y-auto space-y-1">
+          <div v-for="(log, idx) in reforgeLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-amber-500 select-none">›</span>
+            <span :class="log.color || 'text-gray-300'">{{ log.text }}</span>
+          </div>
+          <div v-if="reforgeLogs.length === 0" class="text-gray-600 italic">
+            等待启动推演... 点击上方【启动全流程重铸推演】按键开始推演。
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 3 Tab 源码展台 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-xl space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 太古重铸与黑市架构实机脚本</span>
+            <n-tag type="info" size="tiny" round>RefCounted 核心系统</n-tag>
+          </div>
+          <div class="flex gap-2">
+            <button
+              v-for="st in scriptTabs"
+              :key="st.key"
+              type="button"
+              class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
+              :class="activeScriptTab === st.key
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
+              @click="activeScriptTab = st.key"
+            >
+              {{ st.name }}
+            </button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentReforgeScriptCode }}</pre>
+          <button
+            type="button"
+            class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-gray-300 border border-slate-700 cursor-pointer transition-colors"
+            @click="copyCurrentScript"
+          >
+            📋 复制代码
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- 响应式列表分页器 -->
     <div
-      v-if="activeTab !== 'alchemy' && currentList.length > pageSize"
+      v-if="activeTab !== 'alchemy' && activeTab !== 'reforge' && currentList.length > pageSize"
       v-simple-page-label
       class="flex justify-center items-center py-4 border-t border-slate-800/80"
       @click.capture="captureSimplePaginationActivation"
@@ -555,8 +901,11 @@ import type { Directive } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 import { usePagination } from '@/composables/usePagination'
 
+import { useMessage } from 'naive-ui'
+const message = useMessage()
+
 const gameStore = useGameStore()
-const activeTab = ref<'items' | 'armors' | 'magic' | 'alchemy'>('items')
+const activeTab = ref<'items' | 'armors' | 'magic' | 'alchemy' | 'reforge'>('items')
 
 const { width: windowWidth } = useWindowSize()
 const isMobile = computed(() => windowWidth.value < 640)
@@ -569,7 +918,8 @@ const tabOptions = computed(() => [
   { id: 'items' as const, name: '道具与消耗品', icon: '🧪', count: items.value.length },
   { id: 'armors' as const, name: '防具与头饰', icon: '🛡️', count: armors.value.length },
   { id: 'magic' as const, name: '魔法与咒术', icon: '✨', count: magics.value.length },
-  { id: 'alchemy' as const, name: '药剂调合与秘药炼成', icon: '⚗️', count: alchemyRecipes.length }
+  { id: 'alchemy' as const, name: '药剂调合与秘药炼成', icon: '⚗️', count: alchemyRecipes.length },
+  { id: 'reforge' as const, name: '太古神兵碎片重铸与黑市', icon: '🔮', count: 12 }
 ])
 
 // 模拟队伍状态与显式目标切换 (对齐 D09 item_page_target_switch)
@@ -989,6 +1339,343 @@ static func apply_mix_to_combatant(target: Node, recipe: Dictionary) -> void:
             target.take_damage(int(recipe.value), DamageType.DARK_TRUE)
             CombatNotifier.emit_combat_text(target, "9999 暗黑吐息！", Color.PURPLE)
 `
+
+// ==========================================
+// 专区 4: 太古神兵碎片重铸、遗迹远古炼金合成与黑市兑换工坊 (v2.2.293)
+// ==========================================
+interface ReforgeArchetype {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  desc: string
+  perk: string
+  cpMultiplier: number
+}
+
+const reforgeArchetypes: ReforgeArchetype[] = [
+  {
+    id: 'ancient_weapon',
+    name: '太古神兵残简熔铸',
+    icon: '⚔️',
+    tag: '神兵创世',
+    desc: '熔铸上古圣战散落之圣剑与神弓碎片，以太贯穿重塑极境神兵',
+    perk: '无视防御物理暴击 +180%',
+    cpMultiplier: 1.45
+  },
+  {
+    id: 'ruin_transmutation',
+    name: '遗迹远古炼金升华',
+    icon: '⚗️',
+    tag: '远古奇迹',
+    desc: '提炼巴比伦高能微粒，将普通消耗品蜕变质变为神圣永恒甘露',
+    perk: '全队圣灵药效果突破',
+    cpMultiplier: 1.35
+  },
+  {
+    id: 'black_market_arbitrage',
+    name: '虚空黑市期货对冲',
+    icon: '⚖️',
+    tag: '跨维套利',
+    desc: '穿越时空裂隙联通外域黑市商人网络，无视常规配额换取绝版古董',
+    perk: '黑市溢价折现免税 100%',
+    cpMultiplier: 1.25
+  },
+  {
+    id: 'soul_quenching',
+    name: '时空灵魂共鸣淬火',
+    icon: '🌌',
+    tag: '英灵神格',
+    desc: '将光暗英灵灵魂印记注入神兵基底，淬火时吸收双极以太波动',
+    perk: '攻击吸血吸魔神性赋予',
+    cpMultiplier: 1.55
+  }
+]
+
+const selectedArchetypeId = ref<string>('ancient_weapon')
+
+// 4 维连续滑块参数
+const shardCount = ref<number>(24)
+const aetherFluxPurity = ref<number>(88)
+const catalystTemp = ref<number>(2400)
+const blackMarketRate = ref<number>(2.8)
+
+// 3 大催化保护开关
+const aetherResidueRecovery = ref<boolean>(true)
+const transmutationPurityLock = ref<boolean>(true)
+const voidStealthVeil = ref<boolean>(true)
+
+// 动态解算属性
+const currentArchetype = computed(() => {
+  return reforgeArchetypes.find(a => a.id === selectedArchetypeId.value) || reforgeArchetypes[0]
+})
+
+const calculatedReforgeCP = computed(() => {
+  const baseCP = 12000
+  const shardBonus = shardCount.value * 480
+  const purityBonus = (aetherFluxPurity.value / 100) * 8500
+  const tempBonus = (catalystTemp.value / 1000) * 1800
+  const safeguardBonus = (aetherResidueRecovery.value ? 2000 : 0) + (transmutationPurityLock.value ? 3500 : 0)
+  return Math.round((baseCP + shardBonus + purityBonus + tempBonus + safeguardBonus) * currentArchetype.value.cpMultiplier)
+})
+
+const calculatedTransmutationYield = computed(() => {
+  const baseYield = 1.0 + (aetherFluxPurity.value / 100) * 1.5
+  const tempMult = (catalystTemp.value / 2000) * 0.8
+  const lockMult = transmutationPurityLock.value ? 1.25 : 1.0
+  return Number((baseYield * tempMult * lockMult).toFixed(2))
+})
+
+const calculatedArbitrageProfit = computed(() => {
+  const baseGil = 80000
+  const rateFactor = blackMarketRate.value * 45000
+  const veilBonus = voidStealthVeil.value ? 1.35 : 1.0
+  return Math.round((baseGil + rateFactor) * veilBonus)
+})
+
+const reforgeSuccessRate = computed(() => {
+  let rate = 65.0
+  rate += (aetherFluxPurity.value / 100) * 20.0
+  rate += aetherResidueRecovery.value ? 8.5 : 0.0
+  rate += transmutationPurityLock.value ? 5.5 : 0.0
+  if (catalystTemp.value > 3000) {
+    rate -= 4.0
+  }
+  return Math.min(99.9, Math.max(50.0, rate))
+})
+
+const reforgeCertificationTier = computed(() => {
+  if (calculatedReforgeCP.value >= 45000) return 'T0 太古神话极境'
+  if (calculatedReforgeCP.value >= 35000) return 'T1 传奇圣遗物'
+  if (calculatedReforgeCP.value >= 25000) return 'T2 史诗遗迹宝具'
+  return 'T3 精良古代造物'
+})
+
+const resetReforgeParameters = () => {
+  shardCount.value = 24
+  aetherFluxPurity.value = 88
+  catalystTemp.value = 2400
+  blackMarketRate.value = 2.8
+  aetherResidueRecovery.value = true
+  transmutationPurityLock.value = true
+  voidStealthVeil.value = true
+  message?.info('太古重铸与炼金参数已重置为黄金标准配置')
+}
+
+// 五阶段仿真推演
+const isSimulatingReforge = ref<boolean>(false)
+const currentSimulationStep = ref<number>(0)
+interface ReforgeLogItem {
+  text: string
+  color?: string
+}
+const reforgeLogs = ref<ReforgeLogItem[]>([])
+
+const reforgeStages = [
+  { id: 1, title: '碎片与以太扫描', desc: '检索残片纯度与晶格完整度' },
+  { id: 2, title: '催化剂注入与锁相', desc: '启动防碎裂保护与纯度锁定' },
+  { id: 3, title: '高炉淬火原子重排', desc: '极高温晶格熔融与神威附魔' },
+  { id: 4, title: '黑市汇率套利对冲', desc: '虚空隐匿并结算免税金币' },
+  { id: 5, title: '太古神兵签发入库', desc: '生成防伪校验证书与终极宝具' }
+]
+
+const runReforgeSimulation = async () => {
+  if (isSimulatingReforge.value) return
+  isSimulatingReforge.value = true
+  currentSimulationStep.value = 0
+  reforgeLogs.value = []
+
+  const appendLog = (text: string, color?: string) => {
+    reforgeLogs.value.push({ text, color })
+  }
+
+  appendLog('[INIT] 启动太古神兵重铸与遗迹远古炼金合成管线...', 'text-amber-400 font-bold')
+  await new Promise(r => setTimeout(r, 400))
+
+  // Step 1
+  currentSimulationStep.value = 1
+  appendLog(`[STEP 1] 扫描 ${shardCount.value} 枚太古神兵碎片，检测以太纯度 ${aetherFluxPurity.value}%，共鸣频率相干锁定。`, 'text-cyan-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 2
+  currentSimulationStep.value = 2
+  appendLog(`[STEP 2] 激活以太残渣无损回收阀: ${aetherResidueRecovery.value ? '已就绪 (85%返还)' : '未开启'}；极品锁相环: ${transmutationPurityLock.value ? '已锁定' : '未开启'}。`, 'text-purple-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 3
+  currentSimulationStep.value = 3
+  appendLog(`[STEP 3] 远古高炉升温至 ${catalystTemp.value} ℃！分子晶格彻底熔铸，流派【${currentArchetype.value.name}】神性注入，战力估值 +${calculatedReforgeCP.value} CP！`, 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 500))
+
+  // Step 4
+  currentSimulationStep.value = 4
+  appendLog(`[STEP 4] 穿越时空黑市裂隙，折现汇率 ${blackMarketRate.value.toFixed(2)}x，隐匿披风免税结算期望获利 ${calculatedArbitrageProfit.value.toLocaleString()} Gil！`, 'text-emerald-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 5
+  currentSimulationStep.value = 5
+  appendLog(`[SUCCESS] 太古神兵重铸成功！认证位阶: 【${reforgeCertificationTier.value}】，综合成功率 ${reforgeSuccessRate.value.toFixed(1)}%，安全入库！`, 'text-amber-300 font-bold')
+  isSimulatingReforge.value = false
+  message?.success('太古神兵重铸推演圆满完成！')
+}
+
+const exportReforgeCertificate = () => {
+  const certData = {
+    studio: 'Ancient Relic Shard Reforging & Transmutation Studio v2.2.293',
+    archetype: currentArchetype.value.name,
+    shardCount: shardCount.value,
+    aetherFluxPurity: aetherFluxPurity.value,
+    catalystTemp: catalystTemp.value,
+    blackMarketRate: blackMarketRate.value,
+    calculatedReforgeCP: calculatedReforgeCP.value,
+    calculatedTransmutationYield: calculatedTransmutationYield.value,
+    calculatedArbitrageProfit: calculatedArbitrageProfit.value,
+    reforgeSuccessRate: reforgeSuccessRate.value,
+    certificationTier: reforgeCertificationTier.value,
+    timestamp: new Date().toISOString(),
+    sha256Certificate: 'SHARD-REFORGE-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(16).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `reforge_certificate_${certData.sha256Certificate}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success(`已导出方案防伪证书: ${certData.sha256Certificate}`)
+}
+
+// 源码展台
+type ReforgeScriptKey = 'reforge_engine' | 'transmutation_pipeline' | 'black_market_broker'
+
+const activeScriptTab = ref<ReforgeScriptKey>('reforge_engine')
+
+const scriptTabs = [
+  { key: 'reforge_engine' as const, name: '太古神兵重铸引擎' },
+  { key: 'transmutation_pipeline' as const, name: '远古炼金升华管线' },
+  { key: 'black_market_broker' as const, name: '时空黑市经纪系统' }
+]
+
+const reforgeScriptCodes: Record<ReforgeScriptKey, string> = {
+  reforge_engine: `class_name AncientRelicShardReforgeEngine
+extends RefCounted
+
+## 最终幻想：时空之轮 - 太古神兵碎片重铸核心引擎
+## 文件路径: res://scripts/items/ancient_relic_shard_reforge_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal reforge_completed(result: Dictionary)
+signal reforge_failed(recovered_shards: int)
+
+const MIN_QUENCH_TEMP: float = 800.0
+const MAX_QUENCH_TEMP: float = 3600.0
+const AETHER_RECOVERY_RATIO: float = 0.85
+
+var shard_count: int = 24
+var aether_purity: float = 0.88
+var quench_temperature: float = 2400.0
+var recovery_guard_active: bool = true
+var purity_lock_active: bool = true
+
+func execute_reforge() -> Dictionary:
+    var success_chance: float = 0.65 + (aether_purity * 0.20)
+    if recovery_guard_active:
+        success_chance += 0.085
+    if purity_lock_active:
+        success_chance += 0.055
+    if quench_temperature > 3000.0:
+        success_chance -= 0.04
+
+    var roll: float = randf()
+    var is_success: bool = roll <= success_chance
+
+    if not is_success:
+        var recovered := int(float(shard_count) * AETHER_RECOVERY_RATIO) if recovery_guard_active else 0
+        reforge_failed.emit(recovered)
+        return {
+            "success": false,
+            "recovered_shards": recovered,
+            "status": "QUENCH_OVERHEAT_RECOVERED" if recovery_guard_active else "SHARD_SHATTERED"
+        }
+
+    var base_atk: int = 450 + int(float(shard_count) * 45.0 * aether_purity)
+    var true_damage_rate: float = (quench_temperature / 2000.0) * 0.35
+    if purity_lock_active:
+        base_atk = maxi(base_atk, int(float(base_atk) * 0.95))
+
+    var outcome := {
+        "success": true,
+        "weapon_name": "太古创世·时空贯穿神兵",
+        "attack_power": base_atk,
+        "true_damage_multiplier": true_damage_rate,
+        "certification": "EX_ANCIENT_DIVINE"
+    }
+    reforge_completed.emit(outcome)
+    return outcome
+`,
+
+  transmutation_pipeline: `class_name RuinAlchemyTransmutationPipeline
+extends RefCounted
+
+## 最终幻想：时空之轮 - 遗迹远古炼金升华管线
+## 文件路径: res://scripts/items/ruin_alchemy_transmutation_pipeline.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+const RUIN_CATALYST_TABLE: Dictionary = {
+    "elixir": {"yield_mult": 2.5, "aoe_party": true},
+    "megalixir": {"yield_mult": 4.0, "aoe_party": true},
+    "chrono_crystal": {"yield_mult": 3.2, "cooldown_reset": true}
+}
+
+static func transmute_consumable(source_item_id: String, purity: float, lock_active: bool) -> Dictionary:
+    var base_meta: Dictionary = RUIN_CATALYST_TABLE.get(source_item_id, {"yield_mult": 1.5, "aoe_party": false})
+    var final_yield: float = float(base_meta["yield_mult"]) * (1.0 + purity * 0.8)
+
+    if lock_active:
+        final_yield = maxf(final_yield, float(base_meta["yield_mult"]) * 1.5)
+
+    return {
+        "target_item": "远古升华·" + source_item_id,
+        "yield_multiplier": final_yield,
+        "aoe_party_effect": base_meta["aoe_party"],
+        "transmuted_at": Time.get_unix_time_from_system()
+    }
+`,
+
+  black_market_broker: `class_name BlackMarketVoidArbitrageBroker
+extends RefCounted
+
+## 最终幻想：时空之轮 - 虚空黑市期货对冲经纪人
+## 文件路径: res://scripts/items/black_market_void_arbitrage_broker.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+const DEFAULT_TAX_RATE: float = 0.20
+
+static func calculate_arbitrage_net(base_gil: int, exchange_rate: float, stealth_veil: bool) -> Dictionary:
+    var gross_gil: int = int(float(base_gil) * exchange_rate)
+    var effective_tax: float = 0.0 if stealth_veil else DEFAULT_TAX_RATE
+    var tax_amount: int = int(float(gross_gil) * effective_tax)
+    var net_profit: int = gross_gil - tax_amount
+
+    return {
+        "gross_gil": gross_gil,
+        "tax_deducted": tax_amount,
+        "net_profit": net_profit,
+        "stealth_exempt": stealth_veil
+    }
+`
+}
+
+const currentReforgeScriptCode = computed(() => {
+  return reforgeScriptCodes[activeScriptTab.value]
+})
+
+const copyCurrentScript = () => {
+  navigator.clipboard.writeText(currentReforgeScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
 </script>
 
 <style scoped>

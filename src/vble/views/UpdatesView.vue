@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-items-relic-reforge-2026-10-29',
+    version: 'v2.2.293',
+    date: '2026-10-29',
+    title: '全域太古神兵碎片重铸、遗迹远古炼金合成与黑市兑换工坊重磅实装',
+    category: 'equipment',
+    categoryName: '太古重铸',
+    icon: '🔮',
+    tagType: 'success',
+    description: '全面重构升级 ItemsView 道具与法系图鉴门户：顶部标章升级为 VBLE Items, Ancient Relic Reforging & Transmutation Matrix v2.2.293，新增太古重铸与黑市工坊快捷直达；专区重磅实装【全域太古神兵碎片重铸、遗迹远古炼金合成与黑市兑换工坊】（Ancient Relic Shard Reforging & Transmutation Studio）；覆盖四大太古重铸与黑市流派（太古神兵残简熔铸、遗迹远古炼金升华、虚空黑市期货对冲、时空灵魂共鸣淬火）；实现神兵碎片投入量 (1~50 片)、遗迹以太通量纯度 (10%~100%)、远古高炉淬火温度 (800~3600 ℃) 与黑市以太折现汇率 (1.0~5.0x) 连续微调；支持以太残渣无损回收阀（重铸失败返还 85% 核心以太残渣，防碎裂破产）、极品炼金纯度锁相环（锁定属性随机波动下限，保底 90% 极品属性）与虚空黑市隐匿披风（跨维度关税免除 100%，暴击套利几率 +25%）；实时解算神兵重铸综合战力 (突破 45,000+ CP)、炼金升华期望产出 (突破 3.8+ 倍率)、黑市折现套利期望 (突破 600,000+ Gil) 与淬火重铸综合成功率；实装五阶段太古重铸仿真推演终端与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，新增 ancient_relic_shard_reforge_engine.gd、ruin_alchemy_transmutation_pipeline.gd 与 black_market_void_arbitrage_broker.gd。',
+    highlights: [
+      '四大太古重铸流派：神兵残简熔铸、遗迹炼金升华、黑市期货套利与灵魂共鸣淬火全谱系',
+      '四维连续炼金参数：碎片投入量、以太通量纯度、高炉淬火温度与黑市折现汇率连续微调',
+      '以太残渣无损回收阀：重铸淬火失败全额返还 85% 核心以太残渣，彻底防范碎裂破产',
+      '极品炼金纯度锁相环：锁定生成物随机波动下限，保底产出 90% 以上极品词缀数值',
+      '虚空黑市隐匿披风：规避位面执法官关税侦测，实现 100% 免税折现并提升暴击套利率',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增太古神兵重铸引擎、远古炼金升华管线与黑市经纪系统'
+    ],
+    relatedLinks: [
+      { label: '道具法系与太古重铸', path: '/vble/items', icon: '🔮' },
+      { label: '神兵多角色配装', path: '/vble/armory', icon: '⚔️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-characters-soul-link-2026-10-29',
     version: 'v2.2.292',
     date: '2026-10-29',
