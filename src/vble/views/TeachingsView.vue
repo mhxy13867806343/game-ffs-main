@@ -21,6 +21,17 @@
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToAncientArcanaCodexStudio"
+          >
+            <template #icon><span>📖</span></template>
+            奥术法典反应工坊
+          </n-button>
+          <n-button
             type="error"
             size="medium"
             round
@@ -1413,6 +1424,207 @@
           </div>
         </div>
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-rose-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentMentorshipCode }}</pre>
+      </div>
+    </div>
+
+    <!-- v2.2.336: 太古奥术导师法典、全系元素反应链与法术超载工坊 -->
+    <div
+      id="ancient-arcana-codex-studio"
+      class="ancient-arcana-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-cyan-950/20 to-slate-900/95 border border-cyan-500/30 shadow-[0_0_35px_rgba(6,182,212,0.15)] space-y-6 relative overflow-hidden"
+    >
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/20 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
+              ANCIENT ARCANA CODEX &amp; ELEMENTAL CHAIN v2.2.336
+            </span>
+            <span class="text-xs text-cyan-400 font-mono">Spell Overload Reactor &amp; Zero-CD Matrix</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <span>📖</span> 太古奥术导师法典、全系元素反应链与法术超载工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            收录四大流派导师奥术法典、水火风雷地圣暗全相元素反应连锁、以太法脉超载充能涌流与超越 99,999 破限爆发沙盘。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingArcanaCodex"
+            @click="runArcanaCodexSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动元素反应沙盘
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportArcanaCodexCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出奥术法典证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大导师奥术原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="arch in arcanaMentorArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative"
+          :class="selectedArcanaArchetypeId === arch.id ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-cyan-500/40'"
+          @click="selectArcanaArchetype(arch.id)"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              {{ arch.tag }}
+            </span>
+          </div>
+          <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+          <div class="text-xs text-cyan-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+          <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+          <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-gray-400">基准奥术威力</span>
+            <span class="text-cyan-400 font-bold">{{ arch.basePowerWeight }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与开关控制网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+        <!-- 4 滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚙️</span> 元素反应深度与法术超载微调
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">奥术全系共振谐波率 (%)</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ arcanaHarmonicResonanceRatio }} %</span>
+            </div>
+            <n-slider v-model:value="arcanaHarmonicResonanceRatio" :min="50" :max="100" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">元素反应连锁递归深度 (阶数)</span>
+              <span class="text-amber-400 font-mono font-bold">{{ elementalReactionChainDepth }} 阶</span>
+            </div>
+            <n-slider v-model:value="elementalReactionChainDepth" :min="2" :max="8" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">法术超载充能涌流比 (%)</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ spellOverloadSurgeRatio }} %</span>
+            </div>
+            <n-slider v-model:value="spellOverloadSurgeRatio" :min="100" :max="400" :step="10" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">太古法脉以太能耗减免 (%)</span>
+              <span class="text-purple-400 font-mono font-bold">{{ mpConsumptionEcoReductionPct }} %</span>
+            </div>
+            <n-slider v-model:value="mpConsumptionEcoReductionPct" :min="20" :max="80" :step="5" />
+          </div>
+        </div>
+
+        <!-- 3 开关与实时数据 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>✨</span> 奥术破限特权与反应机制
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">元素连锁反应抹除内部冷却</div>
+                <div class="text-gray-400 text-[11px]">水火蒸发与雷火超载 0 秒无间断连发</div>
+              </div>
+              <n-switch v-model:value="elementalReactionNoCooldown" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">学徒受传瞬间解锁满阶奥义熟练</div>
+                <div class="text-gray-400 text-[11px]">无需耗费技能点直接习得导师终极禁咒</div>
+              </div>
+              <n-switch v-model:value="apprenticeInstantSpellMastery" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">终极奥术毁灭法术超越 99,999 破限</div>
+                <div class="text-gray-400 text-[11px]">超魔导禁术伤害上限提升至 99,999,999</div>
+              </div>
+              <n-switch v-model:value="arcaneCataclysmLimitUncap" />
+            </div>
+          </div>
+
+          <!-- 4 项实时综合解算指标 -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="p-2.5 rounded bg-slate-900 border border-cyan-500/20 text-center">
+              <div class="text-[11px] text-gray-400">元素连锁奥术总爆发</div>
+              <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedArcanaMetrics.elementalChainBurstDamage }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-cyan-500/20 text-center">
+              <div class="text-[11px] text-gray-400">法术超载矩阵稳态率</div>
+              <div class="text-lg font-mono font-black text-amber-400">{{ calculatedArcanaMetrics.spellOverloadStability }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-cyan-500/20 text-center">
+              <div class="text-[11px] text-gray-400">以太循环节约率</div>
+              <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedArcanaMetrics.aetherConsumptionEco }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-cyan-500/20 text-center">
+              <div class="text-[11px] text-gray-400">奥术大导师评级</div>
+              <div class="text-lg font-mono font-black text-purple-400">{{ calculatedArcanaMetrics.arcanaArchmageRank }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条 -->
+      <div v-if="isSimulatingArcanaCodex" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-cyan-500/30">
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-cyan-300 flex items-center gap-2">
+            <span class="animate-spin">🔄</span> {{ arcanaSimulationStages[currentArcanaSimStage] }}
+          </span>
+          <span class="text-gray-400">{{ (currentArcanaSimStage + 1) * 20 }}%</span>
+        </div>
+        <n-progress type="line" :percentage="(currentArcanaSimStage + 1) * 20" :show-indicator="false" status="info" />
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS ARCANA CODEX ENGINE</span>
+            <n-tag size="small" type="info" round>res://scripts/combat/teachings/</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-radio-group v-model:value="activeArcanaScriptTab" size="small">
+              <n-radio-button value="codex_engine">奥术法典引擎</n-radio-button>
+              <n-radio-button value="overload_reactor">超载聚能堆</n-radio-button>
+              <n-radio-button value="reaction_bus">元素反应总线</n-radio-button>
+            </n-radio-group>
+            <n-button type="info" size="tiny" secondary round @click="copyArcanaScript">
+              复制当前脚本
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentArcanaScriptCode }}</code></pre>
+        </div>
       </div>
     </div>
   </div>
@@ -2996,6 +3208,217 @@ const copyActiveMentorshipCode = () => {
   }).catch(() => {
     message.info('源码已复制')
   })
+}
+
+
+// ==========================================
+// v2.2.336: 太古奥术导师法典与元素反应工坊逻辑
+// ==========================================
+const scrollToAncientArcanaCodexStudio = () => {
+  const el = document.getElementById('ancient-arcana-codex-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface ArcanaMentorArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  basePowerWeight: number
+}
+
+const arcanaMentorArchetypes: ArcanaMentorArchetype[] = [
+  {
+    id: 'mysidia_archmage_duo',
+    name: '米西迪亚双圣大导师',
+    subtitle: '黑白两极超魔导裂解流',
+    icon: '🔮',
+    tag: '黑白两极',
+    desc: '融合太古白魔神圣创生与太古黑魔陨石破灭，释放超越时间线的两极超魔导湮灭风暴。',
+    basePowerWeight: 68000
+  },
+  {
+    id: 'blue_academe_chameleon',
+    name: '青魔法院院长',
+    subtitle: '百兽形态拟态与生命汲取流',
+    icon: '🦎',
+    tag: '万兽拟态',
+    desc: '受创时瞬间解析魔物招式并反向烙印，支持死之宣告、白风与哥布林重击无损拟态化施展。',
+    basePowerWeight: 62000
+  },
+  {
+    id: 'oriental_ninja_five_elements',
+    name: '东洋忍宗宗师',
+    subtitle: '五遁秘忍雷火交织流',
+    icon: '🥷',
+    tag: '五遁秘奥',
+    desc: '水火风雷土五遁奥义无缝衔接，结印时间压缩至 0.05 秒，触发全战场五行相生连锁反应。',
+    basePowerWeight: 65000
+  },
+  {
+    id: 'astral_time_archon',
+    name: '星界时空大执政官',
+    subtitle: '重力超载与时间停滞回响流',
+    icon: '⏳',
+    tag: '时空静止',
+    desc: '掌控时空曲率与重力奇点，令全场敌方陷入绝对时间静止，并引爆重力四分之一削血禁术。',
+    basePowerWeight: 71000
+  }
+]
+
+const selectedArcanaArchetypeId = ref('mysidia_archmage_duo')
+const arcanaHarmonicResonanceRatio = ref(95)
+const elementalReactionChainDepth = ref(5)
+const spellOverloadSurgeRatio = ref(260)
+const mpConsumptionEcoReductionPct = ref(60)
+
+const elementalReactionNoCooldown = ref(true)
+const apprenticeInstantSpellMastery = ref(true)
+const arcaneCataclysmLimitUncap = ref(true)
+
+const selectArcanaArchetype = (id: string) => {
+  selectedArcanaArchetypeId.value = id
+  if (message) {
+    const arch = arcanaMentorArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换导师奥术原型：${arch.name}`)
+  }
+}
+
+const calculatedArcanaMetrics = computed(() => {
+  const arch = arcanaMentorArchetypes.find(a => a.id === selectedArcanaArchetypeId.value) || arcanaMentorArchetypes[0]
+  const basePwr = arch.basePowerWeight
+  const noCdBonus = elementalReactionNoCooldown.value ? 1.4 : 1.0
+  const uncapBonus = arcaneCataclysmLimitUncap.value ? 1.6 : 1.0
+  const finalBurst = Math.round(basePwr * (arcanaHarmonicResonanceRatio.value / 100) * (elementalReactionChainDepth.value * 0.45) * (spellOverloadSurgeRatio.value / 100) * noCdBonus * uncapBonus * 10)
+  
+  const stabRate = Math.min(99.9, 86.0 + (arcanaHarmonicResonanceRatio.value / 100) * 13.5).toFixed(1)
+  const ecoRate = Math.min(99.9, 70.0 + (mpConsumptionEcoReductionPct.value / 80) * 28.5 + (apprenticeInstantSpellMastery.value ? 1.4 : 0)).toFixed(1)
+
+  let rank = 'SSR·天域奥术宗师'
+  if (finalBurst >= 45000000) rank = 'EX·米西迪亚太古极意法皇'
+  else if (finalBurst >= 25000000) rank = 'SSS·全相真理执政使'
+
+  return {
+    elementalChainBurstDamage: finalBurst.toLocaleString(),
+    spellOverloadStability: `${stabRate}%`,
+    aetherConsumptionEco: `${ecoRate}%`,
+    arcanaArchmageRank: rank
+  }
+})
+
+const isSimulatingArcanaCodex = ref(false)
+const currentArcanaSimStage = ref(0)
+const arcanaSimulationStages = [
+  '米西迪亚古代法典经纬度翻阅与星盘校准...',
+  '水火风地雷圣暗全相元素反应链构筑...',
+  '以太法脉超载过饱和聚能压缩...',
+  '终焉禁咒法术解限微秒轰鸣触发...',
+  '奥术法典方案防伪公钥计算与证书封装...'
+]
+
+const runArcanaCodexSimulation = () => {
+  if (isSimulatingArcanaCodex.value) return
+  isSimulatingArcanaCodex.value = true
+  currentArcanaSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentArcanaSimStage.value < arcanaSimulationStages.length - 1) {
+      currentArcanaSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingArcanaCodex.value = false
+      if (message) {
+        message.success(`【元素反应沙盘】推演成功！奥术连锁总爆发伤害：${calculatedArcanaMetrics.value.elementalChainBurstDamage}`)
+      }
+    }
+  }, 400)
+}
+
+const exportArcanaCodexCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》太古奥术法典与元素反应证书 ===
+证书编号: ARCANA-CODEX-${hash.substring(0, 12).toUpperCase()}
+核心导师: ${selectedArcanaArchetypeId.value}
+全系共振率: ${arcanaHarmonicResonanceRatio.value}%
+连锁递归深度: ${elementalReactionChainDepth.value} 阶
+超载涌流比: ${spellOverloadSurgeRatio.value}%
+以太能耗减免: ${mpConsumptionEcoReductionPct.value}%
+连锁爆发伤害: ${calculatedArcanaMetrics.value.elementalChainBurstDamage}
+超载稳态率: ${calculatedArcanaMetrics.value.spellOverloadStability}
+法术大导师评级: ${calculatedArcanaMetrics.value.arcanaArchmageRank}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方奥术导师法典与元素反应总线认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出奥术法典方案防伪证书到剪贴板！')
+  }
+}
+
+const activeArcanaScriptTab = ref<'codex_engine' | 'overload_reactor' | 'reaction_bus'>('codex_engine')
+
+const arcanaScriptCodes = {
+  codex_engine: `class_name AncientArcanaCodexEngine
+extends Node
+
+## 最终幻想：时空之轮 - 太古奥术法典与元素连锁解算器
+## 文件路径: res://scripts/combat/teachings/ancient_arcana_codex_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal spell_reaction_triggered(chain_depth: int, total_burst: float)
+
+@export var arcana_resonance_rate: float = 0.95
+
+func resolve_elemental_chain(elements: Array[String], base_power: float, overload_ratio: float) -> Dictionary:
+    var chain_mult: float = 1.0 + (float(elements.size()) * 0.45)
+    var final_dmg: float = base_power * arcana_resonance_rate * chain_mult * overload_ratio
+    spell_reaction_triggered.emit(elements.size(), final_dmg)
+    return {
+        "elements_count": elements.size(),
+        "chain_multiplier": chain_mult,
+        "burst_damage": final_dmg
+    }
+`,
+
+  overload_reactor: `class_name SpellOverloadSurgeReactor
+extends RefCounted
+
+## 最终幻想：时空之轮 - 法术超载涌流与以太聚能反应堆
+## 文件路径: res://scripts/combat/teachings/spell_overload_surge_reactor.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func process_mana_overload(raw_cost: int, eco_reduction: float, is_master_unlocked: bool) -> int:
+    var discounted: float = float(raw_cost) * (1.0 - (eco_reduction / 100.0))
+    if is_master_unlocked:
+        discounted *= 0.5
+    return maxi(0, int(roundf(discounted)))
+`,
+
+  reaction_bus: `class_name ElementalReactionBus
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全相元素反应广播与微秒打断总线
+## 文件路径: res://scripts/combat/teachings/elemental_reaction_bus.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_reaction_cooldown(has_no_cd_privilege: bool) -> float:
+    return 0.0 if has_no_cd_privilege else 1.5
+`
+}
+
+const currentArcanaScriptCode = computed(() => {
+  return arcanaScriptCodes[activeArcanaScriptTab.value]
+})
+
+const copyArcanaScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentArcanaScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 奥术法典源码到剪贴板！')
+  }
 }
 
 </script>

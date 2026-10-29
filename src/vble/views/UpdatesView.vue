@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-teachings-arcana-codex-v336-2026-10-29',
+    version: 'v2.2.336',
+    date: '2026-10-29',
+    title: '太古奥术导师法典、全系元素反应链与法术超载工坊重磅实装',
+    category: 'system',
+    categoryName: '秘传绝技',
+    icon: '✨',
+    tagType: 'info',
+    description: '全面重构升级 TeachingsView 秘传绝技门户：顶部标章升级为 VBLE Ancient Arcana Codex, Elemental Chain & Spell Overload Studio v2.2.336，新增奥术法典反应工坊快捷直达；专区重磅实装【太古奥术导师法典、全系元素反应链与法术超载工坊】（Ancient Arcana Codex & Elemental Chain Studio）；覆盖四大导师奥术原型（米西迪亚双圣大导师·黑白两极超魔导裂解流、青魔法院院长·百兽形态拟态与生命汲取流、东洋忍宗宗师·五遁秘忍雷火交织流、星界时空大执政官·重力超载与时间停滞回响流）；支持奥术全系共振谐波率 (50%~100%)、元素反应连锁递归深度 (2~8 阶)、法术超载充能涌流比 (100%~400%) 与太古法脉以太能耗减免 (20%~80%) 连续微调；支持元素连锁反应抹除内部冷却、学徒受传瞬间解锁满阶奥义熟练、终极奥术毁灭法术超越 99,999 破限；实时解算元素连锁奥术总爆发 (突破 4,500 万以上)、法术超载矩阵稳态率 (高达 99.9%)、以太法力循环节约率 (高达 99.9%) 与奥术大导师评级 (高达 EX·米西迪亚太古极意法皇)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：ancient_arcana_codex_engine.gd、spell_overload_surge_reactor.gd 与 elemental_reaction_bus.gd。',
+    highlights: [
+      '四大导师奥术原型：米西迪亚双圣、青魔法院院长、东洋忍宗宗师与星界时空大执政官',
+      '四维连续奥术反应参数：全系共振率、连锁递归深度、超载涌流比与以太能耗减免',
+      '三重奥术解限特权：元素连锁零冷却、学徒瞬间满阶奥义与终极禁咒破限爆发',
+      '动态深层法能指标解算：元素连锁总爆发、超载矩阵稳态率、以太节约率与极意法皇评级',
+      '五阶段奥术沙盘推演：法典星盘校准、全相连锁反应、以太超载压缩、禁咒解限轰鸣与方案封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源太古奥术法典、法术超载反应堆与元素反应总线'
+    ],
+    relatedLinks: [
+      { label: '秘传绝技研习院', path: '/vble/teachings', icon: '✨' },
+      { label: '奥术法典工坊', path: '/vble/teachings', icon: '📖' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-characters-constellation-orbit-v335-2026-10-29',
     version: 'v2.2.335',
     date: '2026-10-29',
