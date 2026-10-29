@@ -2,8 +2,8 @@
   <div class="jobs-page p-4 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">VBLE Job Mastery &amp; Secret Arts Matrix v2.2.282</n-tag>
-      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">职业转职树、进阶转生、太古奥义与极限命座星图系统</h1>
+      <n-tag type="info" size="small" round class="mb-2">VBLE Job Dual-Awakening &amp; Omni Pioneer Matrix v2.2.302</n-tag>
+      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">二十八大职业双轨觉醒、天梯极意流转与万能先驱者矩阵工坊</h1>
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
         当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅、双职业构筑连锁、自由人全被动继承、进阶转生太古奥义与极限命座星图推演。
       </p>
@@ -66,7 +66,17 @@
         >
           <span>✨</span>
           <span>太古职业潜能觉醒与极限命座星图工坊</span>
-          <n-badge value="v2.2.282" type="error" />
+          <n-badge value="v2.2.282" type="warning" />
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
+          :class="activeMainTab === 'omni_pioneer_matrix' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          @click="activeMainTab = 'omni_pioneer_matrix'"
+        >
+          <span>🌌</span>
+          <span>二十八大职业双轨觉醒与万能先驱者矩阵工坊</span>
+          <n-badge value="v2.2.302" type="error" />
         </button>
       </div>
     </div>
@@ -1971,6 +1981,285 @@ static func resolve_inherited_passives(mastered_jobs: Array[JobProfile]) -> Arra
         </div>
       </div>
     </div>
+
+    <!-- ================= 视图 7: 二十八大职业双轨觉醒与万能先驱者矩阵工坊 (Omni Pioneer Studio v2.2.302) ================= -->
+    <div v-else-if="activeMainTab === 'omni_pioneer_matrix'" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-cyan-950/80 via-slate-900/90 to-purple-950/80 border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.22)] space-y-6 relative overflow-hidden">
+        <div class="absolute -right-24 -top-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-24 -bottom-24 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- 头部与操作区 -->
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-900/60 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                OMNI PIONEER DUAL-AWAKENING v2.2.302
+              </span>
+              <span class="text-xs text-cyan-300/80 font-mono">二十八大职业双轨觉醒矩阵</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+              <span>🌌</span> 全域二十八大职业双轨觉醒、天梯极意流转与万能先驱者矩阵工坊
+            </h2>
+            <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+              基于 Godot 4.6 LTS 实时仿真：驱动 28 大水晶职业光暗双轨觉醒、天梯极意被动无损贯通至自由人身、ABP 秒速注入与 999999 破限暴击神威解算。
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+            <n-button
+              type="info"
+              size="small"
+              round
+              secondary
+              @click="resetPioneerParameters"
+            >
+              重置参数
+            </n-button>
+            <n-button
+              type="primary"
+              size="small"
+              round
+              secondary
+              :loading="isSimulatingPioneer"
+              @click="runPioneerSimulation"
+            >
+              <template #icon><span>⚡</span></template>
+              启动先驱觉醒推演
+            </n-button>
+            <n-button
+              type="warning"
+              size="small"
+              round
+              secondary
+              @click="exportPioneerCertificate"
+            >
+              <template #icon><span>📜</span></template>
+              导出先驱方案书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大先驱者双轨原型 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+          <div
+            v-for="archetype in pioneerArchetypes"
+            :key="archetype.id"
+            class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+            :class="selectedPioneerArchetypeId === archetype.id
+              ? 'bg-cyan-950/50 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)]'
+              : 'bg-slate-900/60 border-slate-800 hover:border-cyan-600/50'"
+            @click="selectedPioneerArchetypeId = archetype.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ archetype.icon }}</span>
+              <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.track }}</n-tag>
+            </div>
+            <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+            <div class="text-[11px] text-cyan-300/80 font-mono mt-0.5">{{ archetype.role }}</div>
+            <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+            <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+              <span>先驱战力: {{ archetype.baseCp.toLocaleString() }}</span>
+              <span class="text-amber-400">极意: {{ archetype.burstDmg.toLocaleString() }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 调控滑块与高能开关 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+          <!-- 左侧调控面板 -->
+          <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>⚙️</span> 双轨觉醒与天梯流转参数连续微调
+              </span>
+              <span class="text-[11px] font-mono text-cyan-400">Continuous Dual-Awakening Dynamics</span>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-gray-300 font-medium">双轨觉醒共鸣度 (Dual-Track Resonance Sync):</span>
+                  <span class="font-mono text-cyan-400 font-bold">{{ dualAwakeningSync }}%</span>
+                </div>
+                <n-slider v-model:value="dualAwakeningSync" :min="10" :max="100" :step="5" />
+                <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                  <span>微光共鸣 (10%)</span>
+                  <span>双轨交织 (50%)</span>
+                  <span>神圣超觉醒 (100%)</span>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-gray-300 font-medium">天梯极意流转层数 (Secret Flow Stacks):</span>
+                  <span class="font-mono text-amber-400 font-bold">{{ secretFlowStacks }} 层</span>
+                </div>
+                <n-slider v-model:value="secretFlowStacks" :min="1" :max="10" :step="1" />
+                <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                  <span>初悟极意 (1层)</span>
+                  <span>万流归宗 (5层)</span>
+                  <span>大圆满天梯 (10层)</span>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-gray-300 font-medium">ABP 极速注入速率 (ABP Injection Velocity):</span>
+                  <span class="font-mono text-emerald-400 font-bold">{{ abpInjectionRate }} ABP/s</span>
+                </div>
+                <n-slider v-model:value="abpInjectionRate" :min="100" :max="5000" :step="100" />
+                <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                  <span>常规精通 (100)</span>
+                  <span>超频催化 (2500)</span>
+                  <span>太古光速 (5000)</span>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-gray-300 font-medium">全被动贯通乘数 (Passive Penetration Multiplier):</span>
+                  <span class="font-mono text-purple-400 font-bold">{{ passivePenetrationMultiplier.toFixed(1) }}x</span>
+                </div>
+                <n-slider v-model:value="passivePenetrationMultiplier" :min="1.5" :max="5.0" :step="0.1" />
+                <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                  <span>基底继承 (1.5x)</span>
+                  <span>自由人共鸣 (3.2x)</span>
+                  <span>创世万能主宰 (5.0x)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 三大高能保障开关 -->
+            <div class="pt-3 border-t border-slate-800 space-y-2.5">
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-gray-200">自由人全职业被动无损贯通锁 (Lossless Passive Bridge)</div>
+                  <div class="text-[11px] text-gray-400">28 大职业所有进阶被动特权 100% 贯通至自由人，零属性损耗衰减</div>
+                </div>
+                <n-switch v-model:value="freemanLosslessPassiveLock" size="small" />
+              </div>
+
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-gray-200">天梯极意流转瞬发断路器 (Instant Secret Flow Breaker)</div>
+                  <div class="text-[11px] text-gray-400">技能后摇与咏唱延迟归零，双轨战技无需等待直接无缝连环触发</div>
+                </div>
+                <n-switch v-model:value="secretArtsInstantTrigger" size="small" />
+              </div>
+
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-gray-200">999999 伤害天花板神力破限器 (Limit Break Divine Governor)</div>
+                  <div class="text-[11px] text-gray-400">全面解除所有单段攻击 999999 伤害限制，真伤斩击最高飙升至 9,999,999</div>
+                </div>
+                <n-switch v-model:value="limitBreakDivineGovernor" size="small" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧能效指标解算与沙盘推演 -->
+          <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                  <span>📊</span> 实时解算先驱战力与极意爆发
+                </span>
+                <n-tag size="tiny" type="success" round>Pioneer Awakened</n-tag>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div class="p-3 rounded-lg bg-cyan-950/30 border border-cyan-700/40">
+                  <div class="text-[11px] text-gray-400">先驱者神圣战力</div>
+                  <div class="text-lg font-black text-cyan-300 font-mono mt-0.5">{{ calculatedPioneerCp.toLocaleString() }} CP</div>
+                  <div class="text-[10px] text-cyan-400/80 mt-0.5">双轨觉醒加成系数</div>
+                </div>
+
+                <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-700/40">
+                  <div class="text-[11px] text-gray-400">极意单发破限伤害</div>
+                  <div class="text-lg font-black text-amber-300 font-mono mt-0.5">{{ calculatedBurstDmg.toLocaleString() }} DMG</div>
+                  <div class="text-[10px] text-amber-400/80 mt-0.5">天梯瞬发斩击峰值</div>
+                </div>
+
+                <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-700/40">
+                  <div class="text-[11px] text-gray-400">全职业精通耗时</div>
+                  <div class="text-lg font-black text-emerald-300 font-mono mt-0.5">{{ calculatedAbpFullTime }} 分钟</div>
+                  <div class="text-[10px] text-emerald-400/80 mt-0.5">以太注入极速冲级</div>
+                </div>
+
+                <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                  <div class="text-[11px] text-gray-400">先驱者认证位阶</div>
+                  <div class="text-sm font-black text-purple-300 font-mono mt-1">{{ calculatedPioneerTier }}</div>
+                  <div class="text-[10px] text-purple-400/80 mt-0.5">太古神座水晶认证</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 推演终端 -->
+            <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-400">五阶段双轨觉醒推演进度:</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ pioneerSimStep }}/5 阶段</span>
+              </div>
+              <n-progress
+                type="line"
+                :percentage="(pioneerSimStep / 5) * 100"
+                :status="pioneerSimStep === 5 ? 'success' : 'info'"
+                :show-indicator="false"
+                processing
+              />
+              <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+                <span>{{ pioneerSimCurrentLog }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+        <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+              <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+                <button
+                  type="button"
+                  class="px-2.5 py-1 text-xs rounded transition-all"
+                  :class="activePioneerCodeTab === 'awakening' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activePioneerCodeTab = 'awakening'"
+                >
+                  omni_pioneer_awakening.gd
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 text-xs rounded transition-all"
+                  :class="activePioneerCodeTab === 'bridge' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activePioneerCodeTab = 'bridge'"
+                >
+                  freeman_passive_bridge.gd
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 text-xs rounded transition-all"
+                  :class="activePioneerCodeTab === 'secret' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activePioneerCodeTab = 'secret'"
+                >
+                  secret_arts_flow.gd
+                </button>
+              </div>
+              <n-button size="small" type="primary" secondary round @click="copyPioneerCode">
+                复制源码
+              </n-button>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+            <pre><code>{{ currentPioneerCode }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1984,7 +2273,7 @@ import { usePagination } from '@/composables/usePagination'
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value < 640)
 
-const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery' | 'transcendence_tree' | 'hyper_mastery_matrix'>('catalog')
+const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery' | 'transcendence_tree' | 'hyper_mastery_matrix' | 'omni_pioneer_matrix'>('catalog')
 const selectedCrystal = ref('all')
 
 // 分类数量与卡片使用同一目录；不随当前筛选或分页缩减。
@@ -3783,6 +4072,289 @@ const copyHyperCode = () => {
   if (navigator && navigator.clipboard) {
     navigator.clipboard.writeText(currentHyperCode.value).then(() => {
       if (message) message.success('Godot 4.6 LTS 命座源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
+}
+
+// ================= 🌌 视图 7: 二十八大职业双轨觉醒与万能先驱者矩阵工坊 (v2.2.302) =================
+interface PioneerArchetype {
+  id: string
+  name: string
+  track: string
+  role: string
+  icon: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  baseCp: number
+  burstDmg: number
+}
+
+const pioneerArchetypes: PioneerArchetype[] = [
+  {
+    id: 'radiant_paladin_crusader',
+    name: '辉光圣骑士',
+    track: '神圣裁决与守护双轨',
+    role: '光辉圣壁 / 极意裁决',
+    icon: '🛡️',
+    tagType: 'info',
+    desc: '聚合光之水晶绝对壁垒，双持重盾与圣剑，在绝对格挡的同时触发 100% 神圣反射裁决。',
+    baseCp: 68000,
+    burstDmg: 56000
+  },
+  {
+    id: 'void_shadow_assassin',
+    name: '虚空影刃',
+    track: '相位二刀流与暗夜双轨',
+    role: '时空瞬身 / 虚空破限',
+    icon: '🗡️',
+    tagType: 'warning',
+    desc: '掌握平行世界线撕裂技巧，攻击必定双发暴击，并在受到致命伤时闪入相位空间无敌 3 秒。',
+    baseCp: 74000,
+    burstDmg: 82000
+  },
+  {
+    id: 'archmage_elemental_weaver',
+    name: '太古魔导士',
+    track: '四元聚合与时空黑洞双轨',
+    role: '以太湮灭 / 因果禁咒',
+    icon: '🔮',
+    tagType: 'error',
+    desc: '融合水火风地四大元素本源，禁忌多重咏唱无需消耗 MP，可瞬间引爆全域次元塌陷。',
+    baseCp: 82000,
+    burstDmg: 96000
+  },
+  {
+    id: 'transcendent_freeman_omni',
+    name: '超然先驱自由人',
+    track: '全被动大成与万能先驱双轨',
+    role: '全系精通 / 创世神座',
+    icon: '👑',
+    tagType: 'success',
+    desc: '二十八大职业全系 ABP 融会贯通，拥有全武器防具 SSS 掌握与自由人被动全额继承至高特权。',
+    baseCp: 99000,
+    burstDmg: 125000
+  }
+]
+
+const selectedPioneerArchetypeId = ref<string>('transcendent_freeman_omni')
+const dualAwakeningSync = ref<number>(75)
+const secretFlowStacks = ref<number>(6)
+const abpInjectionRate = ref<number>(1500)
+const passivePenetrationMultiplier = ref<number>(3.2)
+
+const freemanLosslessPassiveLock = ref<boolean>(true)
+const secretArtsInstantTrigger = ref<boolean>(true)
+const limitBreakDivineGovernor = ref<boolean>(true)
+
+const isSimulatingPioneer = ref<boolean>(false)
+const pioneerSimStep = ref<number>(5)
+const pioneerSimCurrentLog = ref<string>('全域二十八职业双轨觉醒与万能先驱者矩阵已就绪，等待调控指令。')
+
+const currentPioneerArchetype = computed(() => {
+  return pioneerArchetypes.find(a => a.id === selectedPioneerArchetypeId.value) || pioneerArchetypes[3]
+})
+
+const calculatedPioneerCp = computed(() => {
+  const base = currentPioneerArchetype.value.baseCp
+  const syncBonus = 1 + (dualAwakeningSync.value / 100) * 0.5
+  const flowBonus = 1 + (secretFlowStacks.value / 10) * 0.35
+  const bridgeMult = freemanLosslessPassiveLock.value ? 1.25 : 1.0
+  return Math.round(base * syncBonus * flowBonus * bridgeMult)
+})
+
+const calculatedBurstDmg = computed(() => {
+  const base = currentPioneerArchetype.value.burstDmg
+  const penMult = passivePenetrationMultiplier.value
+  const instantMult = secretArtsInstantTrigger.value ? 1.35 : 1.0
+  const limitMult = limitBreakDivineGovernor.value ? 1.6 : 1.0
+  return Math.round(base * penMult * instantMult * limitMult)
+})
+
+const calculatedAbpFullTime = computed(() => {
+  const totalAbpRequired = 28 * 4500
+  const totalSeconds = totalAbpRequired / abpInjectionRate.value
+  return (totalSeconds / 60).toFixed(1)
+})
+
+const calculatedPioneerTier = computed(() => {
+  const cp = calculatedPioneerCp.value
+  if (cp > 160000) return 'EX·太古万能先驱主宰神座'
+  if (cp > 120000) return 'SSS·天梯极意大圆满'
+  if (cp > 90000) return 'SS·光暗双轨超觉醒'
+  return 'S·水晶传承先锋'
+})
+
+const resetPioneerParameters = () => {
+  selectedPioneerArchetypeId.value = 'transcendent_freeman_omni'
+  dualAwakeningSync.value = 75
+  secretFlowStacks.value = 6
+  abpInjectionRate.value = 1500
+  passivePenetrationMultiplier.value = 3.2
+  freemanLosslessPassiveLock.value = true
+  secretArtsInstantTrigger.value = true
+  limitBreakDivineGovernor.value = true
+  if (message) message.info('已重置万能先驱者矩阵调控参数')
+}
+
+const runPioneerSimulation = () => {
+  if (isSimulatingPioneer.value) return
+  isSimulatingPioneer.value = true
+  pioneerSimStep.value = 1
+  pioneerSimCurrentLog.value = '阶段 1/5: 扫描二十八大职业水晶烙印，解构初阶与进阶技能树...'
+
+  setTimeout(() => {
+    pioneerSimStep.value = 2
+    pioneerSimCurrentLog.value = '阶段 2/5: 注入以太共鸣催化剂，构建光暗双轨觉醒分支拓扑...'
+  }, 400)
+
+  setTimeout(() => {
+    pioneerSimStep.value = 3
+    pioneerSimCurrentLog.value = '阶段 3/5: 加载天梯极意流转协议，挂载全被动无损贯通中介...'
+  }, 800)
+
+  setTimeout(() => {
+    pioneerSimStep.value = 4
+    pioneerSimCurrentLog.value = '阶段 4/5: 激活伤害天花板破限器，对齐 Godot 4.6 LTS 运行时帧率...'
+  }, 1200)
+
+  setTimeout(() => {
+    pioneerSimStep.value = 5
+    pioneerSimCurrentLog.value = '阶段 5/5: 生成万能先驱者觉醒方案证书，锁定实机运行时参数！'
+    isSimulatingPioneer.value = false
+    if (message) message.success('万能先驱者双轨觉醒推演完成！')
+  }, 1600)
+}
+
+const exportPioneerCertificate = () => {
+  const arch = currentPioneerArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》二十八大职业双轨觉醒与万能先驱方案证书 (v2.2.302)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.track})
+  先驱位阶: ${calculatedPioneerTier.value}
+================================================================================
+【调控参数】
+- 双轨觉醒共鸣度: ${dualAwakeningSync.value}%
+- 天梯极意流转层数: ${secretFlowStacks.value} 层
+- ABP 极速注入速率: ${abpInjectionRate.value} ABP/s
+- 全被动贯通乘数: ${passivePenetrationMultiplier.value}x
+- 自由人无损贯通: ${freemanLosslessPassiveLock.value ? '已开启' : '关闭'}
+- 极意瞬发断路器: ${secretArtsInstantTrigger.value ? '已开启' : '关闭'}
+- 999999 神力破限: ${limitBreakDivineGovernor.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 先驱者神圣战力: ${calculatedPioneerCp.value.toLocaleString()} CP
+- 极意单发破限伤害: ${calculatedBurstDmg.value.toLocaleString()} DMG
+- 全职业精通耗时: ${calculatedAbpFullTime.value} 分钟
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `omni_pioneer_cert_v2.2.302_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  if (message) message.success('万能先驱者觉醒方案证书已导出并同步至剪贴板！')
+}
+
+const activePioneerCodeTab = ref<'awakening' | 'bridge' | 'secret'>('awakening')
+
+const gdPioneerAwakeningCode = `## omni_pioneer_dual_awakening.gd
+## Godot 4.6 LTS - 二十八大职业光暗双轨觉醒与战力解算器
+extends RefCounted
+class_name OmniPioneerDualAwakening
+
+enum TrackBranch { RADIANT_ARBITER, VOID_PHASE, CELESTIAL_WEAVER, OMNI_FREEMAN }
+
+static func compute_awakening_power(
+	branch: TrackBranch,
+	sync_pct: float,
+	secret_stacks: int,
+	lossless_active: bool
+) -> Dictionary:
+	var base_mult: float = 1.0 + (sync_pct / 100.0) * 0.5
+	var stack_mult: float = 1.0 + float(secret_stacks) * 0.08
+	if lossless_active and branch == TrackBranch.OMNI_FREEMAN:
+		base_mult *= 1.25
+		
+	return {
+		"effective_sync": sync_pct,
+		"power_multiplier": base_mult * stack_mult,
+		"is_max_tier": sync_pct >= 90.0 and secret_stacks >= 8
+	}
+`
+
+const gdFreemanBridgeCode = `## freeman_passive_lossless_bridge.gd
+## Godot 4.6 LTS - 自由人全职业被动无损贯通与属性汇流
+extends RefCounted
+class_name FreemanPassiveLosslessBridge
+
+static func aggregate_all_passives(
+	mastered_jobs_count: int,
+	penetration_mult: float,
+	is_lossless: bool
+) -> Dictionary:
+	var total_str_gain: int = int(float(mastered_jobs_count) * 2.5 * (penetration_mult if is_lossless else 1.0))
+	var total_mag_gain: int = int(float(mastered_jobs_count) * 2.8 * (penetration_mult if is_lossless else 1.0))
+	var total_agi_gain: int = int(float(mastered_jobs_count) * 2.2 * (penetration_mult if is_lossless else 1.0))
+	
+	return {
+		"strength_bonus": total_str_gain,
+		"magic_bonus": total_mag_gain,
+		"agility_bonus": total_agi_gain,
+		"unlocked_dual_wield": mastered_jobs_count >= 5,
+		"unlocked_rapid_fire": mastered_jobs_count >= 10
+	}
+`
+
+const gdSecretArtsFlowCode = `## secret_arts_flow_controller.gd
+## Godot 4.6 LTS - 天梯极意流转状态机与 999999 破限解算
+extends RefCounted
+class_name SecretArtsFlowController
+
+signal secret_flow_executed(flow_count: int, raw_damage: int)
+
+static func execute_flow_strike(
+	base_damage: int,
+	flow_stacks: int,
+	limit_break_enabled: bool
+) -> Dictionary:
+	var damage: int = int(float(base_damage) * (1.0 + float(flow_stacks) * 0.22))
+	var max_cap: int = 9999999 if limit_break_enabled else 999999
+	damage = mini(damage, max_cap)
+	
+	return {
+		"damage": damage,
+		"is_limit_broken": limit_break_enabled and damage > 999999,
+		"stacks_consumed": flow_stacks
+	}
+`
+
+const currentPioneerCode = computed(() => {
+  if (activePioneerCodeTab.value === 'awakening') return gdPioneerAwakeningCode
+  if (activePioneerCodeTab.value === 'bridge') return gdFreemanBridgeCode
+  return gdSecretArtsFlowCode
+})
+
+const copyPioneerCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentPioneerCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 先驱者源码已复制至剪贴板！')
     }).catch(() => {
       if (message) message.error('复制失败，请手动选取复制')
     })

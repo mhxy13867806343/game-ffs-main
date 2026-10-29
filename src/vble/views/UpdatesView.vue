@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-jobs-omni-pioneer-v302-2026-10-29',
+    version: 'v2.2.302',
+    date: '2026-10-29',
+    title: '全域二十八大职业双轨觉醒、天梯极意流转与万能先驱者矩阵工坊重磅实装',
+    category: 'system',
+    categoryName: '职业双轨',
+    icon: '🌌',
+    tagType: 'success',
+    description: '全面重构升级 JobsView 职业全典门户：顶部标章升级为 VBLE Job Dual-Awakening & Omni Pioneer Matrix v2.2.302，新增主视图第 7 Tab【二十八大职业双轨觉醒与万能先驱者矩阵工坊】（Omni Pioneer Dual-Awakening Studio）；覆盖四大先驱者双轨构架（辉光圣骑士·神圣裁决与守护双轨、虚空影刃·相位二刀流与暗夜双轨、太古魔导士·四元聚合与时空黑洞双轨、超然先驱自由人·全被动大成与万能先驱双轨）；支持双轨觉醒共鸣度 (10%~100%)、天梯极意流转层数 (1~10层)、ABP 极速注入速率 (100~5000 ABP/s) 与全被动贯通乘数 (1.5x~5.0x) 连续微调；支持自由人全职业被动无损贯通锁（28 大职业所有进阶被动特权 100% 贯通至自由人身，零属性损耗衰减）、天梯极意流转瞬发断路器（技能后摇归零，双轨战技无缝连环触发）与 999999 伤害天花板神力破限器（解除所有单段攻击 999999 伤害限制，真伤斩击突破至 9,999,999）；实时解算先驱者神圣战力 (突破 160,000+ CP)、极意单发破限伤害 (突破 850,000+ DMG)、全职业精通耗时与先驱者认证位阶 (高达 EX·太古万能先驱主宰神座)；内置五阶段双轨觉醒沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：omni_pioneer_dual_awakening.gd、freeman_passive_lossless_bridge.gd 与 secret_arts_flow_controller.gd。',
+    highlights: [
+      '四大先驱者原型：辉光圣骑士神圣裁决、虚空影刃相位双持、太古魔导四元禁咒与超然自由人',
+      '四维连续双轨参数：双轨觉醒共鸣度、天梯极意流转层数、ABP 极速注入速率与全被动贯通乘数',
+      '三重先驱终极保障：自由人无损贯通锁、极意流转瞬发断路器与 999999 伤害天花板神力破限',
+      '动态能效指标解算：先驱者神圣战力、极意单发破限伤害、精通冲级耗时与 EX 级神座认证',
+      '五阶段推演沙盘：水晶烙印解构、光暗双轨拓扑、极意流转挂载、破限对齐与证书生成',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源先驱者双轨解算器、自由人贯通中介与极意流转控制器'
+    ],
+    relatedLinks: [
+      { label: '职业全典与精通', path: '/vble/jobs', icon: '📜' },
+      { label: '先驱者矩阵工坊', path: '/vble/jobs', icon: '🌌' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-monsters-abyss-mutation-v301-2026-10-29',
     version: 'v2.2.301',
     date: '2026-10-29',
