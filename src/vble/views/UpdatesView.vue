@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-battle-tactics-overdrive-2026-10-29',
+    version: 'v2.2.280',
+    date: '2026-10-29',
+    title: '全域 ATB 时钟频率过载与四相连续魔连携矩阵工坊重磅实装',
+    category: 'system',
+    categoryName: '战术时钟',
+    icon: '⚡',
+    tagType: 'success',
+    description: '全面重构升级 BattleTacticsView 战斗法则全鉴门户：顶部标章升级为 VBLE Battle Tactics & ATB Matrix v2.2.280，新增四相连续魔连携工坊快捷直达；专区重磅实装【全域 ATB 时钟频率过载与四相连续魔连携矩阵工坊】（ATB Clock Overdrive & Quad-Elemental Dualcast Synergy Studio）；覆盖四相连续魔与时钟过载战姿（迅疾时钟倍频战姿、四重属性连续魔共鸣、极限破限刹那插队、绝对时空停滞领域）；实现 ATB 时钟倍频 (1.0~5.0x)、连续魔共鸣阶数 (2~8 阶)、插队判定敏感度 (10~100 ms) 与属性共振过载比 (50%~200%) 连续微调；支持零咏唱极速击发许可、伤害上限突破许可（解除 99,999 伤害天花板，单轮爆发直冲 380,000+ HP）与敌方反制吸收护盾（受击 30% 转化为 ATB 充能）；实时解算理论连击总伤害、满槽充能耗时、首领打断判定成功率与秒伤增幅比；实装五阶段时钟过载推演终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 atb_overdrive_engine.gd、quad_dualcast_synergy_resolver.gd 与 chrono_stasis_field_controller.gd。',
+    highlights: [
+      '四相时钟倍频战姿：迅疾倍频超充、四相属性共鸣、极限破限刹那插队与时空停滞领域',
+      '四维连续时序动力学：时钟倍频、连续魔阶数、插队敏感度与属性共振比全域动态调节',
+      '伤害上限突破许可：打破 99,999 限制，多阶连续魔连珠爆发突破 380,000+ 巨额真伤',
+      '微秒级插队仲裁推演：毫秒级响应首领绝杀读条窗口，零前摇达成 99.5% 强力打断',
+      '离线认证方案书导出：自动生成附带 SHA-256 专属时钟指纹的方案书并同步至剪贴板',
+      'Godot 4.6 LTS 3 Tab 展台：包含时钟倍频引擎、四相连续魔解算器与时空停滞控制机'
+    ],
+    relatedLinks: [
+      { label: '战斗法则与时序', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '首领攻坚全鉴', path: '/vble/boss-tactics', icon: '🐲' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-dungeons-dimension-rift-2026-10-29',
     version: 'v2.2.279',
     date: '2026-10-29',

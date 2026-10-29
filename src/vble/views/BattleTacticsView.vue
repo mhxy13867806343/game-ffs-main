@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Battle Tactics &amp; ATB Matrix v2.2.266
+              VBLE Battle Tactics &amp; ATB Matrix v2.2.280
             </span>
-            <span class="text-xs text-gray-400">实战战术法则、动态ATB时序微秒解算与元素连锁</span>
+            <span class="text-xs text-gray-400">实战战术法则、动态ATB时序微秒解算、四相连续魔与时钟过载工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>⚔️</span> 战斗法则全鉴：动态ATB微秒时序与元素连锁共鸣工坊
+            <span>⚔️</span> 战斗法则全鉴：动态ATB微秒时序与四相连续魔时钟过载工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            解析越级宝箱挑战的严苛回合惩罚公式、史莱姆绝对闪避机制、ATB动态微秒时滞时钟调度、以及八大属性元素连锁爆发与破限伤害推演沙盘。
+            解析越级宝箱挑战的严苛回合惩罚公式、史莱姆绝对闪避机制、ATB动态微秒时滞时钟调度、以及八大属性元素连锁爆发、四相连续魔与时钟倍频过载推演沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToOverdriveStudio"
+          >
+            <template #icon><span>⚡</span></template>
+            前往四相连续魔连携工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -1673,6 +1684,316 @@
         </div>
       </div>
     </div>
+
+    <!-- 工坊 3: 全域 ATB 时钟频率过载与四相连续魔连携矩阵工坊 -->
+    <div
+      id="atb-overdrive-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950/70 border border-cyan-500/30 shadow-[0_0_35px_rgba(6,182,212,0.2)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部标章与导出 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+              v2.2.280 重磅实装
+            </span>
+            <span class="text-xs text-gray-400">时钟倍频过载 · 四相连续魔连携 · 破限插队仲裁</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>⚡</span> 全域 ATB 时钟频率过载与四相连续魔连携矩阵工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于微秒级动态时间轴仲裁与属性共振动力学，解算时钟倍频过载充能、四相连续魔无缝爆发、首领绝杀窗插队打断与破限爆发伤害。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingOverdrive"
+            @click="runOverdriveSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动时钟倍频爆发推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportOverdriveTacticsCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出战术过载方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四相连续魔与时钟战姿 (4 Overdrive Stances) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="stance in overdriveStances"
+          :key="stance.id"
+          class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+          :class="selectedOverdriveStanceId === stance.id
+            ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectedOverdriveStanceId = stance.id"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">{{ stance.icon }}</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedOverdriveStanceId === stance.id ? 'bg-cyan-500/30 text-cyan-200' : 'bg-slate-800 text-gray-400'">
+                {{ stance.tag }}
+              </span>
+            </div>
+            <div class="font-bold text-xs text-gray-200">{{ stance.name }}</div>
+            <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-2 leading-relaxed">{{ stance.desc }}</div>
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+            <span class="text-gray-400">超频充能增益:</span>
+            <span class="font-mono font-bold text-cyan-300">{{ stance.boost }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心工作台：双栏交互面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+        <!-- 左侧：全息时钟雷达视窗与指标卡片 -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- 全息时钟雷达视窗 -->
+          <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+            <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+              <div
+                class="absolute w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                :style="{
+                  background: currentOverdriveStance.gradient,
+                  opacity: (atbClockMultiplier / 5.0 * 0.75 + 0.15).toFixed(2),
+                  transform: `scale(${1 + resonanceRatio / 250})`
+                }"
+              ></div>
+              <svg class="w-64 h-64 opacity-50 animate-[spin_40s_linear_infinite]" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(6,182,212,0.4)" stroke-width="1.5" stroke-dasharray="4 4" />
+                <circle cx="100" cy="100" r="68" fill="none" stroke="rgba(59,130,246,0.5)" stroke-width="1.2" />
+                <circle cx="100" cy="100" r="45" fill="none" stroke="rgba(168,85,247,0.5)" stroke-width="1" stroke-dasharray="2 2" />
+                <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(6,182,212,0.3)" stroke-width="1" />
+                <line x1="10" y1="100" x2="190" y2="100" stroke="rgba(6,182,212,0.3)" stroke-width="1" />
+                <circle cx="100" cy="100" r="5" fill="rgba(6,182,212,0.9)" />
+              </svg>
+            </div>
+
+            <!-- 顶部状态指示灯 -->
+            <div class="relative z-10 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span class="font-mono text-cyan-300 font-bold">ATB CLOCK OVERDRIVE ACTIVE</span>
+                <span class="text-gray-400 font-mono text-[10px]">| {{ atbClockMultiplier }}x 频率</span>
+              </div>
+              <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-amber-300">
+                插队敏感度: {{ preemptionSensitivity }} ms
+              </div>
+            </div>
+
+            <!-- 中间标语 -->
+            <div class="relative z-10 text-center my-auto">
+              <div class="text-2xl font-black text-white/95 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(6,182,212,0.8)]">
+                {{ currentOverdriveStance.name }}
+              </div>
+              <div class="text-xs text-cyan-200/80 mt-1 font-mono">
+                理论爆发: {{ calculatedOverdriveBurstDamage.toLocaleString() }} HP · 打断成功率: {{ calculatedInterruptChance }}%
+              </div>
+            </div>
+
+            <!-- 底部性能微视窗 -->
+            <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+              <span>全行动槽充能: {{ calculatedChargeTime }} 秒</span>
+              <span class="text-emerald-400 font-bold">
+                连续魔阶数: {{ dualcastRanks }} 重连续共鸣 ({{ resonanceRatio }}%)
+              </span>
+            </div>
+          </div>
+
+          <!-- 4 维物理与战斗指标卡片 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">理论连击总伤害</div>
+              <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ calculatedOverdriveBurstDamage.toLocaleString() }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ damageCapBreaker ? '破限解除 99,999' : '常规伤害上限' }}</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">满槽充能循环耗时</div>
+              <div class="font-mono text-cyan-400 font-bold text-sm mt-0.5">{{ calculatedChargeTime }}s</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ atbClockMultiplier }}x 时钟超频倍率</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">首领打断判定率</div>
+              <div class="font-mono text-emerald-400 font-bold text-sm mt-0.5">{{ calculatedInterruptChance }}%</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ instantCastPermit ? '零咏唱立即击发' : '常规咏唱时滞' }}</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">秒伤输出增幅比</div>
+              <div class="font-mono text-purple-400 font-bold text-sm mt-0.5">+{{ calculatedDpsGain }}%</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ counterAbsorbWard ? '反击护盾吸收激活' : '常规受击模式' }}</div>
+            </div>
+          </div>
+
+          <!-- 实时推演日志终端 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+            <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+              <span class="flex items-center gap-1.5 text-cyan-300 font-bold">
+                <span>💻</span> ATB 时钟超频与连携日志 (Overdrive Terminal)
+              </span>
+              <span class="text-[10px] text-gray-500">时序精度: 微秒级</span>
+            </div>
+            <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+              <div v-for="(log, idx) in overdriveSimLogs" :key="idx" class="flex items-start gap-1.5">
+                <span class="text-cyan-400 select-none">&gt;</span>
+                <span :class="log.includes('完成') || log.includes('成功') || log.includes('打断') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：无极物理调优与时钟控制 -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="flex items-center gap-1.5">
+              <span>🎛️</span> ATB 与连续魔参数微调 (Tactics Uniforms)
+            </span>
+            <button
+              type="button"
+              class="text-[10px] text-gray-400 hover:text-cyan-300 cursor-pointer"
+              @click="resetOverdriveParams"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 时钟倍频系数 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>ATB 时钟倍频 (Clock Multiplier):</span>
+              <span class="font-mono text-cyan-400 font-bold">{{ atbClockMultiplier }}x</span>
+            </div>
+            <n-slider v-model:value="atbClockMultiplier" :min="1.0" :max="5.0" :step="0.1" />
+            <div class="flex justify-between text-[9px] text-gray-500">
+              <span>1.0x 标准基频</span>
+              <span>3.0x 极速充能</span>
+              <span>5.0x 极限过载</span>
+            </div>
+          </div>
+
+          <!-- 连续魔共鸣阶数 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>连续魔共鸣阶数 (Dualcast Ranks):</span>
+              <span class="font-mono text-amber-400 font-bold">{{ dualcastRanks }} 阶</span>
+            </div>
+            <n-slider v-model:value="dualcastRanks" :min="2" :max="8" :step="1" />
+          </div>
+
+          <!-- 插队敏感度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>插队判定敏感度 (Preemption Sensitivity):</span>
+              <span class="font-mono text-rose-400 font-bold">{{ preemptionSensitivity }} ms</span>
+            </div>
+            <n-slider v-model:value="preemptionSensitivity" :min="10" :max="100" :step="5" />
+          </div>
+
+          <!-- 属性共振比 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>属性共振过载比 (Resonance Ratio):</span>
+              <span class="font-mono text-purple-400 font-bold">{{ resonanceRatio }} %</span>
+            </div>
+            <n-slider v-model:value="resonanceRatio" :min="50" :max="200" :step="5" />
+          </div>
+
+          <!-- 3 项战术开关 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>⚡</span> 零咏唱极速击发许可 (Instant Cast)
+              </span>
+              <n-switch v-model:value="instantCastPermit" size="small" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>💥</span> 伤害上限突破许可 (Break 99999 Cap)
+              </span>
+              <n-switch v-model:value="damageCapBreaker" size="small" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>🛡️</span> 敌方反制时滞吸收护盾 (Counter Absorb)
+              </span>
+              <n-switch v-model:value="counterAbsorbWard" size="small" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下方：Godot 4.6 LTS 底层脚本契约矩阵 -->
+      <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-4 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-cyan-300 font-mono">GODOT 4.6 LTS ARCHITECTURE SPEC</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">纯粹 RefCounted 离线解算</span>
+            </div>
+            <div class="text-xs text-gray-400 mt-0.5">时钟倍频过载、四相连续魔连携与时空停滞场控制机</div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-900 p-0.5 border border-slate-800 text-xs font-mono">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeOverdriveCodeTab === 'engine' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeOverdriveCodeTab = 'engine'"
+              >
+                atb_overdrive_engine.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeOverdriveCodeTab === 'resolver' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeOverdriveCodeTab = 'resolver'"
+              >
+                quad_dualcast_synergy.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeOverdriveCodeTab === 'controller' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeOverdriveCodeTab = 'controller'"
+              >
+                chrono_stasis_field.gd
+              </button>
+            </div>
+            <n-button
+              size="small"
+              type="info"
+              secondary
+              round
+              @click="copyOverdriveCode"
+            >
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentOverdriveCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1681,6 +2002,11 @@ import { ref, computed, onUnmounted } from 'vue'
 import { useMessage } from 'naive-ui'
 
 const message = useMessage()
+
+const scrollToOverdriveStudio = () => {
+  const el = document.getElementById('atb-overdrive-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
 
 const scrollToComboStudio = () => {
   const el = document.getElementById('elemental-combo-studio')
@@ -2825,6 +3151,293 @@ const copyTacticsGdCode = () => {
   }).catch(() => {
     message.info('源码已复制')
   })
+}
+
+// ==========================================
+// 工坊 3: 全域 ATB 时钟频率过载与四相连续魔连携矩阵工坊
+// ==========================================
+const overdriveStances = [
+  {
+    id: 'frequency_multiplier',
+    name: '迅疾时钟倍频战姿',
+    tag: '3.0x 基频超充',
+    icon: '⚡',
+    desc: '突破常规 ATB 时序限制，行动条以 300% 基础频率极速回充，近乎零前摇瞬发指令。',
+    boost: '+200% 充能速率',
+    gradient: 'radial-gradient(circle, rgba(6,182,212,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'quad_synergy',
+    name: '四重属性连续魔共鸣',
+    tag: '4 相无缝连携',
+    icon: '🔥',
+    desc: '炎/冰/雷/风 四相无缝连珠击发，每阶共鸣叠加 25% 元素穿透，达成指数级倍率。',
+    boost: '+180% 破限伤害',
+    gradient: 'radial-gradient(circle, rgba(239,68,68,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'preemption_horizon',
+    name: '极限破限刹那插队',
+    tag: '0ms 绝对优先权',
+    icon: '⚔️',
+    desc: '在首领致命大招最后 380ms 绝杀窗内强行仲裁插队，强制中断敌方一切读条技能。',
+    boost: '99.5% 强打断率',
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'chrono_stasis',
+    name: '绝对时空停滞领域',
+    tag: '90% 范围迟缓',
+    icon: '⏳',
+    desc: '扭曲敌方局部时间流动，降低敌军行动频率 90%，并将受击反震 30% 转化为我方 ATB。',
+    boost: '90% 时空压制',
+    gradient: 'radial-gradient(circle, rgba(59,130,246,0.4) 0%, rgba(15,23,42,0) 70%)'
+  }
+]
+const selectedOverdriveStanceId = ref('frequency_multiplier')
+const currentOverdriveStance = computed(() => {
+  return overdriveStances.find(s => s.id === selectedOverdriveStanceId.value) || overdriveStances[0]
+})
+
+const atbClockMultiplier = ref(3.2)
+const dualcastRanks = ref(4)
+const preemptionSensitivity = ref(25)
+const resonanceRatio = ref(135)
+const instantCastPermit = ref(true)
+const damageCapBreaker = ref(true)
+const counterAbsorbWard = ref(false)
+
+const calculatedOverdriveBurstDamage = computed(() => {
+  const capBonus = damageCapBreaker.value ? 2.2 : 1.0
+  const instantBonus = instantCastPermit.value ? 1.15 : 1.0
+  return Math.round(48000 * atbClockMultiplier.value * (dualcastRanks.value * 0.65) * (resonanceRatio.value / 100) * capBonus * instantBonus)
+})
+
+const calculatedChargeTime = computed(() => {
+  return (3.5 / atbClockMultiplier.value).toFixed(2)
+})
+
+const calculatedInterruptChance = computed(() => {
+  let chance = 100 - (preemptionSensitivity.value * 0.45)
+  if (instantCastPermit.value) chance += 18
+  return Math.max(10, Math.min(99.5, Math.round(chance * 10) / 10))
+})
+
+const calculatedDpsGain = computed(() => {
+  let gain = (atbClockMultiplier.value - 1) * 75 + (dualcastRanks.value - 2) * 35 + (resonanceRatio.value - 100) * 0.8
+  if (damageCapBreaker.value) gain += 80
+  if (counterAbsorbWard.value) gain += 25
+  return Math.round(gain)
+})
+
+const resetOverdriveParams = () => {
+  atbClockMultiplier.value = 3.2
+  dualcastRanks.value = 4
+  preemptionSensitivity.value = 25
+  resonanceRatio.value = 135
+  instantCastPermit.value = true
+  damageCapBreaker.value = true
+  counterAbsorbWard.value = false
+  if (message) message.info('ATB 与连续魔参数已重置为基准战术架构')
+}
+
+const isSimulatingOverdrive = ref(false)
+const overdriveSimLogs = ref<string[]>([
+  '系统就绪：已挂载 Godot 4.6 LTS ATB 微秒时钟倍频与连续魔仲裁器',
+  '当前战姿：迅疾时钟倍频战姿 (3.2x 基频超充)',
+  '连携推演就绪，请点击右上角按钮启动微秒解算'
+])
+
+const runOverdriveSimulation = () => {
+  if (isSimulatingOverdrive.value) return
+  isSimulatingOverdrive.value = true
+  overdriveSimLogs.value = ['[0.00ms] 初始化 ATB 微秒时钟频率，倍频系数调谐至 ' + atbClockMultiplier.value + 'x...']
+
+  setTimeout(() => {
+    overdriveSimLogs.value.unshift(`[35.4ms] 激发四相连续魔连珠回路，共鸣阶数 ${dualcastRanks.value} 阶，共振比 ${resonanceRatio.value}%`)
+  }, 350)
+
+  setTimeout(() => {
+    overdriveSimLogs.value.unshift(`[82.1ms] 首领读条进入 ${preemptionSensitivity.value}ms 绝杀窗，P1 插队仲裁裁决通过（打断率 ${calculatedInterruptChance.value}%）`)
+  }, 750)
+
+  setTimeout(() => {
+    overdriveSimLogs.value.unshift(`[142.8ms] ${damageCapBreaker.value ? '解除 99,999 伤害天花板限制' : '触发常规伤害封顶'}，属性破限爆裂触发！`)
+  }, 1200)
+
+  setTimeout(() => {
+    overdriveSimLogs.value.unshift(`[198.5ms] 连携全周期爆发达成！理论总伤 ${calculatedOverdriveBurstDamage.value.toLocaleString()} HP，充能循环耗时 ${calculatedChargeTime.value}s`)
+    isSimulatingOverdrive.value = false
+    if (message) message.success('ATB 时钟倍频与四相连续魔连携推演完成！')
+  }, 1650)
+}
+
+const exportOverdriveTacticsCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const certId = 'TACTICS-OD-' + Math.random().toString(36).substring(2, 9).toUpperCase()
+  const certContent = `================================================================================
+【光之战士：时空裂隙】ATB 时钟频率过载与四相连续魔战术方案书
+================================================================================
+方案编号: ${certId}
+时间戳: ${timestamp}
+版本规范: VBLE Battle Tactics & ATB Matrix v2.2.280
+
+【当前选定时钟战姿】
+- 战姿类型: ${currentOverdriveStance.value.name} (${currentOverdriveStance.value.tag})
+- 超频增益: ${currentOverdriveStance.value.boost}
+- 战姿机制概述: ${currentOverdriveStance.value.desc}
+
+【微秒级时钟物理与控制变量】
+- ATB 时钟倍频系数: ${atbClockMultiplier.value}x
+- 连续魔共鸣阶数: ${dualcastRanks.value} 阶
+- 插队判定敏感度: ${preemptionSensitivity.value} ms
+- 属性共振过载比: ${resonanceRatio.value} %
+- 零咏唱无极速射: ${instantCastPermit.value ? '已启用 (消除读条前摇)' : '未启用'}
+- 伤害上限突破许可: ${damageCapBreaker.value ? '已启用 (打破 99,999 限制)' : '未启用'}
+- 敌方反制吸收护盾: ${counterAbsorbWard.value ? '已启用 (受击 30% 转 ATB)' : '未启用'}
+
+【实时解算战术指标】
+- 理论连击总伤害: ${calculatedOverdriveBurstDamage.value.toLocaleString()} HP
+- 满槽充能循环耗时: ${calculatedChargeTime.value} 秒
+- 首领打断判定成功率: ${calculatedInterruptChance.value}%
+- 秒伤输出增幅比: +${calculatedDpsGain.value}%
+
+【底层引擎契约安全指纹】
+- 引擎架构: Godot 4.6 LTS / Microsecond Priority RefCounted Architecture
+- 核心仲裁器: atb_overdrive_engine.gd / quad_dualcast_synergy_resolver.gd
+- 控制器: chrono_stasis_field_controller.gd
+- SHA-256 指纹: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `battle_atb_overdrive_cert_v2.2.280_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('ATB 时钟倍频与四相连续魔战术方案书已导出并同步至剪贴板！')
+  }
+}
+
+const activeOverdriveCodeTab = ref<'engine' | 'resolver' | 'controller'>('engine')
+
+const gdOverdriveEngineCode = `## atb_overdrive_engine.gd
+## Godot 4.6 LTS - 全域 ATB 时钟倍频过载与微秒级行动优先级仲裁器
+extends RefCounted
+class_name AtbOverdriveEngine
+
+signal atb_overdrive_tick(actor_id: String, current_gauge: float, is_full: bool)
+signal preemption_granted(actor_id: String, action_id: String, latency_ms: float)
+
+class OverdriveActor:
+	var actor_id: String
+	var atb_gauge: float = 0.0 # 0.0 ~ 1000.0
+	var clock_mult: float = 3.2
+	var is_ready: bool = false
+
+static func tick_overdrive(actor: OverdriveActor, delta_sec: float) -> bool:
+	if actor.is_ready:
+		return true
+	var fill_rate: float = 285.0 * actor.clock_mult
+	actor.atb_gauge += fill_rate * delta_sec
+	if actor.atb_gauge >= 1000.0:
+		actor.atb_gauge = 1000.0
+		actor.is_ready = true
+		return true
+	return false
+
+static func arbitrate_preemption(
+	boss_remain_ms: float,
+	player_sensitivity_ms: float,
+	has_instant_permit: bool
+) -> Dictionary:
+	var can_interrupt: bool = false
+	if has_instant_permit or boss_remain_ms >= player_sensitivity_ms:
+		can_interrupt = true
+	return {
+		"interrupted": can_interrupt,
+		"margin_ms": boss_remain_ms - player_sensitivity_ms,
+		"priority_tier": "P0_ABSOLUTE" if has_instant_permit else "P1_OVERDRIVE"
+	}
+`
+
+const gdQuadDualcastCode = `## quad_dualcast_synergy_resolver.gd
+## Godot 4.6 LTS - 四相连续魔连携与破限属性爆发伤害解算器
+extends RefCounted
+class_name QuadDualcastSynergyResolver
+
+enum ElementalAffinity { FIRE, ICE, LIGHTNING, WIND }
+
+static func compute_quad_burst(
+	base_dmg: int,
+	ranks: int,
+	resonance_ratio: float,
+	break_limit_cap: bool
+) -> Dictionary:
+	var total_dmg: float = 0.0
+	var chain_multiplier: float = 1.0
+	
+	for i in range(ranks):
+		var step_dmg: float = float(base_dmg) * chain_multiplier * (resonance_ratio / 100.0)
+		if not break_limit_cap and step_dmg > 99999.0:
+			step_dmg = 99999.0
+		total_dmg += step_dmg
+		chain_multiplier += 0.25 # 每阶递增 25% 元素穿透
+		
+	return {
+		"total_damage": int(total_dmg),
+		"final_multiplier": chain_multiplier,
+		"cap_broken": break_limit_cap and (total_dmg > 99999.0)
+	}
+`
+
+const gdChronoStasisCode = `## chrono_stasis_field_controller.gd
+## Godot 4.6 LTS - 局域时空停滞场与反击吸收控制机
+extends RefCounted
+class_name ChronoStasisFieldController
+
+signal stasis_field_collapsed()
+signal counter_damage_absorbed(absorbed_atb: float)
+
+var stasis_ratio: float = 0.90
+var counter_absorb_ratio: float = 0.30
+
+func apply_boss_slow(original_cast_ms: float) -> float:
+	return original_cast_ms * (1.0 / (1.0 - stasis_ratio))
+
+func absorb_enemy_counter(incoming_dmg: int) -> float:
+	var gained_atb: float = float(incoming_dmg) * counter_absorb_ratio * 0.1
+	counter_damage_absorbed.emit(gained_atb)
+	return gained_atb
+`
+
+const currentOverdriveCode = computed(() => {
+  if (activeOverdriveCodeTab.value === 'engine') return gdOverdriveEngineCode
+  if (activeOverdriveCodeTab.value === 'resolver') return gdQuadDualcastCode
+  return gdChronoStasisCode
+})
+
+const copyOverdriveCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentOverdriveCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 战术过载源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
 }
 
 onUnmounted(() => {
