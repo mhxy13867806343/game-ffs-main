@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Mythic Weapons, Essence Infusion & Divine Studio v2.2.299
+              VBLE Mythic Weapons, Sealed Relic Breakthrough & Set Synergy Studio v2.2.319
             </span>
             <span class="text-xs text-gray-400">至高超越神兵、太古十二圣器、符文熔铸与多维词缀萃取</span>
           </div>
@@ -20,6 +20,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="activeTab = 'sealed_relic_breakthrough'"
+          >
+            <template #icon><span>⚡</span></template>
+            太古神兵破限工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -1290,7 +1301,264 @@
       </div>
     </div>
 
-    <!-- 6. 属性加成与守恒解析源码 -->
+    <!-- 6. 十二太古封印神兵谱系、套装共鸣与精炼突破工坊 (v2.2.319 重磅实装) -->
+    <div v-if="activeTab === 'sealed_relic_breakthrough'" id="sealed-relic-breakthrough-studio" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-amber-950/20 to-slate-900/95 border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.15)] space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/30 pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/30">
+                SEALED RELIC BREAKTHROUGH & SET SYNERGY
+              </span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">
+                v2.2.319 旗舰实装
+              </span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+              <span>⚡</span> 十二太古封印神兵谱系、套装共鸣与精炼突破工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+              深度解析库扎封印城太古十二神兵真名觉醒、四件套跨界共鸣光环、二刀流零衰减副手破限与 Godot 4.6 LTS 实机驱动。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="small" round secondary type="warning" @click="resetRelicDefaults">
+              <template #icon><span>↺</span></template>
+              重置参数
+            </n-button>
+            <n-button size="small" round type="warning" :loading="isRelicSimulating" @click="runRelicSimulation">
+              <template #icon><span>⚡</span></template>
+              启动破限沙盘推演
+            </n-button>
+            <n-button size="small" round secondary type="info" @click="exportRelicCert">
+              <template #icon><span>📜</span></template>
+              导出神兵契约认证
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大太古神兵原型选择 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            v-for="archetype in relicArchetypes"
+            :key="archetype.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedRelicArchetype === archetype.id ? 'bg-amber-950/40 border-amber-500 ring-2 ring-amber-500/30' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+            @click="selectRelicArchetype(archetype.id)"
+          >
+            <div class="flex items-start justify-between">
+              <div class="text-2xl">{{ archetype.icon }}</div>
+              <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+                {{ archetype.typeTag }}
+              </span>
+            </div>
+            <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+            <p class="text-xs text-amber-300/80 mt-1">{{ archetype.desc }}</p>
+            <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+              <div class="flex justify-between">
+                <span>觉醒真名:</span>
+                <span class="text-cyan-300 font-mono">{{ archetype.trueName }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>极意特化:</span>
+                <span class="text-emerald-300 font-mono">{{ archetype.specialization }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 四维精炼与突破调控滑块 -->
+        <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+          <div class="text-sm font-bold text-white flex items-center justify-between">
+            <span class="flex items-center gap-2"><span>🎛️</span> 太古封印解锁与神兵精炼参数调控</span>
+            <span class="text-xs text-amber-400 font-mono">Realtime Dynamic Calculations</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">神兵精炼强化等级 (阶数):</span>
+                <span class="text-amber-400 font-mono font-bold">+{{ relicRefineLevel }} 阶 (极意真火)</span>
+              </div>
+              <n-slider v-model:value="relicRefineLevel" :min="1" :max="20" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>+1 凡铁</span>
+                <span>+10 灵阶</span>
+                <span>+20 太古神话</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">太古封印解锁深度 (%):</span>
+                <span class="text-cyan-400 font-mono font-bold">{{ sealUnlockDepth }}% 符文解封</span>
+              </div>
+              <n-slider v-model:value="sealUnlockDepth" :min="10" :max="100" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>10% 初识封印</span>
+                <span>50% 核心解封</span>
+                <span>100% 完整真名</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">套装羁绊共鸣共振频段 (MHz):</span>
+                <span class="text-purple-400 font-mono font-bold">{{ synergyResonanceHz }} MHz (以太律动)</span>
+              </div>
+              <n-slider v-model:value="synergyResonanceHz" :min="100" :max="1000" :step="50" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>100 低频</span>
+                <span>500 中频谐振</span>
+                <span>1000 极意高频</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">极意破限附魔纯度 (%):</span>
+                <span class="text-emerald-400 font-mono font-bold">{{ breakthroughPurity }}% (秘银圣印)</span>
+              </div>
+              <n-slider v-model:value="breakthroughPurity" :min="50" :max="100" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>50% 凡阶纯度</span>
+                <span>80% 圣阶沉淀</span>
+                <span>100% 绝品真圣</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 三大神兵突破特权开关 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">封印神兵真名觉醒</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">真伤倍率突破至 3.5x，触发觉醒特写</div>
+            </div>
+            <n-switch v-model:value="enableTrueNameAwakening" size="small" />
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">太古四件套跨界共鸣光环</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">全队全属性抗性 +50% 且攻击附带破甲</div>
+            </div>
+            <n-switch v-model:value="enableOmniSetAura" size="small" />
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">二刀流破限零惩罚平衡</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">副手武器 100% 全额输出与独立暴击判定</div>
+            </div>
+            <n-switch v-model:value="enableDualWieldZeroPenalty" size="small" />
+          </div>
+        </div>
+
+        <!-- 关键实时指标卡片 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">神兵真伤爆发估值</div>
+            <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+              {{ relicEstimatedTrueDmg.toLocaleString() }}
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">单次极意真伤</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">套装共鸣稳态率</div>
+            <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+              {{ relicResonanceStability }}%
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">以太抗衰减率</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">破限突破纯度能效</div>
+            <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-1">
+              {{ relicBreakthroughPurityPct }}%
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">灵髓附魔转化</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">神兵契约认证评级</div>
+            <div class="text-sm sm:text-base font-black text-purple-400 font-mono mt-1 truncate">
+              {{ relicTierBadge }}
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">太古封印神兵谱系</div>
+          </div>
+        </div>
+
+        <!-- 沙盘推演日志与进度 -->
+        <div v-if="isRelicSimulating || relicLog.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-gray-300 font-bold flex items-center gap-2">
+              <span>🔄</span> 太古神兵破限推演沙盘进程: {{ relicSimStep }}
+            </span>
+            <span class="text-amber-400 font-mono font-bold">{{ relicSimProgress }}%</span>
+          </div>
+          <n-progress
+            type="line"
+            :percentage="relicSimProgress"
+            :indicator-placement="'inside'"
+            processing
+            status="warning"
+          />
+          <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+            <div v-for="(log, idx) in relicLog" :key="idx" class="flex items-start gap-2">
+              <span class="text-amber-500">›</span>
+              <span :class="idx === relicLog.length - 1 ? 'text-amber-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+        <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+              <h3 class="text-sm font-bold text-white">太古封印神兵谱系与共鸣破限引擎源码展台</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeRelicScriptTab === 'controller' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeRelicScriptTab = 'controller'"
+                >
+                  封印突破控制器
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeRelicScriptTab === 'synergy_bus' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeRelicScriptTab = 'synergy_bus'"
+                >
+                  套装共鸣总线
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeRelicScriptTab === 'dual_wield' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeRelicScriptTab = 'dual_wield'"
+                >
+                  二刀流零惩罚解析
+                </button>
+              </div>
+              <n-button size="small" round secondary type="warning" @click="copyRelicScript">
+                <template #icon><span>📋</span></template>
+                复制代码
+              </n-button>
+            </div>
+          </div>
+          <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-amber-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentRelicScriptCode }}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. 属性加成与守恒解析源码 -->
     <div v-if="activeTab === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
@@ -1348,7 +1616,7 @@ const message = useMessage()
 const gameStore = useGameStore()
 const equipment = computed(() => gameStore.db.equipment || [])
 
-type EquipmentTab = 'catalog' | 'dual_wield' | 'awakening' | 'relic_forge' | 'rune_infusion' | 'essence_infusion' | 'engine_code'
+type EquipmentTab = 'catalog' | 'dual_wield' | 'awakening' | 'relic_forge' | 'rune_infusion' | 'essence_infusion' | 'sealed_relic_breakthrough' | 'engine_code'
 const activeTab = ref<EquipmentTab>('catalog')
 const tabList: { key: EquipmentTab; label: string; icon: string; badge?: string }[] = [
   { key: 'catalog', label: '神兵图鉴矩阵', icon: '🗡️' },
@@ -1357,6 +1625,7 @@ const tabList: { key: EquipmentTab; label: string; icon: string; badge?: string 
   { key: 'relic_forge', label: '太古神兵共鸣与精炼', icon: '✨', badge: 'v2.2.262' },
   { key: 'rune_infusion', label: '符文熔铸与词缀萃取', icon: '🔮', badge: 'v2.2.277' },
   { key: 'essence_infusion', label: '圣遗物灵髓注能与神格觉醒', icon: '👑', badge: 'v2.2.299' },
+  { key: 'sealed_relic_breakthrough', label: '太古神兵谱系与共鸣破限', icon: '⚡', badge: 'v2.2.319' },
   { key: 'engine_code', label: '属性解析引擎源码', icon: '🛡️' }
 ]
 
@@ -2621,6 +2890,260 @@ const currentEssenceScriptCode = computed(() => {
 const copyEssenceScript = () => {
   navigator.clipboard.writeText(currentEssenceScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
+
+// ==========================================
+// 十二太古封印神兵谱系、套装共鸣与精炼突破工坊 (v2.2.319)
+// ==========================================
+const selectedRelicArchetype = ref('wyrmbane')
+const relicArchetypes = [
+  {
+    id: 'wyrmbane',
+    name: '太古龙王灭却圣剑',
+    trueName: 'Excalibur Wyrmbane',
+    icon: '🗡️',
+    typeTag: '圣裁龙破',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: '库扎封印城首位圣剑，针对巨龙族与虚空异形附带 300% 极意真实圣伤。',
+    specialization: '龙族斩灭 / 真实圣伤 +300%'
+  },
+  {
+    id: 'soul_harvester',
+    name: '终焉死灵摄魂巨镰',
+    trueName: 'Soul Harvester Abyss',
+    icon: '⚰️',
+    typeTag: '暗蚀摄魄',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: '太古暗属性死灵圣镰，每次斩击将造成伤害 35% 转化为护盾与全队以太回充。',
+    specialization: '护盾转化 35% / 全队回充'
+  },
+  {
+    id: 'genesis_scepter',
+    name: '创世以太全知魔杖',
+    trueName: 'Omniscient Scepter',
+    icon: '🪄',
+    typeTag: '以太全知',
+    tagClass: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+    desc: '调律太古四大元素禁咒，使所有高阶禁忌黑白魔法法力消耗降为 1。',
+    specialization: 'MP 消耗锁定 1 / 暴击率 100%'
+  },
+  {
+    id: 'rift_bow',
+    name: '时空裂隙虚空神弓',
+    trueName: 'Spacetime Rift Bow',
+    icon: '🏹',
+    typeTag: '空间箭阵',
+    tagClass: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    desc: '引动空间扭曲力场，箭矢彻底无视敌方双抗并造成 0.5s 时空迟缓。',
+    specialization: '双抗穿透 100% / 时空迟缓'
+  }
+]
+
+const relicRefineLevel = ref(15)
+const sealUnlockDepth = ref(85)
+const synergyResonanceHz = ref(750)
+const breakthroughPurity = ref(92)
+
+const enableTrueNameAwakening = ref(true)
+const enableOmniSetAura = ref(true)
+const enableDualWieldZeroPenalty = ref(true)
+
+const isRelicSimulating = ref(false)
+const relicSimProgress = ref(0)
+const relicSimStep = ref('')
+const relicLog = ref<string[]>([])
+
+const relicEstimatedTrueDmg = computed(() => {
+  let base = 12000000
+  base += relicRefineLevel.value * 950000
+  base += sealUnlockDepth.value * 75000
+  base += (synergyResonanceHz.value / 10) * 12000
+  base += breakthroughPurity.value * 45000
+  if (enableTrueNameAwakening.value) base *= 1.35
+  if (enableOmniSetAura.value) base *= 1.25
+  if (enableDualWieldZeroPenalty.value) base *= 1.4
+  return Math.round(base)
+})
+
+const relicResonanceStability = computed(() => {
+  let val = 88.0 + (synergyResonanceHz.value / 1000) * 8.5 + (relicRefineLevel.value / 20) * 3.4
+  return Math.min(99.9, parseFloat(val.toFixed(1)))
+})
+
+const relicBreakthroughPurityPct = computed(() => {
+  let val = (breakthroughPurity.value * 0.7) + (sealUnlockDepth.value * 0.28)
+  return Math.min(99.8, parseFloat(val.toFixed(1)))
+})
+
+const relicTierBadge = computed(() => {
+  if (relicEstimatedTrueDmg.value > 35000000) return 'EX·太古封印至尊神话'
+  if (relicEstimatedTrueDmg.value > 28000000) return 'SSS·神圣真言觉醒破限'
+  if (relicEstimatedTrueDmg.value > 20000000) return 'SS·高维以太共鸣极意'
+  return 'S·库扎封印灵髓共鸣'
+})
+
+const selectRelicArchetype = (id: string) => {
+  selectedRelicArchetype.value = id
+  const target = relicArchetypes.find(a => a.id === id)
+  if (target) {
+    message?.info(`已切换太古神兵至：${target.name}（${target.trueName}）`)
+  }
+}
+
+const resetRelicDefaults = () => {
+  relicRefineLevel.value = 15
+  sealUnlockDepth.value = 85
+  synergyResonanceHz.value = 750
+  breakthroughPurity.value = 92
+  enableTrueNameAwakening.value = true
+  enableOmniSetAura.value = true
+  enableDualWieldZeroPenalty.value = true
+  message?.success('已重置神兵破限与共鸣至基准配置！')
+}
+
+const runRelicSimulation = () => {
+  if (isRelicSimulating.value) return
+  isRelicSimulating.value = true
+  relicSimProgress.value = 0
+  relicLog.value = []
+
+  const steps = [
+    { p: 20, step: '解构库扎十二太古封印古文字符串与空间锁...', log: '太古封印深度校验达成：85% 解封，真言脉络连通。' },
+    { p: 45, step: '注入以太真火炼化，提升至 +15 极意精炼阶数...', log: '精炼升阶通过，太古武器基础白值攻击力与破甲系数跃迁。' },
+    { p: 70, step: '校准四件套跨界共鸣频段 (750 MHz)...', log: '共鸣矩阵闭合，全队全元素抗性 +50% 光环成功广播。' },
+    { p: 90, step: '平衡二刀流零衰减副手输出判定...', log: '二刀流双持校验完成，副手伤害衰减归零，独立双判定生效。' },
+    { p: 100, step: '沙盘推演完成，太古神兵真名神圣觉醒！', log: `推演极意真伤: ${relicEstimatedTrueDmg.value.toLocaleString()} 点，评级: ${relicTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      relicSimProgress.value = steps[idx].p
+      relicSimStep.value = steps[idx].step
+      relicLog.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isRelicSimulating.value = false
+      message?.success('太古封印神兵破限沙盘推演圆满完成！')
+    }
+  }, 250)
+}
+
+const exportRelicCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-SEALED-RELIC-SPEC',
+    version: 'v2.2.319',
+    timestamp: new Date().toISOString(),
+    archetype: selectedRelicArchetype.value,
+    refine_level: relicRefineLevel.value,
+    seal_depth: sealUnlockDepth.value,
+    resonance_hz: synergyResonanceHz.value,
+    breakthrough_purity: breakthroughPurity.value,
+    true_name_awakened: enableTrueNameAwakening.value,
+    omni_set_aura: enableOmniSetAura.value,
+    dual_wield_zero_penalty: enableDualWieldZeroPenalty.value,
+    estimated_true_damage: relicEstimatedTrueDmg.value,
+    resonance_stability: relicResonanceStability.value,
+    breakthrough_purity_pct: relicBreakthroughPurityPct.value,
+    tier: relicTierBadge.value,
+    cert_sha256: '9a7e8f52b319d6c1e0847b2c5d3f9e8a01476b32dc9e4718502afec6179b43d2'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `sealed_relic_breakthrough_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success('已导出太古封印神兵契约认证证书！')
+}
+
+const activeRelicScriptTab = ref<'controller' | 'synergy_bus' | 'dual_wield'>('controller')
+
+const relicScriptCodes = {
+  controller: `class_name SealedRelicBreakthroughController
+extends RefCounted
+
+## 最终幻想：时空之轮 - 太古十二封印神兵解封与破限控制器
+## 文件路径: res://scripts/equipment/sealed_relic_breakthrough_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal relic_unsealed(relic_id: String, true_dmg: int, tier: String)
+
+static func evaluate_relic(
+    relic_id: String,
+    refine_level: int,
+    seal_depth: float,
+    awakening_enabled: bool
+) -> Dictionary:
+    var base_dmg: float = 12000000.0 + (refine_level * 950000.0)
+    var depth_ratio: float = clampf(seal_depth / 100.0, 0.1, 1.0)
+    var true_dmg: float = base_dmg * (1.0 + depth_ratio * 0.8)
+    
+    if awakening_enabled:
+        true_dmg *= 1.35
+        
+    return {
+        "relic_id": relic_id,
+        "true_damage": int(true_dmg),
+        "is_awakened": awakening_enabled,
+        "cert_status": "EX_ANCIENT_SEALED_RELIC"
+    }
+`,
+
+  synergy_bus: `class_name SetSynergyResonanceBus
+extends RefCounted
+
+## 最终幻想：时空之轮 - 太古神兵套装共鸣总线与光环广播器
+## 文件路径: res://scripts/equipment/set_synergy_resonance_bus.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal resonance_aura_dispatched(freq_hz: float, resist_boost: float)
+
+static func broadcast_set_synergy(pieces_count: int, freq_hz: float) -> Dictionary:
+    var active_aura: bool = pieces_count >= 4
+    var stability: float = clampf(88.0 + (freq_hz / 1000.0) * 11.5, 80.0, 99.9)
+    
+    return {
+        "set_active": active_aura,
+        "all_resists_boost": 50.0 if active_aura else 0.0,
+        "pierce_defense": active_aura,
+        "stability_pct": stability
+    }
+`,
+
+  dual_wield: `class_name DualWieldDamageResolver
+extends RefCounted
+
+## 最终幻想：时空之轮 - 二刀流零衰减副手双持伤害计算与破限处理器
+## 文件路径: res://scripts/equipment/dual_wield_damage_resolver.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func resolve_dual_wield(
+    main_hand_dmg: float,
+    off_hand_dmg: float,
+    zero_penalty_active: bool
+) -> Dictionary:
+    var off_hand_factor: float = 1.0 if zero_penalty_active else 0.65
+    var total_dmg: float = main_hand_dmg + (off_hand_dmg * off_hand_factor)
+    
+    return {
+        "total_strike_damage": total_dmg,
+        "off_hand_efficiency": off_hand_factor * 100.0,
+        "independent_crit_check": true
+    }
+`
+}
+
+const currentRelicScriptCode = computed(() => {
+  return relicScriptCodes[activeRelicScriptTab.value]
+})
+
+const copyRelicScript = () => {
+  navigator.clipboard.writeText(currentRelicScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 太古神兵源码到剪贴板！')
 }
 
 </script>

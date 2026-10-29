@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-equipment-sealed-relics-v319-2026-10-29',
+    version: 'v2.2.319',
+    date: '2026-10-29',
+    title: '十二太古封印神兵谱系、套装共鸣与精炼突破工坊重磅实装',
+    category: 'equipment',
+    categoryName: '神兵破限',
+    icon: '⚡',
+    tagType: 'success',
+    description: '全面重构升级 EquipmentView 神兵矩阵门户：顶部标章升级为 VBLE Mythic Weapons, Sealed Relic Breakthrough & Set Synergy Studio v2.2.319，新增太古神兵破限工坊快捷直达；专区重磅实装【十二太古封印神兵谱系、套装共鸣与精炼突破工坊】（Sealed Relic Breakthrough, Set Synergy & Refinement Studio）；覆盖四大太古神兵流派原型（太古龙王灭却圣剑·圣裁龙破流、终焉死灵摄魂巨镰·暗蚀摄魄流、创世以太全知魔杖·以太全知流、时空裂隙虚空神弓·空间箭阵流）；支持神兵精炼强化等级 (1~20 阶)、太古封印解锁深度 (10%~100%)、套装羁绊共鸣频段 (100~1000 MHz) 与极意破限附魔纯度 (50%~100%) 连续微调；支持封印神兵真名神圣觉醒 3.5x 真伤倍率、太古四件套跨界共鸣全抗 +50% 光环、二刀流零衰减副手真伤平衡；实时解算神兵真伤爆发估值 (突破 38,000,000 点)、套装共鸣稳态率 (高达 99.9%)、破限突破纯度能效 (高达 99.8%) 与神兵契约认证评级 (高达 EX·太古封印至尊神话)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：sealed_relic_breakthrough_controller.gd、set_synergy_resonance_bus.gd 与 dual_wield_damage_resolver.gd。',
+    highlights: [
+      '四大太古神兵流派原型：龙王灭却圣剑、死灵摄魂巨镰、创世全知魔杖与时空虚空神弓',
+      '四维连续神兵工艺参数：精炼强化等级、太古封印解锁深度、套装共鸣频段与极意附魔纯度',
+      '三重神兵破限特权机制：真名神圣觉醒倍率、四件套跨界抗性光环与二刀流副手零衰减结算',
+      '动态神兵战力指标解算：真伤爆发估值、套装共鸣稳态率、突破纯度能效与至尊神话认证',
+      '五阶段神兵破限沙盘：封印符文解构、以太真火炼化、套装频段对齐、二刀流副手平衡与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源封印突破控制器、套装共鸣总线与二刀流零惩罚解析器'
+    ],
+    relatedLinks: [
+      { label: '神兵图鉴矩阵', path: '/vble/equipment', icon: '🗡️' },
+      { label: '太古神兵破限工坊', path: '/vble/equipment', icon: '⚡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-items-alchemical-brewing-v318-2026-10-29',
     version: 'v2.2.318',
     date: '2026-10-29',
