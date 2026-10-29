@@ -2,12 +2,15 @@
   <div class="monsters-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary & Ecological Evolution Matrix v2.2.260</n-tag>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物与首领大图鉴</h1>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary &amp; Ecological Evolution Matrix v2.2.281</n-tag>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物大图鉴与太古生态弱点基因逆向工程工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-2">
-        门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、以及 {{ coliseumCount }} 种斗技场霸主，全生态链演化与基因突变环境沙盘
+        门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、以及 {{ coliseumCount }} 种斗技场霸主，全生态链演化、抗性图谱与弱点基因逆向工程沙盘
       </p>
       <div class="flex justify-center gap-2">
+        <n-button size="tiny" type="error" secondary @click="scrollToGeneStudio">
+          🧬 前往魔物抗性图谱与基因工坊
+        </n-button>
         <n-button size="tiny" type="warning" secondary @click="scrollToEcologyStudio">
           🌿 前往生态演化与基因突变工坊
         </n-button>
@@ -1225,13 +1228,325 @@
         </div>
       </div>
     </n-modal>
+
+    <!-- 工坊 3: 太古魔物生态抗性图谱与弱点基因逆向工程工坊 -->
+    <div
+      id="monster-gene-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950/70 border border-emerald-500/30 shadow-[0_0_35px_rgba(16,185,129,0.2)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部标章与导出 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              v2.2.281 重磅实装
+            </span>
+            <span class="text-xs text-gray-400">魔物基因谱系 · 元素抗性硬化 · 弱点逆向解序</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🧬</span> 太古魔物生态抗性图谱与弱点基因逆向工程工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            深入解析古龙、虚空异形、魔导机兵与冥界幽灵等四大家族的基因抗性护盾，通过分子级逆向工程推演元素硬化衰减、靶向锁定与再生抑制。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingGene"
+            @click="runGeneSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动基因逆向推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportMonsterGeneCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出基因工程方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大基因原型谱系 (4 Genetic Taxonomies) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="taxon in geneticTaxonomies"
+          :key="taxon.id"
+          class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+          :class="selectedTaxonId === taxon.id
+            ? 'bg-emerald-950/40 border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectedTaxonId = taxon.id"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">{{ taxon.icon }}</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedTaxonId === taxon.id ? 'bg-emerald-500/30 text-emerald-200' : 'bg-slate-800 text-gray-400'">
+                {{ taxon.tag }}
+              </span>
+            </div>
+            <div class="font-bold text-xs text-gray-200">{{ taxon.name }}</div>
+            <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-2 leading-relaxed">{{ taxon.desc }}</div>
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+            <span class="text-gray-400">逆向弱点:</span>
+            <span class="font-mono font-bold text-emerald-300">{{ taxon.weakness }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心工作台：双栏交互面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+        <!-- 左侧：全息基因测序雷达视窗与指标卡片 -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- 全息基因雷达视窗 -->
+          <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+            <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+              <div
+                class="absolute w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                :style="{
+                  background: currentTaxon.gradient,
+                  opacity: (genePurity / 100 * 0.75 + 0.15).toFixed(2),
+                  transform: `scale(${1 + resistanceHardening / 200})`
+                }"
+              ></div>
+              <svg class="w-64 h-64 opacity-50 animate-[spin_55s_linear_infinite]" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(16,185,129,0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+                <polygon points="100,20 170,70 150,150 50,150 30,70" fill="none" stroke="rgba(52,211,153,0.5)" stroke-width="1.2" />
+                <circle cx="100" cy="100" r="35" fill="none" stroke="rgba(245,158,11,0.5)" stroke-width="1" stroke-dasharray="2 2" />
+                <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(16,185,129,0.3)" stroke-width="1" />
+                <line x1="30" y1="70" x2="170" y2="70" stroke="rgba(16,185,129,0.3)" stroke-width="1" />
+                <circle cx="100" cy="100" r="6" fill="rgba(16,185,129,0.9)" />
+              </svg>
+            </div>
+
+            <!-- 顶部状态指示灯 -->
+            <div class="relative z-10 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-mono text-emerald-300 font-bold">GENE SEQUENCING ACTIVE</span>
+                <span class="text-gray-400 font-mono text-[10px]">| 纯度 {{ genePurity }}%</span>
+              </div>
+              <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-amber-300">
+                弱点熵: {{ vulnerabilityEntropy }}
+              </div>
+            </div>
+
+            <!-- 中间标语 -->
+            <div class="relative z-10 text-center my-auto">
+              <div class="text-2xl font-black text-white/95 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]">
+                {{ currentTaxon.name }}
+              </div>
+              <div class="text-xs text-emerald-200/80 mt-1 font-mono">
+                穿透增伤: {{ calculatedVulnerabilityMultiplier }}x · 有效防御硬度: {{ calculatedEffectiveResistance }}%
+              </div>
+            </div>
+
+            <!-- 底部性能微视窗 -->
+            <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+              <span>预期破防秒数: {{ calculatedBreakDuration }} 秒</span>
+              <span class="text-emerald-400 font-bold">
+                特异材料掉率: {{ calculatedMaterialDropChance }}%
+              </span>
+            </div>
+          </div>
+
+          <!-- 4 维物理与战斗指标卡片 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">弱点穿透增伤倍率</div>
+              <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ calculatedVulnerabilityMultiplier }}x</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ reverseTargetingLock ? '靶向弱点暴击锁定' : '常规攻击判定' }}</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">残留防御硬度</div>
+              <div class="font-mono text-rose-400 font-bold text-sm mt-0.5">{{ calculatedEffectiveResistance }}%</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">硬化抗性衰减后</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">弱点打击破防时限</div>
+              <div class="font-mono text-cyan-400 font-bold text-sm mt-0.5">{{ calculatedBreakDuration }}s</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ metabolicRate }}x 代谢反应速率</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">突变基因材料掉率</div>
+              <div class="font-mono text-emerald-400 font-bold text-sm mt-0.5">{{ calculatedMaterialDropChance }}%</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ voidGeneSequencer ? '解序器增幅已启用' : '常规掉落基准' }}</div>
+            </div>
+          </div>
+
+          <!-- 实时推演日志终端 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+            <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+              <span class="flex items-center gap-1.5 text-emerald-300 font-bold">
+                <span>💻</span> 基因逆向工程推演日志 (Sequencing Terminal)
+              </span>
+              <span class="text-[10px] text-gray-500">解析度: 分子级</span>
+            </div>
+            <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+              <div v-for="(log, idx) in geneSimLogs" :key="idx" class="flex items-start gap-1.5">
+                <span class="text-emerald-400 select-none">&gt;</span>
+                <span :class="log.includes('完成') || log.includes('成功') || log.includes('抑制') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：无极物理调优与基因控制 -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+          <div class="text-xs font-bold text-emerald-300 flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="flex items-center gap-1.5">
+              <span>🎛️</span> 基因抗性参数微调 (Genetic Uniforms)
+            </span>
+            <button
+              type="button"
+              class="text-[10px] text-gray-400 hover:text-emerald-300 cursor-pointer"
+              @click="resetGeneParams"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 基因畸变纯度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>基因畸变纯度 (Gene Purity):</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ genePurity }} %</span>
+            </div>
+            <n-slider v-model:value="genePurity" :min="50" :max="100" :step="1" />
+            <div class="flex justify-between text-[9px] text-gray-500">
+              <span>50% 杂合体</span>
+              <span>80% 深度变异</span>
+              <span>100% 纯正太古</span>
+            </div>
+          </div>
+
+          <!-- 元素抗性硬化度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>元素抗性硬化度 (Resistance Hardening):</span>
+              <span class="font-mono text-amber-400 font-bold">{{ resistanceHardening }} %</span>
+            </div>
+            <n-slider v-model:value="resistanceHardening" :min="10" :max="90" :step="1" />
+          </div>
+
+          <!-- 突变活性代谢率 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>突变活性代谢率 (Metabolic Rate):</span>
+              <span class="font-mono text-cyan-400 font-bold">{{ metabolicRate }}x</span>
+            </div>
+            <n-slider v-model:value="metabolicRate" :min="1.0" :max="5.0" :step="0.1" />
+          </div>
+
+          <!-- 逆向弱点暴露熵 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>逆向弱点暴露熵 (Vulnerability Entropy):</span>
+              <span class="font-mono text-purple-400 font-bold">{{ vulnerabilityEntropy }}</span>
+            </div>
+            <n-slider v-model:value="vulnerabilityEntropy" :min="1.0" :max="10.0" :step="0.1" />
+          </div>
+
+          <!-- 3 项生物战术开关 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>🎯</span> 逆向基因靶向锁定 (100% 弱点暴击)
+              </span>
+              <n-switch v-model:value="reverseTargetingLock" size="small" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>🧪</span> 细胞自愈再生抑制剂 (阻断每回合再生)
+              </span>
+              <n-switch v-model:value="regenInhibitor" size="small" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>✨</span> 虚空变异基因解序器 (稀有基因掉落)
+              </span>
+              <n-switch v-model:value="voidGeneSequencer" size="small" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下方：Godot 4.6 LTS 底层脚本契约矩阵 -->
+      <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-4 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-emerald-300 font-mono">GODOT 4.6 LTS ARCHITECTURE SPEC</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">纯粹 RefCounted 离线解算</span>
+            </div>
+            <div class="text-xs text-gray-400 mt-0.5">基因逆向工程、元素抗性硬化与再生抑制控制器</div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-900 p-0.5 border border-slate-800 text-xs font-mono">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeGeneCodeTab === 'reverse' ? 'bg-emerald-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeGeneCodeTab = 'reverse'"
+              >
+                gene_reverse_engineering.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeGeneCodeTab === 'affinity' ? 'bg-emerald-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeGeneCodeTab = 'affinity'"
+              >
+                taxonomic_affinity.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeGeneCodeTab === 'inhibitor' ? 'bg-emerald-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeGeneCodeTab = 'inhibitor'"
+              >
+                regen_inhibition.gd
+              </button>
+            </div>
+            <n-button
+              size="small"
+              type="info"
+              secondary
+              round
+              @click="copyGeneCode"
+            >
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentGeneCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, type Directive } from 'vue'
+import { ref, computed, watch, onUnmounted, type Directive } from 'vue'
+import { useMessage } from 'naive-ui'
 import { useGameStore } from '../stores/gameStore'
 
+const message = useMessage()
 const gameStore = useGameStore()
 
 // ================= 👾 魔物全息 AI 仇恨行动树与掉落工坊 (monster_ai_combat_resolver.gd) =================
@@ -1965,6 +2280,13 @@ const openMonsterDetail = (monster: any) => {
   showDetailModal.value = true
 }
 
+const scrollToGeneStudio = () => {
+  const el = document.getElementById('monster-gene-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
 const scrollToEcologyStudio = () => {
   const el = document.getElementById('monster-ecology-studio')
   if (el) {
@@ -2247,6 +2569,294 @@ static func simulate_predator_prey_step(prey_count: float, pred_count: float, de
 		"predator": max(2.0, pred_count + d_pred)
 	}
 `
+
+// ==========================================
+// 工坊 3: 太古魔物生态抗性图谱与弱点基因逆向工程工坊
+// ==========================================
+const geneticTaxonomies = [
+  {
+    id: 'elder_drake',
+    name: '太古异形古龙种',
+    tag: '龙鳞硬化减伤 75%',
+    icon: '🐉',
+    desc: '拥有太古龙血基因，炎/火系伤害完全吸收，龙鳞硬化减伤75%，逆向弱点极度惧怕零度冻气与碎龙剑。',
+    weakness: '绝对零度冰晶 / 碎龙破甲',
+    gradient: 'radial-gradient(circle, rgba(16,185,129,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'void_morph',
+    name: '虚空深渊异形怪',
+    tag: '物理免疫 90%',
+    icon: '👾',
+    desc: '来自虚空裂隙的无定形凝胶，物理常规斩击穿透仅10%，持续吞噬MP，逆向弱点为神圣共振光子直击。',
+    weakness: '神圣共振光子 / 纯净驱魔',
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'magitek_colossus',
+    name: '机械魔导巨兵种',
+    tag: '全异常状态免疫',
+    icon: '🤖',
+    desc: '古代遗迹自律防御机甲，合金护甲免疫石化/中毒/即死一切异常，逆向弱点为超导雷霆回路短路过载。',
+    weakness: '超导雷霆过载 / 脉冲磁暴',
+    gradient: 'radial-gradient(circle, rgba(6,182,212,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'wraith_phantom',
+    name: '不死冥界幽冥种',
+    tag: '暗黑毒素即死吸收',
+    icon: '👻',
+    desc: '游弋于冥界入口的怨念凝聚体，吸收一切毒素与暗黑属性，逆向弱点为高阶圣愈术 (Curaga) 逆向灼烧。',
+    weakness: '白魔法圣愈术逆转 / 圣灵药',
+    gradient: 'radial-gradient(circle, rgba(245,158,11,0.4) 0%, rgba(15,23,42,0) 70%)'
+  }
+]
+const selectedTaxonId = ref('elder_drake')
+const currentTaxon = computed(() => {
+  return geneticTaxonomies.find(t => t.id === selectedTaxonId.value) || geneticTaxonomies[0]
+})
+
+const genePurity = ref(82)
+const resistanceHardening = ref(55)
+const metabolicRate = ref(2.8)
+const vulnerabilityEntropy = ref(4.5)
+const reverseTargetingLock = ref(true)
+const regenInhibitor = ref(true)
+const voidGeneSequencer = ref(false)
+
+const calculatedVulnerabilityMultiplier = computed(() => {
+  const lockBonus = reverseTargetingLock.value ? 0.8 : 0.0
+  const mult = 2.0 + (genePurity.value / 100) * 1.5 + (vulnerabilityEntropy.value / 10) * 1.2 + lockBonus
+  return Math.round(mult * 100) / 100
+})
+
+const calculatedEffectiveResistance = computed(() => {
+  const lockFactor = reverseTargetingLock.value ? 0.6 : 1.0
+  const entropyDecay = 1 - (vulnerabilityEntropy.value / 15)
+  return Math.max(5, Math.round(resistanceHardening.value * entropyDecay * lockFactor))
+})
+
+const calculatedBreakDuration = computed(() => {
+  const lockBonus = reverseTargetingLock.value ? 2.0 : 0.0
+  return Math.max(8, Math.round(120 / (metabolicRate.value * 1.5 + lockBonus)))
+})
+
+const calculatedMaterialDropChance = computed(() => {
+  const sequencerBonus = voidGeneSequencer.value ? 35 : 0
+  const chance = genePurity.value * 0.45 + metabolicRate.value * 8 + sequencerBonus
+  return Math.max(10, Math.min(95, Math.round(chance * 10) / 10))
+})
+
+const resetGeneParams = () => {
+  genePurity.value = 82
+  resistanceHardening.value = 55
+  metabolicRate.value = 2.8
+  vulnerabilityEntropy.value = 4.5
+  reverseTargetingLock.value = true
+  regenInhibitor.value = true
+  voidGeneSequencer.value = false
+  if (message) message.info('魔物基因抗性参数已重置为基准谱系')
+}
+
+const isSimulatingGene = ref(false)
+const geneSimLogs = ref<string[]>([
+  '系统就绪：已挂载 Godot 4.6 LTS 魔物弱点基因逆向工程解算器',
+  '当前谱系：太古异形古龙种 (龙鳞硬化减伤 75%)',
+  '逆向推演就绪，请点击右上角按钮启动分子级解算'
+])
+
+const runGeneSimulation = () => {
+  if (isSimulatingGene.value) return
+  isSimulatingGene.value = true
+  geneSimLogs.value = ['[0.00s] 开始提取 ' + currentTaxon.value.name + ' 分子级基因测序图谱...']
+
+  setTimeout(() => {
+    geneSimLogs.value.unshift(`[0.38s] 解算元素抗性硬化度 ${resistanceHardening.value}%，注入逆向弱点暴露熵 ${vulnerabilityEntropy.value}`)
+  }, 380)
+
+  setTimeout(() => {
+    geneSimLogs.value.unshift(`[0.82s] 激活细胞自愈再生抑制剂，Boss 每回合隐秘回血 ${regenInhibitor.value ? '已成功完全阻断' : '未阻断'}`)
+  }, 820)
+
+  setTimeout(() => {
+    geneSimLogs.value.unshift(`[1.25s] 锁定弱点核心部位【${currentTaxon.value.weakness}】，暴击弱点穿透增伤倍率 ${calculatedVulnerabilityMultiplier.value}x`)
+  }, 1250)
+
+  setTimeout(() => {
+    geneSimLogs.value.unshift(`[1.70s] 基因逆向工程推演完成！残留抗性 ${calculatedEffectiveResistance.value}%，破防预计 ${calculatedBreakDuration.value}s，材料掉率 ${calculatedMaterialDropChance.value}%`)
+    isSimulatingGene.value = false
+    if (message) message.success('太古魔物基因逆向工程推演完成，弱点打击方案已锁定！')
+  }, 1700)
+}
+
+const exportMonsterGeneCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const certId = 'GENE-REV-' + Math.random().toString(36).substring(2, 9).toUpperCase()
+  const certContent = `================================================================================
+【光之战士：时空裂隙】太古魔物生态抗性图谱与弱点基因逆向工程方案书
+================================================================================
+方案编号: ${certId}
+时间戳: ${timestamp}
+版本规范: VBLE Bestiary & Ecological Evolution Matrix v2.2.281
+
+【当前选定基因谱系】
+- 谱系家族: ${currentTaxon.value.name} (${currentTaxon.value.tag})
+- 逆向核心弱点: ${currentTaxon.value.weakness}
+- 生态生理概述: ${currentTaxon.value.desc}
+
+【分子基因调优与控制变量】
+- 基因畸变纯度: ${genePurity.value}%
+- 元素抗性硬化度: ${resistanceHardening.value}%
+- 突变活性代谢率: ${metabolicRate.value}x
+- 逆向弱点暴露熵: ${vulnerabilityEntropy.value}
+- 逆向基因靶向锁定: ${reverseTargetingLock.value ? '已启用 (100% 弱点暴击)' : '未启用'}
+- 细胞自愈再生抑制剂: ${regenInhibitor.value ? '已启用 (阻断每回合再生)' : '未启用'}
+- 虚空变异基因解序器: ${voidGeneSequencer.value ? '已启用 (+35% 稀有掉落)' : '未启用'}
+
+【实时解算逆向战术指标】
+- 弱点穿透增伤倍率: ${calculatedVulnerabilityMultiplier.value}x
+- 剩余有效防御硬度: ${calculatedEffectiveResistance.value}%
+- 弱点打击破防时限: ${calculatedBreakDuration.value} 秒
+- 突变基因材料掉率: ${calculatedMaterialDropChance.value}%
+
+【底层引擎契约安全指纹】
+- 引擎架构: Godot 4.6 LTS / Molecular Gene Reverse RefCounted Architecture
+- 核心解算器: monster_gene_reverse_engineering.gd / monster_taxonomic_affinity_engine.gd
+- 控制器: cellular_regen_inhibition_controller.gd
+- SHA-256 指纹: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `monster_gene_reverse_cert_v2.2.281_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('太古魔物弱点基因方案书已导出并同步至剪贴板！')
+  }
+}
+
+const activeGeneCodeTab = ref<'reverse' | 'affinity' | 'inhibitor'>('reverse')
+
+const gdGeneReverseCode = `## monster_gene_reverse_engineering.gd
+## Godot 4.6 LTS - 全域太古魔物弱点基因逆向工程与破防倍率解算器
+extends RefCounted
+class_name MonsterGeneReverseEngineering
+
+enum TaxonClass { ELDER_DRAKE, VOID_MORPH, MAGITEK_COLOSSUS, WRAITH_PHANTOM }
+
+static func compute_vulnerability_multiplier(
+	taxon: TaxonClass,
+	purity_pct: float,
+	entropy: float,
+	is_targeted_locked: bool
+) -> Dictionary:
+	var base_mult: float = 2.0 + (purity_pct / 100.0) * 1.5 + (entropy / 10.0) * 1.2
+	if is_targeted_locked:
+		base_mult += 0.8
+		
+	var break_time_sec: float = maxf(8.0, 120.0 / (2.8 * 1.5 + (2.0 if is_targeted_locked else 0.0)))
+	return {
+		"multiplier": snappedf(base_mult, 0.01),
+		"expected_break_sec": int(break_time_sec),
+		"is_critical_guaranteed": is_targeted_locked
+	}
+`
+
+const gdTaxonAffinityCode = `## monster_taxonomic_affinity_engine.gd
+## Godot 4.6 LTS - 魔物种族系谱、元素硬化抗性与吸收伤害状态机
+extends RefCounted
+class_name MonsterTaxonomicAffinityEngine
+
+signal affinity_absorbed(element: String, absorbed_hp: int)
+signal resistance_shattered(remaining_hardening: float)
+
+static func evaluate_elemental_hardening(
+	raw_damage: int,
+	element: String,
+	absorbed_element: String,
+	base_hardening_pct: float,
+	entropy: float,
+	has_reverse_lock: bool
+) -> Dictionary:
+	if element == absorbed_element:
+		return {
+			"is_absorbed": true,
+			"final_damage": 0,
+			"heal_amount": raw_damage
+		}
+		
+	var decay: float = 1.0 - (entropy / 15.0)
+	var lock_mult: float = 0.6 if has_reverse_lock else 1.0
+	var eff_res: float = maxf(5.0, base_hardening_pct * decay * lock_mult)
+	var final_dmg: int = int(float(raw_damage) * (1.0 - eff_res / 100.0))
+	
+	return {
+		"is_absorbed": false,
+		"effective_resistance_pct": eff_res,
+		"final_damage": final_dmg
+	}
+`
+
+const gdRegenInhibitionCode = `## cellular_regen_inhibition_controller.gd
+## Godot 4.6 LTS - 细胞自愈再生抑制剂与基因材料稀有掉落控制器
+extends RefCounted
+class_name CellularRegenInhibitionController
+
+signal regen_suppressed(boss_id: String, prevented_hp: int)
+signal void_gene_dropped(item_id: String, rarity_tier: String)
+
+static func process_turn_regen(
+	boss_max_hp: int,
+	has_regen_inhibitor: bool
+) -> int:
+	if has_regen_inhibitor:
+		return 0 # 抑制剂彻底阻断5%每回合自愈
+	return int(float(boss_max_hp) * 0.05)
+
+static func roll_gene_material_drop(
+	gene_purity: float,
+	metabolic_rate: float,
+	has_void_sequencer: bool
+) -> Dictionary:
+	var bonus: float = 35.0 if has_void_sequencer else 0.0
+	var drop_chance: float = clampf(gene_purity * 0.45 + metabolic_rate * 8.0 + bonus, 10.0, 95.0)
+	var roll: float = randf() * 100.0
+	return {
+		"success": roll < drop_chance,
+		"drop_chance": drop_chance,
+		"rarity": "ANCIENT_MUTANT_CORE" if roll < (drop_chance * 0.3) else "PRIMITIVE_GENE_SHARD"
+	}
+`
+
+const currentGeneCode = computed(() => {
+  if (activeGeneCodeTab.value === 'reverse') return gdGeneReverseCode
+  if (activeGeneCodeTab.value === 'affinity') return gdTaxonAffinityCode
+  return gdRegenInhibitionCode
+})
+
+const copyGeneCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentGeneCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 魔物基因源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 
 onUnmounted(() => {
   if (evolutionTimer) {

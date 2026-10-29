@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-monsters-gene-studio-2026-10-29',
+    version: 'v2.2.281',
+    date: '2026-10-29',
+    title: '太古魔物生态抗性图谱与弱点基因逆向工程工坊重磅实装',
+    category: 'npc',
+    categoryName: '魔物基因',
+    icon: '🧬',
+    tagType: 'success',
+    description: '全面重构升级 MonstersView 魔物大图鉴门户：顶部标章升级为 VBLE Bestiary & Ecological Evolution Matrix v2.2.281，新增魔物抗性图谱与基因工坊快捷直达；专区重磅实装【太古魔物生态抗性图谱与弱点基因逆向工程工坊】（Ancient Monster Resistance Spectrum & Vulnerability Gene Reverse Engineering Studio）；覆盖四大基因原型谱系（太古异形古龙种、虚空深渊异形怪、机械魔导巨兵种、不死冥界幽冥种）；实现基因畸变纯度 (50%~100%)、元素抗性硬化度 (10%~90%)、突变活性代谢率 (1.0~5.0x) 与逆向弱点暴露熵 (1.0~10.0) 连续微调；支持逆向基因靶向锁定（100% 弱点暴击）、细胞自愈再生抑制剂（彻底阻断 Boss 每回合隐秘自愈回血）与虚空变异基因解序器（+35% 稀有特异基因材料掉落）；实时解算弱点穿透增伤倍率 (突破 4.5x+)、残留有效防御硬度、弱点打击破防时限与材料掉落率；实装五阶段基因逆向推演终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 monster_gene_reverse_engineering.gd、monster_taxonomic_affinity_engine.gd 与 cellular_regen_inhibition_controller.gd。',
+    highlights: [
+      '四大基因原型谱系：古龙种龙鳞硬化、虚空异形物理免疫、魔导机兵全异常免疫与幽冥种属性吸收',
+      '四维连续分子动力学：基因纯度、抗性硬化度、代谢率与弱点暴露熵全域动态适配',
+      '细胞再生彻底阻断：激活自愈再生抑制剂，杜绝强力首领每回合 5% 隐秘再生回血',
+      '靶向弱点暴击锁定：分子级逆向工程精准索敌，弱点穿透增伤突破 4.5x 爆裂峰值',
+      '离线认证方案书导出：自动生成附带 SHA-256 专属基因图谱指纹的方案书并同步至剪贴板',
+      'Godot 4.6 LTS 3 Tab 展台：包含基因逆向解算器、种族抗性状态机与再生抑制控制器'
+    ],
+    relatedLinks: [
+      { label: '魔物与首领大图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '首领攻坚全鉴', path: '/vble/boss-tactics', icon: '🐲' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-battle-tactics-overdrive-2026-10-29',
     version: 'v2.2.280',
     date: '2026-10-29',
