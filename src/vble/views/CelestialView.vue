@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VBLE Void &amp; Dark Energy Expansion Matrix v2.2.291
+              VBLE Celestial Singularity, Aetheric Gravitational Waves & Black Hole Reactor Studio v2.2.316
             </span>
             <span class="text-xs text-gray-400">虚空城堡与终焉星体引力矩阵</span>
           </div>
@@ -19,6 +19,16 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            class="shadow-md font-bold text-black bg-gradient-to-r from-purple-400 to-indigo-500 hover:from-purple-300 hover:to-indigo-400"
+            @click="scrollToSingularityReactorStudio"
+          >
+            <template #icon><span>🪐</span></template>
+            奇点反应堆工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1351,6 +1361,227 @@
 
       <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeCelestialGodotTab === 'gravity'">{{ godotCodeText }}</code><code v-else-if="activeCelestialGodotTab === 'singularity'">{{ godotSingularityCodeText }}</code><code v-else-if="activeCelestialGodotTab === 'tidal_inversion'">{{ godotTidalInversionCodeText }}</code><code v-else>{{ godotDarkEnergyCodeText }}</code></pre>
     </div>
+
+    <!-- 太古天体黑洞奇点、以太引力波共鸣与终焉时空反应堆工坊 (v2.2.316 重磅实装) -->
+    <div id="singularity-reactor-studio" class="singularity-reactor-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-purple-950/20 to-slate-900/95 border border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-purple-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/30">
+              BLACK HOLE SINGULARITY & GRAVITATIONAL WAVES
+            </span>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">
+              v2.2.316 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>🪐</span> 太古天体黑洞奇点、以太引力波共鸣与终焉时空反应堆工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            提供九大天体潮汐锁定、视界时间膨胀超慢速减速、霍金辐射负能量逆流汲取与 Godot 4.6 LTS 底层实机黑洞奇点反应堆仿真控制流。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetSingularityDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="info" :loading="isSingularitySimulating" @click="runSingularitySimulation">
+            <template #icon><span>⚡</span></template>
+            启动奇点反应堆推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大奇点天体流派原型卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="archetype in singularityArchetypes"
+          :key="archetype.id"
+          @click="selectSingularityArchetype(archetype)"
+          :class="[
+            'p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden',
+            selectedSingularityArchetype.id === archetype.id
+              ? 'bg-purple-950/40 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.25)]'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+          ]"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xl">{{ archetype.icon }}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-purple-300">{{ archetype.badge }}</span>
+          </div>
+          <div class="font-bold text-white text-sm mt-2">{{ archetype.name }}</div>
+          <div class="text-xs text-gray-400 mt-1 leading-relaxed">{{ archetype.desc }}</div>
+          <div class="mt-3 text-[11px] font-mono text-purple-400/90 flex justify-between">
+            <span>峰值出力: {{ archetype.output }}</span>
+            <span>稳态率: {{ archetype.stability }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心微调滑块与调控开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <!-- 4 维连续滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-purple-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>⚙️</span> 奇点几何与引力场参数调谐
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>引力场扭曲曲率半径 (Curvature Radius)</span>
+                <span class="font-mono text-purple-400 font-bold">{{ curvatureRadius }} AU</span>
+              </div>
+              <n-slider v-model:value="curvatureRadius" :min="10" :max="100" :step="2" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>奇点以太密度压缩比 (Density Ratio)</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ densityRatio }} g/cm³</span>
+              </div>
+              <n-slider v-model:value="densityRatio" :min="1000" :max="50000" :step="1000" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>霍金辐射逆流增益系数 (Hawking Siphon)</span>
+                <span class="font-mono text-amber-400 font-bold">{{ hawkingSiphon.toFixed(1) }} x</span>
+              </div>
+              <n-slider v-model:value="hawkingSiphon" :min="1.0" :max="8.0" :step="0.2" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>潮汐锁定同步时钟 (Tidal Lock Frequency)</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ tidalLockFreq }} mHz</span>
+              </div>
+              <n-slider v-model:value="tidalLockFreq" :min="30" :max="360" :step="10" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 维调控开关与动态指标 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>🛡️</span> 时空防坍缩与高维保护守卫
+          </div>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">视界边缘时间膨胀超慢速保护</div>
+                <div class="text-[10px] text-gray-400">逼近黑洞奇点视界时战局时间流速自动放缓至 15% 防止瞬秒</div>
+              </div>
+              <n-switch v-model:value="enableHorizonTimeDilation" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">负能量湮灭排斥对冲圣盾</div>
+                <div class="text-[10px] text-gray-400">注入反粒子流抵消奇点潮汐力撕扯，全员真伤减免 50%</div>
+              </div>
+              <n-switch v-model:value="enableNegativeEnergyShield" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">跨星系零延迟量子纠缠以太中继</div>
+                <div class="text-[10px] text-gray-400">在四大虚空层级间建立超光速双向以太能量回流管道</div>
+              </div>
+              <n-switch v-model:value="enableQuantumEntanglement" />
+            </div>
+          </div>
+
+          <!-- 4 维解算核心指标 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">理论能量输出</div>
+              <div class="text-base font-black font-mono text-purple-400 mt-0.5">{{ calculatedOutputPower }} MW</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">奇点安全控制度</div>
+              <div class="text-base font-black font-mono text-cyan-400 mt-0.5">{{ calculatedSafetyRate }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">引力波干涉纯度</div>
+              <div class="text-base font-black font-mono text-emerald-400 mt-0.5">{{ calculatedWavePurity }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">反应堆认证级别</div>
+              <div class="text-xs font-black font-mono text-amber-400 mt-1">{{ calculatedReactorCert }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条与终端控制台 -->
+      <div class="space-y-3 bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-purple-400 font-mono font-bold">STAGE {{ singularitySimStage }}/5</span>
+            <span class="text-gray-300">{{ singularitySimStageName }}</span>
+          </div>
+          <span class="font-mono text-cyan-400">{{ singularitySimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="singularitySimProgress"
+          :color="'#a855f7'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in singularityLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪校验凭证: </span>
+            <span class="text-purple-400 font-bold">{{ singularityCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="info" round @click="exportReactorCert">
+            <template #icon><span>📜</span></template>
+            导出奇点反应堆推演报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30">
+                GODOT 4.6 LTS ASTROPHYSICS
+              </span>
+              <span class="text-sm font-bold text-white">黑洞奇点与引力波反应堆实机驱动</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级奇点反应堆核心、引力波干涉检测仪与视界时间膨胀控制器实机代码。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in singularityCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeSingularityCodeTab === codeTab.id ? 'info' : 'default'"
+              :secondary="activeSingularityCodeTab !== codeTab.id"
+              @click="activeSingularityCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveSingularityCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-purple-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentSingularityCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2419,6 +2650,327 @@ const godotDarkEnergyCodeText = [
   'static func verify_causality_protection(is_field_active: bool) -> bool:',
   '	return is_field_active'
 ].join('\n')
+
+// ==================== v2.2.316 奇点反应堆工坊状态与方法 ====================
+const scrollToSingularityReactorStudio = () => {
+  const el = document.getElementById('singularity-reactor-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.success('已直达太古天体黑洞奇点反应堆工坊')
+  }
+}
+
+interface SingularityArchetype {
+  id: string
+  name: string
+  icon: string
+  badge: string
+  desc: string
+  output: string
+  stability: string
+  radius: number
+  density: number
+  siphon: number
+  freq: number
+}
+
+const singularityArchetypes: SingularityArchetype[] = [
+  {
+    id: 'singularity_collapse',
+    name: '终焉黑洞奇点坍缩流',
+    icon: '🕳️',
+    badge: '事件视界',
+    desc: '极高以太压缩密度，空间极度扭曲，产生毁灭性绝对真伤立场。',
+    output: '98,000,000 MW',
+    stability: '94.5%',
+    radius: 40,
+    density: 45000,
+    siphon: 6.5,
+    freq: 180
+  },
+  {
+    id: 'gravitational_waves',
+    name: '双子星引力波共鸣流',
+    icon: '🌀',
+    badge: '引力干涉',
+    desc: '双星互绕激发时空涟漪，全图敌人行动条持续震荡击退。',
+    output: '65,000,000 MW',
+    stability: '99.2%',
+    radius: 65,
+    density: 22000,
+    siphon: 4.0,
+    freq: 240
+  },
+  {
+    id: 'dark_matter_fusion',
+    name: '暗物质聚变反应堆流',
+    icon: '🌌',
+    badge: '稳态巡航',
+    desc: '平稳持续能量释放，为全队提供无上限以太过载与减耗支持。',
+    output: '48,000,000 MW',
+    stability: '99.9%',
+    radius: 80,
+    density: 12000,
+    siphon: 3.0,
+    freq: 90
+  },
+  {
+    id: 'hawking_radiation',
+    name: '霍金辐射能量汲取流',
+    icon: '⚡',
+    badge: '负熵增益',
+    desc: '视界对偶粒子湮灭汲取，反噬为零，将敌方魔攻转化为自身护盾。',
+    output: '72,000,000 MW',
+    stability: '98.0%',
+    radius: 50,
+    density: 30000,
+    siphon: 7.2,
+    freq: 120
+  }
+]
+
+const selectedSingularityArchetype = ref<SingularityArchetype>(singularityArchetypes[0])
+
+const curvatureRadius = ref(40)
+const densityRatio = ref(45000)
+const hawkingSiphon = ref(6.5)
+const tidalLockFreq = ref(180)
+
+const enableHorizonTimeDilation = ref(true)
+const enableNegativeEnergyShield = ref(true)
+const enableQuantumEntanglement = ref(true)
+
+const selectSingularityArchetype = (arch: SingularityArchetype) => {
+  selectedSingularityArchetype.value = arch
+  curvatureRadius.value = arch.radius
+  densityRatio.value = arch.density
+  hawkingSiphon.value = arch.siphon
+  tidalLockFreq.value = arch.freq
+  message.info(`已装配奇点天体原型: ${arch.name}`)
+}
+
+const resetSingularityDefaults = () => {
+  selectSingularityArchetype(singularityArchetypes[0])
+  enableHorizonTimeDilation.value = true
+  enableNegativeEnergyShield.value = true
+  enableQuantumEntanglement.value = true
+}
+
+const calculatedOutputPower = computed(() => {
+  let p = (densityRatio.value / 1000) * 1200 * hawkingSiphon.value + curvatureRadius.value * 250000
+  if (enableQuantumEntanglement.value) p *= 1.25
+  return Math.floor(p).toLocaleString()
+})
+
+const calculatedSafetyRate = computed(() => {
+  let s = 80 + (tidalLockFreq.value / 360) * 15
+  if (enableNegativeEnergyShield.value) s += 4.5
+  return Math.min(99.9, Number(s.toFixed(1)))
+})
+
+const calculatedWavePurity = computed(() => {
+  let w = 75 + (curvatureRadius.value / 100) * 20
+  if (enableHorizonTimeDilation.value) w += 4.5
+  return Math.min(99.9, Number(w.toFixed(1)))
+})
+
+const calculatedReactorCert = computed(() => {
+  const s = calculatedSafetyRate.value
+  if (s >= 98.5) return 'EX·太古戴森奇点'
+  if (s >= 95.0) return 'SSS·高可用聚变核心'
+  if (s >= 90.0) return 'SS·生产级星体引擎'
+  return 'S·基础引力反应堆'
+})
+
+const isSingularitySimulating = ref(false)
+const singularitySimStage = ref(1)
+const singularitySimStageName = ref('就绪等待')
+const singularitySimProgress = ref(0)
+const singularityCertHash = ref('F8E7D6C5-B4A3-210F-9E8D-7C6B5A4F3E2D')
+
+interface SingularityLogEntry {
+  time: string
+  text: string
+  color: string
+}
+
+const singularityLogs = ref<SingularityLogEntry[]>([
+  { time: '13:00:00', text: '[ReactorInit] 太古天体奇点反应堆就绪，等待注入以太引力参数...', color: 'text-gray-400' }
+])
+
+const runSingularitySimulation = () => {
+  if (isSingularitySimulating.value) return
+  isSingularitySimulating.value = true
+  singularitySimStage.value = 1
+  singularitySimProgress.value = 15
+  singularitySimStageName.value = '引力场几何曲率建模与事件视界锁定'
+  singularityLogs.value = [
+    { time: new Date().toLocaleTimeString(), text: `[Curvature] 扭曲曲率半径锁定 ${curvatureRadius.value} AU，视界时间流速减缓生效`, color: 'text-purple-400' }
+  ]
+
+  setTimeout(() => {
+    singularitySimStage.value = 2
+    singularitySimProgress.value = 40
+    singularitySimStageName.value = '奇点以太密度压缩与反物质对冲中和'
+    singularityLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Density] 压缩密度 ${densityRatio.value} g/cm³，负能量圣盾吸收撕扯潮汐力`,
+      color: 'text-cyan-400'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    singularitySimStage.value = 3
+    singularitySimProgress.value = 65
+    singularitySimStageName.value = '霍金辐射逆流汲取与能量过载输出'
+    singularityLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[HawkingSiphon] 辐射增益 ${hawkingSiphon.value.toFixed(1)}x，理论能量输出 ${calculatedOutputPower.value} MW`,
+      color: 'text-amber-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    singularitySimStage.value = 4
+    singularitySimProgress.value = 85
+    singularitySimStageName.value = '引力波共振干涉检测与稳态封板'
+    singularityLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[WaveDetector] 干涉纯度 ${calculatedWavePurity.value}%，潮汐时钟 ${tidalLockFreq.value} mHz 同步完成`,
+      color: 'text-emerald-400'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    singularitySimStage.value = 5
+    singularitySimProgress.value = 100
+    singularitySimStageName.value = '推演闭环完成，反应堆证书已签发'
+    const hex = Array.from({ length: 8 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('').toUpperCase()
+    singularityCertHash.value = `BH-${hex}-${Math.floor(Date.now() / 1000)}`
+    singularityLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Done] 奇点反应堆推演完成！反应堆认证评级: ${calculatedReactorCert.value}`,
+      color: 'text-emerald-300 font-bold'
+    })
+    isSingularitySimulating.value = false
+    message.success('太古天体黑洞奇点推演完成！')
+  }, 1600)
+}
+
+const exportReactorCert = () => {
+  const data = {
+    studio: 'Black Hole Singularity, Gravitational Waves & Spacetime Reactor Studio v2.2.316',
+    timestamp: new Date().toISOString(),
+    archetype: selectedSingularityArchetype.value.name,
+    curvatureRadius: curvatureRadius.value,
+    densityRatio: densityRatio.value,
+    hawkingSiphon: hawkingSiphon.value,
+    tidalLockFreq: tidalLockFreq.value,
+    outputPower: calculatedOutputPower.value,
+    safetyRate: calculatedSafetyRate.value,
+    wavePurity: calculatedWavePurity.value,
+    reactorCert: calculatedReactorCert.value,
+    sha256Signature: singularityCertHash.value
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `singularity-reactor-${singularityCertHash.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('防伪证书与反应堆报告已导出')
+}
+
+// Godot 4.6 LTS 源码展台
+const activeSingularityCodeTab = ref('reactor_core')
+const singularityCodeTabs = [
+  { id: 'reactor_core', name: '奇点反应堆核心' },
+  { id: 'wave_detector', name: '引力波干涉检测仪' },
+  { id: 'horizon_governor', name: '视界时间膨胀控制器' }
+]
+
+const singularitySourceCodes: Record<string, string> = {
+  reactor_core: `## singularity_reactor_core.gd
+## 《光之战士：时空裂隙》黑洞奇点反应堆核心与以太输出驱动
+## 架构版本: Godot 4.6 LTS / Astrophysics Subsystem
+
+class_name SingularityReactorCore
+extends RefCounted
+
+signal power_generated(megawatts: float, stability: float)
+signal collapse_warning(critical_density: float)
+
+var _density_ratio: float = 45000.0
+var _hawking_siphon: float = 6.5
+var _is_shield_active: bool = true
+
+func _init(density: float = 45000.0, siphon: float = 6.5) -> void:
+	_density_ratio = density
+	_hawking_siphon = siphon
+
+## 实时解算奇点能量脉冲
+func step_reactor_cycle(delta: float) -> Dictionary:
+	var base_mw := (_density_ratio / 1000.0) * 1200.0 * _hawking_siphon
+	var stab := 0.99 if _is_shield_active else 0.85
+	
+	power_generated.emit(base_mw, stab)
+	return {
+		"output_mw": base_mw,
+		"stability": stab,
+		"status": "NORMAL_CONTAINMENT"
+	}
+`,
+  wave_detector: `## gravitational_wave_detector.gd
+## 《光之战士：时空裂隙》双星互绕以太引力波干涉检测仪
+## 架构版本: Godot 4.6 LTS / Laser Interferometer Engine
+
+class_name GravitationalWaveDetector
+extends RefCounted
+
+signal strain_detected(amplitude: float, frequency_mhz: float)
+
+var _carrier_freq_mhz: float = 180.0
+
+## 检测并过滤引力波时空应变信号
+func sample_strain_tensor() -> float:
+	var strain := sin(Time.get_ticks_msec() * 0.001 * _carrier_freq_mhz * 0.01) * 1e-21
+	strain_detected.emit(absf(strain), _carrier_freq_mhz)
+	return strain
+`,
+  horizon_governor: `## event_horizon_time_governor.gd
+## 《光之战士：时空裂隙》视界边缘相对论时间膨胀减速控制器
+## 架构版本: Godot 4.6 LTS / Time Dilation Governor
+
+class_name EventHorizonTimeGovernor
+extends RefCounted
+
+signal time_dilation_engaged(time_dilation_factor: float)
+
+## 依据距离奇点视界距离计算引力时间减速因子
+func calculate_dilation(distance_au: float, schwarzschild_radius_au: float) -> float:
+	if distance_au <= schwarzschild_radius_au * 1.05:
+		# 极近视界，时间流速放缓至 15%
+		time_dilation_engaged.emit(0.15)
+		return 0.15
+	var factor := sqrt(maxf(0.15, 1.0 - (schwarzschild_radius_au / distance_au)))
+	time_dilation_engaged.emit(factor)
+	return factor
+`
+}
+
+const currentSingularityCode = computed(() => {
+  return singularitySourceCodes[activeSingularityCodeTab.value] || ''
+})
+
+const copyActiveSingularityCode = () => {
+  navigator.clipboard.writeText(currentSingularityCode.value).then(() => {
+    message.success(`${activeSingularityCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
 </script>
 
 <style scoped>

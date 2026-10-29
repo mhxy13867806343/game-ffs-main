@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-celestial-singularity-reactor-v316-2026-10-29',
+    version: 'v2.2.316',
+    date: '2026-10-29',
+    title: '太古天体黑洞奇点、以太引力波共鸣与终焉时空反应堆工坊重磅实装',
+    category: 'maps',
+    categoryName: '天体虚空',
+    icon: '🪐',
+    tagType: 'success',
+    description: '全面重构升级 CelestialView 虚空天体门户：顶部标章升级为 VBLE Celestial Singularity, Aetheric Gravitational Waves & Black Hole Reactor Studio v2.2.316，新增奇点反应堆工坊快捷直达；专区重磅实装【太古天体黑洞奇点、以太引力波共鸣与终焉时空反应堆工坊】（Black Hole Singularity, Gravitational Waves & Spacetime Reactor Studio）；覆盖四大奇点天体流派原型（终焉黑洞奇点坍缩流、双子星引力波共鸣流、暗物质聚变反应堆流、霍金辐射能量汲取流）；支持引力场扭曲曲率半径 (10~100 AU)、奇点以太密度压缩比 (1,000~50,000 g/cm³)、霍金辐射逆流增益系数 (1.0x~8.0x) 与潮汐锁定同步时钟 (30~360 mHz) 连续微调；支持视界边缘时间膨胀超慢速保护、负能量湮灭排斥对冲圣盾与跨星系零延迟量子纠缠以太中继；实时解算理论输出能量 (突破 98,000,000 MW)、奇点安全控制度 (高达 99.9%)、引力波干涉纯度 (高达 99.5%) 与反应堆评级 (高达 EX·太古戴森奇点)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：singularity_reactor_core.gd、gravitational_wave_detector.gd 与 event_horizon_time_governor.gd。',
+    highlights: [
+      '四大奇点天体原型：黑洞奇点坍缩、双子星引力波共鸣、暗物质聚变反应堆与霍金辐射汲取',
+      '四维连续引力天体参数：曲率扭曲半径、以太压缩密度、霍金辐射增益与潮汐锁定同步时钟',
+      '三重相对论安全守卫机制：视界边缘时间膨胀超慢速减速、负能量排斥圣盾与量子纠缠中继',
+      '动态星体能效指标解算：理论输出能量、奇点安全控制度、引力波干涉纯度与戴森奇点认证',
+      '五阶段奇点沙盘：曲率几何建模、以太压缩中和、霍金辐射汲取、引力波干涉检测与防伪签名',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源奇点反应堆核心、引力波干涉检测仪与视界时间膨胀控制器'
+    ],
+    relatedLinks: [
+      { label: '虚空天体与引力工坊', path: '/vble/celestial', icon: '🪐' },
+      { label: '奇点反应堆工坊', path: '/vble/celestial', icon: '🌀' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-search-omni-recall-v315-2026-10-29',
     version: 'v2.2.315',
     date: '2026-10-29',
