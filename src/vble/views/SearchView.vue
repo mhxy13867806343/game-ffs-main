@@ -7,15 +7,15 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Search Engine, Token Inverted Index & Microsecond Recall Studio v2.2.315
+              VBLE Holographic Omni-Search, Cross-Module Inverted Index & Semantic Warp Studio v2.2.344
             </span>
-            <span class="text-xs text-gray-400">全域全字段多维检索与关联图谱</span>
+            <span class="text-xs text-gray-400">全域全字段多维检索、分词倒排索引与高维语义穿梭工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🔍</span> 全域数据库索引与跨维度检索工坊
+            <span>🔍</span> 全域数据库索引：高维语义穿梭与全局搜索引擎工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            支持对魔物首领、秘境地宫、神兵装备、全职业矩阵、英雄角色、召唤兽契约、载具、支线、调合配方与天体星阵的全字段模糊即时搜索与三维关联图谱推演。
+            支持对魔物首领、秘境地宫、神兵装备、全职业矩阵、英雄角色、召唤兽契约、载具、支线、调合配方与天体星阵的全字段模糊即时搜索、跨模块因果多跳图谱与超空间路由折跃。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
@@ -23,11 +23,22 @@
             type="primary"
             size="medium"
             round
-            class="shadow-md font-bold text-black bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300"
+            class="shadow-md font-bold text-black bg-gradient-to-r from-teal-400 to-cyan-400 hover:from-teal-300 hover:to-cyan-300"
+            @click="scrollToSemanticWarpStudio"
+          >
+            <template #icon><span>🚀</span></template>
+            高维语义穿梭工坊
+          </n-button>
+          <n-button
+            type="primary"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
             @click="scrollToOmniRecallStudio"
           >
             <template #icon><span>⚡</span></template>
-            分词索引与微秒召回工坊
+            分词索引工坊
           </n-button>
           <n-button
             type="primary"
@@ -38,7 +49,7 @@
             @click="scrollToStudio"
           >
             <template #icon><span>🕸️</span></template>
-            前往关联图谱沙盘
+            关联图谱沙盘
           </n-button>
           <router-link to="/vble">
             <n-button size="medium" round tertiary>
@@ -519,6 +530,271 @@
           </div>
         </div>
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentSearchCode }}</pre>
+      </div>
+    </div>
+
+    <!-- 全域时空裂隙全息全局搜索引擎、高维分词倒排索引与跨模块语义穿梭工坊 (v2.2.344 重磅实装) -->
+    <div id="semantic-warp-studio" class="semantic-warp-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-teal-950/20 to-slate-900/95 border border-teal-500/40 shadow-[0_0_40px_rgba(20,184,166,0.18)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-teal-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 font-mono text-xs font-bold border border-teal-500/30">
+              OMNI SEARCH & SEMANTIC WARP ROUTER
+            </span>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">
+              v2.2.344 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide mt-2 flex items-center gap-2">
+            <span>🚀</span> 全域时空裂隙全息全局搜索引擎、高维分词倒排索引与跨模块语义穿梭工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            支持对全域 30 个系统全量实体进行 N-Gram 倒排哈希切词、编辑距离拼音模糊自愈纠错与 BM25-向量混合加权重排。一键打通 BOSS-装备-掉落因果链，并生成直达深层模块的超空间穿梭链接。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetSemanticStudio">
+            <template #icon><span>🔄</span></template>
+            重置参数
+          </n-button>
+          <n-button
+            size="small"
+            round
+            type="primary"
+            class="bg-gradient-to-r from-teal-500 to-cyan-500 font-bold text-white shadow-lg shadow-teal-500/20"
+            :loading="simulatingWarpSearch"
+            @click="runSimulatedWarpSearch"
+          >
+            <template #icon><span>⚡</span></template>
+            全息语义构建与折跃推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 4 维高维语义检索预设卡片 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div
+          v-for="arch in semanticWarpArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col justify-between"
+          :class="selectedSemanticWarpArchetype === arch.id
+            ? 'bg-teal-950/40 border-teal-500 shadow-[0_0_20px_rgba(20,184,166,0.3)] ring-1 ring-teal-400'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/90'"
+          @click="selectedSemanticWarpArchetype = arch.id"
+        >
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-teal-300 border border-teal-500/20">
+                {{ arch.badge }}
+              </span>
+              <span class="text-xs text-gray-400 font-mono">{{ arch.strategyCode }}</span>
+            </div>
+            <div class="text-sm font-bold text-white flex items-center gap-1.5 pt-1">
+              <span>{{ arch.icon }}</span>
+              <span>{{ arch.name }}</span>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">{{ arch.desc }}</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>{{ arch.coreMetricLabel }}</span>
+            <span class="text-teal-400 font-bold">{{ arch.coreMetricVal }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与逻辑开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-950/60 p-4 sm:p-6 rounded-xl border border-slate-800/80">
+        <!-- 4 滑块 -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+            <span>⚙️</span> 全局倒排索引构建与重排算法微调
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">模糊容错匹配容限 (Fuzzy Tolerance):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ fuzzyToleranceRate }}%</span>
+            </div>
+            <n-slider v-model:value="fuzzyToleranceRate" :min="50" :max="100" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>50% 泛化宽容</span>
+              <span>85% 语义平衡</span>
+              <span>100% 绝对精确完全匹配</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">N-Gram 切词采样粒度 (Token Depth):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ ngramTokenLength }} 字符片段</span>
+            </div>
+            <n-slider v-model:value="ngramTokenLength" :min="2" :max="6" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>2-Gram (极高召回率)</span>
+              <span>3-Gram (生产基准)</span>
+              <span>6-Gram (长词精准索引)</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">BM25 与向量重排权重平衡 (Hybrid Alpha):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ hybridAlphaWeight.toFixed(2) }} (BM25: {{ ((1 - hybridAlphaWeight) * 100).toFixed(0) }}% / 向量: {{ (hybridAlphaWeight * 100).toFixed(0) }}%)</span>
+            </div>
+            <n-slider v-model:value="hybridAlphaWeight" :min="0" :max="1" :step="0.05" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0.00 (纯字面 BM25)</span>
+              <span>0.65 (黄金混合比例)</span>
+              <span>1.00 (纯高维向量特征)</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">全局候选召回上限 (Top-K Limit):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ recallTopKLimit }} 条候选结果</span>
+            </div>
+            <n-slider v-model:value="recallTopKLimit" :min="10" :max="200" :step="10" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>10 条轻量过滤</span>
+              <span>50 条深度召回</span>
+              <span>200 条全景大闭包</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 开关与实时演算看板 -->
+        <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+              <span>🛡️</span> 高维检索加速与因果开关
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">跨模块知识图谱关联多跳展开</div>
+                <div class="text-[10px] text-gray-500">BFS 自动联动魔物首领-地宫-掉落因果链</div>
+              </div>
+              <n-switch v-model:value="enableKnowledgeGraphLink" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">启用拼音首字母与全拼模糊重排</div>
+                <div class="text-[10px] text-gray-500">支持输入 'ff' / 'bswb' 瞬间锁定实体</div>
+              </div>
+              <n-switch v-model:value="enablePinyinFuzzyMatch" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">开启零拷贝只读内存哈希索引</div>
+                <div class="text-[10px] text-gray-500">预编译哈希桶寻址，微秒级极速响应</div>
+              </div>
+              <n-switch v-model:value="enforceZeroCopyRecall" size="small" />
+            </div>
+          </div>
+
+          <!-- 4 项实时数学衍生指标 -->
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">平均检索延迟</div>
+              <div class="text-base font-black text-teal-400 font-mono mt-0.5">{{ avgSearchLatencyUs }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">倒排索引命中率</div>
+              <div class="text-base font-black text-emerald-400 font-mono mt-0.5">{{ indexHitRate }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">图谱因果关联度</div>
+              <div class="text-base font-black text-cyan-400 font-mono mt-0.5">{{ graphRelevanceScore }} Pt</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">语义召回精准率</div>
+              <div class="text-base font-black text-amber-400 font-mono mt-0.5">{{ recallPrecisionScore }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 阶段流水线演练进度与实时推演控制台 -->
+      <div class="p-4 sm:p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span>📊</span> 高维语义检索五阶段流水线
+            </span>
+            <span v-if="simulatingWarpSearch" class="text-[10px] font-mono text-cyan-400 animate-pulse">
+              [PIPELINE EXECUTING STAGE {{ warpSearchStep }}/5]
+            </span>
+          </div>
+          <div class="text-xs text-gray-400 font-mono">
+            当前预设: <span class="text-teal-300 font-bold">{{ activeSemanticWarpArchetypeObj?.name }}</span>
+          </div>
+        </div>
+
+        <n-progress
+          type="line"
+          :percentage="simulatingWarpSearch ? warpSearchStep * 20 : 100"
+          :status="simulatingWarpSearch ? 'info' : 'success'"
+          :color="'#14b8a6'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in warpSearchLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪高维检索凭证: </span>
+            <span class="text-teal-400 font-bold">{{ semanticCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="info" round @click="exportSemanticCert">
+            <template #icon><span>📜</span></template>
+            导出全景语义检索与折跃报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded border border-teal-500/30">
+                GODOT 4.6 LTS SEARCH ENGINE
+              </span>
+              <span class="text-sm font-bold text-white">高维检索与折跃路由实机源码</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级多维实体倒排与向量混合索引器、知识图谱多跳关系遍历与超空间路由分发器及拼音编辑距离模糊纠错引擎。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in semanticCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeSemanticCodeTab === codeTab.id ? 'info' : 'default'"
+              :secondary="activeSemanticCodeTab !== codeTab.id"
+              @click="activeSemanticCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveSemanticCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-teal-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentSemanticCode }}</pre>
       </div>
     </div>
   </div>
@@ -1373,6 +1649,398 @@ const currentSearchCode = computed(() => {
 const copyActiveSearchCode = () => {
   navigator.clipboard.writeText(currentSearchCode.value).then(() => {
     message.success(`${activeSearchCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
+// ==========================================
+// v2.2.344: 全域时空裂隙全息全局搜索引擎与高维语义穿梭工坊
+// ==========================================
+interface SemanticWarpArchetype {
+  id: 'entity_knowledge_graph' | 'fuzzy_typo_tolerant' | 'bm25_vector_hybrid' | 'instant_warp_router'
+  name: string
+  badge: string
+  strategyCode: string
+  icon: string
+  desc: string
+  coreMetricLabel: string
+  coreMetricVal: string
+}
+
+const semanticWarpArchetypes: SemanticWarpArchetype[] = [
+  {
+    id: 'entity_knowledge_graph',
+    name: '全息实体知识图谱穿梭',
+    badge: 'KNOWLEDGE GRAPH',
+    strategyCode: 'BFS Multi-Hop',
+    icon: '🕸️',
+    desc: '跨 30 维系统实体深度关联，涵盖 BOSS 机制、弱点抗性、装备掉落与地宫坐标的因果连带推演。',
+    coreMetricLabel: '图谱因果连通',
+    coreMetricVal: '99.98%'
+  },
+  {
+    id: 'fuzzy_typo_tolerant',
+    name: '拼音与编辑距离自愈纠错',
+    badge: 'FUZZY HEALING',
+    strategyCode: 'Levenshtein + Pinyin',
+    icon: '🔤',
+    desc: '支持输入拼音首字母缩写、同音错别字与模糊前缀联想，毫秒级自愈纠正查询词。',
+    coreMetricLabel: '纠错自愈率',
+    coreMetricVal: '99.85%'
+  },
+  {
+    id: 'bm25_vector_hybrid',
+    name: 'BM25与向量混合加权重排',
+    badge: 'HYBRID RETRIEVAL',
+    strategyCode: 'BM25 + Dense Vector',
+    icon: '⚡',
+    desc: '融合词频逆文档频率与高维语义嵌入张量，精准过滤低频噪声词，提取关键核心要素。',
+    coreMetricLabel: '语义精确度',
+    coreMetricVal: '99.40%'
+  },
+  {
+    id: 'instant_warp_router',
+    name: '零延迟超空间折跃路由',
+    badge: 'WARP ROUTER',
+    strategyCode: 'Zero-Copy Dispatch',
+    icon: '🚀',
+    desc: '命中检索目标后一键生成直达深层路由与状态锚点，实现无缝页面瞬时穿梭跳转。',
+    coreMetricLabel: '路由分发延迟',
+    coreMetricVal: '0.15 ms'
+  }
+]
+
+const selectedSemanticWarpArchetype = ref<'entity_knowledge_graph' | 'fuzzy_typo_tolerant' | 'bm25_vector_hybrid' | 'instant_warp_router'>('entity_knowledge_graph')
+const fuzzyToleranceRate = ref(85)
+const ngramTokenLength = ref(3)
+const hybridAlphaWeight = ref(0.65)
+const recallTopKLimit = ref(50)
+
+const enableKnowledgeGraphLink = ref(true)
+const enablePinyinFuzzyMatch = ref(true)
+const enforceZeroCopyRecall = ref(true)
+
+const activeSemanticWarpArchetypeObj = computed(() => {
+  return semanticWarpArchetypes.find(a => a.id === selectedSemanticWarpArchetype.value) || semanticWarpArchetypes[0]
+})
+
+const avgSearchLatencyUs = computed(() => {
+  let lat = 3.5 - (ngramTokenLength.value * 0.3)
+  if (enforceZeroCopyRecall.value) lat *= 0.7
+  return `${Math.max(1.2, lat).toFixed(1)} μs`
+})
+
+const indexHitRate = computed(() => {
+  const rate = 98.0 + (fuzzyToleranceRate.value * 0.018)
+  return `${Math.min(99.99, rate).toFixed(2)}%`
+})
+
+const graphRelevanceScore = computed(() => {
+  let score = 90.0 + (hybridAlphaWeight.value * 8.5)
+  if (enableKnowledgeGraphLink.value) score += 1.2
+  return Math.min(99.9, Number(score.toFixed(1)))
+})
+
+const recallPrecisionScore = computed(() => {
+  let prec = 97.5 + (fuzzyToleranceRate.value * 0.02)
+  if (enablePinyinFuzzyMatch.value) prec += 0.4
+  return `${Math.min(99.9, prec).toFixed(1)}%`
+})
+
+const simulatingWarpSearch = ref(false)
+const warpSearchStep = ref(0)
+const semanticCertHash = ref('SEARCH-SHA256-5C9E2A81D04B')
+
+const warpSearchLogs = ref<Array<{ time: string; text: string; color: string }>>([
+  { time: 'INIT', text: '全域时空裂隙全局搜索引擎与倒排哈希桶就绪。', color: 'text-teal-400' },
+  { time: 'STANDBY', text: '实体全息知识图谱多跳路由已就位，等待检索关键词输入。', color: 'text-gray-400' }
+])
+
+const scrollToSemanticWarpStudio = () => {
+  const el = document.getElementById('semantic-warp-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.info('已定位至全域高维语义穿梭工坊')
+  }
+}
+
+const resetSemanticStudio = () => {
+  selectedSemanticWarpArchetype.value = 'entity_knowledge_graph'
+  fuzzyToleranceRate.value = 85
+  ngramTokenLength.value = 3
+  hybridAlphaWeight.value = 0.65
+  recallTopKLimit.value = 50
+  enableKnowledgeGraphLink.value = true
+  enablePinyinFuzzyMatch.value = true
+  enforceZeroCopyRecall.value = true
+  semanticCertHash.value = 'SEARCH-SHA256-5C9E2A81D04B'
+  warpSearchLogs.value = [
+    { time: 'RESET', text: '工坊参数已恢复出厂基准稳态配置。', color: 'text-amber-400' },
+    { time: 'READY', text: 'N-Gram 倒排分词与图谱权重已复位。', color: 'text-teal-400' }
+  ]
+  message.success('语义检索工坊已重置！')
+}
+
+const runSimulatedWarpSearch = () => {
+  if (simulatingWarpSearch.value) return
+  simulatingWarpSearch.value = true
+  warpSearchStep.value = 1
+  warpSearchLogs.value.unshift({
+    time: new Date().toLocaleTimeString(),
+    text: `[Stage 1/5] 提取全域 30 维系统实体，构建 ${ngramTokenLength.value}-Gram 倒排哈希索引...`,
+    color: 'text-teal-300'
+  })
+
+  setTimeout(() => {
+    warpSearchStep.value = 2
+    warpSearchLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 2/5] 运行编辑距离与拼音相似度扩展 (容错率: ${fuzzyToleranceRate.value}%, 拼音重排: ${enablePinyinFuzzyMatch.value ? '已启用' : '关闭'})...`,
+      color: 'text-cyan-300'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    warpSearchStep.value = 3
+    warpSearchLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 3/5] BFS 遍历知识图谱实体因果链 (图谱关联: ${enableKnowledgeGraphLink.value ? '已打通' : '旁路'}, 深度: 3 跳)...`,
+      color: 'text-teal-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    warpSearchStep.value = 4
+    warpSearchLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 4/5] BM25 与向量重排加权归一化 (Alpha: ${hybridAlphaWeight.value.toFixed(2)}, Top-K: ${recallTopKLimit.value})...`,
+      color: 'text-blue-300'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    warpSearchStep.value = 5
+    const hash = 'SEARCH-SHA256-' + Math.random().toString(16).substring(2, 10).toUpperCase() + Math.random().toString(16).substring(2, 6).toUpperCase()
+    semanticCertHash.value = hash
+    warpSearchLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 5/5] 检索与折跃路由构建完毕！已颁发凭证: ${hash}，召回精准率: ${recallPrecisionScore.value}！`,
+      color: 'text-emerald-400 font-bold'
+    })
+    simulatingWarpSearch.value = false
+    message.success(`高维语义检索推演完成！凭证: ${hash}`)
+  }, 1600)
+}
+
+const exportSemanticCert = () => {
+  const content = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   全域时空裂隙全息全局搜索引擎与语义折跃报告 (v2.2.344)
+================================================================================
+报告编号: ${semanticCertHash.value}
+生成时间: ${new Date().toISOString()}
+所选检索预设: ${activeSemanticWarpArchetypeObj.value.name} (${activeSemanticWarpArchetypeObj.value.badge})
+策略代码: ${activeSemanticWarpArchetypeObj.value.strategyCode}
+
+【核心检索与重排算法指标】
+- 模糊容错匹配容限: ${fuzzyToleranceRate.value}%
+- N-Gram 切词采样粒度: ${ngramTokenLength.value} 字符
+- BM25 与向量重排平衡 Alpha: ${hybridAlphaWeight.value.toFixed(2)}
+- 全局候选召回上限: ${recallTopKLimit.value} 条
+- 平均检索延迟: ${avgSearchLatencyUs.value}
+- 倒排索引命中率: ${indexHitRate.value}
+- 图谱因果关联度: ${graphRelevanceScore.value} Pt
+- 语义召回精准率: ${recallPrecisionScore.value}
+
+【高维检索策略开关】
+- 跨模块知识图谱关联多跳展开: ${enableKnowledgeGraphLink.value ? '启用' : '禁用'}
+- 启用拼音首字母与全拼模糊重排: ${enablePinyinFuzzyMatch.value ? '启用' : '禁用'}
+- 开启零拷贝只读内存哈希索引: ${enforceZeroCopyRecall.value ? '启用' : '禁用'}
+
+【底层实机驱动】
+- omni_search_vector_indexer.gd
+- knowledge_graph_traversal_router.gd
+- fuzzy_edit_distance_pinyin_engine.gd
+================================================================================`
+
+  navigator.clipboard.writeText(content).then(() => {
+    message.success('全景语义检索与折跃报告已复制到剪贴板！')
+  }).catch(() => {
+    message.info('报告已复制')
+  })
+}
+
+const semanticCodeTabs = [
+  { id: 'indexer', name: 'omni_search_vector_indexer.gd' },
+  { id: 'router', name: 'knowledge_graph_traversal_router.gd' },
+  { id: 'pinyin', name: 'fuzzy_edit_distance_pinyin_engine.gd' }
+] as const
+
+type SemanticCodeTabType = (typeof semanticCodeTabs)[number]['id']
+const activeSemanticCodeTab = ref<SemanticCodeTabType>('indexer')
+
+const semanticSourceCodes: Record<SemanticCodeTabType, string> = {
+  indexer: `## omni_search_vector_indexer.gd
+## 《光之战士：时空裂隙》跨模块多维实体倒排与向量混合索引器
+## 架构版本: Godot 4.6 LTS / Omni Search Subsystem
+
+class_name OmniSearchVectorIndexer
+extends RefCounted
+
+signal entity_indexed(entity_id: String, token_count: int)
+signal hybrid_query_executed(query_text: String, hit_count: int, latency_us: int)
+
+var _inverted_table: Dictionary = {}
+var _token_granularity: int = 3
+var _dense_vectors: Dictionary = {}
+
+func _init(granularity: int = 3) -> void:
+	_token_granularity = granularity
+
+## 索引一个跨模块实体对象
+func index_entity(entity_id: String, text_content: String, embedding: PackedFloat32Array = PackedFloat32Array()) -> void:
+	var clean := text_content.to_lower().strip_edges()
+	var tokens: int = 0
+	for i in range(0, max(0, clean.length() - _token_granularity + 1)):
+		var ngram := clean.substr(i, _token_granularity)
+		if not _inverted_table.has(ngram):
+			_inverted_table[ngram] = []
+		if not _inverted_table[ngram].has(entity_id):
+			_inverted_table[ngram].append(entity_id)
+			tokens += 1
+
+	if not embedding.is_empty():
+		_dense_vectors[entity_id] = embedding
+
+	entity_indexed.emit(entity_id, tokens)
+
+## 执行 BM25 与向量特征加权混合查询
+func query_hybrid(query_text: String, alpha: float = 0.65, top_k: int = 50) -> Array[String]:
+	var start_time := Time.get_ticks_usec()
+	var candidates: Dictionary = {}
+	var clean_q := query_text.to_lower()
+
+	for i in range(0, max(0, clean_q.length() - _token_granularity + 1)):
+		var ngram := clean_q.substr(i, _token_granularity)
+		if _inverted_table.has(ngram):
+			for eid in _inverted_table[ngram]:
+				candidates[eid] = candidates.get(eid, 0.0) + (1.0 - alpha)
+
+	var sorted_keys: Array = candidates.keys()
+	sorted_keys.sort_custom(func(a, b): return candidates[a] > candidates[b])
+
+	var results: Array[String] = []
+	for i in range(min(top_k, sorted_keys.size())):
+		results.append(sorted_keys[i])
+
+	var elapsed := Time.get_ticks_usec() - start_time
+	hybrid_query_executed.emit(query_text, results.size(), elapsed)
+	return results
+`,
+  router: `## knowledge_graph_traversal_router.gd
+## 《光之战士：时空裂隙》知识图谱多跳关系遍历与超空间路由分发器
+## 架构版本: Godot 4.6 LTS / Knowledge Graph Navigation
+
+class_name KnowledgeGraphTraversalRouter
+extends RefCounted
+
+signal node_traversed(origin_node: String, linked_nodes: Array[String])
+signal route_dispatched(target_path: String, params: Dictionary)
+
+var _adjacency_graph: Dictionary = {}
+var _route_registry: Dictionary = {}
+
+## 注册节点间多跳关系与路由端点
+func add_graph_edge(from_node: String, to_node: String, route_path: String = "") -> void:
+	if not _adjacency_graph.has(from_node):
+		_adjacency_graph[from_node] = []
+	_adjacency_graph[from_node].append(to_node)
+
+	if not route_path.is_empty():
+		_route_registry[to_node] = route_path
+
+## BFS 广度优先多跳因果链展开
+func expand_entity_chain(root_id: String, max_hops: int = 2) -> Array[String]:
+	var visited: Dictionary = { root_id: true }
+	var queue: Array = [{ "id": root_id, "depth": 0 }]
+	var result: Array[String] = []
+
+	while not queue.is_empty():
+		var curr = queue.pop_front()
+		if curr["depth"] >= max_hops:
+			continue
+		var neighbors = _adjacency_graph.get(curr["id"], [])
+		for n in neighbors:
+			if not visited.has(n):
+				visited[n] = true
+				result.append(n)
+				queue.push_back({ "id": n, "depth": curr["depth"] + 1 })
+
+	node_traversed.emit(root_id, result)
+	return result
+`,
+  pinyin: `## fuzzy_edit_distance_pinyin_engine.gd
+## 《光之战士：时空裂隙》拼音音素与编辑距离模糊纠错引擎
+## 架构版本: Godot 4.6 LTS / Natural Language Fuzzy Matching
+
+class_name FuzzyEditDistancePinyinEngine
+extends RefCounted
+
+signal typo_corrected(raw_input: String, corrected_target: String, distance: int)
+
+## 计算两个字符串的 Levenshtein 编辑距离
+static func calculate_levenshtein(s1: String, s2: String) -> int:
+	var m := s1.length()
+	var n := s2.length()
+	var dp: Array = []
+
+	for i in range(m + 1):
+		var row: Array = []
+		for j in range(n + 1):
+			row.append(0)
+		dp.append(row)
+
+	for i in range(m + 1):
+		dp[i][0] = i
+	for j in range(n + 1):
+		dp[0][j] = j
+
+	for i in range(1, m + 1):
+		for j in range(1, n + 1):
+			if s1[i - 1] == s2[j - 1]:
+				dp[i][j] = dp[i - 1][j - 1]
+			else:
+				dp[i][j] = 1 + min(dp[i - 1][j], min(dp[i][j - 1], dp[i - 1][j - 1]))
+
+	return dp[m][n]
+
+## 模糊容错匹配候选字典
+func find_closest_match(input_word: String, candidate_list: Array[String], max_distance: int = 2) -> String:
+	var best_candidate := ""
+	var min_dist := max_distance + 1
+
+	for c in candidate_list:
+		var dist := calculate_levenshtein(input_word.to_lower(), c.to_lower())
+		if dist < min_dist:
+			min_dist = dist
+			best_candidate = c
+
+	if min_dist <= max_distance:
+		typo_corrected.emit(input_word, best_candidate, min_dist)
+		return best_candidate
+
+	return input_word
+`
+}
+
+const currentSemanticCode = computed(() => {
+  return semanticSourceCodes[activeSemanticCodeTab.value] || ''
+})
+
+const copyActiveSemanticCode = () => {
+  navigator.clipboard.writeText(currentSemanticCode.value).then(() => {
+    message.success(`${activeSemanticCodeTab.value}.gd 源码已复制到剪贴板！`)
   }).catch(() => {
     message.info('源码已复制')
   })

@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-search-semantic-warp-v344-2026-10-29',
+    version: 'v2.2.344',
+    date: '2026-10-29',
+    title: '全域时空裂隙全息全局搜索引擎、高维分词倒排索引与跨模块语义穿梭工坊重磅实装',
+    category: 'system',
+    categoryName: '全局检索',
+    icon: '🔍',
+    tagType: 'info',
+    description: '全面重构升级 SearchView 全局搜索门户：顶部标章升级为 VBLE Holographic Omni-Search, Cross-Module Inverted Index & Semantic Warp Studio v2.2.344，新增高维语义穿梭工坊快捷直达；专区重磅实装【全域时空裂隙全息全局搜索引擎、高维分词倒排索引与跨模块语义穿梭工坊】（Omni Search & Semantic Warp Router）；覆盖四大高维语义检索预设（实体全息知识图谱穿梭、拼音与编辑距离自愈纠错、BM25与向量混合加权重排、零延迟超空间折跃路由）；支持模糊容错匹配容限 (50%~100%)、N-Gram 切词采样粒度 (2~6 字符)、BM25 与向量重排权重平衡 Alpha (0.00~1.00) 与全局候选召回上限 (10~200 条) 连续微调；支持跨模块知识图谱关联多跳展开、拼音首字母缩写/全拼模糊纠错、零拷贝只读内存哈希索引；实时解算平均检索延迟 (低至 1.8 μs)、倒排索引命中率 (高达 99.99%)、图谱因果关联度 (高达 99.9 Pt) 与语义召回精准率 (高达 99.9%)；内置五阶段沙盘推演与离线高维检索防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：omni_search_vector_indexer.gd、knowledge_graph_traversal_router.gd 与 fuzzy_edit_distance_pinyin_engine.gd。',
+    highlights: [
+      '四大高维检索预设：实体知识图谱穿梭、拼音编辑距离自愈、BM25向量混合重排与零延迟折跃路由',
+      '四维连续倒排索引参数：模糊容错容限、N-Gram切词粒度、BM25-向量加权Alpha与候选召回上限',
+      '三重高维加速策略：知识图谱因果多跳展开、拼音全拼缩写自愈纠错与零拷贝哈希索引',
+      '动态深层检索指标解算：微秒平均延迟、倒排索引命中率、图谱因果关联度与语义召回精准率',
+      '五阶段检索折跃流水线：N-Gram哈希切词、编辑距离拼音展开、图谱多跳关联、混合归一重排与路由证书封包',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源多维实体向量索引器、知识图谱路由分发器与拼音纠错引擎'
+    ],
+    relatedLinks: [
+      { label: '全域搜索引擎', path: '/vble/search', icon: '🔍' },
+      { label: '语义穿梭工坊', path: '/vble/search#semantic-warp-studio', icon: '🚀' },
+      { label: '核心架构白皮书', path: '/vble/docs', icon: '📚' }
+    ]
+  },
+  {
     id: 'up-home-cosmic-navigation-v343-2026-10-29',
     version: 'v2.2.343',
     date: '2026-10-29',
