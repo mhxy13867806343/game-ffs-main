@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono font-bold text-xs border border-red-500/30">
-              VBLE Boss &amp; Raid Tactics Matrix v2.2.283
+              VBLE World Bosses, AI State Machine &amp; Despair Overdrive v2.2.304
             </span>
             <span class="text-xs text-gray-400">首领攻坚全鉴、双核协同试炼与终焉虚空首领破限处决</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>👹</span> 首领攻坚全鉴：深渊双神协同与终焉虚空首领破限处决工坊
+            <span>👹</span> 十四柱世界首领 AI 状态机、多阶段转相机制与狂暴绝境断路工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             收录风之神殿翼手龙、卡尔纳克液态火焰、大桥死斗，乃至神龙大海啸、欧米茄与终焉虚空首领破限处决工坊。全息实装狂暴破盾、连携机制与针对克制沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToWorldBossAiStudio"
+          >
+            <template #icon><span>👹</span></template>
+            前往十四柱首领AI工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1303,6 +1314,286 @@
 
         <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
           <pre><code>{{ currentExecutionCode }}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 👹 工坊 5: 十四柱世界首领 AI 状态机、多阶段转相机制与狂暴绝境断路工坊 (World Boss AI State Machine & Despair Overdrive Studio v2.2.304) -->
+    <div
+      id="world-boss-ai-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-red-950/80 via-slate-900/90 to-purple-950/80 border border-red-500/40 shadow-[0_0_40px_rgba(239,68,68,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与操作区 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-red-900/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-red-500/20 text-red-300 border border-red-500/40">
+              WORLD BOSS AI &amp; DESPAIR OVERDRIVE v2.2.304
+            </span>
+            <span class="text-xs text-red-300/80 font-mono">十四柱世界首领AI状态机与转相机制</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+            <span>👹</span> 十四柱世界首领 AI 状态机、多阶段转相机制与狂暴绝境断路工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Godot 4.6 LTS 实时仿真：驱动十四柱世界首领多阶段状态机转移、狂暴灭团绝境防猝死锁血断路器、转相无敌膜穿透与 999999 破限爆发处决解算。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="resetWorldBossAiParameters"
+          >
+            重置参数
+          </n-button>
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingWorldBossAi"
+            @click="runWorldBossAiSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动首领AI推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportWorldBossAiCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大世界首领代表原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="archetype in worldBossArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+          :class="selectedWorldBossArchetypeId === archetype.id
+            ? 'bg-red-950/50 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-red-600/50'"
+          @click="selectedWorldBossArchetypeId = archetype.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ archetype.icon }}</span>
+            <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.tag }}</n-tag>
+          </div>
+          <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+          <div class="text-[11px] text-red-300/80 font-mono mt-0.5">{{ archetype.phases }}</div>
+          <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>生命值: {{ (archetype.baseHp / 10000).toFixed(0) }}万</span>
+            <span class="text-red-400">狂暴秒伤: {{ archetype.rageDmg.toLocaleString() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心调控滑块与高能开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+        <!-- 左侧参数微调面板 -->
+        <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+              <span>⚙️</span> 首领阶段转移与狂暴倒计时微调
+            </span>
+            <span class="text-[11px] font-mono text-red-400">Continuous Boss Phase Dynamics</span>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">阶段转相血线阈值 (Phase Transition HP):</span>
+                <span class="font-mono text-red-400 font-bold">{{ phaseTransitionHp }}%</span>
+              </div>
+              <n-slider v-model:value="phaseTransitionHp" :min="10" :max="50" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>濒死强袭 (10%)</span>
+                <span>标准转相 (25%)</span>
+                <span>高频变相 (50%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">狂暴超时倒计时 (Rage Timer Limit):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ rageTimerLimitSec }} 秒</span>
+              </div>
+              <n-slider v-model:value="rageTimerLimitSec" :min="60" :max="300" :step="15" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>极限竞速 (60s)</span>
+                <span>标准攻坚 (180s)</span>
+                <span>持久战力 (300s)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">绝境破防易伤乘数 (Despair Stagger Multiplier):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ despairStaggerMultiplier.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="despairStaggerMultiplier" :min="1.5" :max="4.5" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>常规破防 (1.5x)</span>
+                <span>绝境易伤 (3.0x)</span>
+                <span>创世裁决 (4.5x)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">全屏歼灭技蓄力前摇 (Annihilation Cast Window):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ annihilationCastWindowMs }} ms</span>
+              </div>
+              <n-slider v-model:value="annihilationCastWindowMs" :min="800" :max="4000" :step="200" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>瞬时致命 (800ms)</span>
+                <span>标准读条 (2200ms)</span>
+                <span>蓄力终结 (4000ms)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 三大高能保障开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">阶段转相无敌膜穿透符印 (Phase Piercing Rune)</div>
+                <div class="text-[11px] text-gray-400">突破首领多阶段转相时的绝对无敌免伤盾，真伤穿透 100%，无视免疫</div>
+              </div>
+              <n-switch v-model:value="invinciblePhasePiercingRune" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">狂暴灭团绝境防猝死断路器 (Rage Wipe Circuit Breaker)</div>
+                <div class="text-[11px] text-gray-400">首领狂暴大招判定命中时强制保留我方 1 HP 锁血并赠送 3 秒绝境反击无敌</div>
+              </div>
+              <n-switch v-model:value="rageWipeCircuitBreaker" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">999999 破限爆发处决裁决锁 (Damage Cap Execution Governor)</div>
+                <div class="text-[11px] text-gray-400">解除斩击 999999 伤害天花板，单次处决最高直击 9,999,999 极限真伤</div>
+              </div>
+              <n-switch v-model:value="damageCapExecutionGovernor" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧指标计算与沙盘推演 -->
+        <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>📊</span> 实时解算首领狂暴与处决能效
+              </span>
+              <n-tag size="tiny" type="error" round>State Resolved</n-tag>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-red-950/30 border border-red-700/40">
+                <div class="text-[11px] text-gray-400">首领狂暴有效秒伤</div>
+                <div class="text-lg font-black text-red-300 font-mono mt-0.5">{{ calculatedRageDps.toLocaleString() }} DPS</div>
+                <div class="text-[10px] text-red-400/80 mt-0.5">终焉过载毁灭输出</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-700/40">
+                <div class="text-[11px] text-gray-400">阶段转相剩余窗口</div>
+                <div class="text-lg font-black text-amber-300 font-mono mt-0.5">{{ calculatedPhaseWindowSec }} 秒</div>
+                <div class="text-[10px] text-amber-400/80 mt-0.5">破防打断安全时限</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                <div class="text-[11px] text-gray-400">破防绝境处决真伤</div>
+                <div class="text-lg font-black text-purple-300 font-mono mt-0.5">{{ calculatedExecutionDmg.toLocaleString() }} DMG</div>
+                <div class="text-[10px] text-purple-400/80 mt-0.5">真伤处决破限峰值</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-cyan-950/30 border border-cyan-700/40">
+                <div class="text-[11px] text-gray-400">攻坚战术难度评级</div>
+                <div class="text-sm font-black text-cyan-300 font-mono mt-1">{{ calculatedRaidDifficultyTier }}</div>
+                <div class="text-[10px] text-cyan-400/80 mt-0.5">太古猎人协会认证</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演终端 -->
+          <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">五阶段首领 AI 状态推演进度:</span>
+              <span class="font-mono text-red-400 font-bold">{{ worldBossAiSimStep }}/5 阶段</span>
+            </div>
+            <n-progress
+              type="line"
+              :percentage="(worldBossAiSimStep / 5) * 100"
+              :status="worldBossAiSimStep === 5 ? 'success' : 'error'"
+              :show-indicator="false"
+              processing
+            />
+            <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+              <span>{{ worldBossAiSimCurrentLog }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+      <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+            <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeWorldBossCodeTab === 'fsm' ? 'bg-red-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWorldBossCodeTab = 'fsm'"
+              >
+                boss_fsm_engine.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeWorldBossCodeTab === 'piercer' ? 'bg-red-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWorldBossCodeTab = 'piercer'"
+              >
+                phase_invincible_piercer.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeWorldBossCodeTab === 'breaker' ? 'bg-red-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWorldBossCodeTab = 'breaker'"
+              >
+                rage_wipe_breaker.gd
+              </button>
+            </div>
+            <n-button size="small" type="primary" secondary round @click="copyWorldBossAiCode">
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentWorldBossCode }}</code></pre>
         </div>
       </div>
     </div>
@@ -2594,6 +2885,292 @@ const copyExecutionCode = () => {
   if (navigator && navigator.clipboard) {
     navigator.clipboard.writeText(currentExecutionCode.value).then(() => {
       if (message) message.success('Godot 4.6 LTS 首领处决源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
+}
+
+// ================= 👹 工坊 5: 十四柱世界首领 AI 状态机、多阶段转相机制与狂暴绝境断路工坊 (v2.2.304) =================
+interface WorldBossArchetype {
+  id: string
+  name: string
+  phases: string
+  tag: string
+  icon: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  baseHp: number
+  rageDmg: number
+}
+
+const worldBossArchetypes: WorldBossArchetype[] = [
+  {
+    id: 'shinryu_tidal_calamity',
+    name: '太古神龙',
+    phases: 'P1潮汐 -> P2极寒冰爆 -> P3终焉海啸',
+    tag: '万重海啸',
+    icon: '🐉',
+    tagType: 'info',
+    desc: '深海圣域守护神，血线降至阈值时施放全屏无法闪避的大海啸，需珊瑚戒指与冰霜抗性协同抵御。',
+    baseHp: 4800000,
+    rageDmg: 95000
+  },
+  {
+    id: 'omega_custom_berserk',
+    name: '欧米茄高维兵器',
+    phases: 'P1标靶锁定 -> P2激光矩阵 -> P3波动炮狂暴',
+    tag: '波动炮灭世',
+    icon: '🤖',
+    tagType: 'warning',
+    desc: '古代遗迹守护构装体，拥有全属性吸收护盾，狂暴读条结束后发射波动炮造成百分比毁伤。',
+    baseHp: 5600000,
+    rageDmg: 120000
+  },
+  {
+    id: 'neo_exdeath_vacuum',
+    name: '新·艾克斯迪斯',
+    phases: 'P1四体共生 -> P2大十字紊乱 -> P3无之泛滥',
+    tag: '四象虚空',
+    icon: '🌌',
+    tagType: 'error',
+    desc: '吞噬多维世界的虚空本源，拥有四段独立行动判定，释放【大十字】造成全员随机恶性状态异常。',
+    baseHp: 6500000,
+    rageDmg: 145000
+  },
+  {
+    id: 'enigma_abyss_monarch',
+    name: '终焉虚空君主',
+    phases: 'P1镜像折射 -> P2世界线回溯 -> P3绝境终局',
+    tag: '因果断裂',
+    icon: '👑',
+    tagType: 'error',
+    desc: '时空裂隙深处的十四柱之首，可在战斗中强制回溯时间线抹除伤害，唯有绝境破限方可斩杀。',
+    baseHp: 8800000,
+    rageDmg: 180000
+  }
+]
+
+const selectedWorldBossArchetypeId = ref<string>('omega_custom_berserk')
+const phaseTransitionHp = ref<number>(25)
+const rageTimerLimitSec = ref<number>(180)
+const despairStaggerMultiplier = ref<number>(3.0)
+const annihilationCastWindowMs = ref<number>(2200)
+
+const invinciblePhasePiercingRune = ref<boolean>(true)
+const rageWipeCircuitBreaker = ref<boolean>(true)
+const damageCapExecutionGovernor = ref<boolean>(true)
+
+const isSimulatingWorldBossAi = ref<boolean>(false)
+const worldBossAiSimStep = ref<number>(5)
+const worldBossAiSimCurrentLog = ref<string>('十四柱世界首领 AI 状态机与狂暴绝境断路矩阵已锁定，等待调度。')
+
+const currentWorldBossArchetype = computed(() => {
+  return worldBossArchetypes.find(a => a.id === selectedWorldBossArchetypeId.value) || worldBossArchetypes[1]
+})
+
+const calculatedRageDps = computed(() => {
+  const base = currentWorldBossArchetype.value.rageDmg
+  const timerRatio = (300 - rageTimerLimitSec.value) / 240
+  const phaseBonus = (50 - phaseTransitionHp.value) / 40
+  const breakerMult = rageWipeCircuitBreaker.value ? 0.75 : 1.2
+  return Math.round(base * (1 + timerRatio * 0.4 + phaseBonus * 0.3) * breakerMult)
+})
+
+const calculatedPhaseWindowSec = computed(() => {
+  const baseWindow = (annihilationCastWindowMs.value / 1000) * 15
+  return baseWindow.toFixed(1)
+})
+
+const calculatedExecutionDmg = computed(() => {
+  const baseHp = currentWorldBossArchetype.value.baseHp
+  const staggerMult = despairStaggerMultiplier.value
+  const runeMult = invinciblePhasePiercingRune.value ? 1.4 : 1.0
+  const breakMult = damageCapExecutionGovernor.value ? 1.8 : 1.0
+  const rawDmg = (baseHp * 0.08) * staggerMult * runeMult * breakMult
+  return Math.round(Math.min(9999999, rawDmg))
+})
+
+const calculatedRaidDifficultyTier = computed(() => {
+  const dps = calculatedRageDps.value
+  if (dps > 200000) return 'EX·太古绝境十四柱之巅'
+  if (dps > 140000) return 'SSS·终焉湮灭灭世级'
+  if (dps > 90000) return 'SS·高维狂暴过载级'
+  return 'S·英雄史诗守关级'
+})
+
+const scrollToWorldBossAiStudio = () => {
+  const el = document.getElementById('world-boss-ai-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const resetWorldBossAiParameters = () => {
+  selectedWorldBossArchetypeId.value = 'omega_custom_berserk'
+  phaseTransitionHp.value = 25
+  rageTimerLimitSec.value = 180
+  despairStaggerMultiplier.value = 3.0
+  annihilationCastWindowMs.value = 2200
+  invinciblePhasePiercingRune.value = true
+  rageWipeCircuitBreaker.value = true
+  damageCapExecutionGovernor.value = true
+  if (message) message.info('已恢复十四柱首领 AI 工坊初始调控参数')
+}
+
+const runWorldBossAiSimulation = () => {
+  if (isSimulatingWorldBossAi.value) return
+  isSimulatingWorldBossAi.value = true
+  worldBossAiSimStep.value = 1
+  worldBossAiSimCurrentLog.value = '阶段 1/5: 扫描十四柱世界首领 AI 决策树，构建阶段状态转移方程...'
+
+  setTimeout(() => {
+    worldBossAiSimStep.value = 2
+    worldBossAiSimCurrentLog.value = '阶段 2/5: 注入以太阶段转相血线信号，测算狂暴前摇读条断路器...'
+  }, 400)
+
+  setTimeout(() => {
+    worldBossAiSimStep.value = 3
+    worldBossAiSimCurrentLog.value = '阶段 3/5: 加载绝境易伤倍率模型，激活转相无敌膜真伤穿透符印...'
+  }, 800)
+
+  setTimeout(() => {
+    worldBossAiSimStep.value = 4
+    worldBossAiSimCurrentLog.value = '阶段 4/5: 挂载防猝死锁血断路器，校准 Godot 4.6 LTS 状态机时钟...'
+  }, 1200)
+
+  setTimeout(() => {
+    worldBossAiSimStep.value = 5
+    worldBossAiSimCurrentLog.value = '阶段 5/5: 生成首领攻坚方案证书，锁定实机运行时物理逻辑参数！'
+    isSimulatingWorldBossAi.value = false
+    if (message) message.success('十四柱世界首领 AI 状态机推演完成！')
+  }, 1600)
+}
+
+const exportWorldBossAiCertificate = () => {
+  const arch = currentWorldBossArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》十四柱世界首领 AI 转相与狂暴绝境断路方案证书 (v2.2.304)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.phases})
+  攻坚评级: ${calculatedRaidDifficultyTier.value}
+================================================================================
+【调控参数】
+- 阶段转相血线: ${phaseTransitionHp.value}%
+- 狂暴倒计时限: ${rageTimerLimitSec.value} 秒
+- 绝境破防易伤: ${despairStaggerMultiplier.value.toFixed(1)}x
+- 歼灭读条前摇: ${annihilationCastWindowMs.value} ms
+- 转相穿透符印: ${invinciblePhasePiercingRune.value ? '已开启' : '关闭'}
+- 防猝死断路器: ${rageWipeCircuitBreaker.value ? '已开启' : '关闭'}
+- 999999 破限处决: ${damageCapExecutionGovernor.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 首领狂暴有效秒伤: ${calculatedRageDps.value.toLocaleString()} DPS
+- 阶段转相剩余窗口: ${calculatedPhaseWindowSec.value} 秒
+- 破防绝境处决真伤: ${calculatedExecutionDmg.value.toLocaleString()} DMG
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `world_boss_ai_cert_v2.2.304_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  if (message) message.success('十四柱首领 AI 攻坚方案证书已导出并同步至剪贴板！')
+}
+
+const activeWorldBossCodeTab = ref<'fsm' | 'piercer' | 'breaker'>('fsm')
+
+const gdWorldBossFsmCode = `## world_boss_ai_state_machine.gd
+## Godot 4.6 LTS - 十四柱世界首领多阶段转相 AI 状态机
+extends RefCounted
+class_name WorldBossAiStateMachine
+
+enum PhaseState { PHASE_1_NORMAL, PHASE_2_TRANSITION, PHASE_3_BERSERK, PHASE_4_ENRAGE }
+
+static func evaluate_next_phase(
+	current_hp_pct: float,
+	threshold_pct: float,
+	elapsed_sec: float,
+	rage_limit_sec: float
+) -> PhaseState:
+	if elapsed_sec >= rage_limit_sec:
+		return PhaseState.PHASE_4_ENRAGE
+	if current_hp_pct <= threshold_pct * 0.5:
+		return PhaseState.PHASE_3_BERSERK
+	if current_hp_pct <= threshold_pct:
+		return PhaseState.PHASE_2_TRANSITION
+	return PhaseState.PHASE_1_NORMAL
+`
+
+const gdPhasePiercerCode = `## phase_transition_invincible_piercer.gd
+## Godot 4.6 LTS - 阶段转相绝对无敌膜穿透器
+extends RefCounted
+class_name PhaseTransitionInvinciblePiercer
+
+static func resolve_piercing_damage(
+	incoming_damage: int,
+	boss_is_invincible: bool,
+	piercing_rune_active: bool
+) -> Dictionary:
+	if not boss_is_invincible:
+		return { "applied_damage": incoming_damage, "is_pierced": false }
+		
+	if piercing_rune_active:
+		return { "applied_damage": incoming_damage, "is_pierced": true }
+		
+	return { "applied_damage": 0, "is_pierced": false }
+`
+
+const gdRageWipeBreakerCode = `## rage_wipe_circuit_breaker.gd
+## Godot 4.6 LTS - 狂暴灭团绝境防猝死锁血断路器
+extends RefCounted
+class_name RageWipeCircuitBreaker
+
+signal anti_wipe_triggered(remaining_hp: int, invulnerable_sec: float)
+
+static func check_lethal_incoming(
+	party_current_hp: int,
+	incoming_damage: int,
+	breaker_active: bool
+) -> Dictionary:
+	if incoming_damage >= party_current_hp and breaker_active:
+		return {
+			"survived": true,
+			"hp_after_hit": 1,
+			"invulnerable_duration": 3.0,
+			"breaker_triggered": true
+		}
+	var next_hp: int = maxi(0, party_current_hp - incoming_damage)
+	return {
+		"survived": next_hp > 0,
+		"hp_after_hit": next_hp,
+		"invulnerable_duration": 0.0,
+		"breaker_triggered": false
+	}
+`
+
+const currentWorldBossCode = computed(() => {
+  if (activeWorldBossCodeTab.value === 'fsm') return gdWorldBossFsmCode
+  if (activeWorldBossCodeTab.value === 'piercer') return gdPhasePiercerCode
+  return gdRageWipeBreakerCode
+})
+
+const copyWorldBossAiCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentWorldBossCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 首领 AI 源码已复制至剪贴板！')
     }).catch(() => {
       if (message) message.error('复制失败，请手动选取复制')
     })

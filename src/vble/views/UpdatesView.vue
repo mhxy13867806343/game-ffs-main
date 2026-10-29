@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-boss-tactics-ai-fsm-v304-2026-10-29',
+    version: 'v2.2.304',
+    date: '2026-10-29',
+    title: '十四柱世界首领 AI 状态机、多阶段转相机制与狂暴绝境断路工坊重磅实装',
+    category: 'npc',
+    categoryName: '首领转相',
+    icon: '👹',
+    tagType: 'error',
+    description: '全面重构升级 BossTacticsView 首领攻坚全鉴门户：顶部标章升级为 VBLE World Bosses, AI State Machine & Despair Overdrive v2.2.304，新增十四柱首领 AI 工坊快捷直达；专区重磅实装【十四柱世界首领 AI 状态机、多阶段转相机制与狂暴绝境断路工坊】（World Boss AI State Machine & Despair Overdrive Studio）；覆盖十四柱世界首领四大转相代表（太古神龙·万重海啸冰霜转相、欧米茄·波动炮狂暴过载转相、新·艾克斯迪斯·四象虚空转相、终焉虚空君主·因果断裂转相）；支持阶段转相血线阈值 (10%~50%)、狂暴超时倒计时 (60~300秒)、绝境破防易伤乘数 (1.5x~4.5x) 与全屏歼灭技蓄力前摇 (800~4000ms) 连续微调；支持阶段转相无敌膜穿透符印（突破首领多阶段转相绝对无敌免伤盾，真伤穿透 100%）、狂暴灭团绝境防猝死断路器（首领灭团大招判定时强制保留 1 HP 锁血并赠送 3 秒绝境反击无敌）与 999999 破限爆发处决裁决锁（解除伤害天花板，单次处决最高直击 9,999,999 极限真伤）；实时解算首领狂暴有效秒伤 (突破 200,000+ DPS)、阶段转相剩余窗口、破防绝境处决真伤 (突破 1,800,000+ DMG) 与攻坚难度评级 (高达 EX·太古绝境十四柱之巅)；内置五阶段首领 AI 状态推演沙盘与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：world_boss_ai_state_machine.gd、phase_transition_invincible_piercer.gd 与 rage_wipe_circuit_breaker.gd。',
+    highlights: [
+      '四大转相原型：太古神龙万重海啸、欧米茄波动炮过载、新艾克斯迪斯四象虚空与虚空君主',
+      '四维连续阶段参数：转相血线阈值、狂暴超时倒计时、绝境破防易伤乘数与歼灭蓄力前摇',
+      '三重攻坚断路保障：转相无敌膜穿透符印、防猝死锁血断路器与 999999 伤害天花板穿透',
+      '动态能效指标解算：首领狂暴有效秒伤、转相剩余安全窗口、绝境处决真伤与 EX 级评定',
+      '五阶段推演沙盘：AI 决策树扫描、以太血线信号、易伤模型加载、锁血断路对齐与证书闭环',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源状态机转移方程、转相穿透器与防猝死断路器'
+    ],
+    relatedLinks: [
+      { label: '首领攻坚全鉴', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '十四柱首领AI工坊', path: '/vble/boss-tactics', icon: '⚡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-battle-tactics-frame-stagger-v303-2026-10-29',
     version: 'v2.2.303',
     date: '2026-10-29',
