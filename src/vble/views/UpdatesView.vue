@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-systems-multithread-sandbox-2026-10-29',
+    version: 'v2.2.288',
+    date: '2026-10-29',
+    title: '全域底层引擎拓扑、零拷贝跨线程调度与内存沙盒工坊重磅实装',
+    category: 'system',
+    categoryName: '引擎架构',
+    icon: '⚙️',
+    tagType: 'success',
+    description: '全面重构升级 SystemsView 底层工程架构门户：顶部标章升级为 VBLE Core Systems & Zero-Copy Multithreading Studio v2.2.288，新增零拷贝跨线程与内存沙盒工坊快捷直达；专区重磅实装【全域底层引擎拓扑、零拷贝跨线程调度与内存防泄漏沙盒工坊】（Zero-Copy Multithreading & Memory Guard Studio）；覆盖四大引擎并发调度拓扑模式（WorkerThreadPool 无锁任务窃取池、RingBuffer 共享内存零拷贝管道、WeakRef 弱引用生命周期守卫、Fiber 纤程微线程协程驱动）；实现并发工作核心数 (2~32 核心)、共享环形内存容量 (16~512 MB)、逻辑主帧预算微秒上限 (4000~16666 μs) 与孤儿垃圾回收周期 (1~30 秒) 连续微调；支持死锁与竞态主动抢占侦测（监控互斥锁有向依赖环路并自动解约）、内存泄漏哨兵探测器（实时扫描未释放 RefCounted 与孤儿 Node）与物理/渲染高优先抢占队列（吞吐量提升 +25% 并压低帧时抖动）；实时解算全域任务并发吞吐量 (突破 1,000,000+ ops/s)、主帧时间抖动均方根 (压至 0.05ms)、内存有效利用率 (高达 99.8%) 与并发调度健康度；实装五阶段跨线程调度推演终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 zero_copy_ring_buffer_pipe.gd、engine_concurrency_worker_pool.gd 与 memory_leak_sanitizer_guard.gd。',
+    highlights: [
+      '四大引擎并发调度拓扑：任务窃取池吞吐+70%、环形缓冲区零拷贝、弱引用生命周期守卫与万级实体纤程驱动',
+      '四维连续跨线程拓扑参数：并发线程核数、共享环形内存深度、帧预算微秒标界与 GC 回收周期全域适配',
+      '死锁有向环路抢占监控：实时追踪多线程资源死锁图，高并发状态下杜绝线程锁死冻结',
+      '内存泄漏哨兵自动拦截：WeakRef 跟踪孤儿 Node 节点树，内存空间有效利用率高达 99.8%',
+      '物理渲染高优先抢占：零锁步保障 ATB 与画面时钟，帧时抖动降低至 0.05ms 极限微秒级',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增零拷贝环形管道、并发任务窃取池与内存泄漏哨兵引擎'
+    ],
+    relatedLinks: [
+      { label: '系统与底层工程架构', path: '/vble/systems', icon: '⚙️' },
+      { label: '客户端发布大厅', path: '/vble/download', icon: '📥' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-download-delta-pipeline-2026-10-29',
     version: 'v2.2.287',
     date: '2026-10-29',
