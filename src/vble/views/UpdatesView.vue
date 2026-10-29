@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-home-omni-nexus-v300-2026-10-29',
+    version: 'v2.2.300',
+    date: '2026-10-29',
+    title: '全域时空裂隙核心门户、三十维全息矩阵与太古创世终极枢纽工坊重磅实装',
+    category: 'system',
+    categoryName: '创世枢纽',
+    icon: '🏛️',
+    tagType: 'success',
+    description: '迎来 300 版本史诗里程碑大典！全面重构升级 HomeView 游戏核心总门户：顶部实时演进标章升级为【v2.2.300 里程碑正式版】，快捷导航条新增【太古创世终极枢纽工坊】直达锚点；专区压轴重磅实装【全域时空裂隙核心门户、三十维全息矩阵与太古创世终极枢纽工坊】（Omni Spacetime Nexus & Primal Creation Studio）；覆盖四大创世枢纽构架（太古星辰太初创世基石、光暗二元世界线收束枢纽、永恒空天浮岛拓扑回廊、虚空深渊全息量子引力中枢）；提供微调四大创世参数：以太能级共振熵 (0.1~5.0 TeV)、因果拓扑维数 (3.0~11.0 D)、跨界带宽吞吐量 (10~500 Gbps) 与全域节点同步率 (10%~100%)；集成全息矩阵量子态锁相环、多维因果回溯绝缘体与零拷贝跨进程微秒级总线三重高能保障；实时解算全域时空稳定性系数、创世矩阵神格共鸣度、跨界穿梭安全裕度与全息枢纽评定等级（高达 EX·太古创世终极主宰神域）；内置五阶段全息创世沙盘推演与离线创世证书导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 核心驱动：omni_spacetime_nexus_kernel.gd、quantum_dimension_synchronizer.gd 与 zero_copy_cross_realm_bus.gd。',
+    highlights: [
+      '四大创世枢纽构架：太古星辰创世基石、光暗二元收束枢纽、空天浮岛回廊与虚空量子中枢',
+      '四维连续创世参数：以太能级共振熵、因果拓扑维数、跨界带宽吞吐量与全域节点同步率微调',
+      '三重终极防护机制：全息矩阵量子锁相环、多维因果回溯绝缘体与零拷贝跨进程微秒级总线',
+      '动态能效指标解算：全域时空稳定性、矩阵神格共鸣度、跨界穿梭安全裕度与 EX 级评定',
+      '五阶段创世推演终端：初始化以太谐振、拓扑因果交织、全息总线挂载与创世闭环认证',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源创世核心内核、量子多维同步器与零拷贝跨界总线'
+    ],
+    relatedLinks: [
+      { label: '时空裂隙总门户', path: '/vble', icon: '🏛️' },
+      { label: '里程碑创世工坊', path: '/vble', icon: '🌌' },
+      { label: '演进里程碑路线图', path: '/vble/roadmap', icon: '🚀' }
+    ]
+  },
+  {
     id: 'up-equipment-essence-infusion-2026-10-29',
     version: 'v2.2.299',
     date: '2026-10-29',

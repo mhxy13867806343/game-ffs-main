@@ -4,9 +4,9 @@
     <div class="portal-marquee flex items-center justify-between px-3 md:px-4 py-2 bg-gradient-to-r from-amber-950/40 via-purple-950/50 to-cyan-950/40 border-y border-amber-500/20 text-xs">
       <div class="flex items-center gap-2 overflow-hidden">
         <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] md:text-[11px] animate-pulse flex-shrink-0">RELEASE</span>
-        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.241 正式版】</span>
+        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.300 里程碑正式版】</span>
         <span class="text-gray-300 truncate text-[11px] md:text-xs">
-          【最新发布】十六卷架构白皮书、全地形载具动力矩阵、十二柱召唤兽圣痕、二刀流伤害工坊与四大纪元排期沙盘全面就绪！
+          【300版本里程碑大典】全域三十维神圣工坊全息互联、Godot 4.6 LTS 离线运行引擎矩阵、全系统零拷贝架构与太古创世终极枢纽工坊重磅实装！
         </span>
       </div>
       <div class="hidden lg:flex items-center gap-4 text-gray-400 flex-shrink-0">
@@ -477,6 +477,352 @@
       </div>
     </section>
 
+    <!-- 三百版本里程碑大典：全域时空裂隙核心门户、三十维全息矩阵与太古创世终极枢纽工坊 (Omni Nexus Studio v2.2.300) -->
+    <section id="nexus-studio" class="max-w-7xl mx-auto px-3 sm:px-4 space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-amber-950/80 via-slate-900/95 to-cyan-950/80 border-2 border-amber-500/50 shadow-[0_0_50px_rgba(245,158,11,0.28)] space-y-6 relative overflow-hidden">
+        <div class="absolute -right-24 -top-24 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-24 -bottom-24 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- 头部与控制栏 -->
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/60 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-gradient-to-r from-red-600 via-amber-600 to-yellow-500 text-slate-950 shadow-md animate-pulse">
+                v2.2.300 MILESTONE JUBILEE
+              </span>
+              <span class="text-xs text-amber-300 font-mono font-bold">全域 300 版本史诗演进大典</span>
+            </div>
+            <h2 class="text-xl sm:text-3xl font-black text-white flex items-center gap-2 tracking-tight">
+              <span>🏛️</span> 全域时空裂隙核心门户、三十维全息矩阵与太古创世终极枢纽工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+              对齐 Godot 4.6 LTS 终极架构标准：深度集成四大终极枢纽维度、四维连续全息微调滑块、三大神圣因果保护断路器、五阶段创世仿真推演与 v2.2.300 终极防伪方案书离线导出。
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0 flex-wrap relative z-10">
+            <n-button size="small" secondary type="warning" @click="resetNexusParameters">
+              🔄 重置枢纽参数
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="exportNexusCertificate">
+              📜 导出 300 版本大典证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大终极枢纽维度卡片 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+          <div
+            v-for="arch in nexusArchetypes"
+            :key="arch.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedNexusId === arch.id
+              ? 'bg-amber-950/50 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.35)] ring-1 ring-amber-400/60'
+              : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-850'"
+            @click="selectedNexusId = arch.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ arch.icon }}</span>
+              <n-tag :type="selectedNexusId === arch.id ? 'warning' : 'default'" size="tiny" round>
+                {{ arch.tag }}
+              </n-tag>
+            </div>
+            <div class="text-sm font-bold text-white mb-1">{{ arch.name }}</div>
+            <div class="text-[11px] text-gray-400 leading-relaxed mb-3">{{ arch.desc }}</div>
+            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+              <span class="text-gray-400">核心能效</span>
+              <span class="text-amber-300 font-semibold">{{ arch.perk }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 参数微调滑块与安全防护盾 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+          <!-- 左侧: 4维连续参数调节 (7 cols) -->
+          <div class="lg:col-span-7 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="text-amber-400 font-bold text-sm">🎛️ 全域终极枢纽连续调控矩阵</span>
+                <span class="text-[11px] text-gray-400 font-mono">4-Axis Omni Nexus Sliders</span>
+              </div>
+              <button
+                type="button"
+                class="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors"
+                @click="resetNexusParameters"
+              >
+                重置参数
+              </button>
+            </div>
+
+            <!-- 滑块 1: 全域枢纽吞吐通量 -->
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                  <span>⚡</span> 全域枢纽吞吐通量 (Nexus Throughput)
+                </span>
+                <span class="font-mono text-cyan-400 font-bold">{{ portalThroughput }} OPS/s</span>
+              </div>
+              <n-slider
+                v-model:value="portalThroughput"
+                :min="100"
+                :max="5000"
+                :step="100"
+                :tooltip="false"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>100 OPS (常规单机)</span>
+                <span>2500 OPS (高并发集群)</span>
+                <span>5000 OPS (极限超光速)</span>
+              </div>
+            </div>
+
+            <!-- 滑块 2: 多元宇宙平衡熵 -->
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                  <span>🌌</span> 多元宇宙平衡熵 (Multiverse Entropy)
+                </span>
+                <span class="font-mono text-amber-400 font-bold">{{ multiverseEntropy.toFixed(1) }} S/k</span>
+              </div>
+              <n-slider
+                v-model:value="multiverseEntropy"
+                :min="0.1"
+                :max="5.0"
+                :step="0.1"
+                :tooltip="false"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>0.1 S/k (绝对稳恒态)</span>
+                <span>2.5 S/k (经典动态平衡)</span>
+                <span>5.0 S/k (时空宏伟跃迁)</span>
+              </div>
+            </div>
+
+            <!-- 滑块 3: 全域帧时延控制预算 -->
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                  <span>⏱️</span> 全域帧时延控制预算 (Latency Budget)
+                </span>
+                <span class="font-mono text-rose-400 font-bold">{{ latencyBudget.toFixed(1) }} ms ({{ Math.round(1000 / latencyBudget) }} FPS)</span>
+              </div>
+              <n-slider
+                v-model:value="latencyBudget"
+                :min="1.0"
+                :max="16.6"
+                :step="0.2"
+                :tooltip="false"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>1.0 ms (1000 FPS 超低延迟)</span>
+                <span>4.2 ms (240 FPS 电竞级)</span>
+                <span>16.6 ms (60 FPS 锁帧标准)</span>
+              </div>
+            </div>
+
+            <!-- 滑块 4: 太古以太共鸣相干率 -->
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                  <span>✨</span> 太古以太共鸣相干率 (Resonance Coherence)
+                </span>
+                <span class="font-mono text-purple-400 font-bold">{{ aetherResonanceIndex }}%</span>
+              </div>
+              <n-slider
+                v-model:value="aetherResonanceIndex"
+                :min="50"
+                :max="200"
+                :step="5"
+                :tooltip="false"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>50% (低相干微弱态)</span>
+                <span>120% (纯净以太共鸣)</span>
+                <span>200% (神圣无限光子)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧: 3大神圣保护断路器 (5 cols) -->
+          <div class="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+            <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+              <span class="text-amber-400 font-bold text-sm">🛡️ 三百版本神圣断路器与特权</span>
+              <n-tag type="warning" size="tiny" round>终极里程碑特权</n-tag>
+            </div>
+
+            <div class="space-y-3">
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>🔒</span> 全知全能因果律防坍缩护盾
+                  </div>
+                  <div class="text-[11px] text-gray-400">阻断时空逻辑闭环回路，全域系统崩溃零风险</div>
+                </div>
+                <n-switch v-model:value="omnipotentCausalityShield" size="small" />
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>⚡</span> 零停机动态热插拔原子锁
+                  </div>
+                  <div class="text-[11px] text-gray-400">版本补丁与系统组件无缝无感热重载零中断</div>
+                </div>
+                <n-switch v-model:value="zeroDowntimeHotSwapLock" size="small" />
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>👑</span> v2.2.300 终极破限神印
+                  </div>
+                  <div class="text-[11px] text-gray-400">全角色、神兵与技能彻底打破数值上限天花板</div>
+                </div>
+                <n-switch v-model:value="transcendenceCapBreaker300" size="small" />
+              </div>
+            </div>
+
+            <!-- 能效雷达卡 -->
+            <div class="p-3 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 space-y-2">
+              <div class="text-xs font-bold text-cyan-300 flex items-center justify-between">
+                <span>全域系统架构稳健指数</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ calculatedHealthSafety.toFixed(1) }}%</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                <div
+                  class="bg-gradient-to-r from-cyan-500 via-amber-400 to-emerald-400 h-1.5 rounded-full transition-all duration-300"
+                  :style="{ width: Math.min(calculatedHealthSafety, 100) + '%' }"
+                ></div>
+              </div>
+              <div class="text-[10px] text-gray-400 flex justify-between">
+                <span>吞吐负荷: {{ calculatedThroughputOps }} OPS</span>
+                <span class="text-emerald-400">神圣稳态: {{ calculatedHealthSafety > 98 ? '太古创世完备' : '高稳健态' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 实时解算数值仪表盘 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 relative z-10">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-center shadow-lg">
+            <div class="text-[11px] text-gray-400">全域枢纽综合能效 (Score)</div>
+            <div class="text-2xl font-black text-amber-400 font-mono mt-1">{{ calculatedNexusScore.toLocaleString() }}</div>
+            <div class="text-[10px] text-amber-300/80 mt-0.5">300版本全息评级加权</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-lg">
+            <div class="text-[11px] text-gray-400">瞬时微秒级并发吞吐</div>
+            <div class="text-2xl font-black text-cyan-400 font-mono mt-1">{{ calculatedThroughputOps.toLocaleString() }} OPS</div>
+            <div class="text-[10px] text-cyan-300/80 mt-0.5">零拷贝并发流水线</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-center shadow-lg">
+            <div class="text-[11px] text-gray-400">全系统全维健康度</div>
+            <div class="text-2xl font-black text-emerald-400 font-mono mt-1">{{ calculatedHealthSafety.toFixed(1) }}%</div>
+            <div class="text-[10px] text-emerald-300/80 mt-0.5">杜绝死锁与崩溃零异常</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-center shadow-lg">
+            <div class="text-[11px] text-gray-400">终极里程碑认证位阶</div>
+            <div class="text-2xl font-black text-purple-400 font-mono mt-1">{{ milestoneRankTier }}</div>
+            <div class="text-[10px] text-purple-300/80 mt-0.5">v2.2.300 始源超维认证</div>
+          </div>
+        </div>
+
+        <!-- 五阶段终极枢纽仿真推演终端 -->
+        <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-amber-500/30 shadow-2xl space-y-4 relative z-10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 font-bold text-sm">⚡ 全域时空裂隙核心门户与三十维全息矩阵五阶段推演终端</span>
+              <n-tag type="warning" size="tiny" round>Live Jubilee Pipeline</n-tag>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:from-amber-400 hover:to-yellow-400 text-slate-950 shadow-md disabled:opacity-50"
+                :disabled="isSimulatingNexus"
+                @click="runNexusSimulation"
+              >
+                {{ isSimulatingNexus ? '正在推演全域枢纽中...' : '▶ 启动全流程 300 版本大典推演' }}
+              </button>
+              <button
+                type="button"
+                class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 transition-all cursor-pointer"
+                @click="exportNexusCertificate"
+              >
+                📜 导出 300 版本大典证书
+              </button>
+            </div>
+          </div>
+
+          <!-- 5 阶段步进进度 -->
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+            <div
+              v-for="(stg, idx) in nexusStages"
+              :key="stg.id"
+              class="p-2.5 rounded-lg border text-xs transition-all flex flex-col justify-between"
+              :class="nexusSimulationStep >= idx + 1
+                ? 'bg-amber-950/40 border-amber-500/60 text-amber-300'
+                : 'bg-slate-900/60 border-slate-800/80 text-gray-500'"
+            >
+              <div class="font-bold mb-1 flex items-center gap-1">
+                <span>{{ nexusSimulationStep >= idx + 1 ? '✅' : '⏳' }}</span>
+                <span>第 {{ idx + 1 }} 阶: {{ stg.title }}</span>
+              </div>
+              <div class="text-[10px] leading-tight opacity-80">{{ stg.desc }}</div>
+            </div>
+          </div>
+
+          <!-- 推演日志视窗 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-gray-300 max-h-48 overflow-y-auto space-y-1">
+            <div v-for="(log, idx) in nexusLogs" :key="idx" class="flex items-start gap-2">
+              <span class="text-amber-400 select-none">›</span>
+              <span :class="log.color || 'text-gray-300'">{{ log.text }}</span>
+            </div>
+            <div v-if="nexusLogs.length === 0" class="text-gray-600 italic">
+              等待启动推演... 点击上方【启动全流程 300 版本大典推演】按键开始推演。
+            </div>
+          </div>
+        </div>
+
+        <!-- Godot 4.6 LTS 3 Tab 源码展台 -->
+        <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-xl space-y-4 relative z-10">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 全域时空裂隙核心门户实机脚本</span>
+              <n-tag type="info" size="tiny" round>RefCounted 核心架构</n-tag>
+            </div>
+            <div class="flex gap-2">
+              <button
+                v-for="st in nexusScriptTabs"
+                :key="st.key"
+                type="button"
+                class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
+                :class="activeNexusScriptTab === st.key
+                  ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                  : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
+                @click="activeNexusScriptTab = st.key"
+              >
+                {{ st.name }}
+              </button>
+            </div>
+          </div>
+
+          <div class="relative">
+            <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentNexusScriptCode }}</pre>
+            <button
+              type="button"
+              class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-gray-300 border border-slate-700 cursor-pointer transition-colors"
+              @click="copyNexusScript"
+            >
+              📋 复制代码
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
     <!-- 二十大核心子系统与实机推演沙盘全景矩阵导航 -->
     <section class="portal-systems-matrix max-w-7xl mx-auto px-3 sm:px-4 space-y-4">
       <div class="section-header flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
@@ -542,6 +888,8 @@ import {
 } from '../config/homePortalConfig'
 import SocialShareBar from '@/components/SocialShareBar.vue'
 
+import { useMessage } from 'naive-ui'
+const message = useMessage()
 const router = useRouter()
 
 const newsTabs = [
@@ -620,4 +968,287 @@ const allSubsystems = [
   { title: '147种魔物图鉴', icon: '👾', path: '/vble/monsters', tag: '147 Monsters', desc: '属性弱点与掉落物' },
   { title: '28大职业矩阵', icon: '⚔️', path: '/vble/jobs', tag: '28 Jobs', desc: '双轨进阶与极意被动' }
 ]
+
+// ==========================================
+// 全域时空裂隙核心门户终极枢纽工坊 (v2.2.300)
+// ==========================================
+interface NexusArchetype {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  desc: string
+  perk: string
+  scoreMult: number
+}
+
+const nexusArchetypes: NexusArchetype[] = [
+  {
+    id: 'chrono_convergence',
+    name: '始源时空奇点收敛核',
+    icon: '🌀',
+    tag: '奇点收敛',
+    desc: '锚定全域 300+ 版本流脉与时空世界线，以太通量无损穿梭',
+    perk: '全域场景秒速无缝跃迁',
+    scoreMult: 1.45
+  },
+  {
+    id: 'cross_platform_vulkan',
+    name: '多端极速渲染引擎拓扑',
+    icon: '🖥️',
+    tag: 'Vulkan/Metal',
+    desc: '贯通 PC、macOS Metal、Steam Deck 与 WebAssembly 原生零损耗',
+    perk: '多端着色器动态零损耗分发',
+    scoreMult: 1.35
+  },
+  {
+    id: 'zero_copy_threading',
+    name: '零拷贝高并发微线程阵列',
+    icon: '⚙️',
+    tag: 'WorkerPool',
+    desc: '全域物理、音频、剧情脚本与战斗 AI 异步并行无锁交互',
+    perk: '微秒级调度吞吐提升 350%',
+    scoreMult: 1.40
+  },
+  {
+    id: 'multiverse_creation',
+    name: '太古多元宇宙终极创世',
+    icon: '🌌',
+    tag: '创世神纪',
+    desc: '超越凡人极境，缔造永恒光暗平衡始源宇宙，缔造万界神国',
+    perk: '全要素调和始源神国终局',
+    scoreMult: 1.55
+  }
+]
+
+const selectedNexusId = ref<string>('chrono_convergence')
+
+// 4 维连续滑块参数
+const portalThroughput = ref<number>(3600)
+const multiverseEntropy = ref<number>(1.6)
+const latencyBudget = ref<number>(4.2)
+const aetherResonanceIndex = ref<number>(180)
+
+// 3 大终极保护断路器
+const omnipotentCausalityShield = ref<boolean>(true)
+const zeroDowntimeHotSwapLock = ref<boolean>(true)
+const transcendenceCapBreaker300 = ref<boolean>(true)
+
+const currentNexus = computed(() => {
+  return nexusArchetypes.find(a => a.id === selectedNexusId.value) || nexusArchetypes[0]
+})
+
+const calculatedNexusScore = computed(() => {
+  const baseScore = 48000
+  const throughputBonus = Math.round((portalThroughput.value / 100) * 850)
+  const resonanceBonus = Math.round((aetherResonanceIndex.value / 100) * 12000)
+  const entropyAdjustment = Math.round((5.0 - multiverseEntropy.value) * 1500)
+  const shieldBonus = (omnipotentCausalityShield.value ? 6000 : 0) + (zeroDowntimeHotSwapLock.value ? 4500 : 0)
+  return Math.round((baseScore + throughputBonus + resonanceBonus + entropyAdjustment + shieldBonus) * currentNexus.value.scoreMult)
+})
+
+const calculatedThroughputOps = computed(() => {
+  const baseOps = portalThroughput.value
+  const multFactor = zeroDowntimeHotSwapLock.value ? 1.45 : 1.0
+  return Math.round(baseOps * multFactor)
+})
+
+const calculatedHealthSafety = computed(() => {
+  let health = 88.0
+  health += (aetherResonanceIndex.value / 200) * 6.5
+  health += omnipotentCausalityShield.value ? 3.5 : 0
+  health += zeroDowntimeHotSwapLock.value ? 2.0 : 0
+  if (latencyBudget.value > 12.0) health -= 4.0
+  return Math.min(99.9, Math.max(70.0, health))
+})
+
+const milestoneRankTier = computed(() => {
+  if (calculatedNexusScore.value >= 100000 && calculatedHealthSafety.value >= 98.0) return 'Ω-MAX 太古始源全知神祇级'
+  if (calculatedNexusScore.value >= 80000) return 'Ω-1 完备大收敛宗师级'
+  if (calculatedNexusScore.value >= 60000) return 'Ω-2 稳定时空拓扑先驱'
+  return 'Ω-3 标准单机架构'
+})
+
+const resetNexusParameters = () => {
+  portalThroughput.value = 3600
+  multiverseEntropy.value = 1.6
+  latencyBudget.value = 4.2
+  aetherResonanceIndex.value = 180
+  omnipotentCausalityShield.value = true
+  zeroDowntimeHotSwapLock.value = true
+  transcendenceCapBreaker300.value = true
+  message?.info('全域枢纽参数已重置为黄金标准配置')
+}
+
+// 五阶段仿真推演
+const isSimulatingNexus = ref<boolean>(false)
+const nexusSimulationStep = ref<number>(0)
+interface NexusLogItem {
+  text: string
+  color?: string
+}
+const nexusLogs = ref<NexusLogItem[]>([])
+
+const nexusStages = [
+  { id: 1, title: '全域300版本流脉扫描', desc: '检索30大子系统拓扑与全息依赖' },
+  { id: 2, title: '因果护盾与热插拔就绪', desc: '启动零停机热重载与防坍缩护盾' },
+  { id: 3, title: '零拷贝跨线程调度注能', desc: '微秒级WorkerPool并发管线贯通' },
+  { id: 4, title: '以太共鸣多元大收敛', desc: '多元宇宙创世神纪全维调和' },
+  { id: 5, title: '300版本里程碑大典达成', desc: '颁发终极太古神圣认证方案书' }
+]
+
+const runNexusSimulation = async () => {
+  if (isSimulatingNexus.value) return
+  isSimulatingNexus.value = true
+  nexusSimulationStep.value = 0
+  nexusLogs.value = []
+
+  const appendLog = (text: string, color?: string) => {
+    nexusLogs.value.push({ text, color })
+  }
+
+  appendLog('[INIT] 启动全域时空裂隙核心门户 v2.2.300 里程碑大典推演...', 'text-amber-400 font-bold')
+  await new Promise(r => setTimeout(r, 400))
+
+  // Step 1
+  nexusSimulationStep.value = 1
+  appendLog(`[STEP 1] 扫描全域 28 大核心门户视窗与 300 个发布记录，枢纽选定【${currentNexus.value.name}】。`, 'text-cyan-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 2
+  nexusSimulationStep.value = 2
+  appendLog(`[STEP 2] 激活因果律防坍缩护盾: ${omnipotentCausalityShield.value ? '已就绪' : '未开启'}；零停机热插拔锁: ${zeroDowntimeHotSwapLock.value ? '已锁定' : '未开启'}。`, 'text-purple-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 3
+  nexusSimulationStep.value = 3
+  appendLog(`[STEP 3] 启动 WorkerThreadPool 零拷贝微线程！并发吞吐达 ${calculatedThroughputOps.value.toLocaleString()} OPS，帧时延 ${latencyBudget.value.toFixed(1)} ms！`, 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 500))
+
+  // Step 4
+  nexusSimulationStep.value = 4
+  appendLog(`[STEP 4] 以太共鸣相干率 ${aetherResonanceIndex.value}%，破限神印解除所有数值枷锁，全域综合能效 ${calculatedNexusScore.value.toLocaleString()} 分！`, 'text-emerald-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 5
+  nexusSimulationStep.value = 5
+  appendLog(`[SUCCESS] v2.2.300 终极里程碑大典圆满达成！认证位阶: 【${milestoneRankTier.value}】，太古创世永恒立碑！`, 'text-amber-300 font-bold')
+  isSimulatingNexus.value = false
+  message?.success('v2.2.300 里程碑大典推演圆满成功！')
+}
+
+const exportNexusCertificate = () => {
+  const certData = {
+    studio: 'Omni Spacetime Rift Portal & Ultimate Primal Nexus Studio v2.2.300',
+    milestone: 'v2.2.300 Official Jubilee Release',
+    nexusArchetype: currentNexus.value.name,
+    portalThroughput: portalThroughput.value,
+    multiverseEntropy: multiverseEntropy.value,
+    latencyBudget: latencyBudget.value,
+    aetherResonanceIndex: aetherResonanceIndex.value,
+    calculatedNexusScore: calculatedNexusScore.value,
+    calculatedThroughputOps: calculatedThroughputOps.value,
+    calculatedHealthSafety: calculatedHealthSafety.value,
+    milestoneRankTier: milestoneRankTier.value,
+    timestamp: new Date().toISOString(),
+    sha256Certificate: 'NEXUS-V300-JUBILEE-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(16).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `v300_jubilee_certificate_${certData.sha256Certificate}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success(`已导出 300 版本大典方案证书: ${certData.sha256Certificate}`)
+}
+
+// 源码展台
+type NexusScriptKey = 'hub_engine' | 'genesis_orchestrator' | 'circuit_breaker'
+
+const activeNexusScriptTab = ref<NexusScriptKey>('hub_engine')
+
+const nexusScriptTabs = [
+  { key: 'hub_engine' as const, name: '核心门户枢纽引擎' },
+  { key: 'genesis_orchestrator' as const, name: '创世全息编排器' },
+  { key: 'circuit_breaker' as const, name: '零拷贝断路器' }
+]
+
+const nexusScriptCodes: Record<NexusScriptKey, string> = {
+  hub_engine: `class_name OmniNexusSpacetimeHubEngine
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全域时空裂隙核心门户枢纽引擎
+## 文件路径: res://scripts/core/omni_nexus_spacetime_hub_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal milestone_reached(version: String, score: int)
+signal throughput_updated(ops_per_second: int)
+
+var throughput_ops: int = 3600
+var latency_budget_ms: float = 4.2
+var causality_shield_active: bool = true
+
+func evaluate_hub_performance(resonance_ratio: float) -> Dictionary:
+    var effective_ops: int = int(float(throughput_ops) * (1.0 + resonance_ratio * 0.45))
+    var efficiency_score: int = int(float(effective_ops) * 12.8)
+    throughput_updated.emit(effective_ops)
+
+    var outcome := {
+        "version": "v2.2.300",
+        "effective_ops": effective_ops,
+        "efficiency_score": efficiency_score,
+        "rank": "OMEGA_MAX_GENESIS" if efficiency_score > 80000 else "OMEGA_STANDARD",
+        "timestamp": Time.get_datetime_string_from_system()
+    }
+    milestone_reached.emit("v2.2.300", efficiency_score)
+    return outcome
+`,
+
+  genesis_orchestrator: `class_name MultiverseGenesisOrchestrator
+extends RefCounted
+
+## 最终幻想：时空之轮 - 多元宇宙创世全息编排器
+## 文件路径: res://scripts/core/multiverse_genesis_orchestrator.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func synthesize_multiverse_state(entropy: float, resonance: float) -> Dictionary:
+    var balance_index: float = (5.0 - entropy) / 5.0 * 0.5 + (resonance / 200.0) * 0.5
+    var is_perfect_balance: bool = balance_index >= 0.90
+
+    return {
+        "balance_index": clampf(balance_index, 0.0, 1.0),
+        "is_perfect_balance": is_perfect_balance,
+        "prosperity_years": 1000000 if is_perfect_balance else 50000,
+        "cosmic_regime": "PRIMAL_CREATION_FEDERATION"
+    }
+`,
+
+  circuit_breaker: `class_name ZeroCopyOmnipotentCircuitBreaker
+extends RefCounted
+
+## 最终幻想：时空之轮 - 零拷贝全息断路器与热插拔守卫
+## 文件路径: res://scripts/core/zero_copy_omnipotent_circuit_breaker.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func handle_hot_swap(component_name: String, has_lock: bool) -> Dictionary:
+    return {
+        "component": component_name,
+        "hot_swap_success": true,
+        "zero_downtime": has_lock,
+        "packet_loss_percent": 0.0 if has_lock else 0.02
+    }
+`
+}
+
+const currentNexusScriptCode = computed(() => {
+  return nexusScriptCodes[activeNexusScriptTab.value]
+})
+
+const copyNexusScript = () => {
+  navigator.clipboard.writeText(currentNexusScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
 </script>
