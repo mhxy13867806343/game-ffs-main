@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VBLE Void &amp; Celestial Gravity Matrix v2.2.272
+              VBLE Void &amp; Dark Energy Expansion Matrix v2.2.291
             </span>
             <span class="text-xs text-gray-400">虚空城堡与终焉星体引力矩阵</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToDarkEnergyStudio"
+          >
+            <template #icon><span>🌌</span></template>
+            暗能量膨胀工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -1001,6 +1012,291 @@
       </div>
     </div>
 
+    <!-- 全域星系暗能量膨胀、快子视界破裂与超弦宇宙共鸣工坊 (v2.2.291) -->
+    <div id="dark-energy-expansion-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1c0828] via-[#101429] to-[#090b1c] border border-rose-500/40 shadow-[0_0_40px_rgba(244,63,94,0.22)] space-y-6">
+      <!-- 头部横幅 -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-rose-900/50 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-mono font-bold text-xs border border-rose-500/40">
+              DARK ENERGY EXPANSION &amp; TACHYON HORIZON
+            </span>
+            <span class="text-xs text-rose-400 font-mono">v2.2.291 Official Matrix</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide flex items-center gap-2">
+            <span>🌌</span> 全域星系暗能量膨胀、快子视界破裂与超弦宇宙共鸣工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            面向 Godot 4.6 LTS 终极宇宙学演化体系：实时推演宇宙学常数 Λ 度规拉伸、快子超光速光锥破裂负能量涌流、11 维超弦共振与希格斯真真空相变安全边界。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-3 py-1 rounded-lg bg-rose-950/60 border border-rose-700/60 text-xs font-mono text-rose-300">
+            Λ-CDM 宇宙常数度规
+          </span>
+          <span class="px-3 py-1 rounded-lg bg-purple-950/60 border border-purple-700/60 text-xs font-mono text-purple-300">
+            卡拉比-丘 11 维超弦
+          </span>
+        </div>
+      </div>
+
+      <!-- 四大宇宙学演化相选择 -->
+      <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">⚛️</span>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">四大宇宙学演化本征相 (Cosmic Regimes)</h3>
+          </div>
+          <span class="text-xs text-gray-400">选择天体演化相以激活跨维负能量与超弦修正</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="regime in cosmicRegimesList"
+            :key="regime.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedRegimeId === regime.id ? `${regime.color} ring-2 ring-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.3)]` : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'"
+            @click="selectedRegimeId = regime.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ regime.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-gray-300">
+                {{ regime.metricTag }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white mb-1">{{ regime.name }}</div>
+            <p class="text-xs text-gray-400 leading-snug">{{ regime.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调与遥测看板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧参数调节面板 -->
+        <div class="lg:col-span-7 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎛️</span>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">暗能量与度规微积分参数</h3>
+            </div>
+            <n-tag type="error" size="tiny" round>实机连续微调</n-tag>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>宇宙学常数 Λ 相对密度 (Cosmological Constant)</span>
+                <span class="font-mono font-bold text-rose-400">{{ cosmologicalConstantLambda.toFixed(2) }} Λ</span>
+              </div>
+              <n-slider v-model:value="cosmologicalConstantLambda" :min="0.1" :max="5.0" :step="0.05" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>0.10 Λ (引力坍缩占优)</span>
+                <span>1.68 Λ (标准加速膨胀)</span>
+                <span>5.00 Λ (大撕裂极限)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>快子标量场势能 (Tachyon Field Potential)</span>
+                <span class="font-mono font-bold text-purple-400">{{ tachyonFieldPotential }} GeV</span>
+              </div>
+              <n-slider v-model:value="tachyonFieldPotential" :min="100" :max="999" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>100 GeV (亚微扰)</span>
+                <span>540 GeV (视界临界破裂)</span>
+                <span>999 GeV (绝对负能量风暴)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>超弦紧致化空间维数 (Superstring Dimensions)</span>
+                <span class="font-mono font-bold text-cyan-400">{{ superstringDimensions }} 维</span>
+              </div>
+              <n-slider v-model:value="superstringDimensions" :min="4" :max="11" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>4 维 (宏观平直时空)</span>
+                <span>10 维 (超弦标准模型)</span>
+                <span>11 维 (M 理论膜世界全境)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>假真空泡形核衰变速率 (Vacuum Decay Rate)</span>
+                <span class="font-mono font-bold text-amber-400">{{ vacuumDecayRate.toFixed(2) }} Γ</span>
+              </div>
+              <n-slider v-model:value="vacuumDecayRate" :min="0.01" :max="1.0" :step="0.01" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>0.01 Γ (亚稳态稳固)</span>
+                <span>0.25 Γ (控制相变)</span>
+                <span>1.00 Γ (全宇宙真真空泡坍缩)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 个宇宙学安全开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🔒</span> 霍金时序因果律保护场 (Causality Protection)
+                </div>
+                <div class="text-[10px] text-gray-400">封闭类时曲线 (CTC) 防御，杜绝快子反冲导致时序闭环逻辑死锁</div>
+              </div>
+              <n-switch v-model:value="causalityProtectionField" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🛡️</span> 希格斯亚稳态真空锁相屏障 (Higgs Metastability Shield)
+                </div>
+                <div class="text-[10px] text-gray-400">阻止假真空向真真空发生灾难性穿隧相变，量子真空安全度大幅提升 (+20%)</div>
+              </div>
+              <n-switch v-model:value="higgsMetastabilityShield" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🌀</span> 卡拉比-丘流形超对称稳定器 (Calabi-Yau Stabilizer)
+                </div>
+                <div class="text-[10px] text-gray-400">锁定 6 维紧致空间几何拓扑半径，避免超弦微振动失控反噬</div>
+              </div>
+              <n-switch v-model:value="calabiYauFluxStabilizer" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧实时遥测看板 -->
+        <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-rose-950/40 border border-rose-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+              <h3 class="text-xs font-bold text-rose-300 uppercase tracking-widest flex items-center gap-1.5">
+                <span>📊</span> 宇宙度规精算遥测 (Cosmo Telemetry)
+              </h3>
+              <span class="text-[10px] font-mono text-emerald-400 animate-pulse">● 宇宙度规信道在线</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-rose-500/20">
+                <div class="text-[10px] text-gray-400">全域空间度规膨胀速率</div>
+                <div class="text-lg sm:text-xl font-black text-rose-400 font-mono mt-1">
+                  {{ calculatedCosmicExpansionRate }}
+                </div>
+                <div class="text-[9px] text-rose-500/80 mt-0.5">哈勃参数动态微积分</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-500/20">
+                <div class="text-[10px] text-gray-400">快子负能量流密度</div>
+                <div class="text-lg sm:text-xl font-black text-purple-400 font-mono mt-1">
+                  {{ calculatedNegativeEnergyDensity }}
+                </div>
+                <div class="text-[9px] text-purple-500/80 mt-0.5">引力透镜负压强势能</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-500/20">
+                <div class="text-[10px] text-gray-400">量子真空相变安全度</div>
+                <div class="text-lg sm:text-xl font-black text-cyan-400 font-mono mt-1">
+                  {{ calculatedQuantumVacuumSafety }}
+                </div>
+                <div class="text-[9px] text-cyan-500/80 mt-0.5">亚稳态穿隧阻尼指数</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-emerald-500/20">
+                <div class="text-[10px] text-gray-400">因果律时序防死锁状态</div>
+                <div class="text-xs sm:text-sm font-black text-emerald-400 font-mono mt-1 truncate">
+                  {{ calculatedCausalityPreservation }}
+                </div>
+                <div class="text-[9px] text-emerald-500/80 mt-0.5">时序一致性监控</div>
+              </div>
+            </div>
+
+            <!-- 当前演化相特质摘要 -->
+            <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-xs space-y-1">
+              <div class="flex items-center justify-between text-gray-400">
+                <span>激活本征相:</span>
+                <span class="font-bold text-white">{{ currentCosmicRegimeObj?.name }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>度规特性:</span>
+                <span class="font-mono text-rose-400">{{ currentCosmicRegimeObj?.metricTag }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>因果律场:</span>
+                <span class="font-mono" :class="causalityProtectionField ? 'text-emerald-400' : 'text-amber-400'">
+                  {{ causalityProtectionField ? '已建立 (闭合类时线规避)' : '存在破缺风险' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>真空锁相:</span>
+                <span class="font-mono" :class="higgsMetastabilityShield ? 'text-cyan-400' : 'text-gray-500'">
+                  {{ higgsMetastabilityShield ? '已展开 (相变安全 +20%)' : '常规真空' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快捷操作按钮 -->
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              @click="runDarkEnergySimulation"
+              :disabled="isDarkEnergySimulating"
+            >
+              <span>{{ isDarkEnergySimulating ? '⏳' : '🚀' }}</span>
+              {{ isDarkEnergySimulating ? '暗能量推演中...' : '启动五阶段星系暗能量膨胀推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-gray-200 border border-slate-700 transition-all cursor-pointer flex items-center gap-1"
+              @click="exportDarkEnergyCertificate"
+            >
+              <span>📄</span> 导出凭证
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段推演终端 -->
+      <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">💻</span>
+            <h3 class="text-sm font-bold text-white font-mono uppercase">暗能量宇宙控制台 (Dark Energy Cosmology Terminal)</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span v-if="isDarkEnergySimulating" class="text-xs text-rose-400 animate-pulse font-mono">
+              STAGE {{ darkEnergySimStage }}/5 度规解算中
+            </span>
+            <span v-else-if="darkEnergySimFinished" class="text-xs text-emerald-400 font-mono">
+              ✓ 宇宙学演化模型就绪
+            </span>
+            <button
+              type="button"
+              class="text-xs text-gray-400 hover:text-white px-2 py-0.5 rounded bg-slate-900 border border-slate-800 cursor-pointer"
+              @click="darkEnergyTerminalLogs = []"
+            >
+              清屏
+            </button>
+          </div>
+        </div>
+
+        <div class="h-44 p-3 rounded-xl bg-black/90 border border-slate-900 font-mono text-xs overflow-y-auto space-y-1 text-gray-300">
+          <div v-if="darkEnergyTerminalLogs.length === 0" class="text-gray-600 italic">
+            [终端待命中] 点击“启动五阶段星系暗能量膨胀推演”以解算宇宙常数度规、快子负能量与卡拉比-丘超弦共振...
+          </div>
+          <div v-for="(log, idx) in darkEnergyTerminalLogs" :key="idx" class="leading-relaxed">
+            <span class="text-gray-500">[{{ log.time }}]</span>
+            <span :class="log.color"> {{ log.message }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Godot 4.6 LTS 核心实机代码展台 (三 Tab 切换) -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between flex-wrap gap-2">
@@ -1038,6 +1334,14 @@
             >
               📄 void_tidal_inversion_engine.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeCelestialGodotTab === 'dark_energy' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCelestialGodotTab = 'dark_energy'"
+            >
+              📄 dark_energy_tachyon_horizon.gd
+            </button>
           </div>
           <n-button size="tiny" secondary type="primary" @click="copyGodotCode">
             {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
@@ -1045,7 +1349,7 @@
         </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeCelestialGodotTab === 'gravity'">{{ godotCodeText }}</code><code v-else-if="activeCelestialGodotTab === 'singularity'">{{ godotSingularityCodeText }}</code><code v-else>{{ godotTidalInversionCodeText }}</code></pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeCelestialGodotTab === 'gravity'">{{ godotCodeText }}</code><code v-else-if="activeCelestialGodotTab === 'singularity'">{{ godotSingularityCodeText }}</code><code v-else-if="activeCelestialGodotTab === 'tidal_inversion'">{{ godotTidalInversionCodeText }}</code><code v-else>{{ godotDarkEnergyCodeText }}</code></pre>
     </div>
   </div>
 </template>
@@ -1238,6 +1542,9 @@ const copyGodotCode = async () => {
     } else if (activeCelestialGodotTab.value === 'tidal_inversion') {
       textToCopy = godotTidalInversionCodeText
       fileName = 'void_tidal_inversion_engine.gd'
+    } else {
+      textToCopy = godotDarkEnergyCodeText
+      fileName = 'dark_energy_tachyon_horizon.gd'
     }
     await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
@@ -1368,7 +1675,7 @@ onUnmounted(() => {
 })
 
 // ================= 专区 5: 四阶引力奇点坍缩推演与次元裂隙封印沙盘 =================
-const activeCelestialGodotTab = ref<'gravity' | 'singularity' | 'tidal_inversion'>('gravity')
+const activeCelestialGodotTab = ref<'gravity' | 'singularity' | 'tidal_inversion' | 'dark_energy'>('gravity')
 
 // ================= 专区 6: 全域虚空天体超重力潮汐与奇点坍缩逆转工坊 =================
 const scrollToTidalStudio = () => {
@@ -1906,6 +2213,212 @@ static func resolve_containment(tier: int, wind: float, water: float, fire: floa
 	metrics.atb_speed_mod = base_atb_penalty + (water / 100.0) * 30.0
 	
 	return metrics`
+
+// ==========================================
+// 🌌 全域星系暗能量膨胀、快子视界破裂工坊 (v2.2.291)
+// ==========================================
+interface CosmicRegime {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  color: string
+  metricTag: string
+}
+
+const cosmicRegimesList: CosmicRegime[] = [
+  {
+    id: 'dark_energy_inflation',
+    name: '暗能量暴胀相',
+    icon: '🌌',
+    desc: '度规张量指数级拉伸，时空曲率平坦化，全域移动阻尼消解',
+    color: 'border-rose-500/50 bg-rose-950/20 text-rose-300',
+    metricTag: '暴胀拉伸 / 阻尼清零'
+  },
+  {
+    id: 'tachyon_horizon_rupture',
+    name: '快子超光速视界破裂相',
+    icon: '⚡',
+    desc: '撕裂因果律光锥边界，负质量与负能量流喷涌，战时冷却缩减',
+    color: 'border-purple-500/50 bg-purple-950/20 text-purple-300',
+    metricTag: '负能量流 / CDR -45%'
+  },
+  {
+    id: 'superstring_vibration',
+    name: '超弦多维共振相',
+    icon: '🎻',
+    desc: '11 维卡拉比-丘流形超对称共鸣，六维属性全要素重构',
+    color: 'border-cyan-500/50 bg-cyan-950/20 text-cyan-300',
+    metricTag: '超对称共鸣 / 六维 +35%'
+  },
+  {
+    id: 'vacuum_decay_metastable',
+    name: '亚稳态伪真空衰变相',
+    icon: '💥',
+    desc: '激发真真空泡核生长，全域黑洞引力势能逆相解构',
+    color: 'border-amber-500/50 bg-amber-950/20 text-amber-300',
+    metricTag: '引力消解 / 真空相变'
+  }
+]
+
+const selectedRegimeId = ref('dark_energy_inflation')
+const cosmologicalConstantLambda = ref(1.68)
+const tachyonFieldPotential = ref(540)
+const superstringDimensions = ref(10)
+const vacuumDecayRate = ref(0.25)
+
+const causalityProtectionField = ref(true)
+const higgsMetastabilityShield = ref(true)
+const calabiYauFluxStabilizer = ref(true)
+
+const currentCosmicRegimeObj = computed(() => {
+  return cosmicRegimesList.find(r => r.id === selectedRegimeId.value) || cosmicRegimesList[0]
+})
+
+const calculatedCosmicExpansionRate = computed(() => {
+  const h = 67.4 * cosmologicalConstantLambda.value * (superstringDimensions.value / 10)
+  return `${h.toFixed(1)} km/s/Mpc`
+})
+
+const calculatedNegativeEnergyDensity = computed(() => {
+  const energy = tachyonFieldPotential.value * 14.5 * cosmologicalConstantLambda.value
+  return `${Math.round(energy).toLocaleString()} J/m³`
+})
+
+const calculatedQuantumVacuumSafety = computed(() => {
+  let safety = 72.0
+  if (higgsMetastabilityShield.value) safety += 20
+  if (calabiYauFluxStabilizer.value) safety += 7.5
+  return `${Math.min(99.9, safety).toFixed(1)}%`
+})
+
+const calculatedCausalityPreservation = computed(() => {
+  return causalityProtectionField.value ? 'ABSOLUTE (严格因果保护)' : 'VIOLATION RISK (存在时序死锁)'
+})
+
+function scrollToDarkEnergyStudio() {
+  const el = document.getElementById('dark-energy-expansion-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+// 五阶段推演终端
+interface DarkEnergyTerminalLog {
+  time: string
+  message: string
+  color: string
+}
+
+const isDarkEnergySimulating = ref(false)
+const darkEnergySimStage = ref(0)
+const darkEnergySimFinished = ref(false)
+const darkEnergyTerminalLogs = ref<DarkEnergyTerminalLog[]>([
+  {
+    time: 'INIT',
+    message: '全域星系暗能量膨胀与快子视界工坊就绪。准备解算度规张量。',
+    color: 'text-gray-400'
+  }
+])
+
+function appendDarkEnergyLog(msg: string, color = 'text-rose-400') {
+  const now = new Date()
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`
+  darkEnergyTerminalLogs.value.push({ time: timeStr, message: msg, color })
+}
+
+function runDarkEnergySimulation() {
+  if (isDarkEnergySimulating.value) return
+  isDarkEnergySimulating.value = true
+  darkEnergySimFinished.value = false
+  darkEnergySimStage.value = 1
+  appendDarkEnergyLog('▶ 启动五阶段星系暗能量膨胀推演...', 'text-rose-400 font-bold')
+
+  setTimeout(() => {
+    darkEnergySimStage.value = 2
+    appendDarkEnergyLog(`[阶段 1/5] 载入演化相【${currentCosmicRegimeObj.value.name}】，常数密度: ${cosmologicalConstantLambda.value.toFixed(2)} Λ，势能: ${tachyonFieldPotential.value} GeV`, 'text-cyan-300')
+
+    setTimeout(() => {
+      darkEnergySimStage.value = 3
+      appendDarkEnergyLog(`[阶段 2/5] 校验 ${superstringDimensions.value} 维超弦紧致化，哈勃膨胀速率解算为: ${calculatedCosmicExpansionRate.value}`, 'text-amber-300')
+
+      setTimeout(() => {
+        darkEnergySimStage.value = 4
+        const causalityText = causalityProtectionField.value ? '严格时序保护建立' : '未开启'
+        const shieldText = higgsMetastabilityShield.value ? '希格斯锁相(+20% 安全)' : '常规'
+        appendDarkEnergyLog(`[阶段 3/5] 因果保护[${causalityText}]，真空安全阻尼[${shieldText}]`, 'text-purple-300')
+
+        setTimeout(() => {
+          darkEnergySimStage.value = 5
+          appendDarkEnergyLog(`[阶段 4/5] 快子负能量流密度: ${calculatedNegativeEnergyDensity.value}，真空相变安全度: ${calculatedQuantumVacuumSafety.value}`, 'text-emerald-300')
+
+          setTimeout(() => {
+            isDarkEnergySimulating.value = false
+            darkEnergySimFinished.value = true
+            appendDarkEnergyLog(`✓ [阶段 5/5] 暗能量膨胀解算圆满完成！因果状态: ${calculatedCausalityPreservation.value}，生成离线宇宙学凭据`, 'text-emerald-400 font-bold')
+            message.success('星系暗能量膨胀五阶段推演完成！')
+          }, 350)
+        }, 350)
+      }, 350)
+    }, 350)
+  }, 350)
+}
+
+function exportDarkEnergyCertificate() {
+  const certData = {
+    standard: 'Godot 4.6 LTS / VBLE Dark Energy Matrix v2.2.291',
+    timestamp: new Date().toISOString(),
+    regime: selectedRegimeId.value,
+    parameters: {
+      cosmologicalConstantLambda: cosmologicalConstantLambda.value,
+      tachyonFieldPotential: tachyonFieldPotential.value,
+      superstringDimensions: superstringDimensions.value,
+      vacuumDecayRate: vacuumDecayRate.value,
+      causalityProtectionField: causalityProtectionField.value,
+      higgsMetastabilityShield: higgsMetastabilityShield.value,
+      calabiYauFluxStabilizer: calabiYauFluxStabilizer.value
+    },
+    metrics: {
+      cosmicExpansionRate: calculatedCosmicExpansionRate.value,
+      negativeEnergyDensity: calculatedNegativeEnergyDensity.value,
+      quantumVacuumSafety: calculatedQuantumVacuumSafety.value,
+      causalityPreservation: calculatedCausalityPreservation.value
+    },
+    sha256Signature: 'SHA256-DARK-ENERGY-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `dark_energy_v2.2.291_${selectedRegimeId.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出星系暗能量膨胀方案书证书！')
+}
+
+const godotDarkEnergyCodeText = [
+  '# ==============================================================================',
+  '# DarkEnergyTachyonHorizon - 全域星系暗能量膨胀与快子视界破裂引擎',
+  '# 文件路径: res://scripts/celestial/dark_energy_tachyon_horizon.gd',
+  '# 架构规范: Godot 4.6 LTS / VBLE Celestial Matrix v2.2.291',
+  '# 核心职责: 计算宇宙学常数度规膨胀、快子负能量密度与霍金时序因果律保护',
+  '# ==============================================================================',
+  'class_name DarkEnergyTachyonHorizon',
+  'extends RefCounted',
+  '',
+  'const HUBBLE_BASE: float = 67.4 # km/s/Mpc',
+  '',
+  'static func calculate_expansion_rate(lambda_factor: float, dimensions: int) -> float:',
+  '	var rate: float = HUBBLE_BASE * lambda_factor * (float(dimensions) / 10.0)',
+  '	return rate',
+  '',
+  'static func evaluate_negative_energy_density(potential_gev: int, lambda_factor: float) -> float:',
+  '	return float(potential_gev) * 14.5 * lambda_factor',
+  '',
+  'static func verify_causality_protection(is_field_active: bool) -> bool:',
+  '	return is_field_active'
+].join('\n')
 </script>
 
 <style scoped>

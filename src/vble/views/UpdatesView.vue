@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-celestial-dark-energy-2026-10-29',
+    version: 'v2.2.291',
+    date: '2026-10-29',
+    title: '全域星系暗能量膨胀、快子视界破裂与超弦宇宙共鸣工坊重磅实装',
+    category: 'maps',
+    categoryName: '虚空星体',
+    icon: '🪐',
+    tagType: 'success',
+    description: '全面重构升级 CelestialView 虚空天体门户：顶部标章升级为 VBLE Void & Dark Energy Expansion Matrix v2.2.291，新增暗能量膨胀工坊快捷直达；专区重磅实装【全域星系暗能量膨胀、快子视界破裂与超弦宇宙共鸣工坊】（Dark Energy Expansion & Tachyon Horizon Studio）；覆盖四大宇宙学演化本征相（暗能量暴胀相、快子超光速视界破裂相、超弦多维共振相、亚稳态伪真空衰变相）；实现宇宙学常数 Λ 相对密度 (0.10~5.00 Λ)、快子标量场势能 (100~999 GeV)、超弦紧致化空间维数 (4~11 维) 与假真空泡形核衰变速率 (0.01~1.00 Γ) 连续微调；支持霍金时序因果律保护场（封闭类时曲线 CTC 防御，彻底消除逻辑死锁）、希格斯亚稳态真空锁相屏障（阻止真真空灾难穿隧，相变安全度 +20%）与卡拉比-丘流形超对称稳定器（锁定 6 维紧致几何拓扑半径）；实时解算全域空间度规膨胀速率 (突破 300+ km/s/Mpc)、快子负能量流密度 (突破 10,000+ J/m³)、量子真空相变安全度 (高达 99.9%) 与因果律时序防死锁状态；实装五阶段星系暗能量膨胀推演终端与离线方案书 SHA-256 证书导出；源码展台升级 4 Tab，新增 dark_energy_tachyon_horizon.gd 核心 RefCounted 实机引擎。',
+    highlights: [
+      '四大宇宙学演化相：暗能量暴胀平坦化、快子超光速负能量流、11 维超弦共振与亚稳态伪真空衰变',
+      '四维连续宇宙度规参数：宇宙常数密度、快子场势能、超弦紧致维数与真空衰变速率全域适配',
+      '霍金时序因果保护场：严密防御封闭类时曲线 (CTC)，高并发负质量状态下杜绝因果死锁',
+      '希格斯真空锁相屏障：抵御量子穿隧灾难相变，量子真空安全度高达 99.9%',
+      '卡拉比-丘超对称稳定：11 维 M 理论膜世界超弦微振动锁定，六维属性全要素重构跃迁',
+      'Godot 4.6 LTS 4 Tab 源码展台：新增星系暗能量膨胀与快子视界破裂引擎'
+    ],
+    relatedLinks: [
+      { label: '虚空天体引力矩阵', path: '/vble/celestial', icon: '🪐' },
+      { label: '大地图与世界区域', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-armory-rune-reforge-2026-10-29',
     version: 'v2.2.290',
     date: '2026-10-29',
