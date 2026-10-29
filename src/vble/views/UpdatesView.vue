@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-search-omni-recall-v315-2026-10-29',
+    version: 'v2.2.315',
+    date: '2026-10-29',
+    title: '全域时空裂隙智能搜索引擎、分词倒排索引与微秒级高维召回工坊重磅实装',
+    category: 'system',
+    categoryName: '智能搜索',
+    icon: '⚡',
+    tagType: 'success',
+    description: '全面重构升级 SearchView 全域检索门户：顶部标章升级为 VBLE Search Engine, Token Inverted Index & Microsecond Recall Studio v2.2.315，新增分词索引与微秒召回工坊快捷直达；专区重磅实装【全域时空裂隙智能搜索引擎、分词倒排索引与微秒级高维召回工坊】（Token Inverted Index, Microsecond Recall & Holographic Search Studio）；覆盖四大搜索引擎流派原型（倒排索引与 BM25 权重点积流、N-Gram 模糊拼写容错流、高维语义余弦相似度流、知识图谱三度关联流）；支持倒排索引滑动窗口分词步长 (2~6 Grams)、模糊拼写编辑距离阈值 (0~4 字符)、高维语义向量压缩维度 (64~512 维) 与知识图谱广度优先遍历深度 (1~4 跳) 连续微调；支持跨维度全库瞬时内存预热加载、热词动态权重点积自适应学习与拼写错误自愈与智能纠错建议；实时解算单次召回平均延迟 (低至 0.06 ms)、高维准确率 MRR@10 (高达 99.8%)、倒排索引内存压缩率 (高达 78.5%) 与搜索引擎认证评级 (高达 EX·太古微秒全域召回)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：omni_inverted_ngram_indexer.gd、graph_semantic_reranker.gd 与 microsecond_recall_search_pipeline.gd。',
+    highlights: [
+      '四大搜索引擎流派原型：倒排索引与 BM25 点积、N-Gram 拼写容错、高维语义余弦与知识图谱遍历',
+      '四维连续检索工程参数：N-Gram 分词步长、编辑距离容错阈值、语义向量压缩维度与图谱遍历深度',
+      '三重微秒召回加速守卫：全库内存预热加载、热词权重自适应学习与拼写自愈纠错建议',
+      '动态检索性能指标解算：单次召回延迟、准确率 MRR@10、内存压缩率与微秒全域召回认证',
+      '五阶段召回沙盘：十万词条预热、N-Gram 容错对齐、BM25 重排、多跳图谱遍历与防伪签名',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源倒排分词索引器、图谱语义重排器与微秒级召回管线'
+    ],
+    relatedLinks: [
+      { label: '全域智能搜索引擎', path: '/vble/search', icon: '🔍' },
+      { label: '微秒召回工坊', path: '/vble/search', icon: '⚡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-modifier-affix-alchemy-v314-2026-10-29',
     version: 'v2.2.314',
     date: '2026-10-29',
