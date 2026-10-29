@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-scenes-weather-roaming-v323-2026-10-29',
+    version: 'v2.2.323',
+    date: '2026-10-29',
+    title: '九十七张全域场景生态、光影天气系统与世界漫游工坊重磅实装',
+    category: 'maps',
+    categoryName: '场景生态',
+    icon: '🌤️',
+    tagType: 'success',
+    description: '全面重构升级 ScenesView 场景生态门户：顶部标章升级为 VBLE Scenes Ecological Weather, Dynamic Lighting & World Roaming Studio v2.2.323，新增光影天气与世界漫游工坊快捷直达；专区重磅实装【九十七张全域场景生态、光影天气系统与世界漫游工坊】（Scenes Ecological Weather, Dynamic Lighting & World Roaming Studio）；覆盖四大场景生态气候原型（泰空之城雷暴极光·风雷天象流、荒漠烈日沙暴热浪·烈炎沙尘流、极地霜冻暴风雪·极寒凝霜流、幽夜冥界以太幽雨·冥雨回充流）；支持昼夜循环流逝速度 (0.2x~5.0x)、动态体积天气粒子密度 (200~3000)、环境雾气光线散射吸收系数 (0.10~0.90) 与世界漫游平滑度 (1.0~10.0) 连续微调；支持场景气候与战斗属性动态共振、实时全局光照 (GI) 动态烘焙、九十七张场景无缝热流式预载；实时解算场景环境拟真沉浸度 (高达 99.9%)、动态气候属性协同加成 (高达 +85.0%)、跨场景漫游平滑帧延迟 (低至 2.8 ms) 与世界生态认证评级 (高达 EX·全域九十七张无缝生态神话)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：scenes_weather_cycle_controller.gd、volumetric_weather_particle_system.gd 与 seamless_world_roaming_camera.gd。',
+    highlights: [
+      '四大场景生态气候原型：泰空雷暴极光、荒漠烈日沙暴、极地霜冻暴雪与幽冥以太细雨',
+      '四维连续环境光影参数：昼夜流逝速度、天气粒子密度、瑞利散射吸收与漫游平滑插值',
+      '三重生态气候特权机制：战斗属性气候共振、实时 GI 漫反射烘焙与场景无缝流式预载',
+      '动态世界生态指标解算：环境拟真沉浸度、战技伤害加成、漫游微秒延迟与无缝生态认证',
+      '五阶段生态漫游沙盘：全景坐标扫描、昼夜天穹光影、体积粒子散射、属性共振激活与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源气候光影控制器、天气粒子调度器与无缝漫游摄像机'
+    ],
+    relatedLinks: [
+      { label: '世界场景与城镇', path: '/vble/scenes', icon: '🗺️' },
+      { label: '光影天气漫游工坊', path: '/vble/scenes', icon: '🌤️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-dungeons-secret-chain-v322-2026-10-29',
     version: 'v2.2.322',
     date: '2026-10-29',

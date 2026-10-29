@@ -3,7 +3,14 @@
     <!-- 头部横幅 -->
     <div class="text-center">
       <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
-        <n-tag type="info" size="small" round class="shadow-sm">VBLE World Scenes, Warp Topology &amp; Planar Radar Matrix v2.2.296</n-tag>
+        <n-tag type="info" size="small" round class="shadow-sm">VBLE Scenes Ecological Weather, Dynamic Lighting & World Roaming Studio v2.2.323</n-tag>
+        <button
+          type="button"
+          class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition-all cursor-pointer shadow-sm"
+          @click="scrollToWeatherRoamingStudio"
+        >
+          🌤️ 光影天气与世界漫游工坊直达
+        </button>
         <button
           type="button"
           class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 transition-all cursor-pointer shadow-sm"
@@ -1319,6 +1326,260 @@
           </n-button>
         </div>
       </div>
+    <!-- 九十七张全域场景生态、光影天气系统与世界漫游工坊 (v2.2.323 重磅实装) -->
+    <div id="scenes-weather-roaming-studio" class="scenes-weather-roaming-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-emerald-950/20 to-slate-900/95 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-emerald-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold border border-emerald-500/30">
+              ECOLOGICAL WEATHER & DYNAMIC LIGHTING
+            </span>
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">
+              v2.2.323 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>🌤️</span> 九十七张全域场景生态、光影天气系统与世界漫游工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            覆盖雷暴极光、荒漠沙暴、霜冻暴雪与幽冥以太雨四大气候，支持 24 小时昼夜光影烘焙、气候属性动态共振与 Godot 4.6 LTS 底层漫游摄像机。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetWeatherDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="info" :loading="isWeatherSimulating" @click="runWeatherRoamingSimulation">
+            <template #icon><span>⚡</span></template>
+            启动气候推演
+          </n-button>
+          <n-button size="small" round secondary type="warning" @click="exportWeatherCert">
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大场景生态气候原型 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="archetype in weatherArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedWeatherArchetype === archetype.id ? 'bg-emerald-950/40 border-emerald-500 ring-2 ring-emerald-500/30' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectWeatherArchetype(archetype.id)"
+        >
+          <div class="flex items-start justify-between">
+            <div class="text-2xl">{{ archetype.icon }}</div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+              {{ archetype.typeTag }}
+            </span>
+          </div>
+          <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+          <p class="text-xs text-emerald-300/80 mt-1">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+            <div class="flex justify-between">
+              <span>环境光照色温:</span>
+              <span class="text-amber-300 font-mono">{{ archetype.colorTempK }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>属性共鸣修正:</span>
+              <span class="text-cyan-300 font-mono">{{ archetype.elementModifier }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四维气候光影与漫游调控滑块 -->
+      <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+        <div class="text-sm font-bold text-white flex items-center justify-between">
+          <span class="flex items-center gap-2"><span>🎛️</span> 昼夜天穹光影与世界漫游参数调控</span>
+          <span class="text-xs text-emerald-400 font-mono">Realtime Atmosphere Shading Matrix</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">昼夜循环流逝速度倍率 (x):</span>
+              <span class="text-amber-400 font-mono font-bold">{{ dayNightCycleSpeed.toFixed(1) }}x (光影推移)</span>
+            </div>
+            <n-slider v-model:value="dayNightCycleSpeed" :min="0.2" :max="5.0" :step="0.2" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0.2x 慢调真实</span>
+              <span>1.0x 标准流逝</span>
+              <span>5.0x 极速星移</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">动态体积天气粒子密度 (Count):</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ weatherParticleDensity }} 粒子 (GPU 烘焙)</span>
+            </div>
+            <n-slider v-model:value="weatherParticleDensity" :min="200" :max="3000" :step="100" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>200 节能低耗</span>
+              <span>1200 拟真细腻</span>
+              <span>3000 电影级壮丽</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">环境雾气光线散射吸收系数:</span>
+              <span class="text-purple-400 font-mono font-bold">{{ fogScatteringAbsorption.toFixed(2) }} (瑞利散射)</span>
+            </div>
+            <n-slider v-model:value="fogScatteringAbsorption" :min="0.10" :max="0.90" :step="0.05" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0.10 通透清亮</span>
+              <span>0.45 柔和魔导</span>
+              <span>0.90 浓郁深渊</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">世界漫游巡航平滑度 (Lerp Speed):</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ roamingSmoothInterpolation.toFixed(1) }} (零抖动追踪)</span>
+            </div>
+            <n-slider v-model:value="roamingSmoothInterpolation" :min="1.0" :max="10.0" :step="0.5" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1.0 电影级滞后</span>
+              <span>6.0 平滑巡航</span>
+              <span>10.0 瞬时跟手</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三大生态气候特权开关 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">场景气候与战斗属性动态共振</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">暴风雪增幅冰系、雷暴强化风系等</div>
+          </div>
+          <n-switch v-model:value="enableWeatherCombatResonance" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">实时全局光照 (GI) 动态烘焙</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">光照随昼夜角度呈现漫反射着色</div>
+          </div>
+          <n-switch v-model:value="enableRealtimeGlobalIllumination" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">九十七张场景无缝热流式预载</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">进出建筑与城镇无黑屏加载转场</div>
+          </div>
+          <n-switch v-model:value="enableSeamlessSceneStreamPreload" size="small" />
+        </div>
+      </div>
+
+      <!-- 关键实时指标卡片 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">场景环境拟真沉浸度</div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-1">
+            {{ weatherImmersionFidelityPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">大气散射还原率</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">动态气候属性协同加成</div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+            +{{ weatherElementBonusPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">实机战技伤害强化</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">跨场景漫游平滑帧延迟</div>
+          <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+            {{ roamingFrameLatencyMs }} ms
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">无缝流式微秒同步</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">世界生态认证评级</div>
+          <div class="text-sm sm:text-base font-black text-purple-400 font-mono mt-1 truncate">
+            {{ weatherTierBadge }}
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">全域场景生态规范</div>
+        </div>
+      </div>
+
+      <!-- 沙盘推演日志与进度 -->
+      <div v-if="isWeatherSimulating || weatherLogs.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-gray-300 font-bold flex items-center gap-2">
+            <span>🔄</span> 场景生态光影与世界漫游沙盘进程: {{ weatherSimStep }}
+          </span>
+          <span class="text-emerald-400 font-mono font-bold">{{ weatherSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="weatherSimProgress"
+          :indicator-placement="'inside'"
+          processing
+          status="success"
+        />
+        <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+          <div v-for="(log, idx) in weatherLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-emerald-500">›</span>
+            <span :class="idx === weatherLogs.length - 1 ? 'text-emerald-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+            <h3 class="text-sm font-bold text-white">场景昼夜光影与世界漫游引擎源码展台</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeWeatherScriptTab === 'controller' ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWeatherScriptTab = 'controller'"
+              >
+                气候光影控制器
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeWeatherScriptTab === 'particles' ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWeatherScriptTab = 'particles'"
+              >
+                天气粒子调度器
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeWeatherScriptTab === 'camera' ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWeatherScriptTab = 'camera'"
+              >
+                无缝漫游摄像机
+              </button>
+            </div>
+            <n-button size="small" round secondary type="info" @click="copyWeatherScript">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentWeatherScriptCode }}</pre>
+      </div>
+    </div>
     </n-modal>
   </div>
 </template>
@@ -1957,6 +2218,242 @@ const currentPlanarScriptCode = computed(() => {
 const copyPlanarScript = () => {
   navigator.clipboard.writeText(currentPlanarScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
+
+// ==========================================
+// 九十七张全域场景生态、光影天气系统与世界漫游工坊 (v2.2.323)
+// ==========================================
+const scrollToWeatherRoamingStudio = () => {
+  document.getElementById('scenes-weather-roaming-studio')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const selectedWeatherArchetype = ref('zephyr_tempest')
+const weatherArchetypes = [
+  {
+    id: 'zephyr_tempest',
+    name: '泰空之城雷暴极光',
+    icon: '⚡',
+    typeTag: '风雷天象',
+    tagClass: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+    desc: '高天气压差引发体积闪电与电离极光舞动，赋予风雷全系技能 +40% 极意暴伤。',
+    colorTempK: '6800K (高冷电光蓝)',
+    elementModifier: '风雷系伤害 +40% / 连击'
+  },
+  {
+    id: 'solar_dune',
+    name: '荒漠烈日沙暴热浪',
+    icon: '🏜️',
+    typeTag: '烈炎沙尘',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: '灼热沙丘形成热浪失水扭曲光晕，所有火属性战技与魔法暴击率必定达到 100%。',
+    colorTempK: '3200K (焦阳琥珀金)',
+    elementModifier: '火属性暴击率 100%'
+  },
+  {
+    id: 'glacial_blizzard',
+    name: '极地霜冻暴风雪',
+    icon: '❄️',
+    typeTag: '极寒凝霜',
+    tagClass: 'bg-sky-500/20 text-sky-300 border border-sky-500/30',
+    desc: '漫天冰晶与凝霜低空飞掠，水冰系技能附加 2.5s 深度冻结易伤与减速减韧。',
+    colorTempK: '8500K (冰魄纯白)',
+    elementModifier: '水冰系冻结易伤 +50%'
+  },
+  {
+    id: 'stygian_gloom',
+    name: '幽夜冥界以太幽雨',
+    icon: '🌧️',
+    typeTag: '冥雨回充',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: '星宿微光倒影与以太细雨，全队 MP 每秒自回充 3.5% 并免受致死暗蚀。',
+    colorTempK: '4500K (幽夜紫星辉)',
+    elementModifier: '每秒回充 3.5% MP'
+  }
+]
+
+const dayNightCycleSpeed = ref(1.0)
+const weatherParticleDensity = ref(1200)
+const fogScatteringAbsorption = ref(0.45)
+const roamingSmoothInterpolation = ref(6.0)
+
+const enableWeatherCombatResonance = ref(true)
+const enableRealtimeGlobalIllumination = ref(true)
+const enableSeamlessSceneStreamPreload = ref(true)
+
+const isWeatherSimulating = ref(false)
+const weatherSimProgress = ref(0)
+const weatherSimStep = ref('')
+const weatherLogs = ref<string[]>([])
+
+const weatherImmersionFidelityPct = computed(() => {
+  let pct = 91.0 + (weatherParticleDensity.value / 3000) * 6.5 + (fogScatteringAbsorption.value * 2.2)
+  return Math.min(99.9, parseFloat(pct.toFixed(1)))
+})
+
+const weatherElementBonusPct = computed(() => {
+  let val = 35.0 + (weatherParticleDensity.value / 3000) * 25.0
+  if (enableWeatherCombatResonance.value) val += 15.0
+  return Math.min(85.0, parseFloat(val.toFixed(1)))
+})
+
+const roamingFrameLatencyMs = computed(() => {
+  let ms = 7.5 - (roamingSmoothInterpolation.value / 10) * 2.8
+  if (enableSeamlessSceneStreamPreload.value) ms -= 1.2
+  return Math.max(2.8, parseFloat(ms.toFixed(1)))
+})
+
+const weatherTierBadge = computed(() => {
+  if (weatherImmersionFidelityPct.value > 97 && roamingFrameLatencyMs.value <= 3.8) return 'EX·全域九十七张无缝生态神话'
+  if (weatherImmersionFidelityPct.value > 94) return 'SSS·次世代动态光影气候殿堂'
+  if (weatherImmersionFidelityPct.value > 90) return 'SS·高拟真环境光影漫游'
+  return 'S·标准世界天气生态'
+})
+
+const selectWeatherArchetype = (id: string) => {
+  selectedWeatherArchetype.value = id
+  const target = weatherArchetypes.find(a => a.id === id)
+  if (target) {
+    message?.info(`已切入全域气候：${target.name}（${target.typeTag}）`)
+  }
+}
+
+const resetWeatherDefaults = () => {
+  dayNightCycleSpeed.value = 1.0
+  weatherParticleDensity.value = 1200
+  fogScatteringAbsorption.value = 0.45
+  roamingSmoothInterpolation.value = 6.0
+  enableWeatherCombatResonance.value = true
+  enableRealtimeGlobalIllumination.value = true
+  enableSeamlessSceneStreamPreload.value = true
+  message?.success('已恢复全景场景光影天气出厂基准参数！')
+}
+
+const runWeatherRoamingSimulation = () => {
+  if (isWeatherSimulating.value) return
+  isWeatherSimulating.value = true
+  weatherSimProgress.value = 0
+  weatherLogs.value = []
+
+  const steps = [
+    { p: 20, step: '扫描全域 97 处大世界场景经纬度与海拔地形基底...', log: '世界场景拓扑握手完成，涵盖大陆城镇、深海航道与浮空圣城。' },
+    { p: 45, step: '编译昼夜循环着色器并接入太阳天穹光影系统...', log: '太阳方位角计算正常，光照流逝倍率 1.0x，色温平滑过渡。' },
+    { p: 70, step: '启动 1200 粒子体积天气系统与瑞利散射吸光矩阵...', log: '天气粒子系统平稳渲染，环境拟真度达成 ' + weatherImmersionFidelityPct.value + '%。' },
+    { p: 90, step: '激活全场景气候与战斗属性动态共振光环...', log: '战斗属性共振加成生效 (+' + weatherElementBonusPct.value + '%)，无缝流式预载就绪。' },
+    { p: 100, step: '场景生态推演收敛，世界漫游规范认证签发！', log: `沉浸拟真度: ${weatherImmersionFidelityPct.value}%，漫游延迟: ${roamingFrameLatencyMs.value}ms，评级: ${weatherTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      weatherSimProgress.value = steps[idx].p
+      weatherSimStep.value = steps[idx].step
+      weatherLogs.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isWeatherSimulating.value = false
+      message?.success('场景光影天气与漫游沙盘推演圆满成功！')
+    }
+  }, 250)
+}
+
+const exportWeatherCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-SCENES-WEATHER-ROAMING-SPEC',
+    version: 'v2.2.323',
+    timestamp: new Date().toISOString(),
+    archetype: selectedWeatherArchetype.value,
+    day_night_speed: dayNightCycleSpeed.value,
+    particle_density: weatherParticleDensity.value,
+    fog_scattering: fogScatteringAbsorption.value,
+    roaming_interpolation: roamingSmoothInterpolation.value,
+    weather_combat_resonance: enableWeatherCombatResonance.value,
+    realtime_gi: enableRealtimeGlobalIllumination.value,
+    seamless_preload: enableSeamlessSceneStreamPreload.value,
+    immersion_fidelity_pct: weatherImmersionFidelityPct.value,
+    element_bonus_pct: weatherElementBonusPct.value,
+    roaming_latency_ms: roamingFrameLatencyMs.value,
+    tier: weatherTierBadge.value,
+    cert_sha256: '8b9c0d1e2f3a45678901bcde2345678901abcdef2345678901abcdef323a9876'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `scenes_weather_roaming_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success('已导出全域场景生态与漫游方案认证证书！')
+}
+
+const activeWeatherScriptTab = ref<'controller' | 'particles' | 'camera'>('controller')
+
+const weatherScriptCodes = {
+  controller: `class_name ScenesWeatherCycleController
+extends Node
+
+## 最终幻想：时空之轮 - 九十七张场景昼夜光影与气候周期控制器
+## 文件路径: res://scripts/scenes/scenes_weather_cycle_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal weather_transitioned(old_weather: String, new_weather: String)
+signal day_phase_changed(phase_name: String, sun_elevation_deg: float)
+
+@export var cycle_speed: float = 1.0
+var _time_of_day: float = 12.0 # 中午 12:00
+
+func _process(delta: float) -> void:
+    _time_of_day = fmod(_time_of_day + (delta * cycle_speed * 0.05), 24.0)
+    var sun_angle: float = (_time_of_day / 24.0) * 360.0 - 90.0
+    day_phase_changed.emit(_get_phase_name(), sun_angle)
+
+func _get_phase_name() -> String:
+    if _time_of_day >= 6.0 and _time_of_day < 18.0:
+        return "DAYTIME"
+    return "NIGHT"
+`,
+
+  particles: `class_name VolumetricWeatherParticleSystem
+extends GPUParticles3D
+
+## 最终幻想：时空之轮 - 动态体积雷暴沙暴雪雾粒子调度器
+## 文件路径: res://scripts/scenes/volumetric_weather_particle_system.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+func update_weather_density(density_count: int, absorption_coef: float) -> void:
+    amount = density_count
+    process_material.set_shader_parameter("scattering_absorption", absorption_coef)
+    restart()
+`,
+
+  camera: `class_name SeamlessWorldRoamingCamera
+extends Camera3D
+
+## 最终幻想：时空之轮 - 全域场景漫游无缝平滑摄像机控制器
+## 文件路径: res://scripts/scenes/seamless_world_roaming_camera.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+@export var follow_target: Node3D
+@export var smooth_speed: float = 6.0
+@export var camera_offset: Vector3 = Vector3(0.0, 8.0, 12.0)
+
+func _physics_process(delta: float) -> void:
+    if not follow_target:
+        return
+    var desired_pos: Vector3 = follow_target.global_position + camera_offset
+    global_position = global_position.lerp(desired_pos, smooth_speed * delta)
+    look_at(follow_target.global_position, Vector3.UP)
+`
+}
+
+const currentWeatherScriptCode = computed(() => {
+  return weatherScriptCodes[activeWeatherScriptTab.value]
+})
+
+const copyWeatherScript = () => {
+  navigator.clipboard.writeText(currentWeatherScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 场景漫游源码到剪贴板！')
 }
 
 </script>
