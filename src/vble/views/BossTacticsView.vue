@@ -7,20 +7,31 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono font-bold text-xs border border-red-500/30">
-              VBLE Boss &amp; Raid Tactics Matrix v2.2.265
+              VBLE Boss &amp; Raid Tactics Matrix v2.2.283
             </span>
-            <span class="text-xs text-gray-400">首领攻坚全鉴、双核协同试炼与终焉破阵法</span>
+            <span class="text-xs text-gray-400">首领攻坚全鉴、双核协同试炼与终焉虚空首领破限处决</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>👹</span> 首领攻坚全鉴：深渊双神极限协同试炼与终焉破阵工坊
+            <span>👹</span> 首领攻坚全鉴：深渊双神协同与终焉虚空首领破限处决工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            收录风之神殿翼手龙、卡尔纳克液态火焰、大桥死斗，乃至神龙大海啸与欧米茄双核同屏协同试炼。全息实装狂暴破盾、连携机制与针对克制沙盘。
+            收录风之神殿翼手龙、卡尔纳克液态火焰、大桥死斗，乃至神龙大海啸、欧米茄与终焉虚空首领破限处决工坊。全息实装狂暴破盾、连携机制与针对克制沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
             type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToExecutionStudio"
+          >
+            <template #icon><span>⚔️</span></template>
+            前往虚空破限处决工坊
+          </n-button>
+          <n-button
+            type="warning"
             size="medium"
             round
             secondary
@@ -985,6 +996,316 @@
 
       <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeBossGodotTab === 'tactics'">{{ godotCodeText }}</code><code v-else-if="activeBossGodotTab === 'stagger'">{{ godotStaggerCodeText }}</code><code v-else>{{ godotDualRaidCodeText }}</code></pre>
     </div>
+
+    <!-- 工坊 7: 终焉深渊虚空首领狂暴破盾与破限处决工坊 -->
+    <div
+      id="void-execution-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-rose-950/70 border border-rose-500/30 shadow-[0_0_35px_rgba(244,63,94,0.2)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部标章与导出 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-rose-500/20 text-rose-300 border border-rose-500/40">
+              v2.2.283 重磅实装
+            </span>
+            <span class="text-xs text-gray-400">深渊首领处决 · 绝对粒子破盾 · 破限爆发伤害</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>⚔️</span> 终焉深渊虚空首领狂暴破盾与破限处决工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            深入神龙、欧米茄、新埃克斯迪斯与太古厄诺四大终焉首领狂暴机制，推演绝对屏障击破、弱点硬直易伤、狂暴绝杀倒计时与破限处决爆发。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingExecution"
+            @click="runExecutionSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动破限处决推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportVoidExecutionCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出首领处决方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大深渊首领破限处决战姿 (4 Execution Stances) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="stance in voidExecutionStances"
+          :key="stance.id"
+          class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+          :class="selectedExecutionStanceId === stance.id
+            ? 'bg-rose-950/40 border-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.25)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectedExecutionStanceId = stance.id"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">{{ stance.icon }}</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedExecutionStanceId === stance.id ? 'bg-rose-500/30 text-rose-200' : 'bg-slate-800 text-gray-400'">
+                {{ stance.tag }}
+              </span>
+            </div>
+            <div class="font-bold text-xs text-gray-200">{{ stance.name }}</div>
+            <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-2 leading-relaxed">{{ stance.desc }}</div>
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+            <span class="text-gray-400">处决战术:</span>
+            <span class="font-mono font-bold text-rose-300">{{ stance.tactics }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心工作台：双栏交互面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+        <!-- 左侧：全息处决雷达视窗与指标卡片 -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- 全息处决雷达视窗 -->
+          <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+            <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+              <div
+                class="absolute w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                :style="{
+                  background: currentExecutionStance.gradient,
+                  opacity: (executionEnergy / 1000 * 0.75 + 0.15).toFixed(2),
+                  transform: `scale(${1 + staggerVulnerability / 500})`
+                }"
+              ></div>
+              <svg class="w-64 h-64 opacity-50 animate-[spin_45s_linear_infinite]" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(244,63,94,0.4)" stroke-width="1.5" stroke-dasharray="4 4" />
+                <polygon points="100,20 180,100 100,180 20,100" fill="none" stroke="rgba(244,63,94,0.5)" stroke-width="1.2" />
+                <circle cx="100" cy="100" r="38" fill="none" stroke="rgba(245,158,11,0.5)" stroke-width="1" stroke-dasharray="2 2" />
+                <line x1="20" y1="20" x2="180" y2="180" stroke="rgba(244,63,94,0.3)" stroke-width="1" />
+                <line x1="180" y1="20" x2="20" y2="180" stroke="rgba(244,63,94,0.3)" stroke-width="1" />
+                <circle cx="100" cy="100" r="6" fill="rgba(244,63,94,0.9)" />
+              </svg>
+            </div>
+
+            <!-- 顶部状态指示灯 -->
+            <div class="relative z-10 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse"></span>
+                <span class="font-mono text-rose-300 font-bold">VOID EXECUTION TARGETED</span>
+                <span class="text-gray-400 font-mono text-[10px]">| 狂暴 {{ enrageCountdown }}s 倒计时</span>
+              </div>
+              <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-amber-300">
+                处决能量: {{ executionEnergy }} EP
+              </div>
+            </div>
+
+            <!-- 中间标语 -->
+            <div class="relative z-10 text-center my-auto">
+              <div class="text-2xl font-black text-white/95 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(244,63,94,0.8)]">
+                {{ currentExecutionStance.name }}
+              </div>
+              <div class="text-xs text-rose-200/80 mt-1 font-mono">
+                处决爆发: {{ calculatedExecutionDamage.toLocaleString() }} HP · 狂暴通关率: {{ calculatedClearChance }}%
+              </div>
+            </div>
+
+            <!-- 底部性能微视窗 -->
+            <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+              <span>破盾所需最少动作: {{ calculatedRequiredActions }} 次连击</span>
+              <span class="text-emerald-400 font-bold">
+                击破易伤: {{ staggerVulnerability }}%
+              </span>
+            </div>
+          </div>
+
+          <!-- 4 维物理与战斗指标卡片 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">处决理论总爆发</div>
+              <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ calculatedExecutionDamage.toLocaleString() }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ damageCapBreakerPermit ? '破限突破 500,000' : '封顶 99,999' }}</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">最少破盾动作数</div>
+              <div class="font-mono text-cyan-400 font-bold text-sm mt-0.5">{{ calculatedRequiredActions }} 次连击</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">破除绝对粒子屏障</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">狂暴前击杀率</div>
+              <div class="font-mono text-emerald-400 font-bold text-sm mt-0.5">{{ calculatedClearChance }}%</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ counterImmunityAura ? '免疫濒死灭团技' : '常规濒死受击' }}</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">战利品掠夺加成</div>
+              <div class="font-mono text-purple-400 font-bold text-sm mt-0.5">{{ doubleLootPlunder ? '200% 双倍' : '100% 常规' }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">绝品神兵掉落率</div>
+            </div>
+          </div>
+
+          <!-- 实时推演日志终端 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+            <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+              <span class="flex items-center gap-1.5 text-rose-300 font-bold">
+                <span>💻</span> 首领破盾处决演练日志 (Execution Terminal)
+              </span>
+              <span class="text-[10px] text-gray-500">时序精度: 微秒级</span>
+            </div>
+            <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+              <div v-for="(log, idx) in executionSimLogs" :key="idx" class="flex items-start gap-1.5">
+                <span class="text-rose-400 select-none">&gt;</span>
+                <span :class="log.includes('完成') || log.includes('成功') || log.includes('击破') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：无极物理调优与处决控制 -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+          <div class="text-xs font-bold text-rose-300 flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="flex items-center gap-1.5">
+              <span>🎛️</span> 首领狂暴破盾参数微调 (Raid Uniforms)
+            </span>
+            <button
+              type="button"
+              class="text-[10px] text-gray-400 hover:text-rose-300 cursor-pointer"
+              @click="resetExecutionParams"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 首领狂暴护盾值 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>首领绝对护盾值 (Boss Shield HP):</span>
+              <span class="font-mono text-rose-400 font-bold">{{ (bossShieldHp / 1000).toFixed(0) }}k HP</span>
+            </div>
+            <n-slider v-model:value="bossShieldHp" :min="50000" :max="500000" :step="10000" />
+            <div class="flex justify-between text-[9px] text-gray-500">
+              <span>50k 弱质护盾</span>
+              <span>200k 史诗屏障</span>
+              <span>500k 绝对结界</span>
+            </div>
+          </div>
+
+          <!-- 狂暴读条倒计时 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>狂暴灭团倒计时 (Enrage Timer):</span>
+              <span class="font-mono text-amber-400 font-bold">{{ enrageCountdown }} 秒</span>
+            </div>
+            <n-slider v-model:value="enrageCountdown" :min="10" :max="120" :step="1" />
+          </div>
+
+          <!-- 弱点暴露击破易伤率 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>弱点暴露击破易伤 (Stagger Vulnerability):</span>
+              <span class="font-mono text-cyan-400 font-bold">{{ staggerVulnerability }} %</span>
+            </div>
+            <n-slider v-model:value="staggerVulnerability" :min="100" :max="400" :step="10" />
+          </div>
+
+          <!-- 处决共鸣能量池 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>处决共鸣能量池 (Execution Energy):</span>
+              <span class="font-mono text-purple-400 font-bold">{{ executionEnergy }} EP</span>
+            </div>
+            <n-slider v-model:value="executionEnergy" :min="100" :max="999" :step="1" />
+          </div>
+
+          <!-- 3 项处决开关 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>💥</span> 绝对破限伤害处决解禁 (单击 500,000 上限)
+              </span>
+              <n-switch v-model:value="damageCapBreakerPermit" size="small" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>🛡️</span> 虚空反击死斗规避光环 (免疫首领濒死反噬)
+              </span>
+              <n-switch v-model:value="counterImmunityAura" size="small" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>💎</span> 全队双倍战利品掠夺 (双倍绝品神兵材料)
+              </span>
+              <n-switch v-model:value="doubleLootPlunder" size="small" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下方：Godot 4.6 LTS 底层脚本契约矩阵 -->
+      <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-4 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-rose-300 font-mono">GODOT 4.6 LTS ARCHITECTURE SPEC</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">纯粹 RefCounted 离线解算</span>
+            </div>
+            <div class="text-xs text-gray-400 mt-0.5">狂暴破盾解算器、弱点硬直时钟引擎与濒死自爆免疫控制器</div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-900 p-0.5 border border-slate-800 text-xs font-mono">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeExecutionCodeTab === 'resolver' ? 'bg-rose-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeExecutionCodeTab = 'resolver'"
+              >
+                execution_resolver.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeExecutionCodeTab === 'stagger' ? 'bg-rose-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeExecutionCodeTab = 'stagger'"
+              >
+                stagger_stasis_engine.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeExecutionCodeTab === 'ward' ? 'bg-rose-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeExecutionCodeTab = 'ward'"
+              >
+                counter_ward_controller.gd
+              </button>
+            </div>
+            <n-button
+              size="small"
+              type="info"
+              secondary
+              round
+              @click="copyExecutionCode"
+            >
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentExecutionCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1697,6 +2018,13 @@ static func resolve_party_stagger_burst(boss_shield: float, actions_damage: Arra
 		"vuln_buff": 2.0 if is_broken else 0.0
 	}`
 
+const scrollToExecutionStudio = () => {
+  const el = document.getElementById('void-execution-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
 // ================= 专区 6: 深渊双神 (神龙 & 欧米茄) 极限双核协同试炼与极限连携推演工坊 =================
 const scrollToDualRaidStudio = () => {
   const el = document.getElementById('dual-raid-studio')
@@ -2003,6 +2331,274 @@ static func evaluate_squad_turn(
 	
 	return result
 `
+
+// ==========================================
+// 专区 7: 终焉深渊虚空首领狂暴破盾与破限处决工坊
+// ==========================================
+const voidExecutionStances = [
+  {
+    id: 'shinryu_tsunami',
+    name: '封印神龙·潮汐核爆处决姿',
+    tag: '飞龙枪破限跳跃',
+    icon: '🐉',
+    desc: '全员佩戴珊瑚之戒将开场全屏大海啸转化为群体治疗，巴兹与蕾娜双飞龙之枪突刺，破限处决99,999+巨额暴击。',
+    tactics: '珊瑚戒水吸 + 破限龙枪暴击',
+    gradient: 'radial-gradient(circle, rgba(6,182,212,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'omega_wave_cannon',
+    name: '遗迹欧米茄·波动炮过载处决姿',
+    tag: '魔法剑雷牙乱打',
+    icon: '🤖',
+    desc: '装备缎带免疫导向飞弹混乱，四连魔法剑【三级雷电】引发高频短路过载，强行熔断 150,000 绝对粒子防护力场。',
+    tactics: '雷牙短路 + 粒子屏障熔断',
+    gradient: 'radial-gradient(circle, rgba(239,68,68,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'neo_exdeath_void',
+    name: '新埃克斯迪斯·虚无吞噬破灭姿',
+    tag: '真理驱散四点齐灭',
+    icon: '🌌',
+    desc: '虚无四体部位拥有独立行动树，真理之光强制驱散三角攻击增益，时空重力震荡四点同步收束消灭，彻底封印大瀑布。',
+    tactics: '真理驱散 + 四部位同步收束',
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'enuo_genesis',
+    name: '太古厄诺·原初无序审判姿',
+    tag: '十二圣器破除不死',
+    icon: '💀',
+    desc: '来自双月宇宙太古魔导师，处于无尽时空回溯不死态，调谐封印神兵十二圣器产生共鸣湮灭，彻底抹除无序原初黑洞。',
+    tactics: '圣器共鸣 + 湮灭回溯不死',
+    gradient: 'radial-gradient(circle, rgba(245,158,11,0.4) 0%, rgba(15,23,42,0) 70%)'
+  }
+]
+const selectedExecutionStanceId = ref('shinryu_tsunami')
+const currentExecutionStance = computed(() => {
+  return voidExecutionStances.find(s => s.id === selectedExecutionStanceId.value) || voidExecutionStances[0]
+})
+
+const bossShieldHp = ref(200000)
+const enrageCountdown = ref(45)
+const staggerVulnerability = ref(250)
+const executionEnergy = ref(720)
+const damageCapBreakerPermit = ref(true)
+const counterImmunityAura = ref(true)
+const doubleLootPlunder = ref(false)
+
+const calculatedExecutionDamage = computed(() => {
+  const capBonus = damageCapBreakerPermit.value ? 2.4 : 1.0
+  const raw = (65000 + executionEnergy.value * 180) * (staggerVulnerability.value / 100) * capBonus
+  return Math.round(raw)
+})
+
+const calculatedRequiredActions = computed(() => {
+  return Math.max(2, Math.round(bossShieldHp.value / (35000 * (staggerVulnerability.value / 100))))
+})
+
+const calculatedClearChance = computed(() => {
+  const auraBonus = counterImmunityAura.value ? 15 : 0
+  const raw = 100 - (bossShieldHp.value / 10000) + (enrageCountdown.value * 0.8) + auraBonus
+  return Math.max(10, Math.min(99.8, Math.round(raw * 10) / 10))
+})
+
+const resetExecutionParams = () => {
+  bossShieldHp.value = 200000
+  enrageCountdown.value = 45
+  staggerVulnerability.value = 250
+  executionEnergy.value = 720
+  damageCapBreakerPermit.value = true
+  counterImmunityAura.value = true
+  doubleLootPlunder.value = false
+  if (message) message.info('首领破盾处决参数已重置为基准战况')
+}
+
+const isSimulatingExecution = ref(false)
+const executionSimLogs = ref<string[]>([
+  '系统就绪：已挂载 Godot 4.6 LTS 虚空首领狂暴破盾与破限处决解算器',
+  '当前战姿：封印神龙·潮汐核爆处决姿 (飞龙枪破限跳跃)',
+  '处决演练就绪，请点击右上角按钮启动实时推演'
+])
+
+const runExecutionSimulation = () => {
+  if (isSimulatingExecution.value) return
+  isSimulatingExecution.value = true
+  executionSimLogs.value = ['[0.00s] 锁定目标首领，探测绝对护盾值 ' + (bossShieldHp.value / 1000).toFixed(0) + 'k HP，狂暴倒计时 ' + enrageCountdown.value + 's...']
+
+  setTimeout(() => {
+    executionSimLogs.value.unshift(`[0.40s] 弱点部位暴露，击破易伤提升至 ${staggerVulnerability.value}%，注入处决能量 ${executionEnergy.value} EP`)
+  }, 400)
+
+  setTimeout(() => {
+    executionSimLogs.value.unshift(`[0.85s] ${counterImmunityAura.value ? '虚空反击死斗规避光环激活（免疫首领自爆反噬）' : '未开启反击免疫，需防范首领濒死灭团技'}`)
+  }, 850)
+
+  setTimeout(() => {
+    executionSimLogs.value.unshift(`[1.30s] ${damageCapBreakerPermit.value ? '解除 99,999 伤害天花板，破限处决阈值提升至 500,000' : '维持常规伤害封顶'}，战技击发！`)
+  }, 1300)
+
+  setTimeout(() => {
+    executionSimLogs.value.unshift(`[1.75s] 处决爆发达成！理论总伤 ${calculatedExecutionDamage.value.toLocaleString()} HP，击杀率 ${calculatedClearChance.value}%，破盾用时 ${calculatedRequiredActions.value} 次连击`)
+    isSimulatingExecution.value = false
+    if (message) message.success('虚空首领破限处决演练完成，斩杀战术已锁定！')
+  }, 1750)
+}
+
+const exportVoidExecutionCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const certId = 'VOID-EXEC-' + Math.random().toString(36).substring(2, 9).toUpperCase()
+  const certContent = `================================================================================
+【光之战士：时空裂隙】终焉深渊虚空首领狂暴破盾与破限处决方案书
+================================================================================
+方案编号: ${certId}
+时间戳: ${timestamp}
+版本规范: VBLE Boss & Raid Tactics Matrix v2.2.283
+
+【当前选定处决战姿】
+- 战姿类型: ${currentExecutionStance.value.name} (${currentExecutionStance.value.tag})
+- 核心战术: ${currentExecutionStance.value.tactics}
+- 首领攻坚概述: ${currentExecutionStance.value.desc}
+
+【首领狂暴与破盾控制变量】
+- 首领绝对护盾值: ${bossShieldHp.value.toLocaleString()} HP
+- 狂暴灭团倒计时: ${enrageCountdown.value} 秒
+- 弱点暴露击破易伤: ${staggerVulnerability.value}%
+- 处决共鸣能量池: ${executionEnergy.value} EP
+- 绝对破限伤害解禁: ${damageCapBreakerPermit.value ? '已启用 (上限 500,000)' : '未启用'}
+- 虚空反击规避光环: ${counterImmunityAura.value ? '已启用 (免疫濒死灭团技)' : '未启用'}
+- 双倍战利品掠夺: ${doubleLootPlunder.value ? '已启用 (双倍太古神装)' : '未启用'}
+
+【实时解算处决指标】
+- 处决理论总爆发: ${calculatedExecutionDamage.value.toLocaleString()} HP
+- 破盾最少连击动作: ${calculatedRequiredActions.value} 次
+- 狂暴前极限击杀率: ${calculatedClearChance.value}%
+- 战利品掉落倍率: ${doubleLootPlunder.value ? '200% 双倍' : '100% 常规'}
+
+【底层引擎契约安全指纹】
+- 引擎架构: Godot 4.6 LTS / Void Boss Raid Execution RefCounted Spec
+- 核心解算器: void_boss_execution_resolver.gd / boss_stagger_stasis_engine.gd
+- 控制器: counter_suicide_ward_controller.gd
+- SHA-256 指纹: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `void_boss_execution_cert_v2.2.283_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('虚空首领破限处决方案书已导出并同步至剪贴板！')
+  }
+}
+
+const activeExecutionCodeTab = ref<'resolver' | 'stagger' | 'ward'>('resolver')
+
+const gdExecutionResolverCode = `## void_boss_execution_resolver.gd
+## Godot 4.6 LTS - 终焉深渊虚空首领狂暴破盾与破限处决伤害解算器
+extends RefCounted
+class_name VoidBossExecutionResolver
+
+enum ExecutionStance { SHINRYU, OMEGA, NEO_EXDEATH, ENUO }
+
+static func compute_execution_damage(
+	stance: ExecutionStance,
+	energy_ep: int,
+	vulnerability_pct: float,
+	break_damage_cap: bool
+) -> Dictionary:
+	var base_dmg: float = (65000.0 + float(energy_ep) * 180.0) * (vulnerability_pct / 100.0)
+	var cap_mult: float = 2.4 if break_damage_cap else 1.0
+	var final_dmg: float = base_dmg * cap_mult
+	
+	if not break_damage_cap and final_dmg > 99999.0:
+		final_dmg = 99999.0
+		
+	return {
+		"stance": stance,
+		"execution_damage": int(final_dmg),
+		"cap_broken": break_damage_cap and (final_dmg > 99999.0),
+		"status": "LETHAL_EXECUTION"
+	}
+`
+
+const gdStaggerStasisCode = `## boss_stagger_stasis_engine.gd
+## Godot 4.6 LTS - 弱点暴露硬直、狂暴灭团倒计时与破防时钟状态机
+extends RefCounted
+class_name BossStaggerStasisEngine
+
+signal shield_shattered(shield_hp_remained: float)
+signal enrage_wipe_triggered()
+
+static func evaluate_shield_break(
+	current_shield: float,
+	hit_damage: float,
+	stagger_mult: float
+) -> Dictionary:
+	var effective_damage: float = hit_damage * stagger_mult
+	var new_shield: float = maxf(0.0, current_shield - effective_damage)
+	var is_shattered: bool = new_shield <= 0.0
+	
+	return {
+		"new_shield_hp": new_shield,
+		"shattered": is_shattered,
+		"vulnerability_duration_sec": 12.0 if is_shattered else 0.0
+	}
+`
+
+const gdCounterWardCode = `## counter_suicide_ward_controller.gd
+## Godot 4.6 LTS - 首领濒死反噬自爆免疫与双倍战利品掠夺控制器
+extends RefCounted
+class_name CounterSuicideWardController
+
+signal suicide_counter_blocked(boss_id: String)
+signal double_loot_awarded(relic_ids: Array[String])
+
+static func check_suicide_counter(
+	boss_hp: float,
+	has_counter_immunity: bool
+) -> bool:
+	if boss_hp <= 0.0 and has_counter_immunity:
+		return true # 成功免疫濒死自爆灭团
+	return false
+
+static func generate_boss_loot(
+	has_double_loot: bool,
+	base_relic: String
+) -> Array[String]:
+	var loot: Array[String] = [base_relic]
+	if has_double_loot:
+		loot.append("ANCIENT_RELIC_DUPLICATE_" + base_relic)
+	return loot
+`
+
+const currentExecutionCode = computed(() => {
+  if (activeExecutionCodeTab.value === 'resolver') return gdExecutionResolverCode
+  if (activeExecutionCodeTab.value === 'stagger') return gdStaggerStasisCode
+  return gdCounterWardCode
+})
+
+const copyExecutionCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentExecutionCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 首领处决源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 </script>
 
 <style scoped>

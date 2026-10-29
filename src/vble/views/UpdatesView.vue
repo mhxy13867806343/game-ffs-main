@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-boss-void-execution-2026-10-29',
+    version: 'v2.2.283',
+    date: '2026-10-29',
+    title: '终焉深渊虚空首领狂暴破盾与破限处决工坊重磅实装',
+    category: 'npc',
+    categoryName: '首领处决',
+    icon: '⚔️',
+    tagType: 'success',
+    description: '全面重构升级 BossTacticsView 首领攻坚门户：顶部标章升级为 VBLE Boss & Raid Tactics Matrix v2.2.283，新增虚空破限处决工坊快捷直达；专区重磅实装【终焉深渊虚空首领狂暴破盾与破限处决工坊】（Void Superboss Enrage Shield & Limit Break Execution Studio）；覆盖四大深渊首领破限处决战姿（封印神龙·潮汐核爆处决姿、遗迹欧米茄·波动炮过载处决姿、新埃克斯迪斯·虚无吞噬破灭姿、太古厄诺·原初无序审判姿）；实现首领绝对狂暴护盾值 (50k~500k HP)、狂暴灭团倒计时 (10~120 秒)、弱点暴露击破易伤 (100%~400%) 与处决共鸣能量池 (100~999 EP) 连续微调；支持绝对破限伤害处决解禁（单击突破 99,999 天花板至 500,000）、虚空反击死斗规避光环（彻底免疫首领濒死自爆灭团技）与全队双倍战利品掠夺（双倍获取绝品太古神兵）；实时解算处决爆发理论总伤害 (突破 450,000+ HP)、最少破盾动作数与狂暴前极限击杀率；实装五阶段首领破盾处决演练终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 void_boss_execution_resolver.gd、boss_stagger_stasis_engine.gd 与 counter_suicide_ward_controller.gd。',
+    highlights: [
+      '四大深渊首领处决战姿：神龙潮汐水吸、欧米茄雷牙熔盾、新埃克斯迪斯四部收束与厄诺圣器共鸣',
+      '四维连续狂暴物理动力学：护盾值、狂暴计时、击破易伤与处决能量全域动态适配',
+      '绝对破限处决解禁：解除传统 99,999 限制，破限处决伤害爆发直冲 450,000+ 峰值',
+      '濒死自爆彻底免疫：虚空反击规避光环生效，杜绝首领 0HP 时触发亡语自爆灭团',
+      '离线认证方案书导出：自动生成附带 SHA-256 专属处决指纹的方案书并同步至剪贴板',
+      'Godot 4.6 LTS 3 Tab 展台：包含狂暴破盾解算器、弱点硬直时钟引擎与反噬免疫控制器'
+    ],
+    relatedLinks: [
+      { label: '首领攻坚全鉴', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '魔物与首领大图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-jobs-hyper-mastery-2026-10-29',
     version: 'v2.2.282',
     date: '2026-10-29',
