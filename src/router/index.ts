@@ -33,10 +33,22 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '编年史 - 最终幻想：时空之轮' }
       },
       {
+        path: 'story/:id',
+        name: 'VbleStoryDetail',
+        component: () => import('@/vble/views/StoryDetailView.vue'),
+        meta: { title: '纪元剧情档案 - 最终幻想：时空之轮' }
+      },
+      {
         path: 'characters',
         name: 'VbleCharacters',
         component: () => import('@/vble/views/CharactersView.vue'),
         meta: { title: '英雄 - 最终幻想：时空之轮' }
+      },
+      {
+        path: 'characters/:id',
+        name: 'VbleCharacterDetail',
+        component: () => import('@/vble/views/CharacterDetailView.vue'),
+        meta: { title: '英雄独立档案 - 最终幻想：时空之轮' }
       },
       {
         path: 'monsters',
@@ -99,6 +111,18 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '首领攻坚 - 最终幻想：时空之轮' }
       },
       {
+        path: 'boss-tactics/:id',
+        name: 'VbleBossTacticsDetail',
+        component: () => import('@/vble/views/BossDetailView.vue'),
+        meta: { title: '首领战术详单 - 最终幻想：时空之轮' }
+      },
+      {
+        path: 'bosses/:id',
+        name: 'VbleBossDetail',
+        component: () => import('@/vble/views/BossDetailView.vue'),
+        meta: { title: '首领档案 - 最终幻想：时空之轮' }
+      },
+      {
         path: 'celestial',
         name: 'VbleCelestial',
         component: () => import('@/vble/views/CelestialView.vue'),
@@ -127,6 +151,12 @@ const routes: RouteRecordRaw[] = [
         name: 'VbleEquipment',
         component: () => import('@/vble/views/EquipmentView.vue'),
         meta: { title: '神兵矩阵 - 最终幻想：时空之轮' }
+      },
+      {
+        path: 'equipment/:id',
+        name: 'VbleEquipmentDetail',
+        component: () => import('@/vble/views/EquipmentDetailView.vue'),
+        meta: { title: '神装全息档案 - 最终幻想：时空之轮' }
       },
       {
         path: 'armory',

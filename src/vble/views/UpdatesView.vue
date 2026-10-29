@@ -210,6 +210,31 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-multi-detail-subpages-v348-2026-10-29',
+    version: 'v2.2.348',
+    date: '2026-10-29',
+    title: '全域多维独立详情架构：英雄档案、首领拆解、编年史章节与神装全息独立子门户重磅实装',
+    category: 'system',
+    categoryName: '独立页面架构',
+    icon: '🚀',
+    tagType: 'success',
+    description: '全面响应架构升级指令，彻底解耦单页长卷过载体系，构建四大核心独立全息详情子门户：1. 英雄独立档案 (/vble/characters/:id)：集成六维潜能动态推演、1~99 级实机攻防解算、命之座以太星轨 1~6 阶觉醒详解与终极转职路线；2. 首领攻坚独立战术详单 (/vble/boss-tactics/:id 与 /vble/bosses/:id)：多阶段血量狂暴机制拆解、致命弱点破韧雷达、推荐前排坦克输出阵容与 Godot 4.6 LTS 首领 AI 行为树；3. 纪元剧情独立档案 (/vble/story/:id)：主线 44 节拍演进脉络、守关秘境决战首领、登场核心英雄双向锚定；4. 神装全息独立档案 (/vble/equipment/:id)：+0~+10 极限星纹精炼沙盘、专属极意特效共鸣与锻造素材消耗列表；全面翻新暗部排版对比度，杜绝隐蔽低对比文字，在英雄、首领、编年史、魔物与装备列表均实装醒目折跃按钮！',
+    highlights: [
+      '四大全新独立页面路由：/characters/:id、/boss-tactics/:id、/story/:id 与 /equipment/:id',
+      '高保真高对比度视觉重构：消除低对比隐患，提供清晰透亮的深色黑金/霓虹蓝白排版',
+      '全角色六维动态等级解算器：可任意调节 Lv.1~99 动态估算 HP/MP/攻防/速度/暴击实战数值',
+      '首领多阶段攻坚机制拆解：常规交战、狂暴转相与终焉灭队倒计时破韧对策全息呈现',
+      '主线章节节拍与登场英雄双向索引：深度打通编年史节拍、守关首领与英雄传记跨域折跃',
+      '神兵 +1~10 阶精炼沙盘：实时解算星纹精炼属性增幅、专属神器被动词缀与下一阶消耗'
+    ],
+    relatedLinks: [
+      { label: '英雄传记列表', path: '/vble/characters', icon: '👥' },
+      { label: '首领攻坚法则', path: '/vble/boss-tactics', icon: '⚔️' },
+      { label: '全域世界编年史', path: '/vble/story', icon: '📖' },
+      { label: '神装锻造矩阵', path: '/vble/equipment', icon: '🛡️' }
+    ]
+  },
+  {
     id: 'up-gallery-visual-archive-v347-2026-10-29',
     version: 'v2.2.347',
     date: '2026-10-29',

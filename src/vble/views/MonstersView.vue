@@ -819,17 +819,24 @@
           </div>
         </div>
 
-        <!-- 卡片底部：掉落物品与经验金币 -->
-        <div class="border-t border-slate-800/80 pt-2 flex items-center justify-between text-[11px] text-gray-400">
-          <div class="truncate max-w-[180px]">
+        <!-- 卡片底部：掉落物品与经验金币 + 独立详情档案按钮 -->
+        <div class="border-t border-slate-800/80 pt-2 flex flex-wrap items-center justify-between gap-1 text-[11px] text-gray-400">
+          <div class="truncate max-w-[160px]">
             <span>🎁 掉落: </span>
             <span v-if="m.drops && m.drops.length" class="text-gray-300">
               {{ m.drops.map((d: any) => d.name).join('、') }}
             </span>
             <span v-else class="text-gray-500">无掉落</span>
           </div>
-          <div class="text-right text-[10px] text-amber-500 font-mono shrink-0">
-            EXP {{ m.exp }} / {{ m.gold }}G
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] text-amber-400 font-mono">
+              {{ m.exp }} EXP
+            </span>
+            <router-link :to="'/vble/bosses/' + m.id" @click.stop>
+              <n-button size="tiny" round secondary type="error">
+                独立战术详单 →
+              </n-button>
+            </router-link>
           </div>
         </div>
       </div>

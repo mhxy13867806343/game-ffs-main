@@ -138,12 +138,20 @@
               </div>
             </div>
 
-            <div class="flex-shrink-0 space-y-1.5 p-3 bg-slate-950/60 rounded-lg border border-slate-800 text-xs text-right min-w-[200px]">
-              <div class="text-gray-400">⚔️ 首领: <strong class="text-red-400">{{ ch.boss_name }}</strong></div>
-              <div class="text-gray-400">🏰 发生地: <strong class="text-cyan-300">{{ ch.dungeon_name }}</strong></div>
-              <div class="text-gray-400">⚡ 建议: <strong class="text-amber-300">{{ ch.recommended_level }}</strong></div>
-              <div class="text-yellow-300/90 text-[11px] pt-1 border-t border-slate-800 truncate">
+            <div class="flex-shrink-0 space-y-2 p-3.5 bg-slate-950/70 rounded-xl border border-slate-800 text-xs text-left md:text-right min-w-[220px]">
+              <div class="text-gray-300">⚔️ 首领: <strong class="text-rose-400">{{ ch.boss_name }}</strong></div>
+              <div class="text-gray-300">🏰 发生地: <strong class="text-cyan-300">{{ ch.dungeon_name }}</strong></div>
+              <div class="text-gray-300">⚡ 战力建议: <strong class="text-amber-300">{{ ch.recommended_level }}</strong></div>
+              <div class="text-amber-300 text-[11px] pt-1 border-t border-slate-800 truncate font-medium">
                 🎁 {{ ch.rewards }}
+              </div>
+              <div class="pt-2 border-t border-slate-800/80 flex justify-end">
+                <router-link :to="'/vble/story/' + ch.id">
+                  <n-button size="small" type="primary" round secondary class="shadow-sm">
+                    <template #icon><span>📖</span></template>
+                    进入纪元独立档案 →
+                  </n-button>
+                </router-link>
               </div>
             </div>
           </div>

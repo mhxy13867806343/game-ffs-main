@@ -217,17 +217,25 @@
           </div>
         </div>
 
-        <!-- 底部快捷推演按钮 -->
-        <div class="pt-4 mt-3 border-t border-slate-800/80 flex items-center justify-between">
-          <span class="text-[11px] text-gray-500">ID: {{ char.id }}</span>
-          <button
-            type="button"
-            class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
-            :class="selectedHeroId === char.id ? 'bg-amber-400 text-slate-950 font-bold shadow-md' : 'bg-slate-800 text-amber-300 hover:bg-slate-750 border border-slate-700'"
-            @click="selectHeroForSimulation(char.id)"
-          >
-            <span>{{ selectedHeroId === char.id ? '✓ 正在推演' : '📊 载入属性沙盘' }}</span>
-          </button>
+        <!-- 底部快捷推演与独立档案跳转按钮 -->
+        <div class="pt-4 mt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-cyan-300 font-bold">ID: {{ char.id }}</span>
+          <div class="flex items-center gap-2">
+            <router-link :to="'/vble/characters/' + char.id">
+              <n-button type="warning" size="small" round secondary class="shadow-sm">
+                <template #icon><span>📖</span></template>
+                查看独立档案 →
+              </n-button>
+            </router-link>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
+              :class="selectedHeroId === char.id ? 'bg-amber-400 text-slate-950 font-bold shadow-md' : 'bg-slate-800 text-amber-300 hover:bg-slate-700 border border-slate-700'"
+              @click="selectHeroForSimulation(char.id)"
+            >
+              <span>{{ selectedHeroId === char.id ? '✓ 正在推演' : '📊 载入沙盘' }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

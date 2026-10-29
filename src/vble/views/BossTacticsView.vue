@@ -193,17 +193,25 @@
           </div>
         </div>
 
-        <!-- 底部快捷载入按钮 -->
-        <div class="pt-4 mt-3 border-t border-slate-800/80 flex items-center justify-between">
-          <span class="text-[11px] text-gray-500">阶数: {{ boss.phases }} 阶段转换</span>
-          <button
-            type="button"
-            class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
-            :class="selectedBossId === boss.id ? 'bg-rose-500 text-white font-bold shadow-md' : 'bg-slate-800 text-rose-300 hover:bg-slate-750 border border-slate-700'"
-            @click="selectForSimulation(boss.id)"
-          >
-            <span>{{ selectedBossId === boss.id ? '✓ 正在推演' : '⚔️ 载入攻坚沙盘' }}</span>
-          </button>
+        <!-- 底部快捷载入与独立战术详单跳转按钮 -->
+        <div class="pt-4 mt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-cyan-300 font-bold">阶段: {{ boss.phases }} 阶转相</span>
+          <div class="flex items-center gap-2">
+            <router-link :to="'/vble/boss-tactics/' + boss.id">
+              <n-button type="error" size="small" round secondary class="shadow-sm">
+                <template #icon><span>📑</span></template>
+                查看独立战术详单 →
+              </n-button>
+            </router-link>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
+              :class="selectedBossId === boss.id ? 'bg-rose-500 text-white font-bold shadow-md' : 'bg-slate-800 text-rose-300 hover:bg-slate-700 border border-slate-700'"
+              @click="selectForSimulation(boss.id)"
+            >
+              <span>{{ selectedBossId === boss.id ? '✓ 正在推演' : '⚔️ 载入沙盘' }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
