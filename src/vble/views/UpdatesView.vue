@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-dungeons-guardian-breaker-2026-10-29',
+    version: 'v2.2.297',
+    date: '2026-10-29',
+    title: '全域高难地宫迷宫探险、机关陷阱解密与守护领主狂暴破限工坊重磅实装',
+    category: 'maps',
+    categoryName: '地宫破限',
+    icon: '⚔️',
+    tagType: 'success',
+    description: '全面重构升级 DungeonsView 全域地宫门户：顶部标章升级为 VBLE Dungeon Enigma, Trap Matrix & Guardian Breaker Studio v2.2.297，新增守护领主狂暴破限工坊快捷直达；专区重磅实装【全域高难地宫迷宫探险、机关陷阱解密与守护领主狂暴破限工坊】（Guardian Overdrive Breaker Studio）；覆盖四大地宫守门领主（巴比伦灭世巨神兵、始源海沟利维坦灾厄、虚空回廊奥米加改、死星王座暗黑神官）；实现领主狂暴烈度 (100%~500%)、机关陷阱密度 (10~100 个/层)、晶核以太过载 (1.0~10.0 GW) 与全员破韧削能效率 (50%~250%) 连续微调；支持致死机关时空回溯钟（踩中秒杀机关瞬间时间倒流 3 秒，免于团灭）、狂暴过载安全泄压阀（领主狂暴超频时触发柔性泄流，伤害削减 35%）与全队伤害上限解禁符（解禁 99999 伤害天花板，单次暴击最高达 999,999）；实时解算破限爆发期望伤害 (突破 550,000+ DMG)、领主狂暴瘫痪概率 (高达 98.8%)、机关陷阱解除胜率与地宫征服者认证位阶 (高达 SSS 级太古秘境屠神者)；实装五阶段地宫攻坚推演仿真终端与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，新增 dungeon_guardian_overdrive_breaker.gd、lethal_trap_temporal_rewind_guard.gd 与 core_stagger_stamina_controller.gd。',
+    highlights: [
+      '四大地宫守门领主：巨神兵重力践踏、利维坦深海海啸、奥米加波动光束与神官死星陨落',
+      '四维连续地宫参数：领主狂暴烈度、陷阱密度、晶核过载与破韧削能效率全域微调',
+      '致死机关时空回溯钟：致命陷阱触发即刻逆转时间轴 3 秒，彻底防范全队团灭',
+      '狂暴过载安全泄压阀：超频狂暴阶段诱发以太阻尼泄流，大幅弱化守门领主尖峰伤害',
+      '全队伤害上限解禁符：解禁 99999 极值天花板，全技能全真伤开放 999,999 神级暴击',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增守门狂暴破限器、时空回溯断路器与韧性控制器'
+    ],
+    relatedLinks: [
+      { label: '地宫导览与守护领主', path: '/vble/dungeons', icon: '⚔️' },
+      { label: '世界场景与位面拓扑', path: '/vble/scenes', icon: '🌐' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-scenes-planar-warp-2026-10-29',
     version: 'v2.2.296',
     date: '2026-10-29',

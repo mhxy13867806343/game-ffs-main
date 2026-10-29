@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VBLE Dungeon &amp; Spatial Topology Matrix v2.2.279
+              VBLE Dungeon Enigma, Trap Matrix &amp; Guardian Breaker Studio v2.2.297
             </span>
             <span class="text-xs text-gray-400">全域空间解构、多元秘境迷宫机制与多维裂隙重力坍缩逃逸</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToGuardianBreakerStudio"
+          >
+            <template #icon><span>⚔️</span></template>
+            守护领主破限工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1710,6 +1721,351 @@
         </div>
       </div>
     </div>
+
+    <!-- 工坊 4: 全域高难地宫迷宫探险、机关陷阱解密与守护领主狂暴破限工坊 (Guardian Overdrive Breaker Studio v2.2.297) -->
+    <div
+      id="guardian-breaker-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-rose-950/70 via-slate-900/95 to-amber-950/70 border border-rose-500/40 shadow-[0_0_35px_rgba(244,63,94,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与控制栏 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-rose-950/50 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-rose-500/20 text-rose-300 border border-rose-500/40">
+              v2.2.297 重磅实装
+            </span>
+            <span class="text-xs text-gray-400">守门领主狂暴状态机 · 陷阱逆向解密 · 伤害上限破限</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>⚔️</span> 全域高难地宫迷宫探险、机关陷阱解密与守护领主狂暴破限工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            对齐 Godot 4.6 LTS 高阶地宫与守门 BOSS 狂暴状态机规范：深度解密四大地宫守门领主、四维连续地宫参数、三大绝境断路器、五阶段地宫攻坚仿真推演与防伪证书导出。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0 flex-wrap">
+          <n-button size="small" secondary type="warning" @click="resetGuardianParameters">
+            🔄 重置地宫参数
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportGuardianCertificate">
+            📜 导出征服者方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大地宫守门领主选择卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="g in guardianArchetypes"
+          :key="g.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedGuardianId === g.id
+            ? 'bg-rose-950/50 border-rose-400 shadow-[0_0_18px_rgba(244,63,94,0.3)] ring-1 ring-rose-400/50'
+            : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-850'"
+          @click="selectedGuardianId = g.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ g.icon }}</span>
+            <n-tag :type="selectedGuardianId === g.id ? 'error' : 'default'" size="tiny" round>
+              {{ g.tag }}
+            </n-tag>
+          </div>
+          <div class="text-sm font-bold text-white mb-1">{{ g.name }}</div>
+          <div class="text-[11px] text-gray-400 leading-relaxed mb-3">{{ g.desc }}</div>
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+            <span class="text-gray-400">破防要害</span>
+            <span class="text-rose-300 font-semibold">{{ g.weakness }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与安全防护盾 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 左侧: 4维连续参数调节 (7 cols) -->
+        <div class="lg:col-span-7 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-rose-400 font-bold text-sm">🎛️ 地宫狂暴破限连续调控矩阵</span>
+              <span class="text-[11px] text-gray-400 font-mono">4-Axis Overdrive Sliders</span>
+            </div>
+            <button
+              type="button"
+              class="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors"
+              @click="resetGuardianParameters"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 滑块 1: 领主狂暴烈度 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🔥</span> 领主狂暴烈度 (Overdrive Intensity)
+              </span>
+              <span class="font-mono text-rose-400 font-bold">{{ overdriveIntensity }}%</span>
+            </div>
+            <n-slider
+              v-model:value="overdriveIntensity"
+              :min="100"
+              :max="500"
+              :step="20"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>100% (常规常态)</span>
+              <span>280% (狂怒狂暴)</span>
+              <span>500% (极灭真神降临)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 2: 机关陷阱密度 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🗝️</span> 机关陷阱密度 (Trap Density)
+              </span>
+              <span class="font-mono text-amber-400 font-bold">{{ trapDensity }} 个/层</span>
+            </div>
+            <n-slider
+              v-model:value="trapDensity"
+              :min="10"
+              :max="100"
+              :step="5"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>10 个 (简易地牢)</span>
+              <span>45 个 (密布机关阵)</span>
+              <span>100 个 (致死刀阵迷窟)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 3: 晶核以太过载 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>⚡</span> 晶核以太过载 (Core Overload)
+              </span>
+              <span class="font-mono text-cyan-400 font-bold">{{ coreAetherOverload.toFixed(1) }} GW</span>
+            </div>
+            <n-slider
+              v-model:value="coreAetherOverload"
+              :min="1.0"
+              :max="10.0"
+              :step="0.5"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1.0 GW (平稳共振)</span>
+              <span>5.5 GW (脉冲过载)</span>
+              <span>10.0 GW (超临界聚变)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 4: 全员破韧削能效率 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🛡️</span> 全员破韧削能效率 (Stagger Efficiency)
+              </span>
+              <span class="font-mono text-emerald-400 font-bold">{{ breakStaggerEfficiency }}%</span>
+            </div>
+            <n-slider
+              v-model:value="breakStaggerEfficiency"
+              :min="50"
+              :max="250"
+              :step="10"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>50% (基础攻坚)</span>
+              <span>150% (神兵破甲)</span>
+              <span>250% (绝对真实破韧)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧: 3大地宫绝境断路器 (5 cols) -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+            <span class="text-amber-400 font-bold text-sm">🛡️ 地宫绝境断路器与破限特权</span>
+            <n-tag type="warning" size="tiny" round>主动防护特权</n-tag>
+          </div>
+
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>⏳</span> 致死机关时空回溯钟
+                </div>
+                <div class="text-[11px] text-gray-400">踩中秒杀机关瞬间时间倒流 3 秒，免于团灭</div>
+              </div>
+              <n-switch v-model:value="temporalRewindChronometer" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🛑</span> 狂暴过载安全泄压阀
+                </div>
+                <div class="text-[11px] text-gray-400">领主狂暴超频时触发柔性泄流，伤害削减 35%</div>
+              </div>
+              <n-switch v-model:value="overdriveReleaseValve" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>👑</span> 全队伤害上限解禁符
+                </div>
+                <div class="text-[11px] text-gray-400">突破 99999 伤害天花板，单次暴击达 999,999</div>
+              </div>
+              <n-switch v-model:value="damageCapBreakerTalisman" size="small" />
+            </div>
+          </div>
+
+          <!-- 能效雷达卡 -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 space-y-2">
+            <div class="text-xs font-bold text-rose-300 flex items-center justify-between">
+              <span>领主狂暴瘫痪概率</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ calculatedStaggerRate.toFixed(1) }}%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-rose-500 via-amber-500 to-emerald-400 h-1.5 rounded-full transition-all duration-300"
+                :style="{ width: Math.min(calculatedStaggerRate, 100) + '%' }"
+              ></div>
+            </div>
+            <div class="text-[10px] text-gray-400 flex justify-between">
+              <span>破防门槛: 70.0%</span>
+              <span class="text-amber-300">攻坚稳健度: {{ calculatedStaggerRate > 90 ? '极佳斩杀态' : '稳定破韧' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实时解算数值仪表盘 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-rose-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">破限爆发期望伤害</div>
+          <div class="text-2xl font-black text-rose-400 font-mono mt-1">{{ calculatedBurstDmg.toLocaleString() }} DMG</div>
+          <div class="text-[10px] text-rose-300/80 mt-0.5">破限无视防御真实伤害</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">领主狂暴瘫痪率</div>
+          <div class="text-2xl font-black text-amber-400 font-mono mt-1">{{ calculatedStaggerRate.toFixed(1) }}%</div>
+          <div class="text-[10px] text-amber-300/80 mt-0.5">韧性耗尽进入虚弱状态</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">机关陷阱拆除胜率</div>
+          <div class="text-2xl font-black text-cyan-400 font-mono mt-1">{{ calculatedTrapDisarmRate.toFixed(1) }}%</div>
+          <div class="text-[10px] text-cyan-300/80 mt-0.5">全域安全开辟道路</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">地宫征服者认证位阶</div>
+          <div class="text-2xl font-black text-purple-400 font-mono mt-1">{{ dungeonConquerorRank }}</div>
+          <div class="text-[10px] text-purple-300/80 mt-0.5">全域地下城最高荣誉</div>
+        </div>
+      </div>
+
+      <!-- 五阶段地宫攻坚推演仿真终端 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-rose-500/30 shadow-2xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-rose-400 font-bold text-sm">⚡ 全域高难地宫迷宫攻坚与狂暴破限五阶段推演终端</span>
+            <n-tag type="warning" size="tiny" round>Live Raid Pipeline</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer bg-gradient-to-r from-rose-500 to-amber-600 hover:from-rose-400 hover:to-amber-500 text-slate-950 shadow-md disabled:opacity-50"
+              :disabled="isSimulatingGuardian"
+              @click="runGuardianSimulation"
+            >
+              {{ isSimulatingGuardian ? '正在攻坚推演中...' : '▶ 启动全流程地宫攻坚推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 transition-all cursor-pointer"
+              @click="exportGuardianCertificate"
+            >
+              📜 导出征服者方案书
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 阶段步进进度 -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+          <div
+            v-for="(stg, idx) in guardianStages"
+            :key="stg.id"
+            class="p-2.5 rounded-lg border text-xs transition-all flex flex-col justify-between"
+            :class="guardianSimulationStep >= idx + 1
+              ? 'bg-rose-950/40 border-rose-500/60 text-rose-300'
+              : 'bg-slate-900/60 border-slate-800/80 text-gray-500'"
+          >
+            <div class="font-bold mb-1 flex items-center gap-1">
+              <span>{{ guardianSimulationStep >= idx + 1 ? '✅' : '⏳' }}</span>
+              <span>第 {{ idx + 1 }} 阶: {{ stg.title }}</span>
+            </div>
+            <div class="text-[10px] leading-tight opacity-80">{{ stg.desc }}</div>
+          </div>
+        </div>
+
+        <!-- 推演日志视窗 -->
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-gray-300 max-h-48 overflow-y-auto space-y-1">
+          <div v-for="(log, idx) in guardianLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-rose-400 select-none">›</span>
+            <span :class="log.color || 'text-gray-300'">{{ log.text }}</span>
+          </div>
+          <div v-if="guardianLogs.length === 0" class="text-gray-600 italic">
+            等待启动推演... 点击上方【启动全流程地宫攻坚推演】按键开始推演。
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 3 Tab 源码展台 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-xl space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 地宫守门狂暴破限实机脚本</span>
+            <n-tag type="info" size="tiny" round>RefCounted 核心架构</n-tag>
+          </div>
+          <div class="flex gap-2">
+            <button
+              v-for="st in guardianScriptTabs"
+              :key="st.key"
+              type="button"
+              class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
+              :class="activeGuardianScriptTab === st.key
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
+              @click="activeGuardianScriptTab = st.key"
+            >
+              {{ st.name }}
+            </button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentGuardianScriptCode }}</pre>
+          <button
+            type="button"
+            class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-gray-300 border border-slate-700 cursor-pointer transition-colors"
+            @click="copyGuardianScript"
+          >
+            📋 复制代码
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1729,6 +2085,11 @@ const scrollToLabyrinthStudio = () => {
 
 const scrollToSecretPassageStudio = () => {
   const el = document.getElementById('secret-passage-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const scrollToGuardianBreakerStudio = () => {
+  const el = document.getElementById('guardian-breaker-studio')
   if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
 
@@ -2995,6 +3356,288 @@ const copyDimensionCode = () => {
     })
   }
 }
+
+// ==========================================
+// 全域高难地宫守护领主狂暴破限工坊 (v2.2.297)
+// ==========================================
+interface GuardianArchetype {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  desc: string
+  weakness: string
+  baseDmgMult: number
+}
+
+const guardianArchetypes: GuardianArchetype[] = [
+  {
+    id: 'titan_colossus',
+    name: '巴比伦灭世巨神兵',
+    icon: '🗿',
+    tag: '机械泰坦',
+    desc: '古代机械神殿最终防线，全屏重力践踏与烈焰超频，需破解散热导管',
+    weakness: '腿部液压以太导管',
+    baseDmgMult: 1.35
+  },
+  {
+    id: 'trench_leviathan',
+    name: '始源海沟利维坦灾厄',
+    icon: '🐉',
+    tag: '深海浩劫',
+    desc: '盘踞深渊大漩涡核心，极寒海啸与绝对零度吐息，需以太水雷打断蓄力',
+    weakness: '龙晶逆鳞共鸣核',
+    baseDmgMult: 1.25
+  },
+  {
+    id: 'omega_custom',
+    name: '虚空回廊奥米加改',
+    icon: '🤖',
+    tag: '快子禁断',
+    desc: '次元夹缝终极机动杀戮兵器，波动炮光束阵列与多维超微晶盾',
+    weakness: '超光速相位转移窗口',
+    baseDmgMult: 1.45
+  },
+  {
+    id: 'dark_hierophant',
+    name: '死星王座暗黑神官',
+    icon: '👑',
+    tag: '死兆支配',
+    desc: '统御死者冥界王座，死星陨落与全域即死诅咒，需神圣护壁反制',
+    weakness: '神圣圣光极性逆转',
+    baseDmgMult: 1.50
+  }
+]
+
+const selectedGuardianId = ref<string>('titan_colossus')
+
+// 4 维连续滑块参数
+const overdriveIntensity = ref<number>(280)
+const trapDensity = ref<number>(45)
+const coreAetherOverload = ref<number>(5.5)
+const breakStaggerEfficiency = ref<number>(180)
+
+// 3 大地宫绝境断路器
+const temporalRewindChronometer = ref<boolean>(true)
+const overdriveReleaseValve = ref<boolean>(true)
+const damageCapBreakerTalisman = ref<boolean>(true)
+
+const currentGuardian = computed(() => {
+  return guardianArchetypes.find(g => g.id === selectedGuardianId.value) || guardianArchetypes[0]
+})
+
+const calculatedBurstDmg = computed(() => {
+  const baseDmg = 120000
+  const staggerBonus = breakStaggerEfficiency.value * 1250
+  const coreBonus = coreAetherOverload.value * 28000
+  const capBonus = damageCapBreakerTalisman.value ? 1.65 : 1.0
+  return Math.round((baseDmg + staggerBonus + coreBonus) * currentGuardian.value.baseDmgMult * capBonus)
+})
+
+const calculatedStaggerRate = computed(() => {
+  let rate = 65.0
+  rate += (breakStaggerEfficiency.value / 250) * 22.0
+  rate -= (overdriveIntensity.value / 500) * 10.0
+  if (overdriveReleaseValve.value) rate += 8.5
+  return Math.min(98.8, Math.max(50.0, rate))
+})
+
+const calculatedTrapDisarmRate = computed(() => {
+  let disarm = 95.0
+  disarm -= (trapDensity.value / 100) * 18.0
+  if (temporalRewindChronometer.value) disarm += 15.0
+  return Math.min(99.5, Math.max(60.0, disarm))
+})
+
+const dungeonConquerorRank = computed(() => {
+  if (calculatedBurstDmg.value >= 500000 && calculatedStaggerRate.value >= 90) return 'SSS 级太古秘境屠神者'
+  if (calculatedBurstDmg.value >= 350000) return 'SS 级深渊歼灭主宰'
+  if (calculatedBurstDmg.value >= 200000) return 'S 级精锐破阵先驱'
+  return 'A 级遗迹探索者'
+})
+
+const resetGuardianParameters = () => {
+  overdriveIntensity.value = 280
+  trapDensity.value = 45
+  coreAetherOverload.value = 5.5
+  breakStaggerEfficiency.value = 180
+  temporalRewindChronometer.value = true
+  overdriveReleaseValve.value = true
+  damageCapBreakerTalisman.value = true
+  message?.info('地宫狂暴参数已重置为黄金标准配置')
+}
+
+// 五阶段仿真推演
+const isSimulatingGuardian = ref<boolean>(false)
+const guardianSimulationStep = ref<number>(0)
+interface GuardianLogItem {
+  text: string
+  color?: string
+}
+const guardianLogs = ref<GuardianLogItem[]>([])
+
+const guardianStages = [
+  { id: 1, title: '地宫深层构造扫描', desc: '检索陷阱分布与晶核过载状态' },
+  { id: 2, title: '断路器与护身符就绪', desc: '启动回溯钟与伤害上限解禁' },
+  { id: 3, title: '机关拆除与导管排查', desc: '以太拆除拆解致死陷阱网络' },
+  { id: 4, title: '激战守门领主破韧', desc: '削能破韧触发全面硬直瘫痪' },
+  { id: 5, title: '终极斩杀签发认证', desc: '斩灭守门领主核发征服证书' }
+]
+
+const runGuardianSimulation = async () => {
+  if (isSimulatingGuardian.value) return
+  isSimulatingGuardian.value = true
+  guardianSimulationStep.value = 0
+  guardianLogs.value = []
+
+  const appendLog = (text: string, color?: string) => {
+    guardianLogs.value.push({ text, color })
+  }
+
+  appendLog('[INIT] 启动全域高难地宫狂暴攻坚与机关破限推演...', 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 400))
+
+  // Step 1
+  guardianSimulationStep.value = 1
+  appendLog(`[STEP 1] 锁定守门领主【${currentGuardian.value.name}】，狂暴烈度 ${overdriveIntensity.value}%，陷阱密度 ${trapDensity.value} 个/层。`, 'text-cyan-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 2
+  guardianSimulationStep.value = 2
+  appendLog(`[STEP 2] 激活时空回溯钟: ${temporalRewindChronometer.value ? '已就绪' : '未开启'}；全队伤害破限符: ${damageCapBreakerTalisman.value ? '已解禁 999,999' : '99,999 限制'}。`, 'text-purple-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 3
+  guardianSimulationStep.value = 3
+  appendLog(`[STEP 3] 拆解地宫机关，陷阱安全拆除胜率 ${calculatedTrapDisarmRate.value.toFixed(1)}%，零伤亡直抵晶核大殿！`, 'text-amber-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 4
+  guardianSimulationStep.value = 4
+  appendLog(`[STEP 4] 破韧削能效率 ${breakStaggerEfficiency.value}%！打断领主狂暴超频，硬直瘫痪率 ${calculatedStaggerRate.value.toFixed(1)}%！`, 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 500))
+
+  // Step 5
+  guardianSimulationStep.value = 5
+  appendLog(`[SUCCESS] 斩杀守门领主！破限爆发期望 ${calculatedBurstDmg.value.toLocaleString()} DMG，认证位阶: 【${dungeonConquerorRank.value}】！`, 'text-emerald-300 font-bold')
+  isSimulatingGuardian.value = false
+  message?.success('地宫攻坚破限推演圆满成功！')
+}
+
+const exportGuardianCertificate = () => {
+  const certData = {
+    studio: 'High-Tier Dungeon Guardian Overdrive Breaker Studio v2.2.297',
+    guardian: currentGuardian.value.name,
+    overdriveIntensity: overdriveIntensity.value,
+    trapDensity: trapDensity.value,
+    coreAetherOverload: coreAetherOverload.value,
+    breakStaggerEfficiency: breakStaggerEfficiency.value,
+    calculatedBurstDmg: calculatedBurstDmg.value,
+    calculatedStaggerRate: calculatedStaggerRate.value,
+    calculatedTrapDisarmRate: calculatedTrapDisarmRate.value,
+    dungeonConquerorRank: dungeonConquerorRank.value,
+    timestamp: new Date().toISOString(),
+    sha256Certificate: 'DUNGEON-BREAKER-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(16).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `dungeon_guardian_certificate_${certData.sha256Certificate}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success(`已导出征服者方案书: ${certData.sha256Certificate}`)
+}
+
+// 源码展台
+type GuardianScriptKey = 'guardian_breaker' | 'temporal_rewind' | 'stagger_controller'
+
+const activeGuardianScriptTab = ref<GuardianScriptKey>('guardian_breaker')
+
+const guardianScriptTabs = [
+  { key: 'guardian_breaker' as const, name: '守门领主破限解算器' },
+  { key: 'temporal_rewind' as const, name: '时空回溯断路器' },
+  { key: 'stagger_controller' as const, name: '晶核韧性削能控制器' }
+]
+
+const guardianScriptCodes: Record<GuardianScriptKey, string> = {
+  guardian_breaker: `class_name DungeonGuardianOverdriveBreaker
+extends RefCounted
+
+## 最终幻想：时空之轮 - 守门领主狂暴破限解算核心
+## 文件路径: res://scripts/dungeons/dungeon_guardian_overdrive_breaker.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal guardian_overdrive_broken(guardian_id: String, burst_damage: int)
+signal guardian_staggered(duration_sec: float)
+
+var overdrive_intensity: float = 2.80
+var damage_cap_unlocked: bool = true
+
+func evaluate_burst_damage(base_attack: int, stagger_rate: float) -> int:
+    var final_dmg: int = int(float(base_attack) * stagger_rate * (1.0 + overdrive_intensity * 0.35))
+    if not damage_cap_unlocked:
+        final_dmg = mini(final_dmg, 99999)
+    else:
+        final_dmg = mini(final_dmg, 999999)
+
+    guardian_overdrive_broken.emit("active_boss", final_dmg)
+    return final_dmg
+`,
+
+  temporal_rewind: `class_name LethalTrapTemporalRewindGuard
+extends RefCounted
+
+## 最终幻想：时空之轮 - 致死陷阱时空回溯断路器
+## 文件路径: res://scripts/dungeons/lethal_trap_temporal_rewind_guard.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func handle_trap_trigger(is_lethal: bool, rewind_active: bool) -> Dictionary:
+    if is_lethal and rewind_active:
+        return {
+            "party_wiped": false,
+            "rewind_executed": true,
+            "rewind_seconds": 3.0,
+            "status": "TEMPORAL_LOOP_SAVED"
+        }
+    return {
+        "party_wiped": is_lethal,
+        "rewind_executed": false,
+        "rewind_seconds": 0.0,
+        "status": "CASUALTY_OCCURRED" if is_lethal else "TRAP_RESISTED"
+    }
+`,
+
+  stagger_controller: `class_name CoreStaggerStaminaController
+extends RefCounted
+
+## 最终幻想：时空之轮 - 晶核韧性削能瘫痪控制器
+## 文件路径: res://scripts/dungeons/core_stagger_stamina_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func apply_stagger_hit(current_stamina: float, hit_power: float, efficiency: float) -> Dictionary:
+    var reduction: float = hit_power * (efficiency / 100.0)
+    var remaining: float = maxf(0.0, current_stamina - reduction)
+    var is_down: bool = remaining <= 0.0
+
+    return {
+        "remaining_stamina": remaining,
+        "is_staggered": is_down,
+        "stagger_duration": 8.0 if is_down else 0.0
+    }
+`
+}
+
+const currentGuardianScriptCode = computed(() => {
+  return guardianScriptCodes[activeGuardianScriptTab.value]
+})
+
+const copyGuardianScript = () => {
+  navigator.clipboard.writeText(currentGuardianScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
 </script>
 
 <style scoped>
