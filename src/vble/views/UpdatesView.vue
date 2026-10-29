@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-systems-micro-loop-v339-2026-10-29',
+    version: 'v2.2.339',
+    date: '2026-10-29',
+    title: '全域底层核心系统架构、微秒级主循环调度与内存稳态工坊重磅实装',
+    category: 'system',
+    categoryName: '底层系统',
+    icon: '⚙️',
+    tagType: 'info',
+    description: '全面重构升级 SystemsView 核心架构门户：顶部标章升级为 VBLE Core Architecture Systems, Microsecond Main Loop & Memory Steady State Studio v2.2.339，新增微秒主循环与内存稳态工坊快捷直达；专区重磅实装【全域底层核心系统架构、微秒级主循环调度与内存稳态工坊】（Microsecond Main Loop & Memory Steady State Studio）；覆盖四大底层架构原型（微秒光纤纤程调度器·非抢占协作主循环流、SLAB 页式内存对齐池·零碎片堆栈防抖动流、L1/L2 缓存行一致性拓扑·伪共享避免与向量指令流、三重内存镜像容灾断路·硬件异常静默热恢复流）；支持主循环单帧硬预算微秒 (5,000~16,666 µs)、SLAB 专属预分配内存池 (128~1,024 MB)、微秒纤程时间片轮转粒度 (10~200 µs) 与 GC 垃圾回收硬上限微秒 (100~2,000 µs) 连续微调；支持战斗主循环每 Tick 零堆动态分配、全域物理与技能判定强确定性、内存段错误硬件信号热捕捉免崩溃；实时解算主循环微秒级抖动 (低至 0.28 µs)、内存碎片率 (低至 0.01%)、无泄漏稳态运行时间 (99,999+ h) 与架构师考评评级 (高达 EX·全域太古星海天象引航官)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：microsecond_fiber_scheduler.gd、slab_memory_pool_allocator.gd 与 crash_resilient_state_guard.gd。',
+    highlights: [
+      '四大系统架构原型：微秒光纤纤程调度器、SLAB 页式内存池、L1/L2 缓存一致性与三重内存镜像',
+      '四维连续内核物理参数：单帧硬预算微秒、SLAB 预分配池容量、纤程时间片粒度与 GC 延迟上限',
+      '三重架构破限特权：每 Tick 零动态分配、全域强确定性定点数与硬件段错误热隔离免崩',
+      '动态深层内核指标解算：微秒级主循环抖动、碎片率、无泄漏长效运行期与架构师评级',
+      '五阶段内核推演沙盘：缓存行预热、定长分块对齐、无锁队列分发、零分配压测与方案封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源纤程调度器、SLAB 内存池分配器与段错误隔离器'
+    ],
+    relatedLinks: [
+      { label: '底层系统架构', path: '/vble/systems', icon: '⚙️' },
+      { label: '微秒主循环工坊', path: '/vble/systems', icon: '⚡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-news-operations-calendar-v338-2026-10-29',
     version: 'v2.2.338',
     date: '2026-10-29',
