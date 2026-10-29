@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-gallery-holographic-spectrum-2026-10-29',
+    version: 'v2.2.298',
+    date: '2026-10-29',
+    title: '全域超光速着色器管线、全息折射光栅与全光谱渲染工坊重磅实装',
+    category: 'ui',
+    categoryName: '全息光栅',
+    icon: '🌈',
+    tagType: 'success',
+    description: '全面重构升级 GalleryView 视觉画廊门户：顶部标章升级为 VBLE Visual, Holographic Shader & Spectrum Studio v2.2.298，新增全息光谱渲染工坊快捷直达；专区重磅实装【全域超光速着色器管线、全息折射光栅与虚空全光谱渲染工坊】（Holographic Refraction & Full-Spectrum Rendering Studio）；覆盖四大光谱着色器流派（全息多层衍射光栅、快子相干柯西色散、虚空黑体热核辐射、两仪双极偏振以太流）；实现全息衍射光栅常数 (100~1200 条/mm)、双折射柯西色散指数 (1.10~2.50)、黑体辐射有效色温 (2000~12000 K) 与光线追踪采样反弹深度 (1~8 次) 连续微调；支持时间序列时空联合降噪 TAA/TSR（多帧历史平滑，极低开销消除杂讯斑点）、光敏性防过曝安全滤镜（限制 HDR 瞬时峰值辉光突变，呵护视力健康）与 VRAM 显存溢出零抖动保护阀（超 4GB 预警阈值时自适应降采样，杜绝掉帧卡顿）；实时解算渲染管线帧延迟 (低至 1.8 ms)、全域光子辐射通量 (突破 850,000+ Lux)、显存 VRAM 能效占用与视觉引擎认证评级 (高达 EX 终极全息天穹级)；实装五阶段光谱渲染仿真推演终端与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，新增 holographic_grating_spectrum.gdshader、full_spectrum_renderer_pipeline.gd 与 vram_jitter_free_memory_guard.gd。',
+    highlights: [
+      '四大光谱着色器流派：全息薄膜衍射、快子柯西色散、黑体热核辐射与双极圆偏振流',
+      '四维连续光栅渲染参数：光栅密度、色散指数、黑体色温与光追反弹深度全域微调',
+      '时间序列联合降噪 (TAA/TSR)：多帧抖动平滑反走样，低性能开销提供纯净电影画面',
+      '光敏性防过曝安全滤镜：动态平衡瞬时高动态 HDR 辉光爆发，全面守护视力健康',
+      'VRAM 显存零抖动保护阀：智能监测显存压力动态降采样次级缓冲，杜绝微卡顿与溢出',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增全息衍射着色器、光谱编排器与显存防溢出控制器'
+    ],
+    relatedLinks: [
+      { label: '视觉画廊与全息着色器', path: '/vble/gallery', icon: '🌈' },
+      { label: '神兵多角色全息配装', path: '/vble/armory', icon: '⚔️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-dungeons-guardian-breaker-2026-10-29',
     version: 'v2.2.297',
     date: '2026-10-29',

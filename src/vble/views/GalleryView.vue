@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Visual &amp; VFX Matrix v2.2.275
+              VBLE Visual, Holographic Shader &amp; Spectrum Studio v2.2.298
             </span>
             <span class="text-xs text-gray-400">大世界实机、UI架构、体积雾光线步进与魔导粒子渲染</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToHolographicStudio"
+          >
+            <template #icon><span>🌈</span></template>
+            全息光谱渲染工坊
+          </n-button>
           <n-button
             type="info"
             size="medium"
@@ -1020,6 +1031,349 @@
       <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeGalleryGodotTab === 'volumetric'">{{ godotVolumetricShaderCode }}</code><code v-else-if="activeGalleryGodotTab === 'orchestrator'">{{ godotOrchestratorCode }}</code><code v-else-if="activeGalleryGodotTab === 'vfx'">{{ godotCodeText }}</code><code v-else>{{ godotGradingCodeText }}</code></pre>
     </div>
 
+    <!-- 第六部分: 全域超光速着色器管线、全息折射光栅与虚空全光谱渲染工坊 (Holographic Spectrum Studio v2.2.298) -->
+    <div id="holographic-spectrum-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-amber-950/70 via-slate-900/95 to-purple-950/70 border border-amber-500/40 space-y-6 shadow-[0_0_40px_rgba(245,158,11,0.22)] relative overflow-hidden">
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 工坊头部标章 -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/50 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              v2.2.298 重磅实装
+            </span>
+            <span class="text-xs text-gray-400">全息薄膜色散 · 柯西双折射 · 黑体热核辐射光谱</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🌈</span> 全域超光速着色器管线、全息折射光栅与虚空全光谱渲染工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            对齐 Godot 4.6 LTS Compute Shader 光栅渲染与视觉管线规范：深度覆盖四大光谱着色器流派、四维连续光栅渲染参数、三大光栅防护断路器、五阶段光谱渲染推演与防伪证书导出。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0 flex-wrap">
+          <n-button size="small" secondary type="warning" @click="resetSpectrumParameters">
+            🔄 重置光栅参数
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportSpectrumCertificate">
+            📜 导出光谱方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大光谱着色器流派选择卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="spec in spectrumArchetypes"
+          :key="spec.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedSpectrumId === spec.id
+            ? 'bg-amber-950/50 border-amber-400 shadow-[0_0_18px_rgba(245,158,11,0.25)] ring-1 ring-amber-400/50'
+            : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-850'"
+          @click="selectedSpectrumId = spec.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ spec.icon }}</span>
+            <n-tag :type="selectedSpectrumId === spec.id ? 'warning' : 'default'" size="tiny" round>
+              {{ spec.tag }}
+            </n-tag>
+          </div>
+          <div class="text-sm font-bold text-white mb-1">{{ spec.name }}</div>
+          <div class="text-[11px] text-gray-400 leading-relaxed mb-3">{{ spec.desc }}</div>
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+            <span class="text-gray-400">光子特征</span>
+            <span class="text-amber-300 font-semibold">{{ spec.perk }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与安全防护盾 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 左侧: 4维连续参数调节 (7 cols) -->
+        <div class="lg:col-span-7 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 font-bold text-sm">🎛️ 光谱色散光栅连续参数调控矩阵</span>
+              <span class="text-[11px] text-gray-400 font-mono">4-Axis Shader Tuning</span>
+            </div>
+            <button
+              type="button"
+              class="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors"
+              @click="resetSpectrumParameters"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 滑块 1: 全息衍射光栅常数 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🌈</span> 全息衍射光栅常数 (Grating Density)
+              </span>
+              <span class="font-mono text-amber-400 font-bold">{{ gratingDensity }} 条/mm</span>
+            </div>
+            <n-slider
+              v-model:value="gratingDensity"
+              :min="100"
+              :max="1200"
+              :step="50"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>100 条 (宽距光条)</span>
+              <span>600 条 (纳米高阶衍射)</span>
+              <span>1200 条 (极细超密彩虹栅)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 2: 双折射柯西色散指数 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>💎</span> 双折射柯西色散指数 (Dispersion Index)
+              </span>
+              <span class="font-mono text-cyan-400 font-bold">{{ dispersionIndex.toFixed(2) }}</span>
+            </div>
+            <n-slider
+              v-model:value="dispersionIndex"
+              :min="1.10"
+              :max="2.50"
+              :step="0.05"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1.10 (弱色散单色)</span>
+              <span>1.65 (高透水晶三棱镜)</span>
+              <span>2.50 (金刚石极高色散)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 3: 黑体辐射有效色温 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🔥</span> 黑体辐射有效色温 (Color Temperature)
+              </span>
+              <span class="font-mono text-rose-400 font-bold">{{ colorTemperature }} K</span>
+            </div>
+            <n-slider
+              v-model:value="colorTemperature"
+              :min="2000"
+              :max="12000"
+              :step="500"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>2000 K (烛光炽红)</span>
+              <span>6500 K (标准日光 D65)</span>
+              <span>12000 K (天狼星高能蓝白)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 4: 光线追踪采样反弹深度 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🔄</span> 光线追踪采样反弹深度 (Ray Bounce Depth)
+              </span>
+              <span class="font-mono text-purple-400 font-bold">{{ rayBounceDepth }} 次反弹</span>
+            </div>
+            <n-slider
+              v-model:value="rayBounceDepth"
+              :min="1"
+              :max="8"
+              :step="1"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1 次 (直接漫反射)</span>
+              <span>4 次 (多次焦散互射)</span>
+              <span>8 次 (完全无偏电影全局光)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧: 3大光栅保护断路器 (5 cols) -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+            <span class="text-amber-400 font-bold text-sm">🛡️ 光栅渲染保护与硬件降噪断路器</span>
+            <n-tag type="info" size="tiny" round>主动防护体系</n-tag>
+          </div>
+
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>✨</span> 时间序列时空联合降噪 (TAA/TSR)
+                </div>
+                <div class="text-[11px] text-gray-400">历史帧抖动平滑，低算力开销消除高频斑点</div>
+              </div>
+              <n-switch v-model:value="temporalDenoiseTSR" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>👁️</span> 光敏性防过曝安全滤镜
+                </div>
+                <div class="text-[11px] text-gray-400">限制 HDR 瞬时峰值辉光突变，呵护视力健康</div>
+              </div>
+              <n-switch v-model:value="photosensitiveAegis" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>💾</span> VRAM 显存溢出零抖动保护阀
+                </div>
+                <div class="text-[11px] text-gray-400">超 4GB 预警阈值时自适应降采样，杜绝卡顿</div>
+              </div>
+              <n-switch v-model:value="vramZeroJitterLock" size="small" />
+            </div>
+          </div>
+
+          <!-- 能效雷达卡 -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 space-y-2">
+            <div class="text-xs font-bold text-amber-300 flex items-center justify-between">
+              <span>渲染管线流畅度评测</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ (100 - calculatedFrameLatency * 12).toFixed(1) }} 分</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-amber-500 via-cyan-400 to-emerald-400 h-1.5 rounded-full transition-all duration-300"
+                :style="{ width: Math.min(100 - calculatedFrameLatency * 12, 100) + '%' }"
+              ></div>
+            </div>
+            <div class="text-[10px] text-gray-400 flex justify-between">
+              <span>帧耗时: {{ calculatedFrameLatency.toFixed(2) }} ms</span>
+              <span class="text-emerald-400">理论极速: {{ Math.round(1000 / calculatedFrameLatency) }} FPS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实时解算数值仪表盘 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">渲染管线帧延迟</div>
+          <div class="text-2xl font-black text-cyan-400 font-mono mt-1">{{ calculatedFrameLatency.toFixed(2) }} ms</div>
+          <div class="text-[10px] text-cyan-300/80 mt-0.5">极致瞬时响应延迟</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">全域光子辐射通量</div>
+          <div class="text-2xl font-black text-amber-400 font-mono mt-1">{{ calculatedPhotonFlux.toLocaleString() }} Lux</div>
+          <div class="text-[10px] text-amber-300/80 mt-0.5">高动态全光谱照度</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">显存 VRAM 能效占用</div>
+          <div class="text-2xl font-black text-emerald-400 font-mono mt-1">{{ calculatedVramUsage }} MB</div>
+          <div class="text-[10px] text-emerald-300/80 mt-0.5">零溢出轻量显存开销</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">视觉引擎认证评级</div>
+          <div class="text-2xl font-black text-purple-400 font-mono mt-1">{{ visualEngineRank }}</div>
+          <div class="text-[10px] text-purple-300/80 mt-0.5">Godot 4.6 次世代认证</div>
+        </div>
+      </div>
+
+      <!-- 五阶段光谱渲染推演仿真终端 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-amber-500/30 shadow-2xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-amber-400 font-bold text-sm">⚡ 全域超光速着色器与全光谱渲染五阶段推演终端</span>
+            <n-tag type="warning" size="tiny" round>Live Compute Pipeline</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-slate-950 shadow-md disabled:opacity-50"
+              :disabled="isSimulatingSpectrum"
+              @click="runSpectrumSimulation"
+            >
+              {{ isSimulatingSpectrum ? '正在编译渲染管线中...' : '▶ 启动全流程光谱渲染推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 transition-all cursor-pointer"
+              @click="exportSpectrumCertificate"
+            >
+              📜 导出光谱方案书
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 阶段步进进度 -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+          <div
+            v-for="(stg, idx) in spectrumStages"
+            :key="stg.id"
+            class="p-2.5 rounded-lg border text-xs transition-all flex flex-col justify-between"
+            :class="spectrumSimulationStep >= idx + 1
+              ? 'bg-amber-950/40 border-amber-500/60 text-amber-300'
+              : 'bg-slate-900/60 border-slate-800/80 text-gray-500'"
+          >
+            <div class="font-bold mb-1 flex items-center gap-1">
+              <span>{{ spectrumSimulationStep >= idx + 1 ? '✅' : '⏳' }}</span>
+              <span>第 {{ idx + 1 }} 阶: {{ stg.title }}</span>
+            </div>
+            <div class="text-[10px] leading-tight opacity-80">{{ stg.desc }}</div>
+          </div>
+        </div>
+
+        <!-- 推演日志视窗 -->
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-gray-300 max-h-48 overflow-y-auto space-y-1">
+          <div v-for="(log, idx) in spectrumLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-amber-400 select-none">›</span>
+            <span :class="log.color || 'text-gray-300'">{{ log.text }}</span>
+          </div>
+          <div v-if="spectrumLogs.length === 0" class="text-gray-600 italic">
+            等待启动推演... 点击上方【启动全流程光谱渲染推演】按键开始推演。
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 3 Tab 源码展台 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-xl space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 全息光栅与着色器实机脚本</span>
+            <n-tag type="info" size="tiny" round>Shader &amp; Compute Pipeline</n-tag>
+          </div>
+          <div class="flex gap-2">
+            <button
+              v-for="st in spectrumScriptTabs"
+              :key="st.key"
+              type="button"
+              class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
+              :class="activeSpectrumScriptTab === st.key
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
+              @click="activeSpectrumScriptTab = st.key"
+            >
+              {{ st.name }}
+            </button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentSpectrumScriptCode }}</pre>
+          <button
+            type="button"
+            class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-gray-300 border border-slate-700 cursor-pointer transition-colors"
+            @click="copySpectrumScript"
+          >
+            📋 复制代码
+          </button>
+        </div>
+      </div>
+    </div>
+
+
     <!-- 弹窗大图检视 Modal -->
     <n-modal
       v-model:show="showModal"
@@ -1102,6 +1456,13 @@ const filteredGallery = computed(() => {
 
 const scrollToStudio = () => {
   const el = document.getElementById('vfx-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const scrollToHolographicStudio = () => {
+  const el = document.getElementById('holographic-spectrum-studio')
   if (el) {
     el.scrollIntoView({ behavior: 'smooth' })
   }
@@ -1905,6 +2266,309 @@ const godotOrchestratorCode = [
   '\t\t"certified_hash": "SHA256-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
   '\t}'
 ].join('\n')
+
+
+// ==========================================
+// 全域超光速着色器与全光谱渲染工坊 (v2.2.298)
+// ==========================================
+interface SpectrumArchetype {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  desc: string
+  perk: string
+  fluxMultiplier: number
+}
+
+const spectrumArchetypes: SpectrumArchetype[] = [
+  {
+    id: 'holographic_grating',
+    name: '全息多层衍射光栅',
+    icon: '🌈',
+    tag: '薄膜干涉',
+    desc: '纳米级周期结构光栅，诱发随视线流转的极光偏振幻彩色散',
+    perk: '彩虹光栅偏振率 99.8%',
+    fluxMultiplier: 1.25
+  },
+  {
+    id: 'tachyon_dispersion',
+    name: '快子相干柯西色散',
+    icon: '⚡',
+    tag: '切伦科夫蓝光',
+    desc: '超光速粒子穿透以太介质引发的三棱镜折射，高阶色散耀眼夺目',
+    perk: '双折射相位角精确锁定',
+    fluxMultiplier: 1.35
+  },
+  {
+    id: 'void_blackbody',
+    name: '虚空黑体热核辐射',
+    icon: '🔥',
+    tag: '等离子热光',
+    desc: '从 2000K 炽红平滑跃迁至 12000K 高能等离子蓝紫光子流',
+    perk: '全色温普朗克辐射拟合',
+    fluxMultiplier: 1.45
+  },
+  {
+    id: 'bipolar_polarization',
+    name: '两仪双极偏振以太流',
+    icon: '☯️',
+    tag: '量子旋光',
+    desc: '光暗双极波动呈现左旋与右旋圆偏振，交融处产生空间量子涟漪',
+    perk: '圆偏振时空量子干涉',
+    fluxMultiplier: 1.30
+  }
+]
+
+const selectedSpectrumId = ref<string>('holographic_grating')
+
+// 4 维连续滑块参数
+const gratingDensity = ref<number>(600)
+const dispersionIndex = ref<number>(1.65)
+const colorTemperature = ref<number>(6500)
+const rayBounceDepth = ref<number>(4)
+
+// 3 大光栅保护断路器
+const temporalDenoiseTSR = ref<boolean>(true)
+const photosensitiveAegis = ref<boolean>(true)
+const vramZeroJitterLock = ref<boolean>(true)
+
+const currentSpectrum = computed(() => {
+  return spectrumArchetypes.find(s => s.id === selectedSpectrumId.value) || spectrumArchetypes[0]
+})
+
+const calculatedFrameLatency = computed(() => {
+  let latency = 1.2
+  latency += (gratingDensity.value / 1200) * 0.8
+  latency += (rayBounceDepth.value / 8) * 1.2
+  if (temporalDenoiseTSR.value) latency += 0.25
+  if (vramZeroJitterLock.value) latency -= 0.35
+  return Math.max(1.1, latency)
+})
+
+const calculatedPhotonFlux = computed(() => {
+  const baseFlux = 250000
+  const tempBonus = (colorTemperature.value / 1000) * 45000
+  const dispersionBonus = Math.round(dispersionIndex.value * 55000)
+  return Math.round((baseFlux + tempBonus + dispersionBonus) * currentSpectrum.value.fluxMultiplier)
+})
+
+const calculatedVramUsage = computed(() => {
+  let vram = 580
+  vram += Math.round((gratingDensity.value / 1200) * 320)
+  vram += rayBounceDepth.value * 65
+  if (temporalDenoiseTSR.value) vram += 80
+  if (vramZeroJitterLock.value) vram -= 120
+  return Math.max(450, vram)
+})
+
+const visualEngineRank = computed(() => {
+  if (calculatedFrameLatency.value <= 2.2 && calculatedPhotonFlux.value >= 700000) return 'EX 终极全息天穹级'
+  if (calculatedFrameLatency.value <= 3.0) return 'SS 电影级超感光影'
+  if (calculatedFrameLatency.value <= 4.0) return 'S 极境次世代光追'
+  return 'A 级标准魔导渲染'
+})
+
+const resetSpectrumParameters = () => {
+  gratingDensity.value = 600
+  dispersionIndex.value = 1.65
+  colorTemperature.value = 6500
+  rayBounceDepth.value = 4
+  temporalDenoiseTSR.value = true
+  photosensitiveAegis.value = true
+  vramZeroJitterLock.value = true
+  message?.info('光谱着色器参数已重置为黄金标准配置')
+}
+
+// 五阶段仿真推演
+const isSimulatingSpectrum = ref<boolean>(false)
+const spectrumSimulationStep = ref<number>(0)
+interface SpectrumLogItem {
+  text: string
+  color?: string
+}
+const spectrumLogs = ref<SpectrumLogItem[]>([])
+
+const spectrumStages = [
+  { id: 1, title: '光栅着色器编译初始化', desc: '构建纳米微结构与柯西色散表' },
+  { id: 2, title: '以太介质注入与降噪', desc: '就绪 TAA/TSR 与光敏性防过曝' },
+  { id: 3, title: '光线追踪多重反弹采样', desc: '解算多阶焦散互射与热辐射' },
+  { id: 4, title: '圆偏振交涉干涉滤波', desc: '执行 ACES 电影级色调映射' },
+  { id: 5, title: '全色调全息天穹完成', desc: '生成帧缓冲并导出光谱证书' }
+]
+
+const runSpectrumSimulation = async () => {
+  if (isSimulatingSpectrum.value) return
+  isSimulatingSpectrum.value = true
+  spectrumSimulationStep.value = 0
+  spectrumLogs.value = []
+
+  const appendLog = (text: string, color?: string) => {
+    spectrumLogs.value.push({ text, color })
+  }
+
+  appendLog('[INIT] 启动全域超光速着色器与全光谱渲染管线...', 'text-amber-400 font-bold')
+  await new Promise(r => setTimeout(r, 400))
+
+  // Step 1
+  spectrumSimulationStep.value = 1
+  appendLog(`[STEP 1] 选定流派【${currentSpectrum.value.name}】，光栅密度 ${gratingDensity.value} 条/mm，柯西色散指数 ${dispersionIndex.value.toFixed(2)}。`, 'text-cyan-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 2
+  spectrumSimulationStep.value = 2
+  appendLog(`[STEP 2] 时间序列降噪 TSR: ${temporalDenoiseTSR.value ? '已就绪' : '未开启'}；光敏性安全防护: ${photosensitiveAegis.value ? '已开启 (防过曝)' : '未开启'}。`, 'text-purple-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 3
+  spectrumSimulationStep.value = 3
+  appendLog(`[STEP 3] 色温 ${colorTemperature.value} K 黑体辐射采样，光追反弹 ${rayBounceDepth.value} 次，辐射通量达 ${calculatedPhotonFlux.value.toLocaleString()} Lux！`, 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 500))
+
+  // Step 4
+  spectrumSimulationStep.value = 4
+  appendLog(`[STEP 4] 显存零抖动锁相: 占用仅 ${calculatedVramUsage.value} MB，帧延迟 ${calculatedFrameLatency.value.toFixed(2)} ms，极速 ${Math.round(1000 / calculatedFrameLatency.value)} FPS！`, 'text-emerald-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 5
+  spectrumSimulationStep.value = 5
+  appendLog(`[SUCCESS] 全息光谱渲染推演圆满完成！认证位阶: 【${visualEngineRank.value}】，全域光子品质极境！`, 'text-amber-300 font-bold')
+  isSimulatingSpectrum.value = false
+  message?.success('全息光谱渲染推演圆满成功！')
+}
+
+const exportSpectrumCertificate = () => {
+  const certData = {
+    studio: 'Holographic Refraction & Full-Spectrum Rendering Studio v2.2.298',
+    spectrum: currentSpectrum.value.name,
+    gratingDensity: gratingDensity.value,
+    dispersionIndex: dispersionIndex.value,
+    colorTemperature: colorTemperature.value,
+    rayBounceDepth: rayBounceDepth.value,
+    calculatedFrameLatency: calculatedFrameLatency.value,
+    calculatedPhotonFlux: calculatedPhotonFlux.value,
+    calculatedVramUsage: calculatedVramUsage.value,
+    visualEngineRank: visualEngineRank.value,
+    timestamp: new Date().toISOString(),
+    sha256Certificate: 'HOLO-SPECTRUM-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(16).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `holographic_spectrum_certificate_${certData.sha256Certificate}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success(`已导出光谱方案书: ${certData.sha256Certificate}`)
+}
+
+// 源码展台
+type SpectrumScriptKey = 'grating_shader' | 'renderer_pipeline' | 'vram_guard'
+
+const activeSpectrumScriptTab = ref<SpectrumScriptKey>('grating_shader')
+
+const spectrumScriptTabs = [
+  { key: 'grating_shader' as const, name: '全息光栅着色器' },
+  { key: 'renderer_pipeline' as const, name: '全光谱管线编排器' },
+  { key: 'vram_guard' as const, name: '显存防溢出控制器' }
+]
+
+const spectrumScriptCodes: Record<SpectrumScriptKey, string> = {
+  grating_shader: `shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+
+// 最终幻想：时空之轮 - 全息衍射光栅与柯西色散着色器
+// 文件路径: res://shaders/vfx/holographic_grating_spectrum.gdshader
+// 引擎版本: Godot Engine 4.6 LTS
+
+uniform float grating_density : hint_range(100.0, 1200.0) = 600.0;
+uniform float dispersion_cauchy : hint_range(1.1, 2.5) = 1.65;
+uniform float color_temp_k : hint_range(2000.0, 12000.0) = 6500.0;
+uniform sampler2D spectral_lut : hint_default_white;
+
+vec3 blackbody_radiation(float temp) {
+    float t = temp / 100.0;
+    float r = t <= 66.0 ? 255.0 : 329.698727446 * pow(t - 60.0, -0.1332047592);
+    float g = t <= 66.0 ? 99.4708025861 * log(t) - 161.1195681661 : 288.1221695283 * pow(t - 60.0, -0.0755148492);
+    float b = t >= 66.0 ? 255.0 : (t <= 19.0 ? 0.0 : 138.5177312231 * log(t - 10.0) - 305.0447927307);
+    return clamp(vec3(r, g, b) / 255.0, 0.0, 1.0);
+}
+
+void fragment() {
+    vec3 view_dir = normalize(VIEW);
+    vec3 normal = normalize(NORMAL);
+    float n_dot_v = max(dot(normal, view_dir), 0.0);
+
+    // 纳米薄膜衍射波长偏移
+    float wavelength_shift = sin(n_dot_v * grating_density * 0.01) * dispersion_cauchy;
+    vec3 rainbow_specular = texture(spectral_lut, vec2(fract(wavelength_shift), 0.5)).rgb;
+    vec3 radiance_base = blackbody_radiation(color_temp_k);
+
+    ALBEDO = radiance_base * 0.4;
+    EMISSION = rainbow_specular * (1.0 - n_dot_v) * 2.5;
+    ROUGHNESS = 0.08;
+    METALLIC = 0.85;
+}
+`,
+
+  renderer_pipeline: `class_name FullSpectrumRendererPipeline
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全光谱渲染管线调度编排器
+## 文件路径: res://scripts/vfx/full_spectrum_renderer_pipeline.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal spectrum_pass_completed(frame_latency_ms: float, vram_usage_mb: int)
+
+var grating_density: float = 600.0
+var bounce_depth: int = 4
+var tsr_denoise_enabled: bool = true
+
+func execute_spectrum_compute(color_temp: float) -> Dictionary:
+    var latency: float = 1.2 + (grating_density / 1200.0 * 0.8) + (float(bounce_depth) / 8.0 * 1.2)
+    if tsr_denoise_enabled:
+        latency += 0.25
+
+    var vram: int = 580 + int(grating_density / 1200.0 * 320.0) + bounce_depth * 65
+    spectrum_pass_completed.emit(latency, vram)
+
+    return {
+        "frame_latency_ms": latency,
+        "vram_mb": vram,
+        "color_temperature": color_temp,
+        "certified_hash": "HOLO-SPEC-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)
+    }
+`,
+
+  vram_guard: `class_name VramJitterFreeMemoryGuard
+extends RefCounted
+
+## 最终幻想：时空之轮 - 显存防溢出零抖动保护控制器
+## 文件路径: res://scripts/vfx/vram_jitter_free_memory_guard.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+const MAX_SAFE_VRAM_MB: int = 3800
+
+static func monitor_and_throttle(current_usage_mb: int) -> Dictionary:
+    var is_critical: bool = current_usage_mb > MAX_SAFE_VRAM_MB
+    return {
+        "is_throttled": is_critical,
+        "recommended_lod_bias": 1.5 if is_critical else 1.0,
+        "downsample_factor": 0.75 if is_critical else 1.0,
+        "action": "DOWNSAMPLE_NON_CRITICAL_BUFFERS" if is_critical else "OPTIMAL_BANDWIDTH"
+    }
+`
+}
+
+const currentSpectrumScriptCode = computed(() => {
+  return spectrumScriptCodes[activeSpectrumScriptTab.value]
+})
+
+const copySpectrumScript = () => {
+  navigator.clipboard.writeText(currentSpectrumScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
 
 </script>
 
