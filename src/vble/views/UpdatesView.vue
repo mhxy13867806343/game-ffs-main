@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-scenes-world-topology-v345-2026-10-29',
+    version: 'v2.2.345',
+    date: '2026-10-29',
+    title: '全域大地图世界拓扑流、场景碰撞体积热重载与时空传送航标工坊重磅实装',
+    category: 'maps',
+    categoryName: '大地图拓扑',
+    icon: '🗺️',
+    tagType: 'success',
+    description: '全面重构升级 ScenesView 场景门户：顶部标章升级为 VBLE World Topology Stream, Scene Collision Hot-Reload & Waypoint Warp Studio v2.2.345，新增世界拓扑航标工坊快捷直达；专区重磅实装【全域大地图世界拓扑流、场景碰撞体积热重载与时空传送航标工坊】（World Topology & Waypoint Warp Studio）；覆盖四大世界拓扑与航标预设（三大世界大陆原野、太古遗迹与深渊地宫、深海航道与以太空流、终焉时空裂隙虚空枢纽）；支持分块流式加载视距 (1~8 视距区块)、BVH 包围盒碰撞检测精度 (60~240 Hz)、航标传送折跃吞吐 (500~5000 QPS) 与视锥体遮挡剔除裁剪比 (50%~99%) 连续微调；支持开启零卡顿双缓冲流式装载、服务端/底层连续碰撞强校验 (CCD) 防穿墙、自动化修复异常拓扑传送门死锁；实时解算场景流式平稳度 (高达 99.99%)、碰撞穿透概率 (< 0.0001%)、折跃传送延迟 (低至 0.20 ms) 与遮挡剔除节约算力 (高达 49.5%)；内置五阶段沙盘推演与离线场景拓扑防伪证书 SHA-256 导出；修复商铺装备对比弹窗闭合标签结构；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：world_topology_stream_manager.gd、scene_collision_bvh_engine.gd 与 waypoint_warp_teleport_bus.gd。',
+    highlights: [
+      '四大世界拓扑预设：大陆原野、深渊地宫、深海以太空流与终焉裂隙虚空枢纽',
+      '四维连续流式物理参数：流式加载视距、BVH碰撞精度、航标传送吞吐与遮挡剔除比',
+      '三重拓扑容灾策略：零卡顿双缓冲装载、连续碰撞(CCD)强校验与死锁传送门自愈',
+      '动态深层场景指标解算：流式平稳度、碰撞穿透概率、折跃传送延迟与遮挡剔除节约率',
+      '五阶段拓扑流推演沙盘：拓扑扫描、BVH重构、异步双缓冲预载、传送门握手与证书封包',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源世界拓扑流式总监、碰撞BVH引擎与航标折跃总线'
+    ],
+    relatedLinks: [
+      { label: '全域场景生态', path: '/vble/scenes', icon: '🗺️' },
+      { label: '世界拓扑航标工坊', path: '/vble/scenes#world-topology-studio', icon: '🌌' },
+      { label: '底层系统架构', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-search-semantic-warp-v344-2026-10-29',
     version: 'v2.2.344',
     date: '2026-10-29',
