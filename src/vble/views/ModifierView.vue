@@ -7,19 +7,29 @@
       <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div class="flex items-center gap-2 mb-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE GM Modifier, Affix Alchemy & Anti-Cheat Audit Studio v2.2.314
+            <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono font-bold text-xs border border-red-500/30">
+              VBLE GM Memory Hot-Patch, Stat Uncap Injection & Anti-Cheat Debugger Studio v2.2.342
             </span>
-            <span class="text-xs text-gray-400">1~255级无上限属性修改与金手指工坊</span>
+            <span class="text-xs text-gray-400">1~255级属性解限、GM内存热补丁与底层反作弊调试工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🛠️</span> 全域属性修改器与 GM 内存控制台沙盘
+            <span>🛠️</span> 全域属性修改器：GM 内存热补丁与极值调试工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
-            支持直接修改英雄 1 级基础属性与成长步进、输入血量/力量实时逆向反推等级、无敌/一击必杀 GM 内存锁定、以及一键生成 Action Replay 金手指代码。
+            支持直接修改英雄 1 级基础属性与成长步进、输入血量/力量实时逆向反推等级、无敌/一击必杀 GM 内存锁定、微秒级汇编 Patch 动态热重载与影子镜像防崩审计沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            class="shadow-md font-bold text-white bg-gradient-to-r from-red-500 to-amber-600 hover:from-red-400 hover:to-amber-500"
+            @click="scrollToGmMemoryPatchStudio"
+          >
+            <template #icon><span>💾</span></template>
+            GM内存热补丁工坊
+          </n-button>
           <router-link to="/vble/characters">
             <n-button type="info" size="medium" round secondary class="shadow-md">
               <template #icon><span>👥</span></template>
@@ -30,11 +40,12 @@
             type="warning"
             size="medium"
             round
-            class="shadow-md font-bold text-black bg-gradient-to-r from-amber-400 to-red-500 hover:from-amber-300 hover:to-red-400"
+            secondary
+            class="shadow-md"
             @click="scrollToAffixAlchemyStudio"
           >
             <template #icon><span>🛠️</span></template>
-            词缀炼金与审计工坊
+            词缀炼金工坊
           </n-button>
           <router-link to="/vble/armory-simulator">
             <n-button type="warning" size="medium" round secondary class="shadow-md">
@@ -803,6 +814,271 @@
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-amber-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentModifierCode }}</pre>
       </div>
     </div>
+
+    <!-- 全域独立 GM 内存热补丁控制台、属性解限注入沙箱与底层反作弊调试工坊 (v2.2.342 重磅实装) -->
+    <div id="gm-memory-patch-studio" class="gm-memory-patch-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-red-950/20 to-slate-900/95 border border-red-500/40 shadow-[0_0_40px_rgba(239,68,68,0.18)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-red-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono text-xs font-bold border border-red-500/30">
+              GM MEMORY HOT-PATCH & STAT UNCAP SANDBOX
+            </span>
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">
+              v2.2.342 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide mt-2 flex items-center gap-2">
+            <span>💾</span> 全域独立 GM 内存热补丁控制台、属性解限注入沙箱与底层反作弊调试工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            支持针对当前出战英雄进行微秒级内存虚拟寻址、注入无敌创世态/一击必杀超频、旁路技能公共冷却，并配合影子内存镜像差分校验实现防崩溃热重载，附带 SHA-256 GM 调试授权凭证签发。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="warning" @click="resetGmPatchStudio">
+            <template #icon><span>🔄</span></template>
+            重置参数
+          </n-button>
+          <n-button
+            size="small"
+            round
+            type="error"
+            class="bg-gradient-to-r from-red-600 to-amber-600 font-bold text-white shadow-lg shadow-red-500/20"
+            :loading="simulatingGmPatch"
+            @click="runSimulatedGmPatch"
+          >
+            <template #icon><span>⚡</span></template>
+            执行内存注入与沙箱推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 4 维 GM 调试注入预设卡片 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div
+          v-for="arch in gmModArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col justify-between"
+          :class="selectedGmArchetype === arch.id
+            ? 'bg-red-950/40 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)] ring-1 ring-red-400'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/90'"
+          @click="selectedGmArchetype = arch.id"
+        >
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-red-300 border border-red-500/20">
+                {{ arch.badge }}
+              </span>
+              <span class="text-xs text-gray-400 font-mono">{{ arch.targetHook }}</span>
+            </div>
+            <div class="text-sm font-bold text-white flex items-center gap-1.5 pt-1">
+              <span>{{ arch.icon }}</span>
+              <span>{{ arch.name }}</span>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">{{ arch.desc }}</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>{{ arch.coreMetricLabel }}</span>
+            <span class="text-red-400 font-bold">{{ arch.coreMetricVal }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与逻辑开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-950/60 p-4 sm:p-6 rounded-xl border border-slate-800/80">
+        <!-- 4 滑块 -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
+            <span>⚙️</span> GM 内存指针寻址与极值注入参数
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">内存热补丁注入深度 (Injection Depth):</span>
+              <span class="font-mono text-red-400 font-bold">{{ memoryInjectionLevel }} 级 (虚表寻址)</span>
+            </div>
+            <n-slider v-model:value="memoryInjectionLevel" :min="1" :max="10" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1 级 (堆浅层属性)</span>
+              <span>5 级 (虚函数表拦截)</span>
+              <span>10 级 (内核微秒汇编热重载)</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">ATB 频率超频倍率 (Overclock Rate):</span>
+              <span class="font-mono text-red-400 font-bold">{{ atbSpeedOverclock }}%</span>
+            </div>
+            <n-slider v-model:value="atbSpeedOverclock" :min="100" :max="5000" :step="100" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>100% 标准基线</span>
+              <span>1500% 极速轮转</span>
+              <span>5000% 绝对时停先攻</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">全局属性倍率扩张 (Stat Multiplier):</span>
+              <span class="font-mono text-red-400 font-bold">{{ statMultiplier }}x 阶梯倍率</span>
+            </div>
+            <n-slider v-model:value="statMultiplier" :min="1" :max="100" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1x 原版数值</span>
+              <span>25x 副本碾压</span>
+              <span>100x 宇宙创世纪极值</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">调试环境反作弊旁路容限 (Bypass Tolerance):</span>
+              <span class="font-mono text-red-400 font-bold">{{ antiCheatTolerance }}%</span>
+            </div>
+            <n-slider v-model:value="antiCheatTolerance" :min="50" :max="100" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>50% 敏感阻断</span>
+              <span>80% 开发白名单</span>
+              <span>100% 影子全放行</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 开关与实时演算看板 -->
+        <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
+              <span>🛡️</span> GM 锁定与安全审计开关
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">锁死全队 HP/MP 绝对极值</div>
+                <div class="text-[10px] text-gray-500">血量与魔力动态冻结为 99,999,999</div>
+              </div>
+              <n-switch v-model:value="lockHeroHpMp" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">旁路全技能冷却与咏唱耗时</div>
+                <div class="text-[10px] text-gray-500">GCD 强制置 0，所有奥义全时段瞬发</div>
+              </div>
+              <n-switch v-model:value="bypassCooldowns" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">开启影子内存差分审计</div>
+                <div class="text-[10px] text-gray-500">双副本镜像隔离校验，杜绝 NaN 崩溃</div>
+              </div>
+              <n-switch v-model:value="enableShadowAudit" size="small" />
+            </div>
+          </div>
+
+          <!-- 4 项实时数学衍生指标 -->
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">瞬时战力峰值</div>
+              <div class="text-base font-black text-red-400 font-mono mt-0.5">{{ peakCombatPower }} Pt</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">单击极值估算</div>
+              <div class="text-base font-black text-amber-400 font-mono mt-0.5">{{ maxHitDamage }} Dmg</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">内存注入延迟</div>
+              <div class="text-base font-black text-cyan-400 font-mono mt-0.5">{{ injectionLatencyUs }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">沙箱稳态指数</div>
+              <div class="text-base font-black text-emerald-400 font-mono mt-0.5">{{ sandboxStabilityIndex }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 阶段流水线演练进度与实时推演控制台 -->
+      <div class="p-4 sm:p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span>📊</span> GM 内存热重载五阶段注入流水线
+            </span>
+            <span v-if="simulatingGmPatch" class="text-[10px] font-mono text-cyan-400 animate-pulse">
+              [INJECTION PIPELINE EXECUTING STAGE {{ gmPatchStep }}/5]
+            </span>
+          </div>
+          <div class="text-xs text-gray-400 font-mono">
+            当前预设: <span class="text-red-300 font-bold">{{ activeGmArchetypeObj?.name }}</span>
+          </div>
+        </div>
+
+        <n-progress
+          type="line"
+          :percentage="simulatingGmPatch ? gmPatchStep * 20 : 100"
+          :status="simulatingGmPatch ? 'info' : 'success'"
+          :color="'#ef4444'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in gmPatchLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪调试授权凭证: </span>
+            <span class="text-red-400 font-bold">{{ gmCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="warning" round @click="exportGmCert">
+            <template #icon><span>📜</span></template>
+            导出全景 GM 内存注入与沙箱调试报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-red-500/20 text-red-300 px-2 py-0.5 rounded border border-red-500/30">
+                GODOT 4.6 LTS GM ENGINE
+              </span>
+              <span class="text-sm font-bold text-white">底层 GM 内存热补丁与沙箱实机驱动</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级 GM 内存动态寻址与热补丁注入控制器、属性解限注入管线与影子内存镜像比对审计器。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in gmCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeGmCodeTab === codeTab.id ? 'error' : 'default'"
+              :secondary="activeGmCodeTab !== codeTab.id"
+              @click="activeGmCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveGmCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-red-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentGmCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1542,6 +1818,350 @@ const currentModifierCode = computed(() => {
 const copyActiveModifierCode = () => {
   navigator.clipboard.writeText(currentModifierCode.value).then(() => {
     message.success(`${activeModifierCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
+// ==========================================
+// v2.2.342: 全域独立 GM 内存热补丁与沙箱调试工坊
+// ==========================================
+interface GmModArchetype {
+  id: 'quantum_invincible' | 'hyper_burst_one_hit' | 'infinite_atb_action' | 'void_loot_multi'
+  name: string
+  badge: string
+  targetHook: string
+  icon: string
+  desc: string
+  coreMetricLabel: string
+  coreMetricVal: string
+}
+
+const gmModArchetypes: GmModArchetype[] = [
+  {
+    id: 'quantum_invincible',
+    name: '太古创世无敌态',
+    badge: 'GM OMNIPOTENCE',
+    targetHook: 'Entity.take_damage()',
+    icon: '🛡️',
+    desc: '锁死 HP 99,999,999、MP 9,999,999、双防 99,999，免疫一切异常状态与真实穿透伤害。',
+    coreMetricLabel: '绝对生存率',
+    coreMetricVal: '100.00%'
+  },
+  {
+    id: 'hyper_burst_one_hit',
+    name: '神威解限一击必杀',
+    badge: 'GM ANNIHILATION',
+    targetHook: 'DamageFormula.eval()',
+    icon: '⚡',
+    desc: '全系穿透强制 100%、暴击率 100%、暴击倍率 1,000%，单击伤害突破 9,999,999 阈值上限。',
+    coreMetricLabel: '破限斩杀倍率',
+    coreMetricVal: '1000.0x'
+  },
+  {
+    id: 'infinite_atb_action',
+    name: '零延迟时空时停先攻',
+    badge: 'GM CHRONO WARP',
+    targetHook: 'ATBTimeline.advance()',
+    icon: '⏳',
+    desc: 'ATB 初始填充速度提升 5,000%、咏唱与冷却耗时 0 帧、全队连续无间隙抢占回合先攻。',
+    coreMetricLabel: '行动帧先攻',
+    coreMetricVal: '0 Frame'
+  },
+  {
+    id: 'void_loot_multi',
+    name: '虚空千倍聚敛宝库',
+    badge: 'GM TREASURY',
+    targetHook: 'DropTable.resolve()',
+    icon: '💎',
+    desc: '金币获取倍率 x100、稀有神装掉落率 100%、无限装备强化晶石、洗练词缀必定全满。',
+    coreMetricLabel: '神级掉落率',
+    coreMetricVal: '100.00%'
+  }
+]
+
+const selectedGmArchetype = ref<'quantum_invincible' | 'hyper_burst_one_hit' | 'infinite_atb_action' | 'void_loot_multi'>('quantum_invincible')
+const memoryInjectionLevel = ref(8)
+const atbSpeedOverclock = ref(1500)
+const statMultiplier = ref(10)
+const antiCheatTolerance = ref(95)
+
+const lockHeroHpMp = ref(true)
+const bypassCooldowns = ref(true)
+const enableShadowAudit = ref(true)
+
+const activeGmArchetypeObj = computed(() => {
+  return gmModArchetypes.find(a => a.id === selectedGmArchetype.value) || gmModArchetypes[0]
+})
+
+const peakCombatPower = computed(() => {
+  const base = 999999
+  const mult = statMultiplier.value * (memoryInjectionLevel.value * 0.8)
+  const val = Math.min(99999999, Math.round(base * mult))
+  return val.toLocaleString()
+})
+
+const maxHitDamage = computed(() => {
+  const base = 850000
+  const mult = (statMultiplier.value * 1.5) * (atbSpeedOverclock.value / 1000)
+  const val = Math.min(99999999, Math.round(base * mult))
+  return val.toLocaleString()
+})
+
+const injectionLatencyUs = computed(() => {
+  const lat = 1.2 + (memoryInjectionLevel.value * 0.35)
+  return `${lat.toFixed(1)} μs`
+})
+
+const sandboxStabilityIndex = computed(() => {
+  const stab = 98.5 + (antiCheatTolerance.value * 0.014)
+  return `${Math.min(99.99, stab).toFixed(2)}%`
+})
+
+const simulatingGmPatch = ref(false)
+const gmPatchStep = ref(0)
+const gmCertHash = ref('GM-SHA256-4F1E902B7D6C')
+
+const gmPatchLogs = ref<Array<{ time: string; text: string; color: string }>>([
+  { time: 'INIT', text: 'GM 独立内存控制台已接入当前出战英雄虚拟地址空间。', color: 'text-red-400' },
+  { time: 'STANDBY', text: '影子内存镜像已建立基线，等待动态 Patch 注入指令。', color: 'text-gray-400' }
+])
+
+const scrollToGmMemoryPatchStudio = () => {
+  const el = document.getElementById('gm-memory-patch-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.info('已定位至全域独立 GM 内存热补丁工坊')
+  }
+}
+
+const resetGmPatchStudio = () => {
+  selectedGmArchetype.value = 'quantum_invincible'
+  memoryInjectionLevel.value = 8
+  atbSpeedOverclock.value = 1500
+  statMultiplier.value = 10
+  antiCheatTolerance.value = 95
+  lockHeroHpMp.value = true
+  bypassCooldowns.value = true
+  enableShadowAudit.value = true
+  gmCertHash.value = 'GM-SHA256-4F1E902B7D6C'
+  gmPatchLogs.value = [
+    { time: 'RESET', text: 'GM 调试沙箱已恢复初始安全稳态。', color: 'text-amber-400' },
+    { time: 'READY', text: '内存挂钩与虚表指针已复位至默认偏移量。', color: 'text-red-400' }
+  ]
+  message.success('GM 内存热补丁工坊参数已重置！')
+}
+
+const runSimulatedGmPatch = () => {
+  if (simulatingGmPatch.value) return
+  simulatingGmPatch.value = true
+  gmPatchStep.value = 1
+  gmPatchLogs.value.unshift({
+    time: new Date().toLocaleTimeString(),
+    text: `[Stage 1/5] 动态寻址出战角色核心结构体指针 (Level: ${memoryInjectionLevel.value})...`,
+    color: 'text-red-300'
+  })
+
+  setTimeout(() => {
+    gmPatchStep.value = 2
+    gmPatchLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 2/5] 建立只读备份影子内存，计算 CRC32 与 SHA-256 (Audit: ${enableShadowAudit.value ? '已激活' : '旁路'})...`,
+      color: 'text-amber-300'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    gmPatchStep.value = 3
+    gmPatchLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 3/5] 动态注入字节码 Patch (属性扩张 ${statMultiplier.value}x, ATB超频 ${atbSpeedOverclock.value}%)...`,
+      color: 'text-orange-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    gmPatchStep.value = 4
+    gmPatchLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 4/5] 验证阶梯溢出边界 (瞬时战力峰值 ${peakCombatPower.value} Pt, 抑制崩溃与 NaN)...`,
+      color: 'text-red-400'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    gmPatchStep.value = 5
+    const hash = 'GM-SHA256-' + Math.random().toString(16).substring(2, 10).toUpperCase() + Math.random().toString(16).substring(2, 6).toUpperCase()
+    gmCertHash.value = hash
+    gmPatchLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 5/5] 内存热注入完成！已颁发数字调试凭证: ${hash}，沙箱稳态率: ${sandboxStabilityIndex.value}！`,
+      color: 'text-emerald-400 font-bold'
+    })
+    simulatingGmPatch.value = false
+    message.success(`GM 内存热补丁注入成功！凭证: ${hash}`)
+  }, 1600)
+}
+
+const exportGmCert = () => {
+  const content = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   全域独立 GM 内存热补丁与沙箱调试授权报告 (v2.2.342)
+================================================================================
+凭证编号: ${gmCertHash.value}
+生成时间: ${new Date().toISOString()}
+调试预设: ${activeGmArchetypeObj.value.name} (${activeGmArchetypeObj.value.badge})
+挂钩目标: ${activeGmArchetypeObj.value.targetHook}
+
+【核心注入与超频指标】
+- 内存热补丁注入深度: ${memoryInjectionLevel.value} 级
+- ATB 频率超频倍率: ${atbSpeedOverclock.value}%
+- 全局属性倍率扩张: ${statMultiplier.value}x
+- 调试环境反作弊旁路容限: ${antiCheatTolerance.value}%
+- 瞬时战力峰值: ${peakCombatPower.value} Pt
+- 单击极值估算: ${maxHitDamage.value} Dmg
+- 内存注入响应延迟: ${injectionLatencyUs.value}
+- 沙箱稳态指数: ${sandboxStabilityIndex.value}
+
+【GM 锁定与安全审计开关】
+- 锁死全队 HP/MP 绝对极值: ${lockHeroHpMp.value ? '启用' : '禁用'}
+- 旁路全技能冷却与咏唱: ${bypassCooldowns.value ? '启用' : '禁用'}
+- 开启影子内存差分审计: ${enableShadowAudit.value ? '启用' : '禁用'}
+
+【底层实机驱动】
+- gm_memory_hotpatch_controller.gd
+- stat_uncap_injection_pipeline.gd
+- shadow_memory_audit_guard.gd
+================================================================================`
+
+  navigator.clipboard.writeText(content).then(() => {
+    message.success('全景 GM 内存注入与调试报告已复制到剪贴板！')
+  }).catch(() => {
+    message.info('报告已复制')
+  })
+}
+
+const gmCodeTabs = [
+  { id: 'controller', name: 'gm_memory_hotpatch_controller.gd' },
+  { id: 'pipeline', name: 'stat_uncap_injection_pipeline.gd' },
+  { id: 'guard', name: 'shadow_memory_audit_guard.gd' }
+] as const
+
+type GmCodeTabType = (typeof gmCodeTabs)[number]['id']
+const activeGmCodeTab = ref<GmCodeTabType>('controller')
+
+const gmSourceCodes: Record<GmCodeTabType, string> = {
+  controller: `## gm_memory_hotpatch_controller.gd
+## 《光之战士：时空裂隙》GM 内存动态寻址与热补丁注入控制器
+## 架构版本: Godot 4.6 LTS / GM Debug Subsystem
+
+class_name GMMemoryHotpatchController
+extends RefCounted
+
+signal patch_injected(hook_name: String, patch_size: int, status: bool)
+signal memory_pointer_resolved(target_id: String, vtable_addr: int)
+
+var _injection_level: int = 8
+var _active_hooks: Dictionary = {}
+
+func _init(injection_level: int = 8) -> void:
+	_injection_level = injection_level
+
+## 针对出战实体注入热补丁
+func inject_hook(target_entity: Object, hook_id: String, patch_data: Dictionary) -> bool:
+	if not is_instance_valid(target_entity):
+		push_error("[GM Patch] 实体指针无效，放弃注入")
+		return false
+
+	var instance_id := target_entity.get_instance_id()
+	_active_hooks[hook_id] = {
+		"instance_id": instance_id,
+		"patch": patch_data,
+		"timestamp": Time.get_ticks_usec()
+	}
+
+	memory_pointer_resolved.emit(hook_id, instance_id)
+	patch_injected.emit(hook_id, patch_data.size(), true)
+	return true
+
+## 移除注入的热补丁，恢复原始指令流
+func revert_hook(hook_id: String) -> void:
+	if _active_hooks.has(hook_id):
+		_active_hooks.erase(hook_id)
+		patch_injected.emit(hook_id, 0, false)
+`,
+  pipeline: `## stat_uncap_injection_pipeline.gd
+## 《光之战士：时空裂隙》属性极值突破与动态倍率解算管线
+## 架构版本: Godot 4.6 LTS / Stat Engine Subsystem
+
+class_name StatUncapInjectionPipeline
+extends RefCounted
+
+signal stat_uncapped(stat_name: String, raw_val: int, injected_val: int)
+
+var _multiplier: float = 10.0
+var _hp_mp_locked: bool = true
+const UNCAP_LIMIT: int = 99_999_999
+
+func _init(mult: float = 10.0, lock_extremes: bool = true) -> void:
+	_multiplier = mult
+	_hp_mp_locked = lock_extremes
+
+## 动态解算注入后的角色属性
+func calculate_injected_stat(stat_type: String, base_val: int) -> int:
+	if _hp_mp_locked and (stat_type == "hp" or stat_type == "mp"):
+		stat_uncapped.emit(stat_type, base_val, UNCAP_LIMIT)
+		return UNCAP_LIMIT
+
+	var boosted := int(float(base_val) * _multiplier)
+	var final_val := clampi(boosted, 1, UNCAP_LIMIT)
+	stat_uncapped.emit(stat_type, base_val, final_val)
+	return final_val
+`,
+  guard: `## shadow_memory_audit_guard.gd
+## 《光之战士：时空裂隙》影子内存镜像比对与防崩防作弊审计器
+## 架构版本: Godot 4.6 LTS / Security Subsystem
+
+class_name ShadowMemoryAuditGuard
+extends RefCounted
+
+signal audit_completed(is_safe: bool, drift_delta: float)
+signal anomaly_detected(reason: String)
+
+var _shadow_mirror: Dictionary = {}
+var _tolerance: float = 0.95
+
+func _init(tolerance: float = 0.95) -> void:
+	_tolerance = tolerance
+
+## 捕获当前内存镜像基线快照
+func capture_snapshot(tag: String, state_data: Dictionary) -> void:
+	_shadow_mirror[tag] = state_data.duplicate(true)
+
+## 比对内存影子差分，检测 NaN 或越界异常
+func verify_stability(tag: String, current_state: Dictionary) -> bool:
+	if not _shadow_mirror.has(tag):
+		return true
+
+	for key in current_state.keys():
+		var val = current_state[key]
+		if typeof(val) == TYPE_FLOAT and (is_nan(val) or is_inf(val)):
+			anomaly_detected.emit("数值溢出 NaN/Inf 在键: %s" % key)
+			audit_completed.emit(false, 1.0)
+			return false
+
+	audit_completed.emit(true, 0.0)
+	return true
+`
+}
+
+const currentGmCode = computed(() => {
+  return gmSourceCodes[activeGmCodeTab.value] || ''
+})
+
+const copyActiveGmCode = () => {
+  navigator.clipboard.writeText(currentGmCode.value).then(() => {
+    message.success(`${activeGmCodeTab.value}.gd 源码已复制到剪贴板！`)
   }).catch(() => {
     message.info('源码已复制')
   })

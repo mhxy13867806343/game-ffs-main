@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-modifier-gm-hotpatch-v342-2026-10-29',
+    version: 'v2.2.342',
+    date: '2026-10-29',
+    title: '全域独立 GM 内存热补丁控制台、属性解限注入沙箱与底层反作弊调试工坊重磅实装',
+    category: 'system',
+    categoryName: 'GM调试',
+    icon: '💾',
+    tagType: 'error',
+    description: '全面重构升级 ModifierView GM 属性控制台门户：顶部标章升级为 VBLE GM Memory Hot-Patch, Stat Uncap Injection & Anti-Cheat Debugger Studio v2.2.342，新增 GM 内存热补丁工坊快捷直达；专区重磅实装【全域独立 GM 内存热补丁控制台、属性解限注入沙箱与底层反作弊调试工坊】（GM Memory Hot-Patch & Stat Uncap Sandbox）；覆盖四大 GM 调试注入预设（太古创世无敌态、神威解限一击必杀、零延迟时空时停先攻、虚空千倍聚敛宝库）；支持内存热补丁注入深度 (1~10 级虚表寻址)、ATB 频率超频倍率 (100%~5000%)、全局属性倍率扩张 (1~100x) 与调试环境反作弊旁路容限 (50%~100%) 连续微调；支持锁死全队 HP/MP 绝对极值 (99,999,999)、旁路全技能公共冷却与咏唱耗时、开启影子内存差分隔离审计；实时解算瞬时战力峰值 (高达 99,999,999 Pt)、单击极值估算 (高达 99,999,999 Dmg)、内存注入延迟 (低至 1.5 μs) 与沙箱稳态指数 (高达 99.99%)；内置五阶段沙盘推演与离线 GM 调试授权防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：gm_memory_hotpatch_controller.gd、stat_uncap_injection_pipeline.gd 与 shadow_memory_audit_guard.gd。',
+    highlights: [
+      '四大 GM 调试预设：创世无敌态、神威解限一击必杀、零延迟时空时停与虚空千倍宝库',
+      '四维连续注入调试参数：内存热补丁深度、ATB超频倍率、属性倍率扩张与反作弊旁路容限',
+      '三重 GM 锁定与审计机制：HP/MP 9999万极值锁定、GCD 强制旁路与双副本影子内存差分',
+      '动态深层调试指标解算：瞬时战力峰值、单击极值估算、内存注入微秒延迟与沙箱稳态指数',
+      '五阶段内存热重载流水线：内存定位、影子差分基准、字节码热注入、异常溢出隔离与证书封包',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源 GM 动态寻址控制器、属性极值解算管线与影子审计器'
+    ],
+    relatedLinks: [
+      { label: 'GM 属性修改器', path: '/vble/modifier', icon: '🛠️' },
+      { label: '内存热补丁工坊', path: '/vble/modifier', icon: '💾' },
+      { label: '英雄属性总览', path: '/vble/attributes', icon: '📊' }
+    ]
+  },
+  {
     id: 'up-docs-whitepaper-traceability-v341-2026-10-29',
     version: 'v2.2.341',
     date: '2026-10-29',
