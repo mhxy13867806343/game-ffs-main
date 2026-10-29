@@ -1877,6 +1877,18 @@
             <p class="text-gray-400 text-xs leading-relaxed">{{ quest.validation }}</p>
           </div>
         </div>
+
+        <template #action>
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-[11px] font-mono text-cyan-300 font-bold">ID: {{ quest.id }}</span>
+            <router-link :to="'/vble/sidequests/' + quest.id">
+              <n-button size="small" type="warning" round secondary class="shadow-sm">
+                <template #icon><span>📜</span></template>
+                查看独立侦测详单 →
+              </n-button>
+            </router-link>
+          </div>
+        </template>
       </n-card>
     </div>
 

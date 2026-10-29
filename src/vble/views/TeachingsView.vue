@@ -180,8 +180,14 @@
               "{{ tech.lore }}"
             </div>
 
-            <!-- 研习模拟入口 -->
-            <div class="pt-2 flex justify-end">
+            <!-- 研习模拟入口与独立详单跳转 -->
+            <div class="pt-2 flex items-center justify-between">
+              <router-link :to="'/vble/teachings/' + tech.id">
+                <n-button size="tiny" type="warning" round secondary class="shadow-sm">
+                  <template #icon><span>📖</span></template>
+                  查看独立档案 →
+                </n-button>
+              </router-link>
               <n-button size="tiny" type="primary" secondary @click="launchSimulator(tech)">
                 前往演练台推演 ➔
               </n-button>

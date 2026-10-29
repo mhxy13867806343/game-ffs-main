@@ -210,6 +210,31 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-sidequest-teaching-detail-v350-2026-10-29',
+    version: 'v2.2.350',
+    date: '2026-10-29',
+    title: '全域多维独立详情架构终章：全支线任务侦测详单与四大名门绝技秘传独立子门户重磅实装',
+    category: 'system',
+    categoryName: '独立页面终章',
+    icon: '📜',
+    tagType: 'success',
+    description: '全面实现全域页面全解耦与模块独立化战略愿景：1. 支线任务独立侦测详单 (/vble/sidequests/:id)：深度打通全域支线前置条件、发生区域、专属明怪定位、任务奖励与底层事务隔离校验；2. 绝技秘传独立研习档案 (/vble/teachings/:id)：收录勇者圣所、米西迪亚、东洋五遁与拟态青魔法四大学院导师绝学、实战伤害结算公式、元素克制法则与战术定式；3. 在支线任务列表与秘传绝技列表全面实装一键直达跳转按钮；至此，全站 8 大核心业务（英雄、首领、编年史、神装、职业、召唤兽、秘境、支线与秘传）已全部实现高对比度独立子页面化，彻底消除单页性能与排版过载！',
+    highlights: [
+      '两大全新独立页面路由：/sidequests/:id 与 /teachings/:id',
+      '全域 8 大核心资产全量实现独立全息子门户跳转体系，杜绝单页长卷过载',
+      '支线三阶段闭环推演：前置剧情触发、专属魔物调查交战与一次性交付日志写入',
+      '名门绝技公式解算：直观展示真实伤害公式、施法前摇/速度与元素属性克制',
+      '全面落地高可读性、高对比度黑金与霓虹青白美学，所有文字与交互按钮无需悬停即可清晰查验',
+      '0 TypeScript / Vue 编译错误，保持本地构建轻量化与秒级热重载'
+    ],
+    relatedLinks: [
+      { label: '支线任务列表', path: '/vble/sidequests', icon: '📜' },
+      { label: '秘传绝技研习', path: '/vble/teachings', icon: '⚡' },
+      { label: '职业体系目录', path: '/vble/jobs', icon: '🌀' },
+      { label: '秘境地城总览', path: '/vble/dungeons', icon: '🏰' }
+    ]
+  },
+  {
     id: 'up-job-summon-dungeon-detail-v349-2026-10-29',
     version: 'v2.2.349',
     date: '2026-10-29',

@@ -117,6 +117,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '支线 - 最终幻想：时空之轮' }
       },
       {
+        path: 'sidequests/:id',
+        name: 'VbleSidequestDetail',
+        component: () => import('@/vble/views/SidequestDetailView.vue'),
+        meta: { title: '支线详单 - 最终幻想：时空之轮' }
+      },
+      {
         path: 'battle-tactics',
         name: 'VbleBattleTactics',
         component: () => import('@/vble/views/BattleTacticsView.vue'),
@@ -157,6 +163,12 @@ const routes: RouteRecordRaw[] = [
         name: 'VbleTeachings',
         component: () => import('@/vble/views/TeachingsView.vue'),
         meta: { title: '秘传绝技 - 最终幻想：时空之轮' }
+      },
+      {
+        path: 'teachings/:id',
+        name: 'VbleTeachingDetail',
+        component: () => import('@/vble/views/TeachingDetailView.vue'),
+        meta: { title: '秘传档案 - 最终幻想：时空之轮' }
       },
       {
         path: 'summons',
