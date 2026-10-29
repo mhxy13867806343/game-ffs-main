@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-modifier-affix-alchemy-v314-2026-10-29',
+    version: 'v2.2.314',
+    date: '2026-10-29',
+    title: '装备词缀修改器、全域数值配方推演与安全篡改审计工坊重磅实装',
+    category: 'equipment',
+    categoryName: '词缀炼金',
+    icon: '🛠️',
+    tagType: 'success',
+    description: '全面重构升级 ModifierView GM 属性修改门户：顶部标章升级为 VBLE GM Modifier, Affix Alchemy & Anti-Cheat Audit Studio v2.2.314，新增词缀炼金与审计工坊快捷直达；专区重磅实装【装备词缀修改器、全域数值配方推演与安全篡改审计工坊】（Affix Alchemy Modifier, Stat Formulation & Anti-Tamper Audit Studio）；覆盖四大修改器流派原型（极限无敌沙盒流、词缀炼金极意流、内存篡改差分审计流、速通辅助穿梭流）；支持装备附加词缀槽位深度 (1~8 槽位)、内存篡改安全防御阈值 (50%~99%)、数值膨胀平抑抑制系数 (0.5x~3.0x) 与 GM 调试控制台时钟频率 (30~240 Hz) 连续微调；支持内存双向镜像热补丁差分校验、词条突破装备品质上限天花板与异常数值溢出自动毫秒级规整保护；实时解算理论峰值伤害 (高达 99,999,999)、防篡改安全评级 (高达 99.9%)、词缀炼金纯度 (高达 99.0%) 与 GM 调试权限评级 (高达 EX·太古造物主调试权)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：affix_alchemy_injector.gd、memory_tamper_audit_guard.gd 与 gm_speedrun_warp_controller.gd。',
+    highlights: [
+      '四大修改器流派原型：极限无敌沙盒、词缀炼金极意、内存篡改差分审计与速通辅助穿梭',
+      '四维连续调试配方参数：词缀槽位深度、安全防御阈值、膨胀抑制系数与控制台时钟频率',
+      '三重反作弊安全守卫机制：内存双向镜像校验、词条天花板突破与数值溢出毫秒规整',
+      '动态能效指标解算：理论峰值伤害、防篡改安全度、词缀炼金纯度与造物主调试权限认证',
+      '五阶段炼金沙盘：双副本内存对齐、8重词缀解限注入、膨胀平抑抑制、时钟调度与防伪签署',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源词缀炼金注入器、内存篡改审计守卫与速通场景穿梭控制器'
+    ],
+    relatedLinks: [
+      { label: 'GM全域属性修改器', path: '/vble/modifier', icon: '🛠️' },
+      { label: '词缀炼金与审计工坊', path: '/vble/modifier', icon: '⚗️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-news-chronicle-broadcast-v313-2026-10-29',
     version: 'v2.2.313',
     date: '2026-10-29',

@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              GM CHARACTER & STAT MODIFIER STUDIO
+              VBLE GM Modifier, Affix Alchemy & Anti-Cheat Audit Studio v2.2.314
             </span>
             <span class="text-xs text-gray-400">1~255级无上限属性修改与金手指工坊</span>
           </div>
@@ -26,6 +26,16 @@
               英雄传记
             </n-button>
           </router-link>
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            class="shadow-md font-bold text-black bg-gradient-to-r from-amber-400 to-red-500 hover:from-amber-300 hover:to-red-400"
+            @click="scrollToAffixAlchemyStudio"
+          >
+            <template #icon><span>🛠️</span></template>
+            词缀炼金与审计工坊
+          </n-button>
           <router-link to="/vble/armory-simulator">
             <n-button type="warning" size="medium" round secondary class="shadow-md">
               <template #icon><span>⚔️</span></template>
@@ -572,6 +582,227 @@
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ gdScriptCode }}</pre>
       </div>
     </div>
+
+    <!-- 装备词缀修改器、全域数值配方推演与安全篡改审计工坊 (v2.2.314 重磅实装) -->
+    <div id="affix-alchemy-studio" class="affix-alchemy-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-amber-950/20 to-slate-900/95 border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/30">
+              AFFIX ALCHEMY & ANTI-TAMPER AUDIT
+            </span>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">
+              v2.2.314 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>🛠️</span> 装备词缀修改器、全域数值配方推演与安全篡改审计工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            系统支持装备多重前缀/后缀炼金注入、数值膨胀动态平抑、镜像内存差分防作弊校验与 Godot 4.6 LTS 底层 GM 调试单例联动，兼顾开发调试自由度与生产环境绝对安全性。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="warning" @click="resetAffixAlchemyDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="warning" :loading="isModifierSimulating" @click="runAffixAlchemySimulation">
+            <template #icon><span>⚡</span></template>
+            启动词缀炼金全流程推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大修改器流派原型卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="archetype in modifierArchetypes"
+          :key="archetype.id"
+          @click="selectModifierArchetype(archetype)"
+          :class="[
+            'p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden',
+            selectedModifierArchetype.id === archetype.id
+              ? 'bg-amber-950/40 border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.25)]'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+          ]"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xl">{{ archetype.icon }}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-amber-300">{{ archetype.badge }}</span>
+          </div>
+          <div class="font-bold text-white text-sm mt-2">{{ archetype.name }}</div>
+          <div class="text-xs text-gray-400 mt-1 leading-relaxed">{{ archetype.desc }}</div>
+          <div class="mt-3 text-[11px] font-mono text-amber-400/90 flex justify-between">
+            <span>峰值伤害: {{ archetype.dmg }}</span>
+            <span>防篡改: {{ archetype.security }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心微调滑块与调控开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <!-- 4 维连续滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-amber-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>⚙️</span> 词缀炼金与调试时钟参数调谐
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>装备附加词缀槽位深度 (Affix Slot Depth)</span>
+                <span class="font-mono text-amber-400 font-bold">{{ affixSlotDepth }} 槽位</span>
+              </div>
+              <n-slider v-model:value="affixSlotDepth" :min="1" :max="8" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>内存篡改安全防御阈值 (Anti-Tamper Sensitivity)</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ antiTamperSensitivity }} %</span>
+              </div>
+              <n-slider v-model:value="antiTamperSensitivity" :min="50" :max="99" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>数值膨胀平抑抑制系数 (Dampening Factor)</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ dampeningFactor.toFixed(1) }} x</span>
+              </div>
+              <n-slider v-model:value="dampeningFactor" :min="0.5" :max="3.0" :step="0.1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>GM 调试控制台时钟频率 (Clock Frequency)</span>
+                <span class="font-mono text-purple-400 font-bold">{{ consoleClockFreq }} Hz</span>
+              </div>
+              <n-slider v-model:value="consoleClockFreq" :min="30" :max="240" :step="10" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 维调控开关与动态指标 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>🛡️</span> 内存防篡改与安全守卫
+          </div>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">内存双向镜像热补丁差分校验</div>
+                <div class="text-[10px] text-gray-400">维持主副本双镜像，非法第三方内存挂钩直接丢弃并自愈</div>
+              </div>
+              <n-switch v-model:value="enableDualMirrorChecksum" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">词条突破装备品质上限天花板</div>
+                <div class="text-[10px] text-gray-400">允许普通白装注入太古神级词条，解禁 99999 攻击上限</div>
+              </div>
+              <n-switch v-model:value="enableBreakAffixCap" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">异常数值溢出自动毫秒级规整保护</div>
+                <div class="text-[10px] text-gray-400">浮点数越界 (NaN/Inf) 时立即自动钳制在合法工程区间内</div>
+              </div>
+              <n-switch v-model:value="enableAutoClampOverflow" />
+            </div>
+          </div>
+
+          <!-- 4 维解算核心指标 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">理论峰值伤害</div>
+              <div class="text-base font-black font-mono text-amber-400 mt-0.5">{{ calculatedPeakDmg }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">防篡改安全度</div>
+              <div class="text-base font-black font-mono text-cyan-400 mt-0.5">{{ calculatedSecurityRate }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">词缀炼金纯度</div>
+              <div class="text-base font-black font-mono text-emerald-400 mt-0.5">{{ calculatedAlchemyPurity }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">GM调试权限</div>
+              <div class="text-xs font-black font-mono text-purple-400 mt-1">{{ calculatedGmCert }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条与终端控制台 -->
+      <div class="space-y-3 bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-amber-400 font-mono font-bold">STAGE {{ modifierSimStage }}/5</span>
+            <span class="text-gray-300">{{ modifierSimStageName }}</span>
+          </div>
+          <span class="font-mono text-cyan-400">{{ modifierSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="modifierSimProgress"
+          :color="'#f59e0b'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in modifierLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪校验凭证: </span>
+            <span class="text-amber-400 font-bold">{{ modifierCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="warning" round @click="exportModifierCert">
+            <template #icon><span>📜</span></template>
+            导出词缀炼金推演报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">
+                GODOT 4.6 LTS MOD ENGINE
+              </span>
+              <span class="text-sm font-bold text-white">词缀炼金注入与安全审计实机驱动</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级装备词缀注入器、内存篡改审计守卫与速通场景穿梭控制器实机代码。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in modifierCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeModifierCodeTab === codeTab.id ? 'warning' : 'default'"
+              :secondary="activeModifierCodeTab !== codeTab.id"
+              @click="activeModifierCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveModifierCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-amber-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentModifierCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -975,6 +1206,347 @@ const copyGdScript = () => {
     message.info('源码已复制')
   })
 }
+
+// ==================== v2.2.314 词缀炼金与审计工坊状态与方法 ====================
+const scrollToAffixAlchemyStudio = () => {
+  const el = document.getElementById('affix-alchemy-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.success('已直达装备词缀炼金与安全审计工坊')
+  }
+}
+
+interface ModifierArchetype {
+  id: string
+  name: string
+  icon: string
+  badge: string
+  desc: string
+  dmg: string
+  security: string
+  depth: number
+  sensitivity: number
+  dampening: number
+  clock: number
+}
+
+const modifierArchetypes: ModifierArchetype[] = [
+  {
+    id: 'god_mode_sandbox',
+    name: '极限无敌沙盒流',
+    icon: '⚡',
+    badge: '单局调试',
+    desc: 'HP 锁死 99999，全状态免疫，提供纯粹的机制破坏性压测环境。',
+    dmg: '99,999,999',
+    security: '85.0%',
+    depth: 4,
+    sensitivity: 65,
+    dampening: 1.0,
+    clock: 60
+  },
+  {
+    id: 'affix_alchemy',
+    name: '词缀炼金极意流',
+    icon: '⚗️',
+    badge: '多词条注入',
+    desc: '突破传统4词缀上限，8重太古神级前缀后缀无损叠加。',
+    dmg: '12,450,000',
+    security: '94.2%',
+    depth: 8,
+    sensitivity: 85,
+    dampening: 1.8,
+    clock: 120
+  },
+  {
+    id: 'anti_cheat_audit',
+    name: '内存篡改差分审计流',
+    icon: '🛡️',
+    badge: '防御加固',
+    desc: '镜像内存差分校验，毫秒级拦截第三方作弊挂钩并自愈。',
+    dmg: '850,000',
+    security: '99.9%',
+    depth: 2,
+    sensitivity: 98,
+    dampening: 2.5,
+    clock: 144
+  },
+  {
+    id: 'speedrun_utility',
+    name: '速通辅助穿梭流',
+    icon: '🚀',
+    badge: '极速跃迁',
+    desc: '坐标任意跃迁，场景秒切与遇敌率动态调控，测试效率拉满。',
+    dmg: '4,500,000',
+    security: '92.0%',
+    depth: 5,
+    sensitivity: 75,
+    dampening: 1.2,
+    clock: 180
+  }
+]
+
+const selectedModifierArchetype = ref<ModifierArchetype>(modifierArchetypes[1])
+
+const affixSlotDepth = ref(8)
+const antiTamperSensitivity = ref(85)
+const dampeningFactor = ref(1.8)
+const consoleClockFreq = ref(120)
+
+const enableDualMirrorChecksum = ref(true)
+const enableBreakAffixCap = ref(true)
+const enableAutoClampOverflow = ref(true)
+
+const selectModifierArchetype = (arch: ModifierArchetype) => {
+  selectedModifierArchetype.value = arch
+  affixSlotDepth.value = arch.depth
+  antiTamperSensitivity.value = arch.sensitivity
+  dampeningFactor.value = arch.dampening
+  consoleClockFreq.value = arch.clock
+  message.info(`已装配修改器原型: ${arch.name}`)
+}
+
+const resetAffixAlchemyDefaults = () => {
+  selectModifierArchetype(modifierArchetypes[1])
+  enableDualMirrorChecksum.value = true
+  enableBreakAffixCap.value = true
+  enableAutoClampOverflow.value = true
+}
+
+const calculatedPeakDmg = computed(() => {
+  if (selectedModifierArchetype.value.id === 'god_mode_sandbox') return '99,999,999'
+  let baseDmg = 500000 * affixSlotDepth.value * dampeningFactor.value
+  if (enableBreakAffixCap.value) baseDmg *= 1.75
+  return Math.floor(baseDmg).toLocaleString()
+})
+
+const calculatedSecurityRate = computed(() => {
+  let rate = 70 + (antiTamperSensitivity.value / 99) * 25
+  if (enableDualMirrorChecksum.value) rate += 4.5
+  return Math.min(99.9, Number(rate.toFixed(1)))
+})
+
+const calculatedAlchemyPurity = computed(() => {
+  let p = 60 + (affixSlotDepth.value / 8) * 35
+  if (enableAutoClampOverflow.value) p += 4.0
+  return Math.min(99.9, Number(p.toFixed(1)))
+})
+
+const calculatedGmCert = computed(() => {
+  const sec = calculatedSecurityRate.value
+  if (sec >= 98.5) return 'EX·太古造物主调试权'
+  if (sec >= 95.0) return 'SSS·高可用内存审计'
+  if (sec >= 90.0) return 'SS·生产级调试沙盒'
+  return 'S·基础控制台授权'
+})
+
+const isModifierSimulating = ref(false)
+const modifierSimStage = ref(1)
+const modifierSimStageName = ref('就绪等待')
+const modifierSimProgress = ref(0)
+const modifierCertHash = ref('A1B2C3D4-E5F6-4A7B-8C9D-0E1F2A3B4C5D')
+
+interface ModifierLogEntry {
+  time: string
+  text: string
+  color: string
+}
+
+const modifierLogs = ref<ModifierLogEntry[]>([
+  { time: '13:00:00', text: '[ModifierInit] 词缀炼金与内存调试引擎就绪，等待注入数值配方...', color: 'text-gray-400' }
+])
+
+const runAffixAlchemySimulation = () => {
+  if (isModifierSimulating.value) return
+  isModifierSimulating.value = true
+  modifierSimStage.value = 1
+  modifierSimProgress.value = 15
+  modifierSimStageName.value = '内存双向镜像热补丁建立与差分基准校验'
+  modifierLogs.value = [
+    { time: new Date().toLocaleTimeString(), text: '[MirrorMemory] 建立角色结构体双副本校验，防篡改防御阈值 ' + antiTamperSensitivity.value + '%', color: 'text-amber-400' }
+  ]
+
+  setTimeout(() => {
+    modifierSimStage.value = 2
+    modifierSimProgress.value = 40
+    modifierSimStageName.value = '多重词缀槽位炼金注入与天花板解限'
+    modifierLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[AffixInject] 开启 ${affixSlotDepth.value} 个词缀槽位，注入太古词条，天花板破除状态: ${enableBreakAffixCap.value}`,
+      color: 'text-cyan-400'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    modifierSimStage.value = 3
+    modifierSimProgress.value = 65
+    modifierSimStageName.value = '数值膨胀平抑抑制与溢出毫秒级规整'
+    modifierLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Dampening] 平抑系数 ${dampeningFactor.value.toFixed(1)}x 生效，理论峰值伤害锁定 ${calculatedPeakDmg.value}`,
+      color: 'text-emerald-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    modifierSimStage.value = 4
+    modifierSimProgress.value = 85
+    modifierSimStageName.value = 'GM 控制台时钟拓扑与指令调度封板'
+    modifierLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[ConsoleClock] 调试时钟锁定 ${consoleClockFreq.value} Hz，炼金纯度 ${calculatedAlchemyPurity.value}%`,
+      color: 'text-purple-400'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    modifierSimStage.value = 5
+    modifierSimProgress.value = 100
+    modifierSimStageName.value = '推演闭环完成，防伪证书已签名'
+    const hex = Array.from({ length: 8 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('').toUpperCase()
+    modifierCertHash.value = `MOD-${hex}-${Math.floor(Date.now() / 1000)}`
+    modifierLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Done] 词缀炼金推演完成！权限认证: ${calculatedGmCert.value}`,
+      color: 'text-emerald-300 font-bold'
+    })
+    isModifierSimulating.value = false
+    message.success('词缀炼金与内存调试推演完成！')
+  }, 1600)
+}
+
+const exportModifierCert = () => {
+  const data = {
+    studio: 'Affix Alchemy Modifier, Stat Formulation & Anti-Tamper Audit Studio v2.2.314',
+    timestamp: new Date().toISOString(),
+    archetype: selectedModifierArchetype.value.name,
+    affixSlotDepth: affixSlotDepth.value,
+    antiTamperSensitivity: antiTamperSensitivity.value,
+    dampeningFactor: dampeningFactor.value,
+    consoleClockFreq: consoleClockFreq.value,
+    peakDmg: calculatedPeakDmg.value,
+    securityRate: calculatedSecurityRate.value,
+    alchemyPurity: calculatedAlchemyPurity.value,
+    gmCert: calculatedGmCert.value,
+    sha256Signature: modifierCertHash.value
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `affix-modifier-${modifierCertHash.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('防伪证书与词缀炼金报告已导出')
+}
+
+// Godot 4.6 LTS 源码展台
+const activeModifierCodeTab = ref('affix_injector')
+const modifierCodeTabs = [
+  { id: 'affix_injector', name: '装备词缀炼金注入器' },
+  { id: 'anti_tamper_guard', name: '内存篡改审计守卫' },
+  { id: 'speedrun_warp', name: '速通场景穿梭控制器' }
+]
+
+const modifierSourceCodes: Record<string, string> = {
+  affix_injector: `## affix_alchemy_injector.gd
+## 《光之战士：时空裂隙》装备词缀炼金注入器与属性上限解限器
+## 架构版本: Godot 4.6 LTS / Equipment Modifier Engine
+
+class_name AffixAlchemyInjector
+extends RefCounted
+
+signal affix_injected(equipment_id: String, affix_name: String, stat_boost: float)
+signal cap_overdriven(equipment_id: String, max_dmg: int)
+
+var _max_slots: int = 8
+var _allow_cap_overdrive: bool = true
+
+func _init(slots: int = 8, cap_overdrive: bool = true) -> void:
+	_max_slots = slots
+	_allow_cap_overdrive = cap_overdrive
+
+## 向指定神兵注入太古词缀
+func inject_affix_to_item(item_data: Dictionary, affix: Dictionary) -> Dictionary:
+	var result := item_data.duplicate(true)
+	if not result.has("affixes"):
+		result["affixes"] = []
+		
+	if result["affixes"].size() >= _max_slots:
+		push_warning("[AffixInjector] 槽位已达上限 (%d/%d)" % [result["affixes"].size(), _max_slots])
+		return result
+		
+	result["affixes"].append(affix)
+	affix_injected.emit(result.get("id", "UNKNOWN"), affix.get("name", "AFFIX"), affix.get("value", 1.0))
+	
+	if _allow_cap_overdrive:
+		result["damage_cap"] = 99999999
+		cap_overdriven.emit(result.get("id", "UNKNOWN"), 99999999)
+		
+	return result
+`,
+  anti_tamper_guard: `## memory_tamper_audit_guard.gd
+## 《光之战士：时空裂隙》双镜像内存校验与非法挂钩自愈守卫
+## 架构版本: Godot 4.6 LTS / Security Subsystem
+
+class_name MemoryTamperAuditGuard
+extends RefCounted
+
+signal tamper_intercepted(address_offset: String, original_val: int, altered_val: int)
+signal memory_healed(address_offset: String)
+
+var _primary_memory: Dictionary = {}
+var _shadow_mirror: Dictionary = {}
+var _sensitivity: float = 0.85
+
+## 注册监测数据项并创建双镜像
+func register_protected_value(key: String, initial_val: int) -> void:
+	_primary_memory[key] = initial_val
+	_shadow_mirror[key] = initial_val
+
+## 周期性差分校验
+func audit_memory_integrity() -> bool:
+	var is_clean := true
+	for k in _primary_memory.keys():
+		if _primary_memory[k] != _shadow_mirror[k]:
+			tamper_intercepted.emit(k, _shadow_mirror[k], _primary_memory[k])
+			# 执行自愈回滚
+			_primary_memory[k] = _shadow_mirror[k]
+			memory_healed.emit(k)
+			is_clean = false
+	return is_clean
+`,
+  speedrun_warp: `## gm_speedrun_warp_controller.gd
+## 《光之战士：时空裂隙》GM 速通测试场景跃迁与坐标穿梭控制器
+## 架构版本: Godot 4.6 LTS / GM Diagnostics
+
+class_name GMSpeedrunWarpController
+extends RefCounted
+
+signal warped_to_scene(scene_id: String, coord_x: float, coord_y: float)
+
+## 安全无缝跃迁至目标地下城/大地图
+func teleport_party(target_scene: String, pos_x: float = 0.0, pos_y: float = 0.0) -> void:
+	var scene_path := "res://scenes/%s.tscn" % target_scene
+	if not ResourceLoader.exists(scene_path):
+		push_error("[GM Warp] 场景不存在: %s" % scene_path)
+		return
+		
+	warped_to_scene.emit(target_scene, pos_x, pos_y)
+`
+}
+
+const currentModifierCode = computed(() => {
+  return modifierSourceCodes[activeModifierCodeTab.value] || ''
+})
+
+const copyActiveModifierCode = () => {
+  navigator.clipboard.writeText(currentModifierCode.value).then(() => {
+    message.success(`${activeModifierCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
 </script>
 
 <style scoped>
