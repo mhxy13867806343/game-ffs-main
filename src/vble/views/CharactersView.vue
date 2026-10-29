@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Heroes, Soul Links &amp; Multi-Hero Resonance Matrix v2.2.292
+              VBLE Heroes, Soul Resonant Matrix & Grand Oath Synergy Studio v2.2.317
             </span>
             <span class="text-xs text-gray-400">英雄传记、宿命星盘共鸣与八主角命之座觉醒工坊</span>
           </div>
@@ -19,6 +19,16 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            class="shadow-md font-bold text-black bg-gradient-to-r from-amber-400 to-rose-500 hover:from-amber-300 hover:to-rose-400"
+            @click="scrollToGrandOathSynergyStudio"
+          >
+            <template #icon><span>👑</span></template>
+            大誓约与羁绊工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1070,6 +1080,227 @@
 
       <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeHeroGodotTab === 'growth'">{{ godotCodeText }}</code><code v-else-if="activeHeroGodotTab === 'constellation'">{{ godotConstellationCodeText }}</code><code v-else>{{ godotSoulLinkCodeText }}</code></pre>
     </div>
+
+    <!-- 二十四大英雄传记、宿命大誓约羁绊与灵魂全息共鸣工坊 (v2.2.317 重磅实装) -->
+    <div id="grand-oath-synergy-studio" class="grand-oath-synergy-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-rose-950/20 to-slate-900/95 border border-rose-500/40 shadow-[0_0_40px_rgba(244,63,94,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-rose-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-mono text-xs font-bold border border-rose-500/30">
+              GRAND OATH HERO SYNERGY & SOUL MATRIX
+            </span>
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">
+              v2.2.317 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>👥</span> 二十四大英雄传记、宿命大誓约羁绊与灵魂全息共鸣工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            系统支持英雄光暗羁绊默契解算、全队替补阵亡毫秒级替登契约、双生英雄技能双重连击与 Godot 4.6 LTS 宿命大誓约事件总线深度融合。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="error" @click="resetGrandOathDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="error" :loading="isHeroOathSimulating" @click="runGrandOathSimulation">
+            <template #icon><span>⚡</span></template>
+            启动大誓约协同推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大英雄羁绊流派原型卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="archetype in heroOathArchetypes"
+          :key="archetype.id"
+          @click="selectHeroOathArchetype(archetype)"
+          :class="[
+            'p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden',
+            selectedHeroOathArchetype.id === archetype.id
+              ? 'bg-rose-950/40 border-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+          ]"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xl">{{ archetype.icon }}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-rose-300">{{ archetype.badge }}</span>
+          </div>
+          <div class="font-bold text-white text-sm mt-2">{{ archetype.name }}</div>
+          <div class="text-xs text-gray-400 mt-1 leading-relaxed">{{ archetype.desc }}</div>
+          <div class="mt-3 text-[11px] font-mono text-rose-400/90 flex justify-between">
+            <span>连携爆伤: {{ archetype.burst }}</span>
+            <span>共鸣度: {{ archetype.stability }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心微调滑块与调控开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <!-- 4 维连续滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-rose-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>⚙️</span> 羁绊默契与命座突破参数调谐
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>灵魂羁绊默契值深度 (Affinity Depth)</span>
+                <span class="font-mono text-rose-400 font-bold">{{ heroSoulAffinity }} 点</span>
+              </div>
+              <n-slider v-model:value="heroSoulAffinity" :min="20" :max="100" :step="2" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>连携极意技暴击倍率 (Crit Multiplier)</span>
+                <span class="font-mono text-amber-400 font-bold">{{ heroCritMultiplier.toFixed(1) }} x</span>
+              </div>
+              <n-slider v-model:value="heroCritMultiplier" :min="1.5" :max="6.0" :step="0.1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>命座潜能突破层数 (Constellation Rank)</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ heroConstellationRank }} 阶</span>
+              </div>
+              <n-slider v-model:value="heroConstellationRank" :min="1" :max="6" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>阵亡遗志以太回充率 (Martyr Battery Ratio)</span>
+                <span class="font-mono text-purple-400 font-bold">{{ heroMartyrRatio }} %</span>
+              </div>
+              <n-slider v-model:value="heroMartyrRatio" :min="20" :max="100" :step="5" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 维调控开关与动态指标 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>🛡️</span> 宿命誓约与战斗协同守卫
+          </div>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">队伍阵亡替补瞬时登场契约</div>
+                <div class="text-[10px] text-gray-400">前排英雄阵亡时备战英雄毫秒级无缝入场并继承 100% 怒气值</div>
+              </div>
+              <n-switch v-model:value="enableInstantReplacement" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">双生英雄全技能双倍连击</div>
+                <div class="text-[10px] text-gray-400">黎川与昼隐/纳哈特同屏时触发太古共振，所有战技追击一次</div>
+              </div>
+              <n-switch v-model:value="enableDualSkillDuplication" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">宿命羁绊伤害天花板突破解除</div>
+                <div class="text-[10px] text-gray-400">解禁 99,999 限制，队伍合体极意技允许直达千万级真实破坏</div>
+              </div>
+              <n-switch v-model:value="enableBreakFateDamageCap" />
+            </div>
+          </div>
+
+          <!-- 4 维解算核心指标 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">战队极意连携爆发</div>
+              <div class="text-base font-black font-mono text-rose-400 mt-0.5">{{ calculatedTeamBurst }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">灵魂共鸣稳态率</div>
+              <div class="text-base font-black font-mono text-cyan-400 mt-0.5">{{ calculatedResonanceRate }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">遗志回充能效</div>
+              <div class="text-base font-black font-mono text-emerald-400 mt-0.5">{{ calculatedMartyrPotency }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">英雄羁绊认证</div>
+              <div class="text-xs font-black font-mono text-purple-400 mt-1">{{ calculatedOathCert }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条与终端控制台 -->
+      <div class="space-y-3 bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-rose-400 font-mono font-bold">STAGE {{ heroSimStage }}/5</span>
+            <span class="text-gray-300">{{ heroSimStageName }}</span>
+          </div>
+          <span class="font-mono text-cyan-400">{{ heroSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="heroSimProgress"
+          :color="'#f43f5e'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in heroOathLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪校验凭证: </span>
+            <span class="text-rose-400 font-bold">{{ heroOathCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="error" round @click="exportHeroOathCert">
+            <template #icon><span>📜</span></template>
+            导出英雄大誓约推演报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded border border-rose-500/30">
+                GODOT 4.6 LTS HERO SYSTEM
+              </span>
+              <span class="text-sm font-bold text-white">大誓约事件总线与替补瞬登实机驱动</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级宿命大誓约协同总线、灵魂共鸣管线与替补瞬登系统实机代码。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in heroOathCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeHeroOathCodeTab === codeTab.id ? 'error' : 'default'"
+              :secondary="activeHeroOathCodeTab !== codeTab.id"
+              @click="activeHeroOathCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveHeroOathCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-rose-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentHeroOathCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1915,6 +2146,324 @@ const godotSoulLinkCodeText = [
   '	var half_dmg: int = int(damage / 2)',
   '	return { "primary_damage": half_dmg, "partner_damage": half_dmg }'
 ].join('\n')
+
+// ==================== v2.2.317 英雄大誓约工坊状态与方法 ====================
+const scrollToGrandOathSynergyStudio = () => {
+  const el = document.getElementById('grand-oath-synergy-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.success('已直达英雄大誓约与灵魂共鸣工坊')
+  }
+}
+
+interface HeroOathArchetype {
+  id: string
+  name: string
+  icon: string
+  badge: string
+  desc: string
+  burst: string
+  stability: string
+  affinity: number
+  crit: number
+  rank: number
+  martyr: number
+}
+
+const heroOathArchetypes: HeroOathArchetype[] = [
+  {
+    id: 'dawn_crusade',
+    name: '晨辉四圣骑守护誓约',
+    icon: '🛡️',
+    badge: '圣盾守护',
+    desc: '全队受击伤害分摊 60%，牺牲护盾反击释放神圣十字审判。',
+    burst: '6,800,000',
+    stability: '99.5%',
+    affinity: 95,
+    crit: 2.8,
+    rank: 6,
+    martyr: 90
+  },
+  {
+    id: 'void_outcast',
+    name: '虚空死囚绝境暗杀誓约',
+    icon: '🗡️',
+    badge: '残血处决',
+    desc: '背水一战，HP 低于 20% 时必暴击且无视敌方 100% 物理魔法双防。',
+    burst: '18,500,000',
+    stability: '94.2%',
+    affinity: 75,
+    crit: 5.5,
+    rank: 5,
+    martyr: 40
+  },
+  {
+    id: 'elemental_symphony',
+    name: '四元素大魔导全系共振',
+    icon: '🔮',
+    badge: '元素爆发',
+    desc: '风火水土四象连环引爆，施法无前摇，暴风雪雷暴全图漫灌。',
+    burst: '14,200,000',
+    stability: '98.0%',
+    affinity: 90,
+    crit: 4.0,
+    rank: 6,
+    martyr: 75
+  },
+  {
+    id: 'ancient_pact',
+    name: '太古光暗双生融合誓约',
+    icon: '🌌',
+    badge: '双生合体',
+    desc: '黎川与纳哈特双向融合，光暗双持一击斩破时空次元裂隙。',
+    burst: '28,800,000',
+    stability: '99.9%',
+    affinity: 100,
+    crit: 6.0,
+    rank: 6,
+    martyr: 100
+  }
+]
+
+const selectedHeroOathArchetype = ref<HeroOathArchetype>(heroOathArchetypes[3])
+
+const heroSoulAffinity = ref(100)
+const heroCritMultiplier = ref(6.0)
+const heroConstellationRank = ref(6)
+const heroMartyrRatio = ref(100)
+
+const enableInstantReplacement = ref(true)
+const enableDualSkillDuplication = ref(true)
+const enableBreakFateDamageCap = ref(true)
+
+const selectHeroOathArchetype = (arch: HeroOathArchetype) => {
+  selectedHeroOathArchetype.value = arch
+  heroSoulAffinity.value = arch.affinity
+  heroCritMultiplier.value = arch.crit
+  heroConstellationRank.value = arch.rank
+  heroMartyrRatio.value = arch.martyr
+  message.info(`已装配大誓约流派原型: ${arch.name}`)
+}
+
+const resetGrandOathDefaults = () => {
+  selectHeroOathArchetype(heroOathArchetypes[3])
+  enableInstantReplacement.value = true
+  enableDualSkillDuplication.value = true
+  enableBreakFateDamageCap.value = true
+}
+
+const calculatedTeamBurst = computed(() => {
+  let b = heroSoulAffinity.value * 28000 * heroCritMultiplier.value * (1 + heroConstellationRank.value * 0.15)
+  if (enableDualSkillDuplication.value) b *= 1.45
+  if (enableBreakFateDamageCap.value) b *= 1.25
+  return Math.floor(b).toLocaleString()
+})
+
+const calculatedResonanceRate = computed(() => {
+  let r = 75 + (heroSoulAffinity.value / 100) * 18 + (heroConstellationRank.value / 6) * 5
+  if (enableInstantReplacement.value) r += 1.5
+  return Math.min(99.9, Number(r.toFixed(1)))
+})
+
+const calculatedMartyrPotency = computed(() => {
+  let m = 60 + (heroMartyrRatio.value / 100) * 35
+  if (enableDualSkillDuplication.value) m += 4.5
+  return Math.min(99.9, Number(m.toFixed(1)))
+})
+
+const calculatedOathCert = computed(() => {
+  const r = calculatedResonanceRate.value
+  if (r >= 98.5) return 'EX·太古光暗双宿命圣殿'
+  if (r >= 95.0) return 'SSS·高阶灵魂大誓约'
+  if (r >= 90.0) return 'SS·生产级战队共鸣'
+  return 'S·基础羁绊契约'
+})
+
+const isHeroOathSimulating = ref(false)
+const heroSimStage = ref(1)
+const heroSimStageName = ref('就绪等待')
+const heroSimProgress = ref(0)
+const heroOathCertHash = ref('H7A2B9C1-4D3E-6F8A-9B0C-1D2E3F4A5B6C')
+
+interface HeroOathLogEntry {
+  time: string
+  text: string
+  color: string
+}
+
+const heroOathLogs = ref<HeroOathLogEntry[]>([
+  { time: '13:00:00', text: '[OathInit] 宿命大誓约与英雄灵魂共鸣工坊就绪，等待注入誓约契印...', color: 'text-gray-400' }
+])
+
+const runGrandOathSimulation = () => {
+  if (isHeroOathSimulating.value) return
+  isHeroOathSimulating.value = true
+  heroSimStage.value = 1
+  heroSimProgress.value = 15
+  heroSimStageName.value = '英雄灵魂羁绊默契建立与命座共振'
+  heroOathLogs.value = [
+    { time: new Date().toLocaleTimeString(), text: `[SoulLink] 羁绊默契值注入 ${heroSoulAffinity.value} 点，命座阶数 ${heroConstellationRank.value} 阶激活`, color: 'text-rose-400' }
+  ]
+
+  setTimeout(() => {
+    heroSimStage.value = 2
+    heroSimProgress.value = 40
+    heroSimStageName.value = '双生合体战技追击与暴击倍率对齐'
+    heroOathLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[DualBurst] 极意暴击锁定 ${heroCritMultiplier.value.toFixed(1)}x，双生连击状态: ${enableDualSkillDuplication.value}`,
+      color: 'text-amber-400'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    heroSimStage.value = 3
+    heroSimProgress.value = 65
+    heroSimStageName.value = '替补瞬登契约测试与怒气无损继承'
+    heroOathLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Replacement] 前排阵亡替补瞬时登场校验通过，遗志回充能效 ${calculatedMartyrPotency.value}%`,
+      color: 'text-cyan-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    heroSimStage.value = 4
+    heroSimProgress.value = 85
+    heroSimStageName.value = '伤害天花板解限与战队爆发输出'
+    heroOathLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[DamageCap] 战队极意连携爆发锁定 ${calculatedTeamBurst.value}，共鸣稳态率 ${calculatedResonanceRate.value}%`,
+      color: 'text-purple-400'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    heroSimStage.value = 5
+    heroSimProgress.value = 100
+    heroSimStageName.value = '推演闭环完成，大誓约证书已签名'
+    const hex = Array.from({ length: 8 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('').toUpperCase()
+    heroOathCertHash.value = `OATH-${hex}-${Math.floor(Date.now() / 1000)}`
+    heroOathLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Done] 英雄大誓约推演完成！评级: ${calculatedOathCert.value}`,
+      color: 'text-emerald-300 font-bold'
+    })
+    isHeroOathSimulating.value = false
+    message.success('英雄大誓约与灵魂共鸣推演完成！')
+  }, 1600)
+}
+
+const exportHeroOathCert = () => {
+  const data = {
+    studio: 'Grand Oath Soul Links, Hero Chronicles & Resonant Synergy Studio v2.2.317',
+    timestamp: new Date().toISOString(),
+    archetype: selectedHeroOathArchetype.value.name,
+    heroSoulAffinity: heroSoulAffinity.value,
+    heroCritMultiplier: heroCritMultiplier.value,
+    heroConstellationRank: heroConstellationRank.value,
+    heroMartyrRatio: heroMartyrRatio.value,
+    teamBurst: calculatedTeamBurst.value,
+    resonanceRate: calculatedResonanceRate.value,
+    martyrPotency: calculatedMartyrPotency.value,
+    oathCert: calculatedOathCert.value,
+    sha256Signature: heroOathCertHash.value
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `hero-oath-${heroOathCertHash.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('防伪证书与大誓约报告已导出')
+}
+
+// Godot 4.6 LTS 源码展台
+const activeHeroOathCodeTab = ref('synergy_bus')
+const heroOathCodeTabs = [
+  { id: 'synergy_bus', name: '宿命大誓约总线' },
+  { id: 'soul_resonance', name: '灵魂共鸣管线' },
+  { id: 'replacement_pact', name: '替补瞬登系统' }
+]
+
+const heroOathSourceCodes: Record<string, string> = {
+  synergy_bus: `## grand_oath_synergy_bus.gd
+## 《光之战士：时空裂隙》英雄宿命大誓约事件总线驱动
+## 架构版本: Godot 4.6 LTS / Hero Synergy Subsystem
+
+class_name GrandOathSynergyBus
+extends RefCounted
+
+signal oath_skill_triggered(hero_pair: Array[String], combo_damage: int)
+signal cap_broken(hero_id: String, overdriven_damage: int)
+
+var _affinity_depth: int = 100
+var _crit_multiplier: float = 6.0
+
+func _init(affinity: int = 100, crit: float = 6.0) -> void:
+	_affinity_depth = affinity
+	_crit_multiplier = crit
+
+## 触发光暗双生英雄极意协同连携
+func dispatch_oath_combo(hero_a: String, hero_b: String, base_power: int) -> int:
+	var final_dmg := int(float(base_power) * _crit_multiplier * (1.0 + float(_affinity_depth) * 0.01))
+	oath_skill_triggered.emit([hero_a, hero_b], final_dmg)
+	if final_dmg > 99999:
+		cap_broken.emit(hero_a, final_dmg)
+	return final_dmg
+`,
+  soul_resonance: `## hero_soul_resonance_pipeline.gd
+## 《光之战士：时空裂隙》英雄全息灵魂共鸣与命之座突破管线
+## 架构版本: Godot 4.6 LTS / Character Constellation
+
+class_name HeroSoulResonancePipeline
+extends RefCounted
+
+signal constellation_advanced(hero_id: String, rank: int, stat_potency: float)
+
+## 激活指定阶数命座潜能
+func advance_constellation(hero_data: Dictionary, target_rank: int) -> Dictionary:
+	var res := hero_data.duplicate(true)
+	res["constellation_rank"] = target_rank
+	var boost := 1.0 + float(target_rank) * 0.15
+	res["stat_multiplier"] = boost
+	constellation_advanced.emit(res.get("id", "HERO"), target_rank, boost)
+	return res
+`,
+  replacement_pact: `## instant_replacement_pact_system.gd
+## 《光之战士：时空裂隙》前排阵亡后备英雄毫秒级无缝入场系统
+## 架构版本: Godot 4.6 LTS / Battle Party Management
+
+class_name InstantReplacementPactSystem
+extends RefCounted
+
+signal hero_replaced(fallen_hero: String, substitute_hero: String, inherited_atb: float)
+
+## 执行毫秒级替补登场契约
+func handle_hero_faint(fallen_id: String, bench_party: Array[Dictionary]) -> Dictionary:
+	if bench_party.is_empty():
+		return {}
+	var sub: Dictionary = bench_party.pop_front()
+	sub["current_atb"] = 100.0 # 瞬间满 ATB
+	sub["instant_spawned"] = true
+	hero_replaced.emit(fallen_id, sub.get("id", "SUB"), 100.0)
+	return sub
+`
+}
+
+const currentHeroOathCode = computed(() => {
+  return heroOathSourceCodes[activeHeroOathCodeTab.value] || ''
+})
+
+const copyActiveHeroOathCode = () => {
+  navigator.clipboard.writeText(currentHeroOathCode.value).then(() => {
+    message.success(`${activeHeroOathCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
 </script>
 
 <style scoped>

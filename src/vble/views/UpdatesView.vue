@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-characters-grand-oath-v317-2026-10-29',
+    version: 'v2.2.317',
+    date: '2026-10-29',
+    title: '二十四大英雄传记、宿命大誓约羁绊与灵魂全息共鸣工坊重磅实装',
+    category: 'npc',
+    categoryName: '英雄大誓约',
+    icon: '👥',
+    tagType: 'success',
+    description: '全面重构升级 CharactersView 英雄传记门户：顶部标章升级为 VBLE Heroes, Soul Resonant Matrix & Grand Oath Synergy Studio v2.2.317，新增大誓约与羁绊工坊快捷直达；专区重磅实装【二十四大英雄传记、宿命大誓约羁绊与灵魂全息共鸣工坊】（Grand Oath Soul Links, Hero Chronicles & Resonant Synergy Studio）；覆盖四大英雄羁绊流派原型（晨辉四圣骑守护誓约、虚空死囚绝境暗杀誓约、四元素大魔导全系共振、太古光暗双生融合誓约）；支持灵魂羁绊默契值深度 (20~100 点)、连携极意技暴击倍率 (1.5x~6.0x)、命座潜能突破层数 (1~6 阶) 与阵亡遗志以太回充率 (20%~100%) 连续微调；支持队伍阵亡替补瞬时登场契约、双生英雄全技能双倍连击与宿命羁绊伤害天花板突破解除；实时解算战队极意连携爆发伤害 (突破 28,000,000)、灵魂共鸣稳态率 (高达 99.9%)、遗志回充能效 (高达 98.5%) 与英雄羁绊认证评级 (高达 EX·太古光暗双宿命圣殿)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：grand_oath_synergy_bus.gd、hero_soul_resonance_pipeline.gd 与 instant_replacement_pact_system.gd。',
+    highlights: [
+      '四大英雄羁绊流派原型：四圣骑守护誓约、死囚绝境暗杀、四元素全系共振与太古光暗双生融合',
+      '四维连续羁绊参数：灵魂默契深度、极意暴击倍率、命座潜能突破阶数与阵亡遗志回充率',
+      '三重宿命战斗协同机制：前排阵亡毫秒替登、双生同屏双倍战技连击与破界千万级真伤解限',
+      '动态战力指标解算：战队极意爆发伤害、灵魂共鸣稳态率、遗志回充能效与双宿命圣殿认证',
+      '五阶段大誓约沙盘：灵魂默契建立、双生暴击对齐、替补瞬登校验、伤害天花板解限与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源宿命大誓约总线、灵魂共鸣管线与替补瞬登系统'
+    ],
+    relatedLinks: [
+      { label: '英雄传记与宿命', path: '/vble/characters', icon: '👥' },
+      { label: '大誓约与羁绊工坊', path: '/vble/characters', icon: '👑' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-celestial-singularity-reactor-v316-2026-10-29',
     version: 'v2.2.316',
     date: '2026-10-29',
