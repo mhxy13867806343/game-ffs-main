@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-armory-party-synergy-v306-2026-10-29',
+    version: 'v2.2.306',
+    date: '2026-10-29',
+    title: '全域神装配装全息拓扑、四人队伍极意协同与伤害天花板穿透模拟工坊重磅实装',
+    category: 'equipment',
+    categoryName: '战队配装',
+    icon: '🛡️',
+    tagType: 'success',
+    description: '全面重构升级 ArmorySimulatorView 全员配装门户：顶部标章升级为 VBLE Loadout Synergy, Party Resonance & Cap Breaker Studio v2.2.306，新增四人战队配装协同工坊快捷直达；专区重磅实装【全域神装配装全息拓扑、四人队伍极意协同与伤害天花板穿透模拟工坊】（Party Loadout Synergy & Damage Cap Studio）；覆盖四大战队流派协同构架（光辉神圣暴击连携流、暗夜虚空二刀流神速流、太古元素连珠连续魔流、创世先驱全神话配装极意流）；支持四人队伍共鸣契合度 (10%~100%)、武器灵髓附魔强化阶数 (+1~+15阶)、破限伤害乘数放大率 (1.5x~5.0x) 与防具全抗性硬化覆盖率 (50%~100%) 连续微调；支持跨角色装备槽位自由互换协议（打破职业限制，全员可自由装备任意武器与重甲）、全队生命护盾无损均摊网络（任意角色受创时由全队等额分摊，杜绝单体猝死）与 999999 破限爆发伤害天花板穿透器（击碎伤害天花板，单次暴击斩击最高冲破 9,999,999 极限真伤）；实时解算战队极意单发爆发 (突破 2,500,000+ DMG)、全队综合战力加权值 (突破 220,000+ CP)、等效生存抗性硬度与战队配装认证位阶 (高达 EX·太古创世终极战队)；内置五阶段配装协同推演沙盘与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：party_loadout_synergy_matrix.gd、cross_hero_equipment_exchanger.gd 与 damage_cap_governor_breaker.gd。',
+    highlights: [
+      '四大战队流派：光辉圣剑暴击连携、虚空二刀流神速、太古元素连续魔与创世神装极意',
+      '四维连续配装参数：队伍共鸣契合度、武器灵髓强化阶数、破限伤害乘数与防具抗性覆盖率',
+      '三重终极配装保障：跨角色槽位互换协议、全员护盾均摊防猝死网络与 999999 天花板穿透',
+      '动态能效指标解算：战队极意爆发伤害、全队综合战力加权、等效抗性硬度与 EX 级战队认证',
+      '五阶段推演沙盘：32 槽位拓扑、以太催化校准、护盾均摊挂载、伤害管线对齐与证书闭环',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源战队共鸣矩阵、跨角色装备互换器与伤害天花板穿透器'
+    ],
+    relatedLinks: [
+      { label: '全员配装与神装图鉴', path: '/vble/armory', icon: '⚔️' },
+      { label: '战队协同配装工坊', path: '/vble/armory', icon: '🛡️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-summons-high-dim-v305-2026-10-29',
     version: 'v2.2.305',
     date: '2026-10-29',

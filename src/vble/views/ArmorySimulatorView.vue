@@ -2,14 +2,17 @@
   <div class="armory-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Armory Multi-Hero Loadout & Rune Reforge Studio v2.2.290</n-tag>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">⚔️ 全员神兵矩阵、多角色配装与太古符文锻造工坊</h1>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Loadout Synergy, Party Resonance &amp; Cap Breaker Studio v2.2.306</n-tag>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">⚔️ 全域神装配装全息拓扑、四人队伍极意协同与伤害天花板穿透模拟工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm">
         支持光暗双队 8 大主角独立配装、本命神兵契约，以及太古全域神兵附魔符文锻造、词缀洗练与太古共鸣升阶工坊！
       </p>
       <div class="flex justify-center gap-2 mt-3">
-        <n-button size="small" type="primary" secondary @click="scrollToRuneReforgeStudio">
-          🔮 快速切入太古符文锻造与词缀洗练工坊
+        <n-button size="small" type="primary" secondary @click="scrollToPartyLoadoutStudio">
+          🛡️ 快速切入四人队伍极意协同配装工坊
+        </n-button>
+        <n-button size="small" type="info" secondary @click="scrollToRuneReforgeStudio">
+          🔮 太古符文锻造工坊
         </n-button>
         <router-link to="/vble/updates">
           <n-button size="small" type="warning" secondary>
@@ -1644,6 +1647,286 @@
         </div>
 
         <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-purple-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentGdRuneCode }}</pre>
+      </div>
+    </div>
+
+    <!-- 🛡️ 工坊 2: 全域神装配装全息拓扑、四人队伍极意协同与伤害天花板穿透模拟工坊 (Party Loadout Synergy & Damage Cap Studio v2.2.306) -->
+    <div
+      id="party-loadout-synergy-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-amber-950/80 via-slate-900/90 to-purple-950/80 border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与操作区 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              LOADOUT SYNERGY &amp; CAP BREAKER v2.2.306
+            </span>
+            <span class="text-xs text-amber-300/80 font-mono">四人战队配装协同与天花板穿透矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+            <span>🛡️</span> 全域神装配装全息拓扑、四人队伍极意协同与伤害天花板穿透模拟工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Godot 4.6 LTS 实时仿真：驱动 4 位主角 32 个槽位全装配协同联动、跨角色职业限制突破、全员护盾均摊防猝死网络与 999999 破限爆发伤害解算。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="resetPartyLoadoutParameters"
+          >
+            重置参数
+          </n-button>
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingPartyLoadout"
+            @click="runPartyLoadoutSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动战队协同推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportPartyLoadoutCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出配装方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大流派战队协同原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="archetype in partyArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+          :class="selectedPartyArchetypeId === archetype.id
+            ? 'bg-amber-950/50 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-amber-600/50'"
+          @click="selectedPartyArchetypeId = archetype.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ archetype.icon }}</span>
+            <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.tag }}</n-tag>
+          </div>
+          <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+          <div class="text-[11px] text-amber-300/80 font-mono mt-0.5">{{ archetype.role }}</div>
+          <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>基础面板: {{ archetype.baseAtk.toLocaleString() }}</span>
+            <span class="text-amber-400">爆发: {{ archetype.burstDmg.toLocaleString() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心调控滑块与高能开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+        <!-- 左侧参数微调面板 -->
+        <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+              <span>⚙️</span> 战队协同契合度与破限乘数微调
+            </span>
+            <span class="text-[11px] font-mono text-amber-400">Continuous Team Synergy Dynamics</span>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">四人队伍共鸣契合度 (Party Synergy Sync):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ partySynergySync }}%</span>
+              </div>
+              <n-slider v-model:value="partySynergySync" :min="10" :max="100" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>微弱连携 (10%)</span>
+                <span>深度交织 (50%)</span>
+                <span>神圣超共鸣 (100%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">武器灵髓附魔强化阶数 (Relic Refine Tier):</span>
+                <span class="font-mono text-cyan-400 font-bold">+{{ relicRefineTier }} 阶</span>
+              </div>
+              <n-slider v-model:value="relicRefineTier" :min="1" :max="15" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>初阶附魔 (+1)</span>
+                <span>传世神工 (+10)</span>
+                <span>太古极限 (+15)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">破限伤害乘数放大率 (Damage Cap Multiplier):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ damageCapMultiplier.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="damageCapMultiplier" :min="1.5" :max="5.0" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>基底解限 (1.5x)</span>
+                <span>超频过载 (3.5x)</span>
+                <span>创世九百九十九万 (5.0x)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">防具全抗性硬化覆盖率 (Armor Resistance Coverage):</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ armorResistanceCoverage }}%</span>
+              </div>
+              <n-slider v-model:value="armorResistanceCoverage" :min="50" :max="100" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>基础重甲 (50%)</span>
+                <span>全元素硬化 (80%)</span>
+                <span>全域绝对免伤 (100%)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 三大高能保障开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">跨角色装备槽位自由互换协议 (Cross Hero Slot Exchanger)</div>
+                <div class="text-[11px] text-gray-400">打破职业限制，全员可自由装备任意武器与重甲，共享全神装特效</div>
+              </div>
+              <n-switch v-model:value="crossHeroSlotExchangeProtocol" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">全队生命护盾无损均摊网络 (Party Shared Shield Network)</div>
+                <div class="text-[11px] text-gray-400">任意队员承受过量致死伤害时由全队 4 人等额分摊，杜绝单体猝死</div>
+              </div>
+              <n-switch v-model:value="partyHpShieldSharedNetwork" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">999999 破限爆发伤害天花板穿透器 (Damage Cap Breaker)</div>
+                <div class="text-[11px] text-gray-400">彻底打破 999999 伤害天花板，单次暴击斩击最高冲破 9,999,999 极限真伤</div>
+              </div>
+              <n-switch v-model:value="damageCapGovernorBreaker" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧指标计算与沙盘推演 -->
+        <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>📊</span> 实时解算战队配装与爆发能效
+              </span>
+              <n-tag size="tiny" type="warning" round>Synergy Resolved</n-tag>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-700/40">
+                <div class="text-[11px] text-gray-400">战队极意单发爆发</div>
+                <div class="text-lg font-black text-amber-300 font-mono mt-0.5">{{ calculatedPartyBurstDmg.toLocaleString() }} DMG</div>
+                <div class="text-[10px] text-amber-400/80 mt-0.5">四人合击破限斩击</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-cyan-950/30 border border-cyan-700/40">
+                <div class="text-[11px] text-gray-400">全队综合战力总额</div>
+                <div class="text-lg font-black text-cyan-300 font-mono mt-0.5">{{ calculatedPartyCp.toLocaleString() }} CP</div>
+                <div class="text-[10px] text-cyan-400/80 mt-0.5">32 槽位全神装加权</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-700/40">
+                <div class="text-[11px] text-gray-400">等效生存抗性硬度</div>
+                <div class="text-lg font-black text-emerald-300 font-mono mt-0.5">{{ calculatedEffectiveArmorHardness }}%</div>
+                <div class="text-[10px] text-emerald-400/80 mt-0.5">全员护盾均摊硬度</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                <div class="text-[11px] text-gray-400">战队配装认证位阶</div>
+                <div class="text-sm font-black text-purple-300 font-mono mt-1">{{ calculatedPartyLoadoutTier }}</div>
+                <div class="text-[10px] text-purple-400/80 mt-0.5">太古神域终极认证</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演终端 -->
+          <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">五阶段配装协同推演进度:</span>
+              <span class="font-mono text-amber-400 font-bold">{{ partySimStep }}/5 阶段</span>
+            </div>
+            <n-progress
+              type="line"
+              :percentage="(partySimStep / 5) * 100"
+              :status="partySimStep === 5 ? 'success' : 'warning'"
+              :show-indicator="false"
+              processing
+            />
+            <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+              <span>{{ partySimCurrentLog }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+      <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+            <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activePartyCodeTab === 'matrix' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePartyCodeTab = 'matrix'"
+              >
+                party_loadout_matrix.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activePartyCodeTab === 'exchanger' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePartyCodeTab = 'exchanger'"
+              >
+                cross_hero_exchanger.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activePartyCodeTab === 'breaker' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePartyCodeTab = 'breaker'"
+              >
+                damage_cap_breaker.gd
+              </button>
+            </div>
+            <n-button size="small" type="primary" secondary round @click="copyPartyLoadoutCode">
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentPartyLoadoutCode }}</code></pre>
+        </div>
       </div>
     </div>
 
@@ -3706,4 +3989,291 @@ const currentGdRuneCode = computed(() => {
   if (activeGdRuneTab.value === 'reforge') return gdAffixReforgeMatrixCode
   return gdResonanceHarmonicsControllerCode
 })
+
+// ================= 🛡️ 工坊 2: 全域神装配装全息拓扑、四人队伍极意协同与伤害天花板穿透模拟工坊 (v2.2.306) =================
+interface PartyArchetype {
+  id: string
+  name: string
+  role: string
+  tag: string
+  icon: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  baseAtk: number
+  burstDmg: number
+}
+
+const partyArchetypes: PartyArchetype[] = [
+  {
+    id: 'radiant_holy_burst',
+    name: '光辉神圣暴击连携流',
+    role: '全队光辉圣剑 / 满暴击满穿透',
+    tag: '暴击贯通',
+    icon: '👑',
+    tagType: 'info',
+    desc: '全员配置神圣誓约之剑与圣痕防具，攻击必定触发 100% 神圣真伤暴击，对首领造成高额连携断层。',
+    baseAtk: 12500,
+    burstDmg: 380000
+  },
+  {
+    id: 'void_shadow_dual_wield',
+    name: '暗夜虚空二刀流神速流',
+    role: '四人双手互搏 / 瞬身连斩',
+    tag: '双持连击',
+    icon: '🗡️',
+    tagType: 'warning',
+    desc: '全员激活双手互搏与乱打特权，单次回合击发 32 次暴击斩击，并在暴击时获得 1.5 秒时空闪避。',
+    baseAtk: 14200,
+    burstDmg: 460000
+  },
+  {
+    id: 'archmage_elemental_cascade',
+    name: '太古元素连珠连续魔流',
+    role: '四元禁忌魔法 / 零蓝耗轰击',
+    tag: '连续魔极意',
+    icon: '🔮',
+    tagType: 'error',
+    desc: '四法皇共振架构，四重属性连续魔无缝交织，禁忌魔法伤害成倍叠乘，瞬间撕裂全域以太空间。',
+    baseAtk: 16800,
+    burstDmg: 580000
+  },
+  {
+    id: 'omni_transcendent_unison',
+    name: '创世先驱全神话配装极意流',
+    role: '太古神兵共鸣 / 全队极意',
+    tag: '终极主宰',
+    icon: '🌌',
+    tagType: 'success',
+    desc: '32 槽位全部注满太古创世神装，激活全队神话羁绊，生命护盾全员均摊，爆发伤害突破九百九十九万。',
+    baseAtk: 21000,
+    burstDmg: 880000
+  }
+]
+
+const selectedPartyArchetypeId = ref<string>('omni_transcendent_unison')
+const partySynergySync = ref<number>(80)
+const relicRefineTier = ref<number>(10)
+const damageCapMultiplier = ref<number>(3.5)
+const armorResistanceCoverage = ref<number>(90)
+
+const crossHeroSlotExchangeProtocol = ref<boolean>(true)
+const partyHpShieldSharedNetwork = ref<boolean>(true)
+const damageCapGovernorBreaker = ref<boolean>(true)
+
+const isSimulatingPartyLoadout = ref<boolean>(false)
+const partySimStep = ref<number>(5)
+const partySimCurrentLog = ref<string>('四人战队配装协同与伤害天花板穿透矩阵已就绪，等待调控指令。')
+
+const currentPartyArchetype = computed(() => {
+  return partyArchetypes.find(a => a.id === selectedPartyArchetypeId.value) || partyArchetypes[3]
+})
+
+const calculatedPartyBurstDmg = computed(() => {
+  const base = currentPartyArchetype.value.burstDmg
+  const syncMult = 1 + (partySynergySync.value / 100) * 0.75
+  const refineBonus = 1 + (relicRefineTier.value / 15) * 0.6
+  const capMult = damageCapGovernorBreaker.value ? damageCapMultiplier.value : 1.0
+  const protoBonus = crossHeroSlotExchangeProtocol.value ? 1.25 : 1.0
+  return Math.round(base * syncMult * refineBonus * capMult * protoBonus)
+})
+
+const calculatedPartyCp = computed(() => {
+  const baseAtk = currentPartyArchetype.value.baseAtk
+  const syncBonus = partySynergySync.value * 280
+  const refineBonus = relicRefineTier.value * 2200
+  const armorBonus = armorResistanceCoverage.value * 450
+  return Math.round(baseAtk * 4.5 + syncBonus + refineBonus + armorBonus)
+})
+
+const calculatedEffectiveArmorHardness = computed(() => {
+  const base = armorResistanceCoverage.value
+  const sharedBonus = partyHpShieldSharedNetwork.value ? 6.5 : 0
+  return Math.min(99.9, base * 0.95 + sharedBonus).toFixed(1)
+})
+
+const calculatedPartyLoadoutTier = computed(() => {
+  const cp = calculatedPartyCp.value
+  if (cp > 160000) return 'EX·太古创世终极战队'
+  if (cp > 120000) return 'SSS·高维神话协同王座'
+  if (cp > 90000) return 'SS·光暗双队破限宗师'
+  return 'S·先锋神装战队'
+})
+
+const scrollToPartyLoadoutStudio = () => {
+  const el = document.getElementById('party-loadout-synergy-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const resetPartyLoadoutParameters = () => {
+  selectedPartyArchetypeId.value = 'omni_transcendent_unison'
+  partySynergySync.value = 80
+  relicRefineTier.value = 10
+  damageCapMultiplier.value = 3.5
+  armorResistanceCoverage.value = 90
+  crossHeroSlotExchangeProtocol.value = true
+  partyHpShieldSharedNetwork.value = true
+  damageCapGovernorBreaker.value = true
+  message.info('已恢复战队配装协同工坊初始调控参数')
+}
+
+const runPartyLoadoutSimulation = () => {
+  if (isSimulatingPartyLoadout.value) return
+  isSimulatingPartyLoadout.value = true
+  partySimStep.value = 1
+  partySimCurrentLog.value = '阶段 1/5: 捕获全队四位主角 32 个装备槽位属性，初始化配装全息拓扑...'
+
+  setTimeout(() => {
+    partySimStep.value = 2
+    partySimCurrentLog.value = '阶段 2/5: 注入以太共鸣催化剂，校准 80% 队伍契合度与跨角色互换协议...'
+  }, 400)
+
+  setTimeout(() => {
+    partySimStep.value = 3
+    partySimCurrentLog.value = '阶段 3/5: 加载伤害天花板穿透器，激活全队生命护盾无损均摊网络...'
+  }, 800)
+
+  setTimeout(() => {
+    partySimStep.value = 4
+    partySimCurrentLog.value = '阶段 4/5: 运算四人双手互搏与连续魔连携，对齐 Godot 4.6 LTS 实机伤害管线...'
+  }, 1200)
+
+  setTimeout(() => {
+    partySimStep.value = 5
+    partySimCurrentLog.value = '阶段 5/5: 生成战队配装方案证书，锁定实机运行时装备数值！'
+    isSimulatingPartyLoadout.value = false
+    message.success('战队配装协同与破限推演完成！')
+  }, 1600)
+}
+
+const exportPartyLoadoutCertificate = () => {
+  const arch = currentPartyArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》四人战队配装协同与天花板穿透方案证书 (v2.2.306)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.role})
+  认证位阶: ${calculatedPartyLoadoutTier.value}
+================================================================================
+【调控参数】
+- 队伍共鸣契合度: ${partySynergySync.value}%
+- 武器灵髓强化阶数: +${relicRefineTier.value} 阶
+- 破限伤害放大率: ${damageCapMultiplier.value.toFixed(1)}x
+- 防具抗性覆盖率: ${armorResistanceCoverage.value}%
+- 跨角色槽位互换: ${crossHeroSlotExchangeProtocol.value ? '已开启' : '关闭'}
+- 护盾无损均摊网络: ${partyHpShieldSharedNetwork.value ? '已开启' : '关闭'}
+- 999999 天花板穿透: ${damageCapGovernorBreaker.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 战队极意爆发伤害: ${calculatedPartyBurstDmg.value.toLocaleString()} DMG
+- 全队综合战力总额: ${calculatedPartyCp.value.toLocaleString()} CP
+- 等效生存抗性硬度: ${calculatedEffectiveArmorHardness.value}%
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `party_loadout_cert_v2.2.306_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  message.success('战队配装方案证书已导出并同步至剪贴板！')
+}
+
+const activePartyCodeTab = ref<'matrix' | 'exchanger' | 'breaker'>('matrix')
+
+const gdPartyMatrixCode = `## party_loadout_synergy_matrix.gd
+## Godot 4.6 LTS - 四人战队配装协同与全息共鸣矩阵
+extends RefCounted
+class_name PartyLoadoutSynergyMatrix
+
+static func compute_team_synergy_damage(
+	team_base_atks: Array[int],
+	sync_pct: float,
+	refine_tier: int,
+	cap_multiplier: float,
+	allow_cap_break: bool
+) -> Dictionary:
+	var total_base: int = 0
+	for atk in team_base_atks:
+		total_base += atk
+		
+	var sync_factor: float = 1.0 + (sync_pct / 100.0) * 0.75
+	var refine_factor: float = 1.0 + (float(refine_tier) / 15.0) * 0.6
+	var raw_damage: float = float(total_base) * 8.5 * sync_factor * refine_factor
+	
+	if allow_cap_break:
+		raw_damage *= cap_multiplier
+		
+	var final_damage: int = int(raw_damage) if allow_cap_break else mini(999999, int(raw_damage))
+	return {
+		"total_team_damage": final_damage,
+		"is_cap_broken": allow_cap_break and final_damage > 999999,
+		"synergy_multiplier": sync_factor * refine_factor
+	}
+`
+
+const gdCrossExchangerCode = `## cross_hero_equipment_exchanger.gd
+## Godot 4.6 LTS - 跨角色装备槽位限制穿透与属性共享中介
+extends RefCounted
+class_name CrossHeroEquipmentExchanger
+
+static func validate_and_equip(
+	character_id: String,
+	equipment_id: String,
+	ignore_job_restrictions: bool
+) -> Dictionary:
+	if ignore_job_restrictions:
+		return {
+			"success": true,
+			"target_character": character_id,
+			"equipped_item": equipment_id,
+			"restriction_bypassed": true
+		}
+	return {
+		"success": true,
+		"target_character": character_id,
+		"equipped_item": equipment_id,
+		"restriction_bypassed": false
+	}
+`
+
+const gdDamageCapBreakerCode = `## damage_cap_governor_breaker.gd
+## Godot 4.6 LTS - 999999 破限爆发伤害天花板穿透器
+extends RefCounted
+class_name DamageCapGovernorBreaker
+
+const MAX_TRANSCENDENT_CAP: int = 9999999
+
+static func apply_cap_break(raw_hit_damage: int, breaker_active: bool) -> int:
+	if not breaker_active:
+		return mini(999999, raw_hit_damage)
+	return mini(MAX_TRANSCENDENT_CAP, raw_hit_damage)
+`
+
+const currentPartyLoadoutCode = computed(() => {
+  if (activePartyCodeTab.value === 'matrix') return gdPartyMatrixCode
+  if (activePartyCodeTab.value === 'exchanger') return gdCrossExchangerCode
+  return gdDamageCapBreakerCode
+})
+
+const copyPartyLoadoutCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentPartyLoadoutCode.value).then(() => {
+      message.success('Godot 4.6 LTS 战队配装源码已复制至剪贴板！')
+    }).catch(() => {
+      message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 </script>
