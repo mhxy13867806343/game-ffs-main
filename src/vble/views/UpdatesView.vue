@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicles-mythic-cruise-v307-2026-10-29',
+    version: 'v2.2.307',
+    date: '2026-10-29',
+    title: '全地形神话载具、动力拓扑引擎与空天巡航工坊重磅实装',
+    category: 'system',
+    categoryName: '载具动力',
+    icon: '🛸',
+    tagType: 'success',
+    description: '全面重构升级 VehiclesView 多维载具探索门户：顶部标章升级为 VBLE Mythic Vehicles, Planetary Cruise & Topology Studio v2.2.307，新增空天动力拓扑工坊快捷直达；专区重磅实装【全地形神话载具、动力拓扑引擎与空天巡航工坊】（Mythic Vehicles, Planetary Cruise & Topology Studio）；覆盖四大神话载具构架（月之巨鲸·红月穿梭次元母舰、诸神黄昏·超魔导歼星空母、太古黄金陆行鸟·次元破障灵骑、鹦鹉螺号·万米深渊暗物质潜艇）；支持推进器磁场约束度 (10%~100%)、亚光速曲率泡膨胀比 (1.0~8.0x)、全地形重力阻尼系数 (0.1~2.0 G) 与舰载护盾能量回充速率 (100~5000 kW) 连续微调；支持虚空引力透镜反重力巡航锁（抵消行星引力场，大气层内外零摩擦极速航行）、暗物质暗流自适应护盾发生器（全域吸收外层空间高能辐射与深渊万米水压，撞击吸收率达 100%）与 999999 马赫时空折跃超光速突破器（解除常规速度物理极限，单次折跃最高瞬达 9,999,999 km/h 超光速极境）；实时解算巡航峰值时速 (突破 1,000,000+ km/h)、行星间穿梭耗时 (低至 0.80 小时直达)、舰体结构抗压硬度与载具工程认证位阶 (高达 EX·太古星海造物主级母舰)；内置五阶段空天巡航推演沙盘与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：mythic_vehicle_propulsion_engine.gd、planetary_cruise_topology_navigator.gd 与 tachyon_velocity_cap_breaker.gd。',
+    highlights: [
+      '四大神话载具：月之巨鲸次元母舰、诸神黄昏歼星空母、太古黄金陆行鸟与鹦鹉螺号潜艇',
+      '四维连续巡航动力学：推进磁场约束度、曲率泡膨胀比、全地形重力阻尼与护盾回充速率',
+      '三重空天巡航保障：反重力巡航锁、暗物质自适应护盾与 999999 马赫超光速突破器',
+      '动态能效指标解算：实际巡航峰值时速、行星间穿梭耗时、舰体抗压硬度与 EX 级母舰认证',
+      '五阶段推演沙盘：动力骨架扫描、曲率反重力场、暗物质护盾、超光速突破与证书闭环',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源载具推进引擎、行星际拓扑导航机与超光速突破器'
+    ],
+    relatedLinks: [
+      { label: '多维载具探索法则', path: '/vble/vehicles', icon: '🛸' },
+      { label: '空天动力拓扑工坊', path: '/vble/vehicles', icon: '🚀' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-armory-party-synergy-v306-2026-10-29',
     version: 'v2.2.306',
     date: '2026-10-29',

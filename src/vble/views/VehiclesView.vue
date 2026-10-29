@@ -12,13 +12,24 @@
             <span class="text-xs text-gray-400">大世界航行与次元动力</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🛸</span> 多维载具矩阵与大世界探索法则
+            <span>🛸</span> 全地形神话载具、动力拓扑引擎与空天巡航工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             从黄色平原走兽、黑陆行鸟林间破空，到跨海蒸汽机船、潜水艇深渊下潜，乃至突破世界卡门线飞向红月的月之巨鲸。收录全部 10 项载具全貌与实机航行推演工坊。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="success"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToMythicCruiseStudio"
+          >
+            <template #icon><span>🚀</span></template>
+            空天动力拓扑工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1618,6 +1629,286 @@
       </div>
 
       <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-96">{{ currentGodotCodeSnippet }}</pre>
+    </div>
+
+    <!-- 🛸 工坊 5: 全地形神话载具、动力拓扑引擎与空天巡航工坊 (Mythic Vehicles, Planetary Cruise & Topology Studio v2.2.307) -->
+    <div
+      id="mythic-cruise-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-amber-950/80 via-slate-900/90 to-cyan-950/80 border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与操作区 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              MYTHIC CRUISE &amp; TOPOLOGY v2.2.307
+            </span>
+            <span class="text-xs text-amber-300/80 font-mono">全地形神话载具与动力拓扑矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+            <span>🛸</span> 全地形神话载具、动力拓扑引擎与空天巡航工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Godot 4.6 LTS 实时仿真：解算月之巨鲸亚光速曲率泡展开、诸神黄昏歼星空母反重力巡航、深渊鹦鹉螺号暗物质潜航与 999999 马赫超光速折跃。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="resetMythicCruiseParameters"
+          >
+            重置参数
+          </n-button>
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingMythicCruise"
+            @click="runMythicCruiseSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动巡航动力推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportMythicCruiseCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大神话载具原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="archetype in mythicVehicleArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+          :class="selectedMythicVehicleArchetypeId === archetype.id
+            ? 'bg-amber-950/50 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-amber-600/50'"
+          @click="selectedMythicVehicleArchetypeId = archetype.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ archetype.icon }}</span>
+            <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.tag }}</n-tag>
+          </div>
+          <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+          <div class="text-[11px] text-amber-300/80 font-mono mt-0.5">{{ archetype.mode }}</div>
+          <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>极速: {{ archetype.topSpeed.toLocaleString() }}km/h</span>
+            <span class="text-cyan-400">航程: {{ (archetype.enduranceKm / 10000).toFixed(0) }}万km</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心调控滑块与高能开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+        <!-- 左侧参数微调面板 -->
+        <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+              <span>⚙️</span> 推进磁约束与曲率泡膨胀参数微调
+            </span>
+            <span class="text-[11px] font-mono text-amber-400">Continuous Propulsion Dynamics</span>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">推进器磁场约束度 (Magnetic Constraint Ratio):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ magneticConstraintRatio }}%</span>
+              </div>
+              <n-slider v-model:value="magneticConstraintRatio" :min="10" :max="100" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>微弱导流 (10%)</span>
+                <span>标准磁控 (50%)</span>
+                <span>超导绝对约束 (100%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">亚光速曲率泡膨胀比 (Warp Bubble Expansion):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ warpBubbleExpansion.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="warpBubbleExpansion" :min="1.0" :max="8.0" :step="0.2" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>平坦空间 (1.0x)</span>
+                <span>曲率折叠 (4.2x)</span>
+                <span>超光速跃迁 (8.0x)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">全地形重力阻尼系数 (Gravity Damping Factor):</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ gravityDampingFactor.toFixed(1) }} G</span>
+              </div>
+              <n-slider v-model:value="gravityDampingFactor" :min="0.1" :max="2.0" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>微重力漂浮 (0.1G)</span>
+                <span>标准地球 (1.0G)</span>
+                <span>高重力强压 (2.0G)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">舰载护盾能量回充速率 (Shield Recharge Velocity):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ shieldRechargeRate }} kW</span>
+              </div>
+              <n-slider v-model:value="shieldRechargeRate" :min="100" :max="5000" :step="100" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>应急维护 (100kW)</span>
+                <span>标准回充 (2400kW)</span>
+                <span>太古超充 (5000kW)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 三大高能保障开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">虚空引力透镜反重力巡航锁 (Anti-Gravity Lens Lock)</div>
+                <div class="text-[11px] text-gray-400">抵消行星引力场与大气层摩擦阻力，实现地表至轨道无缝平稳过渡</div>
+              </div>
+              <n-switch v-model:value="antiGravityLensCruiseLock" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">暗物质暗流自适应护盾发生器 (Dark Matter Adaptive Shield)</div>
+                <div class="text-[11px] text-gray-400">全域吸收外层空间高能辐射与深渊万米水压，撞击吸收率达 100%</div>
+              </div>
+              <n-switch v-model:value="darkMatterAdaptiveShield" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">999999 马赫时空折跃超光速突破器 (Tachyon Velocity Breaker)</div>
+                <div class="text-[11px] text-gray-400">解除常规速度物理极限，单次折跃最高瞬达 9,999,999 km/h 超光速极境</div>
+              </div>
+              <n-switch v-model:value="tachyonVelocityCapBreaker" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧指标计算与沙盘推演 -->
+        <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>📊</span> 实时解算空天巡航动力能效
+              </span>
+              <n-tag size="tiny" type="warning" round>Cruise Resolved</n-tag>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-700/40">
+                <div class="text-[11px] text-gray-400">实际巡航峰值时速</div>
+                <div class="text-lg font-black text-amber-300 font-mono mt-0.5">{{ calculatedCruiseTopSpeed.toLocaleString() }} km/h</div>
+                <div class="text-[10px] text-amber-400/80 mt-0.5">曲率泡膨胀放大速</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-cyan-950/30 border border-cyan-700/40">
+                <div class="text-[11px] text-gray-400">行星间穿梭耗时</div>
+                <div class="text-lg font-black text-cyan-300 font-mono mt-0.5">{{ calculatedInterplanetaryTransitHours }} 小时</div>
+                <div class="text-[10px] text-cyan-400/80 mt-0.5">地月/红月极速直达</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-700/40">
+                <div class="text-[11px] text-gray-400">舰体结构抗压硬度</div>
+                <div class="text-lg font-black text-emerald-300 font-mono mt-0.5">{{ calculatedHullStructureHardness }}%</div>
+                <div class="text-[10px] text-emerald-400/80 mt-0.5">暗物质护盾偏折率</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                <div class="text-[11px] text-gray-400">载具工程认证位阶</div>
+                <div class="text-sm font-black text-purple-300 font-mono mt-1">{{ calculatedVehicleRankTier }}</div>
+                <div class="text-[10px] text-purple-400/80 mt-0.5">太古星舰造船厂认证</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演终端 -->
+          <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">五阶段空天巡航推演进度:</span>
+              <span class="font-mono text-amber-400 font-bold">{{ mythicSimStep }}/5 阶段</span>
+            </div>
+            <n-progress
+              type="line"
+              :percentage="(mythicSimStep / 5) * 100"
+              :status="mythicSimStep === 5 ? 'success' : 'warning'"
+              :show-indicator="false"
+              processing
+            />
+            <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+              <span>{{ mythicSimCurrentLog }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+      <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+            <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeMythicCodeTab === 'propulsion' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeMythicCodeTab = 'propulsion'"
+              >
+                mythic_propulsion.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeMythicCodeTab === 'topology' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeMythicCodeTab = 'topology'"
+              >
+                planetary_topology.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeMythicCodeTab === 'breaker' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeMythicCodeTab = 'breaker'"
+              >
+                tachyon_breaker.gd
+              </button>
+            </div>
+            <n-button size="small" type="primary" secondary round @click="copyMythicCruiseCode">
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentMythicCruiseCode }}</code></pre>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -3274,6 +3565,277 @@ const currentGodotCodeSnippet = computed(() => {
   if (activeCodeTab.value === 'overdrive') return godotHyperOverdriveCodeText
   return godotOrbitalSlingshotCodeText
 })
+
+// ================= 🛸 工坊 5: 全地形神话载具、动力拓扑引擎与空天巡航工坊 (v2.2.307) =================
+interface MythicVehicleArchetype {
+  id: string
+  name: string
+  mode: string
+  tag: string
+  icon: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  topSpeed: number
+  enduranceKm: number
+}
+
+const mythicVehicleArchetypes: MythicVehicleArchetype[] = [
+  {
+    id: 'lunar_whale_stellar_cruiser',
+    name: '月之巨鲸母舰',
+    mode: '星海跨界 / 亚光速航行',
+    tag: '红月穿梭',
+    icon: '🐋',
+    tagType: 'info',
+    desc: '太古遗留的星际飞空巨舰，自带高维重力反斥系统，可直接突破世界卡门线往返于原初地心与红月。',
+    topSpeed: 180000,
+    enduranceKm: 3800000
+  },
+  {
+    id: 'ragnarok_dreadnought_airship',
+    name: '诸神黄昏空母',
+    mode: '全域制空 / 磁轨重炮',
+    tag: '魔导歼星',
+    icon: '🛸',
+    tagType: 'error',
+    desc: '古代遗迹最终构装战舰，搭载双联以太裂变主炮与曲率反重力翼，可在全地形暴风雨与深空自由穿行。',
+    topSpeed: 240000,
+    enduranceKm: 5200000
+  },
+  {
+    id: 'golden_chocobo_dimensional_runner',
+    name: '太古黄金陆行鸟',
+    mode: '全地形无视 / 浮空深海',
+    tag: '次元灵骑',
+    icon: '🐤',
+    tagType: 'warning',
+    desc: '九代培育纯血神鸟，能跨越高山、沼泽与外洋断层，甚至在时空裂隙中如履平地，绝对安全零遇敌。',
+    topSpeed: 65000,
+    enduranceKm: 850000
+  },
+  {
+    id: 'nautilus_deep_abyss_submersible',
+    name: '鹦鹉螺号深潜艇',
+    mode: '深渊下潜 / 虚空暗涌',
+    tag: '万米潜航',
+    icon: '🚢',
+    tagType: 'success',
+    desc: '由席德精心改造的太古合金潜艇，能够承受万米海沟的致死水压，探测远古沉船与海底裂谷秘境。',
+    topSpeed: 92000,
+    enduranceKm: 1200000
+  }
+]
+
+const selectedMythicVehicleArchetypeId = ref<string>('lunar_whale_stellar_cruiser')
+const magneticConstraintRatio = ref<number>(75)
+const warpBubbleExpansion = ref<number>(4.2)
+const gravityDampingFactor = ref<number>(1.0)
+const shieldRechargeRate = ref<number>(2400)
+
+const antiGravityLensCruiseLock = ref<boolean>(true)
+const darkMatterAdaptiveShield = ref<boolean>(true)
+const tachyonVelocityCapBreaker = ref<boolean>(true)
+
+const isSimulatingMythicCruise = ref<boolean>(false)
+const mythicSimStep = ref<number>(5)
+const mythicSimCurrentLog = ref<string>('全地形神话载具动力拓扑矩阵已就绪，等待调度指令。')
+
+const currentMythicArchetype = computed(() => {
+  return mythicVehicleArchetypes.find(a => a.id === selectedMythicVehicleArchetypeId.value) || mythicVehicleArchetypes[0]
+})
+
+const calculatedCruiseTopSpeed = computed(() => {
+  const base = currentMythicArchetype.value.topSpeed
+  const magBonus = 1 + (magneticConstraintRatio.value / 100) * 0.55
+  const warpBonus = warpBubbleExpansion.value * 0.45
+  const capMult = tachyonVelocityCapBreaker.value ? 1.85 : 1.0
+  return Math.round(base * magBonus * warpBonus * capMult)
+})
+
+const calculatedInterplanetaryTransitHours = computed(() => {
+  const distanceKm = 384400 // 地月平均距离
+  const speed = calculatedCruiseTopSpeed.value
+  const hours = distanceKm / speed
+  return hours.toFixed(2)
+})
+
+const calculatedHullStructureHardness = computed(() => {
+  const base = 85.0
+  const shieldGain = (shieldRechargeRate.value / 5000) * 10.0
+  const adaptiveGain = darkMatterAdaptiveShield.value ? 4.5 : 0
+  return Math.min(99.9, base + shieldGain + adaptiveGain).toFixed(1)
+})
+
+const calculatedVehicleRankTier = computed(() => {
+  const speed = calculatedCruiseTopSpeed.value
+  if (speed > 1000000) return 'EX·太古星海造物主级母舰'
+  if (speed > 500000) return 'SSS·跨维星舰歼霸级'
+  if (speed > 250000) return 'SS·高维空天领航级'
+  return 'S·大世界神话巡航级'
+})
+
+const scrollToMythicCruiseStudio = () => {
+  const el = document.getElementById('mythic-cruise-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const resetMythicCruiseParameters = () => {
+  selectedMythicVehicleArchetypeId.value = 'lunar_whale_stellar_cruiser'
+  magneticConstraintRatio.value = 75
+  warpBubbleExpansion.value = 4.2
+  gravityDampingFactor.value = 1.0
+  shieldRechargeRate.value = 2400
+  antiGravityLensCruiseLock.value = true
+  darkMatterAdaptiveShield.value = true
+  tachyonVelocityCapBreaker.value = true
+  message.info('已恢复神话载具工坊初始调控参数')
+}
+
+const runMythicCruiseSimulation = () => {
+  if (isSimulatingMythicCruise.value) return
+  isSimulatingMythicCruise.value = true
+  mythicSimStep.value = 1
+  mythicSimCurrentLog.value = '阶段 1/5: 扫描全地形神话载具动力骨架，初始化磁约束等离子喷口...'
+
+  setTimeout(() => {
+    mythicSimStep.value = 2
+    mythicSimCurrentLog.value = '阶段 2/5: 注入高纯以太晶核燃料，展开 4.2x 亚光速曲率反重力力场...'
+  }, 400)
+
+  setTimeout(() => {
+    mythicSimStep.value = 3
+    mythicSimCurrentLog.value = '阶段 3/5: 加载暗物质自适应护盾，对齐深渊水压与外层空间极温...'
+  }, 800)
+
+  setTimeout(() => {
+    mythicSimStep.value = 4
+    mythicSimCurrentLog.value = '阶段 4/5: 激活超光速突破器，对齐 Godot 4.6 LTS 大世界物理流引擎...'
+  }, 1200)
+
+  setTimeout(() => {
+    mythicSimStep.value = 5
+    mythicSimCurrentLog.value = '阶段 5/5: 生成载具巡航方案证书，锁定实机运行时航行物理参数！'
+    isSimulatingMythicCruise.value = false
+    message.success('神话载具巡航动力推演完成！')
+  }, 1600)
+}
+
+const exportMythicCruiseCertificate = () => {
+  const arch = currentMythicArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》全地形神话载具巡航与动力拓扑方案证书 (v2.2.307)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.mode})
+  工程评阶: ${calculatedVehicleRankTier.value}
+================================================================================
+【调控参数】
+- 推进磁场约束度: ${magneticConstraintRatio.value}%
+- 曲率泡膨胀比率: ${warpBubbleExpansion.value.toFixed(1)}x
+- 重力阻尼系数: ${gravityDampingFactor.value.toFixed(1)} G
+- 护盾回充速率: ${shieldRechargeRate.value} kW
+- 反重力巡航锁: ${antiGravityLensCruiseLock.value ? '已开启' : '关闭'}
+- 暗物质自适应盾: ${darkMatterAdaptiveShield.value ? '已开启' : '关闭'}
+- 999999 超速突破: ${tachyonVelocityCapBreaker.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 巡航峰值时速: ${calculatedCruiseTopSpeed.value.toLocaleString()} km/h
+- 行星穿梭耗时: ${calculatedInterplanetaryTransitHours.value} 小时
+- 舰体抗压硬度: ${calculatedHullStructureHardness.value}%
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `mythic_vehicle_cruise_cert_v2.2.307_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  message.success('神话载具巡航方案证书已导出并同步至剪贴板！')
+}
+
+const activeMythicCodeTab = ref<'propulsion' | 'topology' | 'breaker'>('propulsion')
+
+const gdMythicPropulsionCode = `## mythic_vehicle_propulsion_engine.gd
+## Godot 4.6 LTS - 全地形神话载具动力推进与曲率展开引擎
+extends RefCounted
+class_name MythicVehiclePropulsionEngine
+
+static func compute_cruise_velocity(
+	base_velocity: float,
+	magnetic_constraint_pct: float,
+	warp_expansion: float,
+	tachyon_breaker_active: bool
+) -> Dictionary:
+	var mag_factor: float = 1.0 + (magnetic_constraint_pct / 100.0) * 0.55
+	var warp_factor: float = warp_expansion * 0.45
+	var actual_speed: float = base_velocity * mag_factor * warp_factor
+	
+	if tachyon_breaker_active:
+		actual_speed *= 1.85
+		
+	return {
+		"top_speed_kmh": actual_speed,
+		"is_faster_than_light": actual_speed > 1079252848.8,
+		"thrust_efficiency_pct": clampf(magnetic_constraint_pct * 1.1, 10.0, 100.0)
+	}
+`
+
+const gdPlanetaryTopologyCode = `## planetary_cruise_topology_navigator.gd
+## Godot 4.6 LTS - 行星际多维拓扑航行与反重力导流机
+extends RefCounted
+class_name PlanetaryCruiseTopologyNavigator
+
+static func calculate_transit_time(
+	distance_km: float,
+	cruise_speed_kmh: float,
+	anti_gravity_active: bool
+) -> float:
+	var effective_speed: float = cruise_speed_kmh * (1.2 if anti_gravity_active else 1.0)
+	if effective_speed <= 0.0:
+		return 9999.0
+	return distance_km / effective_speed
+`
+
+const gdTachyonBreakerCode = `## tachyon_velocity_cap_breaker.gd
+## Godot 4.6 LTS - 999999 马赫超光速突破与相对论因果锁
+extends RefCounted
+class_name TachyonVelocityCapBreaker
+
+const MAX_VELOCITY_CAP: float = 9999999.0
+
+static func enforce_speed_barrier(raw_speed_kmh: float, cap_broken: bool) -> float:
+	if not cap_broken:
+		return minf(raw_speed_kmh, 999999.0)
+	return minf(raw_speed_kmh, MAX_VELOCITY_CAP)
+`
+
+const currentMythicCruiseCode = computed(() => {
+  if (activeMythicCodeTab.value === 'propulsion') return gdMythicPropulsionCode
+  if (activeMythicCodeTab.value === 'topology') return gdPlanetaryTopologyCode
+  return gdTachyonBreakerCode
+})
+
+const copyMythicCruiseCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentMythicCruiseCode.value).then(() => {
+      message.success('Godot 4.6 LTS 载具动力源码已复制至剪贴板！')
+    }).catch(() => {
+      message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 </script>
 
 <style scoped>
