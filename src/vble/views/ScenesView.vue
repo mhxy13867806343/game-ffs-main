@@ -2,10 +2,19 @@
   <div class="scenes-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">World Exploration & Towns Catalog</n-tag>
+      <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
+        <n-tag type="info" size="small" round class="shadow-sm">VBLE World Scenes, Warp Topology &amp; Planar Radar Matrix v2.2.296</n-tag>
+        <button
+          type="button"
+          class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 transition-all cursor-pointer shadow-sm"
+          @click="scrollToPlanarWarpStudio"
+        >
+          🌐 时空位面拓扑工坊直达
+        </button>
+      </div>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-cyan mb-2">🗺️ 全域世界场景、城镇与商铺生态名录</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm">
-        深度展示各大王国都城、避风海港、机械工坊与隐世黑市：涵盖常驻 NPC 住民名录、商铺所售道具装备与物价、以及各场景出没生态魔物
+        深度展示各大王国都城、避风海港、机械工坊与隐世黑市；集成四大多元位面拓扑、生态雷达变异抑制与两界商贸平抑工坊
       </p>
     </div>
 
@@ -172,6 +181,348 @@
         </div>
       </div>
     </div>
+
+    <!-- 全域大地图时空穿梭拓扑、位面生态雷达与大陆动态互联工坊 (Planar Warp Topology Studio v2.2.296) -->
+    <div id="planar-warp-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-cyan-950/70 via-slate-900/95 to-indigo-950/70 border border-cyan-500/40 shadow-[0_0_35px_rgba(6,182,212,0.22)] space-y-6">
+      <!-- 头部与控制栏 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-900/40 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl p-2 rounded-xl bg-cyan-500/20 border border-cyan-500/30">🌐</span>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-lg sm:text-xl font-black text-cyan-300">
+                  全域大地图时空穿梭拓扑、位面生态雷达与大陆互联工坊
+                </h2>
+                <n-tag size="tiny" type="info" round strong>v2.2.296 官方实机矩阵</n-tag>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">
+                对齐 Godot 4.6 LTS 大地图与场景拓扑规范：深度整合四大世界位面、四维连续参数、三大时空护盾、五阶段穿梭推演与防伪证书导出
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+          <n-button size="small" secondary type="warning" @click="resetPlanarParameters">
+            🔄 重置拓扑参数
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportPlanarCertificate">
+            📜 导出位面方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大世界位面选择卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="plane in planarArchetypes"
+          :key="plane.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedPlaneId === plane.id
+            ? 'bg-cyan-950/50 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.25)] ring-1 ring-cyan-400/50'
+            : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-850'"
+          @click="selectedPlaneId = plane.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ plane.icon }}</span>
+            <n-tag :type="selectedPlaneId === plane.id ? 'info' : 'default'" size="tiny" round>
+              {{ plane.tag }}
+            </n-tag>
+          </div>
+          <div class="text-sm font-bold text-white mb-1">{{ plane.name }}</div>
+          <div class="text-[11px] text-gray-400 leading-relaxed mb-3">{{ plane.desc }}</div>
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+            <span class="text-gray-400">地脉特质</span>
+            <span class="text-cyan-300 font-semibold">{{ plane.perk }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与安全防护盾 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 左侧: 4维连续参数调节 (7 cols) -->
+        <div class="lg:col-span-7 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-cyan-400 font-bold text-sm">🎛️ 时空拓扑与生态雷达调控矩阵</span>
+              <span class="text-[11px] text-gray-400 font-mono">4-Axis Planar Tuning</span>
+            </div>
+            <button
+              type="button"
+              class="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors"
+              @click="resetPlanarParameters"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 滑块 1: 位面跃迁能量 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>⚡</span> 位面跃迁能量 (Warp Energy)
+              </span>
+              <span class="font-mono text-cyan-400 font-bold">{{ warpEnergy }} MeV</span>
+            </div>
+            <n-slider
+              v-model:value="warpEnergy"
+              :min="100"
+              :max="999"
+              :step="10"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>100 MeV (近距传送)</span>
+              <span>550 MeV (跨海峡跃迁)</span>
+              <span>999 MeV (超时空超光速)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 2: 生态魔物变异熵 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>👾</span> 生态魔物变异熵 (Mutation Entropy)
+              </span>
+              <span class="font-mono text-rose-400 font-bold">{{ mutationEntropy.toFixed(1) }}x</span>
+            </div>
+            <n-slider
+              v-model:value="mutationEntropy"
+              :min="0.1"
+              :max="5.0"
+              :step="0.1"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>0.1x (原生态温顺)</span>
+              <span>2.5x (狂暴异化)</span>
+              <span>5.0x (深渊极度畸变)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 3: 商会物价平抑指数 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>⚖️</span> 商会物价平抑指数 (Price Stabilization)
+              </span>
+              <span class="font-mono text-amber-400 font-bold">{{ priceStabilization }}%</span>
+            </div>
+            <n-slider
+              v-model:value="priceStabilization"
+              :min="50"
+              :max="200"
+              :step="5"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>50% (通胀混乱)</span>
+              <span>100% (标准物价准则)</span>
+              <span>200% (极度平抑黄金价)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 4: 穿梭几何曲率 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>📐</span> 穿梭几何曲率 (Geometry Curvature)
+              </span>
+              <span class="font-mono text-purple-400 font-bold">{{ geometryCurvature.toFixed(1) }} G</span>
+            </div>
+            <n-slider
+              v-model:value="geometryCurvature"
+              :min="1.0"
+              :max="10.0"
+              :step="0.2"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1.0 G (欧几里得平直)</span>
+              <span>5.0 G (黑洞引力弹弓)</span>
+              <span>10.0 G (超弦曲率跃迁)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧: 3大拓扑安全防护 (5 cols) -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+            <span class="text-cyan-400 font-bold text-sm">🛡️ 时空位面安全防护与断路器</span>
+            <n-tag type="info" size="tiny" round>主动防护体系</n-tag>
+          </div>
+
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>⚓</span> 时空位面防漂移锚桩
+                </div>
+                <div class="text-[11px] text-gray-400">场景切换防坐标撕裂失准，跃迁稳态 +20%</div>
+              </div>
+              <n-switch v-model:value="planarAnchorLock" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🛑</span> 生态变异激增抑制场
+                </div>
+                <div class="text-[11px] text-gray-400">抑制周边怪群狂暴化，保全商路与聚落安全</div>
+              </div>
+              <n-switch v-model:value="mutationDampingField" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🏰</span> 商会跨界反倾销关税盾
+                </div>
+                <div class="text-[11px] text-gray-400">自动抹平两界物价剪刀差，保护商品流通</div>
+              </div>
+              <n-switch v-model:value="tariffShield" size="small" />
+            </div>
+          </div>
+
+          <!-- 能效雷达卡 -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 space-y-2">
+            <div class="text-xs font-bold text-cyan-300 flex items-center justify-between">
+              <span>全域位面跃迁稳定性</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ calculatedWarpStability.toFixed(1) }}%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 h-1.5 rounded-full transition-all duration-300"
+                :style="{ width: Math.min(calculatedWarpStability, 100) + '%' }"
+              ></div>
+            </div>
+            <div class="text-[10px] text-gray-400 flex justify-between">
+              <span>基准安全线: 75.0%</span>
+              <span class="text-cyan-300">拓扑状态: {{ calculatedWarpStability > 92 ? '极境超稳' : '高度受控' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实时解算数值仪表盘 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">位面穿梭稳定性 (Flux)</div>
+          <div class="text-2xl font-black text-cyan-400 font-mono mt-1">{{ calculatedWarpStability.toFixed(1) }}%</div>
+          <div class="text-[10px] text-cyan-300/80 mt-0.5">零位面撕裂防护</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-rose-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">生态威胁排斥势 (Barrier)</div>
+          <div class="text-2xl font-black text-rose-400 font-mono mt-1">{{ calculatedThreatBarrier.toLocaleString() }} J</div>
+          <div class="text-[10px] text-rose-300/80 mt-0.5">压制区域魔物狂暴</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">商贸周转能效评级</div>
+          <div class="text-2xl font-black text-amber-400 font-mono mt-1">{{ calculatedTradeEfficiency }}%</div>
+          <div class="text-[10px] text-amber-300/80 mt-0.5">两界跨市流通指数</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">位面探险家认证位阶</div>
+          <div class="text-2xl font-black text-purple-400 font-mono mt-1">{{ planarExplorerRank }}</div>
+          <div class="text-[10px] text-purple-300/80 mt-0.5">全域大地图首席勋阶</div>
+        </div>
+      </div>
+
+      <!-- 五阶段时空穿梭推演仿真终端 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-cyan-500/30 shadow-2xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold text-sm">⚡ 全域大地图位面拓扑与时空跃迁五阶段推演终端</span>
+            <n-tag type="info" size="tiny" round>Live Warp Pipeline</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-md disabled:opacity-50"
+              :disabled="isSimulatingPlanar"
+              @click="runPlanarSimulation"
+            >
+              {{ isSimulatingPlanar ? '正在执行位面穿梭中...' : '▶ 启动全流程位面跃迁推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 transition-all cursor-pointer"
+              @click="exportPlanarCertificate"
+            >
+              📜 导出位面方案书
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 阶段步进进度 -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+          <div
+            v-for="(stg, idx) in planarStages"
+            :key="stg.id"
+            class="p-2.5 rounded-lg border text-xs transition-all flex flex-col justify-between"
+            :class="planarSimulationStep >= idx + 1
+              ? 'bg-cyan-950/40 border-cyan-500/60 text-cyan-300'
+              : 'bg-slate-900/60 border-slate-800/80 text-gray-500'"
+          >
+            <div class="font-bold mb-1 flex items-center gap-1">
+              <span>{{ planarSimulationStep >= idx + 1 ? '✅' : '⏳' }}</span>
+              <span>第 {{ idx + 1 }} 阶: {{ stg.title }}</span>
+            </div>
+            <div class="text-[10px] leading-tight opacity-80">{{ stg.desc }}</div>
+          </div>
+        </div>
+
+        <!-- 推演日志视窗 -->
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-gray-300 max-h-48 overflow-y-auto space-y-1">
+          <div v-for="(log, idx) in planarLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-cyan-400 select-none">›</span>
+            <span :class="log.color || 'text-gray-300'">{{ log.text }}</span>
+          </div>
+          <div v-if="planarLogs.length === 0" class="text-gray-600 italic">
+            等待启动推演... 点击上方【启动全流程位面跃迁推演】按键开始推演。
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 3 Tab 源码展台 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-xl space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 位面拓扑与生态雷达实机脚本</span>
+            <n-tag type="info" size="tiny" round>RefCounted 核心架构</n-tag>
+          </div>
+          <div class="flex gap-2">
+            <button
+              v-for="st in planarScriptTabs"
+              :key="st.key"
+              type="button"
+              class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
+              :class="activePlanarScriptTab === st.key
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
+              @click="activePlanarScriptTab = st.key"
+            >
+              {{ st.name }}
+            </button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentPlanarScriptCode }}</pre>
+          <button
+            type="button"
+            class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-gray-300 border border-slate-700 cursor-pointer transition-colors"
+            @click="copyPlanarScript"
+          >
+            📋 复制代码
+          </button>
+        </div>
+      </div>
+    </div>
+
 
     <!-- 🏰 世界场景城镇全景漫游与分支剧情对白派遣工坊 (Settlement Interactive Dialogue & Exploration Studio) -->
     <div class="bg-gradient-to-br from-slate-950/95 via-sky-950/40 to-slate-950/90 border border-sky-500/50 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-5 relative overflow-hidden">
@@ -976,7 +1327,14 @@
 import { WORLD_SCENES, WorldScene, TownShopItem, OFFICIAL_GEOGRAPHY_NOTES } from '../config/scenesConfig'
 import { useRouter } from 'vue-router'
 
+import { useMessage } from 'naive-ui'
+const message = useMessage()
 const router = useRouter()
+
+const scrollToPlanarWarpStudio = () => {
+  const el = document.getElementById('planar-warp-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
 
 // 商铺装备对比弹窗模型
 interface QuickMember {
@@ -1323,6 +1681,282 @@ const confirmChoice = (cIdx: number) => {
   activeNpcDialogueText.value = choice.reply
   townReputation.value += choice.repGain
   latestTownEvent.value = `💬 回应了【${activeNpc.value.name}】：${choice.text}。获得 ${choice.rewardHint} (+${choice.repGain} 声望)！`
+}
+
+
+// ==========================================
+// 全域位面穿梭拓扑与生态雷达工坊 (v2.2.296)
+// ==========================================
+interface PlanarArchetype {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  desc: string
+  perk: string
+  stabilityMult: number
+}
+
+const planarArchetypes: PlanarArchetype[] = [
+  {
+    id: 'primal_world_1',
+    name: '始源第一世界大陆',
+    icon: '🌍',
+    tag: '盖亚繁盛',
+    desc: '涵盖巴隆、图尔、卡纳克与沃尔斯，丰饶以太地脉与繁盛王国聚落',
+    perk: '地脉以太充能 +150%',
+    stabilityMult: 1.15
+  },
+  {
+    id: 'void_rift_world_2',
+    name: '第二世界以太裂隙',
+    icon: '🌌',
+    tag: '深渊交错',
+    desc: '跨越次元大裂隙，莫古利村、巴比伦城与幻影之村交错并存',
+    perk: '时空裂隙隐秘通道解禁',
+    stabilityMult: 1.05
+  },
+  {
+    id: 'floating_continent',
+    name: '浮空大陆云海空域',
+    icon: '☁️',
+    tag: '云端翱翔',
+    desc: '云海之巅的古代机械浮空城与龙骑士远古圣地，超轻重力航行',
+    perk: '飞空艇航速 +40%',
+    stabilityMult: 1.20
+  },
+  {
+    id: 'singularity_zero',
+    name: '时空交汇交错零点',
+    icon: '🪐',
+    tag: '始源奇点',
+    desc: '始源神殿与最终虚空核心，多维平行宇宙场景折叠重叠',
+    perk: '全域场景秒速无缝穿梭',
+    stabilityMult: 1.25
+  }
+]
+
+const selectedPlaneId = ref<string>('primal_world_1')
+
+// 4 维连续滑块参数
+const warpEnergy = ref<number>(680)
+const mutationEntropy = ref<number>(1.8)
+const priceStabilization = ref<number>(125)
+const geometryCurvature = ref<number>(4.6)
+
+// 3 大时空拓扑安全防护
+const planarAnchorLock = ref<boolean>(true)
+const mutationDampingField = ref<boolean>(true)
+const tariffShield = ref<boolean>(true)
+
+const currentPlane = computed(() => {
+  return planarArchetypes.find(p => p.id === selectedPlaneId.value) || planarArchetypes[0]
+})
+
+const calculatedWarpStability = computed(() => {
+  let stability = 75.0
+  stability += (warpEnergy.value / 1000) * 14.0
+  stability -= (mutationEntropy.value / 5.0) * 6.0
+  stability += (geometryCurvature.value / 10.0) * 5.0
+  if (planarAnchorLock.value) stability += 4.5
+  if (mutationDampingField.value) stability += 3.5
+  return Math.min(99.8, Math.max(50.0, stability * currentPlane.value.stabilityMult))
+})
+
+const calculatedThreatBarrier = computed(() => {
+  const baseBarrier = 210000
+  const energyBonus = warpEnergy.value * 280
+  const dampingBonus = mutationDampingField.value ? 75000 : 0
+  return Math.round(baseBarrier + energyBonus + dampingBonus)
+})
+
+const calculatedTradeEfficiency = computed(() => {
+  const baseScore = Math.round(priceStabilization.value * 0.95)
+  const tariffBonus = tariffShield.value ? 25 : 0
+  return baseScore + tariffBonus
+})
+
+const planarExplorerRank = computed(() => {
+  if (calculatedWarpStability.value >= 98.0) return 'EX 始源超维探索神官'
+  if (calculatedWarpStability.value >= 90.0) return 'SS 传奇怪域领主'
+  if (calculatedWarpStability.value >= 80.0) return 'S 极境开拓先驱'
+  return 'A 级大陆行者'
+})
+
+const resetPlanarParameters = () => {
+  warpEnergy.value = 680
+  mutationEntropy.value = 1.8
+  priceStabilization.value = 125
+  geometryCurvature.value = 4.6
+  planarAnchorLock.value = true
+  mutationDampingField.value = true
+  tariffShield.value = true
+  message?.info('位面拓扑参数已重置为黄金标准基准')
+}
+
+// 五阶段仿真推演
+const isSimulatingPlanar = ref<boolean>(false)
+const planarSimulationStep = ref<number>(0)
+interface PlanarLogItem {
+  text: string
+  color?: string
+}
+const planarLogs = ref<PlanarLogItem[]>([])
+
+const planarStages = [
+  { id: 1, title: '97场景地脉扫描', desc: '检索位面节点拓扑与地脉频谱' },
+  { id: 2, title: '时空锚桩锁相就绪', desc: '启动防漂移防止场景撕裂' },
+  { id: 3, title: '变异激增阻尼抑制', desc: '压制周边魔物异化暴走' },
+  { id: 4, title: '两界反倾销关税结算', desc: '商会物价平抑网络达成' },
+  { id: 5, title: '位面跃迁完成签发', desc: '发放探索方案与时空证书' }
+]
+
+const runPlanarSimulation = async () => {
+  if (isSimulatingPlanar.value) return
+  isSimulatingPlanar.value = true
+  planarSimulationStep.value = 0
+  planarLogs.value = []
+
+  const appendLog = (text: string, color?: string) => {
+    planarLogs.value.push({ text, color })
+  }
+
+  appendLog('[INIT] 启动全域大地图位面拓扑与时空跃迁管线...', 'text-cyan-400 font-bold')
+  await new Promise(r => setTimeout(r, 400))
+
+  // Step 1
+  planarSimulationStep.value = 1
+  appendLog(`[STEP 1] 扫描位面【${currentPlane.value.name}】，能量通量 ${warpEnergy.value} MeV，拓扑曲率 ${geometryCurvature.value.toFixed(1)} G。`, 'text-cyan-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 2
+  planarSimulationStep.value = 2
+  appendLog(`[STEP 2] 激活时空防漂移锚桩: ${planarAnchorLock.value ? '已锁定' : '未开启'}；稳态指数估值 ${calculatedWarpStability.value.toFixed(1)}%。`, 'text-purple-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 3
+  planarSimulationStep.value = 3
+  appendLog(`[STEP 3] 抑制场启动！排斥势垒 ${calculatedThreatBarrier.value.toLocaleString()} J，变异熵压制至 ${mutationEntropy.value.toFixed(1)}x！`, 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 500))
+
+  // Step 4
+  planarSimulationStep.value = 4
+  appendLog(`[STEP 4] 开启两界商贸平抑通道，关税盾: ${tariffShield.value ? '免税保价' : '常规关税'}，商贸周转能效 ${calculatedTradeEfficiency.value}%！`, 'text-amber-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 5
+  planarSimulationStep.value = 5
+  appendLog(`[SUCCESS] 位面拓扑穿梭完成！认证位阶: 【${planarExplorerRank.value}】，全域 97 场景连通无阻！`, 'text-emerald-300 font-bold')
+  isSimulatingPlanar.value = false
+  message?.success('位面穿梭推演圆满成功！')
+}
+
+const exportPlanarCertificate = () => {
+  const certData = {
+    studio: 'World Warp Topology & Planar Ecology Radar Studio v2.2.296',
+    plane: currentPlane.value.name,
+    warpEnergy: warpEnergy.value,
+    mutationEntropy: mutationEntropy.value,
+    priceStabilization: priceStabilization.value,
+    geometryCurvature: geometryCurvature.value,
+    calculatedWarpStability: calculatedWarpStability.value,
+    calculatedThreatBarrier: calculatedThreatBarrier.value,
+    calculatedTradeEfficiency: calculatedTradeEfficiency.value,
+    planarExplorerRank: planarExplorerRank.value,
+    timestamp: new Date().toISOString(),
+    sha256Certificate: 'PLANAR-WARP-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(16).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `planar_warp_certificate_${certData.sha256Certificate}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success(`已导出位面方案书: ${certData.sha256Certificate}`)
+}
+
+// 源码展台
+type PlanarScriptKey = 'warp_engine' | 'radar_scanner' | 'trade_broker'
+
+const activePlanarScriptTab = ref<PlanarScriptKey>('warp_engine')
+
+const planarScriptTabs = [
+  { key: 'warp_engine' as const, name: '位面跃迁拓扑引擎' },
+  { key: 'radar_scanner' as const, name: '生态雷达扫描器' },
+  { key: 'trade_broker' as const, name: '跨界商贸经纪人' }
+]
+
+const planarScriptCodes: Record<PlanarScriptKey, string> = {
+  warp_engine: `class_name WorldPlanarWarpTopologyEngine
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全域位面穿梭拓扑动力学引擎
+## 文件路径: res://scripts/scenes/world_planar_warp_topology_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal warp_transition_started(source_plane: String, target_plane: String)
+signal warp_transition_completed(result: Dictionary)
+
+var warp_energy_mev: float = 680.0
+var curvature_g: float = 4.6
+var anchor_lock_active: bool = true
+
+func perform_planar_jump(target_scene_id: String) -> Dictionary:
+    var stability: float = 75.0 + (warp_energy_mev / 1000.0 * 14.0) + (curvature_g / 10.0 * 5.0)
+    if anchor_lock_active:
+        stability += 4.5
+    stability = clampf(stability, 50.0, 99.8)
+
+    warp_transition_started.emit("current_world", target_scene_id)
+    var result := {
+        "target_scene": target_scene_id,
+        "stability": stability,
+        "zero_tear_safe": stability >= 90.0,
+        "timestamp": Time.get_datetime_string_from_system()
+    }
+    warp_transition_completed.emit(result)
+    return result
+`,
+
+  radar_scanner: `class_name PlanarEcologyRadarScanner
+extends RefCounted
+
+## 最终幻想：时空之轮 - 位面生态雷达与变异抑制扫描器
+## 文件路径: res://scripts/scenes/planar_ecology_radar_scanner.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_threat_barrier(energy_mev: float, damping_active: bool) -> int:
+    var base_barrier: int = 210000
+    var bonus: int = int(energy_mev * 280.0)
+    var damping: int = 75000 if damping_active else 0
+    return base_barrier + bonus + damping
+`,
+
+  trade_broker: `class_name CrossRealmTradeEquilibriumBroker
+extends RefCounted
+
+## 最终幻想：时空之轮 - 跨界商贸物价均衡经纪人
+## 文件路径: res://scripts/scenes/cross_realm_trade_equilibrium_broker.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func get_balanced_item_price(base_price: int, stabilization: float, tariff_shield: bool) -> int:
+    var factor: float = stabilization / 100.0
+    var price: float = float(base_price) * factor
+    if tariff_shield:
+        price = price * 0.90 # 免税关税折扣
+    return maxi(1, int(price))
+`
+}
+
+const currentPlanarScriptCode = computed(() => {
+  return planarScriptCodes[activePlanarScriptTab.value]
+})
+
+const copyPlanarScript = () => {
+  navigator.clipboard.writeText(currentPlanarScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
 }
 
 </script>

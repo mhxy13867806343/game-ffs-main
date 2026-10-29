@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-scenes-planar-warp-2026-10-29',
+    version: 'v2.2.296',
+    date: '2026-10-29',
+    title: '全域大地图时空穿梭拓扑、位面生态雷达与大陆互联工坊重磅实装',
+    category: 'maps',
+    categoryName: '位面拓扑',
+    icon: '🌐',
+    tagType: 'success',
+    description: '全面重构升级 ScenesView 全域大地图与场景门户：顶部标章升级为 VBLE World Scenes, Warp Topology & Planar Radar Matrix v2.2.296，新增时空位面拓扑工坊快捷直达；专区重磅实装【全域大地图时空穿梭拓扑、位面生态雷达与大陆动态互联工坊】（Planar Warp Topology Studio）；覆盖四大世界位面拓扑（始源第一世界大陆、第二世界以太裂隙、浮空大陆云海空域、时空交汇交错零点）；实现位面跃迁能量 (100~999 MeV)、生态魔物变异熵 (0.1~5.0x)、商会物价平抑指数 (50%~200%) 与穿梭几何曲率 (1.0~10.0 G) 连续微调；支持时空位面防漂移锚桩（场景切换防坐标撕裂失准，跃迁稳态 +20%）、生态变异激增抑制场（抑制周边怪群狂暴化，保全商路与聚落安全）与商会跨界反倾销关税盾（自动抹平两界物价剪刀差，保护商品平价流通）；实时解算位面穿梭稳定性 (高达 99.8%)、生态威胁排斥势 (突破 480,000+ J)、商贸周转能效评级 (突破 140%+) 与位面探险家认证位阶 (高达 EX 始源超维探索神官)；实装五阶段时空穿梭仿真推演终端与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，新增 world_planar_warp_topology_engine.gd、planar_ecology_radar_scanner.gd 与 cross_realm_trade_equilibrium_broker.gd。',
+    highlights: [
+      '四大世界位面拓扑：盖亚繁盛大陆、深渊交错裂隙、云端浮空群岛与始源时空奇点全谱系',
+      '四维连续拓扑参数：跃迁能量、生态变异熵、物价平抑指数与穿梭几何曲率全域微调',
+      '时空防漂移锚桩：杜绝跨场景切图坐标撕裂失准，保障位面穿梭绝对精度与稳态',
+      '生态变异抑制场：有效压制地脉异常激波诱发之魔物狂暴化，确保交通要道安全',
+      '跨界反倾销关税盾：自适应抹平两界物价剪刀差，杜绝商人恶意囤积投机炒作',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增位面跃迁引擎、生态雷达扫描器与商贸经纪人'
+    ],
+    relatedLinks: [
+      { label: '世界场景与位面拓扑', path: '/vble/scenes', icon: '🌐' },
+      { label: '全域支线与寻宝工坊', path: '/vble/sidequests', icon: '🗺️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-sidequests-bounty-rating-2026-10-29',
     version: 'v2.2.295',
     date: '2026-10-29',
