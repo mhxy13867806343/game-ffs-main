@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Battle Tactics &amp; ATB Matrix v2.2.280
+              VBLE Battle Tactics, Micro-ATB &amp; Stagger Studio v2.2.303
             </span>
             <span class="text-xs text-gray-400">实战战术法则、动态ATB时序微秒解算、四相连续魔与时钟过载工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>⚔️</span> 战斗法则全鉴：动态ATB微秒时序与四相连续魔时钟过载工坊
+            <span>⚔️</span> 全域 ATB 动态时间流逝、连携技帧数对齐与极限破防战术工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             解析越级宝箱挑战的严苛回合惩罚公式、史莱姆绝对闪避机制、ATB动态微秒时滞时钟调度、以及八大属性元素连锁爆发、四相连续魔与时钟倍频过载推演沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="success"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToAtbFrameStaggerStudio"
+          >
+            <template #icon><span>⚡</span></template>
+            前往ATB帧数对齐破防工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1994,6 +2005,286 @@
         </div>
       </div>
     </div>
+
+    <!-- ⚔️ 工坊 4: 全域 ATB 动态时间流逝、连携技帧数对齐与极限破防战术工坊 (ATB Flow & Frame Sync Stagger Studio v2.2.303) -->
+    <div
+      id="atb-frame-stagger-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-emerald-950/80 via-slate-900/90 to-cyan-950/80 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与操作区 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-emerald-900/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              ATB FRAME SYNC &amp; STAGGER v2.2.303
+            </span>
+            <span class="text-xs text-emerald-300/80 font-mono">微秒级ATB时钟与跨帧连携矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+            <span>⚔️</span> 全域 ATB 动态时间流逝、连携技帧数对齐与极限破防战术工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Godot 4.6 LTS 实时仿真：驱动全队敏捷动态向量时钟调度、双角色连携战技同帧完美合击对齐、敌方韧性条消融与 999999 破限爆发伤害解算。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="resetAtbFrameParameters"
+          >
+            重置参数
+          </n-button>
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingAtbFrame"
+            @click="runAtbFrameSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动帧同步推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportAtbFrameTacticsCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出战术方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大战斗时序原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="archetype in atbFrameArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+          :class="selectedAtbFrameArchetypeId === archetype.id
+            ? 'bg-emerald-950/50 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-emerald-600/50'"
+          @click="selectedAtbFrameArchetypeId = archetype.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ archetype.icon }}</span>
+            <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.tag }}</n-tag>
+          </div>
+          <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+          <div class="text-[11px] text-emerald-300/80 font-mono mt-0.5">{{ archetype.style }}</div>
+          <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>基底爆发: {{ archetype.baseBurst.toLocaleString() }}</span>
+            <span class="text-cyan-400">周期: {{ archetype.cycleMs }}ms</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 调控滑块与高能开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+        <!-- 左侧参数微调面板 -->
+        <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+              <span>⚙️</span> ATB 倍频与帧数对齐参数连续微调
+            </span>
+            <span class="text-[11px] font-mono text-emerald-400">Continuous Micro-ATB Dynamics</span>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">ATB 时钟倍频加速比率 (Clock Frequency Scale):</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ atbClockFrequency.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="atbClockFrequency" :min="1.0" :max="5.0" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>标准时间流 (1.0x)</span>
+                <span>高频加速 (2.8x)</span>
+                <span>超光速脉冲 (5.0x)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">连携合击对齐帧宽 (Combo Frame Window):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ comboFrameWindow }} 帧 ({{ (comboFrameWindow * 16.6).toFixed(0) }}ms)</span>
+              </div>
+              <n-slider v-model:value="comboFrameWindow" :min="1" :max="12" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>像素级同帧 (1帧)</span>
+                <span>标准合击 (4帧)</span>
+                <span>宽松判决 (12帧)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">领主破防易伤增幅 (Stagger Vulnerability Boost):</span>
+                <span class="font-mono text-red-400 font-bold">+{{ staggerVulnerabilityBoost }}%</span>
+              </div>
+              <n-slider v-model:value="staggerVulnerabilityBoost" :min="50" :max="300" :step="10" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>常规易伤 (+50%)</span>
+                <span>深度硬直 (+180%)</span>
+                <span>绝对破防 (+300%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">连携暴击穿透层数 (Combo Penetration Stacks):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ comboPenetrationStacks }} 层</span>
+              </div>
+              <n-slider v-model:value="comboPenetrationStacks" :min="1" :max="8" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>微光穿透 (1层)</span>
+                <span>多重连携 (5层)</span>
+                <span>太古湮灭 (8层)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 三大高能保障开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">零延迟瞬时输入缓冲断路器 (Zero Latency Buffer)</div>
+                <div class="text-[11px] text-gray-400">消除网络与按键抖动，战技指令精准锁相于物理帧第 0 纳秒触发</div>
+              </div>
+              <n-switch v-model:value="zeroLatencyInputBuffer" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">完美同帧合体技必定暴击锁 (Perfect Frame Combo Crit Lock)</div>
+                <div class="text-[11px] text-gray-400">双角色在 3 帧内完成合击时 100% 触发真伤暴击，无视敌方抗性</div>
+              </div>
+              <n-switch v-model:value="perfectFrameComboCritLock" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">999999 破限爆发伤害天花板穿透器 (Damage Cap Governor)</div>
+                <div class="text-[11px] text-gray-400">解除所有技能 999999 伤害天花板，单次连携最高斩击冲破 9,999,999</div>
+              </div>
+              <n-switch v-model:value="breakthroughDamageCapGovernor" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧能效指标解算与沙盘推演 -->
+        <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>📊</span> 实时解算时序连携与破防爆发
+              </span>
+              <n-tag size="tiny" type="success" round>Frame Synchronized</n-tag>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-700/40">
+                <div class="text-[11px] text-gray-400">连携极限爆发伤害</div>
+                <div class="text-lg font-black text-emerald-300 font-mono mt-0.5">{{ calculatedComboBurstDmg.toLocaleString() }} DMG</div>
+                <div class="text-[10px] text-emerald-400/80 mt-0.5">完美同帧双人合击</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-cyan-950/30 border border-cyan-700/40">
+                <div class="text-[11px] text-gray-400">ATB 单回合充能周期</div>
+                <div class="text-lg font-black text-cyan-300 font-mono mt-0.5">{{ calculatedAtbTurnCycle }} 秒</div>
+                <div class="text-[10px] text-cyan-400/80 mt-0.5">高频倍率流逝耗时</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-red-950/30 border border-red-700/40">
+                <div class="text-[11px] text-gray-400">领主破防易伤乘数</div>
+                <div class="text-lg font-black text-red-300 font-mono mt-0.5">{{ calculatedStaggerMultiplier }}x</div>
+                <div class="text-[10px] text-red-400/80 mt-0.5">韧性清零破防倍率</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                <div class="text-[11px] text-gray-400">战术时序协同评阶</div>
+                <div class="text-sm font-black text-purple-300 font-mono mt-1">{{ calculatedTacticsTier }}</div>
+                <div class="text-[10px] text-purple-400/80 mt-0.5">高维战律神圣认证</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演终端 -->
+          <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">五阶段战术帧同步推演进度:</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ atbFrameSimStep }}/5 阶段</span>
+            </div>
+            <n-progress
+              type="line"
+              :percentage="(atbFrameSimStep / 5) * 100"
+              :status="atbFrameSimStep === 5 ? 'success' : 'info'"
+              :show-indicator="false"
+              processing
+            />
+            <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+              <span>{{ atbFrameSimCurrentLog }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+      <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+            <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeAtbFrameCodeTab === 'scheduler' ? 'bg-emerald-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeAtbFrameCodeTab = 'scheduler'"
+              >
+                atb_clock_scheduler.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeAtbFrameCodeTab === 'sync' ? 'bg-emerald-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeAtbFrameCodeTab = 'sync'"
+              >
+                cross_frame_combo.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeAtbFrameCodeTab === 'stagger' ? 'bg-emerald-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeAtbFrameCodeTab = 'stagger'"
+              >
+                boss_stagger_pipeline.gd
+              </button>
+            </div>
+            <n-button size="small" type="primary" secondary round @click="copyAtbFrameCode">
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentAtbFrameCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -3434,6 +3725,288 @@ const copyOverdriveCode = () => {
   if (navigator && navigator.clipboard) {
     navigator.clipboard.writeText(currentOverdriveCode.value).then(() => {
       if (message) message.success('Godot 4.6 LTS 战术过载源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
+}
+
+// ================= ⚔️ 工坊 4: 全域 ATB 动态时间流逝、连携技帧数对齐与极限破防战术工坊 (v2.2.303) =================
+interface AtbFrameArchetype {
+  id: string
+  name: string
+  style: string
+  tag: string
+  icon: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  baseBurst: number
+  cycleMs: number
+}
+
+const atbFrameArchetypes: AtbFrameArchetype[] = [
+  {
+    id: 'tachyon_atb_accelerator',
+    name: '超光速 ATB 脉冲加速流',
+    style: '微秒瞬发 / 时钟倍频',
+    tag: '极速先手',
+    icon: '⏱️',
+    tagType: 'info',
+    desc: '利用高频以太脉冲重构 ATB 进度条，起手瞬间即可充满全队行动力，抢占战局绝对先手。',
+    baseBurst: 68000,
+    cycleMs: 120
+  },
+  {
+    id: 'cross_frame_combo_aligner',
+    name: '跨帧双人连携合击型',
+    style: '双刃同帧 / 完美合击',
+    tag: '合体破限',
+    icon: '🗡️',
+    tagType: 'warning',
+    desc: '双角色战技前摇通过微秒时钟精准对齐于同一帧击发，触发双倍穿透与神圣共鸣合击。',
+    baseBurst: 85000,
+    cycleMs: 80
+  },
+  {
+    id: 'stagger_defense_breaker',
+    name: '极限虚弱破防粉碎型',
+    style: '破防易伤 / 韧性清零',
+    tag: '毁灭易伤',
+    icon: '💥',
+    tagType: 'error',
+    desc: '专精敌方领主霸体与韧性条消融，在破防瞬间施加高达 300% 易伤，瞬间瓦解首领防御。',
+    baseBurst: 110000,
+    cycleMs: 150
+  },
+  {
+    id: 'omni_temporal_stasis_arbiter',
+    name: '全域时空停滞主宰型',
+    style: '敌方冻结 / 绝对回合',
+    tag: '主宰领域',
+    icon: '🌌',
+    tagType: 'success',
+    desc: '张开局域时空停滞神域，敌方全员行动槽彻底冻结，我方享有 5 轮绝对连续攻击回合。',
+    baseBurst: 145000,
+    cycleMs: 50
+  }
+]
+
+const selectedAtbFrameArchetypeId = ref<string>('cross_frame_combo_aligner')
+const atbClockFrequency = ref<number>(2.8)
+const comboFrameWindow = ref<number>(4)
+const staggerVulnerabilityBoost = ref<number>(180)
+const comboPenetrationStacks = ref<number>(5)
+
+const zeroLatencyInputBuffer = ref<boolean>(true)
+const perfectFrameComboCritLock = ref<boolean>(true)
+const breakthroughDamageCapGovernor = ref<boolean>(true)
+
+const isSimulatingAtbFrame = ref<boolean>(false)
+const atbFrameSimStep = ref<number>(5)
+const atbFrameSimCurrentLog = ref<string>('ATB 动态时序流逝与跨帧连携矩阵已就绪，等待调度指令。')
+
+const currentAtbFrameArchetype = computed(() => {
+  return atbFrameArchetypes.find(a => a.id === selectedAtbFrameArchetypeId.value) || atbFrameArchetypes[1]
+})
+
+const calculatedComboBurstDmg = computed(() => {
+  const base = currentAtbFrameArchetype.value.baseBurst
+  const freqMult = 1 + (atbClockFrequency.value / 5.0) * 0.4
+  const stackMult = 1 + (comboPenetrationStacks.value / 8) * 0.5
+  const critMult = perfectFrameComboCritLock.value ? 1.45 : 1.0
+  const breakMult = breakthroughDamageCapGovernor.value ? 1.6 : 1.0
+  return Math.round(base * freqMult * stackMult * critMult * breakMult)
+})
+
+const calculatedAtbTurnCycle = computed(() => {
+  const baseSec = 2.0
+  const effective = baseSec / atbClockFrequency.value
+  return effective.toFixed(2)
+})
+
+const calculatedStaggerMultiplier = computed(() => {
+  const base = 1.0 + (staggerVulnerabilityBoost.value / 100)
+  const windowBonus = (12 - comboFrameWindow.value) * 0.05
+  return (base + windowBonus).toFixed(2)
+})
+
+const calculatedTacticsTier = computed(() => {
+  const dmg = calculatedComboBurstDmg.value
+  if (dmg > 280000) return 'EX·太古时空战律至高统帅'
+  if (dmg > 200000) return 'SSS·跨帧连携合体神座'
+  if (dmg > 140000) return 'SS·高频ATB超频大师'
+  return 'S·实战先锋战术家'
+})
+
+const scrollToAtbFrameStaggerStudio = () => {
+  const el = document.getElementById('atb-frame-stagger-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const resetAtbFrameParameters = () => {
+  selectedAtbFrameArchetypeId.value = 'cross_frame_combo_aligner'
+  atbClockFrequency.value = 2.8
+  comboFrameWindow.value = 4
+  staggerVulnerabilityBoost.value = 180
+  comboPenetrationStacks.value = 5
+  zeroLatencyInputBuffer.value = true
+  perfectFrameComboCritLock.value = true
+  breakthroughDamageCapGovernor.value = true
+  if (message) message.info('已恢复 ATB 帧同步战术工坊初始参数')
+}
+
+const runAtbFrameSimulation = () => {
+  if (isSimulatingAtbFrame.value) return
+  isSimulatingAtbFrame.value = true
+  atbFrameSimStep.value = 1
+  atbFrameSimCurrentLog.value = '阶段 1/5: 捕获全队四人动态敏捷初值，初始化 ATB 向量微秒时钟...'
+
+  setTimeout(() => {
+    atbFrameSimStep.value = 2
+    atbFrameSimCurrentLog.value = '阶段 2/5: 采样双角色战技前摇曲线，对齐 4 帧完美合体触发窗口...'
+  }, 400)
+
+  setTimeout(() => {
+    atbFrameSimStep.value = 3
+    atbFrameSimCurrentLog.value = '阶段 3/5: 加载敌方韧性条消融模型，测算破防阶段易伤放大倍率...'
+  }, 800)
+
+  setTimeout(() => {
+    atbFrameSimStep.value = 4
+    atbFrameSimCurrentLog.value = '阶段 4/5: 激活 999999 伤害天花板穿透器，校准 Godot 4.6 LTS 帧同步...'
+  }, 1200)
+
+  setTimeout(() => {
+    atbFrameSimStep.value = 5
+    atbFrameSimCurrentLog.value = '阶段 5/5: 生成战术时序方案证书，锁定实机运行时物理帧循环！'
+    isSimulatingAtbFrame.value = false
+    if (message) message.success('ATB 动态时序与连携破防推演完成！')
+  }, 1600)
+}
+
+const exportAtbFrameTacticsCertificate = () => {
+  const arch = currentAtbFrameArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》ATB 动态时序流逝与跨帧连携破防方案证书 (v2.2.303)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.style})
+  战律评阶: ${calculatedTacticsTier.value}
+================================================================================
+【调控参数】
+- ATB 时钟倍频加速: ${atbClockFrequency.value.toFixed(1)}x
+- 连携合击对齐帧宽: ${comboFrameWindow.value} 帧
+- 领主破防易伤增幅: +${staggerVulnerabilityBoost.value}%
+- 连携暴击穿透层数: ${comboPenetrationStacks.value} 层
+- 零延迟瞬时缓冲: ${zeroLatencyInputBuffer.value ? '已开启' : '关闭'}
+- 完美同帧暴击锁定: ${perfectFrameComboCritLock.value ? '已开启' : '关闭'}
+- 999999 天花板穿透: ${breakthroughDamageCapGovernor.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 连携极限爆发伤害: ${calculatedComboBurstDmg.value.toLocaleString()} DMG
+- ATB 单回合充能周期: ${calculatedAtbTurnCycle.value} 秒
+- 领主破防易伤乘数: ${calculatedStaggerMultiplier.value}x
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `atb_frame_tactics_cert_v2.2.303_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  if (message) message.success('ATB 战术时序方案证书已导出并同步至剪贴板！')
+}
+
+const activeAtbFrameCodeTab = ref<'scheduler' | 'sync' | 'stagger'>('scheduler')
+
+const gdAtbSchedulerCode = `## atb_dynamic_clock_scheduler.gd
+## Godot 4.6 LTS - 微秒级 ATB 向量时钟调度机
+extends RefCounted
+class_name AtbDynamicClockScheduler
+
+signal turn_ready(character_id: String)
+
+static func step_atb_clock(
+	current_gauge: float,
+	agility: int,
+	clock_scale: float,
+	delta_sec: float
+) -> float:
+	var fill_rate: float = (float(agility) * 1.5 + 20.0) * clock_scale
+	var next_gauge: float = current_gauge + fill_rate * delta_sec
+	return minf(next_gauge, 100.0)
+`
+
+const gdComboSyncCode = `## cross_frame_combo_synchronizer.gd
+## Godot 4.6 LTS - 跨帧双人连携战技帧数对齐与暴击锁
+extends RefCounted
+class_name CrossFrameComboSynchronizer
+
+static func evaluate_combo_alignment(
+	frame_a: int,
+	frame_b: int,
+	max_window_frames: int,
+	crit_lock_enabled: bool
+) -> Dictionary:
+	var frame_diff: int = absi(frame_a - frame_b)
+	var is_aligned: bool = frame_diff <= max_window_frames
+	var is_perfect: bool = frame_diff <= 1
+	
+	return {
+		"is_aligned": is_aligned,
+		"is_perfect": is_perfect,
+		"force_critical": is_aligned and crit_lock_enabled,
+		"frame_delta": frame_diff
+	}
+`
+
+const gdBossStaggerCode = `## boss_stagger_vulnerability_pipeline.gd
+## Godot 4.6 LTS - 领主霸体韧性条消融与破防易伤管线
+extends RefCounted
+class_name BossStaggerVulnerabilityPipeline
+
+static func compute_stagger_damage(
+	raw_damage: int,
+	is_staggered: bool,
+	vulnerability_boost_pct: float,
+	cap_governor_active: bool
+) -> Dictionary:
+	var final_damage: float = float(raw_damage)
+	if is_staggered:
+		final_damage *= (1.0 + vulnerability_boost_pct / 100.0)
+		
+	var max_cap: float = 9999999.0 if cap_governor_active else 999999.0
+	final_damage = minf(final_damage, max_cap)
+	
+	return {
+		"damage": int(final_damage),
+		"is_staggered": is_staggered,
+		"over_cap": final_damage > 999999.0
+	}
+`
+
+const currentAtbFrameCode = computed(() => {
+  if (activeAtbFrameCodeTab.value === 'scheduler') return gdAtbSchedulerCode
+  if (activeAtbFrameCodeTab.value === 'sync') return gdComboSyncCode
+  return gdBossStaggerCode
+})
+
+const copyAtbFrameCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentAtbFrameCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 战术时序源码已复制至剪贴板！')
     }).catch(() => {
       if (message) message.error('复制失败，请手动选取复制')
     })

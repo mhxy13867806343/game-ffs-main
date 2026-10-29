@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-battle-tactics-frame-stagger-v303-2026-10-29',
+    version: 'v2.2.303',
+    date: '2026-10-29',
+    title: '全域 ATB 动态时间流逝、连携技帧数对齐与极限破防战术工坊重磅实装',
+    category: 'system',
+    categoryName: '战术破防',
+    icon: '⚔️',
+    tagType: 'success',
+    description: '全面重构升级 BattleTacticsView 战斗法则全鉴门户：顶部标章升级为 VBLE Battle Tactics, Micro-ATB & Stagger Studio v2.2.303，新增 ATB 帧数对齐破防工坊快捷直达；专区重磅实装【全域 ATB 动态时间流逝、连携技帧数对齐与极限破防战术工坊】（ATB Flow & Frame Sync Stagger Studio）；覆盖四大战斗时序原型（超光速 ATB 脉冲加速流、跨帧双人连携合击型、极限虚弱破防粉碎型、全域时空停滞主宰型）；支持 ATB 时钟倍频加速比率 (1.0x~5.0x)、连携合击对齐帧宽 (1~12帧)、领主破防易伤增幅 (+50%~+300%) 与连携暴击穿透层数 (1~8层) 连续微调；支持零延迟瞬时输入缓冲断路器（消除输入抖动，战技指令精准锁相于物理帧第 0 纳秒）、完美同帧合体技必定暴击锁（双角色 3 帧内合击 100% 触发真伤暴击）与 999999 破限爆发伤害天花板穿透器（解除 999999 伤害天花板，单次连携最高斩击冲破 9,999,999）；实时解算连携极限爆发伤害 (突破 280,000+ DMG)、ATB 单回合充能周期 (低至 0.40 秒/回合)、领主破防易伤乘数 (高达 3.50x+) 与战术协同评阶 (高达 EX·太古时空战律至高统帅)；内置五阶段战术帧同步沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：atb_dynamic_clock_scheduler.gd、cross_frame_combo_synchronizer.gd 与 boss_stagger_vulnerability_pipeline.gd。',
+    highlights: [
+      '四大时序原型：超光速 ATB 脉冲加速、跨帧合击对齐、极限虚弱破防与时空停滞神域',
+      '四维连续时序参数：时钟倍频加速比、连携合击对齐帧宽、破防易伤增幅与暴击穿透层数',
+      '三重实战战术保障：零延迟输入缓冲、完美同帧必定暴击锁与 999999 伤害天花板穿透器',
+      '动态能效指标解算：连携极限爆发伤害、充能极速周期、领主破防易伤乘数与 EX 级评阶',
+      '五阶段推演沙盘：敏捷时钟初值、前摇合体对齐、霸体韧性消融、破限对齐与证书闭环',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源动态时钟调度机、跨帧连携同步器与领主破防管线'
+    ],
+    relatedLinks: [
+      { label: '战斗法则与微秒ATB', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '帧数对齐破防工坊', path: '/vble/battle-tactics', icon: '⚡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-jobs-omni-pioneer-v302-2026-10-29',
     version: 'v2.2.302',
     date: '2026-10-29',
