@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-teachings-mentor-trial-2026-10-29',
+    version: 'v2.2.286',
+    date: '2026-10-29',
+    title: '太古导师试炼、青魔法基因烙印与技能导师传授工坊重磅实装',
+    category: 'system',
+    categoryName: '导师传授',
+    icon: '🎓',
+    tagType: 'success',
+    description: '全面重构升级 TeachingsView 秘传绝技研习院：顶部标章升级为 VBLE Teachings & Ancient Mentor Trial Matrix v2.2.286，新增太古导师试炼工坊快捷直达与专属 Tab；专区重磅实装【太古导师试炼、青魔法基因烙印与技能导师传授工坊】（Ancient Mentor Trial & Gene Imprinting Studio）；覆盖四大太古导师宗师门派（米西迪亚大导师·吉多、飞龙之峰忍道首领·半藏、幻兽森林古隐士·沃鲁斯、巴隆圣骑士团长·塞西尔）；实现导师心境契合度 (10%~100%)、试炼秘境位阶难度 (1~10 阶)、基因烙印传承槽位 (1~8 槽) 与太古觉醒共鸣率 (50%~200%) 连续微调；支持青魔法免受击强制基因烙印（免去实战挨打领悟门槛，奥义伤害 +25%）、导师极限突破庇护光环（全额免疫致死反噬重创，通关胜率 +25%）与奥义心法血契（解禁全职业装备限制，战力跃迁 +30%）；实时解算宗师传授心法战力、传承奥义伤害增幅 (+20%~+100%)、试炼极限通关胜率 (15%~99%) 与心法宗师认证位阶；实装五阶段导师试炼推演终端与离线方案书 SHA-256 证书导出；源码展台新增 mentor_trial_inheritance_system.gd 核心 RefCounted 实机引擎。',
+    highlights: [
+      '四大太古导师门派：吉多魔法减耗 30%、半藏影分身二连击、沃鲁斯青魔威能 +50% 与塞西尔圣盾转移',
+      '四维连续传授拓扑参数：心境契合度、秘境难度阶数、传承槽位数与觉醒共鸣率动态适配',
+      '强制基因烙印许可：解除青魔传统受击领悟门槛，导师以太直接将魔物基因烙印入灵魂',
+      '导师极限庇护光环：试炼秘境内杜绝反噬暴毙，通关通过概率大幅跃升保底',
+      '奥义心法血契破限：破除职业秘传限制，综合传授战力指数级跃迁至诸神极意位阶',
+      'Godot 4.6 LTS 源码展台：新增太古导师试炼与青魔法基因烙印传授引擎'
+    ],
+    relatedLinks: [
+      { label: '秘传绝技研习院', path: '/vble/teachings', icon: '✨' },
+      { label: '28大职业全典', path: '/vble/jobs', icon: '⚔️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-economy-aether-finance-2026-10-29',
     version: 'v2.2.285',
     date: '2026-10-29',

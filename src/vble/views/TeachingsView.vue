@@ -8,18 +8,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Teachings & Mysidia Forbidden Arts Matrix v2.2.271
+              VBLE Teachings & Ancient Mentor Trial Matrix v2.2.286
             </span>
             <span class="text-xs text-gray-400">四大流派秘传与魔物拟态研习</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>✨</span> 秘传绝技研习院：四大流派与青魔法全域沙盘
+            <span>✨</span> 秘传绝技研习院：四大流派、青魔法与太古导师试炼工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
             融汇勇者圣所舍身庇护、米西迪亚太古双魔禁术、东洋忍法五遁奥义与青魔法学院魔物肉身拟态。支持实机伤害数值结算与魔物拟态捕获全图鉴推演。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToMentorTrialStudio"
+          >
+            <template #icon><span>🎓</span></template>
+            太古导师试炼工坊
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -830,6 +841,293 @@
       </div>
     </div>
 
+    <!-- 视图：太古导师试炼、青魔法基因烙印与技能导师传授工坊 (v2.2.286) -->
+    <div v-if="activeViewTab === 'mentor_trial'" id="mentor-trial-studio" class="space-y-6">
+      <!-- 顶部功能横幅 -->
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-cyan-950/70 via-slate-900/90 to-purple-950/70 border border-cyan-500/40 shadow-[0_0_35px_rgba(6,182,212,0.18)] relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-56 h-56 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/40">
+                ANCIENT MENTOR TRIAL & GENE IMPRINTING
+              </span>
+              <span class="text-xs text-cyan-400 font-mono">v2.2.286 Official Matrix</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide flex items-center gap-2">
+              <span>🎓</span> 太古导师试炼、青魔法基因烙印与技能导师传授工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-2xl leading-relaxed">
+              面向 Godot 4.6 LTS 太古传授体系：融汇四大宗师门派试炼、青魔法免受击强制基因烙印、心境契合度微调与奥义心法血契推演。
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-lg bg-cyan-950/60 border border-cyan-700/60 text-xs font-mono text-cyan-300">
+              太古导师心法
+            </span>
+            <span class="px-3 py-1 rounded-lg bg-purple-950/60 border border-purple-700/60 text-xs font-mono text-purple-300">
+              基因烙印无缝继承
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四大导师门派选择 -->
+      <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🧙‍♂️</span>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">四大太古导师宗师门派 (Ancient Mentors)</h3>
+          </div>
+          <span class="text-xs text-gray-400">选择当前指导修行的导师门派以继承专属宗师秘传</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="m in mentorArchetypesList"
+            :key="m.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedTrialMentorId === m.id ? `${m.color} ring-2 ring-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)]` : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'"
+            @click="selectedTrialMentorId = m.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ m.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-gray-300">
+                {{ m.perkBonus }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white mb-1">{{ m.name }}</div>
+            <p class="text-xs text-gray-400 leading-snug">{{ m.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调与遥测看板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧参数调节面板 -->
+        <div class="lg:col-span-7 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎛️</span>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">导师试炼与传承拓扑参数</h3>
+            </div>
+            <n-tag type="info" size="tiny" round>实机连续微调</n-tag>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>导师心境契合度 (Mentor Affinity)</span>
+                <span class="font-mono font-bold text-cyan-400">{{ mentorAffinity }}%</span>
+              </div>
+              <n-slider v-model:value="mentorAffinity" :min="10" :max="100" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>10% (初识疏离)</span>
+                <span>75% (融会贯通)</span>
+                <span>100% (心印一体)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>试炼秘境位阶难度 (Trial Difficulty)</span>
+                <span class="font-mono font-bold text-amber-400">{{ trialDifficultyRank }} 阶</span>
+              </div>
+              <n-slider v-model:value="trialDifficultyRank" :min="1" :max="10" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>1 阶 (基础考较)</span>
+                <span>6 阶 (宗师严考)</span>
+                <span>10 阶 (诸神极境试炼)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>基因烙印传承槽位 (Inherited Slots)</span>
+                <span class="font-mono font-bold text-purple-400">{{ inheritedSpellsCount }} 槽</span>
+              </div>
+              <n-slider v-model:value="inheritedSpellsCount" :min="1" :max="8" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>1 槽 (单奥义)</span>
+                <span>4 槽 (标准心法)</span>
+                <span>8 槽 (八极全通)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>太古觉醒共鸣率 (Transcendence Resonance)</span>
+                <span class="font-mono font-bold text-emerald-400">{{ transcendenceResonance }}%</span>
+              </div>
+              <n-slider v-model:value="transcendenceResonance" :min="50" :max="200" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>50% (微弱共鸣)</span>
+                <span>120% (标准共振)</span>
+                <span>200% (极限过载觉醒)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 个导师秘法开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🧬</span> 青魔法免受击强制基因烙印 (Gene Imprinting)
+                </div>
+                <div class="text-[10px] text-gray-400">免去实战肉身挨打领悟门槛，通过导师以太直接将高阶魔物基因刻入灵魂 (+25% 伤害)</div>
+              </div>
+              <n-switch v-model:value="geneImprintingPermit" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🛡️</span> 导师极限突破庇护光环 (Mentor Aegis Aura)
+                </div>
+                <div class="text-[10px] text-gray-400">试炼秘境内全额免疫致死反噬重创，试炼通关通过概率大幅提升 (+25%)</div>
+              </div>
+              <n-switch v-model:value="limitBreakAura" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>📜</span> 奥义心法血契 (Secret Mastery Pact)
+                </div>
+                <div class="text-[10px] text-gray-400">破除全职业秘传装备限制，传授心法战力全额解禁跃迁 (+30% 综合战力)</div>
+              </div>
+              <n-switch v-model:value="secretMasteryPact" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧实时遥测仪表盘 -->
+        <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-cyan-950/40 border border-cyan-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-cyan-500/20 pb-2">
+              <h3 class="text-xs font-bold text-cyan-300 uppercase tracking-widest flex items-center gap-1.5">
+                <span>📊</span> 导师试炼遥测看板 (Trial Telemetry)
+              </h3>
+              <span class="text-[10px] font-mono text-emerald-400 animate-pulse">● 导师精神场域就绪</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-500/20">
+                <div class="text-[10px] text-gray-400">宗师传授心法战力 (CP)</div>
+                <div class="text-lg sm:text-xl font-black text-cyan-400 font-mono mt-1">
+                  {{ calculatedMentorCombatPower.toLocaleString() }}
+                </div>
+                <div class="text-[9px] text-cyan-500/80 mt-0.5">综合传承心相解算</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-500/20">
+                <div class="text-[10px] text-gray-400">传承奥义伤害增幅</div>
+                <div class="text-lg sm:text-xl font-black text-purple-400 font-mono mt-1">
+                  {{ calculatedInheritedDamageBoost }}
+                </div>
+                <div class="text-[9px] text-purple-500/80 mt-0.5">全奥义与青魔法倍率</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-emerald-500/20">
+                <div class="text-[10px] text-gray-400">试炼极限通关胜率</div>
+                <div class="text-lg sm:text-xl font-black text-emerald-400 font-mono mt-1">
+                  {{ calculatedTrialPassProbability }}
+                </div>
+                <div class="text-[9px] text-emerald-500/80 mt-0.5">反噬抗性与契合加权</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-500/20">
+                <div class="text-[10px] text-gray-400">心法宗师认证位阶</div>
+                <div class="text-lg sm:text-xl font-black text-amber-400 font-mono mt-1">
+                  {{ calculatedSecretArtRank }}
+                </div>
+                <div class="text-[9px] text-amber-500/80 mt-0.5">宗师殿堂评级</div>
+              </div>
+            </div>
+
+            <!-- 当前导师宗门特质摘要 -->
+            <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-xs space-y-1">
+              <div class="flex items-center justify-between text-gray-400">
+                <span>导师宗师:</span>
+                <span class="font-bold text-white">{{ currentMentorObj?.name }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>宗派加成:</span>
+                <span class="font-mono text-cyan-400">{{ currentMentorObj?.perkBonus }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>基因烙印:</span>
+                <span class="font-mono" :class="geneImprintingPermit ? 'text-purple-400' : 'text-gray-500'">
+                  {{ geneImprintingPermit ? '免挨打立即烙印 (+25%)' : '传统受击领悟' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>庇护光环:</span>
+                <span class="font-mono" :class="limitBreakAura ? 'text-emerald-400' : 'text-gray-500'">
+                  {{ limitBreakAura ? '已激活 (+25% 胜率保底)' : '常规试炼' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快捷操作按钮 -->
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              @click="runMentorTrialSimulation"
+              :disabled="isTrialSimulating"
+            >
+              <span>{{ isTrialSimulating ? '⏳' : '🚀' }}</span>
+              {{ isTrialSimulating ? '导师试炼传授推演中...' : '启动五阶段太古导师试炼' }}
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-gray-200 border border-slate-700 transition-all cursor-pointer flex items-center gap-1"
+              @click="exportMentorTrialCertificate"
+            >
+              <span>📄</span> 导出证书
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段导师试炼推演终端 -->
+      <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">💻</span>
+            <h3 class="text-sm font-bold text-white font-mono uppercase">导师试炼推演控制台 (Mentor Trial Terminal)</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span v-if="isTrialSimulating" class="text-xs text-cyan-400 animate-pulse font-mono">
+              STAGE {{ trialSimStage }}/5 试炼中
+            </span>
+            <span v-else-if="trialSimFinished" class="text-xs text-emerald-400 font-mono">
+              ✓ 导师传授结业
+            </span>
+            <button
+              type="button"
+              class="text-xs text-gray-400 hover:text-white px-2 py-0.5 rounded bg-slate-900 border border-slate-800 cursor-pointer"
+              @click="trialTerminalLogs = []"
+            >
+              清屏
+            </button>
+          </div>
+        </div>
+
+        <div class="h-44 p-3 rounded-xl bg-black/90 border border-slate-900 font-mono text-xs overflow-y-auto space-y-1 text-gray-300">
+          <div v-if="trialTerminalLogs.length === 0" class="text-gray-600 italic">
+            [终端待命中] 点击“启动五阶段太古导师试炼”以解算心相共鸣、魔物基因烙印与宗师秘传结业...
+          </div>
+          <div v-for="(log, idx) in trialTerminalLogs" :key="idx" class="leading-relaxed">
+            <span class="text-gray-500">[{{ log.time }}]</span>
+            <span :class="log.color"> {{ log.message }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 视图 4: Godot 4.x 引擎底层实机源码展台 -->
     <div v-if="activeViewTab === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
@@ -867,6 +1165,14 @@
               >
                 blue_magic_learning_system.gd
               </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded font-mono transition-all"
+                :class="activeTeachingGodotTab === 'mentor_trial' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeTeachingGodotTab = 'mentor_trial'"
+              >
+                mentor_trial_inheritance_system.gd
+              </button>
             </div>
             <n-button size="small" round secondary type="info" @click="copyActiveGdScript">
               <template #icon><span>📋</span></template>
@@ -888,12 +1194,13 @@ import { teachingsList, type TeachingItem } from '../config/teachingsConfig'
 
 const message = useMessage()
 
-type ViewTab = 'catalog' | 'bluemagic_matrix' | 'learning_lab' | 'simulator' | 'mysidia_fusion' | 'engine_code'
+type ViewTab = 'catalog' | 'bluemagic_matrix' | 'learning_lab' | 'simulator' | 'mysidia_fusion' | 'mentor_trial' | 'engine_code'
 
 const activeViewTab = ref<ViewTab>('catalog')
 const tabList: { key: ViewTab; label: string; icon: string; badge?: string }[] = [
   { key: 'catalog', label: '秘传绝技全典', icon: '📜' },
   { key: 'mysidia_fusion', label: '太古白黑禁术工坊', icon: '🔮', badge: 'v2.2.271' },
+  { key: 'mentor_trial', label: '太古导师传授工坊', icon: '🎓', badge: 'v2.2.286' },
   { key: 'bluemagic_matrix', label: '青魔法拟态全图鉴', icon: '👾', badge: 'NEW' },
   { key: 'learning_lab', label: '受击领悟与操纵沙盘', icon: '🎯', badge: 'HOT' },
   { key: 'simulator', label: '伤害与演练研习所', icon: '⚡' },
@@ -1418,15 +1725,17 @@ static func calculate_fusion(
 	}
 `
 
-const activeTeachingGodotTab = ref<'mysidia_fusion' | 'blue_magic'>('mysidia_fusion')
+const activeTeachingGodotTab = ref<'mysidia_fusion' | 'blue_magic' | 'mentor_trial'>('mysidia_fusion')
 
 const currentActiveGdScriptCode = computed(() => {
-  return activeTeachingGodotTab.value === 'mysidia_fusion' ? mysidiaFusionGdScriptCode : gdScriptCode
+  if (activeTeachingGodotTab.value === 'mysidia_fusion') return mysidiaFusionGdScriptCode
+  if (activeTeachingGodotTab.value === 'mentor_trial') return mentorTrialGdScriptCode
+  return gdScriptCode
 })
 
 const copyActiveGdScript = () => {
   const code = currentActiveGdScriptCode.value
-  const name = activeTeachingGodotTab.value === 'mysidia_fusion' ? 'mysidia_dualcast_fusion_engine.gd' : 'blue_magic_learning_system.gd'
+  const name = activeTeachingGodotTab.value === 'mysidia_fusion' ? 'mysidia_dualcast_fusion_engine.gd' : activeTeachingGodotTab.value === 'mentor_trial' ? 'mentor_trial_inheritance_system.gd' : 'blue_magic_learning_system.gd'
   navigator.clipboard.writeText(code).then(() => {
     message.success(`${name} 源码已复制到剪贴板！`)
   }).catch(() => {
@@ -1865,6 +2174,248 @@ const resetLearningLab = () => {
   message.success('已重置青魔法实战演练台参数与学习状态')
 }
 
+
+// ================= 模块六：太古导师试炼、青魔法基因烙印与技能导师传授工坊 (v2.2.286) =================
+interface MentorArchetype {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  color: string
+  perkBonus: string
+}
+
+const mentorArchetypesList: MentorArchetype[] = [
+  {
+    id: 'mysidia_archmage',
+    name: '米西迪亚大导师 · 吉多',
+    icon: '🧙‍♂️',
+    desc: '太古魔法全知印记，MP 消耗 -30%，神圣陨石合一',
+    color: 'border-cyan-500/50 bg-cyan-950/20 text-cyan-300',
+    perkBonus: '全知印记 / 减耗 30%'
+  },
+  {
+    id: 'ninja_kunoichi',
+    name: '飞龙之峰忍道首领 · 半藏',
+    icon: '🥷',
+    desc: '影子分身与五遁合一，二连击率 +40%，破盾真伤',
+    color: 'border-rose-500/50 bg-rose-950/20 text-rose-300',
+    perkBonus: '二连击 +40% / 影分身'
+  },
+  {
+    id: 'beastmaster_sage',
+    name: '幻兽森林古隐士 · 沃鲁斯',
+    icon: '🐾',
+    desc: '魔物基因烙印与强制操纵，青魔法威能 +50%',
+    color: 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300',
+    perkBonus: '基因烙印 / 青魔 +50%'
+  },
+  {
+    id: 'knight_crusader',
+    name: '巴隆圣骑士团长 · 塞西尔',
+    icon: '🛡️',
+    desc: '守护誓约与舍身圣盾，全队承伤转移 60%',
+    color: 'border-amber-500/50 bg-amber-950/20 text-amber-300',
+    perkBonus: '承伤转移 60% / 圣盾'
+  }
+]
+
+const selectedTrialMentorId = ref('mysidia_archmage')
+const mentorAffinity = ref(75)
+const trialDifficultyRank = ref(6)
+const inheritedSpellsCount = ref(4)
+const transcendenceResonance = ref(120)
+
+const geneImprintingPermit = ref(true)
+const limitBreakAura = ref(true)
+const secretMasteryPact = ref(false)
+
+const currentMentorObj = computed(() => {
+  return mentorArchetypesList.find(m => m.id === selectedTrialMentorId.value) || mentorArchetypesList[0]
+})
+
+const calculatedMentorCombatPower = computed(() => {
+  const base = mentorAffinity.value * 450 + trialDifficultyRank.value * 3200
+  let total = base * (transcendenceResonance.value / 100)
+  if (secretMasteryPact.value) {
+    total *= 1.3
+  }
+  return Math.round(total)
+})
+
+const calculatedInheritedDamageBoost = computed(() => {
+  let boost = 20 + inheritedSpellsCount.value * 8.5 * (mentorAffinity.value / 100)
+  if (geneImprintingPermit.value) {
+    boost *= 1.25
+  }
+  return `+${Math.round(boost)}%`
+})
+
+const calculatedTrialPassProbability = computed(() => {
+  let pass = 100 - (trialDifficultyRank.value * 8) + (mentorAffinity.value * 0.4)
+  if (limitBreakAura.value) {
+    pass += 25
+  }
+  const clamped = Math.min(99, Math.max(15, Math.round(pass)))
+  return `${clamped}%`
+})
+
+const calculatedSecretArtRank = computed(() => {
+  if (trialDifficultyRank.value >= 8) return 'EX 诸神极意'
+  if (trialDifficultyRank.value >= 5) return 'SSR 导师宗师'
+  return 'SR 试炼精通'
+})
+
+const scrollToMentorTrialStudio = () => {
+  activeViewTab.value = 'mentor_trial'
+  setTimeout(() => {
+    const el = document.getElementById('mentor-trial-studio')
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, 100)
+}
+
+// 导师试炼五阶段推演终端
+interface TrialTerminalLog {
+  time: string
+  message: string
+  color: string
+}
+
+const isTrialSimulating = ref(false)
+const trialSimStage = ref(0)
+const trialSimFinished = ref(false)
+const trialTerminalLogs = ref<TrialTerminalLog[]>([
+  {
+    time: 'INIT',
+    message: '太古导师试炼与基因烙印工坊就绪。准备建立导师精神场域。',
+    color: 'text-gray-400'
+  }
+])
+
+function appendTrialLog(msg: string, color = 'text-cyan-400') {
+  const now = new Date()
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`
+  trialTerminalLogs.value.push({ time: timeStr, message: msg, color })
+}
+
+function runMentorTrialSimulation() {
+  if (isTrialSimulating.value) return
+  isTrialSimulating.value = true
+  trialSimFinished.value = false
+  trialSimStage.value = 1
+  appendTrialLog('▶ 启动五阶段太古导师试炼修行程序...', 'text-cyan-400 font-bold')
+
+  setTimeout(() => {
+    trialSimStage.value = 2
+    appendTrialLog(`[阶段 1/5] 与导师【${currentMentorObj.value.name}】建立心相契合度 ${mentorAffinity.value}%，开启 ${trialDifficultyRank.value} 阶秘境`, 'text-cyan-300')
+
+    setTimeout(() => {
+      trialSimStage.value = 3
+      const geneText = geneImprintingPermit.value ? '已激活强制基因烙印' : '传统受击领悟'
+      appendTrialLog(`[阶段 2/5] 展开 ${inheritedSpellsCount.value} 个奥义槽位，魔物基因状态[${geneText}]`, 'text-purple-300')
+
+      setTimeout(() => {
+        trialSimStage.value = 4
+        const auraText = limitBreakAura.value ? '已展开致死反噬抵御' : '未开启'
+        const pactText = secretMasteryPact.value ? '已缔结血契(+30% CP)' : '普通传授'
+        appendTrialLog(`[阶段 3/5] 校验导师庇护光环[${auraText}]与奥义心法[${pactText}]`, 'text-amber-300')
+
+        setTimeout(() => {
+          trialSimStage.value = 5
+          appendTrialLog(`[阶段 4/5] 导师传授战力解算: ${calculatedMentorCombatPower.value.toLocaleString()} CP，伤害增幅: ${calculatedInheritedDamageBoost.value}`, 'text-emerald-300')
+
+          setTimeout(() => {
+            isTrialSimulating.value = false
+            trialSimFinished.value = true
+            appendTrialLog(`✓ [阶段 5/5] 导师试炼结业！胜率: ${calculatedTrialPassProbability.value}，位阶: ${calculatedSecretArtRank.value}`, 'text-emerald-400 font-bold')
+            message.success('太古导师试炼五阶段修行完成！')
+          }, 350)
+        }, 350)
+      }, 350)
+    }, 350)
+  }, 350)
+}
+
+function exportMentorTrialCertificate() {
+  const certData = {
+    standard: 'Godot 4.6 LTS / VBLE Mentor Trial Matrix v2.2.286',
+    timestamp: new Date().toISOString(),
+    mentor: selectedTrialMentorId.value,
+    parameters: {
+      mentorAffinity: mentorAffinity.value,
+      trialDifficultyRank: trialDifficultyRank.value,
+      inheritedSpellsCount: inheritedSpellsCount.value,
+      transcendenceResonance: transcendenceResonance.value,
+      geneImprintingPermit: geneImprintingPermit.value,
+      limitBreakAura: limitBreakAura.value,
+      secretMasteryPact: secretMasteryPact.value
+    },
+    results: {
+      mentorCombatPower: calculatedMentorCombatPower.value,
+      inheritedDamageBoost: calculatedInheritedDamageBoost.value,
+      trialPassProbability: calculatedTrialPassProbability.value,
+      secretArtRank: calculatedSecretArtRank.value
+    },
+    sha256Signature: 'SHA256-MENTOR-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `mentor_trial_v2.2.286_${selectedTrialMentorId.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出太古导师试炼结业方案书证书！')
+}
+
+const mentorTrialGdScriptCode = `# ==============================================================================
+# MentorTrialInheritanceSystem - 太古导师试炼与青魔法基因烙印传授引擎
+# 文件路径: res://scripts/teachings/mentor_trial_inheritance_system.gd
+# 架构规范: Godot 4.6 LTS / VBLE Teachings Matrix v2.2.286
+# 核心职责: 管理导师心境契合度、青魔法免挨打基因烙印与心法奥义派生
+# ==============================================================================
+class_name MentorTrialInheritanceSystem
+extends RefCounted
+
+static func evaluate_mentor_combat_power(
+	affinity: int,
+	difficulty: int,
+	resonance: float,
+	has_pact: bool
+) -> int:
+	var base_power: float = float(affinity) * 450.0 + float(difficulty) * 3200.0
+	var final_power: float = base_power * (resonance / 100.0)
+	if has_pact:
+		final_power *= 1.3
+	return int(round(final_power))
+
+static func calculate_trial_pass_rate(
+	difficulty: int,
+	affinity: int,
+	has_aura: bool
+) -> float:
+	var pass_rate: float = 100.0 - (float(difficulty) * 8.0) + (float(affinity) * 0.4)
+	if has_aura:
+		pass_rate += 25.0
+	return clampf(pass_rate, 15.0, 99.0)
+
+static func imprint_blue_magic_gene(
+	monster_spell_id: String,
+	current_character: Dictionary,
+	force_imprint: bool
+) -> Dictionary:
+	if force_imprint:
+		return {
+			"success": true,
+			"spell_id": monster_spell_id,
+			"reason": "Ancient Mentor Gene Imprinting Bypass"
+		}
+	return {
+		"success": false,
+		"reason": "Requires taking direct combat damage from creature"
+	}
+`
 </script>
 
 <style scoped>
