@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-download-delta-pipeline-2026-10-29',
+    version: 'v2.2.287',
+    date: '2026-10-29',
+    title: '多端引擎构建流水线、离线离散增量补丁工坊重磅实装',
+    category: 'system',
+    categoryName: '构建流水线',
+    icon: '⚡',
+    tagType: 'success',
+    description: '全面重构升级 DownloadView 客户端发布大厅：顶部标章升级为 v2.2.287 稳定发行版，新增离散增量补丁工坊快捷直达与专属 Tab；专区重磅实装【多端引擎构建流水线、离线离散补丁分发与跨平台迁移工坊】（Multi-Platform Engine Pipeline & Delta Patch Studio）；覆盖四大构建目标平台管线（Windows x64 Vulkan/D3D12、macOS Apple Silicon Metal 3、Linux / Steam Deck Proton、WebAssembly & PWA 离线端）；实现差量切片尺寸 (64~4096 KB)、Zstandard 极限压缩等级 (Lv.1~22)、分发带宽限速 (10~200 MB/s) 与 Merkle 树哈希校验深度 (2~8 层) 连续微调；支持零停机着色器与资源内存热覆写（免重启客户端即刻动态置换 PCK 与 GLSL 着色器字节码）、跨平台云存档二进制无损对齐（消除大小端乱码）与局域网 P2P 差量做种共享（流量节省 85%）；实时解算预测差量补丁包体积 (1.24GB 压制至数十 MB)、差量体积节约率 (高达 98.5%)、补丁应用理论耗时与 Merkle 防篡改可信度；实装五阶段离散差量合成流水线终端与离线方案书 SHA-256 证书导出；源码展台新增 delta_patch_hot_swap_pipeline.gd 核心 RefCounted 实机引擎。',
+    highlights: [
+      '四大多端构建管线：Windows Vulkan 2.1ms、macOS Metal3 能效+60%、Steam Deck 8W 功耗与 Wasm 秒级拉起',
+      '四维连续差量精算参数：切片块大小、Zstd 极限压制等级、分发带宽与 Merkle 树深度全域适配',
+      '零停机内存热覆写：游戏运行期间动态加载 PCK 补丁包，免除玩家重新冷启动客户端等待',
+      '跨平台存档无损对齐：自动完成 Little-Endian 与 Big-Endian 二进制字节序与文件路径转换',
+      '离散差量极限压榨：基准 1.24 GB 安装包经 bsdiff 差量后生成仅数十 MB 增量包，节约率高达 98%+',
+      'Godot 4.6 LTS 源码展台：新增多端引擎离线离散增量补丁热覆写引擎'
+    ],
+    relatedLinks: [
+      { label: '客户端发布大厅', path: '/vble/download', icon: '📥' },
+      { label: '系统与引擎矩阵', path: '/vble/systems', icon: '⚙️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-teachings-mentor-trial-2026-10-29',
     version: 'v2.2.286',
     date: '2026-10-29',

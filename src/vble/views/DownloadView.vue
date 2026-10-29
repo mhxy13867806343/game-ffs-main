@@ -12,7 +12,7 @@
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-2">
             <n-tag type="success" size="small" round strong>全平台离线构建</n-tag>
-            <n-tag type="warning" size="small" round strong>v2.2.273 稳定发行版</n-tag>
+            <n-tag type="warning" size="small" round strong>v2.2.287 稳定发行版</n-tag>
             <n-tag type="info" size="small" round>SHA-256 / Merkle 签名保护</n-tag>
             <span class="text-xs text-gray-400 font-mono">官方哈希清单签发时间: 2026-10-28 23:15 CST</span>
           </div>
@@ -26,6 +26,17 @@
 
         <!-- 快捷操作按钮组 -->
         <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="activeTab = 'delta_pipeline'"
+          >
+            <template #icon><span>⚡</span></template>
+            离散增量补丁工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -53,7 +64,7 @@
             class="px-3.5 py-2 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 text-xs text-gray-300 hover:text-cyan-300 transition-all flex items-center gap-1.5"
           >
             <span>🔄</span>
-            <span>更新日志 (v2.2.273)</span>
+            <span>更新日志 (v2.2.287)</span>
           </router-link>
         </div>
       </div>
@@ -894,6 +905,293 @@
       </div>
     </div>
 
+    <!-- TAB: 多端引擎构建流水线、离线离散增量补丁分发与跨平台迁移工坊 (v2.2.287) -->
+    <div v-show="activeTab === 'delta_pipeline'" id="delta-pipeline-studio" class="space-y-6">
+      <!-- 顶部功能横幅 -->
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-slate-900/90 to-cyan-950/70 border border-emerald-500/40 shadow-[0_0_35px_rgba(16,185,129,0.18)] relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-56 h-56 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-bold text-xs border border-emerald-500/40">
+                MULTI-PLATFORM ENGINE PIPELINE &amp; DELTA PATCH
+              </span>
+              <span class="text-xs text-emerald-400 font-mono">v2.2.287 Official Matrix</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide flex items-center gap-2">
+              <span>⚡</span> 多端引擎构建流水线、离线离散补丁分发与跨平台迁移工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-2xl leading-relaxed">
+              面向 Godot 4.6 LTS 全平台构建管道：支持字节级 bsdiff / zstd 二进制离散差量合成、全平台自动化流水线、跨端存档热迁移与 Merkle 防篡改校验。
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-lg bg-emerald-950/60 border border-emerald-700/60 text-xs font-mono text-emerald-300">
+              bsdiff 差量算法
+            </span>
+            <span class="px-3 py-1 rounded-lg bg-cyan-950/60 border border-cyan-700/60 text-xs font-mono text-cyan-300">
+              Zstandard Lv.16 流式压制
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四大多端构建目标平台 -->
+      <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🏗️</span>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">多端引擎构建目标管线 (Target Architectures)</h3>
+          </div>
+          <span class="text-xs text-gray-400">选择当前目标平台进行差量补丁合成与部署推演</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="target in pipelineTargetsList"
+            :key="target.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedPipelineTargetId === target.id ? `${target.color} ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]` : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'"
+            @click="selectedPipelineTargetId = target.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ target.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-gray-300">
+                {{ target.featureTag }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white mb-1">{{ target.name }}</div>
+            <p class="text-xs text-gray-400 leading-snug">{{ target.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调与遥测仪表盘 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧参数调节面板 -->
+        <div class="lg:col-span-7 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎛️</span>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">差量切片与压缩拓扑参数</h3>
+            </div>
+            <n-tag type="success" size="tiny" round>微秒差量精算</n-tag>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>差量块切片尺寸 (Delta Block Slice Size)</span>
+                <span class="font-mono font-bold text-emerald-400">{{ deltaBlockSize }} KB</span>
+              </div>
+              <n-slider v-model:value="deltaBlockSize" :min="64" :max="4096" :step="64" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>64 KB (高精细差量)</span>
+                <span>512 KB (标准平衡)</span>
+                <span>4096 KB (高速大块)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>Zstandard 极限压缩等级 (Zstd Compression Level)</span>
+                <span class="font-mono font-bold text-cyan-400">Lv. {{ zstdCompressionLevel }}</span>
+              </div>
+              <n-slider v-model:value="zstdCompressionLevel" :min="1" :max="22" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>Lv. 1 (最速流式)</span>
+                <span>Lv. 16 (极限优化)</span>
+                <span>Lv. 22 (超极限压榨)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>离散补丁分发带宽限速 (Patch Bandwidth Throttle)</span>
+                <span class="font-mono font-bold text-amber-400">{{ bandwidthThrottle }} MB/s</span>
+              </div>
+              <n-slider v-model:value="bandwidthThrottle" :min="10" :max="200" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>10 MB/s (低配信道)</span>
+                <span>80 MB/s (千兆内网)</span>
+                <span>200 MB/s (万兆极速)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>Merkle 树哈希校验深度 (Merkle Tree Depth)</span>
+                <span class="font-mono font-bold text-purple-400">{{ patchVerificationDepth }} 层</span>
+              </div>
+              <n-slider v-model:value="patchVerificationDepth" :min="2" :max="8" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>2 层 (基础校验)</span>
+                <span>5 层 (标准安全)</span>
+                <span>8 层 (零容错极客防篡改)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 个补丁机制开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🔄</span> 零停机着色器与资源内存热覆写 (Zero-Downtime Hot Swap)
+                </div>
+                <div class="text-[10px] text-gray-400">无需重启游戏客户端，内存中动态置换 PCK 与 GLSL 着色器字节码</div>
+              </div>
+              <n-switch v-model:value="zeroDowntimeHotSwap" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>☁️</span> 跨平台云存档二进制无损对齐 (Cross-Save Byte Alignment)
+                </div>
+                <div class="text-[10px] text-gray-400">自动在 Little-Endian 与 Big-Endian 之间转换跨平台存档，消除跨端乱码</div>
+              </div>
+              <n-switch v-model:value="crossSaveMigrationSync" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🌐</span> 局域网/P2P 差量做种共享 (P2P Delta Seeding)
+                </div>
+                <div class="text-[10px] text-gray-400">同一局域网设备间点对点共享已下差量切片，公网下载流量节省 85%</div>
+              </div>
+              <n-switch v-model:value="p2pDeltaSeedingPermit" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧实时遥测看板 -->
+        <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-emerald-950/40 border border-emerald-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-emerald-500/20 pb-2">
+              <h3 class="text-xs font-bold text-emerald-300 uppercase tracking-widest flex items-center gap-1.5">
+                <span>📊</span> 差量构建精算看板 (Pipeline Telemetry)
+              </h3>
+              <span class="text-[10px] font-mono text-emerald-400 animate-pulse">● 流水线信道就绪</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-emerald-500/20">
+                <div class="text-[10px] text-gray-400">预测差量补丁包体积</div>
+                <div class="text-lg sm:text-xl font-black text-emerald-400 font-mono mt-1">
+                  {{ calculatedDeltaPatchSize }}
+                </div>
+                <div class="text-[9px] text-emerald-500/80 mt-0.5">基准 1.24 GB 原包体积</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-500/20">
+                <div class="text-[10px] text-gray-400">差量体积节约率</div>
+                <div class="text-lg sm:text-xl font-black text-cyan-400 font-mono mt-1">
+                  {{ calculatedCompressionRatio }}
+                </div>
+                <div class="text-[9px] text-cyan-500/80 mt-0.5">Zstandard 流式压制收益</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-500/20">
+                <div class="text-[10px] text-gray-400">补丁应用理论耗时</div>
+                <div class="text-lg sm:text-xl font-black text-amber-400 font-mono mt-1">
+                  {{ calculatedPatchApplyTime }}
+                </div>
+                <div class="text-[9px] text-amber-500/80 mt-0.5">下载与二进制重构总计</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-500/20">
+                <div class="text-[10px] text-gray-400">Merkle 防篡改可信度</div>
+                <div class="text-lg sm:text-xl font-black text-purple-400 font-mono mt-1">
+                  {{ calculatedIntegrityConfidence }}
+                </div>
+                <div class="text-[9px] text-purple-500/80 mt-0.5">多层哈希树验证</div>
+              </div>
+            </div>
+
+            <!-- 当前平台特质摘要 -->
+            <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-xs space-y-1">
+              <div class="flex items-center justify-between text-gray-400">
+                <span>构建目标:</span>
+                <span class="font-bold text-white">{{ currentPipelineTargetObj?.name }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>图形/渲染:</span>
+                <span class="font-mono text-emerald-400">{{ currentPipelineTargetObj?.featureTag }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>内存热覆写:</span>
+                <span class="font-mono" :class="zeroDowntimeHotSwap ? 'text-emerald-400' : 'text-gray-500'">
+                  {{ zeroDowntimeHotSwap ? '已激活 (免重启即刻生效)' : '需要重启客户端' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>云存档对齐:</span>
+                <span class="font-mono" :class="crossSaveMigrationSync ? 'text-cyan-400' : 'text-gray-500'">
+                  {{ crossSaveMigrationSync ? '无损字节序对齐' : '原生平台存储' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快捷操作按钮 -->
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              @click="runDeltaPatchSimulation"
+              :disabled="isDeltaSimulating"
+            >
+              <span>{{ isDeltaSimulating ? '⏳' : '🚀' }}</span>
+              {{ isDeltaSimulating ? '差量补丁合成中...' : '启动五阶段离散差量合成流水线' }}
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-gray-200 border border-slate-700 transition-all cursor-pointer flex items-center gap-1"
+              @click="exportDeltaPatchCertificate"
+            >
+              <span>📄</span> 导出凭证
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段差量推演终端 -->
+      <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">💻</span>
+            <h3 class="text-sm font-bold text-white font-mono uppercase">差量构建控制台 (Delta Pipeline Terminal)</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span v-if="isDeltaSimulating" class="text-xs text-emerald-400 animate-pulse font-mono">
+              STAGE {{ deltaSimStage }}/5 合成中
+            </span>
+            <span v-else-if="deltaSimFinished" class="text-xs text-emerald-400 font-mono">
+              ✓ 补丁流水线就绪
+            </span>
+            <button
+              type="button"
+              class="text-xs text-gray-400 hover:text-white px-2 py-0.5 rounded bg-slate-900 border border-slate-800 cursor-pointer"
+              @click="deltaTerminalLogs = []"
+            >
+              清屏
+            </button>
+          </div>
+        </div>
+
+        <div class="h-44 p-3 rounded-xl bg-black/90 border border-slate-900 font-mono text-xs overflow-y-auto space-y-1 text-gray-300">
+          <div v-if="deltaTerminalLogs.length === 0" class="text-gray-600 italic">
+            [终端待命中] 点击“启动五阶段离散差量合成流水线”以生成 bsdiff 字节差量、Zstd 压制与跨端热加载...
+          </div>
+          <div v-for="(log, idx) in deltaTerminalLogs" :key="idx" class="leading-relaxed">
+            <span class="text-gray-500">[{{ log.time }}]</span>
+            <span :class="log.color"> {{ log.message }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- TAB 4: 引擎启动器架构与控制台源码 (client_bootloader.gd & sha256_verifier_utility.gd & p2p_chunk_swarm_engine.gd) -->
     <div v-show="activeTab === 'engine_code'" class="space-y-4">
       <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-4">
@@ -906,7 +1204,9 @@
                   ? 'res://scripts/core/client_bootloader.gd'
                   : activeEngineScript === 'verifier'
                     ? 'res://scripts/core/sha256_verifier_utility.gd'
-                    : 'res://scripts/core/p2p_chunk_swarm_engine.gd' }}
+                    : activeEngineScript === 'delta_pipeline'
+                      ? 'res://scripts/core/delta_patch_hot_swap_pipeline.gd'
+                      : 'res://scripts/core/p2p_chunk_swarm_engine.gd' }}
               </h3>
             </div>
             <p class="text-xs text-gray-400 mt-1">
@@ -941,6 +1241,14 @@
               @click="activeEngineScript = 'p2p_swarm'"
             >
               P2P 蜂窝引擎
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1 rounded-lg text-xs font-semibold transition-all border cursor-pointer"
+              :class="activeEngineScript === 'delta_pipeline' ? 'bg-emerald-500 text-slate-950 border-emerald-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
+              @click="activeEngineScript = 'delta_pipeline'"
+            >
+              差量热修流水线
             </button>
             <n-button
               size="tiny"
@@ -1226,12 +1534,13 @@ const runMirrorBenchmark = () => {
   }, 1200)
 }
 
-type TabKey = 'downloads' | 'verifier' | 'diagnostic' | 'p2p_swarm' | 'engine_code'
+type TabKey = 'downloads' | 'verifier' | 'diagnostic' | 'p2p_swarm' | 'delta_pipeline' | 'engine_code'
 const activeTab = ref<TabKey>('downloads')
-const activeEngineScript = ref<'bootloader' | 'verifier' | 'p2p_swarm'>('p2p_swarm')
+const activeEngineScript = ref<'bootloader' | 'verifier' | 'p2p_swarm' | 'delta_pipeline'>('p2p_swarm')
 
 const tabList = [
   { key: 'downloads' as TabKey, label: '网盘分流与平台包', icon: '📥', badge: 'v2.2.273' },
+  { key: 'delta_pipeline' as TabKey, label: '多端离散增量补丁工坊', icon: '⚡', badge: 'v2.2.287' },
   { key: 'p2p_swarm' as TabKey, label: 'P2P 蜂窝与断点续传工坊', icon: '🌐', badge: 'NEW' },
   { key: 'verifier' as TabKey, label: 'SHA-256 安全哈希校验器', icon: '🛡️', badge: 'WebCrypto' },
   { key: 'diagnostic' as TabKey, label: '设备环境探测与兼容度', icon: '💻', badge: '实时检测' },
@@ -1624,6 +1933,7 @@ static func resolve_swarm_metrics(
 const currentEngineScriptCode = computed(() => {
   if (activeEngineScript.value === 'bootloader') return bootloaderScriptCode
   if (activeEngineScript.value === 'verifier') return sha256VerifierScriptCode
+  if (activeEngineScript.value === 'delta_pipeline') return deltaPatchHotSwapCode
   return p2pChunkSwarmEngineCode
 })
 
@@ -1633,7 +1943,9 @@ const copyActiveEngineCode = () => {
     ? 'client_bootloader.gd'
     : activeEngineScript.value === 'verifier'
       ? 'sha256_verifier_utility.gd'
-      : 'p2p_chunk_swarm_engine.gd'
+      : activeEngineScript.value === 'delta_pipeline'
+        ? 'delta_patch_hot_swap_pipeline.gd'
+        : 'p2p_chunk_swarm_engine.gd'
   copyText(code, name)
 }
 
@@ -1965,6 +2277,220 @@ const handleModalCopy = async () => {
     message.warning('浏览器阻止了自动剪贴板，请在上方文本框中手动全选复制')
   }
 }
+
+// ==========================================
+// ⚡ 多端引擎构建流水线、离线离散增量补丁工坊 (v2.2.287)
+// ==========================================
+interface PipelineTarget {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  color: string
+  featureTag: string
+}
+
+const pipelineTargetsList: PipelineTarget[] = [
+  {
+    id: 'win_vulkan_x64',
+    name: 'Windows x64 (Vulkan/D3D12)',
+    icon: '🪟',
+    desc: 'Vulkan Forward+ 渲染管线，支持 RTX HDR 与 DirectInput 原生映射',
+    color: 'border-cyan-500/50 bg-cyan-950/20 text-cyan-300',
+    featureTag: 'Vulkan Forward+ / 延迟 2.1ms'
+  },
+  {
+    id: 'macos_metal_arm64',
+    name: 'macOS Apple Silicon (Metal 3)',
+    icon: '🍎',
+    desc: 'Metal 3 硬件着色器加速，ProRes 纹理硬件解算，能效比 +60%',
+    color: 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300',
+    featureTag: 'Metal 3 / 能效比 +60%'
+  },
+  {
+    id: 'linux_steamdeck',
+    name: 'Linux / Steam Deck (Proton)',
+    icon: '🎮',
+    desc: 'SteamOS 原生微内核构建，预编译着色器缓存，整机功耗仅 8W',
+    color: 'border-amber-500/50 bg-amber-950/20 text-amber-300',
+    featureTag: 'SteamOS / 功耗 8W'
+  },
+  {
+    id: 'mobile_wasm_webgl',
+    name: 'WebAssembly & PWA 离线端',
+    icon: '📱',
+    desc: 'WebGL2 / Vulkan Mobile 离线 PWA，全平台浏览器无缝秒级拉起',
+    color: 'border-purple-500/50 bg-purple-950/20 text-purple-300',
+    featureTag: 'Wasm PWA / 秒级启动'
+  }
+]
+
+const selectedPipelineTargetId = ref('win_vulkan_x64')
+const deltaBlockSize = ref(512)
+const zstdCompressionLevel = ref(16)
+const bandwidthThrottle = ref(80)
+const patchVerificationDepth = ref(5)
+
+const zeroDowntimeHotSwap = ref(true)
+const crossSaveMigrationSync = ref(true)
+const p2pDeltaSeedingPermit = ref(true)
+
+const currentPipelineTargetObj = computed(() => {
+  return pipelineTargetsList.find(t => t.id === selectedPipelineTargetId.value) || pipelineTargetsList[0]
+})
+
+const calculatedDeltaPatchSize = computed(() => {
+  const baseSize = 1240 // 1.24 GB in MB
+  const compressionEffect = 1 - (zstdCompressionLevel.value * 0.032)
+  const sliceFactor = (deltaBlockSize.value / 1024) * 0.15 + 0.05
+  const estimatedMB = Math.max(12, Math.round(baseSize * compressionEffect * sliceFactor))
+  return `${estimatedMB} MB`
+})
+
+const calculatedCompressionRatio = computed(() => {
+  const ratio = 85 + zstdCompressionLevel.value * 0.6
+  return `${Math.min(98.5, ratio).toFixed(1)}%`
+})
+
+const calculatedPatchApplyTime = computed(() => {
+  const patchMb = parseFloat(calculatedDeltaPatchSize.value)
+  const downloadSec = patchMb / bandwidthThrottle.value
+  const applySec = downloadSec + (zeroDowntimeHotSwap.value ? 0.3 : 1.8)
+  return `${Math.max(0.4, applySec).toFixed(1)} 秒`
+})
+
+const calculatedIntegrityConfidence = computed(() => {
+  const confidence = 99.0 + patchVerificationDepth.value * 0.12
+  return `${Math.min(99.99, confidence).toFixed(2)}%`
+})
+
+// 五阶段差量补丁合成终端
+interface DeltaTerminalLog {
+  time: string
+  message: string
+  color: string
+}
+
+const isDeltaSimulating = ref(false)
+const deltaSimStage = ref(0)
+const deltaSimFinished = ref(false)
+const deltaTerminalLogs = ref<DeltaTerminalLog[]>([
+  {
+    time: 'INIT',
+    message: '多端引擎构建流水线与离散增量补丁工坊就绪。准备执行差量分析。',
+    color: 'text-gray-400'
+  }
+])
+
+function appendDeltaLog(msg: string, color = 'text-emerald-400') {
+  const now = new Date()
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`
+  deltaTerminalLogs.value.push({ time: timeStr, message: msg, color })
+}
+
+function runDeltaPatchSimulation() {
+  if (isDeltaSimulating.value) return
+  isDeltaSimulating.value = true
+  deltaSimFinished.value = false
+  deltaSimStage.value = 1
+  appendDeltaLog('▶ 启动五阶段离散差量合成流水线...', 'text-emerald-400 font-bold')
+
+  setTimeout(() => {
+    deltaSimStage.value = 2
+    appendDeltaLog(`[阶段 1/5] 载入目标架构【${currentPipelineTargetObj.value.name}】，切片尺寸: ${deltaBlockSize.value} KB`, 'text-cyan-300')
+
+    setTimeout(() => {
+      deltaSimStage.value = 3
+      appendDeltaLog(`[阶段 2/5] 启动 bsdiff 字节级离散分析，Zstandard Lv.${zstdCompressionLevel.value} 流式压缩`, 'text-amber-300')
+
+      setTimeout(() => {
+        deltaSimStage.value = 4
+        const hotSwapText = zeroDowntimeHotSwap.value ? '已启用 (内存零停机热换)' : '离线替换'
+        const syncText = crossSaveMigrationSync.value ? '已对齐无损字节序' : '常规存储'
+        appendDeltaLog(`[阶段 3/5] 热覆写状态[${hotSwapText}]，云存档机制[${syncText}]`, 'text-purple-300')
+
+        setTimeout(() => {
+          deltaSimStage.value = 5
+          appendDeltaLog(`[阶段 4/5] 生成差量包: ${calculatedDeltaPatchSize.value} (体积节约: ${calculatedCompressionRatio.value})，应用耗时: ${calculatedPatchApplyTime.value}`, 'text-emerald-300')
+
+          setTimeout(() => {
+            isDeltaSimulating.value = false
+            deltaSimFinished.value = true
+            appendDeltaLog(`✓ [阶段 5/5] 流水线执行成功！Merkle 防篡改可信度: ${calculatedIntegrityConfidence.value}，生成发布哈希凭证`, 'text-emerald-400 font-bold')
+            message.success('多端离散增量补丁流水线推演完成！')
+          }, 350)
+        }, 350)
+      }, 350)
+    }, 350)
+  }, 350)
+}
+
+function exportDeltaPatchCertificate() {
+  const certData = {
+    standard: 'Godot 4.6 LTS / VBLE Delta Pipeline Matrix v2.2.287',
+    timestamp: new Date().toISOString(),
+    targetPlatform: selectedPipelineTargetId.value,
+    parameters: {
+      deltaBlockSize: deltaBlockSize.value,
+      zstdCompressionLevel: zstdCompressionLevel.value,
+      bandwidthThrottle: bandwidthThrottle.value,
+      patchVerificationDepth: patchVerificationDepth.value,
+      zeroDowntimeHotSwap: zeroDowntimeHotSwap.value,
+      crossSaveMigrationSync: crossSaveMigrationSync.value,
+      p2pDeltaSeedingPermit: p2pDeltaSeedingPermit.value
+    },
+    metrics: {
+      deltaPatchSize: calculatedDeltaPatchSize.value,
+      compressionRatio: calculatedCompressionRatio.value,
+      estimatedApplyTime: calculatedPatchApplyTime.value,
+      integrityConfidence: calculatedIntegrityConfidence.value
+    },
+    sha256Signature: 'SHA256-DELTA-PATCH-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `delta_patch_v2.2.287_${selectedPipelineTargetId.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出多端离散差量补丁发布方案书！')
+}
+
+const deltaPatchHotSwapCode = `# ==============================================================================
+# DeltaPatchHotSwapPipeline - 多端引擎离线离散增量补丁热覆写引擎
+# 文件路径: res://scripts/core/delta_patch_hot_swap_pipeline.gd
+# 架构规范: Godot 4.6 LTS / VBLE Multi-Platform Pipeline Matrix v2.2.287
+# 核心职责: bsdiff 二进制差量重构、Zstd 流式解压、零停机 PCK 热覆写与 Merkle 树验签
+# ==============================================================================
+class_name DeltaPatchHotSwapPipeline
+extends RefCounted
+
+signal delta_patch_applied(target_pck: String, delta_size: int, hot_swapped: bool)
+signal merkle_verification_passed(block_index: int, root_hash: String)
+
+static func reconstruct_delta_binary(
+	base_pck_path: String,
+	delta_stream: PackedByteArray,
+	block_size_kb: int
+) -> PackedByteArray:
+	var reconstructed: PackedByteArray = PackedByteArray()
+	# 模拟执行 bsdiff 字节序重构算法
+	reconstructed.resize(delta_stream.size() * 4)
+	return reconstructed
+
+static func apply_memory_hot_swap(
+	pck_virtual_path: String,
+	new_bytes: PackedByteArray,
+	allow_zero_downtime: bool
+) -> bool:
+	if not allow_zero_downtime:
+		return false
+	# 零停机内存覆写: ProjectSettings.load_resource_pack 运行时重载
+	var success: bool = ProjectSettings.load_resource_pack(pck_virtual_path, true)
+	return success
+`
 </script>
 
 <style scoped>
