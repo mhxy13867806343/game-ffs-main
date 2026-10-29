@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-equipment-essence-infusion-2026-10-29',
+    version: 'v2.2.299',
+    date: '2026-10-29',
+    title: '全域太古神兵圣遗物灵髓注能、永恒传世精炼与神格觉醒工坊重磅实装',
+    category: 'equipment',
+    categoryName: '圣遗物注能',
+    icon: '👑',
+    tagType: 'success',
+    description: '全面重构升级 EquipmentView 神兵图鉴门户：顶部标章升级为 VBLE Mythic Weapons, Essence Infusion & Divine Studio v2.2.299，新增圣遗物灵髓注能工坊快捷直达；专区重磅实装【全域太古神兵圣遗物灵髓注能、永恒传世精炼与神格觉醒工坊】（Ancient Relic Spiritual Essence & Divine Awakening Studio）；覆盖四大圣遗物神格流派（王者誓约·神圣王者之剑、死星暗核·虚空屠龙神枪、太古星宿·创世大贤者神杖、虚空相位·佐助时空绝命刃）；实现灵髓浸润深度 (10%~100%)、神性共鸣赫兹 (100~999 Hz)、高炉淬火极温 (1200~4500 ℃) 与以太压缩比率 (1.0~5.0x) 连续微调；支持晶格过热防碎裂神圣封印（极温超频失败零碎裂降阶，保底返还 90% 灵髓）、神格觉醒极品词缀锁相环（锁定暴击与穿透词缀下限，必出 SSS 级神性特质）与超越 999999 破限真伤之印（解除伤害上限，单次暴击最高可达 9,999,999）；实时解算神圣神兵战力 (突破 75,000+ CP)、单发破限爆发真伤 (突破 950,000+ DMG)、以太浸润纯度与神兵传世认证位阶 (高达 EX·太古创世真神圣遗物)；实装五阶段神格觉醒仿真推演终端与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，新增 ancient_relic_essence_infusion_engine.gd、godhood_divine_awakening_matrix.gd 与 anti_shatter_divine_seal_guard.gd。',
+    highlights: [
+      '四大圣遗物神格流派：王者誓约圣剑、死星虚空屠龙枪、创世大贤者神杖与佐助绝命刃',
+      '四维连续注能参数：灵髓浸润深度、神性共鸣赫兹、高炉淬火极温与以太压缩比率全域微调',
+      '防碎裂神圣封印：极温超频失败零碎裂降阶保障，保底返还 90% 珍稀灵髓残渣',
+      '神格词缀锁相环：锁定生成物关键神性词缀下限，定向洗练 SSS 级至高特权词缀',
+      '超越 999999 真伤之印：全面解除伤害天花板，单次暴击斩击最高冲破 9,999,999',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增灵髓注能引擎、神格觉醒概率矩阵与防碎裂封印'
+    ],
+    relatedLinks: [
+      { label: '神兵图鉴与灵髓注能', path: '/vble/equipment', icon: '👑' },
+      { label: '多角色神兵配装模拟', path: '/vble/armory', icon: '⚔️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-gallery-holographic-spectrum-2026-10-29',
     version: 'v2.2.298',
     date: '2026-10-29',

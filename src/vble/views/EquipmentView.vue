@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Mythic Weapons & Relic Forge Matrix v2.2.277
+              VBLE Mythic Weapons, Essence Infusion & Divine Studio v2.2.299
             </span>
             <span class="text-xs text-gray-400">至高超越神兵、太古十二圣器、符文熔铸与多维词缀萃取</span>
           </div>
@@ -20,6 +20,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="activeTab = 'essence_infusion'"
+          >
+            <template #icon><span>👑</span></template>
+            圣遗物灵髓注能工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -935,6 +946,350 @@
       </div>
     </div>
 
+    <!-- 全域太古神兵圣遗物灵髓注能、永恒传世精炼与神格觉醒工坊 (Essence Infusion Studio v2.2.299) -->
+    <div v-if="activeTab === 'essence_infusion'" id="essence-infusion-studio" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-amber-950/70 via-slate-900/95 to-purple-950/70 border border-amber-500/40 shadow-[0_0_35px_rgba(245,158,11,0.22)] space-y-6 relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- 头部标章与控制 -->
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-950/60 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                v2.2.299 重磅实装
+              </span>
+              <span class="text-xs text-gray-400 font-mono">ANCIENT RELIC ESSENCE & DIVINE AWAKENING</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-tight">
+              <span>👑</span> 全域太古神兵圣遗物灵髓注能、永恒传世精炼与神格觉醒工坊
+            </h2>
+            <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+              对齐 Godot 4.6 LTS 圣遗物灵髓注能与神性破限标准：深度覆盖四大圣遗物神格流派、四维连续注能参数、三大传世神兵保护断路器、五阶段神格觉醒仿真推演与防伪证书导出。
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0 flex-wrap">
+            <n-button size="small" secondary type="warning" @click="resetEssenceParameters">
+              🔄 重置灵髓参数
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="exportEssenceCertificate">
+              📜 导出传世方案书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大圣遗物神格流派选择卡 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="arch in essenceArchetypes"
+            :key="arch.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedEssenceId === arch.id
+              ? 'bg-amber-950/50 border-amber-400 shadow-[0_0_18px_rgba(245,158,11,0.3)] ring-1 ring-amber-400/50'
+              : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-850'"
+            @click="selectedEssenceId = arch.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ arch.icon }}</span>
+              <n-tag :type="selectedEssenceId === arch.id ? 'warning' : 'default'" size="tiny" round>
+                {{ arch.tag }}
+              </n-tag>
+            </div>
+            <div class="text-sm font-bold text-white mb-1">{{ arch.name }}</div>
+            <div class="text-[11px] text-gray-400 leading-relaxed mb-3">{{ arch.desc }}</div>
+            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+              <span class="text-gray-400">神性奥义</span>
+              <span class="text-amber-300 font-semibold">{{ arch.perk }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 参数微调滑块与安全防护盾 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <!-- 左侧: 4维连续参数调节 (7 cols) -->
+          <div class="lg:col-span-7 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="text-amber-400 font-bold text-sm">🎛️ 圣遗物灵髓注能连续调控矩阵</span>
+                <span class="text-[11px] text-gray-400 font-mono">4-Axis Essence Sliders</span>
+              </div>
+              <button
+                type="button"
+                class="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors"
+                @click="resetEssenceParameters"
+              >
+                重置参数
+              </button>
+            </div>
+
+            <!-- 滑块 1: 灵髓浸润深度 -->
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                  <span>💧</span> 灵髓浸润深度 (Essence Depth)
+                </span>
+                <span class="font-mono text-cyan-400 font-bold">{{ essenceDepth }}%</span>
+              </div>
+              <n-slider
+                v-model:value="essenceDepth"
+                :min="10"
+                :max="100"
+                :step="5"
+                :tooltip="false"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>10% (表层附着)</span>
+                <span>55% (晶格交融)</span>
+                <span>100% (神核始源同化)</span>
+              </div>
+            </div>
+
+            <!-- 滑块 2: 神性共鸣频率 -->
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                  <span>✨</span> 神性共鸣频率 (Resonance Hertz)
+                </span>
+                <span class="font-mono text-amber-400 font-bold">{{ resonanceHertz }} Hz</span>
+              </div>
+              <n-slider
+                v-model:value="resonanceHertz"
+                :min="100"
+                :max="999"
+                :step="10"
+                :tooltip="false"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>100 Hz (低频脉冲)</span>
+                <span>528 Hz (神圣奇迹谐波)</span>
+                <span>999 Hz (太古创世神频)</span>
+              </div>
+            </div>
+
+            <!-- 滑块 3: 高炉淬火极温 -->
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                  <span>🔥</span> 高炉淬火极温 (Quenching Temp)
+                </span>
+                <span class="font-mono text-rose-400 font-bold">{{ quenchTemp }} ℃</span>
+              </div>
+              <n-slider
+                v-model:value="quenchTemp"
+                :min="1200"
+                :max="4500"
+                :step="100"
+                :tooltip="false"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>1200 ℃ (晶钢重铸)</span>
+                <span>2800 ℃ (以太熔融态)</span>
+                <span>4500 ℃ (超新星等离子炽炎)</span>
+              </div>
+            </div>
+
+            <!-- 滑块 4: 以太压缩比率 -->
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                  <span>⚡</span> 以太压缩比率 (Compression Ratio)
+                </span>
+                <span class="font-mono text-purple-400 font-bold">{{ aetherCompression.toFixed(1) }}x</span>
+              </div>
+              <n-slider
+                v-model:value="aetherCompression"
+                :min="1.0"
+                :max="5.0"
+                :step="0.1"
+                :tooltip="false"
+              />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>1.0x (常压自然态)</span>
+                <span>3.0x (结晶致密化)</span>
+                <span>5.0x (奇点无限坍缩)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧: 3大神兵保护断路器 (5 cols) -->
+          <div class="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+            <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+              <span class="text-amber-400 font-bold text-sm">🛡️ 神兵传世断路器与破限特权</span>
+              <n-tag type="warning" size="tiny" round>主动安全特权</n-tag>
+            </div>
+
+            <div class="space-y-3">
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>🔒</span> 晶格过热防碎裂神圣封印
+                  </div>
+                  <div class="text-[11px] text-gray-400">极温超频失败零碎裂降阶，保底返还 90% 灵髓</div>
+                </div>
+                <n-switch v-model:value="antiShatterDivineSeal" size="small" />
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>👑</span> 神格觉醒极品词缀锁相环
+                  </div>
+                  <div class="text-[11px] text-gray-400">锁定暴击与穿透词缀下限，必出 SSS 级神性特质</div>
+                </div>
+                <n-switch v-model:value="godhoodAffixLock" size="small" />
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>💥</span> 超越 999999 破限真伤之印
+                  </div>
+                  <div class="text-[11px] text-gray-400">解除伤害上限，单次暴击最高可达 9,999,999</div>
+                </div>
+                <n-switch v-model:value="transcendenceTrueDamageCap" size="small" />
+              </div>
+            </div>
+
+            <!-- 能效雷达卡 -->
+            <div class="p-3 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 space-y-2">
+              <div class="text-xs font-bold text-amber-300 flex items-center justify-between">
+                <span>圣遗物注能综合成功率</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ calculatedInfusionSuccessRate.toFixed(1) }}%</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                <div
+                  class="bg-gradient-to-r from-amber-500 via-rose-500 to-emerald-400 h-1.5 rounded-full transition-all duration-300"
+                  :style="{ width: Math.min(calculatedInfusionSuccessRate, 100) + '%' }"
+                ></div>
+              </div>
+              <div class="text-[10px] text-gray-400 flex justify-between">
+                <span>锻造容限: 75.0%</span>
+                <span class="text-amber-400">晶格稳态: {{ calculatedInfusionSuccessRate > 92 ? '神圣永固' : '高度稳定' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 实时解算数值仪表盘 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-center shadow-lg">
+            <div class="text-[11px] text-gray-400">神圣神兵战力 (CP)</div>
+            <div class="text-2xl font-black text-amber-400 font-mono mt-1">+{{ calculatedRelicCP.toLocaleString() }}</div>
+            <div class="text-[10px] text-amber-300/80 mt-0.5">全员神性属性加权</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-rose-500/30 text-center shadow-lg">
+            <div class="text-[11px] text-gray-400">单发破限爆发真伤</div>
+            <div class="text-2xl font-black text-rose-400 font-mono mt-1">{{ calculatedTrueDmg.toLocaleString() }} DMG</div>
+            <div class="text-[10px] text-rose-300/80 mt-0.5">无视全防御绝对真伤</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-lg">
+            <div class="text-[11px] text-gray-400">以太浸润纯度</div>
+            <div class="text-2xl font-black text-cyan-400 font-mono mt-1">{{ (essenceDepth * 0.98).toFixed(1) }}%</div>
+            <div class="text-[10px] text-cyan-300/80 mt-0.5">无杂质灵髓结晶率</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-center shadow-lg">
+            <div class="text-[11px] text-gray-400">神兵传世认证位阶</div>
+            <div class="text-2xl font-black text-purple-400 font-mono mt-1">{{ relicDivineTier }}</div>
+            <div class="text-[10px] text-purple-300/80 mt-0.5">太古创世真神极境</div>
+          </div>
+        </div>
+
+        <!-- 五阶段神格觉醒推演仿真终端 -->
+        <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-amber-500/30 shadow-2xl space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 font-bold text-sm">⚡ 圣遗物灵髓注能与神格觉醒五阶段推演终端</span>
+              <n-tag type="warning" size="tiny" round>Live Forge Pipeline</n-tag>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 shadow-md disabled:opacity-50"
+                :disabled="isSimulatingEssence"
+                @click="runEssenceSimulation"
+              >
+                {{ isSimulatingEssence ? '正在注能淬火中...' : '▶ 启动全流程神格觉醒推演' }}
+              </button>
+              <button
+                type="button"
+                class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 transition-all cursor-pointer"
+                @click="exportEssenceCertificate"
+              >
+                📜 导出传世方案书
+              </button>
+            </div>
+          </div>
+
+          <!-- 5 阶段步进进度 -->
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+            <div
+              v-for="(stg, idx) in essenceStages"
+              :key="stg.id"
+              class="p-2.5 rounded-lg border text-xs transition-all flex flex-col justify-between"
+              :class="essenceSimulationStep >= idx + 1
+                ? 'bg-amber-950/40 border-amber-500/60 text-amber-300'
+                : 'bg-slate-900/60 border-slate-800/80 text-gray-500'"
+            >
+              <div class="font-bold mb-1 flex items-center gap-1">
+                <span>{{ essenceSimulationStep >= idx + 1 ? '✅' : '⏳' }}</span>
+                <span>第 {{ idx + 1 }} 阶: {{ stg.title }}</span>
+              </div>
+              <div class="text-[10px] leading-tight opacity-80">{{ stg.desc }}</div>
+            </div>
+          </div>
+
+          <!-- 推演日志视窗 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-gray-300 max-h-48 overflow-y-auto space-y-1">
+            <div v-for="(log, idx) in essenceLogs" :key="idx" class="flex items-start gap-2">
+              <span class="text-amber-400 select-none">›</span>
+              <span :class="log.color || 'text-gray-300'">{{ log.text }}</span>
+            </div>
+            <div v-if="essenceLogs.length === 0" class="text-gray-600 italic">
+              等待启动推演... 点击上方【启动全流程神格觉醒推演】按键开始推演。
+            </div>
+          </div>
+        </div>
+
+        <!-- Godot 4.6 LTS 3 Tab 源码展台 -->
+        <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 圣遗物灵髓注能实机脚本</span>
+              <n-tag type="info" size="tiny" round>RefCounted 核心架构</n-tag>
+            </div>
+            <div class="flex gap-2">
+              <button
+                v-for="st in essenceScriptTabs"
+                :key="st.key"
+                type="button"
+                class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
+                :class="activeEssenceScriptTab === st.key
+                  ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                  : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
+                @click="activeEssenceScriptTab = st.key"
+              >
+                {{ st.name }}
+              </button>
+            </div>
+          </div>
+
+          <div class="relative">
+            <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentEssenceScriptCode }}</pre>
+            <button
+              type="button"
+              class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-gray-300 border border-slate-700 cursor-pointer transition-colors"
+              @click="copyEssenceScript"
+            >
+              📋 复制代码
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 6. 属性加成与守恒解析源码 -->
     <div v-if="activeTab === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
@@ -993,7 +1348,7 @@ const message = useMessage()
 const gameStore = useGameStore()
 const equipment = computed(() => gameStore.db.equipment || [])
 
-type EquipmentTab = 'catalog' | 'dual_wield' | 'awakening' | 'relic_forge' | 'rune_infusion' | 'engine_code'
+type EquipmentTab = 'catalog' | 'dual_wield' | 'awakening' | 'relic_forge' | 'rune_infusion' | 'essence_infusion' | 'engine_code'
 const activeTab = ref<EquipmentTab>('catalog')
 const tabList: { key: EquipmentTab; label: string; icon: string; badge?: string }[] = [
   { key: 'catalog', label: '神兵图鉴矩阵', icon: '🗡️' },
@@ -1001,6 +1356,7 @@ const tabList: { key: EquipmentTab; label: string; icon: string; badge?: string 
   { key: 'awakening', label: '太古开光与附魔', icon: '⚗️' },
   { key: 'relic_forge', label: '太古神兵共鸣与精炼', icon: '✨', badge: 'v2.2.262' },
   { key: 'rune_infusion', label: '符文熔铸与词缀萃取', icon: '🔮', badge: 'v2.2.277' },
+  { key: 'essence_infusion', label: '圣遗物灵髓注能与神格觉醒', icon: '👑', badge: 'v2.2.299' },
   { key: 'engine_code', label: '属性解析引擎源码', icon: '🛡️' }
 ]
 
@@ -1965,6 +2321,308 @@ const gdRuneScriptCode = [
   '\t\t"signature": "SHA256-RUNE-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
   '\t}'
 ].join('\n')
+
+// ==========================================
+// 全域太古神兵圣遗物灵髓注能工坊 (v2.2.299)
+// ==========================================
+interface EssenceArchetype {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  desc: string
+  perk: string
+  powerMult: number
+}
+
+const essenceArchetypes: EssenceArchetype[] = [
+  {
+    id: 'excalibur_radiance',
+    name: '王者誓约·神圣王者之剑',
+    icon: '🗡️',
+    tag: '神圣誓约',
+    desc: '凝聚圆桌骑士终极英灵，挥出炽白全屏真圣光裂隙，全属性暴击破限',
+    perk: '圣光物理暴击伤害 +220%',
+    powerMult: 1.45
+  },
+  {
+    id: 'gungnir_dragoon',
+    name: '死星暗核·虚空屠龙神枪',
+    icon: '🐉',
+    tag: '真神贯穿',
+    desc: '融合太古黑龙骸骨与死星陨铁，无视目标护甲穿透，下落龙剑终焉湮灭',
+    perk: '无视护甲真实暴击 +185%',
+    powerMult: 1.35
+  },
+  {
+    id: 'sage_genesis_staff',
+    name: '太古星宿·创世大贤者神杖',
+    icon: '🔮',
+    tag: '全系掌控',
+    desc: '掌控白魔法生生不息与黑魔法陨石天劫，全法系消耗降低 40% 且瞬发',
+    perk: '全法术咏唱时间归零',
+    powerMult: 1.40
+  },
+  {
+    id: 'void_sasuke_blade',
+    name: '虚空相位·佐助时空绝命刃',
+    icon: '🗡️',
+    tag: '极影绝灭',
+    desc: '隐没于影之位面，极速一闪必定暴击，8 连乱打诱发时空裂痕真实撕裂',
+    perk: '8 连击乱打真实撕裂伤',
+    powerMult: 1.50
+  }
+]
+
+const selectedEssenceId = ref<string>('excalibur_radiance')
+
+// 4 维连续滑块参数
+const essenceDepth = ref<number>(85)
+const resonanceHertz = ref<number>(720)
+const quenchTemp = ref<number>(3200)
+const aetherCompression = ref<number>(3.5)
+
+// 3 大神兵保护断路器
+const antiShatterDivineSeal = ref<boolean>(true)
+const godhoodAffixLock = ref<boolean>(true)
+const transcendenceTrueDamageCap = ref<boolean>(true)
+
+const currentEssence = computed(() => {
+  return essenceArchetypes.find(a => a.id === selectedEssenceId.value) || essenceArchetypes[0]
+})
+
+const calculatedRelicCP = computed(() => {
+  const baseCP = 22000
+  const depthBonus = essenceDepth.value * 280
+  const hertzBonus = Math.round((resonanceHertz.value / 100) * 2200)
+  const tempBonus = Math.round((quenchTemp.value / 1000) * 3500)
+  const compressBonus = Math.round(aetherCompression.value * 4500)
+  return Math.round((baseCP + depthBonus + hertzBonus + tempBonus + compressBonus) * currentEssence.value.powerMult)
+})
+
+const calculatedTrueDmg = computed(() => {
+  const baseDmg = 180000
+  const compressionEffect = aetherCompression.value * 65000
+  const hertzEffect = resonanceHertz.value * 420
+  const capBonus = transcendenceTrueDamageCap.value ? 1.85 : 1.0
+  return Math.round((baseDmg + compressionEffect + hertzEffect) * currentEssence.value.powerMult * capBonus)
+})
+
+const calculatedInfusionSuccessRate = computed(() => {
+  let rate = 72.0
+  rate += (essenceDepth.value / 100) * 16.0
+  rate += (resonanceHertz.value / 1000) * 8.0
+  if (antiShatterDivineSeal.value) rate += 6.5
+  if (godhoodAffixLock.value) rate += 4.5
+  if (quenchTemp.value > 4000) rate -= 5.0
+  return Math.min(99.8, Math.max(50.0, rate))
+})
+
+const relicDivineTier = computed(() => {
+  if (calculatedRelicCP.value >= 60000 && calculatedTrueDmg.value >= 700000) return 'EX·太古创世真神圣遗物'
+  if (calculatedRelicCP.value >= 45000) return 'SS·传世神话奇迹兵刃'
+  if (calculatedRelicCP.value >= 30000) return 'S·极境太古遗迹宝具'
+  return 'A·精良名匠圣器'
+})
+
+const resetEssenceParameters = () => {
+  essenceDepth.value = 85
+  resonanceHertz.value = 720
+  quenchTemp.value = 3200
+  aetherCompression.value = 3.5
+  antiShatterDivineSeal.value = true
+  godhoodAffixLock.value = true
+  transcendenceTrueDamageCap.value = true
+  message?.info('圣遗物灵髓参数已重置为黄金标准配置')
+}
+
+// 五阶段仿真推演
+const isSimulatingEssence = ref<boolean>(false)
+const essenceSimulationStep = ref<number>(0)
+interface EssenceLogItem {
+  text: string
+  color?: string
+}
+const essenceLogs = ref<EssenceLogItem[]>([])
+
+const essenceStages = [
+  { id: 1, title: '神兵晶格与灵髓扫描', desc: '检索分子晶格完整度与灵髓亲和' },
+  { id: 2, title: '神圣封印与锁相就绪', desc: '启动防碎裂保护与极品词缀锁' },
+  { id: 3, title: '高炉极温熔铸注能', desc: '超极温高炉分子重构神性注入' },
+  { id: 4, title: '赫兹共鸣光子跃迁', desc: '神圣赫兹谐波诱发能量大爆发' },
+  { id: 5, title: '神格觉醒完成入库', desc: '颁发传世认证书与真神圣遗物' }
+]
+
+const runEssenceSimulation = async () => {
+  if (isSimulatingEssence.value) return
+  isSimulatingEssence.value = true
+  essenceSimulationStep.value = 0
+  essenceLogs.value = []
+
+  const appendLog = (text: string, color?: string) => {
+    essenceLogs.value.push({ text, color })
+  }
+
+  appendLog('[INIT] 启动全域太古神兵灵髓注能与神格觉醒管线...', 'text-amber-400 font-bold')
+  await new Promise(r => setTimeout(r, 400))
+
+  // Step 1
+  essenceSimulationStep.value = 1
+  appendLog(`[STEP 1] 选定圣遗物【${currentEssence.value.name}】，灵髓浸润深度 ${essenceDepth.value}%，共鸣赫兹 ${resonanceHertz.value} Hz。`, 'text-cyan-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 2
+  essenceSimulationStep.value = 2
+  appendLog(`[STEP 2] 激活防碎裂神圣封印: ${antiShatterDivineSeal.value ? '已就绪 (90%返还)' : '未开启'}；词缀锁相环: ${godhoodAffixLock.value ? '已锁定' : '未开启'}。`, 'text-purple-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 3
+  essenceSimulationStep.value = 3
+  appendLog(`[STEP 3] 高炉升温至 ${quenchTemp.value} ℃！以太压缩比 ${aetherCompression.value.toFixed(1)}x，神兵战力估值跃升至 +${calculatedRelicCP.value.toLocaleString()} CP！`, 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 500))
+
+  // Step 4
+  essenceSimulationStep.value = 4
+  appendLog(`[STEP 4] 突破伤害天花板: 爆发期望真伤达 ${calculatedTrueDmg.value.toLocaleString()} DMG，成功率 ${calculatedInfusionSuccessRate.value.toFixed(1)}%！`, 'text-emerald-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 5
+  essenceSimulationStep.value = 5
+  appendLog(`[SUCCESS] 圣遗物神格觉醒圆满达成！认证位阶: 【${relicDivineTier.value}】，传世宝具永久铸成！`, 'text-amber-300 font-bold')
+  isSimulatingEssence.value = false
+  message?.success('神格觉醒推演圆满成功！')
+}
+
+const exportEssenceCertificate = () => {
+  const certData = {
+    studio: 'Ancient Relic Spiritual Essence & Divine Awakening Studio v2.2.299',
+    relic: currentEssence.value.name,
+    essenceDepth: essenceDepth.value,
+    resonanceHertz: resonanceHertz.value,
+    quenchTemp: quenchTemp.value,
+    aetherCompression: aetherCompression.value,
+    calculatedRelicCP: calculatedRelicCP.value,
+    calculatedTrueDmg: calculatedTrueDmg.value,
+    calculatedInfusionSuccessRate: calculatedInfusionSuccessRate.value,
+    relicDivineTier: relicDivineTier.value,
+    timestamp: new Date().toISOString(),
+    sha256Certificate: 'RELIC-ESSENCE-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(16).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `relic_essence_certificate_${certData.sha256Certificate}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success(`已导出传世方案书: ${certData.sha256Certificate}`)
+}
+
+// 源码展台
+type EssenceScriptKey = 'infusion_engine' | 'awakening_matrix' | 'divine_seal'
+
+const activeEssenceScriptTab = ref<EssenceScriptKey>('infusion_engine')
+
+const essenceScriptTabs = [
+  { key: 'infusion_engine' as const, name: '灵髓注能引擎' },
+  { key: 'awakening_matrix' as const, name: '神格觉醒概率矩阵' },
+  { key: 'divine_seal' as const, name: '防碎裂神圣封印' }
+]
+
+const essenceScriptCodes: Record<EssenceScriptKey, string> = {
+  infusion_engine: `class_name AncientRelicEssenceInfusionEngine
+extends RefCounted
+
+## 最终幻想：时空之轮 - 圣遗物灵髓注能核心引擎
+## 文件路径: res://scripts/equipment/ancient_relic_essence_infusion_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal relic_infused(relic_id: String, combat_power: int, true_damage: int)
+signal infusion_failed(recovered_essence: float)
+
+var essence_depth: float = 0.85
+var resonance_hz: float = 720.0
+var quench_temp: float = 3200.0
+var compression_ratio: float = 3.5
+var divine_seal_active: bool = true
+
+func execute_essence_infusion(base_power: int) -> Dictionary:
+    var success_chance: float = 0.72 + (essence_depth * 0.16) + (resonance_hz / 1000.0 * 0.08)
+    if divine_seal_active:
+        success_chance += 0.065
+    if quench_temp > 4000.0:
+        success_chance -= 0.05
+
+    var roll: float = randf()
+    var is_success: bool = roll <= clampf(success_chance, 0.50, 0.998)
+
+    if not is_success:
+        var recovered: float = essence_depth * 0.90 if divine_seal_active else 0.0
+        infusion_failed.emit(recovered)
+        return {
+            "success": false,
+            "recovered_ratio": recovered,
+            "status": "SEAL_PROTECTED_RECOVERED" if divine_seal_active else "SHATTERED"
+        }
+
+    var cp: int = int(float(base_power) * (1.0 + essence_depth * 0.8) * (compression_ratio / 2.0))
+    var true_dmg: int = int(float(cp) * 12.5)
+
+    var result := {
+        "success": true,
+        "combat_power": cp,
+        "true_damage": true_dmg,
+        "divine_tier": "EX_DIVINE_CREATION"
+    }
+    relic_infused.emit("excalibur", cp, true_dmg)
+    return result
+`,
+
+  awakening_matrix: `class_name GodhoodDivineAwakeningMatrix
+extends RefCounted
+
+## 最终幻想：时空之轮 - 神格觉醒与词缀锁相概率矩阵
+## 文件路径: res://scripts/equipment/godhood_divine_awakening_matrix.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func roll_divine_affix(lock_active: bool) -> Dictionary:
+    var affixes := [
+        {"name": "诸神圣裁", "crit_boost": 2.2, "piercing": 1.0},
+        {"name": "时空撕裂", "crit_boost": 1.85, "true_damage": 0.5},
+        {"name": "万物归一", "crit_boost": 1.5, "mana_cost": -0.4}
+    ]
+    if lock_active:
+        return affixes[0] # 必定命中最高阶神圣誓约
+    return affixes[randi() % affixes.size()]
+`,
+
+  divine_seal: `class_name AntiShatterDivineSealGuard
+extends RefCounted
+
+## 最终幻想：时空之轮 - 防碎裂神圣封印与极温保护控制器
+## 文件路径: res://scripts/equipment/anti_shatter_divine_seal_guard.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func prevent_relic_break(temp: float, has_seal: bool) -> Dictionary:
+    var is_overheat: bool = temp > 3800.0
+    return {
+        "safe": has_seal or not is_overheat,
+        "leak_valve_open": is_overheat and has_seal,
+        "mitigation_percent": 35.0 if has_seal else 0.0
+    }
+`
+}
+
+const currentEssenceScriptCode = computed(() => {
+  return essenceScriptCodes[activeEssenceScriptTab.value]
+})
+
+const copyEssenceScript = () => {
+  navigator.clipboard.writeText(currentEssenceScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
 </script>
 
 <style scoped>
