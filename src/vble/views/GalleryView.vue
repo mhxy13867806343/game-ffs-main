@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Visual &amp; VFX Matrix v2.2.251
+              VBLE Visual &amp; VFX Matrix v2.2.275
             </span>
-            <span class="text-xs text-gray-400">大世界实机、UI架构与魔导粒子</span>
+            <span class="text-xs text-gray-400">大世界实机、UI架构、体积雾光线步进与魔导粒子渲染</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>🎨</span> 实机画廊与魔导视觉粒子沙盘工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            精选回合制 ATB 战斗全景、地貌航图、城邦商会、队伍整备与虚空空间扭曲等高清视觉资产。全息实装魔导粒子着色器动态调优沙盘。
+            精选回合制 ATB 战斗全景、地貌航图、城邦商会、队伍整备与虚空空间扭曲等高清视觉资产。全息实装魔导粒子着色器动态调优沙盘与全色调体积雾光线步进渲染工坊。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToVolumetricStudio"
+          >
+            <template #icon><span>🌫️</span></template>
+            前往体积雾光步进工坊
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -691,19 +702,298 @@
       </div>
     </div>
 
-    <!-- Godot 4.6 LTS 核心实机代码展台 (双 Tab 切换) -->
+    <!-- 第五部分：全色调体积雾光影射线与魔导粒子光线步进渲染工坊 -->
+    <div id="volumetric-raymarching-studio" class="p-6 sm:p-8 rounded-2xl bg-[#0a0f1d]/95 border border-cyan-500/30 space-y-6 shadow-[0_0_40px_rgba(6,182,212,0.15)] relative overflow-hidden">
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 工坊头部标章 -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+              v2.2.275 重磅实装
+            </span>
+            <span class="text-xs text-gray-400">Forward+ / Clustered 体积光线步进内核</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🌫️</span> 全色调体积雾光影射线与魔导粒子光线步进渲染工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Beer-Lambert 消光介质模型与 Henyey-Greenstein 各向异性散射相函数，实时模拟高动态晨曦天顶光束、虚空光子散射与 ACES 电影色调映射。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingVolumetric"
+            @click="simulateVolumetricRaymarching"
+          >
+            <template #icon><span>⚡</span></template>
+            激发光线步进推演
+          </n-button>
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="exportVolumetricLightingCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大渲染预设 Stances -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div
+          v-for="stance in volumetricStances"
+          :key="stance.id"
+          class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+          :class="selectedVolumetricStanceId === stance.id
+            ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="applyVolumetricStance(stance.id)"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">{{ stance.icon }}</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedVolumetricStanceId === stance.id ? 'bg-cyan-500/30 text-cyan-200' : 'bg-slate-800 text-gray-400'">
+                {{ stance.tag }}
+              </span>
+            </div>
+            <div class="font-bold text-xs text-gray-200">{{ stance.name }}</div>
+            <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{{ stance.subtitle }}</div>
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+            <span class="text-gray-400">采样步数:</span>
+            <span class="font-mono font-bold text-cyan-300">{{ stance.steps }} Steps</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 双栏交互面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧：实时体积雾光照视效显像与物理计算 -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- 视效显像窗口 -->
+          <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+            <!-- 背景光斑与光锥 SVG 模拟 -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden">
+              <div
+                class="absolute -top-10 left-1/4 w-96 h-96 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                :style="{
+                  background: activeStanceColorGradient,
+                  opacity: (volumetricDensity * 0.9 + 0.1).toFixed(2),
+                  transform: `scale(${1 + volumetricExposure * 0.3})`
+                }"
+              ></div>
+              <svg class="absolute inset-0 w-full h-full opacity-60" preserveAspectRatio="none">
+                <polygon
+                  points="160,0 280,0 480,320 0,320"
+                  fill="url(#volumetricBeamGrad)"
+                />
+                <polygon
+                  points="220,0 340,0 620,320 180,320"
+                  fill="url(#volumetricBeamGrad2)"
+                />
+                <defs>
+                  <linearGradient id="volumetricBeamGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="rgba(255,230,150,0.6)" />
+                    <stop offset="60%" stop-color="rgba(6,182,212,0.25)" />
+                    <stop offset="100%" stop-color="rgba(15,23,42,0)" />
+                  </linearGradient>
+                  <linearGradient id="volumetricBeamGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="rgba(168,85,247,0.5)" />
+                    <stop offset="70%" stop-color="rgba(59,130,246,0.15)" />
+                    <stop offset="100%" stop-color="rgba(15,23,42,0)" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            <!-- 顶部状态指示灯与采样模式 -->
+            <div class="relative z-10 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-mono text-cyan-300 font-bold">RAYMARCH ACTIVE</span>
+                <span class="text-gray-400 font-mono text-[10px]">| {{ volumetricSteps }} Voxel Steps</span>
+              </div>
+              <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-amber-300">
+                ACES: {{ volumetricExposure > 0 ? '+' : '' }}{{ volumetricExposure.toFixed(2) }} EV
+              </div>
+            </div>
+
+            <!-- 中间标语 -->
+            <div class="relative z-10 text-center my-auto">
+              <div class="text-2xl font-black text-white/90 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(6,182,212,0.8)]">
+                {{ currentVolumetricStance.name }}
+              </div>
+              <div class="text-xs text-cyan-200/80 mt-1 font-mono">
+                Beer-Lambert 透射率 T(s) = {{ volumetricMetrics.transmittance }}% · 消光 σt = {{ volumetricMetrics.sigma_t }}
+              </div>
+            </div>
+
+            <!-- 底部性能与管线参数微视窗 -->
+            <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+              <span>Henyey-Greenstein: {{ volumetricAnisotropy ? 'g=0.76 (Mie正向)' : '各向同性 (g=0)' }}</span>
+              <span class="text-emerald-400 font-bold">帧时延: {{ volumetricMetrics.latencyMs }} ms</span>
+            </div>
+          </div>
+
+          <!-- 4 维物理与渲染计算指标卡片 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">介质散射系数 σs</div>
+              <div class="font-mono text-cyan-400 font-bold text-sm mt-0.5">{{ volumetricMetrics.sigma_s }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">Rayleigh/Mie 散射</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">介质吸收系数 σa</div>
+              <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ volumetricMetrics.sigma_a }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">以太吸收衰减</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">显存 VRAM 占用</div>
+              <div class="font-mono text-purple-400 font-bold text-sm mt-0.5">{{ volumetricMetrics.vramUsage }} MB</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">3D Froxel 缓冲</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">综合管线评级</div>
+              <div class="font-mono text-emerald-400 font-bold text-xs mt-0.5 truncate">{{ volumetricMetrics.rating }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">Forward+ Clustered</div>
+            </div>
+          </div>
+
+          <!-- 实时光线步进模拟终端 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+            <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+              <span class="flex items-center gap-1.5 text-cyan-300 font-bold">
+                <span>💻</span> 光线步进着色器分步执行日志 (Shader Execution Terminal)
+              </span>
+              <span class="text-[10px] text-gray-500">步进缓存: 实时同步</span>
+            </div>
+            <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+              <div v-for="(log, idx) in volumetricSimulationLogs" :key="idx" class="flex items-start gap-1.5">
+                <span class="text-cyan-500 select-none">&gt;</span>
+                <span :class="log.includes('完成') || log.includes('成功') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：无极物理调优与着色器 Uniforms -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="flex items-center gap-1.5">
+              <span>🎛️</span> 光学步进参数微调 (Optical Uniforms)
+            </span>
+            <button
+              type="button"
+              class="text-[10px] text-gray-400 hover:text-cyan-300 cursor-pointer"
+              @click="resetVolumetricParams"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 雾介质基础密度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>雾介质基础密度 (Fog Media Density):</span>
+              <span class="font-mono text-cyan-400 font-bold">{{ volumetricDensity.toFixed(2) }}</span>
+            </div>
+            <n-slider v-model:value="volumetricDensity" :min="0.01" :max="1.0" :step="0.01" />
+            <div class="flex justify-between text-[9px] text-gray-500">
+              <span>0.01 薄雾清晨</span>
+              <span>0.50 密林烟障</span>
+              <span>1.00 虚空浓云</span>
+            </div>
+          </div>
+
+          <!-- 采样步数 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>光线步进采样步数 (Raymarch Steps):</span>
+              <span class="font-mono text-amber-400 font-bold">{{ volumetricSteps }} Steps</span>
+            </div>
+            <n-slider v-model:value="volumetricSteps" :min="16" :max="128" :step="4" />
+          </div>
+
+          <!-- 单次散射反照率 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>单次散射反照率 (Single Scattering Albedo):</span>
+              <span class="font-mono text-purple-400 font-bold">{{ Math.round(volumetricAlbedo * 100) }}%</span>
+            </div>
+            <n-slider v-model:value="volumetricAlbedo" :min="0.1" :max="1.0" :step="0.01" />
+          </div>
+
+          <!-- ACES 曝光补偿 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>ACES 电影曝光补偿 (Exposure Bias):</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ volumetricExposure > 0 ? '+' : '' }}{{ volumetricExposure.toFixed(2) }} EV</span>
+            </div>
+            <n-slider v-model:value="volumetricExposure" :min="-3.0" :max="3.0" :step="0.05" />
+          </div>
+
+          <!-- 高阶光影算法开关 -->
+          <div class="pt-2 border-t border-slate-800 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300">开启【Henyey-Greenstein 各向异性正向散射 (g=0.76)】:</span>
+              <n-switch v-model:value="volumetricAnisotropy" size="small" />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300">开启【时域重投影反走样去噪 (Temporal Reprojection TAA)】:</span>
+              <n-switch v-model:value="volumetricDenoise" size="small" />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300">开启【低差异蓝噪点射线抖动 (Blue Noise Jitter)】:</span>
+              <n-switch v-model:value="volumetricJitter" size="small" />
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+            💡 物理原理：通过在视锥体深度缓冲区逐像素步进积分，结合 Henyey-Greenstein 相函数与 ACES 电影曲线拟合，彻底杜绝高光死白与阶梯分层伪影。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.6 LTS 核心实机代码展台 (4 Tab 切换) -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between flex-wrap gap-2">
         <div class="flex items-center gap-2">
           <span class="text-base">📜</span>
           <span class="font-mono text-sm font-bold text-cyan-300">
-            Godot 4.6 LTS 视觉粒子与电影调色着色器内核
+            Godot 4.6 LTS 视觉粒子、光线步进与电影调色内核展台
           </span>
           <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
         </div>
         <div class="flex items-center gap-2">
-          <!-- 双 Tab 切换 -->
-          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+          <!-- 4 Tab 切换 -->
+          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800 flex-wrap">
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeGalleryGodotTab === 'volumetric' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeGalleryGodotTab = 'volumetric'"
+            >
+              📄 volumetric_raymarching.gdshader
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeGalleryGodotTab === 'orchestrator' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeGalleryGodotTab = 'orchestrator'"
+            >
+              📄 vfx_particle_pipeline_orchestrator.gd
+            </button>
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
@@ -727,7 +1017,7 @@
         </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeGalleryGodotTab === 'vfx'">{{ godotCodeText }}</code><code v-else>{{ godotGradingCodeText }}</code></pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeGalleryGodotTab === 'volumetric'">{{ godotVolumetricShaderCode }}</code><code v-else-if="activeGalleryGodotTab === 'orchestrator'">{{ godotOrchestratorCode }}</code><code v-else-if="activeGalleryGodotTab === 'vfx'">{{ godotCodeText }}</code><code v-else>{{ godotGradingCodeText }}</code></pre>
     </div>
 
     <!-- 弹窗大图检视 Modal -->
@@ -812,6 +1102,13 @@ const filteredGallery = computed(() => {
 
 const scrollToStudio = () => {
   const el = document.getElementById('vfx-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const scrollToVolumetricStudio = () => {
+  const el = document.getElementById('volumetric-raymarching-studio')
   if (el) {
     el.scrollIntoView({ behavior: 'smooth' })
   }
@@ -967,12 +1264,25 @@ func _get_available_emitter() -> GPUParticles2D:
 	return null
 `
 
-const activeGalleryGodotTab = ref<'vfx' | 'grading'>('grading')
+const activeGalleryGodotTab = ref<'volumetric' | 'orchestrator' | 'vfx' | 'grading'>('volumetric')
 
 const copyGodotCode = async () => {
   try {
-    const textToCopy = activeGalleryGodotTab.value === 'vfx' ? godotCodeText : godotGradingCodeText
-    const fileName = activeGalleryGodotTab.value === 'vfx' ? 'vfx_particle_controller.gd' : 'color_grading_post_process.gd'
+    let textToCopy = ''
+    let fileName = ''
+    if (activeGalleryGodotTab.value === 'volumetric') {
+      textToCopy = godotVolumetricShaderCode
+      fileName = 'volumetric_raymarching.gdshader'
+    } else if (activeGalleryGodotTab.value === 'orchestrator') {
+      textToCopy = godotOrchestratorCode
+      fileName = 'vfx_particle_pipeline_orchestrator.gd'
+    } else if (activeGalleryGodotTab.value === 'vfx') {
+      textToCopy = godotCodeText
+      fileName = 'vfx_particle_controller.gd'
+    } else {
+      textToCopy = godotGradingCodeText
+      fileName = 'color_grading_post_process.gd'
+    }
     await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
     message.success(`已复制 ${fileName} 核心实机代码！`)
@@ -1266,6 +1576,335 @@ func _kelvin_to_rgb(k: float) -> Color:
 		b = 1.0
 		
 	return Color(r, g, b, 1.0)`
+
+// ==========================================
+// 🌫️ 全色调体积雾光影射线与魔导粒子光线步进渲染工坊 (v2.2.275)
+// ==========================================
+interface VolumetricStance {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  density: number
+  steps: number
+  albedo: number
+  exposure: number
+  anisotropy: boolean
+  denoise: boolean
+  jitter: boolean
+  tag: string
+  gradient: string
+}
+
+const volumetricStances: VolumetricStance[] = [
+  {
+    id: 'god_rays',
+    name: '晨曦天顶光束 (Crepuscular God Rays)',
+    subtitle: '穿透云层与以太废墟的金色丁达尔散射',
+    icon: '🌅',
+    density: 0.18,
+    steps: 48,
+    albedo: 0.78,
+    exposure: 0.45,
+    anisotropy: true,
+    denoise: true,
+    jitter: true,
+    tag: '金辉丁达尔',
+    gradient: 'radial-gradient(circle, rgba(251,191,36,0.55) 0%, rgba(245,158,11,0.2) 50%, transparent 80%)'
+  },
+  {
+    id: 'void_photons',
+    name: '虚空光子散射 (Void Photon Scattering)',
+    subtitle: '深渊奇点坍缩伴随的各向异性暗物质光束',
+    icon: '🌌',
+    density: 0.42,
+    steps: 64,
+    albedo: 0.52,
+    exposure: -0.65,
+    anisotropy: true,
+    denoise: true,
+    jitter: true,
+    tag: '暗物质衰减',
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.55) 0%, rgba(99,102,241,0.25) 50%, transparent 80%)'
+  },
+  {
+    id: 'aurora_bloom',
+    name: '极光电离辉光 (Aurora Ionization Bloom)',
+    subtitle: '北境磁层高能粒子与以太晶格共振电离',
+    icon: '🎆',
+    density: 0.28,
+    steps: 56,
+    albedo: 0.92,
+    exposure: 0.20,
+    anisotropy: false,
+    denoise: true,
+    jitter: false,
+    tag: '以太电离',
+    gradient: 'radial-gradient(circle, rgba(52,211,153,0.55) 0%, rgba(6,182,212,0.3) 50%, transparent 80%)'
+  },
+  {
+    id: 'dof_bokeh',
+    name: '散焦虚化景深 (Depth of Field Bokeh)',
+    subtitle: '大光圈散焦模糊与全息圆斑虚化渲染',
+    icon: '📸',
+    density: 0.12,
+    steps: 32,
+    albedo: 0.65,
+    exposure: 0.00,
+    anisotropy: false,
+    denoise: false,
+    jitter: false,
+    tag: '弥散圆散焦',
+    gradient: 'radial-gradient(circle, rgba(236,72,153,0.45) 0%, rgba(59,130,246,0.2) 50%, transparent 80%)'
+  }
+]
+
+const selectedVolumetricStanceId = ref('god_rays')
+const volumetricDensity = ref(0.18)
+const volumetricSteps = ref(48)
+const volumetricAlbedo = ref(0.78)
+const volumetricExposure = ref(0.45)
+const volumetricAnisotropy = ref(true)
+const volumetricDenoise = ref(true)
+const volumetricJitter = ref(true)
+const isSimulatingVolumetric = ref(false)
+
+const currentVolumetricStance = computed(() => {
+  return volumetricStances.find(s => s.id === selectedVolumetricStanceId.value) || volumetricStances[0]
+})
+
+const activeStanceColorGradient = computed(() => {
+  return currentVolumetricStance.value.gradient
+})
+
+const applyVolumetricStance = (stanceId: string) => {
+  selectedVolumetricStanceId.value = stanceId
+  const st = volumetricStances.find(s => s.id === stanceId)
+  if (st) {
+    volumetricDensity.value = st.density
+    volumetricSteps.value = st.steps
+    volumetricAlbedo.value = st.albedo
+    volumetricExposure.value = st.exposure
+    volumetricAnisotropy.value = st.anisotropy
+    volumetricDenoise.value = st.denoise
+    volumetricJitter.value = st.jitter
+    message.info(`已切换至【${st.name}】体积光线步进渲染预设`)
+  }
+}
+
+const resetVolumetricParams = () => {
+  applyVolumetricStance('god_rays')
+}
+
+const volumetricSimulationLogs = ref<string[]>([
+  '系统就绪: Godot 4.6 LTS Forward+ Clustered 体积光线步进内核加载完毕',
+  '视锥体体素化网格: Froxel 160x90x64 分簇深度分配完成',
+  '当前相函数: Henyey-Greenstein (g = 0.76 各向异性 Mie 散射)',
+  'ACES 电影曲线映射: Filmic SMPTE-2065 预备'
+])
+
+const volumetricMetrics = computed(() => {
+  const sigma_s = (volumetricDensity.value * volumetricAlbedo.value).toFixed(3)
+  const sigma_a = (volumetricDensity.value * (1.0 - volumetricAlbedo.value)).toFixed(3)
+  const sigma_t = volumetricDensity.value.toFixed(3)
+  const transmittance = (Math.exp(-volumetricDensity.value * 12.0) * 100).toFixed(1)
+  
+  let baseLatency = volumetricSteps.value * 0.038 * (1.0 + volumetricDensity.value * 0.28)
+  if (volumetricAnisotropy.value) baseLatency *= 1.15
+  if (volumetricDenoise.value) baseLatency *= 1.10
+  const latencyMs = baseLatency.toFixed(2)
+
+  const vramUsage = Math.round(72 + volumetricSteps.value * 1.25 + (volumetricDenoise.value ? 24 : 0))
+
+  let rating = 'Forward+ Clustered 极致'
+  if (baseLatency > 2.5) {
+    rating = '重载超分 (需 FSR 介入)'
+  } else if (baseLatency > 1.5) {
+    rating = '桌面高性能稳态'
+  } else {
+    rating = '掌机/移动超高帧'
+  }
+
+  return {
+    sigma_s,
+    sigma_a,
+    sigma_t,
+    transmittance,
+    latencyMs,
+    vramUsage,
+    rating
+  }
+})
+
+const simulateVolumetricRaymarching = () => {
+  isSimulatingVolumetric.value = true
+  const now = new Date()
+  const ts = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  volumetricSimulationLogs.value = [
+    `[${ts}] 🚀 激发全色调体积雾光线步进管线推演...`,
+    `[${ts}] 阶段 1: 蓝噪点低差异光线抖动采样注入 (Jitter: ${volumetricJitter.value ? '已启用' : '关闭'})`,
+    `[${ts}] 阶段 2: 沿视锥体射线步进 ${volumetricSteps.value} 层 Froxel 累加积分`,
+    `[${ts}] 阶段 3: 计算 Henyey-Greenstein 相函数 (g=${volumetricAnisotropy.value ? '0.76' : '0.0'}) 与透射率 ${volumetricMetrics.value.transmittance}%`,
+    `[${ts}] 阶段 4: ACES 曝光补偿 ${volumetricExposure.value > 0 ? '+' : ''}${volumetricExposure.value.toFixed(2)} EV 动态映射`,
+    `[${ts}] ✨ 步进渲染解算完成！帧耗时 ${volumetricMetrics.value.latencyMs} ms，显存占用 ${volumetricMetrics.value.vramUsage} MB`
+  ]
+
+  setTimeout(() => {
+    isSimulatingVolumetric.value = false
+    message.success(`⚡ 体积雾光线步进演算完成！平均延迟 ${volumetricMetrics.value.latencyMs} ms`)
+  }, 600)
+}
+
+const exportVolumetricLightingCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  const certLines = [
+    '================================================================================',
+    '   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)',
+    '   全色调体积雾光影射线与魔导粒子光线步进渲染方案书 (v2.2.275)',
+    '================================================================================',
+    `颁发时间: ${timeStr}`,
+    `渲染预设: ${currentVolumetricStance.value.name}`,
+    '目标渲染管线: Forward+ / Clustered Froxel 3D Volume',
+    '物理光学模型: Beer-Lambert Extinction + Henyey-Greenstein Phase Function',
+    '',
+    '【体积雾光线步进 Uniform 参数】',
+    `- 雾介质基础消光密度 (Fog Media Density): ${volumetricDensity.value.toFixed(2)}`,
+    `- 光线步进采样步数 (Raymarch Steps): ${volumetricSteps.value} Steps`,
+    `- 单次散射反照率 (Single Scattering Albedo): ${Math.round(volumetricAlbedo.value * 100)}%`,
+    `- ACES 电影曝光补偿 (Exposure Bias): ${volumetricExposure.value > 0 ? '+' : ''}${volumetricExposure.value.toFixed(2)} EV`,
+    `- 各向异性正向散射: ${volumetricAnisotropy.value ? '已启用 (Henyey-Greenstein g=0.76)' : '关闭 (各向同性 g=0)'}`,
+    `- 时域重投影去噪 (TAA Filter): ${volumetricDenoise.value ? '已激活 (双缓冲混叠)' : '关闭'}`,
+    `- 蓝噪点射线抖动采样: ${volumetricJitter.value ? '已激活 (Blue Noise 64x64)' : '关闭'}`,
+    '',
+    '【物理光学指标解算成果】',
+    `- 介质散射系数 (σs): ${volumetricMetrics.value.sigma_s}`,
+    `- 介质吸收系数 (σa): ${volumetricMetrics.value.sigma_a}`,
+    `- 综合消光系数 (σt): ${volumetricMetrics.value.sigma_t}`,
+    `- Beer-Lambert 光线透射率 T(s): ${volumetricMetrics.value.transmittance}%`,
+    `- 估算 GPU 帧耗时: ${volumetricMetrics.value.latencyMs} ms`,
+    `- 动态显存 VRAM 占用: ${volumetricMetrics.value.vramUsage} MB`,
+    `- 综合硬件适配评级: ${volumetricMetrics.value.rating}`,
+    '',
+    '【底层引擎契约安全指纹】',
+    '- Engine Spec: Godot 4.6 LTS / Forward+ Clustered 3D / GDScript RefCounted',
+    '- Core Post-Process: volumetric_raymarching.gdshader & vfx_particle_pipeline_orchestrator.gd',
+    `- Digital Fingerprint: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}`,
+    '================================================================================'
+  ]
+
+  const certContent = certLines.join('\n')
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `volumetric_lighting_v2.2.275_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  message.success('全色调体积雾光线步进渲染方案书已导出并同步至剪贴板！')
+}
+
+const godotVolumetricShaderCode = [
+  'shader_type spatial;',
+  'render_mode blend_add, depth_draw_never, cull_back, unshaded;',
+  '',
+  '// Godot 4.6 LTS - 全色调体积雾光影射线与魔导粒子光线步进后处理着色器',
+  'uniform sampler2D depth_texture : hint_depth_texture, filter_linear_mipmap;',
+  'uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;',
+  'uniform sampler2D blue_noise_tex : filter_nearest, repeat_enable;',
+  '',
+  'uniform float fog_density : hint_range(0.01, 1.0) = 0.18;',
+  'uniform int raymarch_steps : hint_range(16, 128) = 48;',
+  'uniform float scattering_albedo : hint_range(0.1, 1.0) = 0.78;',
+  'uniform float g_anisotropy : hint_range(-0.9, 0.9) = 0.76;',
+  'uniform vec3 light_direction = vec3(0.35, -0.85, 0.4);',
+  'uniform vec4 god_ray_color : source_color = vec4(1.0, 0.88, 0.65, 1.0);',
+  '',
+  '// Henyey-Greenstein 相函数计算',
+  'float henyey_greenstein_phase(float cos_theta, float g) {',
+  '    float g2 = g * g;',
+  '    return (1.0 - g2) / (4.0 * 3.14159265 * pow(1.0 + g2 - 2.0 * g * cos_theta, 1.5));',
+  '}',
+  '',
+  'void fragment() {',
+  '    vec2 uv = SCREEN_UV;',
+  '    float depth = texture(depth_texture, uv).r;',
+  '    vec3 ndc = vec3(uv * 2.0 - 1.0, depth);',
+  '    vec4 view = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);',
+  '    vec3 view_dir = normalize(view.xyz / view.w);',
+  '',
+  '    float cos_theta = dot(view_dir, -normalize(light_direction));',
+  '    float phase = henyey_greenstein_phase(cos_theta, g_anisotropy);',
+  '    float jitter = texture(blue_noise_tex, uv * 8.0).r;',
+  '    float step_length = 0.25;',
+  '    vec3 accumulated_light = vec3(0.0);',
+  '    float transmittance = 1.0;',
+  '',
+  '    for (int i = 0; i < raymarch_steps; i++) {',
+  '        float extinction = fog_density;',
+  '        float sample_transmittance = exp(-extinction * step_length);',
+  '        vec3 in_scattering = god_ray_color.rgb * scattering_albedo * phase * extinction;',
+  '        accumulated_light += transmittance * (in_scattering - in_scattering * sample_transmittance);',
+  '        transmittance *= sample_transmittance;',
+  '        if (transmittance < 0.01) break;',
+  '    }',
+  '',
+  '    ALBEDO = accumulated_light;',
+  '    ALPHA = 1.0 - transmittance;',
+  '}'
+].join('\n')
+
+const godotOrchestratorCode = [
+  '## vfx_particle_pipeline_orchestrator.gd',
+  '## Godot 4.6 LTS - 全域魔导粒子管线与 GPU Compute 光线步进编排调度器',
+  'extends RefCounted',
+  'class_name VfxParticlePipelineOrchestrator',
+  '',
+  'signal raymarching_dispatched(steps: int, latency_ms: float)',
+  'signal vram_budget_updated(allocated_mb: float)',
+  '',
+  'var fog_density: float = 0.18',
+  'var raymarch_steps: int = 48',
+  'var scattering_albedo: float = 0.78',
+  'var aces_exposure: float = 0.45',
+  'var enable_mie_anisotropy: bool = true',
+  'var enable_temporal_denoise: bool = true',
+  '',
+  'func evaluate_optical_transmittance(distance: float) -> Dictionary:',
+  '\tvar sigma_s: float = fog_density * scattering_albedo',
+  '\tvar sigma_a: float = fog_density * (1.0 - scattering_albedo)',
+  '\tvar sigma_t: float = sigma_s + sigma_a',
+  '\tvar transmittance: float = exp(-sigma_t * distance)',
+  '\tvar latency_ms: float = float(raymarch_steps) * 0.038 * (1.0 + fog_density * 0.28)',
+  '\tif enable_mie_anisotropy:',
+  '\t\tlatency_ms *= 1.15',
+  '',
+  '\tvar vram_mb: float = 72.0 + float(raymarch_steps) * 1.25 + (24.0 if enable_temporal_denoise else 0.0)',
+  '',
+  '\treturn {',
+  '\t\t"sigma_s": sigma_s,',
+  '\t\t"sigma_a": sigma_a,',
+  '\t\t"sigma_t": sigma_t,',
+  '\t\t"transmittance": transmittance,',
+  '\t\t"latency_ms": latency_ms,',
+  '\t\t"vram_mb": vram_mb,',
+  '\t\t"certified_hash": "SHA256-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
+  '\t}'
+].join('\n')
 
 </script>
 

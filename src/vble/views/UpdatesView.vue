@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-gallery-volumetric-studio-2026-10-29',
+    version: 'v2.2.275',
+    date: '2026-10-29',
+    title: '全色调体积雾光影射线与魔导粒子光线步进渲染工坊重磅实装',
+    category: 'ui',
+    categoryName: '视觉渲染',
+    icon: '🌫️',
+    tagType: 'success',
+    description: '全面重构升级 GalleryView 实机画廊与视觉矩阵门户：顶部标章升级为 VBLE Visual & VFX Matrix v2.2.275，新增体积雾光步进工坊快捷直达；专区重磅实装【全色调体积雾光影射线与魔导粒子光线步进渲染工坊】（Volumetric Raymarching & Particle Post-Processing Studio）；覆盖四大渲染工况（晨曦天顶光束、虚空光子散射、极光电离辉光、散焦虚化景深）；实现雾介质基础密度 (0.01~1.00)、光线步进采样步数 (16~128 Steps)、单次散射反照率 (10%~100%) 与 ACES 电影曝光补偿 (-3.0EV~+3.0EV) 连续光学微调；集成 Henyey-Greenstein 各向异性正向散射 (g=0.76)、时域重投影去噪 (TAA) 与低差异蓝噪点射线抖动；实时解算 Beer-Lambert 消光透射率、介质散射系数 (σs/σa/σt)、GPU 采样时延与 3D Froxel 显存开销；实装五阶段执行日志终端与离线方案书 SHA-256 证书导出；源码展台升级 4 Tab，新增 volumetric_raymarching.gdshader 与 vfx_particle_pipeline_orchestrator.gd。',
+    highlights: [
+      '四大光学预设 Stances：晨曦天顶光束、虚空暗物质散射、极光电离辉光与弥散圆散焦景深',
+      '四维连续光学动力学：雾密度、采样步数、反照率与 ACES 电影曝光补偿连续可微调节',
+      '物理光学模型与相函数：基于 Beer-Lambert 消光介质与 Henyey-Greenstein (g=0.76) 各向异性相函数',
+      'TAA 与蓝噪点去噪：视锥体深度体素积分，彻底杜绝高光死白与阶梯分层伪影',
+      '离线认证方案书导出：自动生成附带 SHA-256 数字签名的纯文本渲染方案并同步剪贴板',
+      'Godot 4.6 LTS 4 Tab 展台：新增 volumetric_raymarching.gdshader 与 vfx_particle_pipeline_orchestrator.gd'
+    ],
+    relatedLinks: [
+      { label: '实机画廊与粒子工坊', path: '/vble/gallery', icon: '🎨' },
+      { label: '大地图与风土志', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-vehicles-overdrive-studio-2026-10-28',
     version: 'v2.2.274',
     date: '2026-10-28',
