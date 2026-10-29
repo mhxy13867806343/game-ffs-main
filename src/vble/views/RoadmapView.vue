@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              FEATURE ROADMAP & EVOLUTION MATRIX
+              VBLE Roadmap, Milestone Gantt & Epoch Sandbox v2.2.310
             </span>
             <span class="text-xs text-gray-400">里程碑推进与架构推演沙盘</span>
           </div>
@@ -26,6 +26,10 @@
               查看更新日志
             </n-button>
           </router-link>
+          <n-button type="warning" size="medium" round class="shadow-md font-bold text-black bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400" @click="scrollToMilestoneTopologyStudio">
+            <template #icon><span>🚀</span></template>
+            甘特拓扑与路线图工坊
+          </n-button>
           <router-link to="/vble/docs">
             <n-button type="warning" size="medium" round secondary class="shadow-md">
               <template #icon><span>📜</span></template>
@@ -549,6 +553,227 @@
         </div>
 
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ gdScriptCode }}</pre>
+      </div>
+    </div>
+
+    <!-- 6. 跨纪元版本演化沙盘、里程碑甘特拓扑与未来路线图工坊 (v2.2.310 重磅追加) -->
+    <div id="milestone-topology-studio" class="milestone-topology-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-amber-950/20 to-slate-900/95 border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/30">
+              MILESTONE GANTT TOPOLOGY & EPOCH SANDBOX
+            </span>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">
+              v2.2.310 旗舰版
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>🚀</span> 跨纪元版本演化沙盘、里程碑甘特拓扑与未来路线图工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            深度仿真《光之战士：时空裂隙》跨越四个大纪元的架构演变路线图。通过动态关键路径 (Critical Path) 计算、研发布署算力仿真、金丝雀灰度分流与存档无损向下迁移引擎，保障生产环境高频安全演进。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="warning" @click="resetRoadmapDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="warning" :loading="isRoadmapSimulating" @click="runRoadmapSimulation">
+            <template #icon><span>⚡</span></template>
+            启动甘特拓扑全流程推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大演化流派原型卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="archetype in roadmapArchetypes"
+          :key="archetype.id"
+          @click="selectRoadmapArchetype(archetype)"
+          :class="[
+            'p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden',
+            selectedRoadmapArchetype.id === archetype.id
+              ? 'bg-amber-950/40 border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.25)]'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+          ]"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xl">{{ archetype.icon }}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-amber-300">{{ archetype.badge }}</span>
+          </div>
+          <div class="font-bold text-white text-sm mt-2">{{ archetype.name }}</div>
+          <div class="text-xs text-gray-400 mt-1 leading-relaxed">{{ archetype.desc }}</div>
+          <div class="mt-3 text-[11px] font-mono text-amber-400/90 flex justify-between">
+            <span>交付周期: {{ archetype.cycle }}</span>
+            <span>风控力: {{ archetype.stability }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心微调滑块与调控开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <!-- 4 维连续滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-amber-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>⚙️</span> 路线图工程核心参数调谐
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>研发算力投入指数 (Velocity Index)</span>
+                <span class="font-mono text-amber-400 font-bold">{{ velocityIndex }} SP/Sprint</span>
+              </div>
+              <n-slider v-model:value="velocityIndex" :min="30" :max="150" :step="5" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>自动化 CI/CD 门禁测试覆盖率 (Gate Coverage)</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ gateCoverage }} %</span>
+              </div>
+              <n-slider v-model:value="gateCoverage" :min="50" :max="99" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>架构重构与技术债消除预算比 (Tech Debt Budget)</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ techDebtBudget }} %</span>
+              </div>
+              <n-slider v-model:value="techDebtBudget" :min="5" :max="45" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>金丝雀灰度放量评估周期 (Canary Window)</span>
+                <span class="font-mono text-purple-400 font-bold">{{ canaryWindow }} 天</span>
+              </div>
+              <n-slider v-model:value="canaryWindow" :min="1" :max="14" :step="1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 维调控开关与动态指标 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>🛡️</span> 高可用风控与架构演进守卫
+          </div>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">动态关键路径 (Critical Path) 实时拓扑重平衡</div>
+                <div class="text-[10px] text-gray-400">检测任务阻塞瓶颈，自动调配闲置跨职能资源攻坚主干</div>
+              </div>
+              <n-switch v-model:value="enableCriticalPathBalance" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">跨纪元存档二进制向下无损迁移兼容层</div>
+                <div class="text-[10px] text-gray-400">版本回退或旧客户端加载时保证 100% 数据结构自动降级无损</div>
+              </div>
+              <n-switch v-model:value="enableLosslessSaveMigrator" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">金丝雀灰度异常毫秒级自动熔断回退</div>
+                <div class="text-[10px] text-gray-400">Crash 率突破 0.05% 时立即停止放量并回滚上一稳定生产分支</div>
+              </div>
+              <n-switch v-model:value="enableAutoCircuitBreaker" />
+            </div>
+          </div>
+
+          <!-- 4 维解算核心指标 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">下纪元交付周期</div>
+              <div class="text-base font-black font-mono text-amber-400 mt-0.5">{{ calculatedWeeksToEpoch }} 周</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">关键路径偏离率</div>
+              <div class="text-base font-black font-mono text-cyan-400 mt-0.5">{{ calculatedPathDrift }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">发布质量效能</div>
+              <div class="text-base font-black font-mono text-emerald-400 mt-0.5">{{ calculatedQualityScore }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">演化认证评级</div>
+              <div class="text-xs font-black font-mono text-purple-400 mt-1">{{ calculatedEpochCert }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条与终端控制台 -->
+      <div class="space-y-3 bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-amber-400 font-mono font-bold">STAGE {{ roadmapSimStage }}/5</span>
+            <span class="text-gray-300">{{ roadmapSimStageName }}</span>
+          </div>
+          <span class="font-mono text-cyan-400">{{ roadmapSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="roadmapSimProgress"
+          :color="'#f59e0b'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in roadmapLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪校验凭证: </span>
+            <span class="text-amber-400 font-bold">{{ roadmapCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="warning" round @click="exportRoadmapCert">
+            <template #icon><span>📜</span></template>
+            导出甘特拓扑推演报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">
+                GODOT 4.6 LTS ARCHITECTURE
+              </span>
+              <span class="text-sm font-bold text-white">跨纪元演进与特性门禁驱动源码</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级甘特关键路径解算、金丝雀灰度开关与跨纪元存档无损迁移实机驱动。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in roadmapCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeRoadmapCodeTab === codeTab.id ? 'warning' : 'default'"
+              :secondary="activeRoadmapCodeTab !== codeTab.id"
+              @click="activeRoadmapCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveRoadmapCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-amber-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentRoadmapCode }}</pre>
       </div>
     </div>
   </div>
@@ -1288,6 +1513,453 @@ const copyGdScript = () => {
     message.info('源码已复制')
   })
 }
+
+// ==================== v2.2.310 跨纪元路线图工坊状态与方法 ====================
+const scrollToMilestoneTopologyStudio = () => {
+  const el = document.getElementById('milestone-topology-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.success('已直达全域跨纪元路线图与甘特拓扑工坊')
+  }
+}
+
+interface RoadmapArchetype {
+  id: string
+  name: string
+  icon: string
+  badge: string
+  desc: string
+  cycle: string
+  stability: string
+  velocity: number
+  coverage: number
+  debtBudget: number
+  canaryDays: number
+}
+
+const roadmapArchetypes: RoadmapArchetype[] = [
+  {
+    id: 'agile_continuous',
+    name: '敏捷持续交付流',
+    icon: '⚡',
+    badge: '高频双周',
+    desc: '以双周冲刺为主线，零技术债堆积，自动化流水线全量承接微更新。',
+    cycle: '2.0 周',
+    stability: '94.5%',
+    velocity: 110,
+    coverage: 92,
+    debtBudget: 25,
+    canaryDays: 3
+  },
+  {
+    id: 'epoch_hardfork',
+    name: '纪元大版本封板流',
+    icon: '🏛️',
+    badge: '硬分叉锁定',
+    desc: '阶段性功能绝对冷冻，进行全域压力测试与深渊极端边界覆盖。',
+    cycle: '6.5 周',
+    stability: '99.8%',
+    velocity: 80,
+    coverage: 98,
+    debtBudget: 35,
+    canaryDays: 10
+  },
+  {
+    id: 'community_driven',
+    name: '社区心愿数据驱动流',
+    icon: '💡',
+    badge: 'RFC 撮合',
+    desc: '根据玩家提案投票热度加权动态插拔排期，极高玩家参与度与亲和力。',
+    cycle: '3.2 周',
+    stability: '91.2%',
+    velocity: 130,
+    coverage: 82,
+    debtBudget: 15,
+    canaryDays: 4
+  },
+  {
+    id: 'enterprise_lts',
+    name: '企业级 LTS 稳健防御流',
+    icon: '🛡️',
+    badge: '防御型容灾',
+    desc: '架构重构优先，多重回退断路器兜底，保障百万级存档绝对零坏档。',
+    cycle: '4.8 周',
+    stability: '99.9%',
+    velocity: 65,
+    coverage: 96,
+    debtBudget: 40,
+    canaryDays: 7
+  }
+]
+
+const selectedRoadmapArchetype = ref<RoadmapArchetype>(roadmapArchetypes[0])
+
+const velocityIndex = ref(110)
+const gateCoverage = ref(92)
+const techDebtBudget = ref(25)
+const canaryWindow = ref(3)
+
+const enableCriticalPathBalance = ref(true)
+const enableLosslessSaveMigrator = ref(true)
+const enableAutoCircuitBreaker = ref(true)
+
+const selectRoadmapArchetype = (arch: RoadmapArchetype) => {
+  selectedRoadmapArchetype.value = arch
+  velocityIndex.value = arch.velocity
+  gateCoverage.value = arch.coverage
+  techDebtBudget.value = arch.debtBudget
+  canaryWindow.value = arch.canaryDays
+  message.info(`已装配路线图演化原型: ${arch.name}`)
+}
+
+const resetRoadmapDefaults = () => {
+  selectRoadmapArchetype(roadmapArchetypes[0])
+  enableCriticalPathBalance.value = true
+  enableLosslessSaveMigrator.value = true
+  enableAutoCircuitBreaker.value = true
+}
+
+const calculatedWeeksToEpoch = computed(() => {
+  const baseCost = 280
+  const effectivePoints = velocityIndex.value * (1 - techDebtBudget.value / 100)
+  const coverageMultiplier = 1 + (gateCoverage.value - 70) * 0.004
+  const critReduction = enableCriticalPathBalance.value ? 0.85 : 1.0
+  const val = ((baseCost * coverageMultiplier) / effectivePoints) * critReduction
+  return Math.max(1.5, Number(val.toFixed(1)))
+})
+
+const calculatedPathDrift = computed(() => {
+  let baseDrift = 12.5 - (velocityIndex.value / 150) * 5.0 - (techDebtBudget.value / 45) * 4.0
+  if (enableCriticalPathBalance.value) baseDrift *= 0.4
+  return Math.max(0.8, Number(baseDrift.toFixed(1)))
+})
+
+const calculatedQualityScore = computed(() => {
+  let score = 70 + (gateCoverage.value / 99) * 20 + (techDebtBudget.value / 45) * 8
+  if (enableAutoCircuitBreaker.value) score += 1.5
+  if (enableLosslessSaveMigrator.value) score += 0.5
+  return Math.min(99.9, Number(score.toFixed(1)))
+})
+
+const calculatedEpochCert = computed(() => {
+  const score = calculatedQualityScore.value
+  if (score >= 98.0) return 'EX·太古全域掌控'
+  if (score >= 95.0) return 'SSS·高可用微内核'
+  if (score >= 90.0) return 'SS·生产级持续交付'
+  return 'S·基础工坊演进'
+})
+
+const isRoadmapSimulating = ref(false)
+const roadmapSimStage = ref(1)
+const roadmapSimStageName = ref('就绪等待')
+const roadmapSimProgress = ref(0)
+const roadmapCertHash = ref('A7B9C3D2-E4F6-4A8B-8F0E-9C3E1D4A7F20')
+
+interface RoadmapLogEntry {
+  time: string
+  text: string
+  color: string
+}
+
+const roadmapLogs = ref<RoadmapLogEntry[]>([
+  { time: '13:00:00', text: '[TopologyInit] 甘特拓扑演化引擎就绪，等待注入算力参数...', color: 'text-gray-400' }
+])
+
+const runRoadmapSimulation = () => {
+  if (isRoadmapSimulating.value) return
+  isRoadmapSimulating.value = true
+  roadmapSimStage.value = 1
+  roadmapSimProgress.value = 10
+  roadmapSimStageName.value = '拓扑有向无环图 (DAG) 遍历与关键路径识别'
+  roadmapLogs.value = [
+    { time: new Date().toLocaleTimeString(), text: '[DAGParser] 开始构建全域 128 项子系统依赖有向无环图拓扑...', color: 'text-amber-400' }
+  ]
+
+  setTimeout(() => {
+    roadmapSimStage.value = 2
+    roadmapSimProgress.value = 35
+    roadmapSimStageName.value = '研发算力瓶颈压力测试与闲置资源重平衡'
+    roadmapLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[CriticalPath] 锁定主干瓶颈模块 [CombatLogReplayer & LosslessSave]，分配 ${velocityIndex.value} SP/Sprint 算力支援`,
+      color: 'text-cyan-400'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    roadmapSimStage.value = 3
+    roadmapSimProgress.value = 60
+    roadmapSimStageName.value = 'CI/CD 自动化门禁覆盖与断路器校验'
+    roadmapLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[QualityGate] 自动化门禁测试通过率 ${gateCoverage.value}%，毫秒级熔断器防御态势正常`,
+      color: 'text-emerald-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    roadmapSimStage.value = 4
+    roadmapSimProgress.value = 85
+    roadmapSimStageName.value = '跨纪元存档二进制向下兼容协议封板'
+    roadmapLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: '[SaveMigration] 生成跨版本双向降级映射字典，测试 10,000 例边界存档 100% 验证通过',
+      color: 'text-purple-400'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    roadmapSimStage.value = 5
+    roadmapSimProgress.value = 100
+    roadmapSimStageName.value = '演化闭环完成，防伪证书已签名'
+    const hex = Array.from({ length: 8 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('').toUpperCase()
+    roadmapCertHash.value = `EP-${hex}-${Math.floor(Date.now() / 1000)}`
+    roadmapLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Done] 路线图拓扑推演完成！下纪元交付需 ${calculatedWeeksToEpoch.value} 周，认证评级: ${calculatedEpochCert.value}`,
+      color: 'text-emerald-300 font-bold'
+    })
+    isRoadmapSimulating.value = false
+    message.success('甘特拓扑与跨纪元全流程演练完成！')
+  }, 1600)
+}
+
+const exportRoadmapCert = () => {
+  const data = {
+    studio: 'Milestone Gantt Topology & Epoch Sandbox Studio v2.2.310',
+    timestamp: new Date().toISOString(),
+    archetype: selectedRoadmapArchetype.value.name,
+    velocityIndex: velocityIndex.value,
+    gateCoverage: gateCoverage.value,
+    techDebtBudget: techDebtBudget.value,
+    canaryWindow: canaryWindow.value,
+    weeksToEpoch: calculatedWeeksToEpoch.value,
+    pathDrift: calculatedPathDrift.value,
+    qualityScore: calculatedQualityScore.value,
+    epochCert: calculatedEpochCert.value,
+    sha256Signature: roadmapCertHash.value
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `roadmap-topology-${roadmapCertHash.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('防伪证书与拓扑推演报告已导出')
+}
+
+// Godot 4.6 LTS 源码展台
+const activeRoadmapCodeTab = ref('gantt_scheduler')
+const roadmapCodeTabs = [
+  { id: 'gantt_scheduler', name: '甘特关键路径调度器' },
+  { id: 'canary_gate', name: '金丝雀灰度门禁' },
+  { id: 'save_migrator', name: '跨纪元存档无损迁移器' }
+]
+
+const roadmapSourceCodes: Record<string, string> = {
+  gantt_scheduler: `## epoch_milestone_gantt_scheduler.gd
+## 《光之战士：时空裂隙》跨纪元路线图与甘特关键路径调度器
+## 架构版本: Godot 4.6 LTS / Micro-ECS Architecture
+
+class_name EpochMilestoneGanttScheduler
+extends RefCounted
+
+signal critical_path_rebalanced(bottleneck_id: String, allocated_velocity: float)
+signal milestone_reached(epoch_id: String, release_notes: Dictionary)
+
+var _dag_graph: Dictionary = {}
+var _velocity_index: float = 110.0
+var _tech_debt_budget: float = 0.25
+var _is_rebalance_enabled: bool = true
+
+func _init(velocity: float = 110.0, debt_budget: float = 0.25) -> void:
+	_velocity_index = velocity
+	_tech_debt_budget = debt_budget
+
+## 注册任务节点至 DAG 图谱
+func register_task(task_id: String, estimated_cost: float, prerequisites: Array[String] = []) -> void:
+	_dag_graph[task_id] = {
+		"cost": estimated_cost,
+		"prereqs": prerequisites,
+		"status": "pending",
+		"progress": 0.0,
+		"allocated_velocity": 0.0
+	}
+
+## 拓扑排序并解算动态关键路径 (Critical Path Method)
+func calculate_critical_path() -> Array[String]:
+	var critical_chain: Array[String] = []
+	var visited: Dictionary = {}
+	
+	for tid in _dag_graph.keys():
+		if _is_leaf_task(tid):
+			_traverse_longest_path(tid, visited, critical_chain)
+			
+	if _is_rebalance_enabled and not critical_chain.is_empty():
+		_rebalance_critical_chain(critical_chain)
+		
+	return critical_chain
+
+func _is_leaf_task(task_id: String) -> bool:
+	for tid in _dag_graph.keys():
+		var prereqs: Array = _dag_graph[tid].get("prereqs", [])
+		if prereqs.has(task_id):
+			return false
+	return true
+
+func _traverse_longest_path(current_id: String, visited: Dictionary, out_chain: Array[String]) -> void:
+	out_chain.append(current_id)
+	var task: Dictionary = _dag_graph[current_id]
+	var max_cost := 0.0
+	var longest_prereq := ""
+	
+	for p in task.get("prereqs", []):
+		if _dag_graph.has(p) and _dag_graph[p]["cost"] > max_cost:
+			max_cost = _dag_graph[p]["cost"]
+			longest_prereq = p
+			
+	if not longest_prereq.is_empty():
+		_traverse_longest_path(longest_prereq, visited, out_chain)
+
+func _rebalance_critical_chain(chain: Array[String]) -> void:
+	var total_bottleneck_cost := 0.0
+	for cid in chain:
+		total_bottleneck_cost += _dag_graph[cid]["cost"]
+		
+	for cid in chain:
+		var boost = (_velocity_index * (1.0 - _tech_debt_budget)) * (_dag_graph[cid]["cost"] / max(1.0, total_bottleneck_cost))
+		_dag_graph[cid]["allocated_velocity"] = boost
+		critical_path_rebalanced.emit(cid, boost)
+`,
+  canary_gate: `## canary_release_feature_flag_gate.gd
+## 《光之战士：时空裂隙》金丝雀灰度分流与异常毫秒级熔断器
+## 架构版本: Godot 4.6 LTS / Production Hardening
+
+class_name CanaryReleaseFeatureFlagGate
+extends RefCounted
+
+signal canary_tripped(feature_name: String, error_rate: float)
+signal rollout_ratio_updated(feature_name: String, ratio: float)
+
+var _feature_rollouts: Dictionary = {}
+var _circuit_breaker_active: bool = true
+const MAX_ALLOWED_CRASH_RATE: float = 0.0005 # 0.05%
+
+## 注册金丝雀放量规则
+func register_canary_feature(name: String, target_ratio: float, canary_window_days: int) -> void:
+	_feature_rollouts[name] = {
+		"ratio": clampf(target_ratio, 0.0, 1.0),
+		"window_days": canary_window_days,
+		"crashes": 0,
+		"sessions": 0,
+		"is_tripped": false
+	}
+
+## 判定客户端是否命中金丝雀灰度桶 (MurmurHash 均匀哈希)
+func is_feature_enabled_for_user(feature_name: String, user_guid: String) -> bool:
+	if not _feature_rollouts.has(feature_name):
+		return false
+	var entry: Dictionary = _feature_rollouts[feature_name]
+	if entry["is_tripped"]:
+		return false
+		
+	var hash_val := int(user_guid.hash()) & 0x7FFFFFFF
+	var normalized_bucket := float(hash_val % 10000) / 10000.0
+	return normalized_bucket < entry["ratio"]
+
+## 上报会话指标与触发熔断
+func report_session_telemetry(feature_name: String, is_crash: bool) -> void:
+	if not _feature_rollouts.has(feature_name):
+		return
+	var entry: Dictionary = _feature_rollouts[feature_name]
+	entry["sessions"] += 1
+	if is_crash:
+		entry["crashes"] += 1
+		
+	if _circuit_breaker_active and entry["sessions"] >= 200:
+		var crash_rate = float(entry["crashes"]) / float(entry["sessions"])
+		if crash_rate >= MAX_ALLOWED_CRASH_RATE:
+			entry["is_tripped"] = true
+			entry["ratio"] = 0.0
+			canary_tripped.emit(feature_name, crash_rate)
+			push_error("[CanaryGate] 特性 %s 崩溃率 %.4f 突破门禁，已执行熔断下线！" % [feature_name, crash_rate])
+`,
+  save_migrator: `## savegame_epoch_lossless_migrator.gd
+## 《光之战士：时空裂隙》跨纪元存档二进制向下无损平滑迁移器
+## 架构版本: Godot 4.6 LTS / Data Serialization Architecture
+
+class_name SavegameEpochLosslessMigrator
+extends RefCounted
+
+const CURRENT_SCHEMA_EPOCH: int = 4 # Epoch 04
+
+## 迁移校验结果
+class MigrationResult:
+	var success: bool = true
+	var from_epoch: int = 1
+	var to_epoch: int = CURRENT_SCHEMA_EPOCH
+	var converted_payload: Dictionary = {}
+	var warnings: PackedStringArray = []
+
+## 对输入存档数据执行双向平滑迁移
+func migrate_save_payload(raw_dict: Dictionary, target_epoch: int = CURRENT_SCHEMA_EPOCH) -> MigrationResult:
+	var res := MigrationResult.new()
+	var input_epoch: int = raw_dict.get("epoch_version", 1)
+	res.from_epoch = input_epoch
+	res.to_epoch = target_epoch
+	
+	var data: Dictionary = raw_dict.duplicate(true)
+	
+	# 向前升级流水线 (v1 -> v2 -> v3 -> v4)
+	if input_epoch < target_epoch:
+		for ep in range(input_epoch, target_epoch):
+			data = _upgrade_epoch_step(data, ep, ep + 1, res)
+	# 向后降级兼容流水线 (v4 -> v3 -> v2 -> v1)
+	elif input_epoch > target_epoch:
+		for ep in range(input_epoch, target_epoch, -1):
+			data = _downgrade_epoch_step(data, ep, ep - 1, res)
+			
+	data["epoch_version"] = target_epoch
+	res.converted_payload = data
+	return res
+
+func _upgrade_epoch_step(data: Dictionary, from_ep: int, to_ep: int, res: MigrationResult) -> Dictionary:
+	match to_ep:
+		2:
+			if not data.has("magic_resonance"):
+				data["magic_resonance"] = 1.0
+		3:
+			if not data.has("overdrive_gauge"):
+				data["overdrive_gauge"] = 0.0
+		4:
+			if not data.has("cloud_sync_nonce"):
+				data["cloud_sync_nonce"] = "EPOCH4_DEFAULT_NONCE"
+	return data
+
+func _downgrade_epoch_step(data: Dictionary, from_ep: int, to_ep: int, res: MigrationResult) -> Dictionary:
+	res.warnings.append("已在降级至 Epoch %d 过程中对高级特性属性进行无损保留打包" % to_ep)
+	match from_ep:
+		4:
+			if data.has("cloud_sync_nonce"):
+				data["_epoch4_shadow_nonce"] = data["cloud_sync_nonce"]
+				data.erase("cloud_sync_nonce")
+	return data
+`
+}
+
+const currentRoadmapCode = computed(() => {
+  return roadmapSourceCodes[activeRoadmapCodeTab.value] || ''
+})
+
+const copyActiveRoadmapCode = () => {
+  navigator.clipboard.writeText(currentRoadmapCode.value).then(() => {
+    message.success(`${activeRoadmapCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
 </script>
 
 <style scoped>

@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-roadmap-gantt-v310-2026-10-29',
+    version: 'v2.2.310',
+    date: '2026-10-29',
+    title: '跨纪元版本演化沙盘、里程碑甘特拓扑与未来路线图工坊重磅实装',
+    category: 'system',
+    categoryName: '版本路线',
+    icon: '🚀',
+    tagType: 'success',
+    description: '全面重构升级 RoadmapView 路线图演化门户：顶部标章升级为 VBLE Roadmap, Milestone Gantt & Epoch Sandbox v2.2.310，新增甘特拓扑与路线图工坊快捷直达；专区重磅实装【跨纪元版本演化沙盘、里程碑甘特拓扑与未来路线图工坊】（Milestone Gantt Topology, Epoch Evolution & Release Sandbox Studio）；覆盖四大路线图演化原型（敏捷持续交付流、纪元大版本封板流、社区心愿数据驱动流、企业级 LTS 稳健防御流）；支持研发算力投入指数 (30~150 SP/Sprint)、自动化 CI/CD 门禁测试覆盖率 (50%~99%)、架构重构与技术债预算比 (5%~45%) 与金丝雀灰度放量评估周期 (1~14 天) 连续微调；支持动态关键路径 (Critical Path) 实时拓扑重平衡、跨纪元存档二进制向下无损迁移兼容层与金丝雀灰度异常毫秒级自动熔断回退；实时解算下纪元交付周期 (优化至 1.8 周)、关键路径偏离率 (压降至 1.5%)、发布质量效能 (高达 98.4%) 与演化认证评级 (高达 EX·太古全域掌控)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：epoch_milestone_gantt_scheduler.gd、canary_release_feature_flag_gate.gd 与 savegame_epoch_lossless_migrator.gd。',
+    highlights: [
+      '四大路线图演化原型：敏捷持续交付、纪元大版本封板、社区心愿驱动与企业级 LTS 防御',
+      '四维连续路线工程参数：研发算力指数、门禁测试覆盖率、技术债预算比与金丝雀放量周期',
+      '三重演进高可用保障：关键路径拓扑重平衡、存档二进制向下兼容层与毫秒级灰度熔断器',
+      '动态工程效能指标解算：下纪元交付周期、关键路径偏离率、发布质量效能与 EX 级全域掌控评级',
+      '五阶段拓扑推演沙盘：DAG 拓扑构建、算力瓶颈压力平衡、CI/CD 门禁校验、无损存档封板与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源甘特关键路径调度器、金丝雀灰度门禁与跨纪元存档无损迁移器'
+    ],
+    relatedLinks: [
+      { label: '未来演化路线图', path: '/vble/roadmap', icon: '🚀' },
+      { label: '甘特拓扑与演化沙盘', path: '/vble/roadmap', icon: '⚡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-systems-ecs-bus-v309-2026-10-29',
     version: 'v2.2.309',
     date: '2026-10-29',
