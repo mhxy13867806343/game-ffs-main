@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicles-orbital-warp-2026-10-29',
+    version: 'v2.2.289',
+    date: '2026-10-29',
+    title: '全域星海轨道跃迁、亚光速重力弹弓与虚空引力逃逸工坊重磅实装',
+    category: 'system',
+    categoryName: '载具星轨',
+    icon: '🌌',
+    tagType: 'success',
+    description: '全面重构升级 VehiclesView 多维载具探索门户：顶部标章升级为 VBLE Exploration Vehicles & Orbital Warp Matrix v2.2.289，新增星轨重力弹弓工坊快捷直达；专区重磅实装【全域星海轨道跃迁、亚光速重力弹弓与虚空黑洞引力逃逸工坊】（Orbital Slingshot & Gravity Escape Studio）；覆盖四大星海轨道机动姿态（近拱点重力弹弓机动、拉格朗日 L1 平衡点驻泊、空心奇点视界规避回环、快子超光速相位跃迁）；实现近拱点轨道高度 (200~50,000 km)、天体引力井常数 (0.5~10.0 G)、重力弹弓加速乘数 (1.0~5.0x) 与相对论进动角偏移 (0~90°) 连续微调；支持潮汐力结构撕裂阻尼器（抵御强引力对月之巨鲸龙骨应力，-35% 应变）、视界逃逸奇点护盾（吸收黑洞强引力红移能量）与暗物质微扰推进注入（弹弓出射末速度额外暴增 +40%）；实时解算双曲出射轨道末速度 (突破 60+ km/s)、引力势能转化动能 (突破 10,000+ GJ)、龙骨潮汐应变率与逃逸弹道综合安全度 (高达 99.9%)；实装五阶段星轨弹弓推演终端与离线方案书 SHA-256 证书导出；源码展台升级 5 Tab，新增 orbital_gravity_slingshot_engine.gd 核心 RefCounted 实机引擎。',
+    highlights: [
+      '四大星海轨道机动：近拱点无动力加速+120%、拉格朗日零能耗驻泊、奇点吸积盘规避与快子超光速相位跳跃',
+      '四维连续天体轨道参数：近拱点高度、引力井常数、弹弓加速乘数与相对论进动角全域适配',
+      '潮汐撕裂应力阻尼：有效防御超强引力井对月之巨鲸与飞空艇龙骨的物理剪切破坏',
+      '视界逃逸奇点护盾：外缘锚定黑洞吸积盘，弹道安全度高达 99.9%，杜绝坠入引力奇点',
+      '暗物质动力极限喷射：近拱点注入暗物质，出射逃逸速度实现 60+ km/s 极限跨星系航行',
+      'Godot 4.6 LTS 5 Tab 源码展台：新增星海轨道跃迁与引力弹弓导航解算器'
+    ],
+    relatedLinks: [
+      { label: '多维载具探索矩阵', path: '/vble/vehicles', icon: '🛸' },
+      { label: '大地图与世界区域', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-systems-multithread-sandbox-2026-10-29',
     version: 'v2.2.288',
     date: '2026-10-29',

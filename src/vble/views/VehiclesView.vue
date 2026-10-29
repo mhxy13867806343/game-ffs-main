@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Exploration Vehicles Matrix v2.2.274
+              VBLE Exploration Vehicles & Orbital Warp Matrix v2.2.289
             </span>
             <span class="text-xs text-gray-400">大世界航行与次元动力</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToOrbitalWarpStudio"
+          >
+            <template #icon><span>🌌</span></template>
+            星轨重力弹弓工坊
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -1266,6 +1277,290 @@
       </div>
     </div>
 
+    <!-- 全域星海轨道跃迁、亚光速重力弹弓与虚空黑洞引力逃逸工坊 (v2.2.289) -->
+    <div id="orbital-warp-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#120a22] via-[#0f172a] to-[#07131e] border border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.22)] space-y-6">
+      <!-- 头部横幅 -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-purple-900/50 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/40">
+              ORBITAL SLINGSHOT &amp; GRAVITY ESCAPE
+            </span>
+            <span class="text-xs text-purple-400 font-mono">v2.2.289 Official Matrix</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide flex items-center gap-2">
+            <span>🌌</span> 全域星海轨道跃迁、亚光速重力弹弓与虚空引力逃逸工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            面向 Godot 4.6 LTS 太空星海航行体系：实时推演行星近拱点重力弹弓轨道、黑洞视界潮汐力结构应力消解、快子超光速相位跃迁与逃逸动能精算。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-3 py-1 rounded-lg bg-purple-950/60 border border-purple-700/60 text-xs font-mono text-purple-300">
+            双曲轨道重力弹弓
+          </span>
+          <span class="px-3 py-1 rounded-lg bg-cyan-950/60 border border-cyan-700/60 text-xs font-mono text-cyan-300">
+            事件视界引力潮汐阻尼
+          </span>
+        </div>
+      </div>
+
+      <!-- 四大轨道机动姿态选择 -->
+      <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🪐</span>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">四大星海轨道机动姿态 (Orbital Maneuvers)</h3>
+          </div>
+          <span class="text-xs text-gray-400">选择天体引力捕获与轨道突防策略</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="m in orbitalManeuversList"
+            :key="m.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedManeuverId === m.id ? `${m.color} ring-2 ring-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.3)]` : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'"
+            @click="selectedManeuverId = m.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ m.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-gray-300">
+                {{ m.efficiencyTag }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white mb-1">{{ m.name }}</div>
+            <p class="text-xs text-gray-400 leading-snug">{{ m.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调与遥测仪表盘 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧参数调节面板 -->
+        <div class="lg:col-span-7 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎛️</span>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">天体引力与相对论轨道拓扑参数</h3>
+            </div>
+            <n-tag type="info" size="tiny" round>实机连续微调</n-tag>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>近拱点轨道高度 (Periapsis Altitude)</span>
+                <span class="font-mono font-bold text-purple-400">{{ orbitalAltitudeKm.toLocaleString() }} km</span>
+              </div>
+              <n-slider v-model:value="orbitalAltitudeKm" :min="200" :max="50000" :step="200" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>200 km (低轨掠日)</span>
+                <span>3,800 km (标准弹弓)</span>
+                <span>50,000 km (远拱星外)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>天体引力井常数 (Gravity Well Intensity)</span>
+                <span class="font-mono font-bold text-amber-400">{{ gravityWellIntensity.toFixed(1) }} G</span>
+              </div>
+              <n-slider v-model:value="gravityWellIntensity" :min="0.5" :max="10.0" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>0.5 G (微小行星)</span>
+                <span>2.8 G (红月气态巨星)</span>
+                <span>10.0 G (黑洞事件视界)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>重力弹弓加速乘数 (Slingshot Boost Factor)</span>
+                <span class="font-mono font-bold text-cyan-400">{{ slingshotBoostFactor.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="slingshotBoostFactor" :min="1.0" :max="5.0" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>1.0x (无辅助滑行)</span>
+                <span>2.4x (双曲进动加速)</span>
+                <span>5.0x (相对论近光速喷射)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>相对论进动角偏移 (Relativistic Precession)</span>
+                <span class="font-mono font-bold text-emerald-400">{{ relativisticDilationAngle }}°</span>
+              </div>
+              <n-slider v-model:value="relativisticDilationAngle" :min="0" :max="90" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>0° (牛顿平直轨道)</span>
+                <span>28° (时空曲率偏折)</span>
+                <span>90° (引力透镜闭合极境)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 个安全机制开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🛡️</span> 潮汐力结构撕裂阻尼器 (Tidal Force Damper)
+                </div>
+                <div class="text-[10px] text-gray-400">抵御强引力井中对月之巨鲸与飞空艇龙骨的潮汐撕裂应力 (-35% 结构应变)</div>
+              </div>
+              <n-switch v-model:value="tidalForceDamperActive" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🌀</span> 视界逃逸奇点护盾 (Event Horizon Escape Aegis)
+                </div>
+                <div class="text-[10px] text-gray-400">吸收黑洞强引力红移能量，杜绝坠入引力奇点，轨迹安全性显著提高</div>
+              </div>
+              <n-switch v-model:value="eventHorizonEscapeAegis" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>⚡</span> 暗物质微扰推进注入 (Dark Matter Boost)
+                </div>
+                <div class="text-[10px] text-gray-400">在近拱点点火注入高维暗物质，出射轨道逃逸速度额外暴增 +40%</div>
+              </div>
+              <n-switch v-model:value="darkMatterThrusterBoost" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧实时遥测看板 -->
+        <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-purple-950/40 border border-purple-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-purple-500/20 pb-2">
+              <h3 class="text-xs font-bold text-purple-300 uppercase tracking-widest flex items-center gap-1.5">
+                <span>📊</span> 星海轨道精算遥测 (Astro Telemetry)
+              </h3>
+              <span class="text-[10px] font-mono text-emerald-400 animate-pulse">● 轨道计算机在线</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-500/20">
+                <div class="text-[10px] text-gray-400">出射轨道瞬时末速度</div>
+                <div class="text-lg sm:text-xl font-black text-purple-400 font-mono mt-1">
+                  {{ calculatedOrbitalVelocity }}
+                </div>
+                <div class="text-[9px] text-purple-500/80 mt-0.5">双曲逃逸轨道速度</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-500/20">
+                <div class="text-[10px] text-gray-400">引力弹弓输出动能</div>
+                <div class="text-lg sm:text-xl font-black text-amber-400 font-mono mt-1">
+                  {{ calculatedEscapeEnergyGJ }}
+                </div>
+                <div class="text-[9px] text-amber-500/80 mt-0.5">天体引力势能转化</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-500/20">
+                <div class="text-[10px] text-gray-400">舰体龙骨潮汐应变率</div>
+                <div class="text-lg sm:text-xl font-black text-cyan-400 font-mono mt-1">
+                  {{ calculatedStructuralStress }}
+                </div>
+                <div class="text-[9px] text-cyan-500/80 mt-0.5">引力梯度剪切应力</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-emerald-500/20">
+                <div class="text-[10px] text-gray-400">逃逸弹道综合安全度</div>
+                <div class="text-lg sm:text-xl font-black text-emerald-400 font-mono mt-1">
+                  {{ calculatedTrajectorySafety }}
+                </div>
+                <div class="text-[9px] text-emerald-500/80 mt-0.5">避免坠入视界裕度</div>
+              </div>
+            </div>
+
+            <!-- 当前轨道特质摘要 -->
+            <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-xs space-y-1">
+              <div class="flex items-center justify-between text-gray-400">
+                <span>机动姿态:</span>
+                <span class="font-bold text-white">{{ currentOrbitalManeuverObj?.name }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>动力效能:</span>
+                <span class="font-mono text-purple-400">{{ currentOrbitalManeuverObj?.efficiencyTag }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>潮汐阻尼器:</span>
+                <span class="font-mono" :class="tidalForceDamperActive ? 'text-emerald-400' : 'text-gray-500'">
+                  {{ tidalForceDamperActive ? '有效阻尼 (-35% 应变)' : '未启用' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>暗物质加速:</span>
+                <span class="font-mono" :class="darkMatterThrusterBoost ? 'text-cyan-400' : 'text-gray-500'">
+                  {{ darkMatterThrusterBoost ? '已注入 (+40% 极速)' : '常规动力' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快捷操作按钮 -->
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              @click="runOrbitalWarpSimulation"
+              :disabled="isOrbitalSimulating"
+            >
+              <span>{{ isOrbitalSimulating ? '⏳' : '🚀' }}</span>
+              {{ isOrbitalSimulating ? '引力弹弓推演中...' : '启动五阶段星海轨道弹弓推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-gray-200 border border-slate-700 transition-all cursor-pointer flex items-center gap-1"
+              @click="exportOrbitalWarpCertificate"
+            >
+              <span>📄</span> 导出凭证
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段星轨推演终端 -->
+      <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">💻</span>
+            <h3 class="text-sm font-bold text-white font-mono uppercase">星轨导航控制台 (Orbital Slingshot Terminal)</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span v-if="isOrbitalSimulating" class="text-xs text-purple-400 animate-pulse font-mono">
+              STAGE {{ orbitalSimStage }}/5 轨道解算中
+            </span>
+            <span v-else-if="orbitalSimFinished" class="text-xs text-emerald-400 font-mono">
+              ✓ 双曲逃逸轨道锁定
+            </span>
+            <button
+              type="button"
+              class="text-xs text-gray-400 hover:text-white px-2 py-0.5 rounded bg-slate-900 border border-slate-800 cursor-pointer"
+              @click="orbitalTerminalLogs = []"
+            >
+              清屏
+            </button>
+          </div>
+        </div>
+
+        <div class="h-44 p-3 rounded-xl bg-black/90 border border-slate-900 font-mono text-xs overflow-y-auto space-y-1 text-gray-300">
+          <div v-if="orbitalTerminalLogs.length === 0" class="text-gray-600 italic">
+            [终端待命中] 点击“启动五阶段星海轨道弹弓推演”以解算天体引力井、双曲逃逸弹道与潮汐应力...
+          </div>
+          <div v-for="(log, idx) in orbitalTerminalLogs" :key="idx" class="leading-relaxed">
+            <span class="text-gray-500">[{{ log.time }}]</span>
+            <span :class="log.color"> {{ log.message }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Godot 4.x 核心实机代码展台 (4 Tab 切换) -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
@@ -1307,6 +1602,14 @@
             >
               vehicle_hyper_overdrive_engine.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'orbital' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'orbital'"
+            >
+              orbital_gravity_slingshot_engine.gd
+            </button>
           </div>
         </div>
         <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
@@ -1314,7 +1617,7 @@
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'nav' ? godotCodeText : (activeCodeTab === 'breeding' ? godotChocoboCodeText : (activeCodeTab === 'warp' ? godotWarpNavigatorCodeText : godotHyperOverdriveCodeText)) }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-96">{{ currentGodotCodeSnippet }}</pre>
     </div>
   </div>
 </template>
@@ -1664,7 +1967,7 @@ const selectedNutId = ref('nut_zeio')
 const totalHatchedCount = ref(4)
 const hatchNotice = ref('')
 const hatchSuccessGold = ref(false)
-const activeCodeTab = ref<'nav' | 'breeding' | 'warp' | 'overdrive'>('nav')
+const activeCodeTab = ref<'nav' | 'breeding' | 'warp' | 'overdrive' | 'orbital'>('nav')
 
 const chocoboStash = ref<Record<string, number>>({
   yellow: 3,
@@ -1936,9 +2239,12 @@ const copyGodotCode = async () => {
     } else if (activeCodeTab.value === 'warp') {
       code = godotWarpNavigatorCodeText
       filename = 'starship_warp_navigator.gd'
-    } else {
+    } else if (activeCodeTab.value === 'overdrive') {
       code = godotHyperOverdriveCodeText
       filename = 'vehicle_hyper_overdrive_engine.gd'
+    } else {
+      code = godotOrbitalSlingshotCodeText
+      filename = 'orbital_gravity_slingshot_engine.gd'
     }
     await navigator.clipboard.writeText(code)
     copiedCode.value = true
@@ -2744,6 +3050,229 @@ onUnmounted(() => {
     clearInterval(warpTimer)
     warpTimer = null
   }
+})
+
+// ==========================================
+// 🌌 全域星海轨道跃迁、亚光速重力弹弓工坊 (v2.2.289)
+// ==========================================
+interface OrbitalManeuver {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  color: string
+  efficiencyTag: string
+}
+
+const orbitalManeuversList: OrbitalManeuver[] = [
+  {
+    id: 'slingshot_periapsis',
+    name: '近拱点重力弹弓机动',
+    icon: '🪐',
+    desc: '借助行星引力井近拱点无动力加速，末速度跃升 +120%',
+    color: 'border-purple-500/50 bg-purple-950/20 text-purple-300',
+    efficiencyTag: '速度 +120% / 无动力弹弓'
+  },
+  {
+    id: 'lagrange_anchor',
+    name: '拉格朗日 L1 平衡点驻泊',
+    icon: '⚖️',
+    desc: '在双星引力抵消区实现无耗能静止驻泊，以太能耗降低 70%',
+    color: 'border-cyan-500/50 bg-cyan-950/20 text-cyan-300',
+    efficiencyTag: '能耗 -70% / 零重力平衡'
+  },
+  {
+    id: 'hollow_singularity_slalom',
+    name: '空心奇点视界规避回环',
+    icon: '🌀',
+    desc: '极限穿梭黑洞强吸积盘边缘，时空曲率偏折弹射',
+    color: 'border-rose-500/50 bg-rose-950/20 text-rose-300',
+    efficiencyTag: '曲率偏折 / 极限穿透'
+  },
+  {
+    id: 'tachyon_phase_transit',
+    name: '快子超光速相位跃迁',
+    icon: '⚡',
+    desc: '注入暗物质微扰推进，瞬间撕裂引力透镜阻尼进入相位跳跃',
+    color: 'border-amber-500/50 bg-amber-950/20 text-amber-300',
+    efficiencyTag: '超光速相位 / 破引力屏障'
+  }
+]
+
+const selectedManeuverId = ref('slingshot_periapsis')
+const orbitalAltitudeKm = ref(3800)
+const gravityWellIntensity = ref(2.8)
+const slingshotBoostFactor = ref(2.4)
+const relativisticDilationAngle = ref(28)
+
+const tidalForceDamperActive = ref(true)
+const eventHorizonEscapeAegis = ref(true)
+const darkMatterThrusterBoost = ref(true)
+
+const currentOrbitalManeuverObj = computed(() => {
+  return orbitalManeuversList.find(m => m.id === selectedManeuverId.value) || orbitalManeuversList[0]
+})
+
+const calculatedOrbitalVelocity = computed(() => {
+  let v = 11.2 * slingshotBoostFactor.value * Math.sqrt(gravityWellIntensity.value)
+  if (darkMatterThrusterBoost.value) {
+    v *= 1.4
+  }
+  return `${v.toFixed(1)} km/s`
+})
+
+const calculatedEscapeEnergyGJ = computed(() => {
+  const energy = (gravityWellIntensity.value * 450 + orbitalAltitudeKm.value * 0.08) * slingshotBoostFactor.value
+  return `${Math.round(energy).toLocaleString()} GJ`
+})
+
+const calculatedStructuralStress = computed(() => {
+  let stress = gravityWellIntensity.value * 14
+  if (tidalForceDamperActive.value) {
+    stress -= 35
+  }
+  return `${Math.max(5, Math.round(stress))}%`
+})
+
+const calculatedTrajectorySafety = computed(() => {
+  let safety = 78.0
+  if (tidalForceDamperActive.value) safety += 15
+  if (eventHorizonEscapeAegis.value) safety += 6.5
+  return `${Math.min(99.9, safety).toFixed(1)}%`
+})
+
+function scrollToOrbitalWarpStudio() {
+  const el = document.getElementById('orbital-warp-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+// 五阶段推演终端
+interface OrbitalTerminalLog {
+  time: string
+  message: string
+  color: string
+}
+
+const isOrbitalSimulating = ref(false)
+const orbitalSimStage = ref(0)
+const orbitalSimFinished = ref(false)
+const orbitalTerminalLogs = ref<OrbitalTerminalLog[]>([
+  {
+    time: 'INIT',
+    message: '全域星海轨道跃迁与重力弹弓工坊就绪。准备解算轨道摄动方程。',
+    color: 'text-gray-400'
+  }
+])
+
+function appendOrbitalLog(msg: string, color = 'text-purple-400') {
+  const now = new Date()
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`
+  orbitalTerminalLogs.value.push({ time: timeStr, message: msg, color })
+}
+
+function runOrbitalWarpSimulation() {
+  if (isOrbitalSimulating.value) return
+  isOrbitalSimulating.value = true
+  orbitalSimFinished.value = false
+  orbitalSimStage.value = 1
+  appendOrbitalLog('▶ 启动五阶段星海轨道弹弓推演...', 'text-purple-400 font-bold')
+
+  setTimeout(() => {
+    orbitalSimStage.value = 2
+    appendOrbitalLog(`[阶段 1/5] 载入机动【${currentOrbitalManeuverObj.value.name}】，近拱点高度: ${orbitalAltitudeKm.value.toLocaleString()} km，引力井常数: ${gravityWellIntensity.value.toFixed(1)} G`, 'text-cyan-300')
+
+    setTimeout(() => {
+      orbitalSimStage.value = 3
+      appendOrbitalLog(`[阶段 2/5] 计算双曲进动弹道，相对论进动角: ${relativisticDilationAngle.value}°，逃逸动能: ${calculatedEscapeEnergyGJ.value}`, 'text-amber-300')
+
+      setTimeout(() => {
+        orbitalSimStage.value = 4
+        const damperText = tidalForceDamperActive.value ? '已展开 (-35% 应变)' : '未启用'
+        const aegisText = eventHorizonEscapeAegis.value ? '已锚定吸积盘外缘' : '常规能障'
+        appendOrbitalLog(`[阶段 3/5] 潮汐阻尼器[${damperText}]，视界逃逸护盾[${aegisText}]`, 'text-purple-300')
+
+        setTimeout(() => {
+          orbitalSimStage.value = 5
+          appendOrbitalLog(`[阶段 4/5] 弹弓末速度解算: ${calculatedOrbitalVelocity.value}，龙骨潮汐应变率: ${calculatedStructuralStress.value}`, 'text-emerald-300')
+
+          setTimeout(() => {
+            isOrbitalSimulating.value = false
+            orbitalSimFinished.value = true
+            appendOrbitalLog(`✓ [阶段 5/5] 星轨弹弓解算成功！安全度: ${calculatedTrajectorySafety.value}，生成离线航图证书`, 'text-emerald-400 font-bold')
+            message.success('星海轨道弹弓五阶段推演完成！')
+          }, 350)
+        }, 350)
+      }, 350)
+    }, 350)
+  }, 350)
+}
+
+function exportOrbitalWarpCertificate() {
+  const certData = {
+    standard: 'Godot 4.6 LTS / VBLE Orbital Warp Matrix v2.2.289',
+    timestamp: new Date().toISOString(),
+    maneuver: selectedManeuverId.value,
+    parameters: {
+      orbitalAltitudeKm: orbitalAltitudeKm.value,
+      gravityWellIntensity: gravityWellIntensity.value,
+      slingshotBoostFactor: slingshotBoostFactor.value,
+      relativisticDilationAngle: relativisticDilationAngle.value,
+      tidalForceDamperActive: tidalForceDamperActive.value,
+      eventHorizonEscapeAegis: eventHorizonEscapeAegis.value,
+      darkMatterThrusterBoost: darkMatterThrusterBoost.value
+    },
+    metrics: {
+      orbitalVelocity: calculatedOrbitalVelocity.value,
+      escapeEnergyGJ: calculatedEscapeEnergyGJ.value,
+      structuralStress: calculatedStructuralStress.value,
+      trajectorySafety: calculatedTrajectorySafety.value
+    },
+    sha256Signature: 'SHA256-ORBITAL-SLINGSHOT-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `orbital_slingshot_v2.2.289_${selectedManeuverId.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出星轨重力弹弓方案证书！')
+}
+
+const godotOrbitalSlingshotCodeText = [
+  '# ==============================================================================',
+  '# OrbitalGravitySlingshotEngine - 星海轨道跃迁与引力弹弓导航解算器',
+  '# 文件路径: res://scripts/vehicles/orbital_gravity_slingshot_engine.gd',
+  '# 架构规范: Godot 4.6 LTS / VBLE Exploration Vehicles Matrix v2.2.289',
+  '# 核心职责: 管理双曲轨道加速、黑洞潮汐力阻尼计算与相对论时空曲率偏折',
+  '# ==============================================================================',
+  'class_name OrbitalGravitySlingshotEngine',
+  'extends RefCounted',
+  '',
+  'const BASE_ESCAPE_VELOCITY: float = 11.2 # km/s',
+  '',
+  'static func calculate_slingshot_velocity(gravity_g: float, boost_factor: float, has_dark_matter: bool) -> float:',
+  '	var v: float = BASE_ESCAPE_VELOCITY * boost_factor * sqrt(gravity_g)',
+  '	if has_dark_matter:',
+  '		v *= 1.4',
+  '	return v',
+  '',
+  'static func evaluate_hull_structural_stress(gravity_g: float, has_damper: bool) -> float:',
+  '	var stress: float = gravity_g * 14.0',
+  '	if has_damper:',
+  '		stress -= 35.0',
+  '	return clampf(stress, 5.0, 100.0)'
+].join('\n')
+
+const currentGodotCodeSnippet = computed(() => {
+  if (activeCodeTab.value === 'nav') return godotCodeText
+  if (activeCodeTab.value === 'breeding') return godotChocoboCodeText
+  if (activeCodeTab.value === 'warp') return godotWarpNavigatorCodeText
+  if (activeCodeTab.value === 'overdrive') return godotHyperOverdriveCodeText
+  return godotOrbitalSlingshotCodeText
 })
 </script>
 
