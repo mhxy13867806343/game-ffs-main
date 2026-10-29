@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Macro Economy & Black Market Auction Matrix v2.2.261
+              VBLE Macro Economy, Futures & Exchange Matrix v2.2.285
             </span>
             <span class="text-xs text-gray-400">宏观经济、尾巴奇迹、质变药剂与跨次元黑市拍卖行</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>⚗️</span> 宏观经济与调合工坊：七色尾巴兑换、质变药剂与跨次元黑市拍卖
+            <span>⚗️</span> 宏观经济、以太金融衍生品与跨界黑市期货对冲工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             从全境五阶商业城邦贸易物价指数，到隐士洞窟的七色尾巴神器传承兑换、药剂师两两调合的质变炼金体系，乃至穿梭次元裂隙的黑市多币种竞拍行。全息实装多模态动态模拟沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToAetherFinanceStudio"
+          >
+            <template #icon><span>📈</span></template>
+            前往以太金融工坊
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -1094,6 +1105,294 @@
       </div>
     </div>
 
+    <!-- 全域以太金融汇率、跨界黑市期货结算与反通胀对冲工坊 (v2.2.285) -->
+    <div id="aether-finance-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1c0f24] via-[#121324] to-[#0a0d1a] border border-rose-500/40 shadow-[0_0_40px_rgba(244,63,94,0.22)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-rose-900/50 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              AETHER MACRO-FINANCE & FUTURES STUDIO
+            </span>
+            <span class="text-xs text-rose-400 font-mono">v2.2.285 官方实机金融矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-1">
+            <span>📈</span> 全域以太金融汇率、跨界黑市期货结算与反通胀对冲工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            面向 Godot 4.6 LTS 全域宏观金融体系：实时推演以太金本位刚性兑付、跨界黑市多维期货掉期合约、恒定乘积 AMM 做市池与反通胀对冲避险基金。
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button size="small" secondary type="error" @click="resetAetherFinanceParams">
+            🔄 重置金融参数
+          </n-button>
+          <n-button size="small" secondary type="warning" @click="injectLiquidityBonus">
+            💧 注入做市流动性 +500,000G
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportAetherFinanceCertificate">
+            📜 导出以太金融方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大金融机制选择器 -->
+      <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
+            <span>⚖️</span>
+            <span>四大以太金融衍生模式 (Aether Financial Instruments)</span>
+          </span>
+          <span class="text-[11px] text-gray-400">选择当前运作的宏观金融工具</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="inst in financialInstrumentsList"
+            :key="inst.id"
+            class="p-3.5 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedInstrumentId === inst.id ? `${inst.color} ring-2 ring-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.3)]` : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'"
+            @click="selectedInstrumentId = inst.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ inst.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-gray-300">
+                {{ inst.rateFeature }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white mb-1">{{ inst.name }}</div>
+            <p class="text-xs text-gray-400 leading-snug">{{ inst.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与遥测仪表盘 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧参数调节 -->
+        <div class="lg:col-span-7 p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <span class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+              <span>🎛️</span>
+              <span>宏观金融调控参数</span>
+            </span>
+            <n-tag type="error" size="tiny" round>实机连续微调</n-tag>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>以太金/基准金币基础汇率 (Aether Baseline Rate)</span>
+                <span class="font-mono font-bold text-rose-400">{{ aetherExchangeRate.toLocaleString() }} Gil/Ether</span>
+              </div>
+              <n-slider v-model:value="aetherExchangeRate" :min="100" :max="5000" :step="50" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>100 Gil (初级以太)</span>
+                <span>1,250 Gil (标准锚定)</span>
+                <span>5,000 Gil (奇点通胀)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>全域宏观物价通胀指数 (Inflation Factor)</span>
+                <span class="font-mono font-bold text-amber-400">{{ inflationIndex.toFixed(2) }}x</span>
+              </div>
+              <n-slider v-model:value="inflationIndex" :min="0.5" :max="4.0" :step="0.05" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>0.50x (通货紧缩)</span>
+                <span>1.35x (温和增长)</span>
+                <span>4.00x (恶性超级通胀)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>跨界期货多空杠杆倍数 (Futures Leverage)</span>
+                <span class="font-mono font-bold text-cyan-400">{{ leverageMultiplier.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="leverageMultiplier" :min="1.0" :max="10.0" :step="0.5" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>1.0x (现货对冲)</span>
+                <span>3.5x (标准机构)</span>
+                <span>10.0x (穿仓极限)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>以太做市流动性池总深度 (Liquidity Pool Depth)</span>
+                <span class="font-mono font-bold text-purple-400">{{ (liquidityPoolDepth / 1000).toFixed(0) }}k Gil</span>
+              </div>
+              <n-slider v-model:value="liquidityPoolDepth" :min="100000" :max="5000000" :step="50000" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>100k Gil (浅水池)</span>
+                <span>1,200k Gil (标准深度)</span>
+                <span>5,000k Gil (超深巨鲸池)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 个金融安全与调控机制开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>⚡</span> 波动率单日熔断保护阀 (Market Circuit Breaker)
+                </div>
+                <div class="text-[10px] text-gray-400">单日汇率波动超 20% 时强制平抑价差并冻结高杠杆穿仓清算</div>
+              </div>
+              <n-switch v-model:value="circuitBreakerActive" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🛡️</span> 负利率储蓄抗性结界 (Negative Interest Ward)
+                </div>
+                <div class="text-[10px] text-gray-400">杜绝滞胀环境下以太储蓄本金缩水，提供保底 +2.5% 年化收益支持</div>
+              </div>
+              <n-switch v-model:value="negativeInterestWard" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🔄</span> 跨界套利关税全额返还 (Arbitrage Tax Rebate)
+                </div>
+                <div class="text-[10px] text-gray-400">为跨次元做市商返还 70% 交易摩擦税，期货预期年化收益增幅 +25%</div>
+              </div>
+              <n-switch v-model:value="arbitrageTaxRebate" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧金融遥测与操作卡片 -->
+        <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+          <div class="p-5 rounded-xl bg-gradient-to-br from-slate-900/90 to-rose-950/40 border border-rose-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+              <span class="text-xs font-bold text-rose-300 uppercase tracking-widest flex items-center gap-1.5">
+                <span>📊</span> 实时金融精算遥测 (Actuarial Telemetry)
+              </span>
+              <span class="text-[10px] font-mono text-emerald-400 animate-pulse">● 金融信道连通</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-slate-950/80 border border-rose-500/20">
+                <div class="text-[10px] text-gray-400">以太综合公允净值</div>
+                <div class="text-lg font-black text-rose-400 font-mono mt-1">
+                  {{ calculatedAetherNetValue.toLocaleString() }} <span class="text-xs font-normal">Gil</span>
+                </div>
+                <div class="text-[9px] text-rose-500/80 mt-0.5">通胀调和结算公允估价</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-slate-950/80 border border-amber-500/20">
+                <div class="text-[10px] text-gray-400">期货预期年化收益</div>
+                <div class="text-lg font-black text-amber-400 font-mono mt-1">
+                  {{ calculatedFuturesExpectedYield.toLocaleString() }} <span class="text-xs font-normal">Gil</span>
+                </div>
+                <div class="text-[9px] text-amber-500/80 mt-0.5">跨次元掉期合约套利</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-slate-950/80 border border-cyan-500/20">
+                <div class="text-[10px] text-gray-400">反通胀避险对冲效率</div>
+                <div class="text-lg font-black text-cyan-400 font-mono mt-1">
+                  {{ calculatedHedgeEfficiency }}
+                </div>
+                <div class="text-[9px] text-cyan-500/80 mt-0.5">流动性池抗通胀韧性</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-slate-950/80 border border-purple-500/20">
+                <div class="text-[10px] text-gray-400">衍生品风险溢价利差</div>
+                <div class="text-lg font-black text-purple-400 font-mono mt-1">
+                  {{ calculatedRiskSpread }}
+                </div>
+                <div class="text-[9px] text-purple-500/80 mt-0.5">杠杆平仓风险偏好度</div>
+              </div>
+            </div>
+
+            <!-- 当前金融模式摘要 -->
+            <div class="p-3 rounded-lg bg-slate-950/90 border border-slate-800 text-xs space-y-1">
+              <div class="flex items-center justify-between text-gray-400">
+                <span>运行模式:</span>
+                <span class="font-bold text-white">{{ currentFinancialInstrument?.name }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>机制特质:</span>
+                <span class="font-mono text-rose-300">{{ currentFinancialInstrument?.rateFeature }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>熔断机制:</span>
+                <span class="font-mono" :class="circuitBreakerActive ? 'text-emerald-400' : 'text-gray-500'">
+                  {{ circuitBreakerActive ? '有效部署 (阈值 20%)' : '未启用' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>对冲结界:</span>
+                <span class="font-mono" :class="negativeInterestWard ? 'text-cyan-400' : 'text-gray-500'">
+                  {{ negativeInterestWard ? '保底 +2.5% 年化' : '已旁路' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 模拟与导出按钮 -->
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              @click="runAetherFinanceSimulation"
+              :disabled="isFinanceSimulating"
+            >
+              <span>{{ isFinanceSimulating ? '⏳' : '🚀' }}</span>
+              {{ isFinanceSimulating ? '跨界金融推演中...' : '启动五阶段以太金融对冲推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-gray-200 border border-slate-700 transition-all cursor-pointer flex items-center gap-1"
+              @click="exportAetherFinanceCertificate"
+            >
+              <span>📄</span> 导出凭证
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段金融对冲推演终端 -->
+      <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">💻</span>
+            <h3 class="text-xs font-bold text-white font-mono uppercase">以太金融结算控制台 (Aether Futures Settlement Console)</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span v-if="isFinanceSimulating" class="text-xs text-rose-400 animate-pulse font-mono">
+              STAGE {{ financeSimStage }}/5 推演中
+            </span>
+            <span v-else-if="financeSimFinished" class="text-xs text-emerald-400 font-mono">
+              ✓ 金融对冲就绪
+            </span>
+            <button
+              type="button"
+              class="text-xs text-gray-400 hover:text-white px-2 py-0.5 rounded bg-slate-900 border border-slate-800 cursor-pointer"
+              @click="financeTerminalLogs = []"
+            >
+              清屏
+            </button>
+          </div>
+        </div>
+
+        <div class="h-40 p-3 rounded-lg bg-black/90 border border-slate-900 font-mono text-xs overflow-y-auto space-y-1 text-gray-300">
+          <div v-if="financeTerminalLogs.length === 0" class="text-gray-600 italic">
+            [终端待命中] 点击“启动五阶段以太金融对冲推演”以解算汇率套利、期货穿仓边界与反通胀对冲效率...
+          </div>
+          <div v-for="(log, idx) in financeTerminalLogs" :key="idx" class="leading-relaxed">
+            <span class="text-gray-500">[{{ log.time }}]</span>
+            <span :class="log.color"> {{ log.message }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Godot 4.x 核心实机代码展台 -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
@@ -1127,6 +1426,30 @@
             >
               black_market_auction_engine.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'finance' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'finance'"
+            >
+              aether_macro_finance_engine.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'futures' ? 'bg-emerald-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'futures'"
+            >
+              spacetime_futures_settlement.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'amm' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'amm'"
+            >
+              anti_inflation_liquidity_amm.gd
+            </button>
           </div>
         </div>
         <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
@@ -1134,7 +1457,7 @@
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'alchemy' ? godotCodeText : activeCodeTab === 'tail' ? godotTailCodeText : godotAuctionCodeText }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-96">{{ currentGodotCodeText }}</pre>
     </div>
   </div>
 </template>
@@ -1696,7 +2019,7 @@ const claimedTailsRelics = ref<Record<string, number>>({
 })
 const lootRollNotice = ref('')
 const lootRollSuccess = ref(false)
-const activeCodeTab = ref<'alchemy' | 'tail' | 'auction'>('alchemy')
+const activeCodeTab = ref<'alchemy' | 'tail' | 'auction' | 'finance' | 'futures' | 'amm'>('alchemy')
 
 const currentTailDef = computed(() => {
   return tailDefinitions.value.find(t => t.id === selectedTailId.value) || tailDefinitions.value[0]
@@ -1912,18 +2235,18 @@ const godotTailCodeText = [
 
 const copyGodotCode = async () => {
   try {
-    const code = activeCodeTab.value === 'alchemy'
-      ? godotCodeText
-      : activeCodeTab.value === 'tail'
-        ? godotTailCodeText
-        : godotAuctionCodeText
+    const code = currentGodotCodeText.value
     await navigator.clipboard.writeText(code)
     copiedCode.value = true
-    const filename = activeCodeTab.value === 'alchemy'
-      ? 'alchemist_mix_system.gd'
-      : activeCodeTab.value === 'tail'
-        ? 'tail_exchange_system.gd'
-        : 'black_market_auction_engine.gd'
+    const filenameMap: Record<string, string> = {
+      alchemy: 'alchemist_mix_system.gd',
+      tail: 'tail_exchange_system.gd',
+      auction: 'black_market_auction_engine.gd',
+      finance: 'aether_macro_finance_engine.gd',
+      futures: 'spacetime_futures_settlement.gd',
+      amm: 'anti_inflation_liquidity_amm.gd'
+    }
+    const filename = filenameMap[activeCodeTab.value] || 'engine.gd'
     message.success(`已复制 ${filename} 核心实机代码！`)
     setTimeout(() => {
       copiedCode.value = false
@@ -2498,6 +2821,300 @@ const godotAuctionCodeText = [
   '	emit_signal("auction_hammer_struck", hammer_strikes, active_lot_id, current_highest_bid)',
   '	return current_phase'
 ].join('\n')
+
+// ================= 模块五：全域以太金融汇率、跨界黑市期货结算与反通胀对冲工坊 (v2.2.285) =================
+interface FinancialInstrument {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  color: string
+  rateFeature: string
+}
+
+const financialInstrumentsList: FinancialInstrument[] = [
+  {
+    id: 'crystal_standard',
+    name: '原初以太金本位 (Crystal Standard)',
+    icon: '💎',
+    desc: '原初以太刚性兑付与零通胀基石，波动率收敛 -50%',
+    color: 'border-cyan-500/50 bg-cyan-950/20 text-cyan-300',
+    rateFeature: '波动率 -50% / 刚性兑付'
+  },
+  {
+    id: 'void_futures_swap',
+    name: '虚空跨次元期货掉期 (Futures Swap)',
+    icon: '🌌',
+    desc: '跨界高频杠杆掉期对冲，多空双向收益率 +80%',
+    color: 'border-rose-500/50 bg-rose-950/20 text-rose-300',
+    rateFeature: '套利收益 +80% / 杠杆共振'
+  },
+  {
+    id: 'merkle_liquidity_pool',
+    name: '默克尔流动性 AMM 池 (Liquidity Pool)',
+    icon: '🌊',
+    desc: '恒定乘积流动性池，提供滑点缓冲与无常损失补贴 +25%',
+    color: 'border-purple-500/50 bg-purple-950/20 text-purple-300',
+    rateFeature: '无常补贴 +25% / 深度护航'
+  },
+  {
+    id: 'chocobo_index_hedge',
+    name: '陆行鸟物价对冲基金 (CPI Hedge)',
+    icon: '🐥',
+    desc: '全域核心生活物资抵押避险，绝对本金安全防御结界',
+    color: 'border-amber-500/50 bg-amber-950/20 text-amber-300',
+    rateFeature: '保本防御 / 抗通胀锚定'
+  }
+]
+
+const selectedInstrumentId = ref('crystal_standard')
+const aetherExchangeRate = ref(1250)
+const inflationIndex = ref(1.35)
+const leverageMultiplier = ref(3.5)
+const liquidityPoolDepth = ref(1200000)
+
+const circuitBreakerActive = ref(true)
+const negativeInterestWard = ref(true)
+const arbitrageTaxRebate = ref(false)
+
+const currentFinancialInstrument = computed(() => {
+  return financialInstrumentsList.find(i => i.id === selectedInstrumentId.value) || financialInstrumentsList[0]
+})
+
+const calculatedAetherNetValue = computed(() => {
+  let val = aetherExchangeRate.value * inflationIndex.value
+  if (circuitBreakerActive.value) {
+    val *= 0.95
+  } else {
+    val *= 1.05
+  }
+  return Math.round(val)
+})
+
+const calculatedFuturesExpectedYield = computed(() => {
+  const excessInflation = inflationIndex.value > 1.0 ? inflationIndex.value - 1.0 : 0.1
+  let yieldVal = aetherExchangeRate.value * leverageMultiplier.value * excessInflation * 10
+  if (arbitrageTaxRebate.value) {
+    yieldVal *= 1.25
+  }
+  return Math.round(yieldVal)
+})
+
+const calculatedHedgeEfficiency = computed(() => {
+  let eff = 75 + (liquidityPoolDepth.value / 100000) * 1.5
+  if (negativeInterestWard.value) {
+    eff += 10
+  }
+  return Math.min(99, Math.round(eff)) + '%'
+})
+
+const calculatedRiskSpread = computed(() => {
+  let spread = leverageMultiplier.value * 0.8
+  if (circuitBreakerActive.value) {
+    spread -= 1.2
+  }
+  return Math.max(0.1, spread).toFixed(2) + '%'
+})
+
+function scrollToAetherFinanceStudio() {
+  const el = document.getElementById('aether-finance-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+function resetAetherFinanceParams() {
+  aetherExchangeRate.value = 1250
+  inflationIndex.value = 1.35
+  leverageMultiplier.value = 3.5
+  liquidityPoolDepth.value = 1200000
+  circuitBreakerActive.value = true
+  negativeInterestWard.value = true
+  arbitrageTaxRebate.value = false
+  message.info('已重置以太金融调控参数至基准值')
+}
+
+function injectLiquidityBonus() {
+  liquidityPoolDepth.value += 500000
+  message.success('已注入以太做市流动性资金 +500,000 Gil！池深度大幅增加')
+}
+
+// 金融推演终端
+interface FinanceTerminalLog {
+  time: string
+  message: string
+  color: string
+}
+
+const isFinanceSimulating = ref(false)
+const financeSimStage = ref(0)
+const financeSimFinished = ref(false)
+const financeTerminalLogs = ref<FinanceTerminalLog[]>([
+  {
+    time: 'INIT',
+    message: '全域以太金融汇率、跨界黑市期货结算工坊就绪。',
+    color: 'text-gray-400'
+  }
+])
+
+function appendFinanceLog(msg: string, color = 'text-rose-400') {
+  const now = new Date()
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`
+  financeTerminalLogs.value.push({ time: timeStr, message: msg, color })
+}
+
+function runAetherFinanceSimulation() {
+  if (isFinanceSimulating.value) return
+  isFinanceSimulating.value = true
+  financeSimFinished.value = false
+  financeSimStage.value = 1
+  appendFinanceLog('▶ 启动五阶段以太金融与期货对冲推演...', 'text-rose-400 font-bold')
+
+  setTimeout(() => {
+    financeSimStage.value = 2
+    appendFinanceLog(`[阶段 1/5] 校验基准汇率 ${aetherExchangeRate.value} Gil/Ether 与 AMM 做市池深度 ${(liquidityPoolDepth.value / 1000).toFixed(0)}k Gil`, 'text-cyan-300')
+
+    setTimeout(() => {
+      financeSimStage.value = 3
+      appendFinanceLog(`[阶段 2/5] 注入物价通胀指数 ${inflationIndex.value.toFixed(2)}x，公允净值解算为: ${calculatedAetherNetValue.value.toLocaleString()} Gil`, 'text-amber-300')
+
+      setTimeout(() => {
+        financeSimStage.value = 4
+        const cbStatus = circuitBreakerActive.value ? '已启动(阈值 20%)' : '旁路关闭'
+        const wardStatus = negativeInterestWard.value ? '保底 +2.5%' : '常规利率'
+        appendFinanceLog(`[阶段 3/5] 熔断机制[${cbStatus}]，负利率对冲结界[${wardStatus}]`, 'text-purple-300')
+
+        setTimeout(() => {
+          financeSimStage.value = 5
+          appendFinanceLog(`[阶段 4/5] 期货杠杆 ${leverageMultiplier.value.toFixed(1)}x 结算，预期收益: ${calculatedFuturesExpectedYield.value.toLocaleString()} Gil，避险效率: ${calculatedHedgeEfficiency.value}`, 'text-emerald-300')
+
+          setTimeout(() => {
+            isFinanceSimulating.value = false
+            financeSimFinished.value = true
+            appendFinanceLog(`✓ [阶段 5/5] 金融推演完成！风险利差: ${calculatedRiskSpread.value}，生成离线结算证书凭据`, 'text-emerald-400 font-bold')
+            message.success('以太金融对冲五阶段推演完成！')
+          }, 350)
+        }, 350)
+      }, 350)
+    }, 350)
+  }, 350)
+}
+
+function exportAetherFinanceCertificate() {
+  const certData = {
+    standard: 'Godot 4.6 LTS / VBLE Macro Economy Matrix v2.2.285',
+    timestamp: new Date().toISOString(),
+    instrument: selectedInstrumentId.value,
+    parameters: {
+      aetherExchangeRate: aetherExchangeRate.value,
+      inflationIndex: inflationIndex.value,
+      leverageMultiplier: leverageMultiplier.value,
+      liquidityPoolDepth: liquidityPoolDepth.value,
+      circuitBreakerActive: circuitBreakerActive.value,
+      negativeInterestWard: negativeInterestWard.value,
+      arbitrageTaxRebate: arbitrageTaxRebate.value
+    },
+    actuarialResults: {
+      aetherNetValue: calculatedAetherNetValue.value,
+      futuresExpectedYield: calculatedFuturesExpectedYield.value,
+      hedgeEfficiency: calculatedHedgeEfficiency.value,
+      riskSpread: calculatedRiskSpread.value
+    },
+    sha256Signature: 'SHA256-AETHER-FIN-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `aether_finance_v2.2.285_${selectedInstrumentId.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出以太金融方案书证书！')
+}
+
+const godotFinanceCodeText = [
+  '# ==============================================================================',
+  '# AetherMacroFinanceEngine - 全域以太宏观金融与公允汇率解算引擎',
+  '# 文件路径: res://scripts/economy/aether_macro_finance_engine.gd',
+  '# 架构规范: Godot 4.6 LTS / VBLE Macro Economy Matrix v2.2.285',
+  '# 核心职责: 管理以太金本位锚定、动态通胀因子折算与熔断保护阀机制',
+  '# ==============================================================================',
+  'class_name AetherMacroFinanceEngine',
+  'extends RefCounted',
+  '',
+  'const MAX_CIRCUIT_BREAKER_FLUCTUATION: float = 0.20',
+  '',
+  'static func calculate_fair_net_value(base_rate: float, inflation: float, circuit_breaker: bool) -> int:',
+  '	var fair_value: float = base_rate * inflation',
+  '	if circuit_breaker:',
+  '		fair_value *= 0.95',
+  '	else:',
+  '		fair_value *= 1.05',
+  '	return int(round(fair_value))',
+  '',
+  'static func evaluate_hedge_efficiency(depth: int, negative_ward: bool) -> float:',
+  '	var eff: float = 75.0 + (float(depth) / 100000.0) * 1.5',
+  '	if negative_ward:',
+  '		eff += 10.0',
+  '	return clampf(eff, 50.0, 99.0)'
+].join('\n')
+
+const godotFuturesCodeText = [
+  '# ==============================================================================',
+  '# SpacetimeFuturesSettlement - 跨界黑市多维期货掉期结算器',
+  '# 文件路径: res://scripts/economy/spacetime_futures_settlement.gd',
+  '# 架构规范: Godot 4.6 LTS / VBLE Macro Economy Matrix v2.2.285',
+  '# 核心职责: 跨次元多空掉期撮合、穿仓清算边界判定与套利佣金返还',
+  '# ==============================================================================',
+  'class_name SpacetimeFuturesSettlement',
+  'extends RefCounted',
+  '',
+  'static func settle_futures_contract(base_rate: float, leverage: float, inflation: float, tax_rebate: bool) -> int:',
+  '	var excess_inf: float = maxf(inflation - 1.0, 0.1)',
+  '	var expected_yield: float = base_rate * leverage * excess_inf * 10.0',
+  '	if tax_rebate:',
+  '		expected_yield *= 1.25',
+  '	return int(round(expected_yield))',
+  '',
+  'static func check_liquidation_risk(leverage: float, circuit_breaker: bool) -> bool:',
+  '	if circuit_breaker and leverage <= 5.0:',
+  '		return false',
+  '	return leverage >= 8.0'
+].join('\n')
+
+const godotAmmCodeText = [
+  '# ==============================================================================',
+  '# AntiInflationLiquidityAmm - 恒定乘积反通胀做市商引擎',
+  '# 文件路径: res://scripts/economy/anti_inflation_liquidity_amm.gd',
+  '# 架构规范: Godot 4.6 LTS / VBLE Macro Economy Matrix v2.2.285',
+  '# 核心职责: 维护 x * y = k 恒定乘积流动性池，提供滑点控制与抗通胀补贴',
+  '# ==============================================================================',
+  'class_name AntiInflationLiquidityAmm',
+  'extends RefCounted',
+  '',
+  'var pool_gil: int = 1200000',
+  'var pool_ether: int = 1000',
+  'var k_constant: int = 1200000000',
+  '',
+  'func swap_gil_for_ether(gil_in: int) -> int:',
+  '	var net_gil: float = float(gil_in) * 0.997 # 0.3% LP Fee',
+  '	var new_pool_gil: float = float(pool_gil) + net_gil',
+  '	var new_pool_ether: float = float(k_constant) / new_pool_gil',
+  '	var ether_out: int = int(pool_ether - new_pool_ether)',
+  '	pool_gil = int(new_pool_gil)',
+  '	pool_ether = int(new_pool_ether)',
+  '	return ether_out'
+].join('\n')
+
+const currentGodotCodeText = computed(() => {
+  if (activeCodeTab.value === 'alchemy') return godotCodeText
+  if (activeCodeTab.value === 'tail') return godotTailCodeText
+  if (activeCodeTab.value === 'auction') return godotAuctionCodeText
+  if (activeCodeTab.value === 'finance') return godotFinanceCodeText
+  if (activeCodeTab.value === 'futures') return godotFuturesCodeText
+  return godotAmmCodeText
+})
 </script>
 
 <style scoped>

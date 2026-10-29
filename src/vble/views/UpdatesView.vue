@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-economy-aether-finance-2026-10-29',
+    version: 'v2.2.285',
+    date: '2026-10-29',
+    title: '全域以太金融汇率、跨界黑市期货结算与反通胀对冲工坊重磅实装',
+    category: 'system',
+    categoryName: '以太金融',
+    icon: '📈',
+    tagType: 'success',
+    description: '全面重构升级 EconomyView 宏观经济与黑市门户：顶部标章升级为 VBLE Macro Economy, Futures & Exchange Matrix v2.2.285，新增以太金融工坊快捷直达；专区重磅实装【全域以太金融汇率、跨界黑市期货结算与反通胀对冲工坊】（Aether Macro-Finance & Futures Studio）；覆盖四大以太金融衍生模式（原初以太金本位刚性兑付、虚空跨次元期货掉期、默克尔流动性 AMM 做市池、陆行鸟物价对冲基金）；实现以太金基础汇率 (100~5000 Gil/Ether)、宏观物价通胀指数 (0.50~4.00x)、跨界期货杠杆倍数 (1.0~10.0x) 与做市流动性池总深度 (100k~5000k Gil) 连续微调；支持单日汇率波动率熔断机制（阈值 20% 强制平抑价差）、负利率储蓄抗性结界（保底 +2.5% 年化）与跨界套利关税全额返还（手续费返还 +70%）；实时解算以太公允净值、期货预期年化收益、避险对冲效率 (75%~99%) 与风险溢价利差；实装五阶段金融对冲推演终端与离线方案书 SHA-256 证书导出；源码展台扩充 3 组新引擎，新增 aether_macro_finance_engine.gd、spacetime_futures_settlement.gd 与 anti_inflation_liquidity_amm.gd。',
+    highlights: [
+      '四大以太金融衍生模式：金本位刚性兑付、跨界期货掉期高杠杆、AMM 恒定乘积池与陆行鸟物价对冲',
+      '四维连续宏观金融参数：以太基础汇率、通胀指数、期货多空杠杆与做市流动性深度全域适配',
+      '波动率单日熔断保护：汇率日波动超 20% 触发熔断保护，彻底平抑恶性穿仓风险',
+      '负利率储蓄抗性结界：滞胀环境抵御本金缩水，自动激活 +2.5% 保底安全利率',
+      '反通胀避险对冲效率：根据做市池深度与负利率结界动态精算，抗通胀韧性高达 99%',
+      'Godot 4.6 LTS 6 Tab 展台：新增以太宏观金融解算器、时空期货结算引擎与恒定乘积 AMM 引擎'
+    ],
+    relatedLinks: [
+      { label: '宏观经济与黑市拍卖', path: '/vble/economy', icon: '⚗️' },
+      { label: '道具图鉴与调合配方', path: '/vble/items', icon: '🧪' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-attributes-quantum-tensor-2026-10-29',
     version: 'v2.2.284',
     date: '2026-10-29',
