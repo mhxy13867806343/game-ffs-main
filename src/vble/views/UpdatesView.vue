@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-teachings-mentorship-v312-2026-10-29',
+    version: 'v2.2.312',
+    date: '2026-10-29',
+    title: '初心导引全息教程、实战进阶与名师指津工坊重磅实装',
+    category: 'system',
+    categoryName: '初心者导师',
+    icon: '✨',
+    tagType: 'success',
+    description: '全面重构升级 TeachingsView 秘传研习门户：顶部标章升级为 VBLE Teachings, Novice Onboarding & Master Mentorship Studio v2.2.312，新增初心导引与名师工坊快捷直达；专区重磅实装【初心导引全息教程、实战进阶与名师指津工坊】（Novice Onboarding, Combat Mastery & Master Mentorship Studio）；覆盖四大授业流派原型（初心启蒙上手流、极限打断帧微操流、太古青魔法肉身拟态流、太古名师心法极意流）；支持导师授业契合度指数 (20~100 点)、实战打断判定帧窗口 (3~30 帧)、青魔法魔物基因烙印率 (10%~100%) 与弟子奥义觉醒突破倍率 (1.0x~5.0x) 连续微调；支持新手保护期致命伤锁血圣盾、导师全被动失真无损传授契约与首领大招前摇红光全局子弹时间；实时解算综合战斗力加成 (突破 +48,000 CP)、实战打断试炼通过率 (高达 98.8%)、青魔法拟态覆盖率 (高达 98.2%) 与名师传承级别 (高达 EX·太古宗师泰斗)；内置五阶段导引沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：novice_tutorial_director.gd、combat_stagger_frame_evaluator.gd 与 master_inheritance_pact_system.gd。',
+    highlights: [
+      '四大授业流派原型：初心启蒙上手、极限打断帧微操、青魔法肉身拟态与名师心法极意',
+      '四维连续研修微操参数：导师契合度指数、打断判定帧窗口、青魔法基因烙印率与奥义觉醒倍率',
+      '三重初心者护佑保底机制：致命伤锁血圣盾、导师全被动无损传授契约与首领蓄力子弹时间',
+      '动态实战效能指标解算：综合战力加成、打断试炼通过率、青魔法拟态覆盖率与宗师泰斗认证',
+      '五阶段全息导引沙盘：启蒙圣所自检、子弹时间对齐、青魔法免伤传授、名师心法觉醒与防伪签署',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源新手引导导演、打断帧硬直判定器与名师传承系统'
+    ],
+    relatedLinks: [
+      { label: '秘传绝技研习院', path: '/vble/teachings', icon: '✨' },
+      { label: '初心导引与名师工坊', path: '/vble/teachings', icon: '🎓' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-docs-codex-api-v311-2026-10-29',
     version: 'v2.2.311',
     date: '2026-10-29',

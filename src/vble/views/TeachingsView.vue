@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Teachings & Ancient Mentor Trial Matrix v2.2.286
+              VBLE Teachings, Novice Onboarding & Master Mentorship Studio v2.2.312
             </span>
             <span class="text-xs text-gray-400">四大流派秘传与魔物拟态研习</span>
           </div>
@@ -24,11 +24,21 @@
             type="error"
             size="medium"
             round
+            class="shadow-md font-bold text-black bg-gradient-to-r from-amber-400 to-rose-500 hover:from-amber-300 hover:to-rose-400"
+            @click="scrollToNoviceMentorshipStudio"
+          >
+            <template #icon><span>🎓</span></template>
+            初心导引与名师工坊
+          </n-button>
+          <n-button
+            type="error"
+            size="medium"
+            round
             secondary
             class="shadow-md"
             @click="scrollToMentorTrialStudio"
           >
-            <template #icon><span>🎓</span></template>
+            <template #icon><span>📜</span></template>
             太古导师试炼工坊
           </n-button>
           <n-button
@@ -1182,6 +1192,227 @@
         </div>
 
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ currentActiveGdScriptCode }}</pre>
+      </div>
+    </div>
+
+    <!-- 初心导引全息教程、实战进阶与名师指津工坊 (v2.2.312 重磅实装) -->
+    <div id="novice-mentorship-studio" class="novice-mentorship-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-rose-950/20 to-slate-900/95 border border-rose-500/40 shadow-[0_0_40px_rgba(244,63,94,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-rose-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-mono text-xs font-bold border border-rose-500/30">
+              NOVICE ONBOARDING & MASTER MENTORSHIP CODEX
+            </span>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">
+              v2.2.312 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>✨</span> 初心导引全息教程、实战进阶与名师指津工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            系统性串联四大导师门派传授矩阵、首领致命大招前摇红光子弹时间演练、新手免死保底圣盾与青魔法魔物基因烙印传授，让每位初心者从见习学徒蜕变至太古宗师。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="error" @click="resetMentorshipDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="error" :loading="isMentorSimulating" @click="runMentorshipSimulation">
+            <template #icon><span>⚡</span></template>
+            启动全息导引推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大导师流派原型卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="archetype in mentorshipArchetypes"
+          :key="archetype.id"
+          @click="selectMentorshipArchetype(archetype)"
+          :class="[
+            'p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden',
+            selectedMentorshipArchetype.id === archetype.id
+              ? 'bg-rose-950/40 border-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+          ]"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xl">{{ archetype.icon }}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-rose-300">{{ archetype.badge }}</span>
+          </div>
+          <div class="font-bold text-white text-sm mt-2">{{ archetype.name }}</div>
+          <div class="text-xs text-gray-400 mt-1 leading-relaxed">{{ archetype.desc }}</div>
+          <div class="mt-3 text-[11px] font-mono text-rose-400/90 flex justify-between">
+            <span>战力加成: {{ archetype.power }}</span>
+            <span>通过率: {{ archetype.passRate }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心微调滑块与调控开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <!-- 4 维连续滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-rose-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>⚙️</span> 授业与实战微操参数调谐
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>导师授业契合度指数 (Affinity Index)</span>
+                <span class="font-mono text-rose-400 font-bold">{{ noviceMentorAffinity }} 点</span>
+              </div>
+              <n-slider v-model:value="noviceMentorAffinity" :min="20" :max="100" :step="2" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>实战打断判定帧窗口 (Interrupt Window)</span>
+                <span class="font-mono text-amber-400 font-bold">{{ interruptFrames }} 帧</span>
+              </div>
+              <n-slider v-model:value="interruptFrames" :min="3" :max="30" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>青魔法魔物基因烙印率 (Gene Imprint Rate)</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ geneImprintRate }} %</span>
+              </div>
+              <n-slider v-model:value="geneImprintRate" :min="10" :max="100" :step="2" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>弟子奥义觉醒突破倍率 (Awakening Multiplier)</span>
+                <span class="font-mono text-purple-400 font-bold">{{ awakeningMultiplier.toFixed(1) }} x</span>
+              </div>
+              <n-slider v-model:value="awakeningMultiplier" :min="1.0" :max="5.0" :step="0.1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 维调控开关与动态指标 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>🛡️</span> 护佑机制与实战进阶守卫
+          </div>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">新手保护期致命伤锁血圣盾</div>
+                <div class="text-[10px] text-gray-400">受到致死攻击时强行保留 1 点 HP 并瞬间触发 3 秒无敌回血契约</div>
+              </div>
+              <n-switch v-model:value="enableNoviceShield" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">导师全被动失真无损传授契约</div>
+                <div class="text-[10px] text-gray-400">拜师完成后 100% 无损习得门派所有隐藏精通被动与属性抗性</div>
+              </div>
+              <n-switch v-model:value="enableLosslessPassiveInherit" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">首领大招前摇红光全局子弹时间</div>
+                <div class="text-[10px] text-gray-400">首领狂暴蓄力时战斗时间流速放缓至 25%，从容完成打断走位</div>
+              </div>
+              <n-switch v-model:value="enableBulletTimeTelegraph" />
+            </div>
+          </div>
+
+          <!-- 4 维解算核心指标 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">综合战力加成</div>
+              <div class="text-base font-black font-mono text-rose-400 mt-0.5">+{{ calculatedCpBoost }} CP</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">打断试炼通过率</div>
+              <div class="text-base font-black font-mono text-amber-400 mt-0.5">{{ calculatedTrialPassRate }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">青魔法拟态率</div>
+              <div class="text-base font-black font-mono text-cyan-400 mt-0.5">{{ calculatedMimicryCoverage }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">名师传承级别</div>
+              <div class="text-xs font-black font-mono text-purple-400 mt-1">{{ calculatedMentorCert }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条与终端控制台 -->
+      <div class="space-y-3 bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-rose-400 font-mono font-bold">STAGE {{ mentorSimStage }}/5</span>
+            <span class="text-gray-300">{{ mentorSimStageName }}</span>
+          </div>
+          <span class="font-mono text-cyan-400">{{ mentorSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="mentorSimProgress"
+          :color="'#f43f5e'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in mentorLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪校验凭证: </span>
+            <span class="text-rose-400 font-bold">{{ mentorCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="error" round @click="exportMentorCert">
+            <template #icon><span>📜</span></template>
+            导出全息导引与传承报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded border border-rose-500/30">
+                GODOT 4.6 LTS ONBOARDING
+              </span>
+              <span class="text-sm font-bold text-white">初心者导引与名师授业实机驱动</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级新手引导导演、子弹时间前摇判定器与名师无损传承系统实机代码。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in mentorshipCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeMentorshipCodeTab === codeTab.id ? 'error' : 'default'"
+              :secondary="activeMentorshipCodeTab !== codeTab.id"
+              @click="activeMentorshipCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveMentorshipCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-rose-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentMentorshipCode }}</pre>
       </div>
     </div>
   </div>
@@ -2416,6 +2647,357 @@ static func imprint_blue_magic_gene(
 		"reason": "Requires taking direct combat damage from creature"
 	}
 `
+
+// ==================== v2.2.312 初心导引与名师指津工坊状态与方法 ====================
+const scrollToNoviceMentorshipStudio = () => {
+  const el = document.getElementById('novice-mentorship-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.success('已直达初心导引与名师指津工坊')
+  }
+}
+
+interface MentorshipArchetype {
+  id: string
+  name: string
+  icon: string
+  badge: string
+  desc: string
+  power: string
+  passRate: string
+  affinity: number
+  frames: number
+  imprintRate: number
+  awakening: number
+}
+
+const mentorshipArchetypes: MentorshipArchetype[] = [
+  {
+    id: 'novice_onboarding',
+    name: '初心启蒙上手流',
+    icon: '🌱',
+    badge: '零门槛启航',
+    desc: '系统化四水晶属性教学，致命伤锁血圣盾全程兜底护航。',
+    power: '+12,500 CP',
+    passRate: '99.5%',
+    affinity: 85,
+    frames: 25,
+    imprintRate: 50,
+    awakening: 1.5
+  },
+  {
+    id: 'atb_frame_mastery',
+    name: '极限打断帧微操流',
+    icon: '⚡',
+    badge: '高阶进阶',
+    desc: '聚焦首领狂暴蓄力红光，子弹时间下毫秒级精准拼刀打断。',
+    power: '+28,000 CP',
+    passRate: '94.2%',
+    affinity: 90,
+    frames: 8,
+    imprintRate: 75,
+    awakening: 3.2
+  },
+  {
+    id: 'blue_mimicry_codex',
+    name: '太古青魔法肉身拟态流',
+    icon: '🧬',
+    badge: '基因烙印',
+    desc: '免挨打基因传授协议，全域魔物特异技能 100% 捕获复现。',
+    power: '+34,500 CP',
+    passRate: '91.8%',
+    affinity: 95,
+    frames: 12,
+    imprintRate: 98,
+    awakening: 2.8
+  },
+  {
+    id: 'grandmaster_dao',
+    name: '太古名师心法极意流',
+    icon: '🌌',
+    badge: '宗师奥义',
+    desc: '全被动无损继承，五遁与太古禁术融合，觉醒伤害突破极限。',
+    power: '+48,000 CP',
+    passRate: '98.8%',
+    affinity: 100,
+    frames: 15,
+    imprintRate: 90,
+    awakening: 4.5
+  }
+]
+
+const selectedMentorshipArchetype = ref<MentorshipArchetype>(mentorshipArchetypes[3])
+
+const noviceMentorAffinity = ref(100)
+const interruptFrames = ref(15)
+const geneImprintRate = ref(90)
+const awakeningMultiplier = ref(4.5)
+
+const enableNoviceShield = ref(true)
+const enableLosslessPassiveInherit = ref(true)
+const enableBulletTimeTelegraph = ref(true)
+
+const selectMentorshipArchetype = (arch: MentorshipArchetype) => {
+  selectedMentorshipArchetype.value = arch
+  noviceMentorAffinity.value = arch.affinity
+  interruptFrames.value = arch.frames
+  geneImprintRate.value = arch.imprintRate
+  awakeningMultiplier.value = arch.awakening
+  message.info(`已装配授业流派原型: ${arch.name}`)
+}
+
+const resetMentorshipDefaults = () => {
+  selectMentorshipArchetype(mentorshipArchetypes[3])
+  enableNoviceShield.value = true
+  enableLosslessPassiveInherit.value = true
+  enableBulletTimeTelegraph.value = true
+}
+
+const calculatedCpBoost = computed(() => {
+  let baseCp = noviceMentorAffinity.value * 220 + awakeningMultiplier.value * 5500
+  if (enableLosslessPassiveInherit.value) baseCp += 6500
+  if (enableNoviceShield.value) baseCp += 3000
+  return Math.floor(baseCp)
+})
+
+const calculatedTrialPassRate = computed(() => {
+  let rate = 70 + (noviceMentorAffinity.value / 100) * 15 + (interruptFrames.value / 30) * 10
+  if (enableBulletTimeTelegraph.value) rate += 4.5
+  return Math.min(99.9, Number(rate.toFixed(1)))
+})
+
+const calculatedMimicryCoverage = computed(() => {
+  let cov = 60 + (geneImprintRate.value / 100) * 35
+  if (enableLosslessPassiveInherit.value) cov += 4.5
+  return Math.min(99.9, Number(cov.toFixed(1)))
+})
+
+const calculatedMentorCert = computed(() => {
+  const score = calculatedTrialPassRate.value
+  if (score >= 98.0) return 'EX·太古宗师泰斗'
+  if (score >= 95.0) return 'SSS·高阶名师导师'
+  if (score >= 90.0) return 'SS·精通试炼导师'
+  return 'S·见习导师执照'
+})
+
+const isMentorSimulating = ref(false)
+const mentorSimStage = ref(1)
+const mentorSimStageName = ref('就绪等待')
+const mentorSimProgress = ref(0)
+const mentorCertHash = ref('B4F2E7D9-9A1C-4B3E-8D5F-1C2E3D4F5A6B')
+
+interface MentorLogEntry {
+  time: string
+  text: string
+  color: string
+}
+
+const mentorLogs = ref<MentorLogEntry[]>([
+  { time: '13:00:00', text: '[MentorshipInit] 初心导引与名师指津工坊初始化就绪，等待注入研修指令...', color: 'text-gray-400' }
+])
+
+const runMentorshipSimulation = () => {
+  if (isMentorSimulating.value) return
+  isMentorSimulating.value = true
+  mentorSimStage.value = 1
+  mentorSimProgress.value = 15
+  mentorSimStageName.value = '初心者启蒙圣所环境自检与锁血圣盾挂载'
+  mentorLogs.value = [
+    { time: new Date().toLocaleTimeString(), text: '[NoviceShield] 致命伤锁血圣盾完成部署，兜底阈值 1 HP 保障生效', color: 'text-rose-400' }
+  ]
+
+  setTimeout(() => {
+    mentorSimStage.value = 2
+    mentorSimProgress.value = 40
+    mentorSimStageName.value = '首领大招前摇子弹时间与判定帧微操对齐'
+    mentorLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[BulletTime] 首领蓄力减速 75%，判定窗口 ${interruptFrames.value} 帧，打断成功率 ${calculatedTrialPassRate.value}%`,
+      color: 'text-amber-400'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    mentorSimStage.value = 3
+    mentorSimProgress.value = 65
+    mentorSimStageName.value = '青魔法魔物基因烙印与免挨打传授通道开启'
+    mentorLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[GeneImprint] 免伤基因传授烙印率 ${geneImprintRate.value}%，完成 32 种魔物拟态技能注入`,
+      color: 'text-cyan-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    mentorSimStage.value = 4
+    mentorSimProgress.value = 85
+    mentorSimStageName.value = '太古名师心法极意觉醒突破封板'
+    mentorLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[DaoAwakening] 战力加成 +${calculatedCpBoost.value} CP，突破倍率 ${awakeningMultiplier.value.toFixed(1)}x 无损融合`,
+      color: 'text-purple-400'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    mentorSimStage.value = 5
+    mentorSimProgress.value = 100
+    mentorSimStageName.value = '推演闭环完成，传承证书已签署'
+    const hex = Array.from({ length: 8 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('').toUpperCase()
+    mentorCertHash.value = `MTR-${hex}-${Math.floor(Date.now() / 1000)}`
+    mentorLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Done] 全息导引推演完成！名师传承级别: ${calculatedMentorCert.value}`,
+      color: 'text-emerald-300 font-bold'
+    })
+    isMentorSimulating.value = false
+    message.success('全息导引与名师指津推演完成！')
+  }, 1600)
+}
+
+const exportMentorCert = () => {
+  const data = {
+    studio: 'Novice Onboarding, Combat Mastery & Master Mentorship Studio v2.2.312',
+    timestamp: new Date().toISOString(),
+    archetype: selectedMentorshipArchetype.value.name,
+    mentorAffinity: noviceMentorAffinity.value,
+    interruptFrames: interruptFrames.value,
+    geneImprintRate: geneImprintRate.value,
+    awakeningMultiplier: awakeningMultiplier.value,
+    cpBoost: calculatedCpBoost.value,
+    trialPassRate: calculatedTrialPassRate.value,
+    mimicryCoverage: calculatedMimicryCoverage.value,
+    mentorCert: calculatedMentorCert.value,
+    sha256Signature: mentorCertHash.value
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `mentor-trial-${mentorCertHash.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('防伪证书与传承报告已导出')
+}
+
+// Godot 4.6 LTS 源码展台
+const activeMentorshipCodeTab = ref('tutorial_director')
+const mentorshipCodeTabs = [
+  { id: 'tutorial_director', name: '新手引导与子弹时间导演' },
+  { id: 'stagger_evaluator', name: '打断判定与硬直判定器' },
+  { id: 'inheritance_pact', name: '名师传承无损协议系统' }
+]
+
+const mentorshipSourceCodes: Record<string, string> = {
+  tutorial_director: `## novice_tutorial_director.gd
+## 《光之战士：时空裂隙》初心者全息引导与子弹时间减速导演
+## 架构版本: Godot 4.6 LTS / Novice Guidance System
+
+class_name NoviceTutorialDirector
+extends Node
+
+signal bullet_time_triggered(time_scale: float, duration_seconds: float)
+signal novice_fatal_ward_saved(current_hp: int)
+
+var _is_bullet_time_active: bool = false
+var _fatal_ward_active: bool = true
+
+## 开启首领蓄力子弹时间 (减速至 25%)
+func enter_boss_telegraph_bullet_time(scale: float = 0.25, duration: float = 2.0) -> void:
+	if _is_bullet_time_active:
+		return
+	_is_bullet_time_active = true
+	Engine.time_scale = scale
+	bullet_time_triggered.emit(scale, duration)
+	
+	var timer := get_tree().create_timer(duration * scale, true, false, true)
+	timer.timeout.connect(func():
+		Engine.time_scale = 1.0
+		_is_bullet_time_active = false
+	)
+
+## 新手保护锁血圣盾检验
+func intercept_fatal_damage(incoming_damage: int, current_hp: int) -> int:
+	if current_hp - incoming_damage <= 0 and _fatal_ward_active:
+		_fatal_ward_active = false
+		novice_fatal_ward_saved.emit(1)
+		push_warning("[NoviceShield] 触发致命伤锁血圣盾，角色保留 1 点生命值！")
+		return current_hp - 1
+	return incoming_damage
+`,
+  stagger_evaluator: `## combat_stagger_frame_evaluator.gd
+## 《光之战士：时空裂隙》实战技能打断帧窗口与极限硬直判定器
+## 架构版本: Godot 4.6 LTS / Battle Tactics Engine
+
+class_name CombatStaggerFrameEvaluator
+extends RefCounted
+
+signal boss_interrupted(boss_id: String, counter_damage: int)
+signal interrupt_missed(reason: String)
+
+var _window_frames: int = 15
+var _current_frame_counter: int = 0
+
+func _init(window: int = 15) -> void:
+	_window_frames = window
+
+## 判定玩家攻击是否命中首领蓄力帧窗口
+func evaluate_player_counter(boss_state: Dictionary, input_frame: int) -> bool:
+	var telegraph_start: int = boss_state.get("telegraph_start_frame", 0)
+	var diff := input_frame - telegraph_start
+	
+	if diff >= 0 and diff <= _window_frames:
+		var counter_dmg = int(boss_state.get("incoming_damage", 1000) * 2.5)
+		boss_interrupted.emit(boss_state.get("boss_id", "UNKNOWN"), counter_dmg)
+		return true
+	else:
+		interrupt_missed.emit("Out of timing window (diff: %d frames, limit: %d frames)" % [diff, _window_frames])
+		return false
+`,
+  inheritance_pact: `## master_inheritance_pact_system.gd
+## 《光之战士：时空裂隙》太古名师心法极意与青魔法基因无损传承系统
+## 架构版本: Godot 4.6 LTS / Character Mentorship
+
+class_name MasterInheritancePactSystem
+extends RefCounted
+
+signal passive_inherited(passive_id: String, potency: float)
+signal blue_magic_unlocked(spell_name: String)
+
+var _mentor_passives: Array[Dictionary] = []
+var _lossless_mode: bool = true
+
+func register_master_passive(id: String, potency: float, type: String) -> void:
+	_mentor_passives.append({ "id": id, "potency": potency, "type": type })
+
+## 将名师所有精通被动 100% 无损注入学徒数据
+func transfer_pact_to_apprentice(apprentice_stats: Dictionary) -> Dictionary:
+	var result := apprentice_stats.duplicate(true)
+	if not result.has("passives"):
+		result["passives"] = []
+		
+	for p in _mentor_passives:
+		result["passives"].append(p["id"])
+		passive_inherited.emit(p["id"], p["potency"])
+		
+	result["mentor_affinity"] = 100
+	result["mastery_awakened"] = true
+	return result
+`
+}
+
+const currentMentorshipCode = computed(() => {
+  return mentorshipSourceCodes[activeMentorshipCodeTab.value] || ''
+})
+
+const copyActiveMentorshipCode = () => {
+  navigator.clipboard.writeText(currentMentorshipCode.value).then(() => {
+    message.success(`${activeMentorshipCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
 </script>
 
 <style scoped>
