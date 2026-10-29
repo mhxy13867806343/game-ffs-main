@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-armory-affix-equilibrium-v334-2026-10-29',
+    version: 'v2.2.334',
+    date: '2026-10-29',
+    title: '全角色配装沙盘模拟器、词缀平衡推演与属性极值工坊重磅实装',
+    category: 'equipment',
+    categoryName: '配装极值',
+    icon: '⚖️',
+    tagType: 'warning',
+    description: '全面重构升级 ArmorySimulatorView 配装沙盘门户：顶部标章升级为 VBLE Armory Sandbox, Affix Equilibrium & Stat Extremum Studio v2.2.334，新增全角色词缀平衡与属性极值工坊快捷直达；专区重磅实装【全角色配装沙盘模拟器、词缀平衡推演与属性极值工坊】（Affix Equilibrium & Stat Extremum Studio）；覆盖四大配装极值原型（巴兹·太古鸡刀逃跑极速暴击流、蕾娜·太古神盾全域回生壁垒流、加拉夫·王者之剑全抗破邪神威流、法利斯·与一之弓四连乱击破甲流）；支持全装备词缀平衡推演系数 (50%~100%)、属性极值突破硬上限 (255~999 点)、八连乱击多段伤害穿透倍率 (1.0x~8.0x) 与四人战队配装共鸣光环半径 (5.0~30.0 m) 连续微调；支持抹除重型武器行动条惩罚延迟、突破单双持限制全武器二刀流、词缀属性溢出自动转化为真实攻击力；实时解算战队综合伤害秒伤 (突破 5,000 万)、词缀平衡收敛指数 (高达 99.9%)、战队配装免伤稳态率 (高达 99.9%) 与配装神匠评级 (高达 EX·太古神兵八连乱击圣皇)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：affix_equilibrium_engine.gd、rapid_fire_multi_hit_resolver.gd 与 universal_dual_wield_governor.gd。',
+    highlights: [
+      '四大配装极值原型：巴兹极速鸡刀、蕾娜圣域回生、加拉夫王者破邪与法利斯神射乱击',
+      '四维连续配装物理参数：词缀平衡系数、属性极值上限、八连乱击倍率与共鸣光环半径',
+      '三重配装解限特权：重型武器零延迟、全武器自由二刀流与词缀溢出真伤动态转化',
+      '动态深层配装指标解算：战队综合秒伤、词缀收敛指数、配装免伤稳态率与配装神匠评级',
+      '五阶段配装推演沙盘：神兵共振匹配、张量平衡拟合、二刀流乱击解算、极值溢出注入与方案导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源词缀平衡引擎、八连乱击判定总线与全武器二刀流仲裁器'
+    ],
+    relatedLinks: [
+      { label: '角色配装模拟器', path: '/vble/armory', icon: '⚔️' },
+      { label: '词缀极值工坊', path: '/vble/armory', icon: '⚖️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-attributes-armor-pen-v333-2026-10-29',
     version: 'v2.2.333',
     date: '2026-10-29',

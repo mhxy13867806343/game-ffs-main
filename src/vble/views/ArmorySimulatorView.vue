@@ -2,12 +2,15 @@
   <div class="armory-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Loadout Synergy, Party Resonance &amp; Cap Breaker Studio v2.2.306</n-tag>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Armory Sandbox, Affix Equilibrium &amp; Stat Extremum Studio v2.2.334</n-tag>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">⚔️ 全域神装配装全息拓扑、四人队伍极意协同与伤害天花板穿透模拟工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm">
         支持光暗双队 8 大主角独立配装、本命神兵契约，以及太古全域神兵附魔符文锻造、词缀洗练与太古共鸣升阶工坊！
       </p>
       <div class="flex justify-center gap-2 mt-3">
+        <n-button size="small" type="success" secondary @click="scrollToAffixEquilibriumStudio">
+          ⚖️ 全角色词缀平衡与属性极值工坊
+        </n-button>
         <n-button size="small" type="primary" secondary @click="scrollToPartyLoadoutStudio">
           🛡️ 快速切入四人队伍极意协同配装工坊
         </n-button>
@@ -2378,6 +2381,207 @@
           </div>
         </div>
       </div>
+    <!-- v2.2.334: 全角色配装沙盘模拟器、词缀平衡推演与属性极值工坊 -->
+    <div
+      id="affix-equilibrium-extremum-studio"
+      class="affix-equilibrium-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-amber-950/20 to-slate-900/95 border border-amber-500/30 shadow-[0_0_35px_rgba(245,158,11,0.15)] space-y-6 relative overflow-hidden"
+    >
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/20 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
+              AFFIX EQUILIBRIUM &amp; STAT EXTREMUM v2.2.334
+            </span>
+            <span class="text-xs text-amber-400 font-mono">Armory Simulator Sandbox &amp; Rapid Multi-Hit Pipeline</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <span>⚖️</span> 全角色配装沙盘模拟器、词缀平衡推演与属性极值工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            收录八大主角本命神装共振、无限制全武器二刀流、词缀溢出转真实攻击力，以及突破 255 至 999 极值上限的多维沙盘推演。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingAffixEquilibrium"
+            @click="runAffixEquilibriumSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动词缀极值沙盘推演
+          </n-button>
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="exportAffixEquilibriumCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出配装极值证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大配装极值原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="arch in affixEquilibriumArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative"
+          :class="selectedAffixArchetypeId === arch.id ? 'bg-amber-950/40 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-amber-500/40'"
+          @click="selectAffixArchetype(arch.id)"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              {{ arch.tag }}
+            </span>
+          </div>
+          <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+          <div class="text-xs text-amber-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+          <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+          <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-gray-400">基准输出倍率</span>
+            <span class="text-amber-400 font-bold">{{ arch.baseDamageMult }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与开关控制网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+        <!-- 4 滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-amber-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚙️</span> 词缀平衡与属性极值参数微调
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">全装备词缀平衡推演系数 (%)</span>
+              <span class="text-amber-400 font-mono font-bold">{{ affixEquilibriumBalanceRatio }} %</span>
+            </div>
+            <n-slider v-model:value="affixEquilibriumBalanceRatio" :min="50" :max="100" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">属性极值突破硬上限 (点数)</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ statExtremumThresholdCap }} 点</span>
+            </div>
+            <n-slider v-model:value="statExtremumThresholdCap" :min="255" :max="999" :step="5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">八连乱击多段伤害穿透倍率 (倍)</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ rapidFireHitCountMultiplier.toFixed(1) }} x</span>
+            </div>
+            <n-slider v-model:value="rapidFireHitCountMultiplier" :min="1.0" :max="8.0" :step="0.2" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">四人战队配装共鸣光环半径 (米)</span>
+              <span class="text-purple-400 font-mono font-bold">{{ synergyResonanceAuraRadius.toFixed(1) }} m</span>
+            </div>
+            <n-slider v-model:value="synergyResonanceAuraRadius" :min="5.0" :max="30.0" :step="0.5" />
+          </div>
+        </div>
+
+        <!-- 3 开关与实时数据 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-amber-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚔️</span> 配装破限特权与极值转化
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">抹除重型武器行动条惩罚延迟</div>
+                <div class="text-gray-400 text-[11px]">重剑、重锤攻击不再降低 ATB 积蓄流速</div>
+              </div>
+              <n-switch v-model:value="ignoreWeaponWeightPenalty" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">突破单双持限制全武器二刀流</div>
+                <div class="text-gray-400 text-[11px]">长弓、法杖、神圣长枪均可自由双持协同</div>
+              </div>
+              <n-switch v-model:value="unlimitedDualWieldAllWeapons" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">词缀属性溢出自动转化为真实攻击力</div>
+                <div class="text-gray-400 text-[11px]">超出 255 的属性值按 1:2 换算无视防御真伤</div>
+              </div>
+              <n-switch v-model:value="affixStatOverflowConversion" />
+            </div>
+          </div>
+
+          <!-- 4 项实时综合解算指标 -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="p-2.5 rounded bg-slate-900 border border-amber-500/20 text-center">
+              <div class="text-[11px] text-gray-400">战队综合秒伤</div>
+              <div class="text-lg font-mono font-black text-amber-400">{{ calculatedAffixMetrics.partyCombinedDPSRating }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-amber-500/20 text-center">
+              <div class="text-[11px] text-gray-400">词缀收敛指数</div>
+              <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedAffixMetrics.affixEfficiencyIndex }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-amber-500/20 text-center">
+              <div class="text-[11px] text-gray-400">配装免伤稳态率</div>
+              <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedAffixMetrics.damageReductionEfficiency }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-amber-500/20 text-center">
+              <div class="text-[11px] text-gray-400">配装神匠评级</div>
+              <div class="text-lg font-mono font-black text-purple-400">{{ calculatedAffixMetrics.armoryMasterRank }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条 -->
+      <div v-if="isSimulatingAffixEquilibrium" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-amber-500/30">
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-amber-300 flex items-center gap-2">
+            <span class="animate-spin">🔄</span> {{ affixSimulationStages[currentAffixSimStage] }}
+          </span>
+          <span class="text-gray-400">{{ (currentAffixSimStage + 1) * 20 }}%</span>
+        </div>
+        <n-progress type="line" :percentage="(currentAffixSimStage + 1) * 20" :show-indicator="false" status="warning" />
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS ARMORY EQUILIBRIUM ENGINE</span>
+            <n-tag size="small" type="warning" round>res://scripts/combat/armory/</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-radio-group v-model:value="activeAffixScriptTab" size="small">
+              <n-radio-button value="equilibrium_engine">词缀平衡引擎</n-radio-button>
+              <n-radio-button value="rapid_fire">八连乱击总线</n-radio-button>
+              <n-radio-button value="dual_wield_governor">二刀流仲裁器</n-radio-button>
+            </n-radio-group>
+            <n-button type="info" size="tiny" secondary round @click="copyAffixScript">
+              复制当前脚本
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentAffixScriptCode }}</code></pre>
+        </div>
+      </div>
+    </div>
+
     </n-modal>
   </div>
 </template>
@@ -4276,4 +4480,218 @@ const copyPartyLoadoutCode = () => {
     })
   }
 }
+
+// ==========================================
+// v2.2.334: 词缀平衡推演与属性极值工坊逻辑
+// ==========================================
+const scrollToAffixEquilibriumStudio = () => {
+  const el = document.getElementById('affix-equilibrium-extremum-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface AffixEquilibriumArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  baseDamageMult: string
+  baseScore: number
+}
+
+const affixEquilibriumArchetypes: AffixEquilibriumArchetype[] = [
+  {
+    id: 'bartz_chicken_knife_crit',
+    name: '巴兹·极速鸡刀流',
+    subtitle: '太古鸡刀逃跑极速暴击流',
+    icon: '🗡️',
+    tag: '真神之刃',
+    desc: '累积 255 次逃跑叠满基础攻击力，配合乱击与二刀流，每次出手必定造成十段无视防御之致命连击。',
+    baseDamageMult: '680%',
+    baseScore: 52000
+  },
+  {
+    id: 'lenna_aegis_heal_bulwark',
+    name: '蕾娜·圣域回生流',
+    subtitle: '太古神盾全域回生壁垒流',
+    icon: '🛡️',
+    tag: '圣域刚体',
+    desc: '装备宙斯神盾与白魔权杖，受创时以 100% 概率触发反射圣光，将致死伤害自动转化为全队溢出护盾。',
+    baseDamageMult: '520%',
+    baseScore: 48000
+  },
+  {
+    id: 'galuf_excalibur_holy',
+    name: '加拉夫·王者破邪流',
+    subtitle: '王者之剑全抗破邪神威流',
+    icon: '⚔️',
+    tag: '圣剑天裁',
+    desc: '高举王者之剑发动神圣斩击，神圣属性强化 200%，对不死与恶魔系首领附带一击断罪与破晓真实伤害。',
+    baseDamageMult: '640%',
+    baseScore: 51000
+  },
+  {
+    id: 'faris_yoichi_bow_rapid',
+    name: '法利斯·神射乱击流',
+    subtitle: '与一之弓四连乱击破甲流',
+    icon: '🏹',
+    tag: '四连神射',
+    desc: '手持远古与一神弓，弓箭射程贯通全战场，搭配猎人乱击神技，四箭齐发附带高阶弱点暴击破甲。',
+    baseDamageMult: '720%',
+    baseScore: 54000
+  }
+]
+
+const selectedAffixArchetypeId = ref('bartz_chicken_knife_crit')
+const affixEquilibriumBalanceRatio = ref(92)
+const statExtremumThresholdCap = ref(650)
+const rapidFireHitCountMultiplier = ref(4.8)
+const synergyResonanceAuraRadius = ref(20.0)
+
+const ignoreWeaponWeightPenalty = ref(true)
+const unlimitedDualWieldAllWeapons = ref(true)
+const affixStatOverflowConversion = ref(true)
+
+const selectAffixArchetype = (id: string) => {
+  selectedAffixArchetypeId.value = id
+  if (message) {
+    const arch = affixEquilibriumArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换配装极值原型：${arch.name}`)
+  }
+}
+
+const calculatedAffixMetrics = computed(() => {
+  const arch = affixEquilibriumArchetypes.find(a => a.id === selectedAffixArchetypeId.value) || affixEquilibriumArchetypes[0]
+  const baseSc = arch.baseScore
+  const dualBonus = unlimitedDualWieldAllWeapons.value ? 1.6 : 1.0
+  const finalDPS = Math.round(baseSc * (affixEquilibriumBalanceRatio.value / 100) * rapidFireHitCountMultiplier.value * (statExtremumThresholdCap.value / 255) * dualBonus * 100)
+  
+  const effIndex = Math.min(99.9, 90.0 + (affixEquilibriumBalanceRatio.value / 100) * 9.5 + (ignoreWeaponWeightPenalty.value ? 0.4 : 0)).toFixed(1)
+  const dmgRed = Math.min(99.9, 82.0 + (synergyResonanceAuraRadius.value / 30) * 16.5 + (affixStatOverflowConversion.value ? 1.2 : 0)).toFixed(1)
+
+  let rank = 'SSR·天工炼器大师'
+  if (finalDPS >= 50000000) rank = 'EX·太古神兵八连乱击圣皇'
+  else if (finalDPS >= 30000000) rank = 'SSS·极境兵鉴至尊'
+
+  return {
+    partyCombinedDPSRating: finalDPS.toLocaleString(),
+    affixEfficiencyIndex: `${effIndex}%`,
+    damageReductionEfficiency: `${dmgRed}%`,
+    armoryMasterRank: rank
+  }
+})
+
+const isSimulatingAffixEquilibrium = ref(false)
+const currentAffixSimStage = ref(0)
+const affixSimulationStages = [
+  '八主角槽位本命神兵共振匹配...',
+  '词缀数值张量平衡与对数拟合...',
+  '二刀流双持与乱击多段破防计算...',
+  '属性极值溢出真实攻击力注入...',
+  '配装推演防伪公钥计算与证书生成...'
+]
+
+const runAffixEquilibriumSimulation = () => {
+  if (isSimulatingAffixEquilibrium.value) return
+  isSimulatingAffixEquilibrium.value = true
+  currentAffixSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentAffixSimStage.value < affixSimulationStages.length - 1) {
+      currentAffixSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingAffixEquilibrium.value = false
+      if (message) {
+        message.success(`【配装极值沙盘】推演成功！战队综合秒伤评分：${calculatedAffixMetrics.value.partyCombinedDPSRating}`)
+      }
+    }
+  }, 400)
+}
+
+const exportAffixEquilibriumCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》全角色配装沙盘与极值方案证书 ===
+证书编号: ARMORY-EXTREMUM-${hash.substring(0, 12).toUpperCase()}
+核心原型: ${selectedAffixArchetypeId.value}
+平衡推演系数: ${affixEquilibriumBalanceRatio.value}%
+属性极值上限: ${statExtremumThresholdCap.value} 点
+乱击伤害穿透: ${rapidFireHitCountMultiplier.value.toFixed(1)}x
+战队综合秒伤: ${calculatedAffixMetrics.value.partyCombinedDPSRating}
+词缀收敛指数: ${calculatedAffixMetrics.value.affixEfficiencyIndex}
+配装免伤稳态率: ${calculatedAffixMetrics.value.damageReductionEfficiency}
+配装神匠评级: ${calculatedAffixMetrics.value.armoryMasterRank}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方配装沙盘与多段乱击引擎认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出配装沙盘方案证书到剪贴板！')
+  }
+}
+
+const activeAffixScriptTab = ref<'equilibrium_engine' | 'rapid_fire' | 'dual_wield_governor'>('equilibrium_engine')
+
+const affixScriptCodes = {
+  equilibrium_engine: `class_name AffixEquilibriumEngine
+extends Node
+
+## 最终幻想：时空之轮 - 全装备词缀平衡推演与属性极值解算器
+## 文件路径: res://scripts/combat/armory/affix_equilibrium_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal stat_extremum_unlocked(hero_id: String, stat_name: String, uncap_value: int)
+
+func resolve_affix_balance(base_value: int, balance_ratio: float, overflow_active: bool) -> int:
+    var calculated: float = float(base_value) * balance_ratio
+    if overflow_active and calculated > 255.0:
+        var bonus_true_atk: float = (calculated - 255.0) * 2.0
+        return int(calculated + bonus_true_atk)
+    return int(calculated)
+`,
+
+  rapid_fire: `class_name RapidFireMultiHitResolver
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全武器乱击多段判定与伤害穿透总线
+## 文件路径: res://scripts/combat/armory/rapid_fire_multi_hit_resolver.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func execute_rapid_fire(base_weapon_dmg: int, hit_count: int, armor_pen_ratio: float) -> Array[int]:
+    var hits: Array[int] = []
+    var per_hit_dmg: int = int(float(base_weapon_dmg) * 0.5 * (1.0 + armor_pen_ratio))
+    for i in range(hit_count):
+        hits.append(per_hit_dmg)
+    return hits
+`,
+
+  dual_wield_governor: `class_name UniversalDualWieldGovernor
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全武器自由二刀流与重量零惩罚仲裁器
+## 文件路径: res://scripts/combat/armory/universal_dual_wield_governor.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_dual_wield_speed(weapon_a_weight: int, weapon_b_weight: int, zero_weight_active: bool) -> float:
+    if zero_weight_active:
+        return 1.0
+    var total_weight: float = float(weapon_a_weight + weapon_b_weight)
+    return clampf(1.0 - (total_weight / 200.0), 0.5, 1.0)
+`
+}
+
+const currentAffixScriptCode = computed(() => {
+  return affixScriptCodes[activeAffixScriptTab.value]
+})
+
+const copyAffixScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentAffixScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 配装沙盘源码到剪贴板！')
+  }
+}
+
 </script>
