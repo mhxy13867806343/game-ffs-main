@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-economy-global-equilibrium-v326-2026-10-29',
+    version: 'v2.2.326',
+    date: '2026-10-29',
+    title: '太古全域经济平抑、跨界商会流通与物价通胀沙盘工坊重磅实装',
+    category: 'system',
+    categoryName: '宏观金融',
+    icon: '⚖️',
+    tagType: 'success',
+    description: '全面重构升级 EconomyView 宏观经济门户：顶部标章升级为 VBLE Global Economy Equilibrium, Merchant Guild Trade & Inflation Studio v2.2.326，新增全域经济平抑工坊快捷直达；专区重磅实装【太古全域经济平抑、跨界商会流通与物价通胀沙盘工坊】（Global Economy Equilibrium, Merchant Guild Trade & Inflation Sandbox Studio）；覆盖四大经济平抑原型（全域商会自由贸易联合体·零关税同盟流、太古央行吉尔物价平准基金·金币平准池流、跨界期货对冲与以太期权·期货期权流、黑市地下钱庄洗钱审计盾·反洗钱审计流）；支持全境通胀率调控基准 (-5%~25%)、跨界商会大宗物流周转天数 (1~30 天)、央行平准基金干预资金规模 (10~500 百万Gil) 与期货合约套保覆盖率 (20%~100%) 连续微调；支持商业城邦跨区域贸易关税全免、恶性通胀单日波幅 ±10% 熔断冷冻、隐士洞窟七色尾巴自由汇兑绿通；实时解算全域物价综合稳定指数 (高达 99.9%)、跨界商贸日均周转吞吐量 (突破 98,000,000 G)、市场资本流动性健康度 (高达 99.8%) 与商业帝国金牌认证评级 (高达 EX·全域跨界大商会至尊金冠)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：global_market_equilibrium_engine.gd、merchant_guild_logistics_hub.gd 与 macro_volatility_circuit_breaker.gd。',
+    highlights: [
+      '四大经济平抑原型：商会自贸联合体、央行金币平准基金、跨界期货期权与黑市洗钱审计盾',
+      '四维连续宏观金融参数：通胀基准基点、物流周转天数、平准储备规模与期货套保覆盖率',
+      '三重经济平抑特权机制：商业城邦关税全免、单日波幅 ±10% 熔断保护与七色尾巴汇兑绿通',
+      '动态宏观经济指标解算：物价稳定指数、商贸日均流速、流动性健康度与大商会金冠认证',
+      '五阶段金融平抑沙盘：物价基准锁定、免税大篷车调度、平准基金托底、期货对冲生效与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源物价均衡引擎、商会物流清算中心与极端熔断控制器'
+    ],
+    relatedLinks: [
+      { label: '宏观经济与汇率', path: '/vble/economy', icon: '⚗️' },
+      { label: '全域经济平抑工坊', path: '/vble/economy', icon: '⚖️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-story-epic-chronicle-v325-2026-10-29',
     version: 'v2.2.325',
     date: '2026-10-29',

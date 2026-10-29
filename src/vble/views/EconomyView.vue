@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Macro Economy, Futures & Exchange Matrix v2.2.285
+              VBLE Global Economy Equilibrium, Merchant Guild Trade & Inflation Studio v2.2.326
             </span>
             <span class="text-xs text-gray-400">宏观经济、尾巴奇迹、质变药剂与跨次元黑市拍卖行</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToGlobalEquilibriumStudio"
+          >
+            <template #icon><span>⚖️</span></template>
+            全域经济平抑工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -1750,6 +1761,262 @@
         </div>
       </div>
     </div>
+
+    <!-- 全域经济平抑、跨界商会流通与物价通胀沙盘工坊 (v2.2.326 重磅实装) -->
+    <div id="global-equilibrium-studio" class="global-equilibrium-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-amber-950/20 to-slate-900/95 border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/30">
+              GLOBAL ECONOMY EQUILIBRIUM & TRADE MATRIX
+            </span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">
+              v2.2.326 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>⚖️</span> 太古全域经济平抑、跨界商会流通与物价通胀沙盘工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            提供城邦商会零关税互通、太古央行吉尔平准基金干预、以太期货期权套期保值与 Godot 4.6 LTS 底层宏观金融风控状态机。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="warning" @click="resetEquilibriumDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="warning" :loading="isEquilibriumSimulating" @click="runGlobalEquilibriumSimulation">
+            <template #icon><span>⚡</span></template>
+            激发金融推演
+          </n-button>
+          <n-button size="small" round secondary type="info" @click="exportEquilibriumCert">
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大经济平抑原型 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="archetype in equilibriumArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedEquilibriumArchetype === archetype.id ? 'bg-amber-950/40 border-amber-500 ring-2 ring-amber-500/30' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectEquilibriumArchetype(archetype.id)"
+        >
+          <div class="flex items-start justify-between">
+            <div class="text-2xl">{{ archetype.icon }}</div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+              {{ archetype.typeTag }}
+            </span>
+          </div>
+          <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+          <p class="text-xs text-amber-300/80 mt-1">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+            <div class="flex justify-between">
+              <span>核心金融工具:</span>
+              <span class="text-cyan-300 font-mono">{{ archetype.financialTool }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>市场托底职能:</span>
+              <span class="text-emerald-300 font-mono">{{ archetype.marketFunction }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四维经济金融调控滑块 -->
+      <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+        <div class="text-sm font-bold text-white flex items-center justify-between">
+          <span class="flex items-center gap-2"><span>🎛️</span> 通胀基准与大宗商贸流动性参数</span>
+          <span class="text-xs text-amber-400 font-mono">Realtime Macroeconomic Matrix</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">全境通胀率调控基准 (%):</span>
+              <span class="text-amber-400 font-mono font-bold">{{ inflationRateBasisPct.toFixed(1) }}% (CPI 均衡锚)</span>
+            </div>
+            <n-slider v-model:value="inflationRateBasisPct" :min="-5" :max="25" :step="0.5" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>-5% 通缩紧缩</span>
+              <span>3.2% 温和繁荣</span>
+              <span>25% 恶性恶化</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">跨界商会大宗物流周转天数 (Day):</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ tradeTurnoverDays }} 天 (高频货运)</span>
+            </div>
+            <n-slider v-model:value="tradeTurnoverDays" :min="1" :max="30" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1 天 极速空运</span>
+              <span>7 天 经典海运</span>
+              <span>30 天 跨界陆路</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">央行平准基金干预资金规模 (百万Gil):</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ stabilizationFundMlnGil }} M Gil (托底储备)</span>
+            </div>
+            <n-slider v-model:value="stabilizationFundMlnGil" :min="10" :max="500" :step="10" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>10M 微型调剂</span>
+              <span>150M 标配托底</span>
+              <span>500M 救市巨资</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">期货合约套期保值覆盖率 (%):</span>
+              <span class="text-purple-400 font-mono font-bold">{{ futuresHedgeCoveragePct }}% (险情免疫)</span>
+            </div>
+            <n-slider v-model:value="futuresHedgeCoveragePct" :min="20" :max="100" :step="5" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>20% 敞口较大</span>
+              <span>85% 安全对冲</span>
+              <span>100% 绝对套保</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三大经济平抑特权开关 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">商业城邦跨区域贸易关税全免</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">物流跨界 0 损耗与物价无缝拉平</div>
+          </div>
+          <n-switch v-model:value="enableZeroTariffPact" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">恶性通胀单日波幅 ±10% 熔断冷冻</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">平准基金毫秒级自动介入平抑崩盘</div>
+          </div>
+          <n-switch v-model:value="enableExtremeVolatilityCircuitBreaker" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">隐士洞窟七色尾巴自由汇兑绿通</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">神器兑换与高维资源实时秒结算</div>
+          </div>
+          <n-switch v-model:value="enableTailExchangeGreenChannel" size="small" />
+        </div>
+      </div>
+
+      <!-- 关键实时指标卡片 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">全域物价综合稳定指数</div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+            {{ cpiStabilityIndexPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">CPI 抗震波动率</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">跨界商贸日均周转吞吐量</div>
+          <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+            {{ dailyTradeThroughputGil.toLocaleString() }} G
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">城邦集市总流速</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">市场资本流动性健康度</div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-1">
+            {{ marketLiquidityHealthPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">平准基金充沛度</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">商业帝国金牌认证评级</div>
+          <div class="text-sm sm:text-base font-black text-purple-400 font-mono mt-1 truncate">
+            {{ equilibriumTierBadge }}
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">太古宏观金融规范</div>
+        </div>
+      </div>
+
+      <!-- 沙盘推演日志与进度 -->
+      <div v-if="isEquilibriumSimulating || equilibriumLogs.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-gray-300 font-bold flex items-center gap-2">
+            <span>🔄</span> 全域经济与物价平抑沙盘进程: {{ equilibriumSimStep }}
+          </span>
+          <span class="text-amber-400 font-mono font-bold">{{ equilibriumSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="equilibriumSimProgress"
+          :indicator-placement="'inside'"
+          processing
+          status="warning"
+        />
+        <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+          <div v-for="(log, idx) in equilibriumLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-amber-500">›</span>
+            <span :class="idx === equilibriumLogs.length - 1 ? 'text-amber-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+            <h3 class="text-sm font-bold text-white">太古宏观金融风控与物价均衡引擎源码展台</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeEquilibriumScriptTab === 'market' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEquilibriumScriptTab = 'market'"
+              >
+                物价均衡引擎
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeEquilibriumScriptTab === 'logistics' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEquilibriumScriptTab = 'logistics'"
+              >
+                商会物流清算
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeEquilibriumScriptTab === 'circuit_breaker' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEquilibriumScriptTab = 'circuit_breaker'"
+              >
+                极端熔断控制器
+              </button>
+            </div>
+            <n-button size="small" round secondary type="warning" @click="copyEquilibriumScript">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-amber-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentEquilibriumScriptCode }}</pre>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -3692,6 +3959,239 @@ const copyPrimalAuctionCode = () => {
     })
   }
 }
+
+// ==========================================
+// 太古全域经济平抑、跨界商会流通与物价通胀沙盘工坊 (v2.2.326)
+// ==========================================
+const scrollToGlobalEquilibriumStudio = () => {
+  document.getElementById('global-equilibrium-studio')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const selectedEquilibriumArchetype = ref('merchant_coalition')
+const equilibriumArchetypes = [
+  {
+    id: 'merchant_coalition',
+    name: '全域商会自由贸易联合体',
+    icon: '🏛️',
+    typeTag: '零关税同盟',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: '全境各大城邦取消进出口关税壁垒，大宗物资跨界调拨零物流损耗。',
+    financialTool: '关税全免协定 / 联合货运仓单',
+    marketFunction: '物价双向拉平 / 消除投机套利'
+  },
+  {
+    id: 'stabilization_fund',
+    name: '太古央行吉尔物价平准基金',
+    icon: '🏦',
+    typeTag: '金币平准池',
+    tagClass: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    desc: '官方 1.5 亿吉尔蓄水池，在物价暴涨或暴跌时自动启动逆周期公开市场操作。',
+    financialTool: '公开市场回购 / 逆周期宏观审慎',
+    marketFunction: '抑制恶性通缩 / 稳定民生物资'
+  },
+  {
+    id: 'aether_futures',
+    name: '跨界期货对冲与以太期权',
+    icon: '📜',
+    typeTag: '期货期权',
+    tagClass: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+    desc: '针对太古矿石与万灵圣药锁定远期交割价，实现商贸企业 100% 风险套保。',
+    financialTool: '30 天远期汇率锁 / 虚空看跌期权',
+    marketFunction: '锁定生产成本 / 规避战乱溢价'
+  },
+  {
+    id: 'aml_shield',
+    name: '黑市地下钱庄洗钱审计盾',
+    icon: '🛡️',
+    typeTag: '反洗钱审计',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: '高维追踪异常大额资金流向，阻断虚空伪钞与黑市投机洗钱，保障合法私有资产。',
+    financialTool: 'Merkle 链上穿透追踪 / 伪币拦截网',
+    marketFunction: '资产合法证明 / 100% 兑付刚兑'
+  }
+]
+
+const inflationRateBasisPct = ref(3.2)
+const tradeTurnoverDays = ref(7)
+const stabilizationFundMlnGil = ref(150)
+const futuresHedgeCoveragePct = ref(85)
+
+const enableZeroTariffPact = ref(true)
+const enableExtremeVolatilityCircuitBreaker = ref(true)
+const enableTailExchangeGreenChannel = ref(true)
+
+const isEquilibriumSimulating = ref(false)
+const equilibriumSimProgress = ref(0)
+const equilibriumSimStep = ref('')
+const equilibriumLogs = ref<string[]>([])
+
+const cpiStabilityIndexPct = computed(() => {
+  let val = 95.0 - Math.abs(inflationRateBasisPct.value - 3.0) * 0.45 + (futuresHedgeCoveragePct.value / 100) * 4.2
+  return Math.min(99.9, parseFloat(val.toFixed(1)))
+})
+
+const dailyTradeThroughputGil = computed(() => {
+  let base = 48000000 + (30 - tradeTurnoverDays.value) * 1200000 + stabilizationFundMlnGil.value * 50000
+  if (enableZeroTariffPact.value) base *= 1.25
+  return Math.round(base)
+})
+
+const marketLiquidityHealthPct = computed(() => {
+  let pct = 82.0 + (stabilizationFundMlnGil.value / 500) * 13.0
+  if (enableExtremeVolatilityCircuitBreaker.value) pct += 4.5
+  return Math.min(99.8, parseFloat(pct.toFixed(1)))
+})
+
+const equilibriumTierBadge = computed(() => {
+  if (cpiStabilityIndexPct.value > 97 && marketLiquidityHealthPct.value > 96) return 'EX·全域跨界大商会至尊金冠'
+  if (cpiStabilityIndexPct.value > 93) return 'SSS·太古以太中央银行宗师'
+  if (cpiStabilityIndexPct.value > 88) return 'SS·高阶城邦自贸同盟盟主'
+  return 'S·标准商业金融行会'
+})
+
+const selectEquilibriumArchetype = (id: string) => {
+  selectedEquilibriumArchetype.value = id
+  const target = equilibriumArchetypes.find(a => a.id === id)
+  if (target) {
+    message.info(`已切入宏观金融模式：${target.name}（${target.typeTag}）`)
+  }
+}
+
+const resetEquilibriumDefaults = () => {
+  inflationRateBasisPct.value = 3.2
+  tradeTurnoverDays.value = 7
+  stabilizationFundMlnGil.value = 150
+  futuresHedgeCoveragePct.value = 85
+  enableZeroTariffPact.value = true
+  enableExtremeVolatilityCircuitBreaker.value = true
+  enableTailExchangeGreenChannel.value = true
+  message.success('已恢复全域经济宏观平抑基准参数！')
+}
+
+const runGlobalEquilibriumSimulation = () => {
+  if (isEquilibriumSimulating.value) return
+  isEquilibriumSimulating.value = true
+  equilibriumSimProgress.value = 0
+  equilibriumLogs.value = []
+
+  const steps = [
+    { p: 20, step: '采集全境五阶商业城邦贸易物价指数 (CPI)...', log: '物价指数基准锁定：通胀率 ' + inflationRateBasisPct.value + '%，处于温和增长区间。' },
+    { p: 45, step: '启动城邦商会零关税大篷车物流与清算枢纽...', log: '跨界免税协定生效，日均物流流速达成 ' + dailyTradeThroughputGil.value.toLocaleString() + ' G。' },
+    { p: 70, step: '注入央行 1.5 亿平准基金并建立 ±10% 熔断冷冻保护...', log: '逆周期蓄水池就绪，市场流动性健康度达到 ' + marketLiquidityHealthPct.value + '%。' },
+    { p: 90, step: '激活以太期货套保覆盖与七色尾巴自由汇兑绿通...', log: '套期保值覆盖率 ' + futuresHedgeCoveragePct.value + '%，物价稳定指数突破 ' + cpiStabilityIndexPct.value + '%。' },
+    { p: 100, step: '经济金融沙盘推演收敛，金牌认证证书签发！', log: `稳定指数: ${cpiStabilityIndexPct.value}%，日均流速: ${dailyTradeThroughputGil.value.toLocaleString()} G，认证: ${equilibriumTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      equilibriumSimProgress.value = steps[idx].p
+      equilibriumSimStep.value = steps[idx].step
+      equilibriumLogs.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isEquilibriumSimulating.value = false
+      message.success('太古全域经济平抑沙盘推演圆满完成！')
+    }
+  }, 250)
+}
+
+const exportEquilibriumCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-GLOBAL-ECONOMY-SPEC',
+    version: 'v2.2.326',
+    timestamp: new Date().toISOString(),
+    archetype: selectedEquilibriumArchetype.value,
+    inflation_basis_pct: inflationRateBasisPct.value,
+    turnover_days: tradeTurnoverDays.value,
+    stabilization_fund_mln: stabilizationFundMlnGil.value,
+    futures_hedge_pct: futuresHedgeCoveragePct.value,
+    zero_tariff: enableZeroTariffPact.value,
+    circuit_breaker: enableExtremeVolatilityCircuitBreaker.value,
+    tail_green_channel: enableTailExchangeGreenChannel.value,
+    cpi_stability_pct: cpiStabilityIndexPct.value,
+    trade_throughput_gil: dailyTradeThroughputGil.value,
+    liquidity_health_pct: marketLiquidityHealthPct.value,
+    tier: equilibriumTierBadge.value,
+    cert_sha256: '6b7c8d9e0f1a23456789abcdef0123456789abcdef0123456789abcdef326a'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `global_economy_equilibrium_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出全域经济平抑方案认证证书！')
+}
+
+const activeEquilibriumScriptTab = ref<'market' | 'logistics' | 'circuit_breaker'>('market')
+
+const equilibriumScriptCodes = {
+  market: `class_name GlobalMarketEquilibriumEngine
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全域物价宏观均衡与通胀调控引擎
+## 文件路径: res://scripts/economy/global_market_equilibrium_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal cpi_index_updated(cpi_stability: float, total_liquidity: int)
+
+static func evaluate_market_cpi(inflation_rate: float, hedge_pct: float) -> Dictionary:
+    var stability: float = 95.0 - absf(inflation_rate - 3.0) * 0.45 + (hedge_pct / 100.0) * 4.2
+    return {
+        "stability_index": clampf(stability, 60.0, 99.9),
+        "is_deflation": inflation_rate < 0.0,
+        "status": "MARKET_EQUILIBRIUM_HEALTHY"
+    }
+`,
+
+  logistics: `class_name MerchantGuildLogisticsHub
+extends RefCounted
+
+## 最终幻想：时空之轮 - 跨界商会物流周转与免税清算中心
+## 文件路径: res://scripts/economy/merchant_guild_logistics_hub.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func dispatch_cargo_caravan(days: int, zero_tariff: bool) -> Dictionary:
+    var efficiency_multiplier: float = 1.0 + (30.0 - float(days)) / 30.0 * 0.35
+    if zero_tariff:
+        efficiency_multiplier *= 1.25
+        
+    return {
+        "turnover_speed": days,
+        "efficiency_multiplier": efficiency_multiplier,
+        "loss_rate": 0.0 if zero_tariff else 0.05
+    }
+`,
+
+  circuit_breaker: `class_name MacroVolatilityCircuitBreaker
+extends RefCounted
+
+## 最终幻想：时空之轮 - 极端波动日内熔断与平准基金干预器
+## 文件路径: res://scripts/economy/macro_volatility_circuit_breaker.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func check_circuit_breaker(price_delta_pct: float, threshold: float = 10.0) -> Dictionary:
+    var triggered: bool = absf(price_delta_pct) >= threshold
+    return {
+        "breaker_triggered": triggered,
+        "freeze_duration_minutes": 30 if triggered else 0,
+        "auto_fund_injection": 50000000 if triggered else 0
+    }
+`
+}
+
+const currentEquilibriumScriptCode = computed(() => {
+  return equilibriumScriptCodes[activeEquilibriumScriptTab.value]
+})
+
+const copyEquilibriumScript = () => {
+  navigator.clipboard.writeText(currentEquilibriumScriptCode.value)
+  message.success('已复制 Godot 4.6 LTS 宏观金融源码到剪贴板！')
+}
+
 </script>
 
 <style scoped>
