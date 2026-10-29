@@ -75,16 +75,34 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '职业 - 最终幻想：时空之轮' }
       },
       {
+        path: 'jobs/:id',
+        name: 'VbleJobDetail',
+        component: () => import('@/vble/views/JobDetailView.vue'),
+        meta: { title: '职业档案 - 最终幻想：时空之轮' }
+      },
+      {
         path: 'dungeons',
         name: 'VbleDungeons',
         component: () => import('@/vble/views/DungeonsView.vue'),
         meta: { title: '秘境地城 - 最终幻想：时空之轮' }
       },
       {
+        path: 'dungeons/:id',
+        name: 'VbleDungeonDetail',
+        component: () => import('@/vble/views/DungeonDetailView.vue'),
+        meta: { title: '秘境档案 - 最终幻想：时空之轮' }
+      },
+      {
         path: 'scenes',
         name: 'VbleScenes',
         component: () => import('@/vble/views/ScenesView.vue'),
         meta: { title: '场景城镇 - 最终幻想：时空之轮' }
+      },
+      {
+        path: 'scenes/:id',
+        name: 'VbleSceneDetail',
+        component: () => import('@/vble/views/DungeonDetailView.vue'),
+        meta: { title: '场景档案 - 最终幻想：时空之轮' }
       },
       {
         path: 'vehicles',
@@ -145,6 +163,12 @@ const routes: RouteRecordRaw[] = [
         name: 'VbleSummons',
         component: () => import('@/vble/views/SummonsView.vue'),
         meta: { title: '召唤兽 - 最终幻想：时空之轮' }
+      },
+      {
+        path: 'summons/:id',
+        name: 'VbleSummonDetail',
+        component: () => import('@/vble/views/SummonDetailView.vue'),
+        meta: { title: '巨灵档案 - 最终幻想：时空之轮' }
       },
       {
         path: 'equipment',

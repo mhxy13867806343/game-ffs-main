@@ -268,6 +268,18 @@
               </div>
             </div>
           </div>
+
+          <template #action>
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-[11px] font-mono text-cyan-300 font-bold">ID: {{ job.id }}</span>
+              <router-link :to="'/vble/jobs/' + job.id">
+                <n-button size="small" type="warning" round secondary class="shadow-sm">
+                  <template #icon><span>📖</span></template>
+                  查看职业独立全息档案 →
+                </n-button>
+              </router-link>
+            </div>
+          </template>
         </n-card>
       </div>
 

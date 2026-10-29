@@ -178,9 +178,13 @@
             <div class="text-xs text-gray-200 mt-0.5">{{ d.mechanics }}</div>
           </div>
 
-          <div class="flex justify-between items-center pt-2 border-t border-slate-800">
-            <span class="text-xs text-rose-400 truncate max-w-[180px]">👹 {{ d.monsters }}</span>
-            <span class="text-xs text-cyan-400 px-1.5 py-1">全息战术 &rarr;</span>
+          <div class="flex justify-between items-center pt-2 border-t border-slate-800 relative z-10">
+            <span class="text-xs text-rose-400 truncate max-w-[150px]">👹 {{ d.monsters }}</span>
+            <router-link :to="'/vble/dungeons/' + d.id" @click.stop>
+              <n-button size="tiny" type="info" round secondary class="shadow-sm">
+                查看独立档案 →
+              </n-button>
+            </router-link>
           </div>
           <button
             type="button"

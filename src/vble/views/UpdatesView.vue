@@ -210,6 +210,31 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-job-summon-dungeon-detail-v349-2026-10-29',
+    version: 'v2.2.349',
+    date: '2026-10-29',
+    title: '全域多维独立详情架构进阶：26职业专精、太古契约巨灵与深渊秘境拓扑独立子门户重磅实装',
+    category: 'system',
+    categoryName: '独立页面进阶',
+    icon: '🔮',
+    tagType: 'success',
+    description: '持续推进全域页面解耦与独立子页面重构，全面落地三大核心深度系统独立详情门户：1. 职业独立全息档案 (/vble/jobs/:id)：完整收录 26 大经典职业所属水晶系别、固有天赋、ABP 熟练度 1~10 阶成长滑块、六维属性补正与配装模拟联动；2. 契约巨灵独立档案 (/vble/summons/:id)：10+ 传说召唤兽全屏必杀技伤害公式解算、以太共鸣滑块与常驻被动庇护；3. 秘境城镇独立档案 (/vble/dungeons/:id 与 /vble/scenes/:id)：分层地貌拓扑、环境危害侵蚀、遭遇魔物群落与宝箱探索推演；并在职业、召唤兽与秘境列表页全面实装高对比度独立档案跳转入口！',
+    highlights: [
+      '三大全新独立页面路由：/jobs/:id、/summons/:id 与 /dungeons/:id',
+      '26 大经典职业成长树：支持 1~10 阶 ABP 熟练度推演与自由人常驻被动继承验证',
+      '太古契约巨灵伤害解算器：可调 100%~300% 以太共鸣深度，计算全屏破韧与神威总伤',
+      '秘境地貌分层拓扑检视：模拟 1F~5F 探索遭遇率、机关环境侵蚀危害与宝箱掉落',
+      '职业、召唤兽与秘境列表卡片全量注入独立档案跳转按钮，实现全域秒级跨模块折跃',
+      '保持全站高对比度深色霓虹美学，文字清晰高亮，杜绝任何需鼠标悬停才显现的低对比排版'
+    ],
+    relatedLinks: [
+      { label: '职业体系目录', path: '/vble/jobs', icon: '🌀' },
+      { label: '契约召唤兽', path: '/vble/summons', icon: '🐉' },
+      { label: '秘境地城总览', path: '/vble/dungeons', icon: '🏰' },
+      { label: '配装模拟工坊', path: '/vble/armory', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-multi-detail-subpages-v348-2026-10-29',
     version: 'v2.2.348',
     date: '2026-10-29',

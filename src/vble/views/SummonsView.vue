@@ -188,17 +188,25 @@
           </p>
         </div>
 
-        <!-- 底部快捷推演按钮 -->
-        <div class="pt-4 mt-3 border-t border-slate-800/80 flex items-center justify-between">
-          <span class="text-[11px] text-gray-500">ID: {{ s.id }}</span>
-          <button
-            type="button"
-            class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
-            :class="selectedSummonId === s.id ? 'bg-cyan-500 text-slate-950 font-bold shadow-md' : 'bg-slate-800 text-cyan-400 hover:bg-slate-750 border border-slate-700'"
-            @click="selectForSimulation(s.id)"
-          >
-            <span>{{ selectedSummonId === s.id ? '✓ 正在推演' : '🎯 载入推演沙盘' }}</span>
-          </button>
+        <!-- 底部快捷推演与独立契约档案跳转按钮 -->
+        <div class="pt-4 mt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-cyan-300 font-bold">ID: {{ s.id }}</span>
+          <div class="flex items-center gap-2">
+            <router-link :to="'/vble/summons/' + s.id">
+              <n-button size="small" type="warning" round secondary class="shadow-sm">
+                <template #icon><span>🐉</span></template>
+                查看契约档案 →
+              </n-button>
+            </router-link>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
+              :class="selectedSummonId === s.id ? 'bg-cyan-500 text-slate-950 font-bold shadow-md' : 'bg-slate-800 text-cyan-400 hover:bg-slate-700 border border-slate-700'"
+              @click="selectForSimulation(s.id)"
+            >
+              <span>{{ selectedSummonId === s.id ? '✓ 正在推演' : '🎯 载入沙盘' }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
