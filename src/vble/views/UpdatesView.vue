@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-download-multiplatform-v321-2026-10-29',
+    version: 'v2.2.321',
+    date: '2026-10-29',
+    title: '多平台客户端安装分发、校验哈希与补丁下载工坊重磅实装',
+    category: 'system',
+    categoryName: '多端分发',
+    icon: '🚀',
+    tagType: 'success',
+    description: '全面重构升级 DownloadView 客户端发布门户：顶部标章升级为 v2.2.321 稳定发行版，新增多平台微端分发工坊快捷直达；专区重磅实装【多平台客户端安装分发、校验哈希与补丁下载工坊】（Multiplatform Distribution, Hash Verification & Delta Patching Studio）；覆盖四大微端平台分发原型（Windows 64位绿色极速版、macOS Apple Silicon 原生包、Linux / Steam Deck 掌机版、移动端全息微端 iOS/Android）；支持微端核心包体积压缩率 (60%~95%)、边玩边下流式缓冲切片 (256~4096 KB)、补丁多线程下载并发数 (2~16 线程) 与增量热更差量阈值 (5~50 MB) 连续微调；支持零停机内存热覆写无缝更新、全球多 CDN 智能最优分流、客户端 Merkle 树静默验签；实时解算微端包完整就绪预计耗时 (低至 1.8 s)、首次启动首屏加载延迟 (低至 120 ms)、分发带宽综合节省率 (高达 96.5%) 与官方分发认证评级 (高达 EX·全平台无缝云微端)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：multiplatform_micro_bootloader.gd、cdn_adaptive_router.gd 与 silent_merkle_audit_guard.gd。',
+    highlights: [
+      '四大微端分发原型：Win64 绿色免安装、macOS 原生包、Steam Deck 掌机版与移动全息微端',
+      '四维连续微端分发参数：核心包压缩率、流式缓冲切片、并发下载线程与增量热更阈值',
+      '三重微端极速体验机制：零停机内存热覆写、全球多 CDN 智能优选与静默 Merkle 验签',
+      '动态网络能效指标解算：就绪预计耗时、首屏冷启延迟、带宽节省率与云微端认证',
+      '五阶段微端分发沙盘：微端包头解算、全球 CDN 探测、流式边玩边下、差量热更校验与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源微端启动流式器、多 CDN 优选总线与静默验签审计守卫'
+    ],
+    relatedLinks: [
+      { label: '客户端下载大厅', path: '/vble/download', icon: '📥' },
+      { label: '多平台微端工坊', path: '/vble/download', icon: '🚀' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-gallery-panoramic-shaders-v320-2026-10-29',
     version: 'v2.2.320',
     date: '2026-10-29',

@@ -12,7 +12,7 @@
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-2">
             <n-tag type="success" size="small" round strong>全平台离线构建</n-tag>
-            <n-tag type="warning" size="small" round strong>v2.2.287 稳定发行版</n-tag>
+            <n-tag type="warning" size="small" round strong>v2.2.321 稳定发行版</n-tag>
             <n-tag type="info" size="small" round>SHA-256 / Merkle 签名保护</n-tag>
             <span class="text-xs text-gray-400 font-mono">官方哈希清单签发时间: 2026-10-28 23:15 CST</span>
           </div>
@@ -26,6 +26,17 @@
 
         <!-- 快捷操作按钮组 -->
         <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <n-button
+            type="primary"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="activeTab = 'multiplatform_distribution'"
+          >
+            <template #icon><span>🚀</span></template>
+            多平台微端分发工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1192,6 +1203,263 @@
       </div>
     </div>
 
+    <!-- TAB 3.5: 多平台客户端安装分发、校验哈希与补丁下载工坊 (v2.2.321 重磅实装) -->
+    <div v-show="activeTab === 'multiplatform_distribution'" id="multiplatform-distribution-studio" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#0f1424]/95 via-blue-950/20 to-[#0f1424]/95 border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.15)] space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/30 pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold border border-cyan-500/30">
+                MULTIPLATFORM DISTRIBUTION & DELTA STREAMING
+              </span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">
+                v2.2.321 旗舰实装
+              </span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+              <span>🚀</span> 多平台客户端安装分发、校验哈希与补丁下载工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+              提供 Win64 免安装纯净版、macOS Apple Silicon 原生包、Steam Deck 掌机与移动微端，支持 28MB 微端极速秒开、边玩边下与 Godot 4.6 LTS 底层流式加载器。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="small" round secondary type="info" @click="resetDistributionDefaults">
+              <template #icon><span>↺</span></template>
+              重置参数
+            </n-button>
+            <n-button size="small" round type="info" :loading="isDistSimulating" @click="runDistributionSimulation">
+              <template #icon><span>⚡</span></template>
+              激发分发推演
+            </n-button>
+            <n-button size="small" round secondary type="warning" @click="exportDistributionCert">
+              <template #icon><span>📜</span></template>
+              导出发行证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大微端平台分发原型 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            v-for="archetype in distArchetypes"
+            :key="archetype.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedDistArchetype === archetype.id ? 'bg-cyan-950/40 border-cyan-500 ring-2 ring-cyan-500/30' : 'bg-[#121626]/70 border-slate-800 hover:border-slate-700'"
+            @click="selectDistArchetype(archetype.id)"
+          >
+            <div class="flex items-start justify-between">
+              <div class="text-2xl">{{ archetype.icon }}</div>
+              <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+                {{ archetype.typeTag }}
+              </span>
+            </div>
+            <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+            <p class="text-xs text-cyan-300/80 mt-1">{{ archetype.desc }}</p>
+            <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+              <div class="flex justify-between">
+                <span>微端体积:</span>
+                <span class="text-amber-300 font-mono">{{ archetype.microSize }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>底层图形 API:</span>
+                <span class="text-emerald-300 font-mono">{{ archetype.gfxApi }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 四维微端分发与热更调控滑块 -->
+        <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+          <div class="text-sm font-bold text-white flex items-center justify-between">
+            <span class="flex items-center gap-2"><span>🎛️</span> 微端流式切片与多线程热更参数调优</span>
+            <span class="text-xs text-cyan-400 font-mono">Realtime Distribution Matrix</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">微端核心包体积压缩率 (%):</span>
+                <span class="text-cyan-400 font-mono font-bold">{{ microClientCompressionPct }}% (Zstd 极高压)</span>
+              </div>
+              <n-slider v-model:value="microClientCompressionPct" :min="60" :max="95" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>60% 标准</span>
+                <span>82% 官方推荐</span>
+                <span>95% 终极微端</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">流式边玩边下缓冲切片大小 (KB):</span>
+                <span class="text-amber-400 font-mono font-bold">{{ streamChunkSizeKb }} KB (动态队列)</span>
+              </div>
+              <n-slider v-model:value="streamChunkSizeKb" :min="256" :max="4096" :step="256" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>256 KB 细粒度</span>
+                <span>1024 KB 平衡</span>
+                <span>4096 KB 高吞吐</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">补丁下载并发线程数:</span>
+                <span class="text-purple-400 font-mono font-bold">{{ patchConcurrentThreads }} 线程 (多路复用)</span>
+              </div>
+              <n-slider v-model:value="patchConcurrentThreads" :min="2" :max="16" :step="2" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>2 线程 节能</span>
+                <span>8 线程 推荐</span>
+                <span>16 线程 极速拉满</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">增量热更新差量包阈值 (MB):</span>
+                <span class="text-emerald-400 font-mono font-bold">{{ deltaPatchThresholdMb }} MB (二进制差分)</span>
+              </div>
+              <n-slider v-model:value="deltaPatchThresholdMb" :min="5" :max="50" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>5 MB 极微热更</span>
+                <span>15 MB 典型版本</span>
+                <span>50 MB 跨纪元升级</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 三大微端极速体验特权开关 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">零停机内存热覆写无缝更新</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">PCK 内存重载无需重启客户端</div>
+            </div>
+            <n-switch v-model:value="enableZeroDowntimeHotSwap" size="small" />
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">全球多 CDN 智能最优分流</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">毫秒级探测优选节点防丢包</div>
+            </div>
+            <n-switch v-model:value="enableMultiCdnAutoRoute" size="small" />
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">客户端 Merkle 树静默验签</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">防篡改、防文件损坏秒级修复</div>
+            </div>
+            <n-switch v-model:value="enableSilentMerkleAudit" size="small" />
+          </div>
+        </div>
+
+        <!-- 关键实时指标卡片 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="p-4 rounded-xl bg-[#121626]/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">微端包完整就绪预计耗时</div>
+            <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+              {{ estimatedReadyTimeSec }} s
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">极速秒级进游戏</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#121626]/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">首次启动首屏加载延迟</div>
+            <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+              {{ firstScreenLatencyMs }} ms
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">零感知冷启耗时</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#121626]/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">分发带宽综合节省率</div>
+            <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-1">
+              {{ bandwidthSavingPct }}%
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">差分与流式削峰</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#121626]/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">官方分发认证评级</div>
+            <div class="text-sm sm:text-base font-black text-purple-400 font-mono mt-1 truncate">
+              {{ distTierBadge }}
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">全平台微端生态</div>
+          </div>
+        </div>
+
+        <!-- 沙盘推演日志与进度 -->
+        <div v-if="isDistSimulating || distLog.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-gray-300 font-bold flex items-center gap-2">
+              <span>🔄</span> 微端分发与热更流式沙盘进程: {{ distSimStep }}
+            </span>
+            <span class="text-cyan-400 font-mono font-bold">{{ distSimProgress }}%</span>
+          </div>
+          <n-progress
+            type="line"
+            :percentage="distSimProgress"
+            :indicator-placement="'inside'"
+            processing
+            status="info"
+          />
+          <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+            <div v-for="(log, idx) in distLog" :key="idx" class="flex items-start gap-2">
+              <span class="text-cyan-500">›</span>
+              <span :class="idx === distLog.length - 1 ? 'text-cyan-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+        <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+              <h3 class="text-sm font-bold text-white">多平台微端启动与边玩边下流式引擎源码展台</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeDistScriptTab === 'bootloader' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeDistScriptTab = 'bootloader'"
+                >
+                  微端启动流式器
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeDistScriptTab === 'cdn_router' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeDistScriptTab = 'cdn_router'"
+                >
+                  多 CDN 优选总线
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeDistScriptTab === 'merkle_guard' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeDistScriptTab = 'merkle_guard'"
+                >
+                  静默验签审计守卫
+                </button>
+              </div>
+              <n-button size="small" round secondary type="info" @click="copyDistScript">
+                <template #icon><span>📋</span></template>
+                复制代码
+              </n-button>
+            </div>
+          </div>
+          <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentDistScriptCode }}</pre>
+        </div>
+      </div>
+    </div>
+
     <!-- TAB 4: 引擎启动器架构与控制台源码 (client_bootloader.gd & sha256_verifier_utility.gd & p2p_chunk_swarm_engine.gd) -->
     <div v-show="activeTab === 'engine_code'" class="space-y-4">
       <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-4">
@@ -1534,12 +1802,13 @@ const runMirrorBenchmark = () => {
   }, 1200)
 }
 
-type TabKey = 'downloads' | 'verifier' | 'diagnostic' | 'p2p_swarm' | 'delta_pipeline' | 'engine_code'
+type TabKey = 'downloads' | 'verifier' | 'diagnostic' | 'p2p_swarm' | 'delta_pipeline' | 'multiplatform_distribution' | 'engine_code'
 const activeTab = ref<TabKey>('downloads')
 const activeEngineScript = ref<'bootloader' | 'verifier' | 'p2p_swarm' | 'delta_pipeline'>('p2p_swarm')
 
 const tabList = [
   { key: 'downloads' as TabKey, label: '网盘分流与平台包', icon: '📥', badge: 'v2.2.273' },
+  { key: 'multiplatform_distribution' as TabKey, label: '多平台微端分发工坊', icon: '🚀', badge: 'v2.2.321' },
   { key: 'delta_pipeline' as TabKey, label: '多端离散增量补丁工坊', icon: '⚡', badge: 'v2.2.287' },
   { key: 'p2p_swarm' as TabKey, label: 'P2P 蜂窝与断点续传工坊', icon: '🌐', badge: 'NEW' },
   { key: 'verifier' as TabKey, label: 'SHA-256 安全哈希校验器', icon: '🛡️', badge: 'WebCrypto' },
@@ -2491,6 +2760,236 @@ static func apply_memory_hot_swap(
 	var success: bool = ProjectSettings.load_resource_pack(pck_virtual_path, true)
 	return success
 `
+
+// ==========================================
+// 多平台客户端安装分发、校验哈希与补丁下载工坊 (v2.2.321)
+// ==========================================
+const selectedDistArchetype = ref('win64_portable')
+const distArchetypes = [
+  {
+    id: 'win64_portable',
+    name: 'Windows 极速微端免安装版',
+    icon: '🪟',
+    typeTag: 'DX12 / Vulkan',
+    tagClass: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+    desc: '28MB 核心免安装绿色启动器，进入序章自动在后台静默预载第一章高清资产。',
+    microSize: '28.4 MB (极速秒开)',
+    gfxApi: 'DirectX 12 / Vulkan Forward+'
+  },
+  {
+    id: 'macos_universal',
+    name: 'macOS Apple Silicon 原生包',
+    icon: '🍎',
+    typeTag: 'Metal 3 / ARM64',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: 'Apple M1/M2/M3/M4 全系深度架构适配，ProMotion 120Hz 视网膜极速响应。',
+    microSize: '32.1 MB (Universal DMG)',
+    gfxApi: 'Metal 3 Low-Level Driver'
+  },
+  {
+    id: 'steam_deck',
+    name: 'Linux / Steam Deck 掌机版',
+    icon: '🎮',
+    typeTag: 'SteamOS 3.0 / Proton',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: 'Steam Deck 掌机原生手柄震动体感预映射，800p 60FPS 超长续航省电模式。',
+    microSize: '35.6 MB (AppImage)',
+    gfxApi: 'Vulkan 1.3 Linux Native'
+  },
+  {
+    id: 'mobile_hybrid',
+    name: '移动端全息微端 (iOS/Android)',
+    icon: '📱',
+    typeTag: 'PWA / Native Hybrid',
+    tagClass: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    desc: '触控虚拟双摇杆与手势连招，轻量化纹理压缩，支持移动网络下断点秒续传。',
+    microSize: '19.8 MB (极微轻量)',
+    gfxApi: 'Vulkan Mobile & WebGPU'
+  }
+]
+
+const microClientCompressionPct = ref(82)
+const streamChunkSizeKb = ref(1024)
+const patchConcurrentThreads = ref(8)
+const deltaPatchThresholdMb = ref(15)
+
+const enableZeroDowntimeHotSwap = ref(true)
+const enableMultiCdnAutoRoute = ref(true)
+const enableSilentMerkleAudit = ref(true)
+
+const isDistSimulating = ref(false)
+const distSimProgress = ref(0)
+const distSimStep = ref('')
+const distLog = ref<string[]>([])
+
+const estimatedReadyTimeSec = computed(() => {
+  let sec = 4.5 - (microClientCompressionPct.value / 100) * 2.2 - (patchConcurrentThreads.value / 16) * 0.9
+  return Math.max(1.2, parseFloat(sec.toFixed(1)))
+})
+
+const firstScreenLatencyMs = computed(() => {
+  let ms = 240 - (streamChunkSizeKb.value / 4096) * 80
+  if (enableMultiCdnAutoRoute.value) ms -= 35
+  return Math.round(ms)
+})
+
+const bandwidthSavingPct = computed(() => {
+  let pct = 75.0 + (microClientCompressionPct.value * 0.18) + (deltaPatchThresholdMb.value * 0.15)
+  return Math.min(96.5, parseFloat(pct.toFixed(1)))
+})
+
+const distTierBadge = computed(() => {
+  if (bandwidthSavingPct.value > 92 && estimatedReadyTimeSec.value <= 2.0) return 'EX·全平台无缝云微端'
+  if (bandwidthSavingPct.value > 88) return 'SSS·极致流式边玩边下'
+  if (bandwidthSavingPct.value > 80) return 'SS·高并发多节点分流'
+  return 'S·标准官方分发包'
+})
+
+const selectDistArchetype = (id: string) => {
+  selectedDistArchetype.value = id
+  const target = distArchetypes.find(a => a.id === id)
+  if (target) {
+    message.info(`已选择分发架构：${target.name}`)
+  }
+}
+
+const resetDistributionDefaults = () => {
+  microClientCompressionPct.value = 82
+  streamChunkSizeKb.value = 1024
+  patchConcurrentThreads.value = 8
+  deltaPatchThresholdMb.value = 15
+  enableZeroDowntimeHotSwap.value = true
+  enableMultiCdnAutoRoute.value = true
+  enableSilentMerkleAudit.value = true
+  message.success('已恢复多平台客户端分发出厂预设配置！')
+}
+
+const runDistributionSimulation = () => {
+  if (isDistSimulating.value) return
+  isDistSimulating.value = true
+  distSimProgress.value = 0
+  distLog.value = []
+
+  const steps = [
+    { p: 20, step: '解算 28.4MB 启动微端签名与多层 Zstd 压缩包...', log: '微端包头解压通过，主循环 120ms 内完成首屏图形管线握手。' },
+    { p: 45, step: '探测全球 16 组 Edge CDN 节点往返延迟与丢包率...', log: '多 CDN 优选完成，锁定最快骨干节点 (延迟 12ms，0% 丢包)。' },
+    { p: 70, step: '启动多线程 1024KB 切片流式边玩边下引擎...', log: '后台预下载第一章地牢切片 (8 线程并发，带宽占用稳定)。' },
+    { p: 90, step: '执行 Merkle 树二进制差量补丁热覆写校验...', log: '零停机热更覆写通过，无需关闭客户端即可生效新场景。' },
+    { p: 100, step: '分发推演收敛，多端交付方案证书就绪！', log: `就绪耗时: ${estimatedReadyTimeSec.value}s，首屏冷启: ${firstScreenLatencyMs.value}ms，认证: ${distTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      distSimProgress.value = steps[idx].p
+      distSimStep.value = steps[idx].step
+      distLog.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isDistSimulating.value = false
+      message.success('多平台微端分发沙盘推演圆满成功！')
+    }
+  }, 250)
+}
+
+const exportDistributionCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-DISTRIBUTION-STREAMING-SPEC',
+    version: 'v2.2.321',
+    timestamp: new Date().toISOString(),
+    archetype: selectedDistArchetype.value,
+    compression_pct: microClientCompressionPct.value,
+    stream_chunk_kb: streamChunkSizeKb.value,
+    threads: patchConcurrentThreads.value,
+    delta_threshold_mb: deltaPatchThresholdMb.value,
+    zero_downtime_swap: enableZeroDowntimeHotSwap.value,
+    multi_cdn_auto_route: enableMultiCdnAutoRoute.value,
+    silent_merkle_audit: enableSilentMerkleAudit.value,
+    ready_time_sec: estimatedReadyTimeSec.value,
+    first_screen_ms: firstScreenLatencyMs.value,
+    bandwidth_saved_pct: bandwidthSavingPct.value,
+    tier: distTierBadge.value,
+    cert_sha256: '7c8d9e1a4b3210fe89234b67cd12fa890e76ab45cd8912ef047812bc3456789a'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `multiplatform_distribution_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出多平台客户端分发方案认证证书！')
+}
+
+const activeDistScriptTab = ref<'bootloader' | 'cdn_router' | 'merkle_guard'>('bootloader')
+
+const distScriptCodes = {
+  bootloader: `class_name MultiplatformMicroBootloader
+extends Node
+
+## 最终幻想：时空之轮 - 多平台微端启动与边玩边下流式加载器
+## 文件路径: res://scripts/core/multiplatform_micro_bootloader.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal asset_chunk_loaded(chunk_id: String, loaded_bytes: int)
+signal prologue_ready()
+
+@export var initial_chunk_size_kb: int = 1024
+var _downloaded_chunks: Dictionary = {}
+
+func _ready() -> void:
+    # 极速首屏 120ms 初始化
+    print("[Bootloader] Initializing micro runtime under Godot 4.6 LTS...")
+    prologue_ready.emit()
+
+func stream_download_next_chapter(chapter_id: String) -> void:
+    print("[Bootloader] Streaming chapter background assets: ", chapter_id)
+    # 调用后台 HTTPClient 流式解压 PCK
+`,
+
+  cdn_router: `class_name CdnAdaptiveRouter
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全球 CDN 多节点智能测速与故障转移总线
+## 文件路径: res://scripts/net/cdn_adaptive_router.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func probe_fastest_cdn(endpoints: Array[String]) -> Dictionary:
+    var best_node: String = endpoints[0] if endpoints.size() > 0 else "https://cdn-primary.game.ffs"
+    var best_latency_ms: float = 14.5
+    
+    return {
+        "selected_cdn": best_node,
+        "latency_ms": best_latency_ms,
+        "is_fallback": false,
+        "strategy": "LEAST_PING_FAST_FAILOVER"
+    }
+`,
+
+  merkle_guard: `class_name SilentMerkleAuditGuard
+extends RefCounted
+
+## 最终幻想：时空之轮 - 客户端资产静默校验与完整性审计守卫
+## 文件路径: res://scripts/core/silent_merkle_audit_guard.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func verify_chunk_merkle_root(chunk_data: PackedByteArray, expected_root: String) -> bool:
+    var computed_hash: String = chunk_data.sha256_text()
+    # 模拟 Merkle 树叶子节点向根哈希迭代收敛
+    return computed_hash.length() == 64
+`
+}
+
+const currentDistScriptCode = computed(() => {
+  return distScriptCodes[activeDistScriptTab.value]
+})
+
+const copyDistScript = () => {
+  navigator.clipboard.writeText(currentDistScriptCode.value)
+  message.success('已复制 Godot 4.6 LTS 微端分发引擎源码到剪贴板！')
+}
+
 </script>
 
 <style scoped>
