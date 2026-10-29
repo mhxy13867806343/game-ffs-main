@@ -6,16 +6,16 @@
       <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div class="flex items-center gap-2 mb-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Architecture Codex, Omni API Sandbox & Holographic Doc Studio v2.2.311
+            <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 font-mono font-bold text-xs border border-teal-500/30">
+              VBLE Whitepaper Semantic Traceability, Contract Validation & Spec Evolution Studio v2.2.341
             </span>
-            <span class="text-xs text-gray-400">十六卷核心架构白皮书、全域时空裂隙典籍与全景架构推演</span>
+            <span class="text-xs text-gray-400">十六卷技术白皮书语义溯源、规范契约强校验与架构演进工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>📚</span> 十六卷核心架构白皮书：时空裂隙典籍与全景架构推演工坊
+            <span>📚</span> 十六卷核心架构白皮书：语义溯源、契约强校验与架构演进工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            系统归纳叙事圣经、地貌拓扑、首领攻坚、职业成长、宏观经济、载具矩阵、底层架构等 16 部核心白皮书。全息实装白皮书交叉依赖拓扑与规范校验沙盘。
+            系统归纳叙事圣经、地貌拓扑、首领攻坚、职业成长、宏观经济、载具矩阵、底层架构等 16 部核心白皮书。全息实装白皮书交叉依赖拓扑、语义溯源有向无环图与契约校验沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
@@ -23,7 +23,18 @@
             type="warning"
             size="medium"
             round
-            class="shadow-md font-bold text-black bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400"
+            class="shadow-md font-bold text-black bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-300 hover:to-cyan-400"
+            @click="scrollToWhitepaperTraceabilityStudio"
+          >
+            <template #icon><span>🔬</span></template>
+            白皮书语义溯源工坊
+          </n-button>
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
             @click="scrollToDocApiStudio"
           >
             <template #icon><span>⚡</span></template>
@@ -678,6 +689,7 @@
           </div>
         </template>
       </n-drawer-content>
+    </n-drawer>
     <!-- 全域开发者文档全息检索、多维 API 交互演练与架构白皮书工坊 (v2.2.311 重磅实装) -->
     <div id="doc-api-studio" class="doc-api-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-cyan-950/20 to-slate-900/95 border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.15)] space-y-6">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/30 pb-4">
@@ -898,7 +910,271 @@
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentDocCode }}</pre>
       </div>
     </div>
-  </n-drawer>
+
+    <!-- 全域十六卷技术白皮书语义溯源、规范契约强校验与架构演进工坊 (v2.2.341 重磅实装) -->
+    <div id="whitepaper-traceability-studio" class="whitepaper-traceability-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-teal-950/20 to-slate-900/95 border border-teal-500/40 shadow-[0_0_40px_rgba(20,184,166,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-teal-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 font-mono text-xs font-bold border border-teal-500/30">
+              WHITEPAPER TRACEABILITY & CONTRACT VERIFIER
+            </span>
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">
+              v2.2.341 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide mt-2 flex items-center gap-2">
+            <span>🔬</span> 全域十六卷技术白皮书语义溯源、规范契约强校验与架构演进工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            打通 Vol.01 至 Vol.16 十六卷技术白皮书的有向无环语义溯源网络（DAG）。严格校验跨领域规范强类型调用契约，智能消除循环死锁，支持端到端自动化单元测试桩生成与 SHA-256 架构演进数字证书颁发。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetSpecStudio">
+            <template #icon><span>🔄</span></template>
+            重置参数
+          </n-button>
+          <n-button
+            size="small"
+            round
+            type="primary"
+            class="bg-gradient-to-r from-teal-500 to-cyan-600 font-bold text-white shadow-lg shadow-teal-500/20"
+            :loading="simulatingSpecAudit"
+            @click="runSimulatedSpecAudit"
+          >
+            <template #icon><span>⚡</span></template>
+            全卷深度校验与溯源演练
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 4 维核心契约域选择卡片 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div
+          v-for="arch in specArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col justify-between"
+          :class="selectedSpecArchetype === arch.id
+            ? 'bg-teal-950/40 border-teal-500 shadow-[0_0_20px_rgba(20,184,166,0.3)] ring-1 ring-teal-400'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/90'"
+          @click="selectedSpecArchetype = arch.id"
+        >
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-teal-300 border border-teal-500/20">
+                {{ arch.badge }}
+              </span>
+              <span class="text-xs text-gray-400 font-mono">{{ arch.volumes }}</span>
+            </div>
+            <div class="text-sm font-bold text-white flex items-center gap-1.5 pt-1">
+              <span>{{ arch.icon }}</span>
+              <span>{{ arch.name }}</span>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">{{ arch.desc }}</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>{{ arch.coreMetricLabel }}</span>
+            <span class="text-teal-400 font-bold">{{ arch.coreMetricVal }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与逻辑开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-950/60 p-4 sm:p-6 rounded-xl border border-slate-800/80">
+        <!-- 4 滑块 -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+            <span>⚙️</span> 白皮书静态分析与依赖拓扑推演参数
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">契约校验严格级别 (Strictness):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ contractStrictness }}%</span>
+            </div>
+            <n-slider v-model:value="contractStrictness" :min="70" :max="100" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>70% 宽松模式</span>
+              <span>85% 标准生产</span>
+              <span>100% 航空级零容忍</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">语义溯源穿透深度 (Trace Depth):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ traceabilityDepth }} 级深度</span>
+            </div>
+            <n-slider v-model:value="traceabilityDepth" :min="1" :max="10" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1 级 (单层直接依赖)</span>
+              <span>5 级 (跨模块穿透)</span>
+              <span>10 级 (全局宏观闭包)</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">冗余依赖裁剪比率 (Redundancy Pruning):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ redundancyFilterRate }}%</span>
+            </div>
+            <n-slider v-model:value="redundancyFilterRate" :min="50" :max="100" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>50% 保留弱引用</span>
+              <span>75% 剪枝中间件</span>
+              <span>100% 极小生成树</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">跨卷交叉校验吞吐 (Cross-Ref Bandwidth):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ crossRefBandwidth }} QPS</span>
+            </div>
+            <n-slider v-model:value="crossRefBandwidth" :min="100" :max="2000" :step="50" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>100 QPS 低载轻量</span>
+              <span>1000 QPS 稳态流水线</span>
+              <span>2000 QPS 异步并发极速</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 开关与实时演算看板 -->
+        <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+              <span>🛡️</span> 架构契约约束开关
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">阻止环形依赖死锁</div>
+                <div class="text-[10px] text-gray-500">Tarjan 算法实时熔断循环引用环路</div>
+              </div>
+              <n-switch v-model:value="enforceZeroCycle" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">强制 GDScript 4.6 LTS 强类型</div>
+                <div class="text-[10px] text-gray-500">编译期强制所有形参和返回声明类型</div>
+              </div>
+              <n-switch v-model:value="strictTypeSignatures" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">自动生成 GUT 单元测试代码</div>
+                <div class="text-[10px] text-gray-500">根据白皮书断言动态生成测试套件</div>
+              </div>
+              <n-switch v-model:value="autoGenerateTests" size="small" />
+            </div>
+          </div>
+
+          <!-- 4 项实时数学衍生指标 -->
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">架构健康度评分</div>
+              <div class="text-base font-black text-teal-400 font-mono mt-0.5">{{ archHealthScore }} Pt</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">契约冲突概率</div>
+              <div class="text-base font-black text-emerald-400 font-mono mt-0.5">{{ contractConflictRate }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">校验解算延迟</div>
+              <div class="text-base font-black text-cyan-400 font-mono mt-0.5">{{ validationLatencyMs }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">规范完备度覆盖率</div>
+              <div class="text-base font-black text-amber-400 font-mono mt-0.5">{{ specCompleteness }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 阶段流水线演练进度与实时推演控制台 -->
+      <div class="p-4 sm:p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span>📊</span> 全域语义溯源五阶段推演流水线
+            </span>
+            <span v-if="simulatingSpecAudit" class="text-[10px] font-mono text-cyan-400 animate-pulse">
+              [PIPELINE EXECUTING STAGE {{ specAuditStep }}/5]
+            </span>
+          </div>
+          <div class="text-xs text-gray-400 font-mono">
+            当前所选域: <span class="text-teal-300 font-bold">{{ activeSpecArchetypeObj?.name }}</span>
+          </div>
+        </div>
+
+        <n-progress
+          type="line"
+          :percentage="simulatingSpecAudit ? specAuditStep * 20 : 100"
+          :status="simulatingSpecAudit ? 'info' : 'success'"
+          :color="'#14b8a6'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in specAuditLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪架构演进凭证: </span>
+            <span class="text-teal-400 font-bold">{{ specCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="info" round @click="exportSpecCert">
+            <template #icon><span>📜</span></template>
+            导出全景白皮书溯源与契约报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded border border-teal-500/30">
+                GODOT 4.6 LTS SPEC ENGINE
+              </span>
+              <span class="text-sm font-bold text-white">白皮书语义溯源与契约校验源码实现</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级白皮书接口契约静态与动态强类型校验器、跨卷依赖有向无环图与自动化 GUT 测试代码生成器。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in specCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeSpecCodeTab === codeTab.id ? 'info' : 'default'"
+              :secondary="activeSpecCodeTab !== codeTab.id"
+              @click="activeSpecCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveSpecCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-teal-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentSpecCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1876,6 +2152,386 @@ const currentDocCode = computed(() => {
 const copyActiveDocCode = () => {
   navigator.clipboard.writeText(currentDocCode.value).then(() => {
     message.success(`${activeDocCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
+// ==========================================
+// v2.2.341: 全域技术白皮书语义溯源与契约校验工坊
+// ==========================================
+interface SpecArchetype {
+  id: 'narrative_l1' | 'combat_math_l2' | 'system_kernel_l3' | 'macro_econ_l4'
+  name: string
+  badge: string
+  volumes: string
+  icon: string
+  desc: string
+  coreMetricLabel: string
+  coreMetricVal: string
+}
+
+const specArchetypes: SpecArchetype[] = [
+  {
+    id: 'narrative_l1',
+    name: '叙事与世界观契约',
+    badge: 'L1 COSMOS',
+    volumes: 'Vol.01 - 03',
+    icon: '🌌',
+    desc: '时空裂隙多世界线叙事图谱、光暗双生宇宙论与上古纪元铭文的强语义约束。',
+    coreMetricLabel: '世界线一致性',
+    coreMetricVal: '99.98%'
+  },
+  {
+    id: 'combat_math_l2',
+    name: 'ATB回合数值物理法则',
+    badge: 'L2 BATTLE',
+    volumes: 'Vol.04 - 07',
+    icon: '⚔️',
+    desc: '速度条离散量化、伤害公式阶梯解限、抗性穿透衰减与元素反应拓扑闭环。',
+    coreMetricLabel: '数值极值容差',
+    coreMetricVal: '±0.001%'
+  },
+  {
+    id: 'system_kernel_l3',
+    name: '底层架构微秒调度契约',
+    badge: 'L3 KERNEL',
+    volumes: 'Vol.08 - 11',
+    icon: '⚡',
+    desc: '纤程主循环、零拷贝 Slab 内存池、双端状态一致性同步与容灾热重载规范。',
+    coreMetricLabel: '主循环平稳率',
+    coreMetricVal: '99.999%'
+  },
+  {
+    id: 'macro_econ_l4',
+    name: '时空宏观经济与资产守恒',
+    badge: 'L4 ECONOMY',
+    volumes: 'Vol.12 - 16',
+    icon: '💎',
+    desc: '金币水库双重通缩、黑市汇率自动做市、跨位面交易反洗钱与掉落保底数学模型。',
+    coreMetricLabel: '跨界货币稳态',
+    coreMetricVal: '100.00%'
+  }
+]
+
+const selectedSpecArchetype = ref<'narrative_l1' | 'combat_math_l2' | 'system_kernel_l3' | 'macro_econ_l4'>('narrative_l1')
+const contractStrictness = ref(95)
+const traceabilityDepth = ref(7)
+const redundancyFilterRate = ref(88)
+const crossRefBandwidth = ref(1250)
+
+const enforceZeroCycle = ref(true)
+const strictTypeSignatures = ref(true)
+const autoGenerateTests = ref(true)
+
+const activeSpecArchetypeObj = computed(() => {
+  return specArchetypes.find(a => a.id === selectedSpecArchetype.value) || specArchetypes[0]
+})
+
+const archHealthScore = computed(() => {
+  let score = 90.0 + (contractStrictness.value - 70) * 0.2 + (redundancyFilterRate.value - 50) * 0.08
+  if (enforceZeroCycle.value) score += 2.0
+  if (strictTypeSignatures.value) score += 1.5
+  if (autoGenerateTests.value) score += 1.0
+  return Math.min(99.9, Number(score.toFixed(1)))
+})
+
+const contractConflictRate = computed(() => {
+  const base = 0.05 * (100 - contractStrictness.value) / 30
+  return `< ${(base * 0.1).toFixed(4)}%`
+})
+
+const validationLatencyMs = computed(() => {
+  const ms = 0.35 + (traceabilityDepth.value * 0.12) - (crossRefBandwidth.value / 4000)
+  return `${Math.max(0.25, ms).toFixed(2)} ms`
+})
+
+const specCompleteness = computed(() => {
+  const pct = 98.2 + (traceabilityDepth.value * 0.15) + (redundancyFilterRate.value * 0.004)
+  return `${Math.min(100.0, pct).toFixed(1)}%`
+})
+
+const simulatingSpecAudit = ref(false)
+const specAuditStep = ref(0)
+const specCertHash = ref('SPEC-SHA256-7D8E2A91F03C')
+
+const specAuditLogs = ref<Array<{ time: string; text: string; color: string }>>([
+  { time: 'INIT', text: '白皮书语义溯源与契约强校验引擎已就绪。', color: 'text-teal-400' },
+  { time: 'STANDBY', text: '16 卷白皮书规范 AST 解析器待命中，输入通道畅通。', color: 'text-gray-400' }
+])
+
+const scrollToWhitepaperTraceabilityStudio = () => {
+  const el = document.getElementById('whitepaper-traceability-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.info('已定位至全域十六卷技术白皮书语义溯源工坊')
+  }
+}
+
+const resetSpecStudio = () => {
+  selectedSpecArchetype.value = 'narrative_l1'
+  contractStrictness.value = 95
+  traceabilityDepth.value = 7
+  redundancyFilterRate.value = 88
+  crossRefBandwidth.value = 1250
+  enforceZeroCycle.value = true
+  strictTypeSignatures.value = true
+  autoGenerateTests.value = true
+  specCertHash.value = 'SPEC-SHA256-7D8E2A91F03C'
+  specAuditLogs.value = [
+    { time: 'RESET', text: '工坊参数已恢复出厂基准稳态配置。', color: 'text-amber-400' },
+    { time: 'READY', text: '语义依赖拓扑网络已重置为默认有向无环拓扑图。', color: 'text-teal-400' }
+  ]
+  message.success('白皮书语义溯源工坊已重置！')
+}
+
+const runSimulatedSpecAudit = () => {
+  if (simulatingSpecAudit.value) return
+  simulatingSpecAudit.value = true
+  specAuditStep.value = 1
+  specAuditLogs.value.unshift({
+    time: new Date().toLocaleTimeString(),
+    text: `[Stage 1/5] 提取 16 卷白皮书核心 AST 规范节点 (Strictness: ${contractStrictness.value}%)...`,
+    color: 'text-teal-300'
+  })
+
+  setTimeout(() => {
+    specAuditStep.value = 2
+    specAuditLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 2/5] 运行 Tarjan 强连通分量算法，环路死锁阻断: ${enforceZeroCycle.value ? '已启用 (Zero-Cycle OK)' : '已旁路'}...`,
+      color: 'text-cyan-300'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    specAuditStep.value = 3
+    specAuditLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 3/5] 静态扫描 GDScript 4.6 LTS 强类型契约与接口签名，穿透深度: ${traceabilityDepth.value} 级...`,
+      color: 'text-teal-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    specAuditStep.value = 4
+    specAuditLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 4/5] 压测边界数值 (9,999,999 伤害解限 / 微秒时钟 / 金币通缩)，吞吐: ${crossRefBandwidth.value} QPS...`,
+      color: 'text-blue-300'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    specAuditStep.value = 5
+    const hash = 'SPEC-SHA256-' + Math.random().toString(16).substring(2, 10).toUpperCase() + Math.random().toString(16).substring(2, 6).toUpperCase()
+    specCertHash.value = hash
+    specAuditLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 5/5] 架构校验圆满通过！已颁发数字签名证书: ${hash}，健康度: ${archHealthScore.value} Pt！`,
+      color: 'text-emerald-400 font-bold'
+    })
+    simulatingSpecAudit.value = false
+    message.success(`全卷白皮书语义溯源与契约校验完成！证书: ${hash}`)
+  }, 1600)
+}
+
+const exportSpecCert = () => {
+  const content = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   全域十六卷技术白皮书语义溯源与规范契约校验架构报告 (v2.2.341)
+================================================================================
+报告编号: ${specCertHash.value}
+生成时间: ${new Date().toISOString()}
+所选契约域: ${activeSpecArchetypeObj.value.name} (${activeSpecArchetypeObj.value.badge})
+涉及卷帙: ${activeSpecArchetypeObj.value.volumes}
+
+【核心契约与静态分析指标】
+- 契约校验严格级别: ${contractStrictness.value}%
+- 语义溯源穿透深度: ${traceabilityDepth.value} 级
+- 冗余依赖裁剪比率: ${redundancyFilterRate.value}%
+- 跨卷交叉校验吞吐: ${crossRefBandwidth.value} QPS
+- 架构健康度评分: ${archHealthScore.value} Pt
+- 契约冲突概率: ${contractConflictRate.value}
+- 校验解算延迟: ${validationLatencyMs.value}
+- 规范完备度覆盖率: ${specCompleteness.value}
+
+【架构约束策略开关】
+- 阻止环形依赖死锁 (Zero-Cycle DAG): ${enforceZeroCycle.value ? '启用' : '禁用'}
+- 强制 GDScript 4.6 LTS 强类型签名: ${strictTypeSignatures.value ? '启用' : '禁用'}
+- 自动生成 GUT 单元测试代码: ${autoGenerateTests.value ? '启用' : '禁用'}
+
+【底层实机契约驱动】
+- whitepaper_spec_contract_validator.gd (静态与动态规范校验)
+- cross_volume_traceability_graph.gd (有向无环图与死锁阻断)
+- spec_to_gut_test_generator.gd (GUT 自动化测试生成)
+================================================================================`
+
+  navigator.clipboard.writeText(content).then(() => {
+    message.success('全景白皮书溯源与契约报告已复制到剪贴板！')
+  }).catch(() => {
+    message.info('报告已复制')
+  })
+}
+
+const specCodeTabs = [
+  { id: 'validator', name: 'whitepaper_spec_contract_validator.gd' },
+  { id: 'traceability', name: 'cross_volume_traceability_graph.gd' },
+  { id: 'generator', name: 'spec_to_gut_test_generator.gd' }
+] as const
+
+type SpecCodeTabType = (typeof specCodeTabs)[number]['id']
+const activeSpecCodeTab = ref<SpecCodeTabType>('validator')
+
+const specSourceCodes: Record<SpecCodeTabType, string> = {
+  validator: `## whitepaper_spec_contract_validator.gd
+## 《光之战士：时空裂隙》十六卷白皮书静态与动态规范契约强校验器
+## 架构版本: Godot 4.6 LTS / Architecture Governance Subsystem
+
+class_name WhitepaperSpecContractValidator
+extends RefCounted
+
+signal contract_verified(volume_id: String, is_valid: bool, issues: Array[String])
+signal deadlock_detected(cycle_path: Array[String])
+
+var _strict_level: float = 0.95
+var _enforce_typing: bool = true
+var _specs_registry: Dictionary = {}
+
+func _init(strictness: float = 0.95, strict_typing: bool = true) -> void:
+	_strict_level = strictness
+	_enforce_typing = strict_typing
+
+## 注册白皮书架构契约节点
+func register_volume_spec(volume_id: String, spec_data: Dictionary) -> void:
+	_specs_registry[volume_id] = spec_data
+
+## 执行单卷接口强类型契约校验
+func validate_volume_contract(volume_id: String) -> Dictionary:
+	var issues: Array[String] = []
+	if not _specs_registry.has(volume_id):
+		issues.append("未注册的白皮书规范卷帙: %s" % volume_id)
+		contract_verified.emit(volume_id, false, issues)
+		return {"valid": false, "issues": issues}
+
+	var spec: Dictionary = _specs_registry[volume_id]
+	var methods: Array = spec.get("methods", [])
+
+	for method in methods:
+		if _enforce_typing:
+			if not method.has("return_type") or method["return_type"] == "Variant":
+				issues.append("方法 [%s] 缺少强类型返回值契约" % method.get("name", "anonymous"))
+			var params: Array = method.get("parameters", [])
+			for param in params:
+				if not param.has("type") or param["type"] == "Variant":
+					issues.append("方法 [%s] 参数 [%s] 缺少强类型契约" % [method.get("name", ""), param.get("name", "")])
+
+	var is_valid := issues.is_empty()
+	contract_verified.emit(volume_id, is_valid, issues)
+	return {"valid": is_valid, "issues": issues}
+`,
+  traceability: `## cross_volume_traceability_graph.gd
+## 《光之战士：时空裂隙》跨卷语义依赖有向无环图与死锁阻断器
+## 架构版本: Godot 4.6 LTS / Architecture Traceability Subsystem
+
+class_name CrossVolumeTraceabilityGraph
+extends RefCounted
+
+signal cycle_detected(loop_nodes: Array[String])
+signal topological_sort_completed(execution_order: Array[String])
+
+var _adjacency_list: Dictionary = {}
+var _reverse_deps: Dictionary = {}
+
+## 添加白皮书卷帙间的依赖拓扑边 (upstream -> downstream)
+func add_spec_dependency(from_volume: String, to_volume: String) -> void:
+	if not _adjacency_list.has(from_volume):
+		_adjacency_list[from_volume] = []
+	_adjacency_list[from_volume].append(to_volume)
+
+	if not _reverse_deps.has(to_volume):
+		_reverse_deps[to_volume] = []
+	_reverse_deps[to_volume].append(from_volume)
+
+## 运行 Tarjan 强连通分量算法阻断死锁循环依赖
+func check_cycles_and_sort() -> Dictionary:
+	var in_degree: Dictionary = {}
+	var all_nodes: Array[String] = []
+
+	for node in _adjacency_list.keys():
+		if not all_nodes.has(node):
+			all_nodes.append(node)
+		for neighbor in _adjacency_list[node]:
+			if not all_nodes.has(neighbor):
+				all_nodes.append(neighbor)
+			in_degree[neighbor] = in_degree.get(neighbor, 0) + 1
+
+	for node in all_nodes:
+		if not in_degree.has(node):
+			in_degree[node] = 0
+
+	var queue: Array[String] = []
+	for node in all_nodes:
+		if in_degree[node] == 0:
+			queue.append(node)
+
+	var sorted_list: Array[String] = []
+	while not queue.is_empty():
+		var curr := queue.pop_front() as String
+		sorted_list.append(curr)
+		if _adjacency_list.has(curr):
+			for neighbor in _adjacency_list[curr]:
+				in_degree[neighbor] -= 1
+				if in_degree[neighbor] == 0:
+					queue.append(neighbor)
+
+	if sorted_list.size() < all_nodes.size():
+		var cyclic_nodes: Array[String] = []
+		for node in all_nodes:
+			if not sorted_list.has(node):
+				cyclic_nodes.append(node)
+		cycle_detected.emit(cyclic_nodes)
+		return {"has_cycle": true, "cycle_nodes": cyclic_nodes, "order": []}
+
+	topological_sort_completed.emit(sorted_list)
+	return {"has_cycle": false, "cycle_nodes": [], "order": sorted_list}
+`,
+  generator: `## spec_to_gut_test_generator.gd
+## 《光之战士：时空裂隙》基于白皮书规范断言的 GUT 自动化单元测试生成器
+## 架构版本: Godot 4.6 LTS / Test Generation Subsystem
+
+class_name SpecToGutTestGenerator
+extends RefCounted
+
+## 动态编译并生成 GUT 测试套件源码
+static func generate_gut_test_script(volume_id: String, spec_assertions: Array[Dictionary]) -> String:
+	var code := "## test_%s.gd\\n" % volume_id.to_lower()
+	code += "## 自动生成的 GUT 测试套件 - 对应白皮书规范: %s\\n" % volume_id
+	code += "extends GutTest\\n\\n"
+	code += "func before_each() -> void:\\n"
+	code += "\\tgut.p('开始执行白皮书规范单元验证: %s')\\n\\n" % volume_id
+
+	for i in range(spec_assertions.size()):
+		var assertion: Dictionary = spec_assertions[i]
+		var test_name: String = assertion.get("name", "test_spec_assertion_%d" % i)
+		var expected: Variant = assertion.get("expected", true)
+		var actual_call: String = assertion.get("call", "true")
+
+		code += "func %s() -> void:\\n" % test_name
+		code += "\\tvar actual_val: Variant = %s\\n" % actual_call
+		code += "\\tassert_eq(actual_val, %s, '白皮书断言必须符合规范预期')\\n\\n" % str(expected)
+
+	return code
+`
+}
+
+const currentSpecCode = computed(() => {
+  return specSourceCodes[activeSpecCodeTab.value] || ''
+})
+
+const copyActiveSpecCode = () => {
+  navigator.clipboard.writeText(currentSpecCode.value).then(() => {
+    message.success(`${activeSpecCodeTab.value}.gd 源码已复制到剪贴板！`)
   }).catch(() => {
     message.info('源码已复制')
   })

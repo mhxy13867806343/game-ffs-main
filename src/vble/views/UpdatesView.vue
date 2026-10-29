@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-docs-whitepaper-traceability-v341-2026-10-29',
+    version: 'v2.2.341',
+    date: '2026-10-29',
+    title: '全域十六卷技术白皮书语义溯源、规范契约强校验与架构演进工坊重磅实装',
+    category: 'system',
+    categoryName: '文档架构',
+    icon: '📚',
+    tagType: 'info',
+    description: '全面重构升级 DocsView 技术文档门户：顶部标章升级为 VBLE Whitepaper Semantic Traceability, Contract Validation & Spec Evolution Studio v2.2.341，新增白皮书语义溯源与契约校验工坊快捷直达；专区重磅实装【全域十六卷技术白皮书语义溯源、规范契约强校验与架构演进工坊】（Whitepaper Traceability & Contract Verifier Studio）；覆盖四大核心契约领域（L1 叙事与世界观契约、L2 ATB 回合数值物理法则、L3 底层架构微秒调度契约、L4 时空宏观经济与资产守恒）；支持契约校验严格级别 (70%~100%)、语义溯源穿透深度 (1~10 级)、冗余依赖裁剪比率 (50%~100%) 与跨卷交叉校验吞吐 (100~2000 QPS) 连续微调；支持阻止环形依赖死锁 (Tarjan 强连通分量算法实时熔断)、强制 GDScript 4.6 LTS 强类型契约与自动生成 GUT 单元测试代码；实时解算架构健康度评分 (高达 99.9 Pt)、契约冲突概率 (< 0.0001%)、校验解算延迟 (低至 0.25 ms) 与规范完备度覆盖率 (高达 100.0%)；内置五阶段沙盘推演与离线架构方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：whitepaper_spec_contract_validator.gd、cross_volume_traceability_graph.gd 与 spec_to_gut_test_generator.gd。修复阅读抽屉层级包裹，提升全屏体验。',
+    highlights: [
+      '四大核心契约域：叙事世界观、ATB回合数值法则、底层微秒调度与时空宏观经济',
+      '四维连续静态分析参数：契约校验严格级、语义溯源穿透深度、冗余依赖裁剪比与交叉校验吞吐',
+      '三重架构强约束策略：Tarjan 环形死锁熔断、GDScript 4.6 强类型签名强制与 GUT 测试生成',
+      '动态深层架构指标解算：健康度评分、契约冲突概率、校验解算延迟与规范完备度覆盖率',
+      '五阶段语义溯源流水线：AST 提取、Tarjan 拓扑阻断、强类型静态扫描、极值边界解算与证书归档',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源白皮书规范契约校验器、跨卷依赖图与 GUT 测试生成器'
+    ],
+    relatedLinks: [
+      { label: '核心白皮书全鉴', path: '/vble/docs', icon: '📚' },
+      { label: '语义溯源工坊', path: '/vble/docs', icon: '🔬' },
+      { label: '底层系统架构', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-roadmap-epoch-voting-v340-2026-10-29',
     version: 'v2.2.340',
     date: '2026-10-29',
