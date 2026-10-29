@@ -170,7 +170,7 @@
         </div>
 
         <!-- 底部快捷动作条 -->
-        <div class="pt-4 mt-3 border-t border-slate-800/80 flex items-center justify-between">
+        <div class="pt-4 mt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
           <button
             type="button"
             class="text-xs text-amber-300 hover:text-amber-200 flex items-center gap-1 font-semibold transition-colors"
@@ -179,14 +179,21 @@
             <span>📐 拓扑沙盘推演</span>
           </button>
 
-          <button
-            type="button"
-            class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-600/50 flex items-center gap-1 transition-all"
-            @click="openDocReader(doc)"
-          >
-            <span>📖 阅读全卷正文</span>
-            <span>&rarr;</span>
-          </button>
+          <div class="flex items-center gap-2">
+            <router-link :to="'/vble/docs/' + doc.code">
+              <n-button size="small" type="primary" round secondary class="shadow-sm">
+                <template #icon><span>📖</span></template>
+                阅读独立全卷 →
+              </n-button>
+            </router-link>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition-colors"
+              @click="openDocReader(doc)"
+            >
+              <span>抽屉速览</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

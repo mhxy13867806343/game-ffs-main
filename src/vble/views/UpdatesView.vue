@@ -210,6 +210,31 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-whitepaper-detail-reader-v351-2026-10-29',
+    version: 'v2.2.351',
+    date: '2026-10-29',
+    title: '全域技术白皮书独立全息阅览室与 Markdown 极速渲染子门户重磅实装',
+    category: 'system',
+    categoryName: '文档与白皮书',
+    icon: '📖',
+    tagType: 'success',
+    description: '响应深度开发游戏文档战略指令，全面打造独立白皮书阅览子门户 (/vble/docs/:code)：1. 覆盖全域 24 卷十六卷以上技术白皮书与系统设计规范 Markdown 原文（从世界圣经、地貌拓扑、首领攻坚、职业成长到跨界魔物）；2. 顶部集成卷册快速切换网格，支持一键在 VOL.01~VOL.24 之间秒级跳转；3. 深度重构 Markdown 渲染器排版体系，代码高亮、表格边界、引述段落与标题高光均采用高对比度霓虹青白美学，彻底解决看不清隐患；4. 底部支持上一卷/下一卷连续翻阅，并提供一键复制全文 Markdown 与导出 .md 磁盘文件功能；5. 在白皮书索引页全面实装独立阅览直达按钮！',
+    highlights: [
+      '全新独立页面路由：/docs/:code 技术白皮书独立阅览室',
+      '全量支持 VOL.01~VOL.24 二十四卷技术设计白皮书全息 Markdown 渲染',
+      '顶部卷册快切导航网格，支持跨卷秒级折跃并自动计算字数与研读耗时',
+      '高对比度专业技术文档排版，代码块、表格、引述高亮透亮清晰',
+      '底部提供上一卷/下一卷连续翻阅，支持一键复制 Markdown 全文与导出 .md 文件',
+      '白皮书列表卡片全面注入【阅读独立全卷 →】直通入口'
+    ],
+    relatedLinks: [
+      { label: '白皮书全景目录', path: '/vble/docs', icon: '📚' },
+      { label: '架构白皮书卷一', path: '/vble/docs/01_WORLD_BIBLE', icon: '📖' },
+      { label: '首领攻坚白皮书', path: '/vble/docs/03_BOSS_TACTICS', icon: '⚔️' },
+      { label: '职业体系白皮书', path: '/vble/docs/04_JOB_SYSTEM', icon: '🌀' }
+    ]
+  },
+  {
     id: 'up-sidequest-teaching-detail-v350-2026-10-29',
     version: 'v2.2.350',
     date: '2026-10-29',

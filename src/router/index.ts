@@ -27,6 +27,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '白皮书 - 最终幻想：时空之轮' }
       },
       {
+        path: 'docs/:code',
+        name: 'VbleWhitepaperDetail',
+        component: () => import('@/vble/views/WhitepaperDetailView.vue'),
+        meta: { title: '白皮书独立阅览室 - 最终幻想：时空之轮' }
+      },
+      {
         path: 'story',
         name: 'VbleStory',
         component: () => import('@/vble/views/StoryView.vue'),
