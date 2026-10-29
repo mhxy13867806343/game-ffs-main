@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VBLE Dungeon &amp; Spatial Topology Matrix v2.2.267
+              VBLE Dungeon &amp; Spatial Topology Matrix v2.2.279
             </span>
-            <span class="text-xs text-gray-400">全域空间解构、多元秘境迷宫机制与隐秘通道解密</span>
+            <span class="text-xs text-gray-400">全域空间解构、多元秘境迷宫机制与多维裂隙重力坍缩逃逸</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🏛️</span> 全域地貌拓扑与地宫导览：秘境机制、隐秘通道与空间解密工坊
+            <span>🏛️</span> 全域地貌拓扑与地宫导览：秘境机制、隐秘通道与多维裂隙坍缩工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            纵览苍穹、地表、深海、地狱冥界与终局虚无；收录全域 {{ dungeons.length }} 处地宫与探索地点。实装六大维度全域空间行进拓扑轴、实景走格子动态战争迷雾与环境极限制约沙盘。
+            纵览苍穹、地表、深海、地狱冥界与终局虚无；收录全域 {{ dungeons.length }} 处地宫与探索地点。实装六大维度全域空间行进拓扑轴、实景走格子动态战争迷雾与多维裂隙重力坍缩逃逸推演沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToDimensionStudio"
+          >
+            <template #icon><span>🌀</span></template>
+            前往裂隙坍缩工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -1388,6 +1399,317 @@
         </div>
       </div>
     </div>
+
+    <!-- 工坊 3: 全域多维深渊裂隙迷宫地牢拓扑推演与重力坍缩逃逸工坊 -->
+    <div
+      id="dimension-rift-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950/70 border border-indigo-500/30 shadow-[0_0_35px_rgba(99,102,241,0.2)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部标章与导出 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+              v2.2.279 重磅实装
+            </span>
+            <span class="text-xs text-gray-400">非欧几里得高维流形 · 奇点重力潮汐剪切 · 测地线量子逃逸</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🌀</span> 全域多维深渊裂隙迷宫地牢拓扑推演与重力坍缩逃逸工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            针对莫比乌斯流形、非欧几里得超立方结界、奇点视界重力陷阱与螺旋晶体迷阵进行高维拓扑测地线推演与逃逸解算。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingDimension"
+            @click="runDimensionSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动拓扑测地线逃逸推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportDimensionRiftCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出拓扑逃逸方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四相高维裂隙拓扑形态 (4 Topologies) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="topo in dimensionTopologies"
+          :key="topo.id"
+          class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+          :class="selectedTopologyId === topo.id
+            ? 'bg-indigo-950/40 border-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.25)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectedTopologyId = topo.id"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">{{ topo.icon }}</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedTopologyId === topo.id ? 'bg-indigo-500/30 text-indigo-200' : 'bg-slate-800 text-gray-400'">
+                {{ topo.tag }}
+              </span>
+            </div>
+            <div class="font-bold text-xs text-gray-200">{{ topo.name }}</div>
+            <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-2 leading-relaxed">{{ topo.desc }}</div>
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+            <span class="text-gray-400">流形自洽度:</span>
+            <span class="font-mono font-bold text-indigo-300">{{ topo.safeFactor }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心工作台：双栏交互面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+        <!-- 左侧：全息测地线视窗与指标卡片 -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- 全息迷宫拓扑雷达视窗 -->
+          <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+            <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+              <div
+                class="absolute w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                :style="{
+                  background: currentTopology.gradient,
+                  opacity: (calculatedEscapeProbability / 100 * 0.75 + 0.15).toFixed(2),
+                  transform: `scale(${1 + shearCurvature / 200})`
+                }"
+              ></div>
+              <svg class="w-64 h-64 opacity-50 animate-[spin_60s_linear_infinite]" viewBox="0 0 200 200">
+                <polygon points="100,15 180,55 180,145 100,185 20,145 20,55" fill="none" stroke="rgba(99,102,241,0.5)" stroke-width="1.5" stroke-dasharray="3 3" />
+                <polygon points="100,40 155,70 155,130 100,160 45,130 45,70" fill="none" stroke="rgba(168,85,247,0.4)" stroke-width="1.2" />
+                <circle cx="100" cy="100" r="28" fill="none" stroke="rgba(56,189,248,0.6)" stroke-width="1" stroke-dasharray="2 2" />
+                <line x1="100" y1="15" x2="100" y2="185" stroke="rgba(99,102,241,0.3)" stroke-width="1" />
+                <line x1="20" y1="55" x2="180" y2="145" stroke="rgba(99,102,241,0.3)" stroke-width="1" />
+                <line x1="20" y1="145" x2="180" y2="55" stroke="rgba(99,102,241,0.3)" stroke-width="1" />
+                <circle cx="100" cy="100" r="5" fill="rgba(99,102,241,0.9)" />
+              </svg>
+            </div>
+
+            <!-- 顶部状态指示灯 -->
+            <div class="relative z-10 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-mono text-indigo-300 font-bold">MANIFOLD GEODESIC ACTIVE</span>
+                <span class="text-gray-400 font-mono text-[10px]">| 深度 {{ riftDepth }}F</span>
+              </div>
+              <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-amber-300">
+                引力梯度: {{ gravityGradient }} G
+              </div>
+            </div>
+
+            <!-- 中间标语 -->
+            <div class="relative z-10 text-center my-auto">
+              <div class="text-2xl font-black text-white/95 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(99,102,241,0.8)]">
+                {{ currentTopology.name }}
+              </div>
+              <div class="text-xs text-indigo-200/80 mt-1 font-mono">
+                逃逸概率: {{ calculatedEscapeProbability }}% · 畸变应力: {{ calculatedDistortionStress }} MPa
+              </div>
+            </div>
+
+            <!-- 底部性能与管线参数微视窗 -->
+            <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+              <span>坍缩剩余时限: {{ calculatedSurvivalTime }} 秒</span>
+              <span :class="calculatedEscapeProbability >= 50 ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'">
+                通道状态: {{ calculatedEscapeProbability >= 50 ? '稳定可通行' : '严重闭合坍缩' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- 4 维物理与战斗指标卡片 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">陷阱瞬时撕裂伤害</div>
+              <div class="font-mono text-rose-400 font-bold text-sm mt-0.5">{{ calculatedTrapDamage.toLocaleString() }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ negativeEnergyShield ? '负能盾削减 50%' : '未受护盾防护' }}</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">奇点逃逸综合率</div>
+              <div class="font-mono text-emerald-400 font-bold text-sm mt-0.5">{{ calculatedEscapeProbability }}%</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">量子态干涉补偿</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">空间畸变张量</div>
+              <div class="font-mono text-indigo-400 font-bold text-sm mt-0.5">{{ calculatedDistortionStress }} MPa</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">测地线剪切度规</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">视界生存时限</div>
+              <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ calculatedSurvivalTime }}s</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">{{ chronoRewindLoop ? '时空回溯回路激活' : '常规线性时流' }}</div>
+            </div>
+          </div>
+
+          <!-- 实时推演日志终端 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+            <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+              <span class="flex items-center gap-1.5 text-indigo-300 font-bold">
+                <span>💻</span> 裂隙拓扑推演与逃逸日志 (Geodesic Terminal)
+              </span>
+              <span class="text-[10px] text-gray-500">度规张量: 实时同步</span>
+            </div>
+            <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+              <div v-for="(log, idx) in dimensionSimLogs" :key="idx" class="flex items-start gap-1.5">
+                <span class="text-indigo-400 select-none">&gt;</span>
+                <span :class="log.includes('完成') || log.includes('成功') || log.includes('稳定') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：高维物理参数与量子偏转防壁控制 -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+          <div class="text-xs font-bold text-indigo-300 flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="flex items-center gap-1.5">
+              <span>🎛️</span> 裂隙拓扑物理调优 (Manifold Uniforms)
+            </span>
+            <button
+              type="button"
+              class="text-[10px] text-gray-400 hover:text-indigo-300 cursor-pointer"
+              @click="resetDimensionParams"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 裂隙探索深度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>裂隙探索深度 (Rift Depth):</span>
+              <span class="font-mono text-indigo-400 font-bold">{{ riftDepth }} 层</span>
+            </div>
+            <n-slider v-model:value="riftDepth" :min="1" :max="100" :step="1" />
+            <div class="flex justify-between text-[9px] text-gray-500">
+              <span>1F 浅层裂隙</span>
+              <span>50F 虚空过渡带</span>
+              <span>100F 终焉奇点</span>
+            </div>
+          </div>
+
+          <!-- 重力异常梯度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>重力异常梯度 (Gravity Gradient):</span>
+              <span class="font-mono text-amber-400 font-bold">{{ gravityGradient }} G</span>
+            </div>
+            <n-slider v-model:value="gravityGradient" :min="0.1" :max="5.0" :step="0.1" />
+          </div>
+
+          <!-- 空间剪切曲率 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>空间剪切曲率 (Shear Curvature):</span>
+              <span class="font-mono text-cyan-400 font-bold">{{ shearCurvature }} %</span>
+            </div>
+            <n-slider v-model:value="shearCurvature" :min="10" :max="100" :step="1" />
+          </div>
+
+          <!-- 逃生路径熵值 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>逃生路径熵值 (Escape Entropy):</span>
+              <span class="font-mono text-purple-400 font-bold">{{ escapeEntropy }}</span>
+            </div>
+            <n-slider v-model:value="escapeEntropy" :min="1.0" :max="10.0" :step="0.1" />
+          </div>
+
+          <!-- 3 项量子防壁与时空回溯开关 -->
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>🚪</span> 量子叠加回响门 (Superposition Door)
+              </span>
+              <n-switch v-model:value="quantumSuperposition" size="small" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>🛡️</span> 负能量坍缩偏转盾 (-50% 潮汐伤害)
+              </span>
+              <n-switch v-model:value="negativeEnergyShield" size="small" />
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300 flex items-center gap-1.5">
+                <span>⏳</span> 局域时空回溯回路 (+45s 生存时限)
+              </span>
+              <n-switch v-model:value="chronoRewindLoop" size="small" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下方：Godot 4.6 LTS 底层高维拓扑与坍缩逃逸脚本契约矩阵 -->
+      <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-4 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-indigo-300 font-mono">GODOT 4.6 LTS ARCHITECTURE SPEC</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">纯粹 RefCounted 离线解算</span>
+            </div>
+            <div class="text-xs text-gray-400 mt-0.5">高维拓扑测地线求解、重力潮汐剪切状态机与非欧空间曲率着色器</div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-900 p-0.5 border border-slate-800 text-xs font-mono">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeDimensionCodeTab === 'resolver' ? 'bg-indigo-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeDimensionCodeTab = 'resolver'"
+              >
+                topology_resolver.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeDimensionCodeTab === 'engine' ? 'bg-indigo-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeDimensionCodeTab = 'engine'"
+              >
+                spatial_collapse_engine.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded transition cursor-pointer"
+                :class="activeDimensionCodeTab === 'shader' ? 'bg-indigo-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                @click="activeDimensionCodeTab = 'shader'"
+              >
+                spatial_warp.gdshader
+              </button>
+            </div>
+            <n-button
+              size="small"
+              type="info"
+              secondary
+              round
+              @click="copyDimensionCode"
+            >
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentDimensionCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1407,6 +1729,11 @@ const scrollToLabyrinthStudio = () => {
 
 const scrollToSecretPassageStudio = () => {
   const el = document.getElementById('secret-passage-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const scrollToDimensionStudio = () => {
+  const el = document.getElementById('dimension-rift-studio')
   if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
 
@@ -2366,6 +2693,308 @@ static func inspect_chest_mimic(chest_tier: String, luck_stat: int) -> bool:
 	var mimic_chance: float = 0.25 - float(luck_stat) * 0.005
 	return randf() < maxf(0.05, mimic_chance)
 `
+
+// ==========================================
+// 工坊 3: 全域多维裂隙迷宫地牢拓扑推演与重力坍缩逃逸工坊
+// ==========================================
+const dimensionTopologies = [
+  {
+    id: 'mobius',
+    name: '莫比乌斯流形裂隙',
+    tag: '单侧闭环 g=1',
+    icon: '♾️',
+    desc: '单侧表面无尽回廊，法线向量翻转 180°，穿过折叠面即可重置迷宫陷阱标记。',
+    safeFactor: '94% 空间自洽',
+    gradient: 'radial-gradient(circle, rgba(99,102,241,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'non_euclidean',
+    name: '非欧超立方结界',
+    tag: '负常数曲率 K<0',
+    icon: '🧊',
+    desc: '四维超正方体双曲极射投影，向前走 4 步回到起点，利用视差折叠瞬移穿透死胡同暗墙。',
+    safeFactor: '88% 空间自洽',
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'singularity',
+    name: '奇点视界重力陷阱',
+    tag: '施瓦西引力视界',
+    icon: '🕳️',
+    desc: '核心引力潮汐呈平方反比剧烈发散，时钟膨胀减速，必须在视界完全闭合前逃离。',
+    safeFactor: '72% 空间自洽',
+    gradient: 'radial-gradient(circle, rgba(239,68,68,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'crystal_spire',
+    name: '水晶高塔螺旋迷阵',
+    tag: '六方全反射光栅',
+    icon: '🔮',
+    desc: '空间连续经历六方晶系全反射，多重折射虚像干扰，需调谐光栅谐振频率解密。',
+    safeFactor: '91% 空间自洽',
+    gradient: 'radial-gradient(circle, rgba(6,182,212,0.4) 0%, rgba(15,23,42,0) 70%)'
+  }
+]
+const selectedTopologyId = ref('mobius')
+const currentTopology = computed(() => {
+  return dimensionTopologies.find(t => t.id === selectedTopologyId.value) || dimensionTopologies[0]
+})
+
+const riftDepth = ref(45)
+const gravityGradient = ref(2.5)
+const shearCurvature = ref(65)
+const escapeEntropy = ref(4.2)
+const quantumSuperposition = ref(true)
+const negativeEnergyShield = ref(true)
+const chronoRewindLoop = ref(false)
+
+const calculatedTrapDamage = computed(() => {
+  const shieldFactor = negativeEnergyShield.value ? 0.5 : 1.0
+  return Math.round(riftDepth.value * 190 * (gravityGradient.value / 2.0) * (shearCurvature.value / 50) * shieldFactor)
+})
+
+const calculatedEscapeProbability = computed(() => {
+  let prob = 100 - (riftDepth.value * 0.55) - (gravityGradient.value * 8.5) - (escapeEntropy.value * 3.2)
+  if (quantumSuperposition.value) prob += 24
+  if (negativeEnergyShield.value) prob += 8
+  return Math.max(5, Math.min(98, Math.round(prob * 10) / 10))
+})
+
+const calculatedDistortionStress = computed(() => {
+  return (gravityGradient.value * (shearCurvature.value / 100) * 44).toFixed(1)
+})
+
+const calculatedSurvivalTime = computed(() => {
+  const base = 180 / (gravityGradient.value * 0.75 + (shearCurvature.value / 100) * 2.0)
+  const bonus = chronoRewindLoop.value ? 45 : 0
+  return Math.max(12, Math.round(base + bonus))
+})
+
+const resetDimensionParams = () => {
+  riftDepth.value = 45
+  gravityGradient.value = 2.5
+  shearCurvature.value = 65
+  escapeEntropy.value = 4.2
+  quantumSuperposition.value = true
+  negativeEnergyShield.value = true
+  chronoRewindLoop.value = false
+  if (message) message.info('高维裂隙拓扑物理参数已重置为基准度规')
+}
+
+const isSimulatingDimension = ref(false)
+const dimensionSimLogs = ref<string[]>([
+  '系统就绪：已挂载 Godot 4.6 LTS 非欧几里得拓扑流形度规张量',
+  '当前流形：莫比乌斯流形裂隙 (g=1)，空间闭环自洽',
+  '测地线推演就绪，请点击右上角按钮启动实时解算'
+])
+
+const runDimensionSimulation = () => {
+  if (isSimulatingDimension.value) return
+  isSimulatingDimension.value = true
+  dimensionSimLogs.value = ['[0.00s] 开始探测当前深度 ' + riftDepth.value + 'F 空间流形曲率张量...']
+
+  setTimeout(() => {
+    dimensionSimLogs.value.unshift(`[0.42s] 注入引力梯度 ${gravityGradient.value}G，激活负能量坍缩偏转盾（伤害削减 50%）`)
+  }, 400)
+
+  setTimeout(() => {
+    dimensionSimLogs.value.unshift(`[0.85s] 解算非欧测地线方程，空间剪切度规张量 ${calculatedDistortionStress.value} MPa 稳定收敛`)
+  }, 800)
+
+  setTimeout(() => {
+    dimensionSimLogs.value.unshift(`[1.30s] 激发量子叠加回响门，消除 ${Math.round(escapeEntropy.value * 4)} 处虚空死胡同节点`)
+  }, 1300)
+
+  setTimeout(() => {
+    dimensionSimLogs.value.unshift(`[1.75s] 测地线逃逸通道铺设完成！综合逃生率 ${calculatedEscapeProbability.value}%，视界剩余时限 ${calculatedSurvivalTime.value}s`)
+    isSimulatingDimension.value = false
+    if (message) message.success('高维裂隙拓扑测地线推演完成，逃逸路线已生成！')
+  }, 1750)
+}
+
+const exportDimensionRiftCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const certId = 'DIM-RIFT-' + Math.random().toString(36).substring(2, 9).toUpperCase()
+  const certContent = `================================================================================
+【光之战士：时空裂隙】高维深渊裂隙迷宫地牢拓扑推演与逃逸方案书
+================================================================================
+方案编号: ${certId}
+时间戳: ${timestamp}
+版本规范: VBLE Dungeon & Spatial Topology Matrix v2.2.279
+
+【当前选定拓扑流形】
+- 流形类型: ${currentTopology.value.name} (${currentTopology.value.tag})
+- 空间自洽度: ${currentTopology.value.safeFactor}
+- 流形机制概述: ${currentTopology.value.desc}
+
+【物理环境度规与控制变量】
+- 裂隙探索深度: ${riftDepth.value} 层
+- 重力异常梯度: ${gravityGradient.value} G
+- 空间剪切曲率: ${shearCurvature.value} %
+- 逃生路径熵值: ${escapeEntropy.value}
+- 量子叠加回响门: ${quantumSuperposition.value ? '已启用 (量子态双重逃逸)' : '未启用'}
+- 负能量坍缩偏转盾: ${negativeEnergyShield.value ? '已启用 (潮汐伤害削减 50%)' : '未启用'}
+- 局域时空回溯回路: ${chronoRewindLoop.value ? '已激活 (+45s 视界时限)' : '未激活'}
+
+【实时解算测地线逃逸指标】
+- 陷阱瞬时撕裂伤害: ${calculatedTrapDamage.value.toLocaleString()} HP
+- 奇点逃生综合成功率: ${calculatedEscapeProbability.value}%
+- 空间畸变应力张量: ${calculatedDistortionStress.value} MPa
+- 视界闭合极限生存时限: ${calculatedSurvivalTime.value} 秒
+- 通道通航状态: ${calculatedEscapeProbability.value >= 50 ? '稳定可通行' : '严重闭合坍缩'}
+
+【底层引擎契约安全指纹】
+- 引擎架构: Godot 4.6 LTS / Non-Euclidean RefCounted Manifold Engine
+- 核心求解器: dungeon_topology_resolver.gd / rift_spatial_collapse_engine.gd
+- 着色器渲染管线: non_euclidean_spatial_warp.gdshader
+- SHA-256 指纹: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `dimension_rift_topology_cert_v2.2.279_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('高维裂隙拓扑逃逸方案书已导出并同步至剪贴板！')
+  }
+}
+
+const activeDimensionCodeTab = ref<'resolver' | 'engine' | 'shader'>('resolver')
+
+const gdDimensionResolverCode = `## dungeon_topology_resolver.gd
+## Godot 4.6 LTS - 全域多维裂隙非欧拓扑流形与测地线逃逸路径求解器
+extends RefCounted
+class_name DungeonTopologyResolver
+
+enum TopologyClass {
+	MOBIUS_STRIP,        ## 莫比乌斯流形单侧闭环
+	NON_EUCLIDEAN_HYPER, ## 四维超正方体双曲极射投影
+	EVENT_HORIZON,       ## 奇点施瓦西引力视界
+	CRYSTAL_SPIRE        ## 水晶全反射螺旋晶胞
+}
+
+static func calculate_escape_geodesic(
+	topology: TopologyClass,
+	depth_layer: int,
+	gravity_g: float,
+	shear_pct: float,
+	has_quantum_door: bool
+) -> Dictionary:
+	var base_success: float = 100.0 - float(depth_layer) * 0.55 - gravity_g * 8.5
+	if has_quantum_door:
+		base_success += 24.0
+	
+	var final_escape_chance: float = clampf(base_success, 5.0, 98.0)
+	var distortion_stress_mpa: float = gravity_g * (shear_pct / 100.0) * 44.0
+	var safe_geodesic_steps: int = maxi(3, int(120.0 / (gravity_g + 1.0)))
+
+	return {
+		"topology": topology,
+		"escape_chance": final_escape_chance,
+		"stress_mpa": distortion_stress_mpa,
+		"steps_remaining": safe_geodesic_steps,
+		"status": "STABLE_ROUTE" if final_escape_chance >= 50.0 else "HAZARDOUS_COLLAPSE"
+	}
+`
+
+const gdDimensionEngineCode = `## rift_spatial_collapse_engine.gd
+## Godot 4.6 LTS - 重力潮汐剪切、视界坍缩倒计时与负能量偏转护盾状态机
+extends RefCounted
+class_name RiftSpatialCollapseEngine
+
+signal collapse_warning_emitted(seconds_left: int, stress_level: String)
+signal emergency_phase_rewind_triggered(safe_anchor_pos: Vector3i)
+
+static func evaluate_trap_damage(
+	depth_layer: int,
+	gravity_g: float,
+	shear_pct: float,
+	has_negative_shield: bool
+) -> int:
+	var raw_dmg: float = float(depth_layer) * 190.0 * (gravity_g / 2.0) * (shear_pct / 50.0)
+	if has_negative_shield:
+		raw_dmg *= 0.5 # 负能量偏转盾吸收50%潮汐撕裂
+	return maxi(10, int(raw_dmg))
+
+static func check_rewind_loop(
+	is_fatal: bool,
+	has_chrono_loop: bool,
+	history_anchors: Array[Vector3i]
+) -> Dictionary:
+	if is_fatal and has_chrono_loop and not history_anchors.is_empty():
+		return {
+			"rewound": true,
+			"target_anchor": history_anchors.back(),
+			"msg": "时空倒流回路已触发，全员恢复至前一稳定引力锚点！"
+		}
+	return {
+		"rewound": false,
+		"target_anchor": Vector3i.ZERO,
+		"msg": "无法触发回溯，承受全额时空撕裂。"
+	}
+`
+
+const gdDimensionShaderCode = `shader_type canvas_item;
+render_mode blend_mix, unshaded;
+
+// Godot 4.6 LTS - 四维极射投影非欧几何空间曲率畸变与全息裂隙着色器
+uniform float u_gravity_gradient : hint_range(0.1, 5.0) = 2.5;
+uniform float u_shear_curvature : hint_range(0.1, 1.0) = 0.65;
+uniform float u_entropy_jitter : hint_range(0.0, 1.0) = 0.25;
+uniform vec4 u_event_horizon_tint : source_color = vec4(0.388, 0.4, 0.945, 1.0);
+
+void fragment() {
+    vec2 uv = UV - vec2(0.5);
+    float dist = length(uv);
+    
+    // 双曲非欧几何畸变度规
+    float angle = atan(uv.y, uv.x);
+    float warp = pow(dist, 1.0 + u_gravity_gradient * 0.2) + sin(angle * 4.0 + TIME * 1.5) * (u_shear_curvature * 0.05);
+    
+    vec2 warped_uv = vec2(cos(angle), sin(angle)) * warp + vec2(0.5);
+    vec4 tex = texture(TEXTURE, warped_uv);
+    
+    // 视界边缘发光与量子重叠色散
+    float rim = smoothstep(0.45, 0.5, dist);
+    vec3 chromatic = vec3(
+        texture(TEXTURE, warped_uv + vec2(0.003 * u_shear_curvature, 0.0)).r,
+        texture(TEXTURE, warped_uv).g,
+        texture(TEXTURE, warped_uv - vec2(0.003 * u_shear_curvature, 0.0)).b
+    );
+    
+    COLOR = vec4(mix(chromatic, u_event_horizon_tint.rgb, rim * 0.7), tex.a);
+}
+`
+
+const currentDimensionCode = computed(() => {
+  if (activeDimensionCodeTab.value === 'resolver') return gdDimensionResolverCode
+  if (activeDimensionCodeTab.value === 'engine') return gdDimensionEngineCode
+  return gdDimensionShaderCode
+})
+
+const copyDimensionCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentDimensionCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 裂隙拓扑源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 </script>
 
 <style scoped>

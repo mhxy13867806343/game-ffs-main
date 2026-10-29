@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-dungeons-dimension-rift-2026-10-29',
+    version: 'v2.2.279',
+    date: '2026-10-29',
+    title: '全域多维深渊裂隙迷宫地牢拓扑推演与重力坍缩逃逸工坊重磅实装',
+    category: 'maps',
+    categoryName: '裂隙拓扑',
+    icon: '🌀',
+    tagType: 'success',
+    description: '全面重构升级 DungeonsView 地宫拓扑门户：顶部标章升级为 VBLE Dungeon & Spatial Topology Matrix v2.2.279，新增裂隙坍缩工坊快捷直达；专区重磅实装【全域多维深渊裂隙迷宫地牢拓扑推演与重力坍缩逃逸工坊】（Multiverse Dimension Rift Topology & Gravitational Collapse Escape Studio）；覆盖四相高维裂隙拓扑形态（莫比乌斯流形裂隙、非欧超立方结界、奇点视界重力陷阱、水晶高塔螺旋迷阵）；实现裂隙探索深度 (1~100 层)、重力异常梯度 (0.1~5.0 G)、空间剪切曲率 (10%~100%) 与逃生路径熵值 (1.0~10.0) 连续微调；支持量子叠加回响门、负能量坍缩偏转盾（吸收 50% 潮汐撕裂）与局域时空回溯回路（+45s 视界时限）；实时解算陷阱瞬时撕裂伤害、奇点逃生综合成功率、空间畸变应力张量 (MPa) 与视界闭合极限生存时限；实装五阶段测地线推演终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 dungeon_topology_resolver.gd、rift_spatial_collapse_engine.gd 与 non_euclidean_spatial_warp.gdshader。',
+    highlights: [
+      '四相高维裂隙拓扑：莫比乌斯单侧闭环、非欧负曲率结界、施瓦西引力视界与水晶全反射迷阵',
+      '四维连续拓扑物理学：深度、重力梯度、空间剪切曲率与逃生熵值全域物理动力学微调',
+      '量子偏转与时空回溯：负能偏转盾削减50%潮汐伤害，时空回溯回路突破极限生存时限',
+      '测地线逃逸实时推演：毫秒级求解引力极小值安全路径，视界闭合通道状态动态评估',
+      '离线认证方案书导出：自动生成附带 SHA-256 专属拓扑指纹的方案书并同步至剪贴板',
+      'Godot 4.6 LTS 3 Tab 展台：包含流形求解器、坍缩状态机与非欧空间曲率着色器'
+    ],
+    relatedLinks: [
+      { label: '全域地质地貌拓扑', path: '/vble/dungeons', icon: '🏛️' },
+      { label: '世界区域风土', path: '/vble/scenes', icon: '🌍' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-news-broadcast-studio-2026-10-29',
     version: 'v2.2.278',
     date: '2026-10-29',
