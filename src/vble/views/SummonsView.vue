@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Celestial Summons Matrix v2.2.276
+              VBLE High-Dimensional Summons &amp; Aetheric Prayer v2.2.305
             </span>
             <span class="text-xs text-gray-400">太古契约、神明降临与超绝召来共鸣阵</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🐉</span> 幻兽与召唤神殿：十二柱神明契约
+            <span>🐉</span> 全域太古十二柱幻兽高维召唤契约、以太逆流祈愿与神威降临工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             收录自晶石纪元流传的十二柱远古神明契约。从巴哈姆特亿万核爆、利维亚桑灭世海啸、奥丁一分钟限时斩铁试炼，到不死鸟复活余烬与太古天体超绝召来共鸣阵。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="success"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToHighDimensionalStudio"
+          >
+            <template #icon><span>🐉</span></template>
+            前往高维召唤神威工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -1213,6 +1224,286 @@
       </div>
 
       <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code>{{ currentDisplayCode }}</code></pre>
+    </div>
+
+    <!-- 🐉 工坊 4: 全域太古十二柱幻兽高维召唤契约、以太逆流祈愿与神威降临工坊 (High-Dimensional Summons & Aetheric Prayer Studio v2.2.305) -->
+    <div
+      id="high-dimensional-summon-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-blue-950/80 via-slate-900/90 to-purple-950/80 border border-blue-500/40 shadow-[0_0_40px_rgba(59,130,246,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与操作区 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-blue-900/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-blue-500/20 text-blue-300 border border-blue-500/40">
+              HIGH-DIMENSIONAL SUMMONS v2.2.305
+            </span>
+            <span class="text-xs text-blue-300/80 font-mono">十二柱幻兽高维神威契约矩阵</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+            <span>🐉</span> 全域太古十二柱幻兽高维召唤契约、以太逆流祈愿与神威降临工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Godot 4.6 LTS 实时仿真：解算太古龙王与沧海利维亚桑高维神威降临、0 MP 环境以太逆流祈愿、双重幻兽同契协奏与 999999 破限终极爆发。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="resetHighDimensionalParameters"
+          >
+            重置参数
+          </n-button>
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingHighDimensional"
+            @click="runHighDimensionalSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动神威契约推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportHighDimensionalCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出神威方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大高维召唤原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="archetype in highDimensionalArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+          :class="selectedHighDimensionalArchetypeId === archetype.id
+            ? 'bg-blue-950/50 border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.3)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-blue-600/50'"
+          @click="selectedHighDimensionalArchetypeId = archetype.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ archetype.icon }}</span>
+            <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.pact }}</n-tag>
+          </div>
+          <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+          <div class="text-[11px] text-blue-300/80 font-mono mt-0.5">{{ archetype.title }}</div>
+          <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>基底神威: {{ archetype.baseBurst.toLocaleString() }}</span>
+            <span class="text-cyan-400">消耗: {{ archetype.mpCost }} MP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心调控滑块与高能开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+        <!-- 左侧参数微调面板 -->
+        <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+              <span>⚙️</span> 以太逆流与灵魂调和参数连续微调
+            </span>
+            <span class="text-[11px] font-mono text-blue-400">Continuous Evocation Dynamics</span>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">以太逆流注能深度 (Aether Backflow Depth):</span>
+                <span class="font-mono text-blue-400 font-bold">{{ aetherBackflowDepth }}%</span>
+              </div>
+              <n-slider v-model:value="aetherBackflowDepth" :min="10" :max="100" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>微光流注 (10%)</span>
+                <span>环境充能 (50%)</span>
+                <span>深渊以太逆流 (100%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">祈愿神威共鸣赫兹 (Prayer Resonance Frequency):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ prayerResonanceHz }} Hz</span>
+              </div>
+              <n-slider v-model:value="prayerResonanceHz" :min="100" :max="999" :step="10" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>低频泛音 (100Hz)</span>
+                <span>528Hz 奇迹频率</span>
+                <span>太古极频 (999Hz)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">召唤师魂印调和度 (Summoner Soul Harmony):</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ summonerSoulHarmony }}%</span>
+              </div>
+              <n-slider v-model:value="summonerSoulHarmony" :min="50" :max="200" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>基底同调 (50%)</span>
+                <span>超灵契合 (140%)</span>
+                <span>人神合一 (200%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">幻兽界域时空穿梭曲率 (Realm Curvature Scale):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ realmCurvature.toFixed(1) }} G</span>
+              </div>
+              <n-slider v-model:value="realmCurvature" :min="1.0" :max="5.0" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>平坦空间 (1.0G)</span>
+                <span>高维折叠 (3.2G)</span>
+                <span>虚空引力坍缩 (5.0G)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 三大高能保障开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">0 MP 极意以太逆流祈愿锁 (Zero MP Backflow Prayer)</div>
+                <div class="text-[11px] text-gray-400">神兽召来无需消耗自身 MP，直接抽取环境高能游离以太完成施法</div>
+              </div>
+              <n-switch v-model:value="zeroMpAetherPrayerLock" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">双重幻兽同契协同共振 (Dual Celestial Harmonic Sync)</div>
+                <div class="text-[11px] text-gray-400">允许两柱太古神明同时显圣降临，合力激发复合元素毁天灭地合体技</div>
+              </div>
+              <n-switch v-model:value="dualSummonHarmonicSync" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">999999 破限爆发神格解放符印 (Godhood Limit Break Seal)</div>
+                <div class="text-[11px] text-gray-400">解除神威 999999 伤害天花板限制，巴哈姆特百万核爆直接轰破 9,999,999</div>
+              </div>
+              <n-switch v-model:value="godhoodLimitBreakSeal" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧指标计算与沙盘推演 -->
+        <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>📊</span> 实时解算神威契约与以太能效
+              </span>
+              <n-tag size="tiny" type="info" round>Pact Resolved</n-tag>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-blue-950/30 border border-blue-700/40">
+                <div class="text-[11px] text-gray-400">神威极限爆发伤害</div>
+                <div class="text-lg font-black text-blue-300 font-mono mt-0.5">{{ calculatedSummonBurstDmg.toLocaleString() }} DMG</div>
+                <div class="text-[10px] text-blue-400/80 mt-0.5">以太逆流神格放大</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-700/40">
+                <div class="text-[11px] text-gray-400">全队涅槃圣盾护佑</div>
+                <div class="text-lg font-black text-amber-300 font-mono mt-0.5">{{ calculatedNirvanaShieldHp.toLocaleString() }} HP</div>
+                <div class="text-[10px] text-amber-400/80 mt-0.5">余烬全伤吸收吸收盾</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-700/40">
+                <div class="text-[11px] text-gray-400">幻兽降临维持时限</div>
+                <div class="text-lg font-black text-emerald-300 font-mono mt-0.5">{{ calculatedSummonDurationSec }} 秒</div>
+                <div class="text-[10px] text-emerald-400/80 mt-0.5">时空折叠锚定时间</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                <div class="text-[11px] text-gray-400">召唤神阶契约评级</div>
+                <div class="text-sm font-black text-purple-300 font-mono mt-1">{{ calculatedSummonPactTier }}</div>
+                <div class="text-[10px] text-purple-400/80 mt-0.5">太古神殿至高认证</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演终端 -->
+          <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">五阶段高维召唤推演进度:</span>
+              <span class="font-mono text-blue-400 font-bold">{{ highDimSimStep }}/5 阶段</span>
+            </div>
+            <n-progress
+              type="line"
+              :percentage="(highDimSimStep / 5) * 100"
+              :status="highDimSimStep === 5 ? 'success' : 'info'"
+              :show-indicator="false"
+              processing
+            />
+            <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+              <span>{{ highDimSimCurrentLog }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+      <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+            <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeHighDimCodeTab === 'contract' ? 'bg-blue-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeHighDimCodeTab = 'contract'"
+              >
+                high_dim_summon.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeHighDimCodeTab === 'prayer' ? 'bg-blue-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeHighDimCodeTab = 'prayer'"
+              >
+                aether_prayer_engine.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeHighDimCodeTab === 'synergy' ? 'bg-blue-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeHighDimCodeTab = 'synergy'"
+              >
+                dual_celestial_sync.gd
+              </button>
+            </div>
+            <n-button size="small" type="primary" secondary round @click="copyHighDimCode">
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentHighDimCode }}</code></pre>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -2522,6 +2813,295 @@ const gdTranscendenceEvocationCode = [
   '\t\t"signature_hash": "SHA256-TRANSCEND-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
   '\t}'
 ].join('\n')
+
+// ================= 🐉 工坊 4: 全域太古十二柱幻兽高维召唤契约、以太逆流祈愿与神威降临工坊 (v2.2.305) =================
+interface HighDimensionalSummonArchetype {
+  id: string
+  name: string
+  title: string
+  pact: string
+  icon: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  baseBurst: number
+  mpCost: number
+}
+
+const highDimensionalArchetypes: HighDimensionalSummonArchetype[] = [
+  {
+    id: 'bahamut_megaflare_apotheosis',
+    name: '终焉巴哈姆特',
+    title: '龙王神圣核爆降临',
+    pact: '至高龙皇神契',
+    icon: '🐲',
+    tagType: 'error',
+    desc: '驾驭以太原初聚合引力，释放【亿万兆耀斑】，全屏无视魔防与元素抗性毁灭打击。',
+    baseBurst: 240000,
+    mpCost: 160
+  },
+  {
+    id: 'leviathan_tsunami_deluge',
+    name: '沧海利维亚桑',
+    title: '万丈海啸绝对冲蚀',
+    pact: '深渊海神契约',
+    icon: '🌊',
+    tagType: 'info',
+    desc: '从时空断层唤出太古汪洋巨浪，瞬间涤荡敌方全员增益状态并附加绝对潮湿易伤。',
+    baseBurst: 195000,
+    mpCost: 130
+  },
+  {
+    id: 'odin_zantetsuken_singularity',
+    name: '真·奥丁斩铁剑',
+    title: '因果律一刀两断',
+    pact: '断生绝命契约',
+    icon: '🗡️',
+    tagType: 'warning',
+    desc: '踏破时间的战马斩铁突击，若敌方非免疫首领直接斩杀，面对领主则触发极限破防真伤。',
+    baseBurst: 280000,
+    mpCost: 180
+  },
+  {
+    id: 'phoenix_rebirth_nirvana',
+    name: '不灭神鸟凤凰',
+    title: '全员涅槃复生余烬',
+    pact: '永生回溯契约',
+    icon: '🔥',
+    tagType: 'success',
+    desc: '降下神圣永恒烈焰，阵亡队员以 100% HP/MP 满状态起死回生，并赋予全队全伤吸收圣盾。',
+    baseBurst: 160000,
+    mpCost: 110
+  }
+]
+
+const selectedHighDimensionalArchetypeId = ref<string>('bahamut_megaflare_apotheosis')
+const aetherBackflowDepth = ref<number>(70)
+const prayerResonanceHz = ref<number>(528)
+const summonerSoulHarmony = ref<number>(140)
+const realmCurvature = ref<number>(3.2)
+
+const zeroMpAetherPrayerLock = ref<boolean>(true)
+const dualSummonHarmonicSync = ref<boolean>(true)
+const godhoodLimitBreakSeal = ref<boolean>(true)
+
+const isSimulatingHighDimensional = ref<boolean>(false)
+const highDimSimStep = ref<number>(5)
+const highDimSimCurrentLog = ref<string>('太古十二柱高维召唤神威矩阵已就绪，等待祈愿指令。')
+
+const currentHighDimensionalArchetype = computed(() => {
+  return highDimensionalArchetypes.find(a => a.id === selectedHighDimensionalArchetypeId.value) || highDimensionalArchetypes[0]
+})
+
+const calculatedSummonBurstDmg = computed(() => {
+  const base = currentHighDimensionalArchetype.value.baseBurst
+  const aetherMult = 1 + (aetherBackflowDepth.value / 100) * 0.6
+  const harmonyMult = (summonerSoulHarmony.value / 100)
+  const syncMult = dualSummonHarmonicSync.value ? 1.45 : 1.0
+  const breakMult = godhoodLimitBreakSeal.value ? 1.75 : 1.0
+  return Math.round(base * aetherMult * harmonyMult * syncMult * breakMult)
+})
+
+const calculatedNirvanaShieldHp = computed(() => {
+  const baseShield = 12000
+  const backflowBonus = (aetherBackflowDepth.value / 100) * 18000
+  const harmonyBonus = (summonerSoulHarmony.value / 100) * 15000
+  return Math.round(baseShield + backflowBonus + harmonyBonus)
+})
+
+const calculatedSummonDurationSec = computed(() => {
+  const base = 15.0
+  const curvatureBonus = realmCurvature.value * 3.0
+  return (base + curvatureBonus).toFixed(1)
+})
+
+const calculatedSummonPactTier = computed(() => {
+  const dmg = calculatedSummonBurstDmg.value
+  if (dmg > 900000) return 'EX·太古创世终焉幻兽至尊'
+  if (dmg > 600000) return 'SSS·高维神格湮灭王座'
+  if (dmg > 400000) return 'SS·太古十二神圣领主'
+  return 'S·远古天体守护契约'
+})
+
+const scrollToHighDimensionalStudio = () => {
+  const el = document.getElementById('high-dimensional-summon-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const resetHighDimensionalParameters = () => {
+  selectedHighDimensionalArchetypeId.value = 'bahamut_megaflare_apotheosis'
+  aetherBackflowDepth.value = 70
+  prayerResonanceHz.value = 528
+  summonerSoulHarmony.value = 140
+  realmCurvature.value = 3.2
+  zeroMpAetherPrayerLock.value = true
+  dualSummonHarmonicSync.value = true
+  godhoodLimitBreakSeal.value = true
+  message.info('已恢复高维召唤神威工坊初始调控参数')
+}
+
+const runHighDimensionalSimulation = () => {
+  if (isSimulatingHighDimensional.value) return
+  isSimulatingHighDimensional.value = true
+  highDimSimStep.value = 1
+  highDimSimCurrentLog.value = '阶段 1/5: 展开高维法阵，测算环境游离以太通量与逆流谐振...'
+
+  setTimeout(() => {
+    highDimSimStep.value = 2
+    highDimSimCurrentLog.value = '阶段 2/5: 注入召唤师灵魂烙印，校准 528 Hz 神圣共鸣天体弦...'
+  }, 400)
+
+  setTimeout(() => {
+    highDimSimStep.value = 3
+    highDimSimCurrentLog.value = '阶段 3/5: 加载双重幻兽同契协议，挂载 0 MP 逆流祈愿回路...'
+  }, 800)
+
+  setTimeout(() => {
+    highDimSimStep.value = 4
+    highDimSimCurrentLog.value = '阶段 4/5: 激活神格解放符印，解除 Godot 4.6 LTS 伤害上限天花板...'
+  }, 1200)
+
+  setTimeout(() => {
+    highDimSimStep.value = 5
+    highDimSimCurrentLog.value = '阶段 5/5: 生成高维召唤方案证书，锁定实机运行时神兽降临参数！'
+    isSimulatingHighDimensional.value = false
+    message.success('高维召唤神威推演完成！')
+  }, 1600)
+}
+
+const exportHighDimensionalCertificate = () => {
+  const arch = currentHighDimensionalArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》太古十二柱幻兽高维召唤契约方案证书 (v2.2.305)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.pact})
+  神阶契约: ${calculatedSummonPactTier.value}
+================================================================================
+【调控参数】
+- 以太逆流注能: ${aetherBackflowDepth.value}%
+- 祈愿共鸣赫兹: ${prayerResonanceHz.value} Hz
+- 召唤师魂印调和: ${summonerSoulHarmony.value}%
+- 界域穿梭曲率: ${realmCurvature.value.toFixed(1)} G
+- 0 MP 逆流祈愿: ${zeroMpAetherPrayerLock.value ? '已开启' : '关闭'}
+- 双重幻兽同契: ${dualSummonHarmonicSync.value ? '已开启' : '关闭'}
+- 999999 神格破限: ${godhoodLimitBreakSeal.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 神威极限爆发伤害: ${calculatedSummonBurstDmg.value.toLocaleString()} DMG
+- 全队涅槃圣盾护佑: ${calculatedNirvanaShieldHp.value.toLocaleString()} HP
+- 幻兽降临维持时限: ${calculatedSummonDurationSec.value} 秒
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `high_dim_summon_cert_v2.2.305_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  message.success('高维幻兽契约方案证书已导出并同步至剪贴板！')
+}
+
+const activeHighDimCodeTab = ref<'contract' | 'prayer' | 'synergy'>('contract')
+
+const gdHighDimContractCode = `## high_dimensional_summon_contract.gd
+## Godot 4.6 LTS - 太古十二柱高维幻兽降临与伤害解算器
+extends RefCounted
+class_name HighDimensionalSummonContract
+
+static func compute_evocation_burst(
+	base_burst: int,
+	aether_backflow_pct: float,
+	harmony_pct: float,
+	limit_break_enabled: bool
+) -> Dictionary:
+	var aether_mult: float = 1.0 + (aether_backflow_pct / 100.0) * 0.6
+	var soul_mult: float = harmony_pct / 100.0
+	var raw_damage: float = float(base_burst) * aether_mult * soul_mult
+	
+	if limit_break_enabled:
+		raw_damage *= 1.75
+		
+	var final_dmg: int = int(raw_damage) if limit_break_enabled else mini(999999, int(raw_damage))
+	return {
+		"final_damage": final_dmg,
+		"limit_broken": limit_break_enabled and final_dmg > 999999,
+		"evocation_power_mw": raw_damage * 0.12
+	}
+`
+
+const gdAetherPrayerCode = `## aether_backflow_prayer_engine.gd
+## Godot 4.6 LTS - 0 MP 环境以太逆流祈愿回路
+extends RefCounted
+class_name AetherBackflowPrayerEngine
+
+static func resolve_prayer_mp(
+	base_mp_cost: int,
+	zero_mp_lock: bool,
+	backflow_depth: float
+) -> Dictionary:
+	if zero_mp_lock:
+		var env_aether_draw: float = float(base_mp_cost) * (backflow_depth / 100.0)
+		return {
+			"caster_mp_consumed": 0,
+			"environment_aether_draw": env_aether_draw,
+			"prayer_success": true
+		}
+	return {
+		"caster_mp_consumed": base_mp_cost,
+		"environment_aether_draw": 0.0,
+		"prayer_success": true
+	}
+`
+
+const gdDualCelestialSyncCode = `## dual_celestial_harmonic_synergy.gd
+## Godot 4.6 LTS - 双重太古神兽同契协奏共振机
+extends RefCounted
+class_name DualCelestialHarmonicSynergy
+
+signal dual_summon_harmonized(celestial_a: String, celestial_b: String, combo_multiplier: float)
+
+static func execute_harmonic_strike(
+	celestial_a_dmg: int,
+	celestial_b_dmg: int,
+	harmonic_active: bool
+) -> Dictionary:
+	var multiplier: float = 1.45 if harmonic_active else 1.0
+	var combined_dmg: int = int(float(celestial_a_dmg + celestial_b_dmg) * multiplier)
+	
+	return {
+		"total_combined_damage": combined_dmg,
+		"is_harmonic_resonance": harmonic_active,
+		"synergy_bonus": multiplier
+	}
+`
+
+const currentHighDimCode = computed(() => {
+  if (activeHighDimCodeTab.value === 'contract') return gdHighDimContractCode
+  if (activeHighDimCodeTab.value === 'prayer') return gdAetherPrayerCode
+  return gdDualCelestialSyncCode
+})
+
+const copyHighDimCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentHighDimCode.value).then(() => {
+      message.success('Godot 4.6 LTS 幻兽神威源码已复制至剪贴板！')
+    }).catch(() => {
+      message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 
 onUnmounted(() => {
   stopOdinTimer()

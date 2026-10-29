@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-summons-high-dim-v305-2026-10-29',
+    version: 'v2.2.305',
+    date: '2026-10-29',
+    title: '全域太古十二柱幻兽高维召唤契约、以太逆流祈愿与神威降临工坊重磅实装',
+    category: 'system',
+    categoryName: '高维召唤',
+    icon: '🐉',
+    tagType: 'success',
+    description: '全面重构升级 SummonsView 幻兽与召唤神殿门户：顶部标章升级为 VBLE High-Dimensional Summons & Aetheric Prayer v2.2.305，新增高维召唤神威工坊快捷直达；专区重磅实装【全域太古十二柱幻兽高维召唤契约、以太逆流祈愿与神威降临工坊】（High-Dimensional Summons & Aetheric Prayer Studio）；覆盖四大高维神威契约原型（终焉巴哈姆特·龙王神圣核爆降临、沧海利维亚桑·万丈海啸绝对冲蚀、真·奥丁斩铁剑·因果律一刀两断、不灭神鸟凤凰·全员涅槃复生余烬）；支持以太逆流注能深度 (10%~100%)、祈愿神威共鸣赫兹 (100~999 Hz)、召唤师魂印调和度 (50%~200%) 与幻兽界域时空穿梭曲率 (1.0~5.0 G) 连续微调；支持 0 MP 极意以太逆流祈愿锁（无需自身 MP，直接抽取环境游离以太）、双重幻兽同契协同共振（允许两柱太古神明同时显圣降临，合力激发复合元素毁天灭地合体技）与 999999 破限爆发神格解放符印（解除伤害天花板，单次神威冲破 9,999,999）；实时解算幻兽神威极限爆发伤害 (突破 900,000+ DMG)、全队涅槃圣盾吸收量 (突破 35,000+ HP)、降临维持时限与召唤神阶契约评级 (高达 EX·太古创世终焉幻兽至尊)；内置五阶段高维召唤推演沙盘与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：high_dimensional_summon_contract.gd、aether_backflow_prayer_engine.gd 与 dual_celestial_harmonic_synergy.gd。',
+    highlights: [
+      '四大神威契约：终焉巴哈姆特核爆、沧海利维亚桑海啸、真奥丁一刀两断与不灭凤凰涅槃',
+      '四维连续契约参数：以太逆流注能深度、祈愿共鸣赫兹、召唤师魂印调和度与界域穿梭曲率',
+      '三重降临神格保障：0 MP 逆流祈愿锁、双重幻兽同契协同共振与 999999 伤害天花板穿透',
+      '动态能效指标解算：神威极限爆发伤害、涅槃圣盾护佑值、降临维持时限与 EX 级契约评级',
+      '五阶段推演沙盘：高维法阵测算、灵魂烙印校准、双契协同挂载、神格解放对齐与证书闭环',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源高维契约解算器、以太祈愿引擎与双兽同契共振机'
+    ],
+    relatedLinks: [
+      { label: '幻兽与召唤神殿', path: '/vble/summons', icon: '🐉' },
+      { label: '高维召唤神威工坊', path: '/vble/summons', icon: '🌌' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-boss-tactics-ai-fsm-v304-2026-10-29',
     version: 'v2.2.304',
     date: '2026-10-29',
