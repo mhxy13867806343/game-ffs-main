@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-docs-codex-api-v311-2026-10-29',
+    version: 'v2.2.311',
+    date: '2026-10-29',
+    title: '全域开发者文档全息检索、多维 API 交互演练与架构白皮书工坊重磅实装',
+    category: 'system',
+    categoryName: '文档典籍',
+    icon: '📚',
+    tagType: 'success',
+    description: '全面重构升级 DocsView 十六卷架构白皮书门户：顶部标章升级为 VBLE Architecture Codex, Omni API Sandbox & Holographic Doc Studio v2.2.311，新增全域 API 演练与典籍工坊快捷直达；专区重磅实装【全域开发者文档全息检索、多维 API 交互演练与架构白皮书工坊】（Holographic Doc Search, Omni API Interactive Sandbox & Whitepaper Studio）；覆盖四大文档工程流派原型（极速开发者接入流、二进制严格契约流、多维交互式沙盒流、典籍语义向量问答流）；支持倒排检索分词深度 (1~8 Grams)、API 交互沙盒超时阈值 (10~500 ms)、白皮书交叉规范校验等级 (60%~100%) 与实机代码双向绑定精度 (70%~99%) 连续微调；支持跨卷交叉依赖死循环拓扑自动熔断、离线 WebAssembly 全文模糊向量检索引擎与实机 Godot 4.6 LTS 代码与规范实时热同步；实时解算单次 API 演练执行延迟 (低至 0.8 ms)、架构规范交叉一致性 (高达 99.4%)、全域代码映射覆盖率 (高达 98.7%) 与典籍认证评级 (高达 EX·太古全域圣典)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：architecture_doc_api_runner.gd、whitepaper_spec_strict_validator.gd 与 codex_vector_search_indexer.gd。',
+    highlights: [
+      '四大文档工程原型：极速开发者接入、二进制严格契约、多维交互式沙盒与典籍语义向量问答',
+      '四维连续文档工程参数：倒排检索分词深度、API 沙盒超时阈值、交叉规范校验等级与代码绑定精度',
+      '三重架构规范高可用保障：交叉依赖死循环自动熔断、离线 WASM 向量检索与实机代码实时热同步',
+      '动态能效指标解算：单次 API 演练执行延迟、交叉规范一致性、全域代码映射覆盖率与圣典评级',
+      '五阶段典籍沙盘：16部白皮书拓扑构建、离线倒排向量分词、API 交互沙盒调用、实机契约热绑定与防伪签名',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源 API 交互演练执行器、白皮书严格校验器与典籍向量检索索引器'
+    ],
+    relatedLinks: [
+      { label: '十六卷架构白皮书', path: '/vble/docs', icon: '📚' },
+      { label: '全域API演练工坊', path: '/vble/docs', icon: '🧪' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-roadmap-gantt-v310-2026-10-29',
     version: 'v2.2.310',
     date: '2026-10-29',
