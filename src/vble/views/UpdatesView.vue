@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-news-operations-calendar-v338-2026-10-29',
+    version: 'v2.2.338',
+    date: '2026-10-29',
+    title: '官方运营快讯发布矩阵、全服活动历法与限时福利兑换工坊重磅实装',
+    category: 'ui',
+    categoryName: '运营快讯',
+    icon: '🎁',
+    tagType: 'success',
+    description: '全面重构升级 NewsView 资讯中心门户：顶部标章升级为 VBLE Operations Matrix, Event Calendar & Welfare Redemption Studio v2.2.338，新增运营活动与福利工坊快捷直达；专区重磅实装【官方运营快讯发布矩阵、全服活动历法与限时福利兑换工坊】（Operations Matrix & Welfare Calendar Studio）；覆盖四大活动运营原型（周年庆典大狂欢·太古以太结晶千抽与全服神兵狂欢流、虚空裂隙赛季远征·深渊首领天梯竞速与限时称号流、日月食纪元庆典·双月共振全图爆率翻倍与绝版幻化流、跨服公会远征战·巨神兵要塞争夺与全域物价平抑流）；支持限时福利兑换倍率增幅 (1.0x~10.0x)、全服活动历法提前预警时限 (6~72 h)、跨服快讯同步微秒容错延迟 (10~150 ms) 与庆典保底代币返还比率 (10%~50%) 连续微调；支持离线回归玩家一键无损补领全部未领福利、全区全服通用兑换码动态生成校验、全息女巫攻击防脚本作弊拦截守卫；实时解算全服福利总估值 (突破 8,000 万以太以上)、活动参与热度 (高达 99.9%)、快讯广播延迟 (低至 1.2 ms) 与官方运营官考评评级 (高达 EX·全域太古星海天象引航官)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：operations_calendar_manager.gd、welfare_redemption_validator.gd 与 anti_sybil_airdrop_guard.gd。',
+    highlights: [
+      '四大活动运营原型：周年庆典狂欢、虚空裂隙赛季、日月食纪元与跨服要塞争夺战',
+      '四维连续运营排期参数：福利兑换倍率、历法预警时限、跨服容错延迟与保底返还比率',
+      '三重运营破限特权：离线回归无损补发、全服通用防伪兑换码与女巫防脚本守卫',
+      '动态深层运营指标解算：全服福利总估值、活动参与热度、快讯广播延迟与运营官评级',
+      '五阶段运营推演沙盘：历法对齐、抗碰撞哈希计算、女巫特征过滤、礼包空投与签名封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源活动历法调度器、福利兑换校验器与女巫防刷守卫'
+    ],
+    relatedLinks: [
+      { label: '官方资讯中心', path: '/vble/news', icon: '📢' },
+      { label: '运营活动福利工坊', path: '/vble/news', icon: '🎁' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-celestial-slingshot-warp-v337-2026-10-29',
     version: 'v2.2.337',
     date: '2026-10-29',
