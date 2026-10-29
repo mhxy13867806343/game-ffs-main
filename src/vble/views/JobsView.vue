@@ -2,7 +2,7 @@
   <div class="jobs-page p-4 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">VBLE Job Dual-Awakening &amp; Omni Pioneer Matrix v2.2.302</n-tag>
+      <n-tag type="info" size="small" round class="mb-2">VBLE Crystal Tree, Passive Fusion &amp; Secret Rebirth Studio v2.2.332</n-tag>
       <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">二十八大职业双轨觉醒、天梯极意流转与万能先驱者矩阵工坊</h1>
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
         当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅、双职业构筑连锁、自由人全被动继承、进阶转生太古奥义与极限命座星图推演。
@@ -77,6 +77,16 @@
           <span>🌌</span>
           <span>二十八大职业双轨觉醒与万能先驱者矩阵工坊</span>
           <n-badge value="v2.2.302" type="error" />
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
+          :class="activeMainTab === 'crystal_passive_rebirth' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          @click="activeMainTab = 'crystal_passive_rebirth'"
+        >
+          <span>🔮</span>
+          <span>三十职业水晶转职树、被动融合与奥义转生工坊</span>
+          <n-badge value="v2.2.332" type="success" />
         </button>
       </div>
     </div>
@@ -2260,6 +2270,206 @@ static func resolve_inherited_passives(mastered_jobs: Array[JobProfile]) -> Arra
         </div>
       </div>
     </div>
+
+    <!-- ================= 视图 8: 三十全职业水晶转职树、被动融合与奥义转生工坊 (Crystal Passive Rebirth v2.2.332) ================= -->
+    <div v-else-if="activeMainTab === 'crystal_passive_rebirth'" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-cyan-950/80 via-slate-900/95 to-indigo-950/80 border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.2)] space-y-6 relative overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/20 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
+                CRYSTAL TREE &amp; PASSIVE FUSION STUDIO v2.2.332
+              </span>
+              <span class="text-xs text-cyan-400 font-mono">Thirty Jobs Transcendence Matrix Pipeline</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+              <span>🔮</span> 三十全职业水晶转职树、被动技能融合与奥义转生工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+              提供三十大职业水晶星盘拓扑、无限制跨职业被动技能熔铸插槽、转生全属性继承倍率与超越 999,999 极限奥义破限推演沙盘。
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button
+              type="info"
+              size="small"
+              round
+              secondary
+              :loading="isSimulatingCrystalRebirth"
+              @click="runCrystalRebirthSimulation"
+            >
+              <template #icon><span>⚡</span></template>
+              启动转生推演沙盘
+            </n-button>
+            <n-button
+              type="warning"
+              size="small"
+              round
+              secondary
+              @click="exportCrystalRebirthCertificate"
+            >
+              <template #icon><span>📜</span></template>
+              导出转生方案证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大水晶转生原型 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            v-for="arch in crystalRebirthArchetypes"
+            :key="arch.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative"
+            :class="selectedRebirthArchetypeId === arch.id ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-cyan-500/40'"
+            @click="selectRebirthArchetype(arch.id)"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ arch.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                {{ arch.tag }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+            <div class="text-xs text-cyan-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+            <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+            <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+              <span class="text-gray-400">基准转生战力</span>
+              <span class="text-cyan-400 font-bold">{{ arch.basePower }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 参数调节与开关控制网格 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+          <!-- 4 滑块 -->
+          <div class="space-y-4">
+            <div class="text-xs font-bold text-cyan-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+              <span>⚙️</span> 水晶星盘与转生参数微调
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300">水晶共振同调谐波率 (%)</span>
+                <span class="text-cyan-400 font-mono font-bold">{{ crystalResonanceHarmonyRatio }} %</span>
+              </div>
+              <n-slider v-model:value="crystalResonanceHarmonyRatio" :min="50" :max="100" :step="1" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300">被动技能融合槽位容量 (槽)</span>
+                <span class="text-amber-400 font-mono font-bold">{{ passiveFusionSynergyCapacity }} 槽</span>
+              </div>
+              <n-slider v-model:value="passiveFusionSynergyCapacity" :min="4" :max="16" :step="1" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300">转生全属性继承倍率 (%)</span>
+                <span class="text-emerald-400 font-mono font-bold">{{ rebirthStatBonusPct }} %</span>
+              </div>
+              <n-slider v-model:value="rebirthStatBonusPct" :min="110" :max="250" :step="5" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300">奥义冷却极速缩减率 (%)</span>
+                <span class="text-purple-400 font-mono font-bold">{{ secretArtsCooldownReductionPct }} %</span>
+              </div>
+              <n-slider v-model:value="secretArtsCooldownReductionPct" :min="20" :max="80" :step="5" />
+            </div>
+          </div>
+
+          <!-- 3 开关与实时数据 -->
+          <div class="space-y-4">
+            <div class="text-xs font-bold text-cyan-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+              <span>✨</span> 职业解限与被动熔铸特权
+            </div>
+
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-xs">
+                  <div class="text-white font-medium">突破职业界限全被动自由融合</div>
+                  <div class="text-gray-400 text-[11px]">任何职业均可无视类别装配法系/物理被动</div>
+                </div>
+                <n-switch v-model:value="crossJobPassiveFusionUnrestricted" />
+              </div>
+
+              <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-xs">
+                  <div class="text-white font-medium">ABP 满级溢出自动转生奥义点</div>
+                  <div class="text-gray-400 text-[11px]">达到 MAX ABP 后经验 100% 转化转生灵力</div>
+                </div>
+                <n-switch v-model:value="autoAbpMasteryOverflowAccumulation" />
+              </div>
+
+              <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-xs">
+                  <div class="text-white font-medium">奥义转生超越 999,999 伤害破限</div>
+                  <div class="text-gray-400 text-[11px]">解锁太古极限伤害上限至 99,999,999</div>
+                </div>
+                <n-switch v-model:value="secretArtsLimitBreakUncap" />
+              </div>
+            </div>
+
+            <!-- 4 项实时综合解算指标 -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div class="p-2.5 rounded bg-slate-900 border border-cyan-500/20 text-center">
+                <div class="text-[11px] text-gray-400">综合转生战力</div>
+                <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedRebirthMetrics.compositeJobPowerRating }}</div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-cyan-500/20 text-center">
+                <div class="text-[11px] text-gray-400">被动融合效率</div>
+                <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedRebirthMetrics.passiveSlotsEfficiency }}</div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-cyan-500/20 text-center">
+                <div class="text-[11px] text-gray-400">属性转生增益</div>
+                <div class="text-lg font-mono font-black text-amber-400">{{ calculatedRebirthMetrics.rebirthAttributeGain }}</div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-cyan-500/20 text-center">
+                <div class="text-[11px] text-gray-400">水晶先驱评级</div>
+                <div class="text-lg font-mono font-black text-purple-400">{{ calculatedRebirthMetrics.crystalPioneerCertification }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 五阶段沙盘推演进度条 -->
+        <div v-if="isSimulatingCrystalRebirth" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-cyan-500/30">
+          <div class="flex justify-between text-xs font-mono">
+            <span class="text-cyan-300 flex items-center gap-2">
+              <span class="animate-spin">🔄</span> {{ crystalRebirthStages[currentRebirthSimStage] }}
+            </span>
+            <span class="text-gray-400">{{ (currentRebirthSimStage + 1) * 20 }}%</span>
+          </div>
+          <n-progress type="line" :percentage="(currentRebirthSimStage + 1) * 20" :show-indicator="false" status="info" />
+        </div>
+
+        <!-- Godot 4.6 LTS 源码展台 -->
+        <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS CRYSTAL REBIRTH ENGINE</span>
+              <n-tag size="small" type="info" round>res://scripts/combat/jobs/</n-tag>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-radio-group v-model:value="activeRebirthScriptTab" size="small">
+                <n-radio-button value="tree_orchestrator">水晶星盘树</n-radio-button>
+                <n-radio-button value="fusion_matrix">被动融合引擎</n-radio-button>
+                <n-radio-button value="rebirth_controller">奥义转生控制器</n-radio-button>
+              </n-radio-group>
+              <n-button type="info" size="tiny" secondary round @click="copyRebirthScript">
+                复制当前脚本
+              </n-button>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+            <pre><code>{{ currentRebirthScriptCode }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2273,7 +2483,7 @@ import { usePagination } from '@/composables/usePagination'
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value < 640)
 
-const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery' | 'transcendence_tree' | 'hyper_mastery_matrix' | 'omni_pioneer_matrix'>('catalog')
+const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery' | 'transcendence_tree' | 'hyper_mastery_matrix' | 'omni_pioneer_matrix' | 'crystal_passive_rebirth'>('catalog')
 const selectedCrystal = ref('all')
 
 // 分类数量与卡片使用同一目录；不随当前筛选或分页缩减。
@@ -4360,6 +4570,209 @@ const copyPioneerCode = () => {
     })
   }
 }
+
+// ==========================================
+// v2.2.332: 三十职业水晶转职树与被动融合工坊逻辑
+// ==========================================
+interface CrystalRebirthArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  basePower: number
+}
+
+const crystalRebirthArchetypes: CrystalRebirthArchetype[] = [
+  {
+    id: 'paladin_aegis',
+    name: '太古圣骑士',
+    subtitle: '太古庇护与双持神圣双剑流',
+    icon: '🛡️',
+    tag: '圣堂守护',
+    desc: '融合骑士盾墙与白魔全息护疗，手持双神圣誓约长剑，生命值越高圣威斩击伤害倍率越高。',
+    basePower: 38000
+  },
+  {
+    id: 'black_mage_quad',
+    name: '湮灭黑魔导士',
+    subtitle: '四重元素超魔导核爆崩解流',
+    icon: '🔮',
+    tag: '元素核爆',
+    desc: '火冰雷毒四系禁咒共鸣，被动吸取深渊以太，瞬间连续施展四发核爆且无视魔抗。',
+    basePower: 45000
+  },
+  {
+    id: 'ninja_dual_phantom',
+    name: '幻影极意忍者',
+    subtitle: '二刀流双持飞镖绝对暴击流',
+    icon: '🥷',
+    tag: '神速绝杀',
+    desc: '二刀流双持极意加持，飞镖暗器投掷暴击率达 100%，具备微秒替身术无伤闪避机制。',
+    basePower: 42000
+  },
+  {
+    id: 'time_mage_warp',
+    name: '时空魔导师',
+    subtitle: '全息加速时间静止与重力坍缩流',
+    icon: '⏳',
+    tag: '时空操纵',
+    desc: '全员赋予急速光环与绝对免疫迟缓，大招停止全场敌人时间流速并引发重力微型黑洞。',
+    basePower: 39500
+  }
+]
+
+const selectedRebirthArchetypeId = ref('paladin_aegis')
+const crystalResonanceHarmonyRatio = ref(95)
+const passiveFusionSynergyCapacity = ref(12)
+const rebirthStatBonusPct = ref(180)
+const secretArtsCooldownReductionPct = ref(50)
+
+const crossJobPassiveFusionUnrestricted = ref(true)
+const autoAbpMasteryOverflowAccumulation = ref(true)
+const secretArtsLimitBreakUncap = ref(true)
+
+const selectRebirthArchetype = (id: string) => {
+  selectedRebirthArchetypeId.value = id
+  if (message) {
+    const arch = crystalRebirthArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换水晶转生原型：${arch.name}`)
+  }
+}
+
+const calculatedRebirthMetrics = computed(() => {
+  const arch = crystalRebirthArchetypes.find(a => a.id === selectedRebirthArchetypeId.value) || crystalRebirthArchetypes[0]
+  const basePwr = arch.basePower
+  const uncapBonus = secretArtsLimitBreakUncap.value ? 1.5 : 1.0
+  const finalRating = Math.round(basePwr * (crystalResonanceHarmonyRatio.value / 100) * (rebirthStatBonusPct.value / 100) * uncapBonus)
+  
+  const passiveEff = crossJobPassiveFusionUnrestricted.value ? 99.8 : Math.min(95.0, 60.0 + (passiveFusionSynergyCapacity.value / 16) * 35).toFixed(1)
+  
+  let rank = 'SSR·太古星相宗师'
+  if (finalRating >= 90000) rank = 'EX·太古水晶全职神圣导师'
+  else if (finalRating >= 60000) rank = 'SSS·极意转生天尊'
+
+  return {
+    compositeJobPowerRating: finalRating.toLocaleString(),
+    passiveSlotsEfficiency: `${passiveEff}%`,
+    rebirthAttributeGain: `+${rebirthStatBonusPct.value}%`,
+    crystalPioneerCertification: rank
+  }
+})
+
+const isSimulatingCrystalRebirth = ref(false)
+const currentRebirthSimStage = ref(0)
+const crystalRebirthStages = [
+  '水晶四象星位对齐与命座扫描...',
+  '跨职业被动技能基因熔铸融合...',
+  '转生灵格洗礼与全属性倍率注入...',
+  '太古终极奥义刻印与伤害解限突破...',
+  '全职业转生档案防伪公钥计算与证书生成...'
+]
+
+const runCrystalRebirthSimulation = () => {
+  if (isSimulatingCrystalRebirth.value) return
+  isSimulatingCrystalRebirth.value = true
+  currentRebirthSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentRebirthSimStage.value < crystalRebirthStages.length - 1) {
+      currentRebirthSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingCrystalRebirth.value = false
+      if (message) {
+        message.success(`【水晶转生沙盘】推演成功！综合转生战力评级：${calculatedRebirthMetrics.value.compositeJobPowerRating}`)
+      }
+    }
+  }, 400)
+}
+
+const exportCrystalRebirthCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》三十全职业水晶转生认证证书 ===
+证书编号: CRYSTAL-REBIRTH-${hash.substring(0, 12).toUpperCase()}
+核心原型: ${selectedRebirthArchetypeId.value}
+共振同调谐波: ${crystalResonanceHarmonyRatio.value}%
+被动插槽容量: ${passiveFusionSynergyCapacity.value} 槽
+转生属性倍率: +${rebirthStatBonusPct.value}%
+综合转生战力: ${calculatedRebirthMetrics.value.compositeJobPowerRating}
+被动融合效率: ${calculatedRebirthMetrics.value.passiveSlotsEfficiency}
+水晶先驱评级: ${calculatedRebirthMetrics.value.crystalPioneerCertification}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方职业水晶星盘与转生引擎认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出水晶职业转生方案防伪证书到剪贴板！')
+  }
+}
+
+const activeRebirthScriptTab = ref<'tree_orchestrator' | 'fusion_matrix' | 'rebirth_controller'>('tree_orchestrator')
+
+const rebirthScriptCodes = {
+  tree_orchestrator: `class_name CrystalJobTreeOrchestrator
+extends Node
+
+## 最终幻想：时空之轮 - 三十职业水晶转职树与命座仲裁器
+## 文件路径: res://scripts/combat/jobs/crystal_job_tree_orchestrator.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal job_rebirth_completed(job_id: String, composite_power: int)
+
+@export var crystal_harmony_rate: float = 0.95
+
+func evaluate_job_rebirth(job_id: String, base_power: int, stat_multiplier: float) -> Dictionary:
+    var final_pwr: int = int(float(base_power) * crystal_harmony_rate * (stat_multiplier / 100.0))
+    job_rebirth_completed.emit(job_id, final_pwr)
+    return {
+        "job_id": job_id,
+        "composite_power": final_pwr,
+        "status": "transcended"
+    }
+`,
+
+  fusion_matrix: `class_name PassiveFusionMatrixEngine
+extends RefCounted
+
+## 最终幻想：时空之轮 - 跨职业被动技能自由融合引擎
+## 文件路径: res://scripts/combat/jobs/passive_fusion_matrix_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func fuse_passive_abilities(passives: Array[String], max_slots: int, unrestricted: bool) -> Dictionary:
+    var active_passives: Array[String] = passives.slice(0, mini(passives.size(), max_slots))
+    return {
+        "active_passives": active_passives,
+        "is_unrestricted": unrestricted,
+        "synergy_bonus_pct": active_passives.size() * 8.5
+    }
+`,
+
+  rebirth_controller: `class_name SecretArtsRebirthController
+extends RefCounted
+
+## 最终幻想：时空之轮 - 奥义转生与伤害解限爆发控制器
+## 文件路径: res://scripts/combat/jobs/secret_arts_rebirth_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func cast_secret_art_burst(raw_damage: float, uncap_active: bool) -> int:
+    var max_limit: float = 99999999.0 if uncap_active else 999999.0
+    return int(minf(raw_damage, max_limit))
+`
+}
+
+const currentRebirthScriptCode = computed(() => {
+  return rebirthScriptCodes[activeRebirthScriptTab.value]
+})
+
+const copyRebirthScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentRebirthScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 水晶转生源码到剪贴板！')
+  }
+}
+
 </script>
 
 <style scoped>

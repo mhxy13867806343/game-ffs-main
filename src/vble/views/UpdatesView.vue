@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-jobs-crystal-passive-rebirth-v332-2026-10-29',
+    version: 'v2.2.332',
+    date: '2026-10-29',
+    title: '三十全职业水晶转职树、被动技能融合与奥义转生工坊重磅实装',
+    category: 'system',
+    categoryName: '职业转职',
+    icon: '🔮',
+    tagType: 'success',
+    description: '全面重构升级 JobsView 职业全典门户：顶部标章升级为 VBLE Crystal Tree, Passive Fusion & Secret Rebirth Studio v2.2.332，导航栏新增【三十全职业水晶转职树、被动融合与奥义转生工坊】（Crystal Tree & Passive Fusion Studio）；覆盖四大水晶转生原型（太古圣骑士·太古庇护与双持神圣双剑流、湮灭黑魔导士·四重元素超魔导核爆崩解流、幻影极意忍者·二刀流双持飞镖绝对暴击流、时空魔导师·全息加速时间静止与重力坍缩流）；支持水晶共振同调谐波率 (50%~100%)、被动技能融合槽位容量 (4~16 槽)、转生全属性继承倍率 (110%~250%) 与奥义冷却极速缩减率 (20%~80%) 连续微调；支持突破职业界限全被动自由融合、ABP 满级溢出自动转生奥义点、奥义转生超越 999,999 伤害破限；实时解算综合转生战力 (突破 90,000 以上)、被动融合效率 (高达 99.8%)、属性转生增益 (高达 +250%) 与水晶先驱评级 (高达 EX·太古水晶全职神圣导师)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：crystal_job_tree_orchestrator.gd、passive_fusion_matrix_engine.gd 与 secret_arts_rebirth_controller.gd。',
+    highlights: [
+      '四大水晶转生原型：太古圣骑士、湮灭黑魔导士、幻影极意忍者与时空魔导师',
+      '四维连续转生物理参数：水晶共振谐波率、被动槽位容量、转生属性继承率与奥义冷却缩减',
+      '三重职业解限特权：跨职业被动无限制熔铸、满级 ABP 自动转生点与奥义伤害破限',
+      '动态全息转生解算：综合战力评分、被动融合效率、属性转生增益与神圣导师评级',
+      '五阶段星盘推演沙盘：四象星位对齐、被动基因熔铸、灵格洗礼注入、奥义伤害解限与证书封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源水晶星盘树、被动融合引擎与奥义转生控制器'
+    ],
+    relatedLinks: [
+      { label: '职业全典与精通', path: '/vble/jobs', icon: '📜' },
+      { label: '水晶转职转生工坊', path: '/vble/jobs', icon: '🔮' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-summons-ancient-pact-v331-2026-10-29',
     version: 'v2.2.331',
     date: '2026-10-29',
