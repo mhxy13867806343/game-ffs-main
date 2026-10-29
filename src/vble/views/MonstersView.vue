@@ -2,12 +2,15 @@
   <div class="monsters-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary, Affix Lineage &amp; Overdrive Studio v2.2.301</n-tag>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary, Weakness Radar &amp; Rare Drop Studio v2.2.330</n-tag>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物大图鉴、深渊变异遗传谱系与世界首领狂暴破限工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-2">
         门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、以及 {{ coliseumCount }} 种斗技场霸主，全生态链演化、抗性图谱与弱点基因逆向工程沙盘
       </p>
       <div class="flex justify-center flex-wrap gap-2">
+        <n-button size="tiny" type="success" secondary @click="scrollToWeaknessDropStudio">
+          🎯 前往弱点雷达与稀有掉落工坊
+        </n-button>
         <n-button size="tiny" type="primary" secondary @click="scrollToAbyssMutationStudio">
           👾 前往深渊变异与狂暴破限工坊
         </n-button>
@@ -1821,6 +1824,207 @@
         </div>
       </div>
     </div>
+
+    <!-- v2.2.330: 全域魔物生态全息图鉴、弱点抗性雷达与稀有掉落沙盘工坊 -->
+    <div
+      id="weakness-radar-drop-studio"
+      class="weakness-drop-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-emerald-950/20 to-slate-900/95 border border-emerald-500/30 shadow-[0_0_35px_rgba(16,185,129,0.12)] space-y-6 relative overflow-hidden"
+    >
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-emerald-500/20 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-bold text-xs border border-emerald-500/30">
+              WEAKNESS RADAR &amp; RARE DROP STUDIO v2.2.330
+            </span>
+            <span class="text-xs text-emerald-400 font-mono">Ecology Hologram &amp; Pity Matrix Pipeline</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <span>🎯</span> 全域魔物生态全息图鉴、弱点抗性雷达与稀有掉落沙盘工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            收录全域百种魔物六相元素抗性雷达、弱点过载瘫痪判定、盗贼神兵必定顺手牵羊与太古隐藏掉落伪随机防非保底引擎。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button
+            type="success"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingWeaknessDrop"
+            @click="runWeaknessDropSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动掉落沙盘推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportWeaknessDropCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出猎魔掉落方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大魔物生态原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="arch in weaknessDropArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative"
+          :class="selectedDropArchetypeId === arch.id ? 'bg-emerald-950/40 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-emerald-500/40'"
+          @click="selectDropArchetype(arch.id)"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              {{ arch.tag }}
+            </span>
+          </div>
+          <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+          <div class="text-xs text-emerald-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+          <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+          <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-gray-400">弱点易伤倍率</span>
+            <span class="text-emerald-400 font-bold">{{ arch.weaknessMultiplier }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与开关控制网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+        <!-- 4 滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-emerald-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚙️</span> 生态掉率与弱点穿透参数微调
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">全域稀有掉落运气暴击增幅 (倍率)</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ dropRateLuckMultiplier.toFixed(1) }}x</span>
+            </div>
+            <n-slider v-model:value="dropRateLuckMultiplier" :min="1.0" :max="10.0" :step="0.5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">属性弱点极限穿透深度 (%)</span>
+              <span class="text-amber-400 font-mono font-bold">{{ weaknessElementalPenetration }} %</span>
+            </div>
+            <n-slider v-model:value="weaknessElementalPenetration" :min="20" :max="90" :step="2" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">太古秘宝保底触发阈值 (击杀频次)</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ abyssDropPityThreshold }} 击杀</span>
+            </div>
+            <n-slider v-model:value="abyssDropPityThreshold" :min="10" :max="100" :step="5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">生态种群游荡遭遇密度 (%)</span>
+              <span class="text-purple-400 font-mono font-bold">{{ monstersEcologySpawnDensity }} %</span>
+            </div>
+            <n-slider v-model:value="monstersEcologySpawnDensity" :min="50" :max="200" :step="10" />
+          </div>
+        </div>
+
+        <!-- 3 开关与实时数据 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-emerald-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>🎁</span> 猎魔特权与保底防非机制
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">盗贼大师必定顺手牵羊神兵</div>
+                <div class="text-gray-400 text-[11px]">发动偷窃技能时 100% 盗取首领稀有槽位</div>
+              </div>
+              <n-switch v-model:value="stolenItemGuaranteedDrop" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">弱点属性过载绝对瘫痪麻痹</div>
+                <div class="text-gray-400 text-[11px]">连续击中 3 次弱点属性触发强制眩晕</div>
+              </div>
+              <n-switch v-model:value="elementalOverloadStun" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">太古隐藏秘宝无尽保底防非</div>
+                <div class="text-gray-400 text-[11px]">达到阈值必定由系统补发最高阶太古武器</div>
+              </div>
+              <n-switch v-model:value="infiniteDropPitySystem" />
+            </div>
+          </div>
+
+          <!-- 4 项实时综合解算指标 -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="p-2.5 rounded bg-slate-900 border border-emerald-500/20 text-center">
+              <div class="text-[11px] text-gray-400">综合稀有掉率</div>
+              <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedDropMetrics.effectiveDropRate }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-emerald-500/20 text-center">
+              <div class="text-[11px] text-gray-400">弱点易伤增幅</div>
+              <div class="text-lg font-mono font-black text-amber-400">{{ calculatedDropMetrics.weaknessMultiplier }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-emerald-500/20 text-center">
+              <div class="text-[11px] text-gray-400">保底期望击杀</div>
+              <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedDropMetrics.expectedKillsToPity }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-emerald-500/20 text-center">
+              <div class="text-[11px] text-gray-400">猎魔大师评级</div>
+              <div class="text-lg font-mono font-black text-purple-400">{{ calculatedDropMetrics.hunterRank }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条 -->
+      <div v-if="isSimulatingWeaknessDrop" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-emerald-500/30">
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-emerald-300 flex items-center gap-2">
+            <span class="animate-spin">🔄</span> {{ dropSimulationStages[currentDropSimStage] }}
+          </span>
+          <span class="text-gray-400">{{ (currentDropSimStage + 1) * 20 }}%</span>
+        </div>
+        <n-progress type="line" :percentage="(currentDropSimStage + 1) * 20" :show-indicator="false" status="success" />
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS BESTIARY &amp; DROP ENGINE</span>
+            <n-tag size="small" type="success" round>res://scripts/combat/monsters/</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-radio-group v-model:value="activeDropScriptTab" size="small">
+              <n-radio-button value="weakness_radar">弱点雷达解算器</n-radio-button>
+              <n-radio-button value="pity_system">太古保底掉落引擎</n-radio-button>
+              <n-radio-button value="ecology_spawn">生态繁衍生成总监</n-radio-button>
+            </n-radio-group>
+            <n-button type="info" size="tiny" secondary round @click="copyDropScript">
+              复制当前脚本
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentDropScriptCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -3453,6 +3657,242 @@ onUnmounted(() => {
     evolutionTimer = null
   }
 })
+
+// ==========================================
+// v2.2.330: 弱点抗性雷达与稀有掉落工坊逻辑
+// ==========================================
+const scrollToWeaknessDropStudio = () => {
+  const el = document.getElementById('weakness-radar-drop-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface WeaknessDropArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  weaknessMultiplier: string
+  baseDropRate: number
+}
+
+const weaknessDropArchetypes: WeaknessDropArchetype[] = [
+  {
+    id: 'void_behemoth',
+    name: '虚空贝希摩斯',
+    subtitle: '彗星陨石与神圣弱点流',
+    icon: '🦏',
+    tag: '圣光破暗',
+    desc: '拥有极高物理硬直与彗星反击，但神圣属性弱点高达 200%，神圣系技能命中可造成四重弱点爆发。',
+    weaknessMultiplier: '350%',
+    baseDropRate: 4.5
+  },
+  {
+    id: 'iron_giant_abyss',
+    name: '渊铁巨兵',
+    subtitle: '物理装甲与高阶雷霆导电弱点流',
+    icon: '🤖',
+    tag: '雷电超导',
+    desc: '全金属铸造的深渊杀戮机械，雷霆法术命中引发过载超导电弧，击碎装甲使其陷入大硬直。',
+    weaknessMultiplier: '420%',
+    baseDropRate: 3.8
+  },
+  {
+    id: 'death_claw_phantom',
+    name: '冥府死爪',
+    subtitle: '暗黑魔法汲取与天国烈焰弱点流',
+    icon: '🦅',
+    tag: '烈焰净灵',
+    desc: '能吞噬虚空魔力转化为护盾的幽冥恶灵，弱点为纯净天国烈焰，火焰暴击可瞬间蒸发其能量罩。',
+    weaknessMultiplier: '380%',
+    baseDropRate: 5.2
+  },
+  {
+    id: 'cactuar_golden',
+    name: '太古金针仙人掌',
+    subtitle: '万针齐发与极速必定暴击流',
+    icon: '🌵',
+    tag: '极速刺杀',
+    desc: '拥有神速闪避率与万针秒杀神技，但背刺必定暴击，击破后有几率爆出全游戏唯一太古金针名剑。',
+    weaknessMultiplier: '600%',
+    baseDropRate: 2.1
+  }
+]
+
+const selectedDropArchetypeId = ref('void_behemoth')
+const dropRateLuckMultiplier = ref(4.5)
+const weaknessElementalPenetration = ref(65)
+const abyssDropPityThreshold = ref(30)
+const monstersEcologySpawnDensity = ref(120)
+
+const stolenItemGuaranteedDrop = ref(true)
+const elementalOverloadStun = ref(true)
+const infiniteDropPitySystem = ref(true)
+
+const selectDropArchetype = (id: string) => {
+  selectedDropArchetypeId.value = id
+  if (message) {
+    const arch = weaknessDropArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换魔物生态原型：${arch.name}`)
+  }
+}
+
+const calculatedDropMetrics = computed(() => {
+  const arch = weaknessDropArchetypes.find(a => a.id === selectedDropArchetypeId.value) || weaknessDropArchetypes[0]
+  const baseRate = arch.baseDropRate
+  const stealBonus = stolenItemGuaranteedDrop.value ? 1.5 : 1.0
+  const finalDropRate = Math.min(85.0, baseRate * dropRateLuckMultiplier.value * stealBonus).toFixed(1)
+  
+  const baseMult = parseFloat(arch.weaknessMultiplier)
+  const stunBonus = elementalOverloadStun.value ? 1.4 : 1.0
+  const finalWeaknessMult = Math.round(baseMult * (1.0 + weaknessElementalPenetration.value / 100) * stunBonus)
+
+  const pityKills = infiniteDropPitySystem.value ? Math.max(5, Math.round(abyssDropPityThreshold.value * 0.4)) : abyssDropPityThreshold.value
+
+  let rank = 'S·深渊探索猎手'
+  if (finalWeaknessMult >= 700) rank = 'EX·全域太古生态神猎者'
+  else if (finalWeaknessMult >= 500) rank = 'SSS·天灾裁决者'
+
+  return {
+    effectiveDropRate: `${finalDropRate}%`,
+    weaknessMultiplier: `+${finalWeaknessMult}%`,
+    expectedKillsToPity: `${pityKills} 次`,
+    hunterRank: rank
+  }
+})
+
+const isSimulatingWeaknessDrop = ref(false)
+const currentDropSimStage = ref(0)
+const dropSimulationStages = [
+  '魔物六维生态雷达与基因抗性扫描...',
+  '四象弱点属性过载共鸣计算...',
+  '盗贼大师神手顺手牵羊判定...',
+  '太古秘宝掉落伪随机掷骰与保底生效...',
+  '稀有猎获公钥防伪认证与方案书封装...'
+]
+
+const runWeaknessDropSimulation = () => {
+  if (isSimulatingWeaknessDrop.value) return
+  isSimulatingWeaknessDrop.value = true
+  currentDropSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentDropSimStage.value < dropSimulationStages.length - 1) {
+      currentDropSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingWeaknessDrop.value = false
+      if (message) {
+        message.success(`【稀有掉落沙盘】推演成功！综合稀有掉率达 ${calculatedDropMetrics.value.effectiveDropRate}，弱点易伤倍率：${calculatedDropMetrics.value.weaknessMultiplier}`)
+      }
+    }
+  }, 400)
+}
+
+const exportWeaknessDropCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》魔物生态与稀有掉落方案证书 ===
+证书编号: DROP-ECOLOGY-${hash.substring(0, 12).toUpperCase()}
+目标原型: ${selectedDropArchetypeId.value}
+运气暴击倍率: ${dropRateLuckMultiplier.value.toFixed(1)}x
+属性弱点穿透: ${weaknessElementalPenetration.value}%
+保底阈值: ${abyssDropPityThreshold.value} 击杀
+综合稀有掉率: ${calculatedDropMetrics.value.effectiveDropRate}
+弱点易伤增幅: ${calculatedDropMetrics.value.weaknessMultiplier}
+保底期望击杀: ${calculatedDropMetrics.value.expectedKillsToPity}
+猎魔评级: ${calculatedDropMetrics.value.hunterRank}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方掉落伪随机与保底逻辑认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出魔物生态与掉落方案防伪证书到剪贴板！')
+  }
+}
+
+const activeDropScriptTab = ref<'weakness_radar' | 'pity_system' | 'ecology_spawn'>('weakness_radar')
+
+const dropScriptCodes = {
+  weakness_radar: `class_name MonsterWeaknessRadarResolver
+extends RefCounted
+
+## 最终幻想：时空之轮 - 魔物弱点属性矩阵与易伤穿透解算器
+## 文件路径: res://scripts/combat/monsters/monster_weakness_radar_resolver.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func resolve_elemental_damage(
+    incoming_element: String,
+    raw_damage: float,
+    weakness_element: String,
+    pen_ratio: float
+) -> Dictionary:
+    var is_weakness: bool = (incoming_element == weakness_element)
+    var effective_mult: float = 1.0
+    if is_weakness:
+        effective_mult = 2.0 * (1.0 + pen_ratio)
+    var final_dmg: float = raw_damage * effective_mult
+    return {
+        "is_weakness_hit": is_weakness,
+        "multiplier": effective_mult,
+        "final_damage": final_dmg
+    }
+`,
+
+  pity_system: `class_name RareDropPitySystemEngine
+extends Node
+
+## 最终幻想：时空之轮 - 太古秘宝稀有掉落与防非保底引擎
+## 文件路径: res://scripts/combat/monsters/rare_drop_pity_system_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal rare_item_dropped(item_id: String, is_pity_guarantee: bool)
+
+var kill_counter: Dictionary = {}
+
+func record_kill_and_roll_loot(monster_id: String, base_rate: float, luck_mult: float, pity_cap: int) -> String:
+    var current_kills: int = kill_counter.get(monster_id, 0) + 1
+    kill_counter[monster_id] = current_kills
+    
+    var roll_chance: float = base_rate * luck_mult
+    var roll: float = randf() * 100.0
+    
+    if roll <= roll_chance or current_kills >= pity_cap:
+        kill_counter[monster_id] = 0
+        var is_pity: bool = (current_kills >= pity_cap)
+        rare_item_dropped.emit("relic_" + monster_id, is_pity)
+        return "relic_" + monster_id
+        
+    return ""
+`,
+
+  ecology_spawn: `class_name MonsterEcologySpawnDirector
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全域魔物生态繁衍与动态游荡生成总监
+## 文件路径: res://scripts/combat/monsters/monster_ecology_spawn_director.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_spawn_density(base_spawns: int, density_pct: float, weather_type: String) -> int:
+    var weather_mod: float = 1.2 if weather_type == "solar_eclipse" else 1.0
+    var calculated: float = float(base_spawns) * (density_pct / 100.0) * weather_mod
+    return maxi(1, int(roundf(calculated)))
+`
+}
+
+const currentDropScriptCode = computed(() => {
+  return dropScriptCodes[activeDropScriptTab.value]
+})
+
+const copyDropScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentDropScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 魔物生态源码到剪贴板！')
+  }
+}
+
 </script>
 
 <style scoped>

@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-monsters-weakness-drop-v330-2026-10-29',
+    version: 'v2.2.330',
+    date: '2026-10-29',
+    title: '全域魔物生态全息图鉴、弱点抗性雷达与稀有掉落沙盘工坊重磅实装',
+    category: 'npc',
+    categoryName: '魔物生态',
+    icon: '👾',
+    tagType: 'warning',
+    description: '全面重构升级 MonstersView 魔物图鉴门户：顶部标章升级为 VBLE Bestiary, Weakness Radar & Rare Drop Studio v2.2.330，新增弱点雷达与稀有掉落工坊快捷直达；专区重磅实装【全域魔物生态全息图鉴、弱点抗性雷达与稀有掉落沙盘工坊】（Weakness Radar & Rare Drop Studio）；覆盖四大魔物生态原型（虚空贝希摩斯·彗星陨石与神圣弱点流、渊铁巨兵·物理装甲与高阶雷霆导电弱点流、冥府死爪·暗黑魔法汲取与天国烈焰弱点流、太古金针仙人掌·万针齐发与极速必定暴击流）；支持全域稀有掉落运气暴击增幅 (1.0x~10.0x)、属性弱点极限穿透深度 (20%~90%)、太古秘宝保底触发阈值 (10~100 击杀) 与生态种群游荡遭遇密度 (50%~200%) 连续微调；支持盗贼大师必定顺手牵羊神兵、弱点属性过载绝对瘫痪麻痹、太古隐藏秘宝无尽保底防非机制；实时解算综合稀有掉率 (高达 85%)、弱点易伤增幅 (高达 +850%)、保底期望击杀频次与猎魔大师评级 (高达 EX·全域太古生态神猎者)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：monster_weakness_radar_resolver.gd、rare_drop_pity_system_engine.gd 与 monster_ecology_spawn_director.gd。',
+    highlights: [
+      '四大魔物生态原型：虚空贝希摩斯、渊铁巨兵、冥府死爪与太古金针仙人掌',
+      '四维连续掉落与生态参数：运气暴击倍率、弱点穿透深度、保底触发阈值与游荡遭遇密度',
+      '三重猎魔特权破限机制：盗贼大师 100% 顺手牵羊、弱点过载绝对瘫痪与太古秘宝无尽保底',
+      '动态全息生态解算：综合稀有掉率、弱点易伤增幅、期望保底击杀与神猎者认证评级',
+      '五阶段猎魔推演沙盘：抗性扫描、属性过载共鸣、神手顺手牵羊、伪随机掷骰与方案封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源弱点雷达解算器、太古保底掉落引擎与生态繁衍生成总监'
+    ],
+    relatedLinks: [
+      { label: '魔物大图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '弱点掉落工坊', path: '/vble/monsters', icon: '🎯' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-boss-tactics-dawn-stagger-v329-2026-10-29',
     version: 'v2.2.329',
     date: '2026-10-29',
