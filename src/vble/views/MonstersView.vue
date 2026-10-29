@@ -2,12 +2,15 @@
   <div class="monsters-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary &amp; Ecological Evolution Matrix v2.2.281</n-tag>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物大图鉴与太古生态弱点基因逆向工程工坊</h1>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary, Affix Lineage &amp; Overdrive Studio v2.2.301</n-tag>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物大图鉴、深渊变异遗传谱系与世界首领狂暴破限工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-2">
         门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、以及 {{ coliseumCount }} 种斗技场霸主，全生态链演化、抗性图谱与弱点基因逆向工程沙盘
       </p>
-      <div class="flex justify-center gap-2">
+      <div class="flex justify-center flex-wrap gap-2">
+        <n-button size="tiny" type="primary" secondary @click="scrollToAbyssMutationStudio">
+          👾 前往深渊变异与狂暴破限工坊
+        </n-button>
         <n-button size="tiny" type="error" secondary @click="scrollToGeneStudio">
           🧬 前往魔物抗性图谱与基因工坊
         </n-button>
@@ -1538,6 +1541,286 @@
         </div>
       </div>
     </div>
+
+    <!-- 👾 工坊 4: 全域深渊魔物生态变异、词缀遗传谱系与世界首领狂暴推演工坊 (Abyss Mutation & Affix Studio v2.2.301) -->
+    <div
+      id="abyss-mutation-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-purple-950/80 via-slate-900/90 to-red-950/80 border border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与操作区 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-purple-900/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-purple-500/20 text-purple-300 border border-purple-500/40">
+              ABYSS MUTATION &amp; OVERDRIVE v2.2.301
+            </span>
+            <span class="text-xs text-purple-300/80 font-mono">深渊魔物生态与狂暴破限工坊</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+            <span>👾</span> 全域深渊魔物生态变异、词缀遗传谱系与世界首领狂暴推演工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Godot 4.6 LTS 实时仿真：解算深渊暗物质侵蚀、词缀代际杂交隐性遗传、世界首领狂暴过载阈值与硬直脱壳机制，打造高危生态战术推演沙盘。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="resetAbyssParameters"
+          >
+            重置参数
+          </n-button>
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingAbyss"
+            @click="runAbyssSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动突变狂暴推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportAbyssMutationCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四阶变异原型矩阵 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="archetype in abyssArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+          :class="selectedAbyssArchetypeId === archetype.id
+            ? 'bg-purple-900/40 border-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.3)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-purple-600/50'"
+          @click="selectedAbyssArchetypeId = archetype.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ archetype.icon }}</span>
+            <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.threat }}</n-tag>
+          </div>
+          <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+          <div class="text-[11px] text-purple-300/80 font-mono mt-0.5">{{ archetype.title }}</div>
+          <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>基底战力: {{ archetype.baseCp.toLocaleString() }}</span>
+            <span class="text-red-400">秒伤: {{ archetype.baseDps.toLocaleString() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心调控滑块与高能开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+        <!-- 左侧参数微调 -->
+        <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+              <span>⚙️</span> 连续变异与词缀演化参数微调
+            </span>
+            <span class="text-[11px] font-mono text-purple-400">Continuous Mutation Dynamics</span>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">以太侵蚀深度 (Erosion Depth):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ mutationErosionDepth }}%</span>
+              </div>
+              <n-slider v-model:value="mutationErosionDepth" :min="10" :max="100" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>微量侵蚀 (10%)</span>
+                <span>标准畸变 (50%)</span>
+                <span>完全暗物质化 (100%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">词缀遗传代数 (Inheritance Generations):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ affixInheritanceGen }} 代</span>
+              </div>
+              <n-slider v-model:value="affixInheritanceGen" :min="1" :max="12" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>初代突变 (1代)</span>
+                <span>跨代嵌合 (6代)</span>
+                <span>太古终极纯合 (12代)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">狂暴临界血线 (Berserk HP Threshold):</span>
+                <span class="font-mono text-red-400 font-bold">{{ berserkThresholdRatio }}%</span>
+              </div>
+              <n-slider v-model:value="berserkThresholdRatio" :min="15" :max="50" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>濒死狂暴 (15%)</span>
+                <span>半血超频 (30%)</span>
+                <span>起手狂暴 (50%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">狂暴破防易伤率 (Stagger Vulnerability Multiplier):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ staggerVulnerability.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="staggerVulnerability" :min="1.2" :max="4.0" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>常规易伤 (1.2x)</span>
+                <span>深度硬直 (2.5x)</span>
+                <span>毁灭穿透 (4.0x)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 三大高能保障开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">深渊突变基因阻断锁 (Abyss Gene Damper)</div>
+                <div class="text-[11px] text-gray-400">阻断不可逆恶性畸变扩散，理智阈值保底 +25%，免疫全域精神崩溃</div>
+              </div>
+              <n-switch v-model:value="abyssGeneDamperEnabled" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">远古首领词缀逆转环 (Boss Affix Inverter)</div>
+                <div class="text-[11px] text-gray-400">将敌方首领狂暴死星词缀逆转为对光之战士全员生效的暴击增益光环</div>
+              </div>
+              <n-switch v-model:value="bossAffixInverterEnabled" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">999999 破限暴击承伤脱壳 (Breakthrough Decoupling)</div>
+                <div class="text-[11px] text-gray-400">承受单发百万级真伤暴击时强制触发 4.5 秒阶段性硬直脱壳，防止瞬间团灭</div>
+              </div>
+              <n-switch v-model:value="breakthroughDecouplingEnabled" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧指标计算与沙盘推演 -->
+        <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>📊</span> 实时解算深渊生态与狂暴能效
+              </span>
+              <n-tag size="tiny" type="error" round>Overdrive Resolved</n-tag>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                <div class="text-[11px] text-gray-400">变异魔物总战力</div>
+                <div class="text-lg font-black text-purple-300 font-mono mt-0.5">{{ calculatedMutantCp.toLocaleString() }} CP</div>
+                <div class="text-[10px] text-purple-400/80 mt-0.5">多维词缀加权系数</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-red-950/30 border border-red-700/40">
+                <div class="text-[11px] text-gray-400">狂暴极限秒伤</div>
+                <div class="text-lg font-black text-red-300 font-mono mt-0.5">{{ calculatedBerserkDps.toLocaleString() }} DPS</div>
+                <div class="text-[10px] text-red-400/80 mt-0.5">临界血线暴击过载</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-700/40">
+                <div class="text-[11px] text-gray-400">词缀遗传纯度</div>
+                <div class="text-lg font-black text-amber-300 font-mono mt-0.5">{{ calculatedAffixPurity }}%</div>
+                <div class="text-[10px] text-amber-400/80 mt-0.5">代际杂交显性纯合率</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-cyan-950/30 border border-cyan-700/40">
+                <div class="text-[11px] text-gray-400">灾厄危险评级</div>
+                <div class="text-sm font-black text-cyan-300 font-mono mt-1">{{ calculatedThreatRank }}</div>
+                <div class="text-[10px] text-cyan-400/80 mt-0.5">太古猎人协会认证</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演状态指示器 -->
+          <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">五阶段突变推演进度:</span>
+              <span class="font-mono text-purple-400 font-bold">{{ abyssSimStep }}/5 阶段</span>
+            </div>
+            <n-progress
+              type="line"
+              :percentage="(abyssSimStep / 5) * 100"
+              :status="abyssSimStep === 5 ? 'success' : 'info'"
+              :show-indicator="false"
+              processing
+            />
+            <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+              <span>{{ abyssSimCurrentLog }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+      <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+            <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeAbyssCodeTab === 'pipeline' ? 'bg-purple-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeAbyssCodeTab = 'pipeline'"
+              >
+                abyss_mutation_pipeline.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeAbyssCodeTab === 'overdrive' ? 'bg-purple-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeAbyssCodeTab = 'overdrive'"
+              >
+                boss_berserk_overdrive.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeAbyssCodeTab === 'lineage' ? 'bg-purple-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeAbyssCodeTab = 'lineage'"
+              >
+                affix_lineage_broker.gd
+              </button>
+            </div>
+            <n-button size="small" type="primary" secondary round @click="copyAbyssCode">
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentAbyssCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2852,6 +3135,312 @@ const copyGeneCode = () => {
   if (navigator && navigator.clipboard) {
     navigator.clipboard.writeText(currentGeneCode.value).then(() => {
       if (message) message.success('Godot 4.6 LTS 魔物基因源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
+}
+
+// ================= 👾 工坊 4: 全域深渊魔物生态变异、词缀遗传谱系与世界首领狂暴推演工坊 (v2.2.301) =================
+interface AbyssArchetype {
+  id: string
+  name: string
+  title: string
+  icon: string
+  threat: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  baseCp: number
+  baseDps: number
+}
+
+const abyssArchetypes: AbyssArchetype[] = [
+  {
+    id: 'alpha_void_leech',
+    name: '虚空水蛭',
+    title: '暗物质吞噬母体',
+    icon: '🪱',
+    threat: 'S·灾异级',
+    tagType: 'info',
+    desc: '栖息于时空裂隙边缘的高维以太寄生物，可分泌暗物质酶溶解现实物质，造成持续腐化吸血。',
+    baseCp: 54000,
+    baseDps: 42000
+  },
+  {
+    id: 'beta_inferno_behemoth',
+    name: '炼狱贝希摩斯',
+    title: '地心熔火狂暴型',
+    icon: '🦏',
+    threat: 'SS·覆灭级',
+    tagType: 'warning',
+    desc: '地脉断裂带深处苏醒的太古狂兽，体温超过 4500℃，血线过载时可释放全域熔岩爆破。',
+    baseCp: 72000,
+    baseDps: 68000
+  },
+  {
+    id: 'gamma_tachyon_wraith',
+    name: '超光速怨灵',
+    title: '量子相位撕裂者',
+    icon: '👻',
+    threat: 'SSS·湮灭级',
+    tagType: 'error',
+    desc: '在时空回溯中畸变产生的光子形态怨灵，具备多重时间线闪避能力与零秒相位突袭撕裂技。',
+    baseCp: 88000,
+    baseDps: 92000
+  },
+  {
+    id: 'delta_ouroboros_colossus',
+    name: '衔尾蛇巨兽',
+    title: '无限因果吞噬神',
+    icon: '🐍',
+    threat: 'EX·创世灾厄级',
+    tagType: 'error',
+    desc: '吞噬了数条平行世界线的终极太古灾厄，自带无限时间循环再生护盾，仅能通过狂暴硬直脱壳击破。',
+    baseCp: 112000,
+    baseDps: 128000
+  }
+]
+
+const selectedAbyssArchetypeId = ref<string>('beta_inferno_behemoth')
+const mutationErosionDepth = ref<number>(65)
+const affixInheritanceGen = ref<number>(6)
+const berserkThresholdRatio = ref<number>(30)
+const staggerVulnerability = ref<number>(2.5)
+
+const abyssGeneDamperEnabled = ref<boolean>(true)
+const bossAffixInverterEnabled = ref<boolean>(true)
+const breakthroughDecouplingEnabled = ref<boolean>(true)
+
+const isSimulatingAbyss = ref<boolean>(false)
+const abyssSimStep = ref<number>(5)
+const abyssSimCurrentLog = ref<string>('深渊变异生态与首领狂暴推演矩阵已锁定，就绪等待指令。')
+
+const currentSelectedAbyssArchetype = computed(() => {
+  return abyssArchetypes.find(a => a.id === selectedAbyssArchetypeId.value) || abyssArchetypes[1]
+})
+
+const calculatedMutantCp = computed(() => {
+  const base = currentSelectedAbyssArchetype.value.baseCp
+  const depthBonus = 1 + (mutationErosionDepth.value / 100) * 0.45
+  const genBonus = 1 + (affixInheritanceGen.value / 12) * 0.35
+  const damperMult = abyssGeneDamperEnabled.value ? 0.95 : 1.15
+  return Math.round(base * depthBonus * genBonus * damperMult)
+})
+
+const calculatedBerserkDps = computed(() => {
+  const base = currentSelectedAbyssArchetype.value.baseDps
+  const thresholdBonus = 1 + ((50 - berserkThresholdRatio.value) / 35) * 0.6
+  const inverterMult = bossAffixInverterEnabled.value ? 0.78 : 1.3
+  const erosionMult = 1 + (mutationErosionDepth.value / 100) * 0.3
+  return Math.round(base * thresholdBonus * inverterMult * erosionMult)
+})
+
+const calculatedAffixPurity = computed(() => {
+  const base = 70.0
+  const genGain = (affixInheritanceGen.value / 12) * 22.5
+  const damperGain = abyssGeneDamperEnabled.value ? 5.5 : 0
+  return Math.min(99.9, base + genGain + damperGain).toFixed(1)
+})
+
+const calculatedThreatRank = computed(() => {
+  const cp = calculatedMutantCp.value
+  if (cp > 130000) return 'EX·终焉灭世真神'
+  if (cp > 100000) return 'SSS·灾厄崩坏主宰'
+  if (cp > 80000) return 'SS·高维深渊霸主'
+  return 'S·异界变异体'
+})
+
+const scrollToAbyssMutationStudio = () => {
+  const el = document.getElementById('abyss-mutation-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const resetAbyssParameters = () => {
+  selectedAbyssArchetypeId.value = 'beta_inferno_behemoth'
+  mutationErosionDepth.value = 65
+  affixInheritanceGen.value = 6
+  berserkThresholdRatio.value = 30
+  staggerVulnerability.value = 2.5
+  abyssGeneDamperEnabled.value = true
+  bossAffixInverterEnabled.value = true
+  breakthroughDecouplingEnabled.value = true
+  if (message) message.info('已恢复深渊变异与狂暴调控初始参数')
+}
+
+const runAbyssSimulation = () => {
+  if (isSimulatingAbyss.value) return
+  isSimulatingAbyss.value = true
+  abyssSimStep.value = 1
+  abyssSimCurrentLog.value = '阶段 1/5: 扫描深渊以太畸变侵蚀场，初始化魔物染色体双螺旋...'
+
+  setTimeout(() => {
+    abyssSimStep.value = 2
+    abyssSimCurrentLog.value = '阶段 2/5: 演算词缀代际隐性杂交，分离抗性显性与狂暴隐性片段...'
+  }, 400)
+
+  setTimeout(() => {
+    abyssSimStep.value = 3
+    abyssSimCurrentLog.value = '阶段 3/5: 加载首领狂暴超频阈值，校准硬直脱壳承伤断路器...'
+  }, 800)
+
+  setTimeout(() => {
+    abyssSimStep.value = 4
+    abyssSimCurrentLog.value = '阶段 4/5: 注入词缀逆转环，生成全息战斗破防易伤矩阵...'
+  }, 1200)
+
+  setTimeout(() => {
+    abyssSimStep.value = 5
+    abyssSimCurrentLog.value = '阶段 5/5: 输出深渊变异推演证书，锁定 Godot 4.6 LTS 运行时实机参数！'
+    isSimulatingAbyss.value = false
+    if (message) message.success('深渊魔物变异与世界首领狂暴推演完成！')
+  }, 1600)
+}
+
+const exportAbyssMutationCertificate = () => {
+  const arch = currentSelectedAbyssArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》全域深渊魔物变异与狂暴破限方案证书 (v2.2.301)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.title})
+  危险评级: ${calculatedThreatRank.value}
+================================================================================
+【调控参数】
+- 以太侵蚀深度: ${mutationErosionDepth.value}%
+- 词缀遗传代数: ${affixInheritanceGen.value} 代
+- 狂暴临界血线: ${berserkThresholdRatio.value}%
+- 狂暴破防易伤: ${staggerVulnerability.value}x
+- 突变阻断锁定: ${abyssGeneDamperEnabled.value ? '已开启' : '关闭'}
+- 词缀逆转光环: ${bossAffixInverterEnabled.value ? '已开启' : '关闭'}
+- 999999 脱壳保底: ${breakthroughDecouplingEnabled.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 变异魔物总战力: ${calculatedMutantCp.value.toLocaleString()} CP
+- 狂暴极限秒伤: ${calculatedBerserkDps.value.toLocaleString()} DPS
+- 词缀遗传纯度: ${calculatedAffixPurity.value}%
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `abyss_mutation_cert_v2.2.301_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  if (message) message.success('深渊魔物变异与狂暴破限方案证书已导出并同步至剪贴板！')
+}
+
+const activeAbyssCodeTab = ref<'pipeline' | 'overdrive' | 'lineage'>('pipeline')
+
+const gdAbyssPipelineCode = `## abyss_mutation_genetic_pipeline.gd
+## Godot 4.6 LTS - 全域深渊魔物变异与暗物质侵蚀管线
+extends RefCounted
+class_name AbyssMutationGeneticPipeline
+
+const MAX_EROSION_DEPTH: float = 100.0
+
+static func compute_mutant_attributes(
+	base_hp: int,
+	base_atk: int,
+	erosion_depth_pct: float,
+	generations: int,
+	damper_active: bool
+) -> Dictionary:
+	var depth_factor: float = clamp(erosion_depth_pct / MAX_EROSION_DEPTH, 0.1, 1.0)
+	var gen_multiplier: float = 1.0 + (float(generations) * 0.05)
+	var hp_scale: float = (1.0 + depth_factor * 0.6) * gen_multiplier
+	var atk_scale: float = (1.0 + depth_factor * 0.8) * gen_multiplier
+	
+	if damper_active:
+		hp_scale *= 0.95
+		atk_scale *= 0.92
+		
+	return {
+		"mutant_hp": int(base_hp * hp_scale),
+		"mutant_atk": int(base_atk * atk_scale),
+		"is_purebred": generations >= 10,
+		"erosion_depth": erosion_depth_pct
+	}
+`
+
+const gdBerserkOverdriveCode = `## boss_berserk_overdrive_matrix.gd
+## Godot 4.6 LTS - 世界首领狂暴超频状态机与阶段硬直脱壳
+extends RefCounted
+class_name BossBerserkOverdriveMatrix
+
+signal boss_berserk_triggered(stage: int, dps_mult: float)
+signal boss_stagger_decoupled(duration_sec: float)
+
+static func evaluate_overdrive(
+	current_hp_pct: float,
+	threshold_pct: float,
+	stagger_mult: float,
+	breakthrough_decoupling: bool
+) -> Dictionary:
+	var is_berserk: bool = current_hp_pct <= threshold_pct
+	var active_dps_mult: float = 1.0
+	var stagger_state: bool = false
+	
+	if is_berserk:
+		active_dps_mult = 1.5 + ((threshold_pct - current_hp_pct) / threshold_pct) * 0.8
+		if breakthrough_decoupling and current_hp_pct <= 5.0:
+			stagger_state = true
+			
+	return {
+		"is_berserk": is_berserk,
+		"dps_multiplier": active_dps_mult,
+		"stagger_vulnerability": stagger_mult if stagger_state else 1.0,
+		"decoupled": stagger_state
+	}
+`
+
+const gdAffixLineageCode = `## affix_lineage_inheritance_broker.gd
+## Godot 4.6 LTS - 恶性词缀隐性杂交与光环逆转中介
+extends RefCounted
+class_name AffixLineageInheritanceBroker
+
+static func resolve_lineage_affixes(
+	generations: int,
+	inverter_active: bool
+) -> Array[Dictionary]:
+	var affixes: Array[Dictionary] = []
+	var pool: Array[String] = ["VOID_CORROSION", "DEATH_PULSE", "TACHYON_BLADE", "REGEN_AURA"]
+	
+	for i in range(mini(generations, pool.size())):
+		var affix_id: String = pool[i]
+		var is_inverted: bool = inverter_active and (i % 2 == 1)
+		affixes.append({
+			"id": affix_id,
+			"target": "PARTY" if is_inverted else "BOSS",
+			"modifier": 0.25 if is_inverted else -0.25,
+			"tier": "SSS" if generations >= 8 else "S"
+		})
+	return affixes
+`
+
+const currentAbyssCode = computed(() => {
+  if (activeAbyssCodeTab.value === 'pipeline') return gdAbyssPipelineCode
+  if (activeAbyssCodeTab.value === 'overdrive') return gdBerserkOverdriveCode
+  return gdAffixLineageCode
+})
+
+const copyAbyssCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentAbyssCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 深渊变异源码已复制至剪贴板！')
     }).catch(() => {
       if (message) message.error('复制失败，请手动选取复制')
     })

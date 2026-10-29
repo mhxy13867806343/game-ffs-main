@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-monsters-abyss-mutation-v301-2026-10-29',
+    version: 'v2.2.301',
+    date: '2026-10-29',
+    title: '全域深渊魔物生态变异、词缀遗传谱系与世界首领狂暴推演工坊重磅实装',
+    category: 'npc',
+    categoryName: '深渊变异',
+    icon: '👾',
+    tagType: 'warning',
+    description: '全面重构升级 MonstersView 全域魔物大图鉴门户：顶部标章升级为 VBLE Bestiary, Affix Lineage & Overdrive Studio v2.2.301，新增深渊变异与狂暴破限工坊快捷跳转；专区重磅实装【全域深渊魔物生态变异、词缀遗传谱系与世界首领狂暴推演工坊】（Abyss Mutation & Affix Studio）；覆盖四大变异原型（虚空水蛭·暗物质吞噬型、炼狱贝希摩斯·熔岩狂暴型、超光速怨灵·相位撕裂型、衔尾蛇巨兽·无限再生型）；支持以太侵蚀深度 (10%~100%)、词缀遗传代数 (1~12代)、狂暴临界血线 (15%~50%) 与狂暴破防易伤率 (1.2x~4.0x) 连续微调；集成深渊突变基因阻断锁（锁定恶性畸变扩散，理智阈值保底 +25%）、远古首领词缀逆转环（逆转敌方狂暴词缀为全队暴击增益）与 999999 破限暴击承伤脱壳（承受单发百万级真伤暴击时强制触发 4.5 秒阶段性硬直脱壳）；实时解算变异魔物总战力 (突破 110,000+ CP)、狂暴极限秒伤 (突破 120,000+ DPS)、词缀遗传纯度与灾厄危险评级 (高达 EX·终焉灭世真神)；内置五阶段深渊变异狂暴沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：abyss_mutation_genetic_pipeline.gd、boss_berserk_overdrive_matrix.gd 与 affix_lineage_inheritance_broker.gd。',
+    highlights: [
+      '四大变异原型：虚空水蛭吞噬母体、炼狱贝希摩斯、超光速怨灵与衔尾蛇无限巨兽',
+      '四维连续变异参数：以太侵蚀深度、词缀遗传代数、狂暴临界血线与破防易伤率全域微调',
+      '三重首领脱壳防护：深渊突变阻断锁、首领词缀逆转环与 999999 破限暴击承伤脱壳',
+      '多维动态指标解算：变异魔物总战力、狂暴极限秒伤、代际遗传纯度与灾厄评级推演',
+      '五阶段沙盘推演终端：侵蚀场扫描、代际杂交分离、狂暴过载校准与证书生成闭环',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源突变侵蚀管线、狂暴超频状态机与词缀中介'
+    ],
+    relatedLinks: [
+      { label: '魔物大图鉴与抗性图谱', path: '/vble/monsters', icon: '👾' },
+      { label: '首领狂暴推演工坊', path: '/vble/monsters', icon: '⚡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-home-omni-nexus-v300-2026-10-29',
     version: 'v2.2.300',
     date: '2026-10-29',
