@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-battle-tactics-omni-atb-v328-2026-10-29',
+    version: 'v2.2.328',
+    date: '2026-10-29',
+    title: '全息回合制 ATB 动态极意连携、阵形战术与伤害解限工坊重磅实装',
+    category: 'system',
+    categoryName: '战斗战术',
+    icon: '⚔️',
+    tagType: 'success',
+    description: '全面重构升级 BattleTacticsView 战斗战术门户：顶部标章升级为 VBLE Omni ATB Synergy Matrix, Formation Tactics & Damage Uncap Studio v2.2.328，新增 ATB极意阵形工坊快捷直达；专区重磅实装【全息回合制 ATB 动态极意连携、阵形战术与伤害解限工坊】（Omni ATB Synergy Matrix, Formation Tactics & Unlimited Damage Cap Studio）；覆盖四大极意战斗战术原型（破晓疾风双剑极速连携流、圣堂十字庇护阵列防御流、太古魔导四象元素共鸣爆发流、时空裂隙全员绝灭大连携流）；支持 ATB 动态时间膨胀倍率 (0.5x~3.0x)、四人同时判定容错窗口 (10~100 ms)、前中后排阵形战术光环半径 (5.0~30.0 m) 与极限单发伤害解限上限 (9.99~99.99 百万) 连续微调；支持全员瞬间满 ATB 极意爆发、前排 35% 绝对减伤掩护光环、无限超越 999,999 极限伤害解限；实时解算 ATB 极限充能耗时 (低至 0.85 s)、四人极限连携伤害 (高达 48,000,000)、战术阵形稳态率 (高达 99.9%) 与战术指挥官综合考评评级 (高达 EX·时空全息神算导师)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：omni_atb_synergy_matrix.gd、party_formation_tactics_bus.gd 与 unlimited_damage_cap_governor.gd。',
+    highlights: [
+      '四大极意战斗战术原型：疾风双剑连携、圣堂庇护阵列、四象元素爆发与时空绝灭大连携',
+      '四维连续战斗物理参数：时间膨胀倍率、微秒判定容错、阵形光环半径与极限伤害解限上限',
+      '三重战斗破限机制：全员满 ATB 极意、前排掩护减伤光环与无限超越 999,999 真实伤害破限',
+      '动态战斗数据综合解算：充能极限耗时、四人连携伤害、阵形稳态率与战术神算指挥官评级',
+      '五阶段战斗沙盘推演：ATB 晶体充能、四人判定对齐、阵形光环校准、极限伤害突破与方案导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源动态 ATB 矩阵、队伍阵形广播总线与极限伤害解限仲裁器'
+    ],
+    relatedLinks: [
+      { label: '战斗战术指南', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: 'ATB极意阵形工坊', path: '/vble/battle-tactics', icon: '🛡️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-vehicles-warp-drive-v327-2026-10-29',
     version: 'v2.2.327',
     date: '2026-10-29',

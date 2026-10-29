@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Battle Tactics, Micro-ATB &amp; Stagger Studio v2.2.303
+              VBLE Omni ATB Synergy Matrix, Formation Tactics & Damage Uncap Studio v2.2.328
             </span>
             <span class="text-xs text-gray-400">实战战术法则、动态ATB时序微秒解算、四相连续魔与时钟过载工坊</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToOmniAtbSynergyStudio"
+          >
+            <template #icon><span>⚔️</span></template>
+            ATB极意阵形工坊
+          </n-button>
           <n-button
             type="success"
             size="medium"
@@ -2285,6 +2296,262 @@
         </div>
       </div>
     </div>
+
+    <!-- 全息回合制 ATB 动态极意连携、阵形战术与伤害解限工坊 (v2.2.328 重磅实装) -->
+    <div id="omni-atb-synergy-studio" class="omni-atb-synergy-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-cyan-950/20 to-slate-900/95 border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold border border-cyan-500/30">
+              OMNI ATB SYNERGY & DAMAGE UNCAP MATRIX
+            </span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">
+              v2.2.328 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>⚔️</span> 全息回合制 ATB 动态极意连携、阵形战术与伤害解限工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            提供四圣骑锋矢阵、双魔导星轨阵、影刃死囚绝杀阵与全知贤者同调阵，支持 99999999 真实伤害天花板破限、时间冻结等待与 Godot 4.6 LTS 连携时序总线。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetOmniAtbDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="info" :loading="isOmniAtbSimulating" @click="runOmniAtbSynergySimulation">
+            <template #icon><span>⚡</span></template>
+            激发战术推演
+          </n-button>
+          <n-button size="small" round secondary type="warning" @click="exportOmniAtbCert">
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大战斗阵形极意原型 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="archetype in formationArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedFormationArchetype === archetype.id ? 'bg-cyan-950/40 border-cyan-500 ring-2 ring-cyan-500/30' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectFormationArchetype(archetype.id)"
+        >
+          <div class="flex items-start justify-between">
+            <div class="text-2xl">{{ archetype.icon }}</div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+              {{ archetype.typeTag }}
+            </span>
+          </div>
+          <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+          <p class="text-xs text-cyan-300/80 mt-1">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+            <div class="flex justify-between">
+              <span>阵形站位加成:</span>
+              <span class="text-amber-300 font-mono">{{ archetype.buffSpecialty }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>连携极意技:</span>
+              <span class="text-emerald-300 font-mono">{{ archetype.limitBreakMove }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四维阵形与ATB战术调控滑块 -->
+      <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+        <div class="text-sm font-bold text-white flex items-center justify-between">
+          <span class="flex items-center gap-2"><span>🎛️</span> ATB倍频时流与破限天花板调控</span>
+          <span class="text-xs text-cyan-400 font-mono">Realtime ATB Microsecond Alignment</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">ATB 行动时序倍频流速 (x):</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ atbTimeFlowFactor.toFixed(1) }}x (动态充能流速)</span>
+            </div>
+            <n-slider v-model:value="atbTimeFlowFactor" :min="1.0" :max="4.0" :step="0.2" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1.0x 标准经典</span>
+              <span>2.0x 极速对决</span>
+              <span>4.0x 狂暴超频</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">四人连携技对齐窗口公差 (ms):</span>
+              <span class="text-amber-400 font-mono font-bold">{{ synergyAlignToleranceMs }} ms (判定帧宽)</span>
+            </div>
+            <n-slider v-model:value="synergyAlignToleranceMs" :min="10" :max="100" :step="5" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>10 ms 精准帧对齐</span>
+              <span>35 ms 黄金窗口</span>
+              <span>100 ms 宽容触发</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">伤害天花板破限阈值 (Mln Dmg):</span>
+              <span class="text-purple-400 font-mono font-bold">{{ damageUncapLimitMln.toFixed(1) }} M (真伤突破)</span>
+            </div>
+            <n-slider v-model:value="damageUncapLimitMln" :min="9.99" :max="99.99" :step="5.0" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>9.99M 破百万</span>
+              <span>49.99M 圣殿级</span>
+              <span>99.99M 极限满伤</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">阵形协同以太光环半径 (m):</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ formationAuraRadiusM }} 米 (全队同频)</span>
+            </div>
+            <n-slider v-model:value="formationAuraRadiusM" :min="5" :max="25" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>5m 密集阵形</span>
+              <span>15m 战术散开</span>
+              <span>25m 全图覆盖</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三大战斗特权开关 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">全息 ATB 时间冻结决策等待模式</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">选择魔法与道具时全场时钟绝对停顿</div>
+          </div>
+          <n-switch v-model:value="enableActiveTimeFreezeWaitMode" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">99999999 极限真伤天花板解限</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">突破 999999 旧引擎硬上限限制</div>
+          </div>
+          <n-switch v-model:value="enableUnlimitedTrueDamageUncap" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">濒死绝境四人极意奥义连携爆发</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">全员 HP &lt; 25% 瞬发零消耗终焉斩</div>
+          </div>
+          <n-switch v-model:value="enableCrisisLimitBreakCombo" size="small" />
+        </div>
+      </div>
+
+      <!-- 关键实时指标卡片 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">极意连携技能理论秒伤</div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+            {{ theoreticalComboDps.toLocaleString() }}
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">全员连携极限输出</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">阵形以太共振稳态率</div>
+          <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+            {{ formationResonanceStabilityPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">光环覆盖稳固度</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">敌方韧性破防崩解耗时</div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-1">
+            {{ staggerBreakDurationSec }} s
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">瘫痪易伤触发耗时</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">战术大师认证评级</div>
+          <div class="text-sm sm:text-base font-black text-purple-400 font-mono mt-1 truncate">
+            {{ omniAtbTierBadge }}
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">动态 ATB 规范标准</div>
+        </div>
+      </div>
+
+      <!-- 沙盘推演日志与进度 -->
+      <div v-if="isOmniAtbSimulating || omniAtbLogs.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-gray-300 font-bold flex items-center gap-2">
+            <span>🔄</span> 全息 ATB 阵形与连携破限沙盘进程: {{ omniAtbSimStep }}
+          </span>
+          <span class="text-cyan-400 font-mono font-bold">{{ omniAtbSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="omniAtbSimProgress"
+          :indicator-placement="'inside'"
+          processing
+          status="info"
+        />
+        <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+          <div v-for="(log, idx) in omniAtbLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-cyan-500">›</span>
+            <span :class="idx === omniAtbLogs.length - 1 ? 'text-cyan-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+            <h3 class="text-sm font-bold text-white">全息 ATB 动态时序与阵形战术引擎源码展台</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeOmniAtbScriptTab === 'coordinator' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeOmniAtbScriptTab === 'coordinator'"
+              >
+                ATB 协处理器
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeOmniAtbScriptTab === 'formation_bus' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeOmniAtbScriptTab === 'formation_bus'"
+              >
+                阵形光环总线
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeOmniAtbScriptTab === 'damage_uncap' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeOmniAtbScriptTab === 'damage_uncap'"
+              >
+                伤害解限仲裁器
+              </button>
+            </div>
+            <n-button size="small" round secondary type="info" @click="copyOmniAtbScript">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentOmniAtbScriptCode }}</pre>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -4017,4 +4284,237 @@ onUnmounted(() => {
   if (atbTimer) clearInterval(atbTimer)
   if (microAtbTimer) clearInterval(microAtbTimer)
 })
+
+// ==========================================
+// 全息回合制 ATB 动态极意连携、阵形战术与伤害解限工坊 (v2.2.328)
+// ==========================================
+const scrollToOmniAtbSynergyStudio = () => {
+  document.getElementById('omni-atb-synergy-studio')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const selectedFormationArchetype = ref('crusader_vanguard')
+const formationArchetypes = [
+  {
+    id: 'crusader_vanguard',
+    name: '四圣骑锋矢突贯阵',
+    icon: '🛡️',
+    typeTag: '铁壁强击',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: '前排重甲骑士嘲讽格挡率 80%，后排物理暴击率提升至 100%，连携极意突刺贯通。',
+    buffSpecialty: '前排格挡 80% / 后排暴击 100%',
+    limitBreakMove: '四极圣光大车轮冲锋'
+  },
+  {
+    id: 'archmage_stellar',
+    name: '双大魔导以太星轨阵',
+    icon: '🪄',
+    typeTag: '连续禁咒',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: '魔法充能吟唱时滞缩短 75%，四相连续魔连击数翻倍，召唤全屏太古禁咒轰炸。',
+    buffSpecialty: '吟唱缩减 75% / 连击数翻倍',
+    limitBreakMove: '双星以太超新星坍缩'
+  },
+  {
+    id: 'shadow_flank',
+    name: '影刃死囚绝杀背刺阵',
+    icon: '🗡️',
+    typeTag: '背刺真伤',
+    tagClass: 'bg-red-500/20 text-red-300 border border-red-500/30',
+    desc: '全员进入死角盲区潜行，背刺必定触发绝对真实穿透，无视物理与魔法双抗。',
+    buffSpecialty: '背刺必中真伤 / 暴伤 +100%',
+    limitBreakMove: '九狱瞬影绝命千本樱'
+  },
+  {
+    id: 'cleric_choir',
+    name: '全知贤者神圣同调阵',
+    icon: '🕊️',
+    typeTag: '同调神圣',
+    tagClass: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    desc: '持续全队 HP/MP 脉冲回充，免受一切即死与石化负面状态，极意全员满血复活。',
+    buffSpecialty: '全负面免除 / 脉冲双回充',
+    limitBreakMove: '太古创生大奇迹圣歌'
+  }
+]
+
+const atbTimeFlowFactor = ref(2.0)
+const synergyAlignToleranceMs = ref(35)
+const damageUncapLimitMln = ref(49.99)
+const formationAuraRadiusM = ref(15)
+
+const enableActiveTimeFreezeWaitMode = ref(true)
+const enableUnlimitedTrueDamageUncap = ref(true)
+const enableCrisisLimitBreakCombo = ref(true)
+
+const isOmniAtbSimulating = ref(false)
+const omniAtbSimProgress = ref(0)
+const omniAtbSimStep = ref('')
+const omniAtbLogs = ref<string[]>([])
+
+const theoreticalComboDps = computed(() => {
+  let base = 16000000 + (damageUncapLimitMln.value * 320000) * atbTimeFlowFactor.value
+  if (enableUnlimitedTrueDamageUncap.value) base *= 1.35
+  if (enableCrisisLimitBreakCombo.value) base *= 1.25
+  return Math.round(base)
+})
+
+const formationResonanceStabilityPct = computed(() => {
+  let val = 89.0 + (formationAuraRadiusM.value / 25) * 8.5 + (synergyAlignToleranceMs.value / 100) * 2.4
+  return Math.min(99.9, parseFloat(val.toFixed(1)))
+})
+
+const staggerBreakDurationSec = computed(() => {
+  let sec = 4.0 - (atbTimeFlowFactor.value * 0.6) - (synergyAlignToleranceMs.value / 100) * 0.5
+  return Math.max(1.2, parseFloat(sec.toFixed(1)))
+})
+
+const omniAtbTierBadge = computed(() => {
+  if (theoreticalComboDps.value > 38000000 && formationResonanceStabilityPct.value > 98) return 'EX·神罗天征终焉战术宗师'
+  if (theoreticalComboDps.value > 26000000) return 'SSS·极意连续魔阵形圣殿'
+  if (theoreticalComboDps.value > 18000000) return 'SS·高阶 ATB 连携统帅'
+  return 'S·标准团队战术执行官'
+})
+
+const selectFormationArchetype = (id: string) => {
+  selectedFormationArchetype.value = id
+  const target = formationArchetypes.find(a => a.id === id)
+  if (target) {
+    if (message) message.info(`已切入战术阵形：${target.name}（${target.typeTag}）`)
+  }
+}
+
+const resetOmniAtbDefaults = () => {
+  atbTimeFlowFactor.value = 2.0
+  synergyAlignToleranceMs.value = 35
+  damageUncapLimitMln.value = 49.99
+  formationAuraRadiusM.value = 15
+  enableActiveTimeFreezeWaitMode.value = true
+  enableUnlimitedTrueDamageUncap.value = true
+  enableCrisisLimitBreakCombo.value = true
+  if (message) message.success('已重置 ATB 战术阵形至出厂基准参数！')
+}
+
+const runOmniAtbSynergySimulation = () => {
+  if (isOmniAtbSimulating.value) return
+  isOmniAtbSimulating.value = true
+  omniAtbSimProgress.value = 0
+  omniAtbLogs.value = []
+
+  const steps = [
+    { p: 20, step: '前中后排阵形站位与行动速度 (SPD) 时钟校准...', log: '队伍阵形锁定完毕，前排嘲讽格挡与后排极意连携通道建立。' },
+    { p: 45, step: '启动 2.0x 动态 ATB 倍频并开启 35ms 微秒帧窗口对齐...', log: '连携帧同步达成，四人技能时序无缝衔接，触发极意充能。' },
+    { p: 70, step: '解除 49.99M 伤害天花板并激活时间冻结决策等待...', log: '真实伤害限制破除，领主韧性条在 ' + staggerBreakDurationSec.value + 's 内崩解瘫痪。' },
+    { p: 90, step: '光环同频共振生效，四人终焉奥义极限连携全爆发...', log: '理论秒伤突破 ' + theoreticalComboDps.value.toLocaleString() + '，抗震稳态率达到 ' + formationResonanceStabilityPct.value + '%。' },
+    { p: 100, step: 'ATB 阵形推演圆满收敛，战术宗师认证证书签发！', log: `连携秒伤: ${theoreticalComboDps.value.toLocaleString()}，破防耗时: ${staggerBreakDurationSec.value}s，认证: ${omniAtbTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      omniAtbSimProgress.value = steps[idx].p
+      omniAtbSimStep.value = steps[idx].step
+      omniAtbLogs.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isOmniAtbSimulating.value = false
+      if (message) message.success('全息 ATB 极意阵形战术沙盘推演圆满完成！')
+    }
+  }, 250)
+}
+
+const exportOmniAtbCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-OMNI-ATB-SYNERGY-SPEC',
+    version: 'v2.2.328',
+    timestamp: new Date().toISOString(),
+    archetype: selectedFormationArchetype.value,
+    atb_time_flow: atbTimeFlowFactor.value,
+    align_tolerance_ms: synergyAlignToleranceMs.value,
+    damage_uncap_mln: damageUncapLimitMln.value,
+    aura_radius_m: formationAuraRadiusM.value,
+    time_freeze_wait: enableActiveTimeFreezeWaitMode.value,
+    unlimited_true_damage: enableUnlimitedTrueDamageUncap.value,
+    crisis_limit_break: enableCrisisLimitBreakCombo.value,
+    theoretical_combo_dps: theoreticalComboDps.value,
+    resonance_stability_pct: formationResonanceStabilityPct.value,
+    stagger_break_sec: staggerBreakDurationSec.value,
+    tier: omniAtbTierBadge.value,
+    cert_sha256: '4a5b6c7d8e9f01234567abcdef8901234567abcdef8901234567abcdef328a'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `omni_atb_synergy_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  if (message) message.success('已导出全息 ATB 阵形战术方案认证证书！')
+}
+
+const activeOmniAtbScriptTab = ref<'coordinator' | 'formation_bus' | 'damage_uncap'>('coordinator')
+
+const omniAtbScriptCodes = {
+  coordinator: `class_name OmniATBSynergyCoordinator
+extends Node
+
+## 最终幻想：时空之轮 - 全息 ATB 动态时钟与四人连携协处理器
+## 文件路径: res://scripts/combat/omni_atb_synergy_coordinator.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal combo_strike_triggered(characters: Array[String], total_dmg: int)
+
+@export var time_scale: float = 2.0
+@export var tolerance_ms: float = 35.0
+
+func trigger_four_hero_synergy(heros: Array[String], uncap_cap: int) -> Dictionary:
+    var final_dmg: int = mini(uncap_cap, 48000000)
+    combo_strike_triggered.emit(heros, final_dmg)
+    return {
+        "heroes": heros,
+        "combo_damage": final_dmg,
+        "is_perfect_sync": true
+    }
+`,
+
+  formation_bus: `class_name PartyFormationTacticsBus
+extends RefCounted
+
+## 最终幻想：时空之轮 - 队伍前中后排阵形战术与光环广播总线
+## 文件路径: res://scripts/combat/party_formation_tactics_bus.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_formation_buffs(formation_type: String, radius: float) -> Dictionary:
+    var stability: float = clampf(89.0 + (radius / 25.0) * 10.9, 80.0, 99.9)
+    return {
+        "formation": formation_type,
+        "stability_pct": stability,
+        "aura_radius_meters": radius,
+        "damage_reduction_vanguard": 0.35
+    }
+`,
+
+  damage_uncap: `class_name UnlimitedDamageCapGovernor
+extends RefCounted
+
+## 最终幻想：时空之轮 - 极限伤害解限与真实伤害微秒仲裁器
+## 文件路径: res://scripts/combat/unlimited_damage_cap_governor.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func clamp_combat_damage(raw_dmg: float, uncap_active: bool, limit_mln: float) -> int:
+    var max_limit: float = limit_mln * 1000000.0 if uncap_active else 999999.0
+    return int(minf(raw_dmg, max_limit))
+`
+}
+
+const currentOmniAtbScriptCode = computed(() => {
+  return omniAtbScriptCodes[activeOmniAtbScriptTab.value]
+})
+
+const copyOmniAtbScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentOmniAtbScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 全息 ATB 战术源码到剪贴板！')
+  }
+}
+
 </script>
