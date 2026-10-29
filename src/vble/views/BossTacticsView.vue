@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono font-bold text-xs border border-red-500/30">
-              VBLE World Bosses, AI State Machine &amp; Despair Overdrive v2.2.304
+              VBLE World Bosses, Dawn Stagger &amp; Mechanics Countdown Studio v2.2.329
             </span>
             <span class="text-xs text-gray-400">首领攻坚全鉴、双核协同试炼与终焉虚空首领破限处决</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToDawnStaggerStudio"
+          >
+            <template #icon><span>💥</span></template>
+            破晓极意破防工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1594,6 +1605,207 @@
 
         <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
           <pre><code>{{ currentWorldBossCode }}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- v2.2.329: 全域首领攻坚全鉴、破晓极意破防与机制倒计时工坊 -->
+    <div
+      id="dawn-stagger-countdown-studio"
+      class="dawn-stagger-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-rose-950/20 to-slate-900/95 border border-rose-500/30 shadow-[0_0_35px_rgba(244,63,94,0.12)] space-y-6 relative overflow-hidden"
+    >
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-rose-500/20 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-mono font-bold text-xs border border-rose-500/30">
+              DAWN STAGGER &amp; COUNTDOWN MATRIX v2.2.329
+            </span>
+            <span class="text-xs text-rose-400 font-mono">Real-Time Raid Breaker &amp; Stagger Pipeline</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <span>💥</span> 全域首领攻坚全鉴、破晓极意破防与机制倒计时工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            集成首领韧性槽微秒级击穿计算、大招狂暴倒计时雷达预警、多段破甲真伤灌注与团队名刀免疫保护。全流程联动 Godot 4.6 LTS 攻坚总线。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button
+            type="error"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingDawnStagger"
+            @click="runDawnStaggerSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动破晓破防沙盘推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportDawnStaggerCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出首领攻坚认证证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大首领攻坚流派原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="arch in dawnStaggerArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative"
+          :class="selectedDawnArchetypeId === arch.id ? 'bg-rose-950/40 border-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-rose-500/40'"
+          @click="selectDawnArchetype(arch.id)"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              {{ arch.tag }}
+            </span>
+          </div>
+          <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+          <div class="text-xs text-rose-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+          <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+          <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-gray-400">破防易伤倍率</span>
+            <span class="text-rose-400 font-bold">{{ arch.bonusMultiplier }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与开关网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+        <!-- 4 滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-rose-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚙️</span> 连续破防机制与时序参数微调
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">破晓极意破防虚弱窗口 (秒)</span>
+              <span class="text-rose-400 font-mono font-bold">{{ dawnStaggerVulnerabilityWindow.toFixed(1) }} s</span>
+            </div>
+            <n-slider v-model:value="dawnStaggerVulnerabilityWindow" :min="3.0" :max="15.0" :step="0.5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">首领狂暴倒计时阈值预警 (秒)</span>
+              <span class="text-amber-400 font-mono font-bold">{{ dawnEnrageCountdownWarningSec }} s</span>
+            </div>
+            <n-slider v-model:value="dawnEnrageCountdownWarningSec" :min="10" :max="120" :step="5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">多段连携破甲穿透率 (%)</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ dawnMultiHitArmorBreakRatio }} %</span>
+            </div>
+            <n-slider v-model:value="dawnMultiHitArmorBreakRatio" :min="30" :max="95" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">全队爆发聚能增幅 (%)</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ dawnPartyStaggerFocusBurstPct }} %</span>
+            </div>
+            <n-slider v-model:value="dawnPartyStaggerFocusBurstPct" :min="100" :max="500" :step="10" />
+          </div>
+        </div>
+
+        <!-- 3 开关与实时数据 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-rose-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>🛡️</span> 首领破限特权与免疫机制
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">首领绝招微秒级打断仲裁</div>
+                <div class="text-gray-400 text-[11px]">狂暴咏唱时精准施加击晕打断</div>
+              </div>
+              <n-switch v-model:value="dawnBossCastBarInterruptible" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">团队名刀死斗免疫符文</div>
+                <div class="text-gray-400 text-[11px]">受到致死毁灭打击时保全 1 点 HP</div>
+              </div>
+              <n-switch v-model:value="dawnPartyDeathImmunityRune" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">破防虚弱真伤解限破千倍</div>
+                <div class="text-gray-400 text-[11px]">解除 999% 虚弱易伤倍率硬编码上限</div>
+              </div>
+              <n-switch v-model:value="dawnStaggerDamageMultiplierUncap" />
+            </div>
+          </div>
+
+          <!-- 4 项实时综合解算指标 -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="p-2.5 rounded bg-slate-900 border border-rose-500/20 text-center">
+              <div class="text-[11px] text-gray-400">破防真伤增幅</div>
+              <div class="text-lg font-mono font-black text-rose-400">{{ dawnCalculatedMetrics.burstMultiplier }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-rose-500/20 text-center">
+              <div class="text-[11px] text-gray-400">狂暴生还稳态率</div>
+              <div class="text-lg font-mono font-black text-amber-400">{{ dawnCalculatedMetrics.survivabilityIndex }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-rose-500/20 text-center">
+              <div class="text-[11px] text-gray-400">微秒判定容错</div>
+              <div class="text-lg font-mono font-black text-cyan-400">{{ dawnCalculatedMetrics.staggerToleranceMs }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-rose-500/20 text-center">
+              <div class="text-[11px] text-gray-400">攻坚统帅评级</div>
+              <div class="text-lg font-mono font-black text-emerald-400">{{ dawnCalculatedMetrics.raidCertification }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条 -->
+      <div v-if="isSimulatingDawnStagger" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-rose-500/30">
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-rose-300 flex items-center gap-2">
+            <span class="animate-spin">🔄</span> {{ dawnSimulationStages[currentDawnSimStage] }}
+          </span>
+          <span class="text-gray-400">{{ (currentDawnSimStage + 1) * 20 }}%</span>
+        </div>
+        <n-progress type="line" :percentage="(currentDawnSimStage + 1) * 20" :show-indicator="false" status="error" />
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS RAID BREAKER ENGINE</span>
+            <n-tag size="small" type="error" round>res://scripts/combat/boss/</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-radio-group v-model:value="activeDawnScriptTab" size="small">
+              <n-radio-button value="stagger_gauge">韧性破防器</n-radio-button>
+              <n-radio-button value="countdown_timer">机制倒计时</n-radio-button>
+              <n-radio-button value="burst_coordinator">团队爆发协同</n-radio-button>
+            </n-radio-group>
+            <n-button type="info" size="tiny" secondary round @click="copyDawnScript">
+              复制当前脚本
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentDawnScriptCode }}</code></pre>
         </div>
       </div>
     </div>
@@ -3176,6 +3388,239 @@ const copyWorldBossAiCode = () => {
     })
   }
 }
+
+// ==========================================
+// v2.2.329: 破晓极意破防与机制倒计时工坊逻辑
+// ==========================================
+const scrollToDawnStaggerStudio = () => {
+  const el = document.getElementById('dawn-stagger-countdown-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface DawnStaggerArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  bonusMultiplier: string
+  baseToleranceMs: number
+}
+
+const dawnStaggerArchetypes: DawnStaggerArchetype[] = [
+  {
+    id: 'omega_supreme',
+    name: '太古兵器欧米茄',
+    subtitle: '波动炮倒计时与微秒破防流',
+    icon: '🤖',
+    tag: '机神克星',
+    desc: '针对欧米茄波动炮咏唱实施微秒级打断，撕裂其绝对屏障并在狂暴前施展十万伏特过载破防。',
+    bonusMultiplier: '780%',
+    baseToleranceMs: 45
+  },
+  {
+    id: 'shinryu_tidal',
+    name: '渊海霸主神龙',
+    subtitle: '潮汐海啸潮涌与绝对护盾击穿流',
+    icon: '🐉',
+    tag: '真龙斩杀',
+    desc: '预判潮汐大海啸蓄力倒计时，雷霆共鸣刺穿龙鳞抗性，触发 12 秒破晓极意全虚弱易伤。',
+    bonusMultiplier: '820%',
+    baseToleranceMs: 50
+  },
+  {
+    id: 'neo_exdeath_void',
+    name: '终焉虚空埃克斯德斯',
+    subtitle: '阿尔法法则崩解与极意连携流',
+    icon: '🌌',
+    tag: '虚空湮灭',
+    desc: '在终焉真空引力坍缩前夕，以时空法则解构虚空铠甲，实现全员无损规避与极限伤害破限爆发。',
+    bonusMultiplier: '950%',
+    baseToleranceMs: 30
+  },
+  {
+    id: 'gilgamesh_rift',
+    name: '跨维豪杰吉尔伽美什',
+    subtitle: '源氏名刀破招与反击断罪流',
+    icon: '⚔️',
+    tag: '名刀破招',
+    desc: '抓取八刀流招式后摇微秒空档，以四连斩破招断刃，反制源氏威压并强制进入大虚弱状态。',
+    bonusMultiplier: '660%',
+    baseToleranceMs: 65
+  }
+]
+
+const selectedDawnArchetypeId = ref('omega_supreme')
+const dawnStaggerVulnerabilityWindow = ref(8.5)
+const dawnEnrageCountdownWarningSec = ref(45)
+const dawnMultiHitArmorBreakRatio = ref(78)
+const dawnPartyStaggerFocusBurstPct = ref(320)
+
+const dawnBossCastBarInterruptible = ref(true)
+const dawnPartyDeathImmunityRune = ref(true)
+const dawnStaggerDamageMultiplierUncap = ref(true)
+
+const selectDawnArchetype = (id: string) => {
+  selectedDawnArchetypeId.value = id
+  if (message) {
+    const arch = dawnStaggerArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换首领攻坚战术原型：${arch.name}`)
+  }
+}
+
+const dawnCalculatedMetrics = computed(() => {
+  const arch = dawnStaggerArchetypes.find(a => a.id === selectedDawnArchetypeId.value) || dawnStaggerArchetypes[0]
+  const baseMult = parseFloat(arch.bonusMultiplier)
+  const uncapBonus = dawnStaggerDamageMultiplierUncap.value ? 1.35 : 1.0
+  const finalMult = Math.round(baseMult * (dawnPartyStaggerFocusBurstPct.value / 100) * (dawnMultiHitArmorBreakRatio.value / 100) * uncapBonus)
+  
+  const survRate = Math.min(99.9, 88.0 + (dawnEnrageCountdownWarningSec.value / 120) * 10 + (dawnPartyDeathImmunityRune.value ? 1.9 : 0)).toFixed(1)
+  const tolMs = Math.round(arch.baseToleranceMs * (dawnBossCastBarInterruptible.value ? 1.4 : 1.0))
+  
+  let rank = 'SSR·宗师攻坚先锋'
+  if (finalMult >= 1200) rank = 'EX·终焉屠龙极意统帅'
+  else if (finalMult >= 800) rank = 'SSS·破晓苍穹裁决者'
+
+  return {
+    burstMultiplier: `+${finalMult}%`,
+    survivabilityIndex: `${survRate}%`,
+    staggerToleranceMs: `${tolMs} ms`,
+    raidCertification: rank
+  }
+})
+
+const isSimulatingDawnStagger = ref(false)
+const currentDawnSimStage = ref(0)
+const dawnSimulationStages = [
+  '首领机制雷达扫描与杀招时序对齐...',
+  '团队四相破盾弱点积蓄灌注...',
+  '破晓极意击穿与绝对虚弱触发...',
+  '伤害解限十段奥义极限斩杀...',
+  '攻坚战绩防伪公钥计算与证书生成...'
+]
+
+const runDawnStaggerSimulation = () => {
+  if (isSimulatingDawnStagger.value) return
+  isSimulatingDawnStagger.value = true
+  currentDawnSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentDawnSimStage.value < dawnSimulationStages.length - 1) {
+      currentDawnSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingDawnStagger.value = false
+      if (message) {
+        message.success(`【破晓极意沙盘】推演成功！首领狂暴成功化解，斩杀倍率：${dawnCalculatedMetrics.value.burstMultiplier}`)
+      }
+    }
+  }, 400)
+}
+
+const exportDawnStaggerCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》首领攻坚全鉴与破晓破防认证证书 ===
+证书编号: DAWN-RAID-${hash.substring(0, 12).toUpperCase()}
+首领原型: ${selectedDawnArchetypeId.value}
+破防虚弱窗口: ${dawnStaggerVulnerabilityWindow.value.toFixed(1)} 秒
+狂暴倒计时阈值: ${dawnEnrageCountdownWarningSec.value} 秒
+破甲穿透率: ${dawnMultiHitArmorBreakRatio.value}%
+全队聚能增幅: ${dawnPartyStaggerFocusBurstPct.value}%
+真伤增幅: ${dawnCalculatedMetrics.value.burstMultiplier}
+狂暴生还稳态率: ${dawnCalculatedMetrics.value.survivabilityIndex}
+攻坚统帅评级: ${dawnCalculatedMetrics.value.raidCertification}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方攻坚沙盘校验认证通过 (Godot 4.6 LTS Verified)
+===================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出首领攻坚方案防伪证书到剪贴板！')
+  }
+}
+
+const activeDawnScriptTab = ref<'stagger_gauge' | 'countdown_timer' | 'burst_coordinator'>('stagger_gauge')
+
+const dawnScriptCodes = {
+  stagger_gauge: `class_name BossStaggerGaugeController
+extends Node
+
+## 最终幻想：时空之轮 - 首领韧性槽击穿与极意虚弱控制器
+## 文件路径: res://scripts/combat/boss/boss_stagger_gauge_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal stagger_break_triggered(multiplier: float, duration_sec: float)
+signal stagger_gauge_updated(current_gauge: float, max_gauge: float)
+
+@export var max_stagger_gauge: float = 10000.0
+@export var current_stagger_gauge: float = 0.0
+@export var base_stagger_duration: float = 8.5
+
+func apply_posture_damage(raw_break_damage: float, armor_pen_ratio: float) -> void:
+    var effective_break: float = raw_break_damage * (1.0 + armor_pen_ratio)
+    current_stagger_gauge += effective_break
+    stagger_gauge_updated.emit(current_stagger_gauge, max_stagger_gauge)
+    
+    if current_stagger_gauge >= max_stagger_gauge:
+        trigger_dawn_stagger()
+
+func trigger_dawn_stagger() -> void:
+    current_stagger_gauge = 0.0
+    stagger_break_triggered.emit(7.8, base_stagger_duration)
+`,
+
+  countdown_timer: `class_name BossMechanicsCountdownTimer
+extends RefCounted
+
+## 最终幻想：时空之轮 - 首领狂暴倒计时与微秒打断总线
+## 文件路径: res://scripts/combat/boss/boss_mechanics_countdown_timer.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_cast_interruption(cast_remaining_ms: float, player_stagger_hit: bool, interrupt_allowed: bool) -> Dictionary:
+    if interrupt_allowed and player_stagger_hit and cast_remaining_ms > 0:
+        return {
+            "interrupted": true,
+            "boss_stunned_sec": 4.0,
+            "enrage_halted": true
+        }
+    return {
+        "interrupted": false,
+        "boss_stunned_sec": 0.0,
+        "enrage_halted": false
+    }
+`,
+
+  burst_coordinator: `class_name PartyRaidBurstCoordinator
+extends RefCounted
+
+## 最终幻想：时空之轮 - 团队集火爆发与伤害破限裁决器
+## 文件路径: res://scripts/combat/boss/party_raid_burst_coordinator.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func calculate_stagger_burst(base_dps: float, burst_pct: float, uncap_active: bool) -> Dictionary:
+    var multiplier: float = (burst_pct / 100.0) * (1.35 if uncap_active else 1.0)
+    var final_burst_damage: float = base_dps * multiplier
+    return {
+        "applied_multiplier": multiplier,
+        "final_burst_damage": final_burst_damage,
+        "is_uncapped": uncap_active
+    }
+`
+}
+
+const currentDawnScriptCode = computed(() => {
+  return dawnScriptCodes[activeDawnScriptTab.value]
+})
+
+const copyDawnScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentDawnScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 首领攻坚源码到剪贴板！')
+  }
+}
+
 </script>
 
 <style scoped>

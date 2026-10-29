@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-boss-tactics-dawn-stagger-v329-2026-10-29',
+    version: 'v2.2.329',
+    date: '2026-10-29',
+    title: '全域首领攻坚全鉴、破晓极意破防与机制倒计时工坊重磅实装',
+    category: 'system',
+    categoryName: '首领攻坚',
+    icon: '💥',
+    tagType: 'error',
+    description: '全面重构升级 BossTacticsView 首领攻坚门户：顶部标章升级为 VBLE World Bosses, Dawn Stagger & Mechanics Countdown Studio v2.2.329，新增破晓极意破防工坊快捷直达；专区重磅实装【全域首领攻坚全鉴、破晓极意破防与机制倒计时工坊】（Dawn Stagger & Countdown Matrix Studio）；覆盖四大首领攻坚战术原型（太古兵器欧米茄·波动炮倒计时与微秒破防流、渊海霸主神龙·潮汐海啸潮涌与绝对护盾击穿流、终焉虚空埃克斯德斯·阿尔法法则崩解与极意连携流、跨维豪杰吉尔伽美什·源氏名刀破招与反击断罪流）；支持破晓极意破防虚弱窗口 (3.0~15.0 s)、首领狂暴倒计时阈值预警 (10~120 s)、多段连携破甲穿透率 (30%~95%) 与全队爆发聚能增幅 (100%~500%) 连续微调；支持首领绝招微秒级打断仲裁、团队名刀死斗免疫符文、破防虚弱真伤解限破千倍；实时解算破防真伤增幅 (高达 +1200% 以上)、狂暴生还稳态率 (高达 99.9%)、微秒判定容错与攻坚统帅评级 (高达 EX·终焉屠龙极意统帅)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：boss_stagger_gauge_controller.gd、boss_mechanics_countdown_timer.gd 与 party_raid_burst_coordinator.gd。',
+    highlights: [
+      '四大首领攻坚流派原型：太古欧米茄破防、渊海神龙潮汐、终焉埃克斯德斯与跨维吉尔伽美什',
+      '四维连续攻坚物理参数：破防虚弱窗口、狂暴倒计时阈值、破甲穿透率与团队聚能爆发增幅',
+      '三重攻坚破限核心特权：绝招微秒级打断仲裁、团队名刀死斗免疫与破防真伤倍率破限',
+      '动态深层首领指标解算：真伤倍率增幅、狂暴生还稳态率、微秒判定容错与攻坚统帅评级',
+      '五阶段首领攻坚沙盘：时序对齐、破盾弱点灌注、破晓极意击穿、十段奥义斩杀与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源韧性槽破防器、机制倒计时打断总线与团队爆发协同裁决器'
+    ],
+    relatedLinks: [
+      { label: '首领攻坚指南', path: '/vble/boss-tactics', icon: '👹' },
+      { label: '破晓极意破防工坊', path: '/vble/boss-tactics', icon: '💥' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-battle-tactics-omni-atb-v328-2026-10-29',
     version: 'v2.2.328',
     date: '2026-10-29',
