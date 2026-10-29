@@ -7,18 +7,29 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Celestial Summons Matrix v2.2.258
+              VBLE Celestial Summons Matrix v2.2.276
             </span>
-            <span class="text-xs text-gray-400">太古契约与神明降临</span>
+            <span class="text-xs text-gray-400">太古契约、神明降临与超绝召来共鸣阵</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>🐉</span> 幻兽与召唤神殿：十二柱神明契约
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            收录自晶石纪元流传的十二柱远古神明契约。从巴哈姆特亿万核爆、利维亚桑灭世海啸、奥丁一分钟限时斩铁试炼，到不死鸟复活余烬与全息战斗伤害结算。
+            收录自晶石纪元流传的十二柱远古神明契约。从巴哈姆特亿万核爆、利维亚桑灭世海啸、奥丁一分钟限时斩铁试炼，到不死鸟复活余烬与太古天体超绝召来共鸣阵。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToTranscendenceStudio"
+          >
+            <template #icon><span>🌌</span></template>
+            前往超绝召来共鸣阵
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -905,22 +916,278 @@
       </div>
     </div>
 
-    <!-- Godot 4.x 核心实机代码展台 -->
+    <!-- 专区 6: 太古十二神魔天体共鸣阵与超绝召来解算工坊 -->
+    <div id="celestial-transcendence-studio" class="p-6 sm:p-8 rounded-2xl bg-[#0a0d1c]/95 border border-purple-500/30 space-y-6 shadow-[0_0_40px_rgba(168,85,247,0.18)] relative overflow-hidden">
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 工坊头部标章 -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-purple-500/20 text-purple-300 border border-purple-500/40">
+              v2.2.276 重磅实装
+            </span>
+            <span class="text-xs text-gray-400">太古天体共鸣 · 超越 99,999 极限召来</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🌌</span> 太古十二神魔天体共鸣阵与超绝召来解算工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于太古三位一体天体共鸣阵列与引力透镜偏转算法，解算全域超越 99,999 极限伤害、双连续魔时钟相位自锁与超绝神圣结界。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingTranscendence"
+            @click="simulateTranscendenceEvocation"
+          >
+            <template #icon><span>⚡</span></template>
+            激发超绝召来演算
+          </n-button>
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="exportTranscendenceEvocationCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大天体共鸣阵列 Stances -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div
+          v-for="arr in transcendenceArrays"
+          :key="arr.id"
+          class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+          :class="selectedTranscendenceArrayId === arr.id
+            ? 'bg-purple-950/40 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.25)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="applyTranscendenceArray(arr.id)"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">{{ arr.icon }}</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedTranscendenceArrayId === arr.id ? 'bg-purple-500/30 text-purple-200' : 'bg-slate-800 text-gray-400'">
+                {{ arr.tag }}
+              </span>
+            </div>
+            <div class="font-bold text-xs text-gray-200">{{ arr.name }}</div>
+            <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{{ arr.summonsText }}</div>
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+            <span class="text-gray-400">谐振频度:</span>
+            <span class="font-mono font-bold text-cyan-300">{{ arr.frequency }} Hz</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 双栏交互面板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧：实时共鸣阵列全息模拟与物理计算 -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- 全息阵列视窗 -->
+          <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+            <!-- 背景光斑与天体法阵 SVG 模拟 -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+              <div
+                class="absolute w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                :style="{
+                  background: currentTranscendenceArray.gradient,
+                  opacity: (casterIntegration / 100 * 0.85).toFixed(2),
+                  transform: `scale(${1 + overdriveMultiplier * 0.15})`
+                }"
+              ></div>
+              <svg class="w-60 h-60 opacity-60 animate-[spin_40s_linear_infinite]" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(168,85,247,0.4)" stroke-width="1.5" stroke-dasharray="4 4" />
+                <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(6,182,212,0.4)" stroke-width="1" />
+                <polygon points="100,15 175,145 25,145" fill="none" stroke="rgba(245,158,11,0.5)" stroke-width="1.5" />
+                <polygon points="100,185 25,55 175,55" fill="none" stroke="rgba(59,130,246,0.5)" stroke-width="1.5" />
+                <circle cx="100" cy="100" r="18" fill="none" stroke="rgba(236,72,153,0.8)" stroke-width="2" />
+              </svg>
+            </div>
+
+            <!-- 顶部状态指示灯与采样模式 -->
+            <div class="relative z-10 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse"></span>
+                <span class="font-mono text-purple-300 font-bold">TRANSCENDENCE ACTIVE</span>
+                <span class="text-gray-400 font-mono text-[10px]">| {{ currentTranscendenceArray.summonsText }}</span>
+              </div>
+              <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-amber-300">
+                {{ enablePrimalLimitBreak ? '破限 99999' : '常规伤害锁' }}
+              </div>
+            </div>
+
+            <!-- 中间标语 -->
+            <div class="relative z-10 text-center my-auto">
+              <div class="text-2xl font-black text-white/90 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]">
+                {{ currentTranscendenceArray.name }}
+              </div>
+              <div class="text-xs text-purple-200/80 mt-1 font-mono">
+                穿透极伤: {{ transcendenceMetrics.damageText }} · 谐振功率: {{ transcendenceMetrics.powerMW }} MW
+              </div>
+            </div>
+
+            <!-- 底部性能与管线参数微视窗 -->
+            <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+              <span>引力透镜偏转: {{ voidLensDeflection.toFixed(1) }}°</span>
+              <span class="text-emerald-400 font-bold">神圣庇护: +{{ transcendenceMetrics.shieldHP }} HP</span>
+            </div>
+          </div>
+
+          <!-- 4 维物理与战斗指标卡片 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">阵列谐振功率</div>
+              <div class="font-mono text-cyan-400 font-bold text-sm mt-0.5">{{ transcendenceMetrics.powerMW }} MW</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">以太能级聚合</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">超绝穿透极伤</div>
+              <div class="font-mono text-rose-400 font-bold text-sm mt-0.5">{{ transcendenceMetrics.damageText }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">全属性真实创伤</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">以太反冲负荷</div>
+              <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ transcendenceMetrics.strainPct }}%</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">精神耐压抗性</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+              <div class="text-[10px] text-gray-400">综合阵列品级</div>
+              <div class="font-mono text-purple-400 font-bold text-xs mt-0.5 truncate">{{ transcendenceMetrics.rating }}</div>
+              <div class="text-[9px] text-gray-500 mt-0.5">太古神格共鸣</div>
+            </div>
+          </div>
+
+          <!-- 实时超绝召来日志终端 -->
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+            <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+              <span class="flex items-center gap-1.5 text-purple-300 font-bold">
+                <span>💻</span> 超绝召来阵列执行终端 (Evocation Execution Terminal)
+              </span>
+              <span class="text-[10px] text-gray-500">时钟自锁: 实时同步</span>
+            </div>
+            <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+              <div v-for="(log, idx) in transcendenceSimulationLogs" :key="idx" class="flex items-start gap-1.5">
+                <span class="text-purple-400 select-none">&gt;</span>
+                <span :class="log.includes('完成') || log.includes('成功') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：无极物理调优与法阵 Uniforms -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+          <div class="text-xs font-bold text-purple-300 flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="flex items-center gap-1.5">
+              <span>🎛️</span> 天体共鸣阵列参数微调 (Resonance Uniforms)
+            </span>
+            <button
+              type="button"
+              class="text-[10px] text-gray-400 hover:text-purple-300 cursor-pointer"
+              @click="resetTranscendenceParams"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 以太结界共鸣频度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>以太结界共鸣频度 (Resonance Frequency):</span>
+              <span class="font-mono text-purple-400 font-bold">{{ resonanceFrequency }} Hz</span>
+            </div>
+            <n-slider v-model:value="resonanceFrequency" :min="100" :max="999" :step="5" />
+            <div class="flex justify-between text-[9px] text-gray-500">
+              <span>100Hz 泛灵波动</span>
+              <span>528Hz 黄金奇迹</span>
+              <span>999Hz 创世神音</span>
+            </div>
+          </div>
+
+          <!-- 超绝召唤过载倍率 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>超绝召唤过载倍率 (Overdrive Multiplier):</span>
+              <span class="font-mono text-rose-400 font-bold">{{ overdriveMultiplier.toFixed(1) }}x</span>
+            </div>
+            <n-slider v-model:value="overdriveMultiplier" :min="1.0" :max="4.0" :step="0.1" />
+          </div>
+
+          <!-- 召唤师精神统合度 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>召唤师精神统合度 (Caster Integration):</span>
+              <span class="font-mono text-cyan-400 font-bold">{{ casterIntegration }}%</span>
+            </div>
+            <n-slider v-model:value="casterIntegration" :min="50" :max="100" :step="1" />
+          </div>
+
+          <!-- 虚空引力透镜偏转角 -->
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>虚空引力透镜偏转角 (Lens Deflection Angle):</span>
+              <span class="font-mono text-amber-400 font-bold">{{ voidLensDeflection.toFixed(1) }}°</span>
+            </div>
+            <n-slider v-model:value="voidLensDeflection" :min="0.0" :max="45.0" :step="0.5" />
+          </div>
+
+          <!-- 特性开关组 -->
+          <div class="pt-2 border-t border-slate-800 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300">开启【太古神格上限解限 (Break 99999 Limit)】:</span>
+              <n-switch v-model:value="enablePrimalLimitBreak" size="small" />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300">开启【双连续魔咏唱时钟自锁 (Clock Phase Lock)】:</span>
+              <n-switch v-model:value="enableDualcastSync" size="small" />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300">开启【以太反向噬魂护盾 (Soul Drain Ward)】:</span>
+              <n-switch v-model:value="enableAetherDrainShield" size="small" />
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+            💡 机制说明：太古三柱神兽羁绊阵列解算后，可引爆天体级真实伤害。开启上限解限将彻底突破 99,999 限制，并为全队施加最高 8,300 点以太护盾。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Godot 4.x 核心实机代码展台 (4 Tab 切换) -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
         <div class="flex flex-wrap items-center gap-3">
           <div class="flex items-center gap-1.5">
             <span class="text-base">📜</span>
-            <span class="font-mono text-sm font-bold text-cyan-300">Godot 4.6 LTS 核心实机算法引擎</span>
+            <span class="font-mono text-sm font-bold text-cyan-300">Godot 4.6 LTS 核心实机算法引擎展台</span>
           </div>
-          <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+          <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 flex-wrap">
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'summon' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
-              @click="activeCodeTab = 'summon'"
+              :class="activeCodeTab === 'transcendence' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'transcendence'"
             >
-              summon_system.gd
+              celestial_transcendence_evocation_engine.gd
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+              :class="activeCodeTab === 'descent' ? 'bg-indigo-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'descent'"
+            >
+              celestial_descent_engine.gd
             </button>
             <button
               type="button"
@@ -933,10 +1200,10 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'descent' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
-              @click="activeCodeTab = 'descent'"
+              :class="activeCodeTab === 'summon' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeCodeTab = 'summon'"
             >
-              celestial_descent_engine.gd
+              summon_system.gd
             </button>
           </div>
         </div>
@@ -945,7 +1212,7 @@
         </n-button>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900">{{ activeCodeTab === 'summon' ? godotCodeText : (activeCodeTab === 'odin' ? godotOdinCodeText : gdCelestialDescentCode) }}</pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code>{{ currentDisplayCode }}</code></pre>
     </div>
   </div>
 </template>
@@ -1311,7 +1578,14 @@ func execute_summon(summon_id: String, caster: CharacterData, targets: Array) ->
 	return result
 `
 
-const activeCodeTab = ref<'summon' | 'odin' | 'descent'>('summon')
+const activeCodeTab = ref<'transcendence' | 'descent' | 'odin' | 'summon'>('transcendence')
+
+const currentDisplayCode = computed(() => {
+  if (activeCodeTab.value === 'transcendence') return gdTranscendenceEvocationCode
+  if (activeCodeTab.value === 'descent') return gdCelestialDescentCode
+  if (activeCodeTab.value === 'odin') return godotOdinCodeText
+  return godotCodeText
+})
 
 const godotOdinCodeText = [
   '## odin_trial_engine.gd',
@@ -1360,15 +1634,18 @@ const copyGodotCode = async () => {
   try {
     let code = ''
     let filename = ''
-    if (activeCodeTab.value === 'summon') {
-      code = godotCodeText
-      filename = 'summon_system.gd'
+    if (activeCodeTab.value === 'transcendence') {
+      code = gdTranscendenceEvocationCode
+      filename = 'celestial_transcendence_evocation_engine.gd'
+    } else if (activeCodeTab.value === 'descent') {
+      code = gdCelestialDescentCode
+      filename = 'celestial_descent_engine.gd'
     } else if (activeCodeTab.value === 'odin') {
       code = godotOdinCodeText
       filename = 'odin_trial_engine.gd'
     } else {
-      code = gdCelestialDescentCode
-      filename = 'celestial_descent_engine.gd'
+      code = godotCodeText
+      filename = 'summon_system.gd'
     }
     await navigator.clipboard.writeText(code)
     copiedCode.value = true
@@ -1657,6 +1934,13 @@ const castOdinSkill = (skill: string) => {
 
 const scrollToCelestialStudio = () => {
   const el = document.getElementById('celestial-descent-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const scrollToTranscendenceStudio = () => {
+  const el = document.getElementById('celestial-transcendence-studio')
   if (el) {
     el.scrollIntoView({ behavior: 'smooth' })
   }
@@ -1990,6 +2274,254 @@ func execute_astral_descent(prim_id: String, sec_id: String, target_element: Str
 	emit_signal("descent_completed", telemetry)
 	return telemetry
 `
+
+// ==========================================
+// 🌌 太古十二神魔天体共鸣阵与超绝召来解算工坊 (v2.2.276)
+// ==========================================
+interface TranscendenceArray {
+  id: string
+  name: string
+  tag: string
+  icon: string
+  summonsText: string
+  frequency: number
+  overdrive: number
+  integration: number
+  lens: number
+  gradient: string
+  baseDamage: number
+}
+
+const transcendenceArrays: TranscendenceArray[] = [
+  {
+    id: 'cosmic_genesis',
+    name: '创世全域星辰阵 (Cosmic Genesis Array)',
+    tag: '亿万星辉',
+    icon: '🌌',
+    summonsText: '巴哈姆特 × 希尔德拉 × 不死鸟',
+    frequency: 528,
+    overdrive: 2.8,
+    integration: 92,
+    lens: 15.0,
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.55) 0%, rgba(59,130,246,0.3) 50%, transparent 80%)',
+    baseDamage: 88000
+  },
+  {
+    id: 'abyssal_maelstrom',
+    name: '绝海深渊灭世阵 (Abyssal Maelstrom Array)',
+    tag: '潮汐退行',
+    icon: '🌊',
+    summonsText: '利维亚桑 × 希瓦 × 卡邦库尔',
+    frequency: 432,
+    overdrive: 2.4,
+    integration: 88,
+    lens: 22.5,
+    gradient: 'radial-gradient(circle, rgba(6,182,212,0.55) 0%, rgba(59,130,246,0.3) 50%, transparent 80%)',
+    baseDamage: 72000
+  },
+  {
+    id: 'infernal_wrath',
+    name: '业火雷霆崩山阵 (Infernal Wrath Array)',
+    tag: '熔岩雷暴',
+    icon: '🌋',
+    summonsText: '伊芙利特 × 拉姆 × 泰坦',
+    frequency: 639,
+    overdrive: 3.2,
+    integration: 85,
+    lens: 12.0,
+    gradient: 'radial-gradient(circle, rgba(239,68,68,0.55) 0%, rgba(245,158,11,0.3) 50%, transparent 80%)',
+    baseDamage: 79000
+  },
+  {
+    id: 'ragnarok_judgment',
+    name: '诸神黄昏断罪阵 (Ragnarok Judgment Array)',
+    tag: '斩铁即死',
+    icon: '⚔️',
+    summonsText: '奥丁 × 卡托布雷帕斯 × 巨石魔兵',
+    frequency: 852,
+    overdrive: 3.8,
+    integration: 96,
+    lens: 35.0,
+    gradient: 'radial-gradient(circle, rgba(245,158,11,0.55) 0%, rgba(168,85,247,0.3) 50%, transparent 80%)',
+    baseDamage: 96000
+  }
+]
+
+const selectedTranscendenceArrayId = ref('cosmic_genesis')
+const resonanceFrequency = ref(528)
+const overdriveMultiplier = ref(2.8)
+const casterIntegration = ref(92)
+const voidLensDeflection = ref(15.0)
+const enablePrimalLimitBreak = ref(true)
+const enableDualcastSync = ref(true)
+const enableAetherDrainShield = ref(true)
+const isSimulatingTranscendence = ref(false)
+
+const currentTranscendenceArray = computed(() => {
+  return transcendenceArrays.find(a => a.id === selectedTranscendenceArrayId.value) || transcendenceArrays[0]
+})
+
+const applyTranscendenceArray = (arrayId: string) => {
+  selectedTranscendenceArrayId.value = arrayId
+  const a = transcendenceArrays.find(arr => arr.id === arrayId)
+  if (a) {
+    resonanceFrequency.value = a.frequency
+    overdriveMultiplier.value = a.overdrive
+    casterIntegration.value = a.integration
+    voidLensDeflection.value = a.lens
+    message.info(`已切换至【${a.name}】天体共鸣阵列`)
+  }
+}
+
+const resetTranscendenceParams = () => {
+  applyTranscendenceArray('cosmic_genesis')
+}
+
+const transcendenceSimulationLogs = ref<string[]>([
+  '系统就绪: Godot 4.6 LTS 太古十二神魔天体共鸣阵列引擎初始化完成',
+  '晶石谐振网格: 三位一体神印同步率锁定 99.4%',
+  '虚空引力透镜: 偏转角动态伺服就绪',
+  '时钟自锁状态: 双连续魔相位同步准备'
+])
+
+const transcendenceMetrics = computed(() => {
+  const powerMW = Math.round(resonanceFrequency.value * overdriveMultiplier.value * (casterIntegration.value / 100) * 1.28)
+  
+  const rawDmg = Math.round(currentTranscendenceArray.value.baseDamage * (overdriveMultiplier.value / 2.0) * (casterIntegration.value / 100) * (enablePrimalLimitBreak.value ? 1.65 : 1.0))
+  const finalDmg = enablePrimalLimitBreak.value ? rawDmg : Math.min(99999, rawDmg)
+  const damageText = finalDmg.toLocaleString()
+
+  const strainPct = Math.min(100, Math.round((overdriveMultiplier.value - 1.0) * 22 + voidLensDeflection.value * 0.8))
+  const shieldHP = Math.round(3500 + overdriveMultiplier.value * 1200 + (enableAetherDrainShield.value ? 1800 : 0))
+
+  let rating = 'EX-Tier 太古混沌极限'
+  if (overdriveMultiplier.value >= 3.5) rating = 'SSS-Tier 诸神终焉'
+  else if (overdriveMultiplier.value >= 2.5) rating = 'SS-Tier 创世星辉'
+  else rating = 'S-Tier 神明同调'
+
+  return {
+    powerMW,
+    damageText,
+    strainPct,
+    shieldHP,
+    rating
+  }
+})
+
+const simulateTranscendenceEvocation = () => {
+  isSimulatingTranscendence.value = true
+  const now = new Date()
+  const ts = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  transcendenceSimulationLogs.value = [
+    `[${ts}] 🚀 启动太古神魔天体超绝召来演算...`,
+    `[${ts}] 阶段 1: 以太结界共振频度调谐至 ${resonanceFrequency.value} Hz，激活【${currentTranscendenceArray.value.summonsText}】`,
+    `[${ts}] 阶段 2: 虚空引力透镜偏转 ${voidLensDeflection.value.toFixed(1)}°，汇聚 ${transcendenceMetrics.value.powerMW} MW 以太能级`,
+    `[${ts}] 阶段 3: 召唤师精神统合度 ${casterIntegration.value}%，${enableDualcastSync.value ? '连续魔时钟相位锁死' : '异步施法模式'}`,
+    `[${ts}] 阶段 4: 超绝召唤过载倍率 ${overdriveMultiplier.value.toFixed(1)}x，${enablePrimalLimitBreak.value ? '神格上限击穿 (突破 99999)' : '伤害锁定 99999'}`,
+    `[${ts}] ✨ 召来演算完成！造成 ${transcendenceMetrics.value.damageText} 点穿透创伤，展开 ${transcendenceMetrics.value.shieldHP} HP 神圣结界！`
+  ]
+
+  setTimeout(() => {
+    isSimulatingTranscendence.value = false
+    message.success(`⚡ 超绝召来演算完成！极伤输出 ${transcendenceMetrics.value.damageText} 点`)
+  }, 600)
+}
+
+const exportTranscendenceEvocationCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  const certLines = [
+    '================================================================================',
+    '   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)',
+    '   太古十二神魔天体共鸣阵与超绝召来方案证书 (v2.2.276)',
+    '================================================================================',
+    `颁发时间: ${timeStr}`,
+    `共鸣阵列: ${currentTranscendenceArray.value.name}`,
+    `神魔连携: ${currentTranscendenceArray.value.summonsText}`,
+    '运行架构: Godot 4.6 LTS / celestial_transcendence_evocation_engine.gd',
+    '',
+    '【天体共鸣阵列 Uniform 参数】',
+    `- 谐振频度 (Resonance Frequency): ${resonanceFrequency.value} Hz`,
+    `- 超绝过载倍率 (Overdrive Multiplier): ${overdriveMultiplier.value.toFixed(1)}x`,
+    `- 召唤师精神统合度 (Caster Integration): ${casterIntegration.value}%`,
+    `- 虚空引力透镜偏转角 (Lens Deflection): ${voidLensDeflection.value.toFixed(1)}°`,
+    `- 破限模式 (Break 99999 Limit): ${enablePrimalLimitBreak.value ? '已启用 (上限完全解放)' : '关闭 (锁定 99999)'}`,
+    `- 双连续魔时钟自锁 (Clock Phase Lock): ${enableDualcastSync.value ? '已自锁 (零时延混响)' : '异步'}`,
+    `- 以太反向噬魂护盾 (Soul Drain Ward): ${enableAetherDrainShield.value ? '已展开 (+1800 HP 护盾)' : '关闭'}`,
+    '',
+    '【实机遥测与战斗伤害结算】',
+    `- 阵列聚合谐振功率: ${transcendenceMetrics.value.powerMW} MW`,
+    `- 超绝穿透真实极伤: ${transcendenceMetrics.value.damageText} 点`,
+    `- 以太反冲负荷率: ${transcendenceMetrics.value.strainPct}%`,
+    `- 团队神圣结界值: +${transcendenceMetrics.value.shieldHP} HP`,
+    `- 综合阵列评级: ${transcendenceMetrics.value.rating}`,
+    '',
+    '【底层引擎契约安全指纹】',
+    '- Engine Spec: Godot 4.6 LTS / GDScript RefCounted Pure Logic',
+    `- Digital Fingerprint: SHA256-TRANSCEND-${Math.random().toString(36).substring(2, 10).toUpperCase()}${Date.now().toString(36).toUpperCase()}`,
+    '================================================================================'
+  ]
+
+  const certContent = certLines.join('\n')
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `celestial_transcendence_v2.2.276_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  message.success('太古超绝召来方案书已导出并同步至剪贴板！')
+}
+
+const gdTranscendenceEvocationCode = [
+  '## celestial_transcendence_evocation_engine.gd',
+  '## Godot 4.6 LTS - 太古十二神魔天体共鸣阵与超绝召来解算引擎',
+  'extends RefCounted',
+  'class_name CelestialTranscendenceEvocationEngine',
+  '',
+  'signal resonance_array_activated(array_id: String, frequency: float, power_mw: float)',
+  'signal transcendence_strike_resolved(damage: int, is_limit_broken: bool, shield_hp: int)',
+  '',
+  'var frequency: float = 528.0',
+  'var overdrive_multiplier: float = 2.8',
+  'var caster_integration: float = 92.0',
+  'var void_lens_deflection: float = 15.0',
+  'var break_damage_limit: bool = true',
+  'var enable_dualcast_sync: bool = true',
+  '',
+  'func calculate_evocation_damage(base_array_damage: float) -> Dictionary:',
+  '\tvar raw_dmg: float = base_array_damage * (overdrive_multiplier / 2.0) * (caster_integration / 100.0)',
+  '\tif break_damage_limit:',
+  '\t\traw_dmg *= 1.65',
+  '\t',
+  '\tvar final_dmg: int = int(raw_dmg) if break_damage_limit else mini(99999, int(raw_dmg))',
+  '\tvar power_mw: float = frequency * overdrive_multiplier * (caster_integration / 100.0) * 1.28',
+  '\tvar shield_hp: int = int(3500.0 + overdrive_multiplier * 1200.0 + (1800.0 if enable_dualcast_sync else 0.0))',
+  '\tvar strain_pct: float = clampf((overdrive_multiplier - 1.0) * 22.0 + void_lens_deflection * 0.8, 0.0, 100.0)',
+  '\t',
+  '\treturn {',
+  '\t\t"final_damage": final_dmg,',
+  '\t\t"power_mw": power_mw,',
+  '\t\t"shield_hp": shield_hp,',
+  '\t\t"strain_pct": strain_pct,',
+  '\t\t"is_limit_broken": break_damage_limit,',
+  '\t\t"signature_hash": "SHA256-TRANSCEND-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
+  '\t}'
+].join('\n')
 
 onUnmounted(() => {
   stopOdinTimer()

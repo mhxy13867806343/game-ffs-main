@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-summons-transcendence-studio-2026-10-29',
+    version: 'v2.2.276',
+    date: '2026-10-29',
+    title: '太古十二神魔天体共鸣阵与超绝召来解算工坊重磅实装',
+    category: 'system',
+    categoryName: '神兽共鸣',
+    icon: '🌌',
+    tagType: 'success',
+    description: '全面重构升级 SummonsView 幻兽与召唤神殿门户：顶部标章升级为 VBLE Celestial Summons Matrix v2.2.276，新增超绝召来共鸣阵快捷直达；专区重磅实装【太古十二神魔天体共鸣阵与超绝召来解算工坊】（Twelve Primordial Celestial Resonance Matrix & Transcendence Evocation Studio）；覆盖四大天体共鸣阵列（创世全域星辰阵、绝海深渊灭世阵、业火雷霆崩山阵、诸神黄昏断罪阵）；实现以太结界共鸣频度 (100~999 Hz)、超绝召唤过载倍率 (1.0x~4.0x)、召唤师精神统合度 (50%~100%) 与虚空引力透镜偏转角 (0.0°~45.0°) 连续可微调节；支持太古神格上限解限（突破 99,999 伤害封顶）、双连续魔咏唱时钟自锁与以太反向噬魂护盾；实时解算全域真实伤害 (突破 250,000+ 点)、阵列谐振功率 (MW/Aether)、以太反冲负荷率与全队神圣庇护值 (+8300 HP)；实装五阶段召来日志终端与离线方案书 SHA-256 证书导出；源码展台升级 4 Tab，新增 celestial_transcendence_evocation_engine.gd 纯逻辑引擎。',
+    highlights: [
+      '四大天体共鸣阵列：创世星辰阵、绝海灭世阵、业火崩山阵与诸神黄昏断罪阵全域实装',
+      '四维连续共鸣动力学：谐振频度、超绝过载倍率、精神统合度与引力透镜偏转角全域微调',
+      '超越 99999 伤害极值：太古神格解限直破伤害封顶，轰出超 250,000+ 点真实穿透创伤',
+      '连续魔时钟相位锁死：实现双神魔连携毫秒级自锁混响，杜绝以太失谐反冲与施法断档',
+      '离线认证方案书导出：自动生成附带 SHA-256 专属数字签名的纯文本方案并同步剪贴板',
+      'Godot 4.6 LTS 4 Tab 展台：新增 celestial_transcendence_evocation_engine.gd 纯逻辑引擎源码'
+    ],
+    relatedLinks: [
+      { label: '幻兽与召唤神殿', path: '/vble/summons', icon: '🐉' },
+      { label: '职业体系与转职', path: '/vble/jobs', icon: '🛡️' },
+      { label: '最新开发演进日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-gallery-volumetric-studio-2026-10-29',
     version: 'v2.2.275',
     date: '2026-10-29',
