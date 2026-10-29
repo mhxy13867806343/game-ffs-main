@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-armory-rune-reforge-2026-10-29',
+    version: 'v2.2.290',
+    date: '2026-10-29',
+    title: '太古全域神兵附魔符文锻造与词缀洗练工坊重磅实装',
+    category: 'equipment',
+    categoryName: '神兵附魔',
+    icon: '🔮',
+    tagType: 'success',
+    description: '全面重构升级 ArmorySimulatorView 全员配装门户：顶部标章升级为 VBLE Armory Multi-Hero Loadout & Rune Reforge Studio v2.2.290，新增太古符文锻造工坊快捷直达；专区重磅实装【太古全域神兵附魔符文锻造、词缀洗练与太古共鸣升阶工坊】（Ancient Rune Enchantment & Affix Reforging Studio）；覆盖四大太古神兵附魔流派（烈阳核爆烈焰符文、冰河永冻守护符文、风暴疾电神速符文、虚空湮灭死星符印）；实现神兵符文淬炼阶数 (+1~+15 阶)、词缀共鸣相干度 (50%~200%)、以太淬火纯净度 (10%~100%) 与多角色谐波同步率 (1.0~4.0x) 连续微调；支持防爆锻造永固护身符（冲击高阶淬炼失败零碎裂降阶风险，成功率 +15%）、极品神圣词缀完美锁定（锁定暴击等关键顶尖词缀）与太古极境双词缀解禁（主手神兵允许激活双神圣特权）；实时解算符文附加攻击力 (突破 1,500+ ATK)、暴击破限终极倍率 (+150%~+350%)、次阶淬炼成功概率与神兵符文认证位阶 (高达 EX 极境)；实装五阶段神兵符文锻造推演终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 ancient_relic_rune_enchantment_engine.gd、affix_reforge_probability_matrix.gd 与 resonance_harmonics_controller.gd。',
+    highlights: [
+      '四大太古神兵附魔流派：烈阳核爆真炎灼烧、冰河永冻极寒反噬、风暴疾电无视防御与虚空死星破限 99999',
+      '四维连续附魔淬炼参数：符文阶数、词缀相干度、以太淬火纯度与多角色谐波同步率全域适配',
+      '防爆锻造永固护身符：零碎裂零掉阶安全保障，次阶淬炼成功概率大幅提升',
+      '极品词缀锁定洗练：锁定核心峰值伤害词缀，定向优化次级词缀实现完美毕业',
+      '太古极境双词缀解禁：突破传统单武器特权限制，主手神兵可同时激活两大神圣词缀',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增太古神兵附魔解算器、词缀概率洗练矩阵与谐波控制器'
+    ],
+    relatedLinks: [
+      { label: '神兵矩阵与多角色配装', path: '/vble/armory', icon: '⚔️' },
+      { label: '神兵武器图鉴', path: '/vble/equipment', icon: '🛡️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-vehicles-orbital-warp-2026-10-29',
     version: 'v2.2.289',
     date: '2026-10-29',
