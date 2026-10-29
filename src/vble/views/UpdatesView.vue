@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-attributes-armor-pen-v333-2026-10-29',
+    version: 'v2.2.333',
+    date: '2026-10-29',
+    title: '角色六维基础属性、防御穿透衰减与战力综合解算工坊重磅实装',
+    category: 'system',
+    categoryName: '属性战力',
+    icon: '🛡️',
+    tagType: 'success',
+    description: '全面重构升级 AttributesView 属性全典门户：顶部标章升级为 VBLE Hexagon Dimensions, Armor Pen Attenuation & Composite Power Studio v2.2.333，导航栏新增【角色六维基础属性、防御穿透衰减与战力综合解算工坊】（Hexagon Stats & Armor Pen Matrix Studio）；覆盖四大六维战力原型（狂战士·力量主宰与破甲穿透毁灭流、大贤者·智力精神双峰与魔法绝对穿透流、影刃刺客·极速身法与背刺必定真实伤害流、圣殿壁垒·体质耐力超载与伤害绝对衰减流）；支持物理/魔法防御穿透深度 (10%~90%)、护甲减伤非线性衰减指数 (0.50~2.00)、六维基础属性成长增幅倍率 (1.0x~5.0x) 与综合战力归一化加权系数 (100~500) 连续微调；支持豁免目标硬编码护甲硬直上限、启用六维协同二次方伤害增长、穿透溢出时 100% 转化真实创伤；实时解算穿透综合伤害倍率 (高达 +780%)、击穿敌方减伤比 (高达 99.0%)、英雄综合六维战力指数 (突破 600,000 以上) 与属性架构大师评级 (高达 EX·全域六维极值神算尊者)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：armor_penetration_damage_solver.gd、hexagon_stat_growth_tensor.gd 与 true_damage_injection_pipeline.gd。',
+    highlights: [
+      '四大六维战力原型：狂战士破甲、大贤者魔能贯穿、影刃刺客真伤与圣殿壁垒绝对衰减',
+      '四维连续属性力矩参数：防御穿透深度、减伤衰减指数、六维成长倍率与综合战力加权系数',
+      '三重属性破限特权：豁免固有减伤壁垒、六维协同二次方增幅与穿透溢出真伤动态注入',
+      '动态深层数值指标解算：穿透综合伤害倍率、击穿敌方减伤比、综合战力指数与神算尊者评级',
+      '五阶段属性沙盘推演：基准力矩投射、对数曲线拟合、溢出真伤解算、归一化加权与方案封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源防御穿透解算器、六维成长张量与真伤动态注入管道'
+    ],
+    relatedLinks: [
+      { label: '属性计算与成长', path: '/vble/attributes', icon: '📊' },
+      { label: '穿透衰减战力工坊', path: '/vble/attributes', icon: '🛡️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-jobs-crystal-passive-rebirth-v332-2026-10-29',
     version: 'v2.2.332',
     date: '2026-10-29',

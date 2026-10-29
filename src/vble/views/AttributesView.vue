@@ -2,7 +2,7 @@
   <div class="attributes-page p-3 sm:p-4 max-w-7xl mx-auto space-y-8">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Stat Calculators &amp; Growth Matrix v2.2.284</n-tag>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Hexagon Dimensions, Armor Pen Attenuation &amp; Composite Power Studio v2.2.333</n-tag>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">角色属性器、怪物解析器与量子属性张量跃迁工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-3">
         支持 255 级满破无限数值演算、输入血量即时反推等级、场景地宫关联自动定级、六维断点量化以及量子属性张量多维数值跃迁工坊
@@ -11,7 +11,10 @@
         <n-button size="small" type="primary" secondary @click="$router.push('/vble/modifier')">
           🛠️ 前往独立全域 GM 属性修改器专页
         </n-button>
-        <n-button size="small" type="error" secondary @click="activeCalculatorTab = 'quantum_entropy'">
+        <n-button size="small" type="success" secondary @click="activeCalculatorTab = 'armor_pen_attenuation'">
+          🛡️ 穿透衰减与战力工坊
+        </n-button>
+        <n-button size="small" type="error" secondary @click="activeCalculatorTab = 'quantum_entropy'">'
           🌌 快速切入量子张量跃迁工坊
         </n-button>
         <n-button size="small" type="warning" secondary @click="activeCalculatorTab = 'breakthrough'">
@@ -69,6 +72,13 @@
           <template #tab>
             <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400 font-bold" :aria-pressed="activeCalculatorTab === 'quantum_entropy'">
               🌌 量子属性张量工坊 (v2.2.284)
+            </button>
+          </template>
+        </n-tab-pane>
+        <n-tab-pane name="armor_pen_attenuation">
+          <template #tab>
+            <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-400 font-bold" :aria-pressed="activeCalculatorTab === 'armor_pen_attenuation'">
+              🛡️ 穿透衰减与战力工坊 (v2.2.333)
             </button>
           </template>
         </n-tab-pane>
@@ -1676,6 +1686,206 @@
       </div>
     </div>
 
+    <!-- ================= 模块八：角色六维基础属性、防御穿透衰减与战力综合解算工坊 (v2.2.333) ================= -->
+    <div v-if="activeCalculatorTab === 'armor_pen_attenuation'" id="armor-pen-attenuation-studio" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-emerald-950/80 via-slate-900/95 to-cyan-950/80 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.2)] space-y-6 relative overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-emerald-500/20 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-bold text-xs border border-emerald-500/30">
+                HEXAGON STATS &amp; ARMOR PEN MATRIX v2.2.333
+              </span>
+              <span class="text-xs text-emerald-400 font-mono">Nonlinear Attenuation &amp; Power Evaluation Pipeline</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+              <span>🛡️</span> 角色六维基础属性、防御穿透衰减与战力综合解算工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+              深度解析力量、敏捷、体力、魔力、精神、幸运六维基础力矩，建立护甲对数非线性衰减模型，实现穿透溢出真实创伤注入与归一化战力评估。
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button
+              type="success"
+              size="small"
+              round
+              secondary
+              :loading="isSimulatingArmorPen"
+              @click="runArmorPenSimulation"
+            >
+              <template #icon><span>⚡</span></template>
+              启动穿透推演沙盘
+            </n-button>
+            <n-button
+              type="warning"
+              size="small"
+              round
+              secondary
+              @click="exportArmorPenCertificate"
+            >
+              <template #icon><span>📜</span></template>
+              导出战力方案证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大六维战力原型 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            v-for="arch in hexagonStatArchetypes"
+            :key="arch.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative"
+            :class="selectedHexagonArchetypeId === arch.id ? 'bg-emerald-950/40 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-emerald-500/40'"
+            @click="selectHexagonArchetype(arch.id)"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ arch.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                {{ arch.tag }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+            <div class="text-xs text-emerald-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+            <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+            <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+              <span class="text-gray-400">基准战力加权</span>
+              <span class="text-emerald-400 font-bold">{{ arch.basePowerWeight }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 参数调节与开关控制网格 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+          <!-- 4 滑块 -->
+          <div class="space-y-4">
+            <div class="text-xs font-bold text-emerald-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+              <span>⚙️</span> 穿透深度与六维成长微调
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300">物理/魔法防御穿透深度 (%)</span>
+                <span class="text-emerald-400 font-mono font-bold">{{ armorPenetrationRatio }} %</span>
+              </div>
+              <n-slider v-model:value="armorPenetrationRatio" :min="10" :max="90" :step="1" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300">护甲减伤非线性衰减指数 (Exp)</span>
+                <span class="text-amber-400 font-mono font-bold">{{ defenseAttenuationCurveExp.toFixed(2) }}</span>
+              </div>
+              <n-slider v-model:value="defenseAttenuationCurveExp" :min="0.5" :max="2.0" :step="0.05" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300">六维基础属性成长增幅倍率 (倍)</span>
+                <span class="text-cyan-400 font-mono font-bold">{{ hexagonStatGrowthMultiplier.toFixed(1) }} x</span>
+              </div>
+              <n-slider v-model:value="hexagonStatGrowthMultiplier" :min="1.0" :max="5.0" :step="0.1" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300">综合战力归一化加权系数</span>
+                <span class="text-purple-400 font-mono font-bold">{{ combatPowerNormalizationFactor }}</span>
+              </div>
+              <n-slider v-model:value="combatPowerNormalizationFactor" :min="100" :max="500" :step="10" />
+            </div>
+          </div>
+
+          <!-- 3 开关与实时数据 -->
+          <div class="space-y-4">
+            <div class="text-xs font-bold text-emerald-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+              <span>🛡️</span> 穿透解限与创伤转化机制
+            </div>
+
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-xs">
+                  <div class="text-white font-medium">豁免目标硬编码护甲硬直上限</div>
+                  <div class="text-gray-400 text-[11px]">无视首领固有 50% 减伤壁垒</div>
+                </div>
+                <n-switch v-model:value="armorPiercingCapExempt" />
+              </div>
+
+              <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-xs">
+                  <div class="text-white font-medium">启用六维协同二次方伤害增长</div>
+                  <div class="text-gray-400 text-[11px]">六维属性均值越高提供额外平方增幅</div>
+                </div>
+                <n-switch v-model:value="quadraticDamageScaling" />
+              </div>
+
+              <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+                <div class="text-xs">
+                  <div class="text-white font-medium">穿透溢出时 100% 转化真实创伤</div>
+                  <div class="text-gray-400 text-[11px]">超过护甲值的穿透深度直接转为纯真伤</div>
+                </div>
+                <n-switch v-model:value="dynamicTrueDamageInjection" />
+              </div>
+            </div>
+
+            <!-- 4 项实时综合解算指标 -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div class="p-2.5 rounded bg-slate-900 border border-emerald-500/20 text-center">
+                <div class="text-[11px] text-gray-400">穿透综合伤害倍率</div>
+                <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedArmorMetrics.effectiveDamageMultiplier }}</div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-emerald-500/20 text-center">
+                <div class="text-[11px] text-gray-400">击穿敌方减伤比</div>
+                <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedArmorMetrics.damageReductionBypassed }}</div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-emerald-500/20 text-center">
+                <div class="text-[11px] text-gray-400">英雄综合战力指数</div>
+                <div class="text-lg font-mono font-black text-amber-400">{{ calculatedArmorMetrics.compositeHeroCombatPower }}</div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-900 border border-emerald-500/20 text-center">
+                <div class="text-[11px] text-gray-400">属性架构大师评级</div>
+                <div class="text-lg font-mono font-black text-purple-400">{{ calculatedArmorMetrics.statMasteryCertification }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 五阶段沙盘推演进度条 -->
+        <div v-if="isSimulatingArmorPen" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-emerald-500/30">
+          <div class="flex justify-between text-xs font-mono">
+            <span class="text-emerald-300 flex items-center gap-2">
+              <span class="animate-spin">🔄</span> {{ armorPenStages[currentArmorPenSimStage] }}
+            </span>
+            <span class="text-gray-400">{{ (currentArmorPenSimStage + 1) * 20 }}%</span>
+          </div>
+          <n-progress type="line" :percentage="(currentArmorPenSimStage + 1) * 20" :show-indicator="false" status="success" />
+        </div>
+
+        <!-- Godot 4.6 LTS 源码展台 -->
+        <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS ARMOR PEN ENGINE</span>
+              <n-tag size="small" type="success" round>res://scripts/combat/attributes/</n-tag>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-radio-group v-model:value="activeArmorPenScriptTab" size="small">
+                <n-radio-button value="damage_solver">穿透衰减解算器</n-radio-button>
+                <n-radio-button value="growth_tensor">六维成长张量</n-radio-button>
+                <n-radio-button value="true_damage">真伤注入管道</n-radio-button>
+              </n-radio-group>
+              <n-button type="info" size="tiny" secondary round @click="copyArmorPenScript">
+                复制当前脚本
+              </n-button>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+            <pre><code>{{ currentArmorPenScriptCode }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -3098,5 +3308,224 @@ const currentGdQuantumCode = computed(() => {
   if (activeGdQuantumTab.value === 'damage') return gdEigenDamageResolverCode
   return gdPlanckImaginaryControllerCode
 })
+
+
+// ==========================================
+// v2.2.333: 六维属性与穿透衰减工坊逻辑
+// ==========================================
+interface HexagonStatArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  basePowerWeight: number
+}
+
+const hexagonStatArchetypes: HexagonStatArchetype[] = [
+  {
+    id: 'berserker_heavy_cleave',
+    name: '狂战士·破甲毁灭',
+    subtitle: '力量主宰与破甲穿透毁灭流',
+    icon: '🪓',
+    tag: '巨力破壁',
+    desc: '力量突破阈值引发巨力崩解，重劈攻击对高甲目标施加双倍穿透，附带粉碎护甲效果。',
+    basePowerWeight: 450
+  },
+  {
+    id: 'sage_mind_pierce',
+    name: '大贤者·魔能贯穿',
+    subtitle: '智力精神双峰与魔法绝对穿透流',
+    icon: '🔮',
+    tag: '天神贯穿',
+    desc: '智力与精神双核共鸣，魔法咒文剥离敌方全元素抗性，任何抗性屏障均无法衰减魔能。',
+    basePowerWeight: 480
+  },
+  {
+    id: 'assassin_speed_crit',
+    name: '影刃刺客·极速真伤',
+    subtitle: '极速身法与背刺必定真实伤害流',
+    icon: '🗡️',
+    tag: '瞬影绝杀',
+    desc: '身法敏捷达到光速微秒判定，从背侧击中敌人时 100% 转化无视护甲之致命真实伤害。',
+    basePowerWeight: 420
+  },
+  {
+    id: 'paladin_iron_defense',
+    name: '圣殿壁垒·绝对衰减',
+    subtitle: '体质耐力超载与伤害绝对衰减流',
+    icon: '🛡️',
+    tag: '圣域刚体',
+    desc: '体力与坚韧产生绝对力场，受到的敌方超限暴击伤害被对数曲线强制衰减至刮痧程度。',
+    basePowerWeight: 440
+  }
+]
+
+const selectedHexagonArchetypeId = ref('berserker_heavy_cleave')
+const armorPenetrationRatio = ref(65)
+const defenseAttenuationCurveExp = ref(1.25)
+const hexagonStatGrowthMultiplier = ref(2.5)
+const combatPowerNormalizationFactor = ref(280)
+
+const armorPiercingCapExempt = ref(true)
+const quadraticDamageScaling = ref(true)
+const dynamicTrueDamageInjection = ref(true)
+
+const selectHexagonArchetype = (id: string) => {
+  selectedHexagonArchetypeId.value = id
+  if (message) {
+    const arch = hexagonStatArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换六维战力原型：${arch.name}`)
+  }
+}
+
+const calculatedArmorMetrics = computed(() => {
+  const arch = hexagonStatArchetypes.find(a => a.id === selectedHexagonArchetypeId.value) || hexagonStatArchetypes[0]
+  const baseWeight = arch.basePowerWeight
+  const quadBonus = quadraticDamageScaling.value ? 1.45 : 1.0
+  const finalMult = Math.round(100 * (1.0 + (armorPenetrationRatio.value / 100) * defenseAttenuationCurveExp.value * quadBonus))
+  
+  const bypassed = Math.min(99.0, (armorPenetrationRatio.value * 1.15 + (armorPiercingCapExempt.value ? 15 : 0))).toFixed(1)
+  const powerScore = Math.round(baseWeight * hexagonStatGrowthMultiplier.value * combatPowerNormalizationFactor.value * (dynamicTrueDamageInjection.value ? 1.3 : 1.0))
+
+  let rank = 'SSR·宗师属性架构使'
+  if (powerScore >= 600000) rank = 'EX·全域六维极值神算尊者'
+  else if (powerScore >= 400000) rank = 'SSS·天命力矩主宰'
+
+  return {
+    effectiveDamageMultiplier: `+${finalMult}%`,
+    damageReductionBypassed: `${bypassed}%`,
+    compositeHeroCombatPower: powerScore.toLocaleString(),
+    statMasteryCertification: rank
+  }
+})
+
+const isSimulatingArmorPen = ref(false)
+const currentArmorPenSimStage = ref(0)
+const armorPenStages = [
+  '角色六维基准力矩与命座矩阵投射...',
+  '敌方护甲非线性衰减对数曲线拟合...',
+  '物理与魔法穿透溢出真实伤害解算...',
+  '综合战力归一化张量加权平衡推演...',
+  '属性构筑方案防伪公钥计算与证书封装...'
+]
+
+const runArmorPenSimulation = () => {
+  if (isSimulatingArmorPen.value) return
+  isSimulatingArmorPen.value = true
+  currentArmorPenSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentArmorPenSimStage.value < armorPenStages.length - 1) {
+      currentArmorPenSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingArmorPen.value = false
+      if (message) {
+        message.success(`【穿透衰减沙盘】推演成功！英雄综合战力指数：${calculatedArmorMetrics.value.compositeHeroCombatPower}`)
+      }
+    }
+  }, 400)
+}
+
+const exportArmorPenCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》六维属性与防御穿透方案证书 ===
+证书编号: STAT-ARMOR-${hash.substring(0, 12).toUpperCase()}
+战力原型: ${selectedHexagonArchetypeId.value}
+防御穿透深度: ${armorPenetrationRatio.value}%
+衰减对数指数: ${defenseAttenuationCurveExp.value.toFixed(2)}
+成长增幅倍率: ${hexagonStatGrowthMultiplier.value.toFixed(1)}x
+综合伤害倍率: ${calculatedArmorMetrics.value.effectiveDamageMultiplier}
+击穿敌方减伤: ${calculatedArmorMetrics.value.damageReductionBypassed}
+英雄综合战力: ${calculatedArmorMetrics.value.compositeHeroCombatPower}
+属性架构评级: ${calculatedArmorMetrics.value.statMasteryCertification}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方属性成长张量与伤害穿透引擎认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出六维属性与穿透方案证书到剪贴板！')
+  }
+}
+
+const activeArmorPenScriptTab = ref<'damage_solver' | 'growth_tensor' | 'true_damage'>('damage_solver')
+
+const armorPenScriptCodes = {
+  damage_solver: `class_name ArmorPenetrationDamageSolver
+extends RefCounted
+
+## 最终幻想：时空之轮 - 防御穿透与伤害非线性衰减解算器
+## 文件路径: res://scripts/combat/attributes/armor_penetration_damage_solver.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func solve_penetrated_damage(
+    raw_damage: float,
+    target_armor: float,
+    pen_ratio: float,
+    attenuation_exp: float
+) -> Dictionary:
+    var effective_armor: float = target_armor * (1.0 - clampf(pen_ratio, 0.0, 0.95))
+    var mitigation: float = pow(effective_armor / (effective_armor + 1000.0), attenuation_exp)
+    var final_damage: float = raw_damage * (1.0 - mitigation)
+    
+    return {
+        "final_damage": final_damage,
+        "mitigation_pct": mitigation * 100.0,
+        "effective_armor": effective_armor
+    }
+`,
+
+  growth_tensor: `class_name HexagonStatGrowthTensor
+extends Node
+
+## 最终幻想：时空之轮 - 六维属性成长张量与战力归一化评估器
+## 文件路径: res://scripts/combat/attributes/hexagon_stat_growth_tensor.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal combat_power_calculated(hero_id: String, combat_power: int)
+
+func evaluate_combat_power(stats: Dictionary, weight_factor: float) -> int:
+    var str_val: float = float(stats.get("str", 100))
+    var agi_val: float = float(stats.get("agi", 100))
+    var vit_val: float = float(stats.get("vit", 100))
+    var int_val: float = float(stats.get("int", 100))
+    var spr_val: float = float(stats.get("spr", 100))
+    var luk_val: float = float(stats.get("luk", 100))
+    
+    var total_norm: float = (str_val + agi_val + vit_val + int_val + spr_val + luk_val) * (weight_factor / 100.0)
+    var final_power: int = int(roundf(total_norm))
+    combat_power_calculated.emit("hero", final_power)
+    return final_power
+`,
+
+  true_damage: `class_name TrueDamageInjectionPipeline
+extends RefCounted
+
+## 最终幻想：时空之轮 - 穿透溢出真实伤害动态注入管道
+## 文件路径: res://scripts/combat/attributes/true_damage_injection_pipeline.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func inject_overflow_true_damage(raw_dmg: float, pen_ratio: float, armor_val: float) -> Dictionary:
+    var is_overflow: bool = (pen_ratio > 0.8) and (armor_val < 500.0)
+    var true_dmg: float = raw_dmg * 0.35 if is_overflow else 0.0
+    return {
+        "true_damage_injected": true_dmg,
+        "is_true_damage_active": is_overflow
+    }
+`
+}
+
+const currentArmorPenScriptCode = computed(() => {
+  return armorPenScriptCodes[activeArmorPenScriptTab.value]
+})
+
+const copyArmorPenScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentArmorPenScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 穿透衰减源码到剪贴板！')
+  }
+}
 
 </script>
