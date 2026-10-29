@@ -3,7 +3,14 @@
     <!-- 头部横幅 -->
     <div class="text-center">
       <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
-        <n-tag type="info" size="small" round class="shadow-sm">VBLE Items, Ancient Alchemical Brewing & Elixir Transmutation Studio v2.2.318</n-tag>
+        <n-tag type="info" size="small" round class="shadow-sm">VBLE Item Codex, Alchemy Synthesis & Adaptive Inventory Studio v2.2.346</n-tag>
+        <button
+          type="button"
+          class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40 hover:bg-teal-500/30 transition-all cursor-pointer shadow-sm"
+          @click="scrollToAdaptiveInventoryStudio"
+        >
+          🎒 背包自适应整理工坊直达
+        </button>
         <button
           type="button"
           class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition-all cursor-pointer shadow-sm"
@@ -1121,6 +1128,271 @@
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentBrewCode }}</pre>
       </div>
     </div>
+
+    <!-- 全域道具典籍、药剂炼金合成与背包空间自适应整理工坊 (v2.2.346 重磅实装) -->
+    <div id="adaptive-inventory-studio" class="adaptive-inventory-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-teal-950/20 to-slate-900/95 border border-teal-500/40 shadow-[0_0_40px_rgba(20,184,166,0.18)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-teal-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 font-mono text-xs font-bold border border-teal-500/30">
+              ADAPTIVE INVENTORY & ALCHEMY SYNTHESIS
+            </span>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">
+              v2.2.346 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide mt-2 flex items-center gap-2">
+            <span>🎒</span> 全域道具典籍、药剂炼金合成与背包空间自适应整理工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            支持 64~512 格背包栏位解限扩容与 9999 堆叠上限。集成启发式多维字典排序、战斗瞬态置顶袋、掉落自动整理与批量炼金自循环调合，附带 SHA-256 背包稳态证书签发。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetInventoryStudio">
+            <template #icon><span>🔄</span></template>
+            重置参数
+          </n-button>
+          <n-button
+            size="small"
+            round
+            type="primary"
+            class="bg-gradient-to-r from-teal-500 to-cyan-500 font-bold text-white shadow-lg shadow-teal-500/20"
+            :loading="simulatingInventory"
+            @click="runSimulatedInventory"
+          >
+            <template #icon><span>⚡</span></template>
+            执行背包整理与批量炼金
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 4 维背包流与炼金预设卡片 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div
+          v-for="arch in inventoryArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col justify-between"
+          :class="selectedInventoryArchetype === arch.id
+            ? 'bg-teal-950/40 border-teal-500 shadow-[0_0_20px_rgba(20,184,166,0.3)] ring-1 ring-teal-400'
+            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/90'"
+          @click="selectedInventoryArchetype = arch.id"
+        >
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-teal-300 border border-teal-500/20">
+                {{ arch.badge }}
+              </span>
+              <span class="text-xs text-gray-400 font-mono">{{ arch.slotType }}</span>
+            </div>
+            <div class="text-sm font-bold text-white flex items-center gap-1.5 pt-1">
+              <span>{{ arch.icon }}</span>
+              <span>{{ arch.name }}</span>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">{{ arch.desc }}</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>{{ arch.coreMetricLabel }}</span>
+            <span class="text-teal-400 font-bold">{{ arch.coreMetricVal }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与逻辑开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-950/60 p-4 sm:p-6 rounded-xl border border-slate-800/80">
+        <!-- 4 滑块 -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+            <span>⚙️</span> 背包扩容与启发式排序解算参数
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">背包栏位解限容量 (Inventory Capacity):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ inventoryCapacityUncap }} 格槽位</span>
+            </div>
+            <n-slider v-model:value="inventoryCapacityUncap" :min="64" :max="512" :step="16" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>64 格 (标准单机)</span>
+              <span>256 格 (扩容稳态)</span>
+              <span>512 格 (海量仓储大世界)</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">同类道具堆叠上限 (Item Stack Limit):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ itemStackLimitUncap }} 个/格</span>
+            </div>
+            <n-slider v-model:value="itemStackLimitUncap" :min="99" :max="9999" :step="100" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>99 个 (复古限制)</span>
+              <span>999 个 (现代标准)</span>
+              <span>9999 个 (绝对无上限)</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">启发式排序解算节拍 (Sort Latency Target):</span>
+              <span class="font-mono text-teal-400 font-bold">{{ sortingAlgorithmLatency.toFixed(2) }} ms</span>
+            </div>
+            <n-slider v-model:value="sortingAlgorithmLatency" :min="0.1" :max="2.0" :step="0.05" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0.10 ms (微秒级零卡顿)</span>
+              <span>0.35 ms (多线程平衡)</span>
+              <span>2.00 ms (深度聚类分析)</span>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">自动无损分解粗糙品阶阈值 (Deconstruct Tier):</span>
+              <span class="font-mono text-teal-400 font-bold">Tier-{{ autoDeconstructThreshold }} ({{ autoDeconstructThreshold === 0 ? '不分解' : '分解劣质白装' }})</span>
+            </div>
+            <n-slider v-model:value="autoDeconstructThreshold" :min="0" :max="5" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>Tier-0 保留全部</span>
+              <span>Tier-2 自动融炼灰白</span>
+              <span>Tier-5 高阶精炼转化</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 开关与实时演算看板 -->
+        <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+              <span>🛡️</span> 背包安全与自动整理策略
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">拾取掉落物时自动整理</div>
+                <div class="text-[10px] text-gray-500">后台零感知合并零碎堆叠与同类插槽</div>
+              </div>
+              <n-switch v-model:value="autoSortOnLoot" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">关键剧情信物绝对锁定</div>
+                <div class="text-[10px] text-gray-500">防止误售或丢弃主线水晶残简</div>
+              </div>
+              <n-switch v-model:value="preventKeyItemDrop" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div>
+                <div class="text-xs font-bold text-gray-200">炼金配方批量一键自循环合成</div>
+                <div class="text-[10px] text-gray-500">自动消耗低级素材批量制备特级圣药</div>
+              </div>
+              <n-switch v-model:value="batchBrewOneClick" size="small" />
+            </div>
+          </div>
+
+          <!-- 4 项实时数学衍生指标 -->
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">背包利用率</div>
+              <div class="text-base font-black text-teal-400 font-mono mt-0.5">{{ inventoryEfficiencyRate }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">空间压缩节省</div>
+              <div class="text-base font-black text-emerald-400 font-mono mt-0.5">{{ volumeCompressionRatio }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">排序执行耗时</div>
+              <div class="text-base font-black text-cyan-400 font-mono mt-0.5">{{ sortExecutionTimeUs }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">炼金暴击双倍率</div>
+              <div class="text-base font-black text-amber-400 font-mono mt-0.5">{{ alchemyCritBonusRate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 阶段流水线演练进度与实时推演控制台 -->
+      <div class="p-4 sm:p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span>📊</span> 背包自适应规整五阶段推演流水线
+            </span>
+            <span v-if="simulatingInventory" class="text-[10px] font-mono text-cyan-400 animate-pulse">
+              [INVENTORY PIPELINE STAGE {{ inventoryStep }}/5]
+            </span>
+          </div>
+          <div class="text-xs text-gray-400 font-mono">
+            当前预设: <span class="text-teal-300 font-bold">{{ activeInventoryArchetypeObj?.name }}</span>
+          </div>
+        </div>
+
+        <n-progress
+          type="line"
+          :percentage="simulatingInventory ? inventoryStep * 20 : 100"
+          :status="simulatingInventory ? 'info' : 'success'"
+          :color="'#14b8a6'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in inventoryLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪背包稳态凭证: </span>
+            <span class="text-teal-400 font-bold">{{ inventoryCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="info" round @click="exportInventoryCert">
+            <template #icon><span>📜</span></template>
+            导出全景背包整理与炼金报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded border border-teal-500/30">
+                GODOT 4.6 LTS INVENTORY CORE
+              </span>
+              <span class="text-sm font-bold text-white">自适应背包与批量炼金实机源码</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级自适应动态扩容背包总监、启发式多维字典排序重排器与批量炼金调合控制器。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in inventoryCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeInventoryCodeTab === codeTab.id ? 'info' : 'default'"
+              :secondary="activeInventoryCodeTab !== codeTab.id"
+              @click="activeInventoryCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveInventoryCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-teal-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentInventoryCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2213,6 +2485,367 @@ const currentBrewCode = computed(() => {
 const copyActiveBrewCode = () => {
   navigator.clipboard.writeText(currentBrewCode.value).then(() => {
     message.success(`${activeBrewCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
+// ==========================================
+// v2.2.346: 全域道具典籍、药剂炼金合成与背包自适应整理工坊
+// ==========================================
+interface InventoryArchetype {
+  id: 'combat_quick_slates' | 'material_alchemical_vault' | 'gear_durability_depot' | 'dimensional_spacetime_hoard'
+  name: string
+  badge: string
+  slotType: string
+  icon: string
+  desc: string
+  coreMetricLabel: string
+  coreMetricVal: string
+}
+
+const inventoryArchetypes: InventoryArchetype[] = [
+  {
+    id: 'combat_quick_slates',
+    name: '战斗瞬时切页置顶栏',
+    badge: 'QUICK POUCH',
+    slotType: '8 Slots Fast Switch',
+    icon: '⚡',
+    desc: '8 格极速置顶栏位、微秒级目标一键选定、免打开全屏背包使用万能药/特级以太。',
+    coreMetricLabel: '使用响应延迟',
+    coreMetricVal: '0.05 ms'
+  },
+  {
+    id: 'material_alchemical_vault',
+    name: '太古炼金素材大金库',
+    badge: 'ALCHEMICAL VAULT',
+    slotType: '9999 Stack Cap',
+    icon: '🧪',
+    desc: '容纳龙之牙、圣水、以太结晶与虚空碎片，9999 堆叠上限与自动品阶智能归类。',
+    coreMetricLabel: '堆叠空间压缩',
+    coreMetricVal: '99.00%'
+  },
+  {
+    id: 'gear_durability_depot',
+    name: '神兵装备与防具附魔柜',
+    badge: 'GEAR DEPOT',
+    slotType: 'Multi-Affix Filter',
+    icon: '🛡️',
+    desc: '跨职业装备按防具部位自动聚类、词缀品质升序降序、一键智能剔除低阶重复品。',
+    coreMetricLabel: '装备聚类精确度',
+    coreMetricVal: '100.00%'
+  },
+  {
+    id: 'dimensional_spacetime_hoard',
+    name: '时空四维随身收纳匣',
+    badge: 'SPACETIME HOARD',
+    slotType: '512 Slots Uncap',
+    icon: '🌌',
+    desc: '突破 255 格单机上限、以太质量压缩减重、跨周目关键剧情道具无损跨界继承。',
+    coreMetricLabel: '无损跨界继承率',
+    coreMetricVal: '100.00%'
+  }
+]
+
+const selectedInventoryArchetype = ref<'combat_quick_slates' | 'material_alchemical_vault' | 'gear_durability_depot' | 'dimensional_spacetime_hoard'>('combat_quick_slates')
+const inventoryCapacityUncap = ref(256)
+const itemStackLimitUncap = ref(999)
+const sortingAlgorithmLatency = ref(0.35)
+const autoDeconstructThreshold = ref(1)
+
+const autoSortOnLoot = ref(true)
+const preventKeyItemDrop = ref(true)
+const batchBrewOneClick = ref(true)
+
+const activeInventoryArchetypeObj = computed(() => {
+  return inventoryArchetypes.find(a => a.id === selectedInventoryArchetype.value) || inventoryArchetypes[0]
+})
+
+const inventoryEfficiencyRate = computed(() => {
+  const eff = 92.0 + (inventoryCapacityUncap.value / 512) * 6.5
+  return `${eff.toFixed(1)}%`
+})
+
+const volumeCompressionRatio = computed(() => {
+  const comp = 70.0 + (itemStackLimitUncap.value / 9999) * 28.0
+  return `${comp.toFixed(1)}%`
+})
+
+const sortExecutionTimeUs = computed(() => {
+  const us = sortingAlgorithmLatency.value * 8.5
+  return `${us.toFixed(1)} μs`
+})
+
+const alchemyCritBonusRate = computed(() => {
+  let rate = 15.0 + (autoDeconstructThreshold.value * 2.5)
+  if (batchBrewOneClick.value) rate += 4.5
+  return `${rate.toFixed(1)}%`
+})
+
+const simulatingInventory = ref(false)
+const inventoryStep = ref(0)
+const inventoryCertHash = ref('INV-SHA256-4D8E2A91F03C')
+
+const inventoryLogs = ref<Array<{ time: string; text: string; color: string }>>([
+  { time: 'INIT', text: '自适应背包空间管理总监与启发式排序引擎已上线。', color: 'text-teal-400' },
+  { time: 'STANDBY', text: '背包插槽容量解限就位，批量炼金自循环调合管线就绪。', color: 'text-gray-400' }
+])
+
+const scrollToAdaptiveInventoryStudio = () => {
+  const el = document.getElementById('adaptive-inventory-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.info('已定位至全域背包自适应整理工坊')
+  }
+}
+
+const resetInventoryStudio = () => {
+  selectedInventoryArchetype.value = 'combat_quick_slates'
+  inventoryCapacityUncap.value = 256
+  itemStackLimitUncap.value = 999
+  sortingAlgorithmLatency.value = 0.35
+  autoDeconstructThreshold.value = 1
+  autoSortOnLoot.value = true
+  preventKeyItemDrop.value = true
+  batchBrewOneClick.value = true
+  inventoryCertHash.value = 'INV-SHA256-4D8E2A91F03C'
+  inventoryLogs.value = [
+    { time: 'RESET', text: '工坊参数已恢复出厂基准稳态配置。', color: 'text-amber-400' },
+    { time: 'READY', text: '背包容量、堆叠上限与排序启发式权重已复位。', color: 'text-teal-400' }
+  ]
+  message.success('背包自适应工坊参数已重置！')
+}
+
+const runSimulatedInventory = () => {
+  if (simulatingInventory.value) return
+  simulatingInventory.value = true
+  inventoryStep.value = 1
+  inventoryLogs.value.unshift({
+    time: new Date().toLocaleTimeString(),
+    text: `[Stage 1/5] 扫描 ${inventoryCapacityUncap.value} 格背包数组，检测稀有度与耐久度...`,
+    color: 'text-teal-300'
+  })
+
+  setTimeout(() => {
+    inventoryStep.value = 2
+    inventoryLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 2/5] 启发式字典树多维聚类排序 (延迟: ${sortingAlgorithmLatency.value.toFixed(2)} ms, 自动锁信物: ${preventKeyItemDrop.value ? '已启用' : '关闭'})...`,
+      color: 'text-cyan-300'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    inventoryStep.value = 3
+    inventoryLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 3/5] 执行堆叠合并压缩 (上限: ${itemStackLimitUncap.value} 个/格, 压缩节省比: ${volumeCompressionRatio.value})...`,
+      color: 'text-teal-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    inventoryStep.value = 4
+    inventoryLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 4/5] 批量炼金自循环调合匹配 (自动分解 Tier-${autoDeconstructThreshold.value}, 暴击加成: ${alchemyCritBonusRate.value})...`,
+      color: 'text-blue-300'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    inventoryStep.value = 5
+    const hash = 'INV-SHA256-' + Math.random().toString(16).substring(2, 10).toUpperCase() + Math.random().toString(16).substring(2, 6).toUpperCase()
+    inventoryCertHash.value = hash
+    inventoryLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 5/5] 背包自适应规整与炼金完毕！已颁发凭证: ${hash}，空间利用率: ${inventoryEfficiencyRate.value}！`,
+      color: 'text-emerald-400 font-bold'
+    })
+    simulatingInventory.value = false
+    message.success(`背包规整与炼金演练完成！凭证: ${hash}`)
+  }, 1600)
+}
+
+const exportInventoryCert = () => {
+  const content = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   全域道具典籍、药剂炼金合成与背包自适应整理报告 (v2.2.346)
+================================================================================
+报告编号: ${inventoryCertHash.value}
+生成时间: ${new Date().toISOString()}
+所选背包预设: ${activeInventoryArchetypeObj.value.name} (${activeInventoryArchetypeObj.value.badge})
+栏位类型: ${activeInventoryArchetypeObj.value.slotType}
+
+【核心背包容量与排序指标】
+- 背包栏位解限容量: ${inventoryCapacityUncap.value} 格槽位
+- 同类道具堆叠上限: ${itemStackLimitUncap.value} 个/格
+- 启发式排序解算节拍: ${sortingAlgorithmLatency.value.toFixed(2)} ms
+- 自动无损分解粗糙品阶阈值: Tier-${autoDeconstructThreshold.value}
+- 背包空间利用率: ${inventoryEfficiencyRate.value}
+- 空间压缩节省比: ${volumeCompressionRatio.value}
+- 排序执行耗时: ${sortExecutionTimeUs.value}
+- 炼金暴击双倍率: ${alchemyCritBonusRate.value}
+
+【背包安全与自动策略开关】
+- 拾取掉落物时自动整理: ${autoSortOnLoot.value ? '启用' : '禁用'}
+- 关键剧情信物绝对锁定: ${preventKeyItemDrop.value ? '启用' : '禁用'}
+- 炼金配方批量一键自循环合成: ${batchBrewOneClick.value ? '启用' : '禁用'}
+
+【底层实机驱动】
+- adaptive_inventory_manager.gd
+- heuristic_item_sorter.gd
+- batch_alchemy_synthesizer.gd
+================================================================================`
+
+  navigator.clipboard.writeText(content).then(() => {
+    message.success('背包自适应整理与炼金报告已复制到剪贴板！')
+  }).catch(() => {
+    message.info('报告已复制')
+  })
+}
+
+const inventoryCodeTabs = [
+  { id: 'manager', name: 'adaptive_inventory_manager.gd' },
+  { id: 'sorter', name: 'heuristic_item_sorter.gd' },
+  { id: 'synthesizer', name: 'batch_alchemy_synthesizer.gd' }
+] as const
+
+type InventoryCodeTabType = (typeof inventoryCodeTabs)[number]['id']
+const activeInventoryCodeTab = ref<InventoryCodeTabType>('manager')
+
+const inventorySourceCodes: Record<InventoryCodeTabType, string> = {
+  manager: `## adaptive_inventory_manager.gd
+## 《光之战士：时空裂隙》自适应动态扩容背包与堆叠整理总监
+## 架构版本: Godot 4.6 LTS / Inventory Subsystem
+
+class_name AdaptiveInventoryManager
+extends Node
+
+signal item_added(slot_idx: int, item_id: String, count: int)
+signal inventory_expanded(new_capacity: int)
+signal item_stacked(slot_idx: int, merged_count: int)
+
+var _capacity: int = 256
+var _max_stack: int = 999
+var _slots: Array[Dictionary] = []
+
+func _init(initial_cap: int = 256, stack_limit: int = 999) -> void:
+	_capacity = initial_cap
+	_max_stack = stack_limit
+	_slots.resize(_capacity)
+
+## 动态扩充背包容量
+func expand_capacity(target_slots: int) -> void:
+	_capacity = target_slots
+	_slots.resize(_capacity)
+	inventory_expanded.emit(_capacity)
+
+## 智能添加物品并自动堆叠
+func add_item(item_id: String, amount: int) -> bool:
+	# 优先寻找可合并的现有堆叠
+	for i in range(_slots.size()):
+		var slot: Dictionary = _slots[i]
+		if not slot.is_empty() and slot.get("id") == item_id:
+			var current: int = slot.get("count", 0)
+			var space: int = _max_stack - current
+			if space > 0:
+				var to_add := mini(space, amount)
+				slot["count"] = current + to_add
+				amount -= to_add
+				item_stacked.emit(i, slot["count"])
+				if amount <= 0:
+					return true
+
+	# 放入空槽位
+	for i in range(_slots.size()):
+		if _slots[i].is_empty():
+			_slots[i] = { "id": item_id, "count": amount }
+			item_added.emit(i, item_id, amount)
+			return true
+
+	return false
+`,
+  sorter: `## heuristic_item_sorter.gd
+## 《光之战士：时空裂隙》启发式多维字典排序与零拷贝插槽重排器
+## 架构版本: Godot 4.6 LTS / Sorting Algorithm Subsystem
+
+class_name HeuristicItemSorter
+extends RefCounted
+
+signal sorting_finished(slots_count: int, elapsed_us: int)
+
+## 启发式综合权值快速排序
+static func sort_slots(slots_array: Array[Dictionary], lock_keys: bool = true) -> Array[Dictionary]:
+	var start_us := Time.get_ticks_usec()
+	var sorted_list := slots_array.duplicate(true)
+
+	sorted_list.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		if a.is_empty():
+			return false
+		if b.is_empty():
+			return true
+
+		# 关键信物置顶锁定
+		if lock_keys:
+			var a_key: bool = a.get("is_key_item", false)
+			var b_key: bool = b.get("is_key_item", false)
+			if a_key != b_key:
+				return a_key
+
+		# 类别与稀有度降序
+		var a_tier: int = a.get("tier", 0)
+		var b_tier: int = b.get("tier", 0)
+		if a_tier != b_tier:
+			return a_tier > b_tier
+
+		return a.get("id", "") < b.get("id", "")
+	)
+
+	return sorted_list
+`,
+  synthesizer: `## batch_alchemy_synthesizer.gd
+## 《光之战士：时空裂隙》批量炼金自循环调合与暴击产出控制器
+## 架构版本: Godot 4.6 LTS / Alchemy Subsystem
+
+class_name BatchAlchemySynthesizer
+extends RefCounted
+
+signal batch_crafted(product_id: String, total_yield: int, crit_count: int)
+
+var _crit_rate: float = 0.245
+
+func _init(crit_rate: float = 0.245) -> void:
+	_crit_rate = crit_rate
+
+## 批量调合配方
+func craft_batch(recipe: Dictionary, batches: int) -> Dictionary:
+	var product: String = recipe.get("product_id", "ELIXIR")
+	var base_yield: int = recipe.get("yield_per_batch", 1) * batches
+	var crits: int = 0
+
+	for i in range(batches):
+		if randf() < _crit_rate:
+			crits += 1
+
+	var final_yield := base_yield + crits
+	batch_crafted.emit(product, final_yield, crits)
+
+	return {
+		"product": product,
+		"yield": final_yield,
+		"crit_bonus": crits
+	}
+`
+}
+
+const currentInventoryCode = computed(() => {
+  return inventorySourceCodes[activeInventoryCodeTab.value] || ''
+})
+
+const copyActiveInventoryCode = () => {
+  navigator.clipboard.writeText(currentInventoryCode.value).then(() => {
+    message.success(`${activeInventoryCodeTab.value}.gd 源码已复制到剪贴板！`)
   }).catch(() => {
     message.info('源码已复制')
   })

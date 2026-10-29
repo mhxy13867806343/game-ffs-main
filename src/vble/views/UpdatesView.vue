@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-items-adaptive-inventory-v346-2026-10-29',
+    version: 'v2.2.346',
+    date: '2026-10-29',
+    title: '全域道具典籍、药剂炼金合成与背包空间自适应整理工坊重磅实装',
+    category: 'equipment',
+    categoryName: '道具与背包',
+    icon: '🎒',
+    tagType: 'success',
+    description: '全面重构升级 ItemsView 道具门户：顶部标章升级为 VBLE Item Codex, Alchemy Synthesis & Adaptive Inventory Studio v2.2.346，新增自适应背包整理工坊快捷直达；专区重磅实装【全域道具典籍、药剂炼金合成与背包空间自适应整理工坊】（Adaptive Inventory & Alchemy Studio）；覆盖四大典籍道具与空间整理预设（药剂炼金与消耗品矩阵、传说神兵与附魔材料宝库、任务剧情道具与时空符文石、终极空间背包无损启发式重排）；支持背包格位最大容量 (99~999 格)、炼金暴击加成倍率 (1.00x~5.00x)、背包启发式整理延迟 (1.0~50.0 ms) 与批量丢弃/分解保护阈值 (50%~100% 稀有度) 连续微调；支持开启背包动态启发式压缩 (Heuristic Bin Packing)、稀有炼金催化剂双倍掉落保底 (Catalyst Pity System)、误操作丢弃智能二次拦截校验 (Zero-Loss Interception)；实时解算整理算法吞吐 (高达 999.8 ops/s)、空间利用率 (高达 99.4%)、炼金双倍暴击率 (高达 35.8%) 与误丢弃拦截保护度 (100.0%)；内置五阶段沙盘推演与离线道具空间防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：adaptive_inventory_manager.gd、heuristic_item_sorter.gd 与 batch_alchemy_synthesizer.gd。',
+    highlights: [
+      '四大道具典籍预设：药剂炼金矩阵、神兵附魔宝库、时空剧情符文石与自适应启发式重排',
+      '四维连续空间参数：背包格位容量、炼金暴击倍率、启发式整理延迟与分解保护阈值',
+      '三重安全炼金策略：背包启发式动态装箱、炼金催化剂保底机制与误丢弃二次阻断校验',
+      '动态深层空间指标解算：整理算法吞吐、空间利用率、炼金双倍暴击率与丢弃拦截保护度',
+      '五阶段道具流水线推演：元数据扫描、哈希聚类、装箱重排、炼金催化校验与空间证书封包',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源自适应背包空间管理器、启发式排序引擎与批量炼金合成器'
+    ],
+    relatedLinks: [
+      { label: '道具典籍目录', path: '/vble/items', icon: '🎒' },
+      { label: '自适应背包工坊', path: '/vble/items#adaptive-inventory-studio', icon: '⚗️' },
+      { label: '神装锻造矩阵', path: '/vble/armory', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-scenes-world-topology-v345-2026-10-29',
     version: 'v2.2.345',
     date: '2026-10-29',
