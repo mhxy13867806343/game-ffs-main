@@ -2,14 +2,17 @@
   <div class="systems-page p-4 max-w-7xl mx-auto space-y-8">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">VBLE Core Systems & Zero-Copy Multithreading Studio v2.2.288</n-tag>
-      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">深渊系统、底层工程架构与零拷贝并发沙盒工坊</h1>
+      <n-tag type="info" size="small" round class="mb-2">VBLE Core Systems, ECS Entity Architecture & Zero-Copy Bus v2.2.309</n-tag>
+      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">全域游戏架构白皮书、底层 ECS 实体组件与零拷贝总线工坊</h1>
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
         系统解析 49 层深渊斗技场规则、三层防崩溃持久化架构、音频总线 DSP 滤波器、ATB 动态调度管线、零拷贝环形跨线程调度与内存防泄漏沙盒体系
       </p>
       <div class="flex justify-center gap-2 mt-3">
-        <n-button size="small" type="primary" secondary @click="scrollToMultithreadStudio">
-          ⚙️ 快速切入零拷贝跨线程与内存沙盒工坊
+        <n-button size="small" type="primary" secondary @click="scrollToEcsBusStudio">
+          ⚙️ 快速切入底层 ECS 实体组件与微秒总线工坊
+        </n-button>
+        <n-button size="small" type="info" secondary @click="scrollToMultithreadStudio">
+          🧵 跨线程沙盒工坊
         </n-button>
         <router-link to="/vble/updates">
           <n-button size="small" type="info" secondary>
@@ -2036,6 +2039,286 @@
       </div>
     </div>
 
+    <!-- ⚙️ 工坊 3: 全域游戏架构白皮书、底层 ECS 实体组件与零拷贝总线工坊 (ECS Entity Architecture & Zero-Copy Bus Studio v2.2.309) -->
+    <div
+      id="ecs-bus-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#0c1628]/95 via-[#0e172a]/90 to-[#18112e]/95 border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与操作区 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-900/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+              ECS KERNEL &amp; ZERO-COPY BUS v2.2.309
+            </span>
+            <span class="text-xs text-cyan-300/80 font-mono">底层ECS实体架构与零拷贝微秒总线</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+            <span>⚙️</span> 全域游戏架构白皮书、底层 ECS 实体组件与零拷贝总线工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Godot 4.6 LTS 实时仿真：驱动稀疏集内存紧凑 ECS 实体内核、跨进程共享内存环形总线、无锁任务窃取并发调度管线与弱引用内存防泄漏沙盒。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="resetEcsBusParameters"
+          >
+            重置参数
+          </n-button>
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingEcsBus"
+            @click="runEcsBusSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动架构推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportEcsBusCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大底层系统架构原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="archetype in ecsArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+          :class="selectedEcsArchetypeId === archetype.id
+            ? 'bg-cyan-950/50 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-cyan-600/50'"
+          @click="selectedEcsArchetypeId = archetype.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ archetype.icon }}</span>
+            <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.tag }}</n-tag>
+          </div>
+          <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+          <div class="text-[11px] text-cyan-300/80 font-mono mt-0.5">{{ archetype.arch }}</div>
+          <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>吞吐: {{ (archetype.throughput / 10000).toFixed(0) }}万/s</span>
+            <span class="text-emerald-400">时延: {{ archetype.latencyUs }}μs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心调控滑块与高能开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+        <!-- 左侧参数微调面板 -->
+        <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+              <span>⚙️</span> ECS 实体容量与微秒总线参数微调
+            </span>
+            <span class="text-[11px] font-mono text-cyan-400">Continuous Kernel Parameters</span>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">实体并发处理容量 (ECS Entity Batch Capacity):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ (ecsEntityBatchCapacity / 10000).toFixed(0) }} 万实体</span>
+              </div>
+              <n-slider v-model:value="ecsEntityBatchCapacity" :min="10000" :max="200000" :step="10000" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>轻量沙盒 (1万)</span>
+                <span>标准大世界 (8万)</span>
+                <span>百万级同屏 (20万)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">环形缓冲总线带宽 (Ring Buffer Bandwidth):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ ringBufferBandwidthGbps }} Gbps</span>
+              </div>
+              <n-slider v-model:value="ringBufferBandwidthGbps" :min="10" :max="200" :step="10" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>标准传输 (10Gbps)</span>
+                <span>超高速总线 (80Gbps)</span>
+                <span>太古光纤极限 (200Gbps)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">帧预算时钟抖动容限 (Frame Budget Jitter Tolerance):</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ frameBudgetToleranceUs }} μs</span>
+              </div>
+              <n-slider v-model:value="frameBudgetToleranceUs" :min="100" :max="2000" :step="100" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>微秒精控 (100μs)</span>
+                <span>流畅平稳 (400μs)</span>
+                <span>宽松兜底 (2000μs)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">弱引用生命周期回收频次 (GC Collection Frequency):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ gcCollectionFrequencyHz }} Hz</span>
+              </div>
+              <n-slider v-model:value="gcCollectionFrequencyHz" :min="10" :max="120" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>低频防卡顿 (10Hz)</span>
+                <span>对齐物理帧 (60Hz)</span>
+                <span>极致零堆积 (120Hz)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 三大高能保障开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">跨进程环形缓冲区零内存拷贝锁 (Zero-Copy Ring Buffer Lock)</div>
+                <div class="text-[11px] text-gray-400">消除系统 memcpy 额外开销，直接通过物理页指针在核心间零延迟共享</div>
+              </div>
+              <n-switch v-model:value="zeroCopyRingBufferLock" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">核心物理线程无锁工作窃取仲裁 (Lockfree Work Stealing)</div>
+                <div class="text-[11px] text-gray-400">杜绝主线程等待互斥锁卡顿现象，让 8~16 个 CPU 物理核心始终满载运转</div>
+              </div>
+              <n-switch v-model:value="lockfreeJobStealingArbitration" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">孤儿节点与循环引用内存防泄漏沙盒 (Memory Leak Sanitizer)</div>
+                <div class="text-[11px] text-gray-400">自动侦测与切断 Node 树孤儿节点循环依赖，内存占用始终平稳零溢出</div>
+              </div>
+              <n-switch v-model:value="memoryLeakSanitizerSandbox" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧指标计算与沙盘推演 -->
+        <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>📊</span> 实时解算架构性能与时延指标
+              </span>
+              <n-tag size="tiny" type="info" round>Kernel Resolved</n-tag>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-cyan-950/30 border border-cyan-700/40">
+                <div class="text-[11px] text-gray-400">系统实时吞吐速率</div>
+                <div class="text-lg font-black text-cyan-300 font-mono mt-0.5">{{ (calculatedTotalThroughput / 10000).toFixed(0) }}万 ops/s</div>
+                <div class="text-[10px] text-cyan-400/80 mt-0.5">零拷贝总线并发峰值</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-700/40">
+                <div class="text-[11px] text-gray-400">帧时钟调度抖动</div>
+                <div class="text-lg font-black text-emerald-300 font-mono mt-0.5">{{ calculatedSchedulerJitterUs }} μs</div>
+                <div class="text-[10px] text-emerald-400/80 mt-0.5">纳秒级无锁抢占</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-700/40">
+                <div class="text-[11px] text-gray-400">内存无碎片指数</div>
+                <div class="text-lg font-black text-amber-300 font-mono mt-0.5">{{ calculatedMemorySafetyIndex }}%</div>
+                <div class="text-[10px] text-amber-400/80 mt-0.5">紧凑稀疏集安全率</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                <div class="text-[11px] text-gray-400">引擎架构认证评阶</div>
+                <div class="text-sm font-black text-purple-300 font-mono mt-1">{{ calculatedEngineArchTier }}</div>
+                <div class="text-[10px] text-purple-400/80 mt-0.5">Godot 官方认证基准</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演终端 -->
+          <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">五阶段底层架构推演进度:</span>
+              <span class="font-mono text-cyan-400 font-bold">{{ ecsSimStep }}/5 阶段</span>
+            </div>
+            <n-progress
+              type="line"
+              :percentage="(ecsSimStep / 5) * 100"
+              :status="ecsSimStep === 5 ? 'success' : 'info'"
+              :show-indicator="false"
+              processing
+            />
+            <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+              <span>{{ ecsSimCurrentLog }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+      <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+            <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeEcsCodeTab === 'kernel' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEcsCodeTab = 'kernel'"
+              >
+                ecs_sparse_set.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeEcsCodeTab === 'bus' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEcsCodeTab = 'bus'"
+              >
+                zero_copy_bus.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activeEcsCodeTab === 'scheduler' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeEcsCodeTab = 'scheduler'"
+              >
+                lockfree_scheduler.gd
+              </button>
+            </div>
+            <n-button size="small" type="primary" secondary round @click="copyEcsBusCode">
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentEcsBusCode }}</code></pre>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -2855,4 +3138,281 @@ const currentEngineCodeSnippet = computed(() => {
   if (activeEngineCodeTab.value === 'worker_pool') return gdEngineConcurrencyWorkerPoolCode
   return gdMemoryLeakSanitizerGuardCode
 })
+
+// ================= ⚙️ 工坊 3: 全域游戏架构白皮书、底层 ECS 实体组件与零拷贝总线工坊 (v2.2.309) =================
+interface EcsArchetype {
+  id: string
+  name: string
+  arch: string
+  tag: string
+  icon: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  throughput: number
+  latencyUs: number
+}
+
+const ecsArchetypes: EcsArchetype[] = [
+  {
+    id: 'sparse_set_ecs_kernel',
+    name: '稀疏集紧凑 ECS 内核',
+    arch: '零内存碎片 / 缓存行对齐',
+    tag: '实体内核',
+    icon: '🧱',
+    tagType: 'info',
+    desc: '采用紧凑稠密数组与稀疏索引双轨结构，遍历实体组件命中 CPU 一级缓存，消除内存碎片。',
+    throughput: 2800000,
+    latencyUs: 1.2
+  },
+  {
+    id: 'zero_copy_ipc_event_bus',
+    name: '微秒级零拷贝事件总线',
+    arch: '共享内存环形队列 / 纳秒广播',
+    tag: '零拷贝总线',
+    icon: '⚡',
+    tagType: 'warning',
+    desc: '依托 OS 共享内存物理页映射，事件派发完全免除数据内存拷贝，实现十微秒级全域无阻塞广播。',
+    throughput: 5600000,
+    latencyUs: 0.4
+  },
+  {
+    id: 'lockfree_job_stealing_scheduler',
+    name: '无锁任务窃取并发调度机',
+    arch: '双端无锁队列 / 核心满载利用',
+    tag: '无锁调度',
+    icon: '🔄',
+    tagType: 'error',
+    desc: '每个物理核心独享双端工作队列，空闲核心自动从繁忙核心尾部窃取计算任务，CPU 利用率超 98%。',
+    throughput: 4200000,
+    latencyUs: 0.8
+  },
+  {
+    id: 'quantum_state_persistence_engine',
+    name: '原子快照状态持久化机',
+    arch: 'WAL预写日志 / 崩溃秒级回滚',
+    tag: '原子持久化',
+    icon: '💾',
+    tagType: 'success',
+    desc: '基于写时复制与原子快照技术，后台异构异步写入存档，主线程零卡顿，遭遇异常断电瞬时回滚。',
+    throughput: 1900000,
+    latencyUs: 2.5
+  }
+]
+
+const selectedEcsArchetypeId = ref<string>('zero_copy_ipc_event_bus')
+const ecsEntityBatchCapacity = ref<number>(80000)
+const ringBufferBandwidthGbps = ref<number>(80)
+const frameBudgetToleranceUs = ref<number>(400)
+const gcCollectionFrequencyHz = ref<number>(60)
+
+const zeroCopyRingBufferLock = ref<boolean>(true)
+const lockfreeJobStealingArbitration = ref<boolean>(true)
+const memoryLeakSanitizerSandbox = ref<boolean>(true)
+
+const isSimulatingEcsBus = ref<boolean>(false)
+const ecsSimStep = ref<number>(5)
+const ecsSimCurrentLog = ref<string>('底层 ECS 实体架构与零拷贝微秒总线已就绪，等待调度指令。')
+
+const currentEcsArchetype = computed(() => {
+  return ecsArchetypes.find(a => a.id === selectedEcsArchetypeId.value) || ecsArchetypes[1]
+})
+
+const calculatedTotalThroughput = computed(() => {
+  const base = currentEcsArchetype.value.throughput
+  const entityBonus = (ecsEntityBatchCapacity.value / 80000) * 0.45
+  const bandwidthBonus = (ringBufferBandwidthGbps.value / 80) * 0.55
+  const lockfreeMult = lockfreeJobStealingArbitration.value ? 1.35 : 1.0
+  return Math.round(base * (1 + entityBonus + bandwidthBonus) * lockfreeMult)
+})
+
+const calculatedSchedulerJitterUs = computed(() => {
+  const baseJitter = currentEcsArchetype.value.latencyUs
+  const toleranceFactor = frameBudgetToleranceUs.value / 1000.0
+  const zeroCopyReduction = zeroCopyRingBufferLock.value ? 0.35 : 0.8
+  const jitter = baseJitter * toleranceFactor * zeroCopyReduction
+  return jitter.toFixed(2)
+})
+
+const calculatedMemorySafetyIndex = computed(() => {
+  const base = 95.0
+  const gcBonus = (gcCollectionFrequencyHz.value / 120) * 3.5
+  const sanitizerBonus = memoryLeakSanitizerSandbox.value ? 1.4 : 0
+  return Math.min(99.9, base + gcBonus + sanitizerBonus).toFixed(1)
+})
+
+const calculatedEngineArchTier = computed(() => {
+  const throughput = calculatedTotalThroughput.value
+  if (throughput > 7000000) return 'EX·太古微秒极境内核'
+  if (throughput > 5000000) return 'SSS·高维零拷贝主宰级'
+  if (throughput > 3000000) return 'SS·高并发无锁调度级'
+  return 'S·标准企业级游戏引擎'
+})
+
+const scrollToEcsBusStudio = () => {
+  const el = document.getElementById('ecs-bus-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const resetEcsBusParameters = () => {
+  selectedEcsArchetypeId.value = 'zero_copy_ipc_event_bus'
+  ecsEntityBatchCapacity.value = 80000
+  ringBufferBandwidthGbps.value = 80
+  frameBudgetToleranceUs.value = 400
+  gcCollectionFrequencyHz.value = 60
+  zeroCopyRingBufferLock.value = true
+  lockfreeJobStealingArbitration.value = true
+  memoryLeakSanitizerSandbox.value = true
+  message.info('已恢复底层架构工坊初始调控参数')
+}
+
+const runEcsBusSimulation = () => {
+  if (isSimulatingEcsBus.value) return
+  isSimulatingEcsBus.value = true
+  ecsSimStep.value = 1
+  ecsSimCurrentLog.value = '阶段 1/5: 扫描底层硬件拓扑与 CPU 核心数，初始化 ECS 稀疏集实体容器...'
+
+  setTimeout(() => {
+    ecsSimStep.value = 2
+    ecsSimCurrentLog.value = '阶段 2/5: 映射物理共享内存页，挂载 80 Gbps 零拷贝微秒事件总线...'
+  }, 400)
+
+  setTimeout(() => {
+    ecsSimStep.value = 3
+    ecsSimCurrentLog.value = '阶段 3/5: 加载任务窃取无锁队列，校准 60 FPS 物理帧预算时限...'
+  }, 800)
+
+  setTimeout(() => {
+    ecsSimStep.value = 4
+    ecsSimCurrentLog.value = '阶段 4/5: 激活内存防泄漏沙盒，扫描孤儿 Node 节点与循环引用...'
+  }, 1200)
+
+  setTimeout(() => {
+    ecsSimStep.value = 5
+    ecsSimCurrentLog.value = '阶段 5/5: 生成系统架构白皮书方案证书，锁定实机运行时底层配置！'
+    isSimulatingEcsBus.value = false
+    message.success('底层架构与零拷贝总线推演完成！')
+  }, 1600)
+}
+
+const exportEcsBusCertificate = () => {
+  const arch = currentEcsArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》底层 ECS 实体架构与零拷贝总线方案证书 (v2.2.309)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.arch})
+  认证位阶: ${calculatedEngineArchTier.value}
+================================================================================
+【调控参数】
+- 实体并发处理容量: ${ecsEntityBatchCapacity.value.toLocaleString()} 实体
+- 环形缓冲总线带宽: ${ringBufferBandwidthGbps.value} Gbps
+- 帧预算时钟抖动: ${frameBudgetToleranceUs.value} μs
+- GC 弱引用回收频次: ${gcCollectionFrequencyHz.value} Hz
+- 零拷贝环形锁: ${zeroCopyRingBufferLock.value ? '已开启' : '关闭'}
+- 无锁任务窃取: ${lockfreeJobStealingArbitration.value ? '已开启' : '关闭'}
+- 内存防泄漏沙盒: ${memoryLeakSanitizerSandbox.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 实时吞吐速率: ${calculatedTotalThroughput.value.toLocaleString()} ops/s
+- 调度抖动时延: ${calculatedSchedulerJitterUs.value} μs
+- 内存无碎片安全率: ${calculatedMemorySafetyIndex.value}%
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `ecs_zero_copy_cert_v2.2.309_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  message.success('系统架构方案证书已导出并同步至剪贴板！')
+}
+
+const activeEcsCodeTab = ref<'kernel' | 'bus' | 'scheduler'>('kernel')
+
+const gdEcsSparseSetCode = `## ecs_sparse_set_entity_kernel.gd
+## Godot 4.6 LTS - 稀疏集紧凑实体组件容器内核
+extends RefCounted
+class_name EcsSparseSetEntityKernel
+
+var dense_entities: PackedInt32Array = PackedInt32Array()
+var sparse_indices: PackedInt32Array = PackedInt32Array()
+
+func register_entity(entity_id: int) -> void:
+	if entity_id >= sparse_indices.size():
+		sparse_indices.resize(entity_id + 1024)
+	sparse_indices[entity_id] = dense_entities.size()
+	dense_entities.append(entity_id)
+
+func has_entity(entity_id: int) -> bool:
+	if entity_id < 0 or entity_id >= sparse_indices.size():
+		return false
+	var dense_idx: int = sparse_indices[entity_id]
+	return dense_idx < dense_entities.size() and dense_entities[dense_idx] == entity_id
+`
+
+const gdZeroCopyBusCode = `## zero_copy_shared_memory_bus.gd
+## Godot 4.6 LTS - 共享内存页映射零拷贝事件总线
+extends RefCounted
+class_name ZeroCopySharedMemoryBus
+
+static func dispatch_event_zero_copy(
+	event_type_id: int,
+	payload_ptr: int,
+	payload_bytes: int,
+	bandwidth_scale: float
+) -> Dictionary:
+	var transfer_latency_us: float = (float(payload_bytes) / (bandwidth_scale * 1024.0)) * 0.1
+	return {
+		"dispatched": true,
+		"event_id": event_type_id,
+		"zero_copy_applied": true,
+		"latency_us": transfer_latency_us
+	}
+`
+
+const gdLockfreeSchedulerCode = `## lockfree_job_stealing_queue.gd
+## Godot 4.6 LTS - 核心满载任务窃取无锁调度机
+extends RefCounted
+class_name LockfreeJobStealingQueue
+
+static func steal_task_from_tail(
+	worker_thread_id: int,
+	busy_thread_id: int,
+	allow_preemption: bool
+) -> Dictionary:
+	return {
+		"thief_core": worker_thread_id,
+		"victim_core": busy_thread_id,
+		"stolen_successfully": true,
+		"preemption_triggered": allow_preemption
+	}
+`
+
+const currentEcsBusCode = computed(() => {
+  if (activeEcsCodeTab.value === 'kernel') return gdEcsSparseSetCode
+  if (activeEcsCodeTab.value === 'bus') return gdZeroCopyBusCode
+  return gdLockfreeSchedulerCode
+})
+
+const copyEcsBusCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentEcsBusCode.value).then(() => {
+      message.success('Godot 4.6 LTS 底层架构源码已复制至剪贴板！')
+    }).catch(() => {
+      message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 </script>

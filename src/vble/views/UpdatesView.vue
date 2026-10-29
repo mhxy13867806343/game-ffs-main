@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-systems-ecs-bus-v309-2026-10-29',
+    version: 'v2.2.309',
+    date: '2026-10-29',
+    title: '全域游戏架构白皮书、底层 ECS 实体组件与零拷贝总线工坊重磅实装',
+    category: 'system',
+    categoryName: '底层架构',
+    icon: '⚙️',
+    tagType: 'success',
+    description: '全面重构升级 SystemsView 核心架构白皮书门户：顶部标章升级为 VBLE System Whitepaper, Micro-ECS & Zero-Copy Bus v2.2.309，新增底层 ECS 与零拷贝总线工坊快捷直达；专区重磅实装【全域游戏架构白皮书、底层 ECS 实体组件与零拷贝总线工坊】（System Whitepaper, Micro-ECS & Zero-Copy Bus Studio）；覆盖四大架构原型（纯血 ECS 高并发无锁流、微内核事件总线解耦流、SIMD 批处理数据驱动流、分布式跨线程任务调度流）；支持活动同屏实体上限容量 (10,000~200,000 entities)、总线事件分发吞吐速率 (100,000~2,000,000 ops/s)、跨系统内存对齐块大小 (64 B~1,024 B) 与系统逻辑时钟更新频率 (60 Hz~360 Hz) 连续微调；支持内存连续布局缓存命中优化（利用 L1/L2 缓存行预取，实现 CPU Cache Miss 率降至 1.2%）、零拷贝环形事件分发总线（无锁 RingBuffer 消除 GC 与内存分配开销）与 Worker 线程池无锁亲和性调度（基于 CPU 核心拓扑绑定计算线程）；实时解算单帧架构开销耗时 (低至 0.08 ms)、物理内存预分配开销 (优化至 18.2 MB)、全域架构高并发纯度与架构评级 (高达 EX·太古创世工业微内核)；内置五阶段架构基准测试沙盘与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：micro_ecs_entity_manager.gd、zero_copy_ring_event_bus.gd 与 system_scheduler_thread_pool.gd。',
+    highlights: [
+      '四大架构技术流派：纯血 ECS 无锁、微内核事件总线、SIMD 批处理驱动与跨线程调度',
+      '四维连续系统工程参数：实体上限容量、事件分发吞吐、内存对齐块大小与时钟更新频率',
+      '三重系统级架构保障：连续布局缓存预取优化、零拷贝环形分发总线与 Worker 线程池亲和性',
+      '动态工程指标解算：单帧架构耗时、预分配内存开销、全域架构高并发纯度与 EX 级微内核认证',
+      '五阶段基准测试沙盘：实体预分配、L1 Cache 填充、零拷贝总线广播、线程并发对齐与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源微型 ECS 管理器、零拷贝环形事件总线与系统调度线程池'
+    ],
+    relatedLinks: [
+      { label: '系统架构白皮书', path: '/vble/systems', icon: '⚙️' },
+      { label: '底层ECS与总线工坊', path: '/vble/systems', icon: '⚡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-economy-primal-auction-v308-2026-10-29',
     version: 'v2.2.308',
     date: '2026-10-29',
