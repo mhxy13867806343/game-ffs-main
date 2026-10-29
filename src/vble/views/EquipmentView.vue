@@ -8,20 +8,31 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Mythic Weapons & Relic Forge Matrix v2.2.262
+              VBLE Mythic Weapons & Relic Forge Matrix v2.2.277
             </span>
-            <span class="text-xs text-gray-400">至高超越神兵、太古十二圣器与共鸣破限精炼</span>
+            <span class="text-xs text-gray-400">至高超越神兵、太古十二圣器、符文熔铸与多维词缀萃取</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>🗡️</span> 神兵矩阵：诸神之黄昏、太古十二神兵共鸣与破限精炼工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
-            收录次元神龙守护的至高超越神兵【诸神之黄昏 (Ragnarok)】、库扎封印城十二太古神兵契约共鸣羁绊、二刀流乱打伤害结算沙盘、+10 极境破限锻造与 Godot 4.6 LTS 核心实机引擎。
+            收录次元神龙守护的至高超越神兵【诸神之黄昏 (Ragnarok)】、库扎封印城十二太古神兵契约共鸣羁绊、太古符文熔铸与多维词缀萃取工坊、二刀流伤害沙盘与 Godot 4.6 LTS 核心实机引擎。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
             type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="activeTab = 'rune_infusion'"
+          >
+            <template #icon><span>🔮</span></template>
+            太古符文熔铸工坊
+          </n-button>
+          <n-button
+            type="primary"
             size="medium"
             round
             secondary
@@ -674,7 +685,257 @@
       </div>
     </div>
 
-    <!-- 5. 属性加成与守恒解析源码 -->
+    <!-- 5. 太古神兵符文熔铸与多维词缀萃取工坊 -->
+    <div v-if="activeTab === 'rune_infusion'" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-[#0d0f1e]/95 border border-amber-500/30 space-y-6 shadow-[0_0_35px_rgba(245,158,11,0.18)] relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- 头部标章 -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                v2.2.277 重磅实装
+              </span>
+              <span class="text-xs text-gray-400">太古卢恩符文熔铸 · 词缀多维萃取</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+              <span>🔮</span> 太古神兵符文熔铸与多维词缀萃取工坊
+            </h2>
+            <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+              基于远古卢恩铭文与以太晶格退火算法，解算全域神兵附加属性萃取、词缀基因突变、热应力耐受度与极境攻击力合成。
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <n-button
+              type="primary"
+              size="small"
+              round
+              secondary
+              :loading="isSimulatingRune"
+              @click="simulateRuneInfusion"
+            >
+              <template #icon><span>⚡</span></template>
+              激发符文熔铸萃取
+            </n-button>
+            <n-button
+              type="info"
+              size="small"
+              round
+              secondary
+              @click="exportRuneInfusionCertificate"
+            >
+              <template #icon><span>📜</span></template>
+              导出方案证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大铭文预设 Presets -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div
+            v-for="inscription in runeInscriptions"
+            :key="inscription.id"
+            class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+            :class="selectedRuneInscriptionId === inscription.id
+              ? 'bg-amber-950/40 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.25)]'
+              : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+            @click="applyRuneInscription(inscription.id)"
+          >
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xl">{{ inscription.icon }}</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedRuneInscriptionId === inscription.id ? 'bg-amber-500/30 text-amber-200' : 'bg-slate-800 text-gray-400'">
+                  {{ inscription.tag }}
+                </span>
+              </div>
+              <div class="font-bold text-xs text-gray-200">{{ inscription.name }}</div>
+              <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-1">{{ inscription.affixText }}</div>
+            </div>
+            <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+              <span class="text-gray-400">符文能级:</span>
+              <span class="font-mono font-bold text-amber-300">{{ inscription.energy }} 卢恩</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 双栏交互面板 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- 左侧：实时熔炉视窗与物理计算 -->
+          <div class="lg:col-span-7 space-y-4">
+            <!-- 熔炉全息视窗 -->
+            <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+              <!-- 背景光斑与炼金法阵 SVG 模拟 -->
+              <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+                <div
+                  class="absolute w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                  :style="{
+                    background: currentRuneInscription.gradient,
+                    opacity: (affixPurity / 100 * 0.85).toFixed(2),
+                    transform: `scale(${1 + voidCatalyst * 0.05})`
+                  }"
+                ></div>
+                <svg class="w-60 h-60 opacity-60 animate-[spin_35s_linear_infinite]" viewBox="0 0 200 200">
+                  <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(245,158,11,0.4)" stroke-width="1.5" stroke-dasharray="6 3" />
+                  <circle cx="100" cy="100" r="72" fill="none" stroke="rgba(168,85,247,0.4)" stroke-width="1" />
+                  <rect x="50" y="50" width="100" height="100" fill="none" stroke="rgba(6,182,212,0.5)" stroke-width="1.5" transform="rotate(45 100 100)" />
+                  <polygon points="100,20 180,150 20,150" fill="none" stroke="rgba(239,68,68,0.5)" stroke-width="1.5" />
+                  <circle cx="100" cy="100" r="15" fill="none" stroke="rgba(245,158,11,0.8)" stroke-width="2" />
+                </svg>
+              </div>
+
+              <!-- 顶部状态指示灯与采样模式 -->
+              <div class="relative z-10 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                  <span class="font-mono text-amber-300 font-bold">RUNE INFUSION ACTIVE</span>
+                  <span class="text-gray-400 font-mono text-[10px]">| {{ forgeTemperature }}°C</span>
+                </div>
+                <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-cyan-300">
+                  纯度: {{ affixPurity }}%
+                </div>
+              </div>
+
+              <!-- 中间标语 -->
+              <div class="relative z-10 text-center my-auto">
+                <div class="text-2xl font-black text-white/90 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(245,158,11,0.8)]">
+                  {{ currentRuneInscription.name }}
+                </div>
+                <div class="text-xs text-amber-200/80 mt-1 font-mono">
+                  最终实机攻击: {{ runeMetrics.finalAtk }} Atk · 词缀总分: {{ runeMetrics.affixScore }} 分
+                </div>
+              </div>
+
+              <!-- 底部性能与管线参数微视窗 -->
+              <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+                <span>虚空催化剂: {{ voidCatalyst.toFixed(1) }} ml</span>
+                <span class="text-emerald-400 font-bold">热应力安全余量: {{ runeMetrics.safetyMargin }}%</span>
+              </div>
+            </div>
+
+            <!-- 4 维物理与战斗指标卡片 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">熔铸最终攻击力</div>
+                <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ runeMetrics.finalAtk }} Atk</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">基础 + 符文能级</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">词缀综合评分</div>
+                <div class="font-mono text-cyan-400 font-bold text-sm mt-0.5">{{ runeMetrics.affixScore }}</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">神兵 Gear Score</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">热应力安全余量</div>
+                <div class="font-mono text-emerald-400 font-bold text-sm mt-0.5">{{ runeMetrics.safetyMargin }}%</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">晶格防崩塌稳态</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">熔炼精炼评级</div>
+                <div class="font-mono text-purple-400 font-bold text-xs mt-0.5 truncate">{{ runeMetrics.rating }}</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">太古封印铭刻</div>
+              </div>
+            </div>
+
+            <!-- 实时熔炼日志终端 -->
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+              <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+                <span class="flex items-center gap-1.5 text-amber-300 font-bold">
+                  <span>💻</span> 符文熔铸与词缀萃取日志 (Rune Infusion Terminal)
+                </span>
+                <span class="text-[10px] text-gray-500">晶格自适应: 实时同步</span>
+              </div>
+              <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+                <div v-for="(log, idx) in runeSimulationLogs" :key="idx" class="flex items-start gap-1.5">
+                  <span class="text-amber-500 select-none">&gt;</span>
+                  <span :class="log.includes('完成') || log.includes('成功') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧：无极物理调优与熔炉 Uniforms -->
+          <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+            <div class="text-xs font-bold text-amber-300 flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="flex items-center gap-1.5">
+                <span>🎛️</span> 符文熔铸参数微调 (Rune Uniforms)
+              </span>
+              <button
+                type="button"
+                class="text-[10px] text-gray-400 hover:text-amber-300 cursor-pointer"
+                @click="resetRuneParams"
+              >
+                重置参数
+              </button>
+            </div>
+
+            <!-- 符文共鸣能级 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>符文共鸣能级 (Rune Energy Level):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ runeEnergyLevel }} 卢恩</span>
+              </div>
+              <n-slider v-model:value="runeEnergyLevel" :min="100" :max="999" :step="5" />
+              <div class="flex justify-between text-[9px] text-gray-500">
+                <span>100 基础符文</span>
+                <span>550 远古以太</span>
+                <span>999 创世神威</span>
+              </div>
+            </div>
+
+            <!-- 词缀萃取纯度 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>词缀萃取纯度 (Affix Purity):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ affixPurity }}%</span>
+              </div>
+              <n-slider v-model:value="affixPurity" :min="50" :max="100" :step="1" />
+            </div>
+
+            <!-- 晶石熔铸温度 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>晶石熔铸温度 (Forge Temperature):</span>
+                <span class="font-mono text-rose-400 font-bold">{{ forgeTemperature }} °C</span>
+              </div>
+              <n-slider v-model:value="forgeTemperature" :min="800" :max="2400" :step="20" />
+            </div>
+
+            <!-- 虚空催化剂注入量 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>虚空催化剂注入量 (Void Catalyst Dosage):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ voidCatalyst.toFixed(1) }} ml</span>
+              </div>
+              <n-slider v-model:value="voidCatalyst" :min="0.0" :max="10.0" :step="0.1" />
+            </div>
+
+            <!-- 特性开关组 -->
+            <div class="pt-2 border-t border-slate-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">开启【太古原始词缀固化锁 (Affix Lock)】:</span>
+                <n-switch v-model:value="enableAncientAffixLock" size="small" />
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">开启【超导以太晶格退火 (Cryo Annealing)】:</span>
+                <n-switch v-model:value="enableSuperconductingMatrix" size="small" />
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">开启【超限词缀基因激变 (Mutation)】:</span>
+                <n-switch v-model:value="enableOverlimitExtraction" size="small" />
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-[11px] text-gray-400 leading-relaxed">
+              💡 熔铸原理：注入高纯度卢恩符文与微量虚空催化剂，可激发装备沉睡的多维词缀，大幅提升二刀流乱打穿透伤害与暴击系数。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. 属性加成与守恒解析源码 -->
     <div v-if="activeTab === 'engine_code'" class="space-y-4">
       <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
@@ -684,7 +945,7 @@
                 GODOT 4.6 LTS RELIC STAT RESOLVER ENGINE
               </span>
             </div>
-            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 flex-wrap">
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
@@ -701,6 +962,14 @@
               >
                 relic_resonance_forge_engine.gd
               </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
+                :class="activeCodeScriptTab === 'rune' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeCodeScriptTab = 'rune'"
+              >
+                relic_rune_infusion_engine.gd
+              </button>
             </div>
           </div>
           <n-button size="small" round secondary type="info" @click="copyGdScript">
@@ -709,7 +978,7 @@
           </n-button>
         </div>
 
-        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeScriptTab === 'stats' ? gdScriptCode : gdForgeScriptCode }}</pre>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeScriptTab === 'stats' ? gdScriptCode : (activeCodeScriptTab === 'forge' ? gdForgeScriptCode : gdRuneScriptCode) }}</pre>
       </div>
     </div>
   </div>
@@ -724,13 +993,14 @@ const message = useMessage()
 const gameStore = useGameStore()
 const equipment = computed(() => gameStore.db.equipment || [])
 
-type EquipmentTab = 'catalog' | 'dual_wield' | 'awakening' | 'relic_forge' | 'engine_code'
+type EquipmentTab = 'catalog' | 'dual_wield' | 'awakening' | 'relic_forge' | 'rune_infusion' | 'engine_code'
 const activeTab = ref<EquipmentTab>('catalog')
 const tabList: { key: EquipmentTab; label: string; icon: string; badge?: string }[] = [
   { key: 'catalog', label: '神兵图鉴矩阵', icon: '🗡️' },
   { key: 'dual_wield', label: '二刀流伤害工坊', icon: '⚔️' },
   { key: 'awakening', label: '太古开光与附魔', icon: '⚗️' },
   { key: 'relic_forge', label: '太古神兵共鸣与精炼', icon: '✨', badge: 'v2.2.262' },
+  { key: 'rune_infusion', label: '符文熔铸与词缀萃取', icon: '🔮', badge: 'v2.2.277' },
   { key: 'engine_code', label: '属性解析引擎源码', icon: '🛡️' }
 ]
 
@@ -1050,7 +1320,7 @@ const sealedWeapons: SealedWeapon[] = [
 ]
 
 // Godot 4.x 代码
-const activeCodeScriptTab = ref<'stats' | 'forge'>('stats')
+const activeCodeScriptTab = ref<'stats' | 'forge' | 'rune'>('stats')
 const copiedScriptCode = ref(false)
 
 const gdScriptCode = `# ==============================================================================
@@ -1163,10 +1433,20 @@ const gdForgeScriptCode = [
 
 const copyGdScript = async () => {
   try {
-    const code = activeCodeScriptTab.value === 'stats' ? gdScriptCode : gdForgeScriptCode
+    let code = ''
+    let filename = ''
+    if (activeCodeScriptTab.value === 'stats') {
+      code = gdScriptCode
+      filename = 'equipment_stats_resolver.gd'
+    } else if (activeCodeScriptTab.value === 'forge') {
+      code = gdForgeScriptCode
+      filename = 'relic_resonance_forge_engine.gd'
+    } else {
+      code = gdRuneScriptCode
+      filename = 'relic_rune_infusion_engine.gd'
+    }
     await navigator.clipboard.writeText(code)
     copiedScriptCode.value = true
-    const filename = activeCodeScriptTab.value === 'stats' ? 'equipment_stats_resolver.gd' : 'relic_resonance_forge_engine.gd'
     message.success(`${filename} 源码已复制到剪贴板！`)
     setTimeout(() => {
       copiedScriptCode.value = false
@@ -1451,6 +1731,240 @@ const exportForgeCertificate = () => {
 
   message.success('📜 太古神兵精炼认证方案书已成功导出并下载！')
 }
+
+// ==========================================
+// 🔮 太古神兵符文熔铸与多维词缀萃取工坊 (v2.2.277)
+// ==========================================
+interface RuneInscription {
+  id: string
+  name: string
+  tag: string
+  icon: string
+  affixText: string
+  energy: number
+  gradient: string
+  baseBonusAtk: number
+  affixPower: number
+}
+
+const runeInscriptions: RuneInscription[] = [
+  {
+    id: 'solaris_genesis',
+    name: '太阳耀斑创世铭文 (Solaris Genesis)',
+    tag: '创世耀斑',
+    icon: '☀️',
+    affixText: '圣光核爆附加率 +35% · 破甲贯穿 +45% · 全属性 +15',
+    energy: 550,
+    gradient: 'radial-gradient(circle, rgba(245,158,11,0.55) 0%, rgba(239,68,68,0.25) 50%, transparent 80%)',
+    baseBonusAtk: 65,
+    affixPower: 820
+  },
+  {
+    id: 'abyss_singularity',
+    name: '虚空暗界奇点铭文 (Abyss Singularity)',
+    tag: '奇点湮灭',
+    icon: '🌌',
+    affixText: '真伤转化率 +40% · 濒死狂怒 +80% · 吸血回灵 +12%',
+    energy: 680,
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.55) 0%, rgba(59,130,246,0.3) 50%, transparent 80%)',
+    baseBonusAtk: 78,
+    affixPower: 910
+  },
+  {
+    id: 'aether_overload',
+    name: '以太晶格超载铭文 (Aether Overload)',
+    tag: '以太超载',
+    icon: '⚡',
+    affixText: '魔法剑增幅 +65% · 连续魔减耗 -30% · 暴击伤害 +50%',
+    energy: 480,
+    gradient: 'radial-gradient(circle, rgba(6,182,212,0.55) 0%, rgba(59,130,246,0.25) 50%, transparent 80%)',
+    baseBonusAtk: 58,
+    affixPower: 760
+  },
+  {
+    id: 'valkyrie_judgment',
+    name: '瓦尔基里绝灭铭文 (Valkyrie Judgment)',
+    tag: '斩铁绝灭',
+    icon: '⚔️',
+    affixText: '斩铁即死阈值升至 25% · 二刀流命中 +100% · 破限极伤 +25000',
+    energy: 850,
+    gradient: 'radial-gradient(circle, rgba(236,72,153,0.55) 0%, rgba(245,158,11,0.3) 50%, transparent 80%)',
+    baseBonusAtk: 92,
+    affixPower: 1050
+  }
+]
+
+const selectedRuneInscriptionId = ref('solaris_genesis')
+const runeEnergyLevel = ref(550)
+const affixPurity = ref(88)
+const forgeTemperature = ref(1680)
+const voidCatalyst = ref(3.5)
+const enableAncientAffixLock = ref(true)
+const enableSuperconductingMatrix = ref(true)
+const enableOverlimitExtraction = ref(true)
+const isSimulatingRune = ref(false)
+
+const currentRuneInscription = computed(() => {
+  return runeInscriptions.find(r => r.id === selectedRuneInscriptionId.value) || runeInscriptions[0]
+})
+
+const applyRuneInscription = (id: string) => {
+  selectedRuneInscriptionId.value = id
+  const r = runeInscriptions.find(item => item.id === id)
+  if (r) {
+    runeEnergyLevel.value = r.energy
+    message.info(`已应用【${r.name}】符文铭文`)
+  }
+}
+
+const resetRuneParams = () => {
+  applyRuneInscription('solaris_genesis')
+  affixPurity.value = 88
+  forgeTemperature.value = 1680
+  voidCatalyst.value = 3.5
+  enableAncientAffixLock.value = true
+  enableSuperconductingMatrix.value = true
+  enableOverlimitExtraction.value = true
+}
+
+const runeSimulationLogs = ref<string[]>([
+  '系统就绪: Godot 4.6 LTS 太古神兵符文熔铸与多维词缀萃取引擎就绪',
+  '晶格结构探测: 王者之剑/终焉诸神神兵微观金相分析完成',
+  '退火稳态监测: 800~2400°C 动态温控伺服激活',
+  '词缀数据库: SMPTE-2065 远古卢恩词缀表载入'
+])
+
+const runeMetrics = computed(() => {
+  const baseAtk = currentRuneInscription.value.baseBonusAtk + 180
+  const finalAtk = Math.round(baseAtk * (1.0 + affixPurity.value / 200) + runeEnergyLevel.value * 0.12 + (enableOverlimitExtraction.value ? 35 : 0))
+  const affixScore = Math.round(currentRuneInscription.value.affixPower + runeEnergyLevel.value * 0.85 + affixPurity.value * 4.2)
+  
+  const tempExcess = Math.max(0, forgeTemperature.value - 1200)
+  const safetyMargin = Math.max(12.0, Number((100.0 - (tempExcess / 18.0) - (voidCatalyst.value * 2.2) + (enableSuperconductingMatrix.value ? 15.0 : 0.0)).toFixed(1)))
+
+  let rating = 'S-Tier 远古至尊'
+  if (affixScore >= 2000) rating = 'EX-Tier 诸神终焉超越'
+  else if (affixScore >= 1600) rating = 'SS-Tier 圣殿神造'
+
+  return {
+    finalAtk,
+    affixScore,
+    safetyMargin,
+    rating
+  }
+})
+
+const simulateRuneInfusion = () => {
+  isSimulatingRune.value = true
+  const now = new Date()
+  const ts = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  runeSimulationLogs.value = [
+    `[${ts}] 🚀 启动太古符文熔铸与多维词缀萃取管线...`,
+    `[${ts}] 阶段 1: 注入【${currentRuneInscription.value.name}】，共鸣能级达 ${runeEnergyLevel.value} 卢恩`,
+    `[${ts}] 阶段 2: 熔炉升温至 ${forgeTemperature.value}°C，虚空催化剂注入 ${voidCatalyst.value.toFixed(1)} ml`,
+    `[${ts}] 阶段 3: ${enableSuperconductingMatrix.value ? '超导以太退火晶格重构' : '常规热传导'}，热应力安全余量 ${runeMetrics.value.safetyMargin}%`,
+    `[${ts}] 阶段 4: 词缀纯度萃取达 ${affixPurity.value}%，${enableOverlimitExtraction.value ? '词缀激变成功 (+35 极境攻击)' : '稳态词缀输出'}`,
+    `[${ts}] ✨ 熔铸萃取完成！最终实机攻击 ${runeMetrics.value.finalAtk} Atk，综合装备评分 ${runeMetrics.value.affixScore} 分！`
+  ]
+
+  setTimeout(() => {
+    isSimulatingRune.value = false
+    message.success(`⚡ 符文熔铸萃取完成！装备综合评分 ${runeMetrics.value.affixScore}`)
+  }, 600)
+}
+
+const exportRuneInfusionCertificate = () => {
+  const now = new Date()
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+
+  const certLines = [
+    '================================================================================',
+    '   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)',
+    '   太古神兵符文熔铸与多维词缀萃取方案证书 (v2.2.277)',
+    '================================================================================',
+    `颁发时间: ${timeStr}`,
+    `符文铭文: ${currentRuneInscription.value.name}`,
+    `核心词缀: ${currentRuneInscription.value.affixText}`,
+    '运行架构: Godot 4.6 LTS / relic_rune_infusion_engine.gd',
+    '',
+    '【符文熔铸与萃取 Uniform 参数】',
+    `- 符文共鸣能级 (Rune Energy Level): ${runeEnergyLevel.value} 卢恩`,
+    `- 词缀萃取纯度 (Affix Purity): ${affixPurity.value}%`,
+    `- 晶石熔铸温度 (Forge Temperature): ${forgeTemperature.value} °C`,
+    `- 虚空催化剂注入量 (Void Catalyst Dosage): ${voidCatalyst.value.toFixed(1)} ml`,
+    `- 原始词缀固化锁: ${enableAncientAffixLock.value ? '已自锁 (保底主属性词缀)' : '无锁洗练'}`,
+    `- 超导以太晶格退火: ${enableSuperconductingMatrix.value ? '已启用 (提升 15% 热应力安全)' : '关闭'}`,
+    `- 超限词缀基因激变: ${enableOverlimitExtraction.value ? '已激活 (+35 极境攻击力突破)' : '关闭'}`,
+    '',
+    '【熔铸成果实机遥测指标】',
+    `- 最终熔铸总攻击力: ${runeMetrics.value.finalAtk} Atk`,
+    `- 词缀综合装备分 (Gear Score): ${runeMetrics.value.affixScore} 点`,
+    `- 晶格热应力安全余量: ${runeMetrics.value.safetyMargin}%`,
+    `- 熔炼神兵综合品级: ${runeMetrics.value.rating}`,
+    '',
+    '【底层引擎契约安全指纹】',
+    '- Engine Spec: Godot 4.6 LTS / GDScript RefCounted Pure Logic',
+    `- Digital Fingerprint: SHA256-RUNE-${Math.random().toString(36).substring(2, 10).toUpperCase()}${Date.now().toString(36).toUpperCase()}`,
+    '================================================================================'
+  ]
+
+  const certContent = certLines.join('\n')
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `relic_rune_infusion_v2.2.277_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  message.success('太古符文熔铸方案书已导出并同步至剪贴板！')
+}
+
+const gdRuneScriptCode = [
+  '## relic_rune_infusion_engine.gd',
+  '## Godot 4.6 LTS - 太古神兵符文熔铸与多维词缀萃取引擎',
+  'extends RefCounted',
+  'class_name RelicRuneInfusionEngine',
+  '',
+  'signal rune_infused(inscription_id: String, final_atk: int, affix_score: int)',
+  'signal thermal_stress_calculated(safety_margin: float, is_stable: bool)',
+  '',
+  'var rune_energy: float = 550.0',
+  'var affix_purity: float = 88.0',
+  'var forge_temperature: float = 1680.0',
+  'var void_catalyst: float = 3.5',
+  'var enable_overlimit_mutation: bool = true',
+  'var enable_cryo_annealing: bool = true',
+  '',
+  'func calculate_infusion_outcome(base_atk: int, affix_power: int) -> Dictionary:',
+  '\tvar bonus_atk: float = float(base_atk) * (1.0 + affix_purity / 200.0) + rune_energy * 0.12',
+  '\tif enable_overlimit_mutation:',
+  '\t\tbonus_atk += 35.0',
+  '\t',
+  '\tvar affix_score: int = int(float(affix_power) + rune_energy * 0.85 + affix_purity * 4.2)',
+  '\tvar temp_excess: float = maxf(0.0, forge_temperature - 1200.0)',
+  '\tvar safety_margin: float = clampf(100.0 - (temp_excess / 18.0) - (void_catalyst * 2.2) + (15.0 if enable_cryo_annealing else 0.0), 12.0, 100.0)',
+  '\t',
+  '\treturn {',
+  '\t\t"final_atk": int(bonus_atk),',
+  '\t\t"affix_score": affix_score,',
+  '\t\t"safety_margin": safety_margin,',
+  '\t\t"is_stable": safety_margin >= 30.0,',
+  '\t\t"signature": "SHA256-RUNE-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
+  '\t}'
+].join('\n')
 </script>
 
 <style scoped>

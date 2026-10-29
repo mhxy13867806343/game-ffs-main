@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-equipment-rune-infusion-2026-10-29',
+    version: 'v2.2.277',
+    date: '2026-10-29',
+    title: '太古神兵符文熔铸与多维词缀萃取工坊重磅实装',
+    category: 'equipment',
+    categoryName: '神兵词缀',
+    icon: '🔮',
+    tagType: 'success',
+    description: '全面重构升级 EquipmentView 神兵矩阵门户：顶部标章升级为 VBLE Mythic Weapons & Relic Forge Matrix v2.2.277，新增太古符文熔铸工坊快捷直达与全新模式标签页；专区重磅实装【太古神兵符文熔铸与多维词缀萃取工坊】（Ancient Relic Rune Infusion & Multiverse Affix Extraction Studio）；覆盖四大铭文预设（太阳耀斑创世铭文、虚空暗界奇点铭文、以太晶格超载铭文、瓦尔基里绝灭铭文）；实现符文共鸣能级 (100~999 卢恩)、词缀萃取纯度 (50%~100%)、晶石熔铸温度 (800~2400 °C) 与虚空催化剂注入量 (0.0~10.0 ml) 连续微调；支持原始词缀固化锁、超导以太退火与超限词缀激变；实时解算最终熔铸总攻击力 (突破 480+ Atk)、词缀综合评分 (突破 2000+ 分) 与晶格热应力安全余量；实装五阶段熔铸日志终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 relic_rune_infusion_engine.gd 纯逻辑引擎。',
+    highlights: [
+      '四大远古卢恩铭文：太阳耀斑创世、虚空暗界奇点、以太晶格超载与瓦尔基里绝灭铭文',
+      '四维连续熔铸动力学：符文能级、词缀纯度、熔炉温控与虚空催化剂全域动力学调节',
+      '多维词缀萃取突变：超限词缀基因激变突破属性天花板，单件装备直冲 480+ Atk 极境',
+      '超导以太退火晶格重构：高温熔炼防崩塌防护，晶格热应力安全余量提升 15%',
+      '离线认证方案书导出：自动生成附带 SHA-256 专属数字签名的纯文本方案并同步剪贴板',
+      'Godot 4.6 LTS 3 Tab 展台：新增 relic_rune_infusion_engine.gd 纯逻辑引擎源码'
+    ],
+    relatedLinks: [
+      { label: '神兵装备矩阵', path: '/vble/equipment', icon: '🗡️' },
+      { label: '配装模拟器', path: '/vble/armory-simulator', icon: '🛡️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-summons-transcendence-studio-2026-10-29',
     version: 'v2.2.276',
     date: '2026-10-29',
