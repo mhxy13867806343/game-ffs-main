@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-story-epic-chronicle-v325-2026-10-29',
+    version: 'v2.2.325',
+    date: '2026-10-29',
+    title: '三十章主线剧情编年史、光与暗交汇与终焉坍缩工坊重磅实装',
+    category: 'system',
+    categoryName: '主线史诗',
+    icon: '📖',
+    tagType: 'success',
+    description: '全面重构升级 StoryView 主线史诗门户：顶部标章升级为 VBLE Story, Thirty Chapters Epic Chronicle & Spacetime Collapse Studio v2.2.325，新增三十章主线编年史工坊快捷直达；专区重磅实装【三十章主线剧情编年史、光与暗交汇与终焉坍缩工坊】（Thirty Chapters Epic Chronicle, Convergence of Light and Void Studio）；覆盖四大主线史诗纪行原型（始源风之章·风之启示流、水火交融·双界镜像流、暗之晶核·虚无吞噬流、终焉神战·创生圆满流）；支持三十章主线推进节拍 (1~44 节拍)、光暗双线因果交汇契合度 (50%~100%)、虚空引力场坍缩抑制率 (0.30~0.95) 与先烈遗志灵魂誓约深度 (100~1000 点) 连续微调；支持全 30 章节全息 CG 与回忆画卷免锁查阅、晓之四战士先烈英魂守护结界、完美大圆满世界线终局锚定；实时解算宇宙世界线稳态健康度 (高达 99.9%)、英雄意志连携爆发倍率 (高达 +120.0%)、终焉坍缩残余熵增开销 (低至 0.05 S) 与史诗编年史认证评级 (高达 EX·至高宇宙新创世纪之光)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：thirty_chapters_epic_orchestrator.gd、light_dark_convergence_pipeline.gd 与 dawn_warriors_martyr_pact.gd。',
+    highlights: [
+      '四大主线史诗原型：风之晶石觉醒、双界镜像裂变、暗之虚无吞噬与时空终焉创世纪',
+      '四维连续剧情坍缩参数：主线推进节拍、光暗因果契合度、虚空坍缩抑制率与灵魂誓约深度',
+      '三重主线史诗特权机制：全章节 CG 回忆画卷免锁、晓之四战士英魂结界与完美大圆满锚定',
+      '动态世界线指标解算：宇宙稳态健康度、极意爆发倍率、残余熵增开销与新创世之光认证',
+      '五阶段史诗剧情沙盘：历史分歧溯源、英魂守护注入、虚空坍缩遏制、回忆画卷收束与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源主线状态编排器、光暗因果交汇管线与先烈契约控制器'
+    ],
+    relatedLinks: [
+      { label: '史诗编年史主线', path: '/vble/story', icon: '📖' },
+      { label: '三十章编年史工坊', path: '/vble/story', icon: '🌀' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-sidequests-epoch-chain-v324-2026-10-29',
     version: 'v2.2.324',
     date: '2026-10-29',

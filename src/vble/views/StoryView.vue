@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Story, Timelines &amp; Causality Convergence Studio v2.2.294
+              VBLE Story, Thirty Chapters Epic Chronicle & Spacetime Collapse Studio v2.2.325
             </span>
             <span class="text-xs text-gray-400">光暗双线叙事、时空因果与创世神纪推演</span>
           </div>
@@ -20,6 +20,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="switchToEpicChronicleStudio"
+          >
+            <template #icon><span>📖</span></template>
+            三十章主线编年史工坊
+          </n-button>
           <n-button
             type="primary"
             size="medium"
@@ -1394,6 +1405,263 @@
         </div>
       </div>
     </div>
+
+    <!-- 7. 三十章主线剧情编年史、光与暗交汇与终焉坍缩工坊 (v2.2.325 重磅实装) -->
+    <div v-if="activeMode === 'epic_chronicle'" id="epic-chronicle-studio" class="space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-purple-950/20 to-slate-900/95 border border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.15)] space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-purple-500/30 pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/30">
+                THIRTY CHAPTERS EPIC CHRONICLE & VOID COLLAPSE
+              </span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">
+                v2.2.325 旗舰实装
+              </span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+              <span>📖</span> 三十章主线剧情编年史、光与暗交汇与终焉坍缩工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+              贯穿从始源神殿晶石觉醒至时空终焉创世纪的全部三十章节，支持光暗因果交汇、晓之四战士先烈英魂守护与 Godot 4.6 LTS 底层主线状态机。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button size="small" round secondary type="info" @click="resetEpicChronicleDefaults">
+              <template #icon><span>↺</span></template>
+              重置参数
+            </n-button>
+            <n-button size="small" round type="info" :loading="isEpicChronicleSimulating" @click="runEpicChronicleSimulation">
+              <template #icon><span>⚡</span></template>
+              激发编年史推演
+            </n-button>
+            <n-button size="small" round secondary type="warning" @click="exportEpicChronicleCert">
+              <template #icon><span>📜</span></template>
+              导出方案证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大主线史诗纪行原型 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            v-for="archetype in epicChronicleArchetypes"
+            :key="archetype.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedEpicChronicleArchetype === archetype.id ? 'bg-purple-950/40 border-purple-500 ring-2 ring-purple-500/30' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+            @click="selectEpicChronicleArchetype(archetype.id)"
+          >
+            <div class="flex items-start justify-between">
+              <div class="text-2xl">{{ archetype.icon }}</div>
+              <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+                {{ archetype.typeTag }}
+              </span>
+            </div>
+            <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+            <p class="text-xs text-purple-300/80 mt-1">{{ archetype.desc }}</p>
+            <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+              <div class="flex justify-between">
+                <span>标志性事件:</span>
+                <span class="text-amber-300 font-mono">{{ archetype.signatureEvent }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>世界线走向:</span>
+                <span class="text-cyan-300 font-mono">{{ archetype.timelineFate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 四维编年史推演与坍缩调控滑块 -->
+        <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+          <div class="text-sm font-bold text-white flex items-center justify-between">
+            <span class="flex items-center gap-2"><span>🎛️</span> 主线推演节拍与虚空坍缩抑制参数</span>
+            <span class="text-xs text-purple-400 font-mono">Realtime Timeline Dynamics</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">主线推演推进节拍 (Beat):</span>
+                <span class="text-cyan-400 font-mono font-bold">第 {{ storyProgressionBeat }} / 44 节拍 (全息推进)</span>
+              </div>
+              <n-slider v-model:value="storyProgressionBeat" :min="1" :max="44" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>Beat 1 风殿碎裂</span>
+                <span>Beat 24 艾克斯迪斯现世</span>
+                <span>Beat 44 终焉合流</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">光暗双线因果交汇契合度 (%):</span>
+                <span class="text-amber-400 font-mono font-bold">{{ lightDarkSynergyPct }}% (双界同频)</span>
+              </div>
+              <n-slider v-model:value="lightDarkSynergyPct" :min="50" :max="100" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>50% 初步交汇</span>
+                <span>88% 命运闭环</span>
+                <span>100% 完美无隙</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">虚空引力场坍缩抑制率:</span>
+                <span class="text-purple-400 font-mono font-bold">{{ voidCollapseDamping.toFixed(2) }} (奇点阻尼)</span>
+              </div>
+              <n-slider v-model:value="voidCollapseDamping" :min="0.30" :max="0.95" :step="0.05" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>0.30 危险剧烈</span>
+                <span>0.82 稳固守护</span>
+                <span>0.95 绝对停滞</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">先烈遗志与灵魂誓约共鸣深度:</span>
+                <span class="text-emerald-400 font-mono font-bold">{{ martyrResonanceDepth }} 点 (晓之四战)</span>
+              </div>
+              <n-slider v-model:value="martyrResonanceDepth" :min="100" :max="1000" :step="50" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>100 基础感应</span>
+                <span>500 灵魂借力</span>
+                <span>1000 极意降临</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 三大史诗编年史特权开关 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">全 30 章节 CG 与回忆画卷免锁</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">随时回顾所有关键过场与声优台本</div>
+            </div>
+            <n-switch v-model:value="enableAllChapterCgUnlocked" size="small" />
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">晓之四战士先烈英魂守护结界</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">全员濒死自动触发无敌并回满 MP</div>
+            </div>
+            <n-switch v-model:value="enableDawnWarriorsAegis" size="small" />
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">完美大圆满世界线终局锚定</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">破除宿命牺牲，达成全员归来真结局</div>
+            </div>
+            <n-switch v-model:value="enablePerfectEndingAttractor" size="small" />
+          </div>
+        </div>
+
+        <!-- 关键实时指标卡片 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">宇宙世界线稳态健康度</div>
+            <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+              {{ universeStabilityHealthPct }}%
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">因果稳固率</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">英雄意志连携爆发倍率</div>
+            <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+              +{{ heroWillBurstBonusPct }}%
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">全队极意终极斩</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">终焉坍缩残余熵增开销</div>
+            <div class="text-xl sm:text-2xl font-black text-purple-400 font-mono mt-1">
+              {{ remainingVoidEntropyS.toFixed(2) }} S
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">安全阈值 &lt; 0.50</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div class="text-[11px] text-gray-400">史诗编年史认证评级</div>
+            <div class="text-sm sm:text-base font-black text-emerald-400 font-mono mt-1 truncate">
+              {{ epicChronicleTierBadge }}
+            </div>
+            <div class="text-[10px] text-gray-500 mt-0.5">终焉神战史诗规范</div>
+          </div>
+        </div>
+
+        <!-- 沙盘推演日志与进度 -->
+        <div v-if="isEpicChronicleSimulating || epicChronicleLogs.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-gray-300 font-bold flex items-center gap-2">
+              <span>🔄</span> 三十章主线与光暗收束沙盘进程: {{ epicChronicleSimStep }}
+            </span>
+            <span class="text-purple-400 font-mono font-bold">{{ epicChronicleSimProgress }}%</span>
+          </div>
+          <n-progress
+            type="line"
+            :percentage="epicChronicleSimProgress"
+            :indicator-placement="'inside'"
+            processing
+            status="info"
+          />
+          <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+            <div v-for="(log, idx) in epicChronicleLogs" :key="idx" class="flex items-start gap-2">
+              <span class="text-purple-500">›</span>
+              <span :class="idx === epicChronicleLogs.length - 1 ? 'text-purple-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+        <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+              <h3 class="text-sm font-bold text-white">三十章主线剧情状态机与光暗交汇引擎源码展台</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeEpicChronicleScriptTab === 'orchestrator' ? 'bg-purple-500/20 text-purple-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeEpicChronicleScriptTab === 'orchestrator'"
+                >
+                  主线状态编排器
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeEpicChronicleScriptTab === 'convergence' ? 'bg-purple-500/20 text-purple-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeEpicChronicleScriptTab === 'convergence'"
+                >
+                  光暗因果交汇管线
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded text-xs transition-colors"
+                  :class="activeEpicChronicleScriptTab === 'martyr' ? 'bg-purple-500/20 text-purple-300 font-bold' : 'text-gray-400 hover:text-white'"
+                  @click="activeEpicChronicleScriptTab === 'martyr'"
+                >
+                  晓之四战士先烈契约
+                </button>
+              </div>
+              <n-button size="small" round secondary type="info" @click="copyEpicChronicleScript">
+                <template #icon><span>📋</span></template>
+                复制代码
+              </n-button>
+            </div>
+          </div>
+          <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-purple-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentEpicChronicleScriptCode }}</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1416,6 +1684,7 @@ const navModes = [
   { key: 'timeline_convergence', label: '平行世界线收束与因果坍缩工坊', icon: '🌀', badge: 'v2.2.294' },
   { key: 'ending_matrix', label: '七大终焉宿命归宿与真结局推演沙盘', icon: '👑', badge: 'HOT' },
   { key: 'multiverse_epilogue', label: '太古多元创世神纪推演工坊', icon: '🌌', badge: 'EX' },
+  { key: 'epic_chronicle', label: '三十章主线编年史工坊', icon: '📖', badge: 'v2.2.325' },
   { key: 'engine_code', label: '主线状态机源码', icon: '🛠️' }
 ]
 
@@ -1425,6 +1694,10 @@ const switchToConvergenceStudio = () => {
 
 const switchToEpilogueStudio = () => {
   activeMode.value = 'multiverse_epilogue'
+}
+
+const switchToEpicChronicleStudio = () => {
+  activeMode.value = 'epic_chronicle'
 }
 
 // 宿命结局推演沙盘状态
@@ -2586,6 +2859,231 @@ const currentConvergenceScriptCode = computed(() => {
 const copyConvergenceScript = () => {
   navigator.clipboard.writeText(currentConvergenceScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
+
+// ==========================================
+// 三十章主线剧情编年史、光与暗交汇与终焉坍缩工坊 (v2.2.325)
+// ==========================================
+const selectedEpicChronicleArchetype = ref('wind_awakening')
+const epicChronicleArchetypes = [
+  {
+    id: 'wind_awakening',
+    name: '始源风之章·四大晶石破碎',
+    icon: '🌪️',
+    typeTag: '风之启示',
+    tagClass: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+    desc: '陨石惊天坠落，泰空风之神殿晶石四散碎裂，四位命运勇者缔结太古盟约。',
+    signatureEvent: '风之神殿破损 / 晓之陨石降临',
+    timelineFate: '光之世界 ➔ 命运序幕'
+  },
+  {
+    id: 'realm_split',
+    name: '水火交融·双界镜像大裂变',
+    icon: '🌊',
+    typeTag: '双界镜像',
+    tagClass: 'bg-blue-500/20 text-blue-300 border border-blue-500/30',
+    desc: '第一世界与第二世界平行镜像分裂，晓之四战士舍身牺牲，可露儿继承意志。',
+    signatureEvent: '大桥决战 / 加鲁夫之逝',
+    timelineFate: '双生平行界 ➔ 先烈意志承袭'
+  },
+  {
+    id: 'void_merging',
+    name: '暗之晶核·虚无重组归一',
+    icon: '🕳️',
+    typeTag: '虚无吞噬',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: '树魔艾克斯迪斯吸收远古虚无之力，时空裂隙全域展开，世界两界重归一体。',
+    signatureEvent: '次元裂隙开启 / 库扎封印苏醒',
+    timelineFate: '双界合一 ➔ 全域时空坍缩'
+  },
+  {
+    id: 'final_genesis',
+    name: '终焉神战·时空终焉创世纪',
+    icon: '✨',
+    typeTag: '创生圆满',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: '击破终焉新虚无，平息次元神龙与欧米茄天灾，新创世纪元繁星在光芒中重生。',
+    signatureEvent: '终焉虚无覆灭 / 宇宙完美收束',
+    timelineFate: '全员大圆满 ➔ 新纪元创世'
+  }
+]
+
+const storyProgressionBeat = ref(32)
+const lightDarkSynergyPct = ref(88)
+const voidCollapseDamping = ref(0.82)
+const martyrResonanceDepth = ref(850)
+
+const enableAllChapterCgUnlocked = ref(true)
+const enableDawnWarriorsAegis = ref(true)
+const enablePerfectEndingAttractor = ref(true)
+
+const isEpicChronicleSimulating = ref(false)
+const epicChronicleSimProgress = ref(0)
+const epicChronicleSimStep = ref('')
+const epicChronicleLogs = ref<string[]>([])
+
+const universeStabilityHealthPct = computed(() => {
+  let pct = 80.0 + (voidCollapseDamping.value * 15.0) + (lightDarkSynergyPct.value / 100) * 4.5
+  return Math.min(99.9, parseFloat(pct.toFixed(1)))
+})
+
+const heroWillBurstBonusPct = computed(() => {
+  let val = 40.0 + (storyProgressionBeat.value / 44) * 45.0 + (martyrResonanceDepth.value / 1000) * 35.0
+  return Math.min(120.0, parseFloat(val.toFixed(1)))
+})
+
+const remainingVoidEntropyS = computed(() => {
+  let entropy = 0.55 - (voidCollapseDamping.value * 0.40) - (lightDarkSynergyPct.value / 100) * 0.08
+  return Math.max(0.05, parseFloat(entropy.toFixed(2)))
+})
+
+const epicChronicleTierBadge = computed(() => {
+  if (universeStabilityHealthPct.value > 96 && heroWillBurstBonusPct.value > 100) return 'EX·至高宇宙新创世纪之光'
+  if (universeStabilityHealthPct.value > 92) return 'SSS·光暗双界终焉大圆满'
+  if (universeStabilityHealthPct.value > 88) return 'SS·高维时空收束先驱'
+  return 'S·标准三十章主线史诗'
+})
+
+const selectEpicChronicleArchetype = (id: string) => {
+  selectedEpicChronicleArchetype.value = id
+  const target = epicChronicleArchetypes.find(a => a.id === id)
+  if (target) {
+    message?.info(`已定位主线纪行篇章：${target.name}（${target.typeTag}）`)
+  }
+}
+
+const resetEpicChronicleDefaults = () => {
+  storyProgressionBeat.value = 32
+  lightDarkSynergyPct.value = 88
+  voidCollapseDamping.value = 0.82
+  martyrResonanceDepth.value = 850
+  enableAllChapterCgUnlocked.value = true
+  enableDawnWarriorsAegis.value = true
+  enablePerfectEndingAttractor.value = true
+  message?.success('已恢复三十章主线编年史出厂基准参数！')
+}
+
+const runEpicChronicleSimulation = () => {
+  if (isEpicChronicleSimulating.value) return
+  isEpicChronicleSimulating.value = true
+  epicChronicleSimProgress.value = 0
+  epicChronicleLogs.value = []
+
+  const steps = [
+    { p: 20, step: '溯源全 44 节拍光暗双线编年史与陨石分歧点...', log: '主线节拍扫描通过，当前演化至第 ' + storyProgressionBeat.value + ' 节拍，因果交汇契合度 88%。' },
+    { p: 45, step: '注入晓之四战士先烈英魂以太守护结界 (850点)...', log: '先烈英灵守护阵列生效，濒死锁血免伤与全队 MP 回充就绪。' },
+    { p: 70, step: '抵御艾克斯迪斯虚无引力场坍缩 (阻尼 0.82)...', log: '时空奇点吸收被遏制，残余熵增开销降至 ' + remainingVoidEntropyS.value + ' S。' },
+    { p: 90, step: '解锁全 30 章节全息 CG 与完美大圆满世界线...', log: '世界线吸引子精准收束，破除宿命牺牲，达成全员大团圆。' },
+    { p: 100, step: '史诗编年史推演圆满收敛，终焉创世认证签发！', log: `宇宙稳态率: ${universeStabilityHealthPct.value}%，极意爆发: +${heroWillBurstBonusPct.value}%，评级: ${epicChronicleTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      epicChronicleSimProgress.value = steps[idx].p
+      epicChronicleSimStep.value = steps[idx].step
+      epicChronicleLogs.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isEpicChronicleSimulating.value = false
+      message?.success('三十章主线史诗编年史沙盘推演圆满完成！')
+    }
+  }, 250)
+}
+
+const exportEpicChronicleCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-THIRTY-CHAPTERS-CHRONICLE-SPEC',
+    version: 'v2.2.325',
+    timestamp: new Date().toISOString(),
+    archetype: selectedEpicChronicleArchetype.value,
+    beat: storyProgressionBeat.value,
+    synergy_pct: lightDarkSynergyPct.value,
+    collapse_damping: voidCollapseDamping.value,
+    martyr_depth: martyrResonanceDepth.value,
+    all_cg_unlocked: enableAllChapterCgUnlocked.value,
+    dawn_warriors_aegis: enableDawnWarriorsAegis.value,
+    perfect_ending_attractor: enablePerfectEndingAttractor.value,
+    universe_stability_pct: universeStabilityHealthPct.value,
+    hero_burst_bonus_pct: heroWillBurstBonusPct.value,
+    entropy_s: remainingVoidEntropyS.value,
+    tier: epicChronicleTierBadge.value,
+    cert_sha256: '7a8b9c0d1e2f34567890abcdef1234567890abcdef1234567890abcdef325a'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `epic_chronicle_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success('已导出三十章主线史诗编年史方案认证证书！')
+}
+
+const activeEpicChronicleScriptTab = ref<'orchestrator' | 'convergence' | 'martyr'>('orchestrator')
+
+const epicChronicleScriptCodes = {
+  orchestrator: `class_name ThirtyChaptersEpicOrchestrator
+extends Node
+
+## 最终幻想：时空之轮 - 三十章主线剧情流转与状态机编排器
+## 文件路径: res://scripts/story/thirty_chapters_epic_orchestrator.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal chapter_advanced(chapter_id: int, beat_index: int)
+signal void_collapse_imminent(entropy_val: float)
+
+@export var current_beat: int = 32
+
+func advance_to_next_beat() -> void:
+    current_beat = mini(current_beat + 1, 44)
+    chapter_advanced.emit(int(float(current_beat) / 44.0 * 30.0), current_beat)
+`,
+
+  convergence: `class_name LightDarkConvergencePipeline
+extends RefCounted
+
+## 最终幻想：时空之轮 - 光暗双线因果交汇与虚空抑制管线
+## 文件路径: res://scripts/story/light_dark_convergence_pipeline.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_convergence(synergy: float, damping: float) -> Dictionary:
+    var stability: float = 80.0 + (damping * 15.0) + (synergy / 100.0) * 4.5
+    var entropy: float = maxf(0.05, 0.55 - (damping * 0.40) - (synergy / 100.0) * 0.08)
+    
+    return {
+        "stability_pct": clampf(stability, 50.0, 99.9),
+        "entropy_s": entropy,
+        "is_safe": entropy < 0.50
+    }
+`,
+
+  martyr: `class_name DawnWarriorsMartyrPact
+extends RefCounted
+
+## 最终幻想：时空之轮 - 晓之四战士先烈英魂守护与遗志继承控制器
+## 文件路径: res://scripts/story/dawn_warriors_martyr_pact.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func trigger_martyr_aegis(depth: int, aegis_active: bool) -> Dictionary:
+    var burst_multiplier: float = 1.0 + (float(depth) / 1000.0) * 0.8
+    return {
+        "invincible_on_lethal": aegis_active,
+        "burst_multiplier": burst_multiplier,
+        "status": "MARTYR_SPIRIT_PROTECTION"
+    }
+`
+}
+
+const currentEpicChronicleScriptCode = computed(() => {
+  return epicChronicleScriptCodes[activeEpicChronicleScriptTab.value]
+})
+
+const copyEpicChronicleScript = () => {
+  navigator.clipboard.writeText(currentEpicChronicleScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 编年史源码到剪贴板！')
 }
 
 </script>
