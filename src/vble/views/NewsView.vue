@@ -22,7 +22,7 @@
         </div>
         <div class="flex items-center gap-2 mb-1">
           <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-            VBLE News, World Chronicle &amp; Timeline Matrix v2.2.278
+            VBLE News, World Chronicle, Merkle Dispatch & Spatiotemporal Broadcast Studio v2.2.313
           </span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-black text-white text-glow-cyan flex items-center gap-2">
@@ -36,6 +36,16 @@
 
       <!-- 右侧快捷跳转 (更新日志 / 功能规划 / 战报广播 / 编年史沙盘) -->
       <div class="flex items-center gap-2 shrink-0 flex-wrap">
+        <n-button
+          type="info"
+          size="small"
+          round
+          class="shadow-md font-bold text-black bg-gradient-to-r from-emerald-400 to-cyan-500 hover:from-emerald-300 hover:to-cyan-400"
+          @click="scrollToEpochChronicleStudio"
+        >
+          <template #icon><span>📢</span></template>
+          时空联播与纪元工坊
+        </n-button>
         <n-button
           type="info"
           size="small"
@@ -1244,6 +1254,227 @@
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]">{{ activeCodeTab === 'bulletin' ? gdScriptCode : activeCodeTab === 'patch' ? gdSaveMigrationCode : activeCodeTab === 'chronicle' ? gdChronicleCode : gdBroadcastCode }}</pre>
       </div>
     </div>
+
+    <!-- 官方情报站时空联播、全服公告与纪元大事件编年史工坊 (v2.2.313 重磅实装) -->
+    <div id="epoch-chronicle-studio" class="epoch-chronicle-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-emerald-950/20 to-slate-900/95 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-emerald-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold border border-emerald-500/30">
+              SPATIOTEMPORAL BROADCAST & MERKLE DISPATCH
+            </span>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">
+              v2.2.313 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>📢</span> 官方情报站时空联播、全服公告与纪元大事件编年史工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            深度集成双月宇宙时空联播天线、高维 Merkle 树防伪背书、断网自动重放缓存与 Godot 4.6 LTS 实机广播信道，保障全服百万冒险者毫秒级获悉纪元大事件。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetEpochNewsDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="info" :loading="isNewsSimulating" @click="runEpochNewsSimulation">
+            <template #icon><span>⚡</span></template>
+            启动时空联播推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大广播流派原型卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="archetype in newsArchetypes"
+          :key="archetype.id"
+          @click="selectNewsArchetype(archetype)"
+          :class="[
+            'p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden',
+            selectedNewsArchetype.id === archetype.id
+              ? 'bg-emerald-950/40 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.25)]'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+          ]"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xl">{{ archetype.icon }}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-emerald-300">{{ archetype.badge }}</span>
+          </div>
+          <div class="font-bold text-white text-sm mt-2">{{ archetype.name }}</div>
+          <div class="text-xs text-gray-400 mt-1 leading-relaxed">{{ archetype.desc }}</div>
+          <div class="mt-3 text-[11px] font-mono text-emerald-400/90 flex justify-between">
+            <span>覆盖半径: {{ archetype.radius }}</span>
+            <span>可信度: {{ archetype.trust }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心微调滑块与调控开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <!-- 4 维连续滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-emerald-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>⚙️</span> 联播射频与信道参数微调
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>广播发射功率指数 (Transmitter Power)</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ epochTransmitterPower }} MW</span>
+              </div>
+              <n-slider v-model:value="epochTransmitterPower" :min="100" :max="1000" :step="20" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>时空重叠中继节点密度 (Relay Node Density)</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ epochRelayNodeDensity }} 个节点</span>
+              </div>
+              <n-slider v-model:value="epochRelayNodeDensity" :min="20" :max="200" :step="5" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>全息信噪比阈值 (SNR Threshold)</span>
+                <span class="font-mono text-amber-400 font-bold">{{ epochSnrThreshold }} dB</span>
+              </div>
+              <n-slider v-model:value="epochSnrThreshold" :min="10" :max="60" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>多方共识背书签名轮数 (Multi-Sig Rounds)</span>
+                <span class="font-mono text-purple-400 font-bold">{{ epochMultiSigRounds }} 轮</span>
+              </div>
+              <n-slider v-model:value="epochMultiSigRounds" :min="3" :max="15" :step="1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 维调控开关与动态指标 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>🛡️</span> 去中心化防伪与容灾守卫
+          </div>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">跨维度广播自动漫游中继</div>
+                <div class="text-[10px] text-gray-400">穿越泰空/巴尔/第三融合世界时自动接入最近以太灯塔</div>
+              </div>
+              <n-switch v-model:value="enableAutoRoamingRelay" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">零信任 Merkle Root 树状防伪签名</div>
+                <div class="text-[10px] text-gray-400">每条官方公告均包含 SHA-256 默克尔树路径，防止虚空篡改</div>
+              </div>
+              <n-switch v-model:value="enableZeroTrustMerkle" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">客户端离线缓存断线自动重放同步</div>
+                <div class="text-[10px] text-gray-400">弱网或断线重新上线时自动拉取丢失的纪元大事件日志</div>
+              </div>
+              <n-switch v-model:value="enableOfflineCacheResync" />
+            </div>
+          </div>
+
+          <!-- 4 维解算核心指标 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">覆盖光秒半径</div>
+              <div class="text-base font-black font-mono text-emerald-400 mt-0.5">{{ calculatedRadius }} 光秒</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">信道吞吐速率</div>
+              <div class="text-base font-black font-mono text-cyan-400 mt-0.5">{{ calculatedThroughput }} Kbps</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">共识防伪可信度</div>
+              <div class="text-base font-black font-mono text-amber-400 mt-0.5">{{ calculatedTrust }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">情报通报认证</div>
+              <div class="text-xs font-black font-mono text-purple-400 mt-1">{{ calculatedNewsCert }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条与终端控制台 -->
+      <div class="space-y-3 bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-mono font-bold">STAGE {{ newsSimStage }}/5</span>
+            <span class="text-gray-300">{{ newsSimStageName }}</span>
+          </div>
+          <span class="font-mono text-cyan-400">{{ newsSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="newsSimProgress"
+          :color="'#10b981'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in newsLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪校验凭证: </span>
+            <span class="text-emerald-400 font-bold">{{ newsCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="info" round @click="exportNewsCert">
+            <template #icon><span>📜</span></template>
+            导出时空联播与编年史报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30">
+                GODOT 4.6 LTS BROADCAST ENGINE
+              </span>
+              <span class="text-sm font-bold text-white">时空联播发射机与默克尔验证实机代码</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级时空战报广播发射机、默克尔树校验器与断网重放管理器实机驱动。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in newsCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeNewsCodeTab === codeTab.id ? 'info' : 'default'"
+              :secondary="activeNewsCodeTab !== codeTab.id"
+              @click="activeNewsCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveNewsCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentNewsCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2435,6 +2666,341 @@ const gdBroadcastCode = [
   '\t\t"signature": "SHA256-BROADCAST-" + String.num_int64(Time.get_ticks_msec()).sha256_text().substr(0, 16)',
   '\t}'
 ].join('\n')
+
+// ==================== v2.2.313 官方时空联播与纪元工坊状态与方法 ====================
+const scrollToEpochChronicleStudio = () => {
+  const el = document.getElementById('epoch-chronicle-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.success('已直达官方情报站时空联播工坊')
+  }
+}
+
+interface NewsArchetype {
+  id: string
+  name: string
+  icon: string
+  badge: string
+  desc: string
+  radius: string
+  trust: string
+  power: number
+  density: number
+  snr: number
+  rounds: number
+}
+
+const newsArchetypes: NewsArchetype[] = [
+  {
+    id: 'emergency_bulletin',
+    name: '全服紧急维护联播流',
+    icon: '🚨',
+    badge: '紧急特讯',
+    desc: '最大发射功率极速透传，全服客户端 100ms 内强制弹窗置顶。',
+    radius: '18,500 光秒',
+    trust: '99.5%',
+    power: 800,
+    density: 150,
+    snr: 45,
+    rounds: 9
+  },
+  {
+    id: 'major_version_livestream',
+    name: '纪元大版本全景联播流',
+    icon: '🎉',
+    badge: '盛典发布',
+    desc: '富媒体大图与视频时间轴广播，超宽带信道多路并行并发。',
+    radius: '14,200 光秒',
+    trust: '99.2%',
+    power: 600,
+    density: 120,
+    snr: 38,
+    rounds: 7
+  },
+  {
+    id: 'community_chronicle',
+    name: '公会风土与大事纪档案流',
+    icon: '📖',
+    badge: '编年档案',
+    desc: '低功耗高容灾异步存储，按世界线维度永久沉淀历史丰碑。',
+    radius: '9,800 光秒',
+    trust: '98.5%',
+    power: 350,
+    density: 80,
+    snr: 28,
+    rounds: 5
+  },
+  {
+    id: 'merkle_signed_dispatch',
+    name: '去中心化 Merkle 防伪流',
+    icon: '🛡️',
+    badge: '零信任背书',
+    desc: '多签背书 + Merkle Root 双重防伪，杜绝虚空幻影伪造战报。',
+    radius: '16,000 光秒',
+    trust: '99.9%',
+    power: 700,
+    density: 160,
+    snr: 50,
+    rounds: 12
+  }
+]
+
+const selectedNewsArchetype = ref<NewsArchetype>(newsArchetypes[3])
+
+const epochTransmitterPower = ref(700)
+const epochRelayNodeDensity = ref(160)
+const epochSnrThreshold = ref(50)
+const epochMultiSigRounds = ref(12)
+
+const enableAutoRoamingRelay = ref(true)
+const enableZeroTrustMerkle = ref(true)
+const enableOfflineCacheResync = ref(true)
+
+const selectNewsArchetype = (arch: NewsArchetype) => {
+  selectedNewsArchetype.value = arch
+  epochTransmitterPower.value = arch.power
+  epochRelayNodeDensity.value = arch.density
+  epochSnrThreshold.value = arch.snr
+  epochMultiSigRounds.value = arch.rounds
+  message.info(`已装配时空联播原型: ${arch.name}`)
+}
+
+const resetEpochNewsDefaults = () => {
+  selectNewsArchetype(newsArchetypes[3])
+  enableAutoRoamingRelay.value = true
+  enableZeroTrustMerkle.value = true
+  enableOfflineCacheResync.value = true
+}
+
+const calculatedRadius = computed(() => {
+  let r = epochTransmitterPower.value * 14.5 + epochRelayNodeDensity.value * 28.0
+  if (enableAutoRoamingRelay.value) r *= 1.15
+  return Math.floor(r)
+})
+
+const calculatedThroughput = computed(() => {
+  let tp = epochTransmitterPower.value * 4.2 + epochRelayNodeDensity.value * 11.5
+  if (!enableZeroTrustMerkle.value) tp *= 1.05
+  return Math.floor(tp)
+})
+
+const calculatedTrust = computed(() => {
+  let t = 95.0 + (epochMultiSigRounds.value / 15) * 4.0 + (epochSnrThreshold.value / 60) * 0.8
+  if (enableZeroTrustMerkle.value) t += 0.15
+  return Math.min(99.9, Number(t.toFixed(1)))
+})
+
+const calculatedNewsCert = computed(() => {
+  const t = calculatedTrust.value
+  if (t >= 99.8) return 'EX·太古全域通报主权'
+  if (t >= 98.5) return 'SSS·高可用默克尔广播'
+  if (t >= 95.0) return 'SS·生产级战报信道'
+  return 'S·基础公告广播'
+})
+
+const isNewsSimulating = ref(false)
+const newsSimStage = ref(1)
+const newsSimStageName = ref('就绪等待')
+const newsSimProgress = ref(0)
+const newsCertHash = ref('E9A1C2D3-F4B5-6C7D-8E9F-0A1B2C3D4E5F')
+
+interface NewsLogEntry {
+  time: string
+  text: string
+  color: string
+}
+
+const newsLogs = ref<NewsLogEntry[]>([
+  { time: '13:00:00', text: '[BroadcastInit] 时空联播天线阵列校准完毕，等待注入发射功率...', color: 'text-gray-400' }
+])
+
+const runEpochNewsSimulation = () => {
+  if (isNewsSimulating.value) return
+  isNewsSimulating.value = true
+  newsSimStage.value = 1
+  newsSimProgress.value = 15
+  newsSimStageName.value = '跨维度射频校准与发射功率爬升'
+  newsLogs.value = [
+    { time: new Date().toLocaleTimeString(), text: `[Transmitter] 射频功率注入 ${epochTransmitterPower.value} MW，信噪比 ${epochSnrThreshold.value} dB 稳态`, color: 'text-emerald-400' }
+  ]
+
+  setTimeout(() => {
+    newsSimStage.value = 2
+    newsSimProgress.value = 40
+    newsSimStageName.value = '全域中继节点漫游握手与拓扑组网'
+    newsLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[RelayMesh] 链接 ${epochRelayNodeDensity.value} 个中继节点，覆盖光秒半径 ${calculatedRadius.value} 光秒`,
+      color: 'text-cyan-400'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    newsSimStage.value = 3
+    newsSimProgress.value = 65
+    newsSimStageName.value = 'Merkle Root 树状签名与多签背书撮合'
+    newsLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[MerkleSign] ${epochMultiSigRounds.value} 轮多方背书完成，共识防伪可信度 ${calculatedTrust.value}%`,
+      color: 'text-amber-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    newsSimStage.value = 4
+    newsSimProgress.value = 85
+    newsSimStageName.value = '断线重放离线缓存队列校验封板'
+    newsLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: '[CacheResync] 离线断线重播缓冲区校验通过，吞吐峰值 ' + calculatedThroughput.value + ' Kbps',
+      color: 'text-purple-400'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    newsSimStage.value = 5
+    newsSimProgress.value = 100
+    newsSimStageName.value = '推演闭环完成，联播证书已签发'
+    const hex = Array.from({ length: 8 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('').toUpperCase()
+    newsCertHash.value = `BC-${hex}-${Math.floor(Date.now() / 1000)}`
+    newsLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Done] 时空联播推演完成！官方情报认证评级: ${calculatedNewsCert.value}`,
+      color: 'text-emerald-300 font-bold'
+    })
+    isNewsSimulating.value = false
+    message.success('时空联播与纪元大事件推演完成！')
+  }, 1600)
+}
+
+const exportNewsCert = () => {
+  const data = {
+    studio: 'Spatiotemporal News Broadcast, Epoch Chronicle & Merkle Dispatch Studio v2.2.313',
+    timestamp: new Date().toISOString(),
+    archetype: selectedNewsArchetype.value.name,
+    transmitterPower: epochTransmitterPower.value,
+    relayNodeDensity: epochRelayNodeDensity.value,
+    snrThreshold: epochSnrThreshold.value,
+    multiSigRounds: epochMultiSigRounds.value,
+    radius: calculatedRadius.value,
+    throughput: calculatedThroughput.value,
+    trust: calculatedTrust.value,
+    newsCert: calculatedNewsCert.value,
+    sha256Signature: newsCertHash.value
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `news-broadcast-${newsCertHash.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('防伪证书与联播报告已导出')
+}
+
+// Godot 4.6 LTS 源码展台
+const activeNewsCodeTab = ref('news_broadcaster')
+const newsCodeTabs = [
+  { id: 'news_broadcaster', name: '时空联播发射机' },
+  { id: 'merkle_verifier', name: '默克尔树校验器' },
+  { id: 'offline_resync', name: '离线重同步管理器' }
+]
+
+const newsSourceCodes: Record<string, string> = {
+  news_broadcaster: `## spatiotemporal_news_broadcaster.gd
+## 《光之战士：时空裂隙》时空联播天线阵列与全域战报广播驱动
+## 架构版本: Godot 4.6 LTS / Spatiotemporal Broadcast Engine
+
+class_name SpatiotemporalNewsBroadcaster
+extends RefCounted
+
+signal news_dispatched(topic: String, light_seconds: float, payload_kb: float)
+signal relay_acknowledged(node_id: String, latency_ms: float)
+
+var _transmitter_power_mw: float = 700.0
+var _node_density: int = 160
+
+func _init(power_mw: float = 700.0, density: int = 160) -> void:
+	_transmitter_power_mw = power_mw
+	_node_density = density
+
+## 向多维宇宙广播紧急官方战报
+func broadcast_announcement(topic: String, content: Dictionary) -> Dictionary:
+	var payload_str := JSON.stringify(content)
+	var payload_kb := float(payload_str.length()) / 1024.0
+	var radius := _transmitter_power_mw * 14.5 + float(_node_density) * 28.0
+	
+	news_dispatched.emit(topic, radius, payload_kb)
+	return {
+		"status": "DISPATCHED",
+		"topic": topic,
+		"coverage_radius": radius,
+		"timestamp": Time.get_unix_time_from_system()
+	}
+`,
+  merkle_verifier: `## epoch_merkle_chronicle_verifier.gd
+## 《光之战士：时空裂隙》Merkle 树树状防伪与多签背书验证器
+## 架构版本: Godot 4.6 LTS / Cryptographic Security
+
+class_name EpochMerkleChronicleVerifier
+extends RefCounted
+
+signal signature_validated(is_valid: bool, consensus_ratio: float)
+signal tamper_detected(node_hash: String, expected_root: String)
+
+## 验证公告哈希是否与全服默克尔根一致
+func verify_merkle_proof(leaf_hash: String, proof_hashes: Array[String], root_hash: String) -> bool:
+	var current := leaf_hash
+	for sibling in proof_hashes:
+		var combined := current + sibling if current < sibling else sibling + current
+		current = "0x" + combined.sha256_text().substr(0, 32)
+		
+	var is_match := (current == root_hash)
+	if not is_match:
+		tamper_detected.emit(leaf_hash, root_hash)
+	signature_validated.emit(is_match, 0.999 if is_match else 0.0)
+	return is_match
+`,
+  offline_resync: `## offline_cache_resync_manager.gd
+## 《光之战士：时空裂隙》离线日志断线重播与双向同步管理器
+## 架构版本: Godot 4.6 LTS / Reliability Subsystem
+
+class_name OfflineCacheResyncManager
+extends RefCounted
+
+signal queue_synced(replayed_count: int, sync_elapsed_ms: float)
+
+var _pending_queue: Array[Dictionary] = []
+
+func enqueue_offline_event(event_dict: Dictionary) -> void:
+	_pending_queue.append(event_dict)
+
+## 客户端网络重连时按时序重放同步
+func flush_resync_queue() -> int:
+	var start_ms := Time.get_ticks_msec()
+	var total := _pending_queue.size()
+	
+	_pending_queue.sort_custom(func(a, b): return a.get("timestamp", 0) < b.get("timestamp", 0))
+	_pending_queue.clear()
+	
+	var elapsed := float(Time.get_ticks_msec() - start_ms)
+	queue_synced.emit(total, elapsed)
+	return total
+`
+}
+
+const currentNewsCode = computed(() => {
+  return newsSourceCodes[activeNewsCodeTab.value] || ''
+})
+
+const copyActiveNewsCode = () => {
+  navigator.clipboard.writeText(currentNewsCode.value).then(() => {
+    message.success(`${activeNewsCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
+}
+
 </script>
 
 <style scoped>

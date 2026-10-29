@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-news-chronicle-broadcast-v313-2026-10-29',
+    version: 'v2.2.313',
+    date: '2026-10-29',
+    title: '官方情报站时空联播、全服公告与纪元大事件编年史工坊重磅实装',
+    category: 'system',
+    categoryName: '时空联播',
+    icon: '📢',
+    tagType: 'success',
+    description: '全面重构升级 NewsView 官方情报站门户：顶部标章升级为 VBLE News, World Chronicle, Merkle Dispatch & Spatiotemporal Broadcast Studio v2.2.313，新增时空联播与纪元工坊快捷直达；专区重磅实装【官方情报站时空联播、全服公告与纪元大事件编年史工坊】（Spatiotemporal News Broadcast, Epoch Chronicle & Merkle Dispatch Studio）；覆盖四大广播流派原型（全服紧急维护联播流、纪元大版本全景联播流、公会风土与大事纪档案流、去中心化 Merkle 防伪流）；支持广播发射功率指数 (100~1,000 MW)、时空重叠中继节点密度 (20~200 个节点)、全息信噪比阈值 (10~60 dB) 与多方共识背书签名轮数 (3~15 轮) 连续微调；支持跨维度广播自动漫游中继、零信任 Merkle Root 树状防伪签名与客户端离线缓存断线自动重放同步；实时解算有效覆盖光秒半径 (突破 16,000+ 光秒)、信道数据吞吐速率 (突破 4,800+ Kbps)、共识防伪可信度 (高达 99.9%) 与情报认证评级 (高达 EX·太古全域通报主权)；内置五阶段联播沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：spatiotemporal_news_broadcaster.gd、epoch_merkle_chronicle_verifier.gd 与 offline_cache_resync_manager.gd。',
+    highlights: [
+      '四大联播流派原型：全服紧急维护、大版本全景联播、公会大事纪档案与 Merkle 去中心化防伪',
+      '四维连续射频微调参数：发射功率指数、中继节点密度、全息信噪比阈值与共识签名轮数',
+      '三重官方联播安全守卫：跨维度漫游中继、零信任 Merkle 树状防伪与断线自动重放缓存',
+      '动态通信指标解算：覆盖光秒半径、信道吞吐速率、共识防伪可信度与太古全域通报主权认证',
+      '五阶段联播沙盘：射频功率爬升、中继组网拓扑、Merkle 签名背书、断线缓存对齐与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源时空联播发射机、默克尔树校验器与离线重同步管理器'
+    ],
+    relatedLinks: [
+      { label: '官方资讯中心', path: '/vble/news', icon: '📢' },
+      { label: '时空联播工坊', path: '/vble/news', icon: '📡' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-teachings-mentorship-v312-2026-10-29',
     version: 'v2.2.312',
     date: '2026-10-29',
