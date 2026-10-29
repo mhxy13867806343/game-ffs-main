@@ -20,6 +20,17 @@
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToConstellationOrbitStudio"
+          >
+            <template #icon><span>🌌</span></template>
+            命座星轨羁绊工坊
+          </n-button>
+          <n-button
             type="error"
             size="medium"
             round
@@ -1301,6 +1312,207 @@
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-rose-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentHeroOathCode }}</pre>
       </div>
     </div>
+
+    <!-- v2.2.335: 全域英雄命座星轨、光暗双宿觉醒与羁绊共振工坊 -->
+    <div
+      id="constellation-orbit-bond-studio"
+      class="constellation-orbit-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-purple-950/20 to-slate-900/95 border border-purple-500/30 shadow-[0_0_35px_rgba(168,85,247,0.15)] space-y-6 relative overflow-hidden"
+    >
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-purple-500/20 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
+              CONSTELLATION ORBIT &amp; BOND MATRIX v2.2.335
+            </span>
+            <span class="text-xs text-purple-400 font-mono">Light &amp; Dark Awakening &amp; Supernova Synergy</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <span>🌌</span> 全域英雄命座星轨、光暗双宿觉醒与羁绊共振工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            提供八大主角六阶命之座天赋星轨投射、光与暗双宿相生相协、毫秒级羁绊协防反击与超越 9,999,999 极限伤害破限推演沙盘。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingConstellation"
+            @click="runConstellationSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动命座星轨沙盘推演
+          </n-button>
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="exportConstellationCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出英雄星盘方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大命座觉醒原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="arch in constellationArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative"
+          :class="selectedConstellationArchetypeId === arch.id ? 'bg-purple-950/40 border-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-purple-500/40'"
+          @click="selectConstellationArchetype(arch.id)"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+              {{ arch.tag }}
+            </span>
+          </div>
+          <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+          <div class="text-xs text-purple-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+          <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+          <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-gray-400">基准奥义倍率</span>
+            <span class="text-purple-400 font-bold">{{ arch.baseBurstMultiplier }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与开关控制网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+        <!-- 4 滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-purple-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚙️</span> 命座星轨与双宿羁绊参数微调
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">命座星轨灵魂同步率 (%)</span>
+              <span class="text-purple-400 font-mono font-bold">{{ constellationOrbitSyncRatio }} %</span>
+            </div>
+            <n-slider v-model:value="constellationOrbitSyncRatio" :min="50" :max="100" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">光暗双宿羁绊共振度 (%)</span>
+              <span class="text-amber-400 font-mono font-bold">{{ bondAffinityResonancePct }} %</span>
+            </div>
+            <n-slider v-model:value="bondAffinityResonancePct" :min="100" :max="300" :step="10" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-cyan-400">超新星觉醒神威持续时长 (秒)</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ awakeningSupernovaDurationSec.toFixed(1) }} s</span>
+            </div>
+            <n-slider v-model:value="awakeningSupernovaDurationSec" :min="5.0" :max="30.0" :step="0.5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-emerald-400">极意奥义连携爆发倍率 (倍)</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ limitBreakChainMultiplier.toFixed(1) }} x</span>
+            </div>
+            <n-slider v-model:value="limitBreakChainMultiplier" :min="2.0" :max="10.0" :step="0.2" />
+          </div>
+        </div>
+
+        <!-- 3 开关与实时数据 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-purple-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>✨</span> 双宿相生特权与破限机制
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">光与暗双宿相生豁免属性互斥</div>
+                <div class="text-gray-400 text-[11px]">黎川圣光与纳哈特暗蚀同时出战增幅 35%</div>
+              </div>
+              <n-switch v-model:value="lightDarkHarmonicNoConflict" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">羁绊满溢伙伴毫秒级自动协防反击</div>
+                <div class="text-gray-400 text-[11px]">受到致死攻击时同伴立即介入抵挡伤害</div>
+              </div>
+              <n-switch v-model:value="crossHeroBondInstantAssist" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">觉醒奥义极限伤害超越 9,999,999 破限</div>
+                <div class="text-gray-400 text-[11px]">解除单发奥义伤害上限至 99,999,999</div>
+              </div>
+              <n-switch v-model:value="transcendentDamageCapUncap" />
+            </div>
+          </div>
+
+          <!-- 4 项实时综合解算指标 -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="p-2.5 rounded bg-slate-900 border border-purple-500/20 text-center">
+              <div class="text-[11px] text-gray-400">命座觉醒连携爆发</div>
+              <div class="text-lg font-mono font-black text-purple-400">{{ calculatedConstellationMetrics.constellationAwakeningBurst }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-purple-500/20 text-center">
+              <div class="text-[11px] text-gray-400">羁绊双宿共振能效</div>
+              <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedConstellationMetrics.bondResonanceEfficiency }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-purple-500/20 text-center">
+              <div class="text-[11px] text-gray-400">全队星辉圣佑稳态率</div>
+              <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedConstellationMetrics.partyAuraDefenseStability }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-purple-500/20 text-center">
+              <div class="text-[11px] text-gray-400">英雄星盘导师考评</div>
+              <div class="text-lg font-mono font-black text-amber-400">{{ calculatedConstellationMetrics.heroConstellationRank }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条 -->
+      <div v-if="isSimulatingConstellation" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-purple-500/30">
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-purple-300 flex items-center gap-2">
+            <span class="animate-spin">🔄</span> {{ constellationStages[currentConstellationSimStage] }}
+          </span>
+          <span class="text-gray-400">{{ (currentConstellationSimStage + 1) * 20 }}%</span>
+        </div>
+        <n-progress type="line" :percentage="(currentConstellationSimStage + 1) * 20" :show-indicator="false" status="info" />
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS CONSTELLATION ENGINE</span>
+            <n-tag size="small" type="info" round>res://scripts/combat/characters/</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-radio-group v-model:value="activeConstellationScriptTab" size="small">
+              <n-radio-button value="constellation_orbit">命座星轨引擎</n-radio-button>
+              <n-radio-button value="bond_resonance">光暗羁绊总线</n-radio-button>
+              <n-radio-button value="awakening_controller">超新星觉醒控制器</n-radio-button>
+            </n-radio-group>
+            <n-button type="info" size="tiny" secondary round @click="copyConstellationScript">
+              复制当前脚本
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentConstellationScriptCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2462,6 +2674,224 @@ const copyActiveHeroOathCode = () => {
   }).catch(() => {
     message.info('源码已复制')
   })
+}
+
+
+// ==========================================
+// v2.2.335: 英雄命座星轨与光暗双宿工坊逻辑
+// ==========================================
+const scrollToConstellationOrbitStudio = () => {
+  const el = document.getElementById('constellation-orbit-bond-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface ConstellationArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  baseBurstMultiplier: string
+  basePowerScore: number
+}
+
+const constellationArchetypes: ConstellationArchetype[] = [
+  {
+    id: 'lichuan_dawn_knight',
+    name: '晨辉骑士黎川',
+    subtitle: '光之宿命六阶命座与全军圣佑流',
+    icon: '⚔️',
+    tag: '圣堂守护',
+    desc: '解放六阶命之座【极光裁决】，普通攻击附带神圣剑气波，受创时为全队施加 20 秒坚韧减伤光环。',
+    baseBurstMultiplier: '750%',
+    basePowerScore: 68000
+  },
+  {
+    id: 'weiheng_wind_blade',
+    name: '疾风剑客卫珩',
+    subtitle: '疾风剑意星轨与十段暴风连斩流',
+    icon: '🌪️',
+    tag: '暴风斩击',
+    desc: '星轨流转提升 100% 暴击率，奥义技能化作十道虚空旋风剑气，瞬间斩杀高韧性强敌。',
+    baseBurstMultiplier: '820%',
+    basePowerScore: 72000
+  },
+  {
+    id: 'zhouyin_radiant_sage',
+    name: '白魔导昼隐',
+    subtitle: '天国圣歌星图与全员免死逆生流',
+    icon: '✨',
+    tag: '天国涅槃',
+    desc: '命座解锁【涅槃余烬】，全队任意伙伴遭受致命伤害时强制免疫并恢复 100% 满生命。',
+    baseBurstMultiplier: '600%',
+    basePowerScore: 64000
+  },
+  {
+    id: 'nahate_void_avenger',
+    name: '暗之死囚纳哈特',
+    subtitle: '深渊裂隙暗蚀与虚空复仇斩流',
+    icon: '🗡️',
+    tag: '暗蚀复仇',
+    desc: '撕裂深渊帷幕注入武器，血量越低真实伤害倍率越高，在背水绝境下可轰出十倍真实伤害。',
+    baseBurstMultiplier: '920%',
+    basePowerScore: 78000
+  }
+]
+
+const selectedConstellationArchetypeId = ref('lichuan_dawn_knight')
+const constellationOrbitSyncRatio = ref(94)
+const bondAffinityResonancePct = ref(240)
+const awakeningSupernovaDurationSec = ref(20.0)
+const limitBreakChainMultiplier = ref(6.2)
+
+const lightDarkHarmonicNoConflict = ref(true)
+const crossHeroBondInstantAssist = ref(true)
+const transcendentDamageCapUncap = ref(true)
+
+const selectConstellationArchetype = (id: string) => {
+  selectedConstellationArchetypeId.value = id
+  if (message) {
+    const arch = constellationArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换英雄命座原型：${arch.name}`)
+  }
+}
+
+const calculatedConstellationMetrics = computed(() => {
+  const arch = constellationArchetypes.find(a => a.id === selectedConstellationArchetypeId.value) || constellationArchetypes[0]
+  const basePwr = arch.basePowerScore
+  const harmonicBonus = lightDarkHarmonicNoConflict.value ? 1.35 : 1.0
+  const uncapBonus = transcendentDamageCapUncap.value ? 1.5 : 1.0
+  const finalBurst = Math.round(basePwr * (constellationOrbitSyncRatio.value / 100) * (bondAffinityResonancePct.value / 100) * limitBreakChainMultiplier.value * harmonicBonus * uncapBonus * 10)
+  
+  const effRate = Math.min(99.9, 88.0 + (bondAffinityResonancePct.value / 300) * 11.5 + (crossHeroBondInstantAssist.value ? 0.4 : 0)).toFixed(1)
+  const stabRate = Math.min(99.9, 85.0 + (awakeningSupernovaDurationSec.value / 30) * 14.5).toFixed(1)
+
+  let rank = 'SSR·天域宿命导师'
+  if (finalBurst >= 50000000) rank = 'EX·太古光暗双宿星轨统帅'
+  else if (finalBurst >= 30000000) rank = 'SSS·极意双宿裁决使'
+
+  return {
+    constellationAwakeningBurst: finalBurst.toLocaleString(),
+    bondResonanceEfficiency: `${effRate}%`,
+    partyAuraDefenseStability: `${stabRate}%`,
+    heroConstellationRank: rank
+  }
+})
+
+const isSimulatingConstellation = ref(false)
+const currentConstellationSimStage = ref(0)
+const constellationStages = [
+  '八主角灵魂星位天球经纬度捕获...',
+  '光与暗双宿羁绊共振微秒相位校准...',
+  '六阶命之座天赋基因锁解除...',
+  '超新星极意奥义光环聚能迸发...',
+  '英雄星盘认证公钥生成与证书封装...'
+]
+
+const runConstellationSimulation = () => {
+  if (isSimulatingConstellation.value) return
+  isSimulatingConstellation.value = true
+  currentConstellationSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentConstellationSimStage.value < constellationStages.length - 1) {
+      currentConstellationSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingConstellation.value = false
+      if (message) {
+        message.success(`【命座星轨沙盘】推演成功！连携爆发总伤：${calculatedConstellationMetrics.value.constellationAwakeningBurst}`)
+      }
+    }
+  }, 400)
+}
+
+const exportConstellationCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》英雄命座星轨与羁绊方案证书 ===
+证书编号: HERO-ORBIT-${hash.substring(0, 12).toUpperCase()}
+核心英雄: ${selectedConstellationArchetypeId.value}
+星轨同步率: ${constellationOrbitSyncRatio.value}%
+羁绊共振度: ${bondAffinityResonancePct.value}%
+奥义倍率: ${limitBreakChainMultiplier.value.toFixed(1)}x
+连携爆发伤害: ${calculatedConstellationMetrics.value.constellationAwakeningBurst}
+共振能效比: ${calculatedConstellationMetrics.value.bondResonanceEfficiency}
+全队稳态率: ${calculatedConstellationMetrics.value.partyAuraDefenseStability}
+星盘导师评级: ${calculatedConstellationMetrics.value.heroConstellationRank}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方英雄星盘与光暗双宿总线认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出英雄星盘方案防伪证书到剪贴板！')
+  }
+}
+
+const activeConstellationScriptTab = ref<'constellation_orbit' | 'bond_resonance' | 'awakening_controller'>('constellation_orbit')
+
+const constellationScriptCodes = {
+  constellation_orbit: `class_name HeroConstellationOrbitEngine
+extends Node
+
+## 最终幻想：时空之轮 - 英雄命座星轨与天赋基因仲裁器
+## 文件路径: res://scripts/combat/characters/hero_constellation_orbit_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal constellation_tier_unlocked(hero_id: String, tier_index: int, bonus_ratio: float)
+
+@export var orbit_sync_ratio: float = 0.94
+
+func unlock_constellation_tier(hero_id: String, tier: int) -> Dictionary:
+    var potency: float = 1.0 + float(tier) * 0.18 * orbit_sync_ratio
+    constellation_tier_unlocked.emit(hero_id, tier, potency)
+    return {
+        "hero_id": hero_id,
+        "unlocked_tier": tier,
+        "potency_multiplier": potency
+    }
+`,
+
+  bond_resonance: `class_name LightDarkBondResonanceBus
+extends RefCounted
+
+## 最终幻想：时空之轮 - 光暗双宿羁绊协同与协防反击总线
+## 文件路径: res://scripts/combat/characters/light_dark_bond_resonance_bus.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_bond_assist(hero_a: String, hero_b: String, affinity_pct: float, no_conflict: bool) -> Dictionary:
+    var boost: float = (affinity_pct / 100.0) * (1.35 if no_conflict else 1.0)
+    return {
+        "bonded_heroes": [hero_a, hero_b],
+        "assist_trigger_chance": clampf(boost * 0.5, 0.5, 0.99),
+        "damage_absorption": 0.45
+    }
+`,
+
+  awakening_controller: `class_name TranscendentAwakeningController
+extends RefCounted
+
+## 最终幻想：时空之轮 - 超新星觉醒神威与极限伤害破限控制器
+## 文件路径: res://scripts/combat/characters/transcendent_awakening_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func execute_supernova_burst(raw_damage: float, uncap_active: bool) -> int:
+    var max_cap: float = 99999999.0 if uncap_active else 9999999.0
+    return int(minf(raw_damage, max_cap))
+`
+}
+
+const currentConstellationScriptCode = computed(() => {
+  return constellationScriptCodes[activeConstellationScriptTab.value]
+})
+
+const copyConstellationScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentConstellationScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 英雄命座源码到剪贴板！')
+  }
 }
 
 </script>

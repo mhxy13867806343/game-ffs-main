@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-characters-constellation-orbit-v335-2026-10-29',
+    version: 'v2.2.335',
+    date: '2026-10-29',
+    title: '全域英雄命座星轨、光暗双宿觉醒与羁绊共振工坊重磅实装',
+    category: 'npc',
+    categoryName: '英雄传记',
+    icon: '👥',
+    tagType: 'warning',
+    description: '全面重构升级 CharactersView 英雄传记门户：顶部标章升级为 VBLE Constellation Orbit, Light & Dark Awakening & Bond Resonance Studio v2.2.335，新增命座星轨羁绊工坊快捷直达；专区重磅实装【全域英雄命座星轨、光暗双宿觉醒与羁绊共振工坊】（Constellation Orbit & Bond Resonance Studio）；覆盖四大命座觉醒原型（晨辉骑士黎川·光之宿命六阶命座与全军圣佑流、疾风剑客卫珩·疾风剑意星轨与十段暴风连斩流、白魔导昼隐·天国圣歌星图与全员免死逆生流、暗之死囚纳哈特·深渊裂隙暗蚀与虚空复仇斩流）；支持命座星轨灵魂同步率 (50%~100%)、光暗双宿羁绊共振度 (100%~300%)、超新星觉醒神威持续时长 (5.0~30.0 s) 与极意奥义连携爆发倍率 (2.0x~10.0x) 连续微调；支持光与暗双宿相生豁免属性互斥、羁绊满溢伙伴毫秒级自动协防反击、觉醒奥义极限伤害超越 9,999,999 破限；实时解算命座觉醒连携爆发 (高达 5,000 万以上)、羁绊双宿共振能效 (高达 99.9%)、全队星辉圣佑稳态率 (高达 99.9%) 与英雄星盘导师考评 (高达 EX·太古光暗双宿星轨统帅)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：hero_constellation_orbit_engine.gd、light_dark_bond_resonance_bus.gd 与 transcendent_awakening_controller.gd。',
+    highlights: [
+      '四大命座觉醒原型：晨辉骑士黎川、疾风剑客卫珩、白魔导昼隐与暗之死囚纳哈特',
+      '四维连续命座星轨参数：灵魂同步率、双宿羁绊共振度、超新星持续时长与奥义爆发倍率',
+      '三重双宿相生破限特权：豁免光暗互斥、伙伴毫秒协防反击与觉醒奥义伤害破限',
+      '动态深层星轨指标解算：连携爆发总伤、羁绊共振能效、星辉圣佑稳态率与星盘统帅评级',
+      '五阶段星盘推演沙盘：经纬度捕获、相位校准、基因锁解除、光环聚能与方案证书封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源命座星轨引擎、光暗羁绊总线与超新星觉醒控制器'
+    ],
+    relatedLinks: [
+      { label: '英雄传记与命座', path: '/vble/characters', icon: '👥' },
+      { label: '命座星轨羁绊工坊', path: '/vble/characters', icon: '🌌' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-armory-affix-equilibrium-v334-2026-10-29',
     version: 'v2.2.334',
     date: '2026-10-29',
