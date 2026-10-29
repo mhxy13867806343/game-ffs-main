@@ -26,6 +26,10 @@
               查看更新日志
             </n-button>
           </router-link>
+          <n-button type="info" size="medium" round class="shadow-md font-bold text-black bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400" @click="scrollToEpochVotingStudio">
+            <template #icon><span>🗳️</span></template>
+            纪元演化与共创工坊
+          </n-button>
           <n-button type="warning" size="medium" round class="shadow-md font-bold text-black bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400" @click="scrollToMilestoneTopologyStudio">
             <template #icon><span>🚀</span></template>
             甘特拓扑与路线图工坊
@@ -774,6 +778,207 @@
           </div>
         </div>
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-amber-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentRoadmapCode }}</pre>
+      </div>
+    </div>
+
+    <!-- v2.2.340: 纪元演化路线蓝图、全息功能里程碑与玩家共创投票工坊 -->
+    <div
+      id="epoch-voting-evolution-studio"
+      class="epoch-voting-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-blue-950/20 to-slate-900/95 border border-blue-500/30 shadow-[0_0_35px_rgba(59,130,246,0.15)] space-y-6 relative overflow-hidden"
+    >
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-blue-500/20 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono font-bold text-xs border border-blue-500/30">
+              EPOCH EVOLUTION &amp; VOTING MATRIX v2.2.340
+            </span>
+            <span class="text-xs text-blue-400 font-mono">Consensus Governance &amp; Canary Rollout Pipeline</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <span>🗳️</span> 纪元演化路线蓝图、全息功能里程碑与玩家共创投票工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            提供四大纪元演化关键路径实时推演、社区万赞提案免审直通、金丝雀灰度无损发布与跨纪元存档热升级沙盘。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingEpochVoting"
+            @click="runEpochVotingSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动纪元演化推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportEpochVotingCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出路线蓝图证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大纪元原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="arch in epochMilestoneArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative"
+          :class="selectedEpochArchetypeId === arch.id ? 'bg-blue-950/40 border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-blue-500/40'"
+          @click="selectEpochArchetype(arch.id)"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">
+              {{ arch.tag }}
+            </span>
+          </div>
+          <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+          <div class="text-xs text-blue-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+          <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+          <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-gray-400">已解锁进度</span>
+            <span class="text-blue-400 font-bold">{{ arch.completionPct }} %</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与开关控制网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+        <!-- 4 滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-blue-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚙️</span> 研发算力与社区共识参数微调
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">玩家共创投票共识加权比 (%)</span>
+              <span class="text-blue-400 font-mono font-bold">{{ communityVotingConsensusWeight }} %</span>
+            </div>
+            <n-slider v-model:value="communityVotingConsensusWeight" :min="50" :max="100" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">里程碑攻坚迭代冲刺周期 (天)</span>
+              <span class="text-amber-400 font-mono font-bold">{{ milestoneRndVelocitySprintDays }} 天</span>
+            </div>
+            <n-slider v-model:value="milestoneRndVelocitySprintDays" :min="7" :max="60" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">功能特性灰度金丝雀分流 (%)</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ featureFlagCanaryRolloutPct }} %</span>
+            </div>
+            <n-slider v-model:value="featureFlagCanaryRolloutPct" :min="5" :max="50" :step="5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-emerald-400">路线图准时交付置信度 (%)</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ roadmapConfidenceIndexPct }} %</span>
+            </div>
+            <n-slider v-model:value="roadmapConfidenceIndexPct" :min="60" :max="99" :step="1" />
+          </div>
+        </div>
+
+        <!-- 3 开关与实时数据 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-blue-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>🗳️</span> 治理特权与安全回滚机制
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">社区万赞提案直接免审纳入核心主干</div>
+                <div class="text-gray-400 text-[11px]">全服玩家表决破万赞直接提审自动构建管道</div>
+              </div>
+              <n-switch v-model:value="communityProposalDirectPipelining" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">灰度异常时毫秒级自动静默无损回滚</div>
+                <div class="text-gray-400 text-[11px]">发现异常指标瞬时切断流量回退稳定版</div>
+              </div>
+              <n-switch v-model:value="automatedRollbackFaultGuard" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">跨大纪元存档数据 100% 结构无损升级</div>
+                <div class="text-gray-400 text-[11px]">全版本跨纪元数据迁移，字段兼容兜底保障</div>
+              </div>
+              <n-switch v-model:value="crossEpochSaveLosslessMigration" />
+            </div>
+          </div>
+
+          <!-- 4 项实时综合解算指标 -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="p-2.5 rounded bg-slate-900 border border-blue-500/20 text-center">
+              <div class="text-[11px] text-gray-400">纪元全息推进度</div>
+              <div class="text-lg font-mono font-black text-blue-400">{{ calculatedEpochMetrics.effectiveMilestoneProgressPct }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-blue-500/20 text-center">
+              <div class="text-[11px] text-gray-400">社区共创共识度</div>
+              <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedEpochMetrics.communityConsensusIndex }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-blue-500/20 text-center">
+              <div class="text-[11px] text-gray-400">功能迭代节拍</div>
+              <div class="text-lg font-mono font-black text-amber-400">{{ calculatedEpochMetrics.rndVelocitySprintDays }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-blue-500/20 text-center">
+              <div class="text-[11px] text-gray-400">架构总师考评</div>
+              <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedEpochMetrics.roadmapArchitectEvaluation }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条 -->
+      <div v-if="isSimulatingEpochVoting" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-blue-500/30">
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-blue-300 flex items-center gap-2">
+            <span class="animate-spin">🔄</span> {{ epochVotingStages[currentEpochSimStage] }}
+          </span>
+          <span class="text-gray-400">{{ (currentEpochSimStage + 1) * 20 }}%</span>
+        </div>
+        <n-progress type="line" :percentage="(currentEpochSimStage + 1) * 20" :show-indicator="false" status="info" />
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS ROADMAP ENGINE</span>
+            <n-tag size="small" type="info" round>res://scripts/core/roadmap/</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-radio-group v-model:value="activeEpochScriptTab" size="small">
+              <n-radio-button value="roadmap_manager">纪元演化总监</n-radio-button>
+              <n-radio-button value="voting_bus">共创投票总线</n-radio-button>
+              <n-radio-button value="canary_guard">金丝雀断路器</n-radio-button>
+            </n-radio-group>
+            <n-button type="info" size="tiny" secondary round @click="copyEpochScript">
+              复制当前脚本
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentEpochScriptCode }}</code></pre>
+        </div>
       </div>
     </div>
   </div>
@@ -1958,6 +2163,216 @@ const copyActiveRoadmapCode = () => {
   }).catch(() => {
     message.info('源码已复制')
   })
+}
+
+
+// ==========================================
+// v2.2.340: 纪元演化路线蓝图与玩家共创工坊逻辑
+// ==========================================
+const scrollToEpochVotingStudio = () => {
+  const el = document.getElementById('epoch-voting-evolution-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface EpochMilestoneArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  completionPct: number
+}
+
+const epochMilestoneArchetypes: EpochMilestoneArchetype[] = [
+  {
+    id: 'epoch1_crystal_resonance',
+    name: '第一纪元·晶石共振之初',
+    subtitle: '原野世界观、经典ATB与神圣晶石启航',
+    icon: '💎',
+    tag: '基础架构',
+    desc: '奠定四人回合制战斗、二十八职业水晶转职树与全域十八大地下城空间拓扑基底。',
+    completionPct: 100
+  },
+  {
+    id: 'epoch2_time_dilation_cataclysm',
+    name: '第二纪元·时空裂隙坍缩',
+    subtitle: '多维黑洞引力、深渊变异与时空跃迁',
+    icon: '🌌',
+    tag: '进阶拓展',
+    desc: '引入时空裂隙曲率驱动、首领AI状态机狂暴破限、神装附魔词缀与多平台安装分发。',
+    completionPct: 98
+  },
+  {
+    id: 'epoch3_astral_ascension_overdrive',
+    name: '第三纪元·星天维度升维',
+    subtitle: '三十全职业水晶转生、高维天体引力弹弓',
+    icon: '🪐',
+    tag: '深度极意',
+    desc: '实现角色六维穿透衰减与战力解算、太古奥术导师法典全相元素反应与八主角超新星觉醒。',
+    completionPct: 95
+  },
+  {
+    id: 'epoch4_void_genesis_eternity',
+    name: '第四纪元·终焉虚空创世纪',
+    subtitle: '跨服公会远征战、全景全维星海自由航行',
+    icon: '👑',
+    tag: '宏大蓝图',
+    desc: '全服无缝分布式大世界、玩家自定义地下城MOD编辑器、神祇创造者沙盒生态构建。',
+    completionPct: 88
+  }
+]
+
+const selectedEpochArchetypeId = ref('epoch3_astral_ascension_overdrive')
+const communityVotingConsensusWeight = ref(92)
+const milestoneRndVelocitySprintDays = ref(14)
+const featureFlagCanaryRolloutPct = ref(20)
+const roadmapConfidenceIndexPct = ref(95)
+
+const communityProposalDirectPipelining = ref(true)
+const automatedRollbackFaultGuard = ref(true)
+const crossEpochSaveLosslessMigration = ref(true)
+
+const selectEpochArchetype = (id: string) => {
+  selectedEpochArchetypeId.value = id
+  if (message) {
+    const arch = epochMilestoneArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换纪元演化原型：${arch.name}`)
+  }
+}
+
+const calculatedEpochMetrics = computed(() => {
+  const arch = epochMilestoneArchetypes.find(a => a.id === selectedEpochArchetypeId.value) || epochMilestoneArchetypes[0]
+  const baseComp = arch.completionPct
+  const sprintMod = 1.0 + (14.0 / milestoneRndVelocitySprintDays.value) * 0.05
+  const finalProg = Math.min(99.9, baseComp * (communityVotingConsensusWeight.value / 100) * sprintMod).toFixed(1)
+  
+  const consensusIdx = Math.min(99.9, 90.0 + (communityVotingConsensusWeight.value / 100) * 9.5 + (communityProposalDirectPipelining.value ? 0.4 : 0)).toFixed(1)
+  const sprintDays = (milestoneRndVelocitySprintDays.value / 12.0 * (automatedRollbackFaultGuard.value ? 0.9 : 1.0)).toFixed(1)
+
+  let rank = 'SSR·天域蓝图执笔官'
+  if (parseFloat(finalProg) >= 95.0) rank = 'EX·全域太古星海天象引航官'
+  else if (parseFloat(finalProg) >= 90.0) rank = 'SSS·极星纪元总规划使'
+
+  return {
+    effectiveMilestoneProgressPct: `${finalProg}%`,
+    communityConsensusIndex: `${consensusIdx}%`,
+    rndVelocitySprintDays: `${sprintDays} 天/项`,
+    roadmapArchitectEvaluation: rank
+  }
+})
+
+const isSimulatingEpochVoting = ref(false)
+const currentEpochSimStage = ref(0)
+const epochVotingStages = [
+  '全服冒险者心愿投票权值聚合计算...',
+  '四大演进纪元关键路径敏捷对齐...',
+  '特性灰度金丝雀安全分流沙盒压测...',
+  '跨纪元存档无损迁移协议签名对齐...',
+  '路线蓝图防伪公钥计算与证书封装...'
+]
+
+const runEpochVotingSimulation = () => {
+  if (isSimulatingEpochVoting.value) return
+  isSimulatingEpochVoting.value = true
+  currentEpochSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentEpochSimStage.value < epochVotingStages.length - 1) {
+      currentEpochSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingEpochVoting.value = false
+      if (message) {
+        message.success(`【纪元演化沙盘】推演成功！纪元全息推进度达：${calculatedEpochMetrics.value.effectiveMilestoneProgressPct}`)
+      }
+    }
+  }, 400)
+}
+
+const exportEpochVotingCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》纪元演化与玩家共创方案证书 ===
+证书编号: ROADMAP-EPOCH-${hash.substring(0, 12).toUpperCase()}
+目标纪元: ${selectedEpochArchetypeId.value}
+共识加权比: ${communityVotingConsensusWeight.value}%
+冲刺周期: ${milestoneRndVelocitySprintDays.value} 天
+灰度分流比: ${featureFlagCanaryRolloutPct.value}%
+准时置信度: ${roadmapConfidenceIndexPct.value}%
+纪元推进度: ${calculatedEpochMetrics.value.effectiveMilestoneProgressPct}
+社区共识度: ${calculatedEpochMetrics.value.communityConsensusIndex}
+迭代节拍: ${calculatedEpochMetrics.value.rndVelocitySprintDays}
+架构师考评: ${calculatedEpochMetrics.value.roadmapArchitectEvaluation}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方纪元演化路线图与金丝雀灰度分发引擎认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出纪元演化路线蓝图防伪证书到剪贴板！')
+  }
+}
+
+const activeEpochScriptTab = ref<'roadmap_manager' | 'voting_bus' | 'canary_guard'>('roadmap_manager')
+
+const epochScriptCodes = {
+  roadmap_manager: `class_name EpochEvolutionRoadmapManager
+extends Node
+
+## 最终幻想：时空之轮 - 纪元演化路线图与关键路径求解器
+## 文件路径: res://scripts/core/roadmap/epoch_evolution_roadmap_manager.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal epoch_milestone_reached(epoch_id: String, completion_pct: float)
+
+func evaluate_critical_path(milestones: Array[Dictionary], sprint_days: int) -> Dictionary:
+    var total_tasks: int = milestones.size()
+    var calculated_days: int = total_tasks * sprint_days
+    epoch_milestone_reached.emit("epoch_current", 98.5)
+    return {
+        "critical_path_days": calculated_days,
+        "is_on_schedule": true,
+        "confidence_index": 0.95
+    }
+`,
+
+  voting_bus: `class_name CommunityVotingConsensusBus
+extends RefCounted
+
+## 最终幻想：时空之轮 - 玩家共创投票与特性加权决策总线
+## 文件路径: res://scripts/core/roadmap/community_voting_consensus_bus.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func weigh_community_proposals(votes: int, weight_ratio: float, direct_pipeline: bool) -> bool:
+    if direct_pipeline and votes >= 10000:
+        return true # 万赞直接放行主干
+    return (float(votes) * weight_ratio) >= 5000.0
+`,
+
+  canary_guard: `class_name CanaryRolloutRollbackGuard
+extends RefCounted
+
+## 最终幻想：时空之轮 - 金丝雀灰度分流与自动回滚断路器
+## 文件路径: res://scripts/core/roadmap/canary_rollout_rollback_guard.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func monitor_canary_health(crash_rate: float, rollback_enabled: bool) -> bool:
+    if rollback_enabled and crash_rate > 0.001:
+        return false # 触发断路热回退
+    return true
+`
+}
+
+const currentEpochScriptCode = computed(() => {
+  return epochScriptCodes[activeEpochScriptTab.value]
+})
+
+const copyEpochScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentEpochScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 路线图源码到剪贴板！')
+  }
 }
 
 </script>

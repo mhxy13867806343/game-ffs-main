@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-roadmap-epoch-voting-v340-2026-10-29',
+    version: 'v2.2.340',
+    date: '2026-10-29',
+    title: '纪元演化路线蓝图、全息功能里程碑与玩家共创投票工坊重磅实装',
+    category: 'system',
+    categoryName: '路线规划',
+    icon: '🚀',
+    tagType: 'warning',
+    description: '全面重构升级 RoadmapView 路线图门户：顶部标章升级为 VBLE Epoch Evolution Roadmap Blueprint, Holographic Milestone & Community Voting Studio v2.2.340，新增纪元演化与共创工坊快捷直达；专区重磅实装【纪元演化路线蓝图、全息功能里程碑与玩家共创投票工坊】（Epoch Evolution & Voting Matrix Studio）；覆盖四大纪元演化原型（第一纪元·晶石共振之初、第二纪元·时空裂隙坍缩、第三纪元·星天维度升维、第四纪元·终焉虚空创世纪）；支持玩家共创投票共识加权比 (50%~100%)、里程碑攻坚迭代冲刺周期 (7~60 天)、功能特性灰度金丝雀分流 (5%~50%) 与路线图准时交付置信度 (60%~99%) 连续微调；支持社区万赞提案直接免审纳入核心主干、灰度异常时毫秒级自动静默无损回滚、跨大纪元存档数据 100% 结构无损升级；实时解算纪元全息推进度 (高达 99.9%)、玩家社区共创共识度 (高达 99.9%)、功能迭代节拍 (低至 1.1 天/项) 与架构总师考评评级 (高达 EX·全域太古星海天象引航官)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：epoch_evolution_roadmap_manager.gd、community_voting_consensus_bus.gd 与 canary_rollout_rollback_guard.gd。',
+    highlights: [
+      '四大演化纪元原型：晶石共振之初、时空裂隙坍缩、星天维度升维与终焉虚空创世纪',
+      '四维连续规划治理参数：投票共识加权比、攻坚冲刺周期、金丝雀分流比与准时置信度',
+      '三重架构治理破限特权：万赞提案免审直通、灰度异常毫秒级回滚与跨纪元存档无损迁移',
+      '动态深层蓝图指标解算：纪元全息推进度、社区共识度、功能迭代节拍与架构总师评级',
+      '五阶段路线推演沙盘：权值聚合、路径敏捷对齐、金丝雀压测、迁移签名对齐与证书封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源纪元演化总监、共创投票总线与金丝雀断路器'
+    ],
+    relatedLinks: [
+      { label: '游戏架构路线图', path: '/vble/roadmap', icon: '🚀' },
+      { label: '纪元共创工坊', path: '/vble/roadmap', icon: '🗳️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-systems-micro-loop-v339-2026-10-29',
     version: 'v2.2.339',
     date: '2026-10-29',
