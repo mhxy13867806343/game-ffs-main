@@ -4,9 +4,9 @@
     <div class="portal-marquee flex items-center justify-between px-3 md:px-4 py-2 bg-gradient-to-r from-amber-950/40 via-purple-950/50 to-cyan-950/40 border-y border-amber-500/20 text-xs">
       <div class="flex items-center gap-2 overflow-hidden">
         <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] md:text-[11px] animate-pulse flex-shrink-0">RELEASE</span>
-        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.300 里程碑正式版】</span>
+        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.343 双月宇宙旗舰版】</span>
         <span class="text-gray-300 truncate text-[11px] md:text-xs">
-          【300版本里程碑大典】全域三十维神圣工坊全息互联、Godot 4.6 LTS 离线运行引擎矩阵、全系统零拷贝架构与太古创世终极枢纽工坊重磅实装！
+          【全域时空裂隙双月宇宙门户总览、世界线态势雷达与全景航行中枢工坊重磅实装！Godot 4.6 LTS 离线运行引擎矩阵】
         </span>
       </div>
       <div class="hidden lg:flex items-center gap-4 text-gray-400 flex-shrink-0">
@@ -866,6 +866,275 @@
       </div>
     </section>
 
+    <!-- 全域时空裂隙双月宇宙门户总览、世界线态势雷达与全景航行中枢工坊 (v2.2.343 重磅实装) -->
+    <section id="cosmic-navigation-studio" class="max-w-7xl mx-auto px-3 sm:px-4 space-y-6">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-indigo-950/80 via-slate-900/95 to-cyan-950/80 border-2 border-indigo-500/40 shadow-[0_0_50px_rgba(99,102,241,0.22)] space-y-6 relative overflow-hidden">
+        <div class="absolute -right-24 -top-24 w-80 h-80 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-24 -bottom-24 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- 头部与控制栏 -->
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-indigo-900/60 pb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-gradient-to-r from-indigo-600 via-cyan-600 to-teal-500 text-white shadow-md animate-pulse">
+                v2.2.343 COSMIC PORTAL HUB
+              </span>
+              <span class="text-xs text-indigo-300 font-mono font-bold">双月宇宙世界线态势与全景航行中枢</span>
+            </div>
+            <h2 class="text-xl sm:text-3xl font-black text-white flex items-center gap-2 tracking-tight">
+              <span>🌌</span> 全域时空裂隙双月宇宙门户总览、世界线态势雷达与全景航行中枢工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+              实时监测 Alpha 原初稳态、Beta 时空坍缩、Gamma 星天升维与 Omega 创世纪四大世界线态势。求解分歧变动率与晶石共鸣通量，规划全域三十维神圣工坊超空间航道，签发 SHA-256 宇宙态势认证证书。
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0 flex-wrap relative z-10">
+            <n-button size="small" secondary type="info" @click="resetCosmicStudio">
+              <template #icon><span>🔄</span></template>
+              重置航行参数
+            </n-button>
+            <n-button
+              size="small"
+              type="primary"
+              class="bg-gradient-to-r from-indigo-500 to-cyan-500 font-bold text-white shadow-lg shadow-indigo-500/20"
+              :loading="simulatingCosmicWarp"
+              @click="runSimulatedCosmicWarp"
+            >
+              <template #icon><span>⚡</span></template>
+              执行世界线态势解算与折跃
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大宇宙世界线态势预设卡片 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+          <div
+            v-for="arch in worldlineArchetypes"
+            :key="arch.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between"
+            :class="selectedWorldlineId === arch.id
+              ? 'bg-indigo-950/50 border-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.35)] ring-1 ring-indigo-400/60'
+              : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/90'"
+            @click="selectedWorldlineId = arch.id"
+          >
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-indigo-300 border border-indigo-500/20">
+                  {{ arch.badge }}
+                </span>
+                <span class="text-xs text-gray-400 font-mono">{{ arch.divergenceCode }}</span>
+              </div>
+              <div class="text-sm font-bold text-white flex items-center gap-1.5 pt-1">
+                <span>{{ arch.icon }}</span>
+                <span>{{ arch.name }}</span>
+              </div>
+              <p class="text-xs text-gray-400 leading-relaxed">{{ arch.desc }}</p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+              <span>{{ arch.coreMetricLabel }}</span>
+              <span class="text-indigo-400 font-bold">{{ arch.coreMetricVal }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 参数微调滑块与逻辑开关 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-950/60 p-4 sm:p-6 rounded-xl border border-slate-800/80 relative z-10">
+          <!-- 4 滑块 -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
+              <span>⚙️</span> 多元宇宙因果态势与航行微调参数
+            </div>
+
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">世界线分歧变动率 (Divergence Rate):</span>
+                <span class="font-mono text-indigo-400 font-bold">{{ worldlineDivergenceRate.toFixed(6) }}%</span>
+              </div>
+              <n-slider v-model:value="worldlineDivergenceRate" :min="0" :max="5" :step="0.001" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>0.000% 绝对收敛</span>
+                <span>1.048596% 命运门分歧</span>
+                <span>5.000% 极性宇宙跃迁</span>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">太古晶石共鸣通量 (Crystal Resonance Flux):</span>
+                <span class="font-mono text-indigo-400 font-bold">{{ crystalResonanceFlux }} FLX</span>
+              </div>
+              <n-slider v-model:value="crystalResonanceFlux" :min="50" :max="500" :step="10" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>50 FLX 微光</span>
+                <span>320 FLX 宇宙共鸣</span>
+                <span>500 FLX 创世激波</span>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">跨位面量子纠缠通信频宽 (Entanglement QPS):</span>
+                <span class="font-mono text-indigo-400 font-bold">{{ quantumEntanglementQps }} QPS</span>
+              </div>
+              <n-slider v-model:value="quantumEntanglementQps" :min="500" :max="10000" :step="100" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>500 QPS 稳态握手</span>
+                <span>6400 QPS 全息实时同步</span>
+                <span>10000 QPS 超光速信道</span>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-300">时空折跃航行精度 (Navigation Precision):</span>
+                <span class="font-mono text-indigo-400 font-bold">{{ chronoWarpPrecision.toFixed(2) }}%</span>
+              </div>
+              <n-slider v-model:value="chronoWarpPrecision" :min="90" :max="100" :step="0.01" />
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>90.00% 跨界偏移容忍</span>
+                <span>99.98% 航天级亚微米对齐</span>
+                <span>100.00% 绝对零漂移</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 开关与实时演算看板 -->
+          <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
+                <span>🛡️</span> 宇宙因果律与保护断路器
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div>
+                  <div class="text-xs font-bold text-gray-200">锁定原初基准现实锚点</div>
+                  <div class="text-[10px] text-gray-500">防止分歧变动率超过临界导致时间悖论</div>
+                </div>
+                <n-switch v-model:value="anchorPrimeReality" size="small" />
+              </div>
+
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div>
+                  <div class="text-xs font-bold text-gray-200">实时熵增逆转平抑力场</div>
+                  <div class="text-[10px] text-gray-500">吸收虚空侵蚀残余，恢复宇宙稳态秩序</div>
+                </div>
+                <n-switch v-model:value="realtimeEntropySuppression" size="small" />
+              </div>
+
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div>
+                  <div class="text-xs font-bold text-gray-200">自动化位面谐振同步协调</div>
+                  <div class="text-[10px] text-gray-500">三十维神圣工坊事件总线零延迟联动</div>
+                </div>
+                <n-switch v-model:value="autoCosmicHarmonization" size="small" />
+              </div>
+            </div>
+
+            <!-- 4 项实时数学衍生指标 -->
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+                <div class="text-[10px] text-gray-400">因果稳态指数</div>
+                <div class="text-base font-black text-indigo-400 font-mono mt-0.5">{{ causalStabilityIndex }}</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+                <div class="text-[10px] text-gray-400">坍缩预警倒计时</div>
+                <div class="text-base font-black text-amber-400 font-mono mt-0.5">{{ collapseWarningCountdown }}</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+                <div class="text-[10px] text-gray-400">瞬时折跃能级</div>
+                <div class="text-base font-black text-cyan-400 font-mono mt-0.5">{{ warpEnergyOutput }}</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+                <div class="text-[10px] text-gray-400">宇宙繁荣评级</div>
+                <div class="text-base font-black text-emerald-400 font-mono mt-0.5">{{ cosmicProsperityRank }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 阶段流水线演练进度与实时推演控制台 -->
+        <div class="p-4 sm:p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-3 relative z-10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span>📊</span> 世界线态势解算与全景折跃五阶段流水线
+              </span>
+              <span v-if="simulatingCosmicWarp" class="text-[10px] font-mono text-cyan-400 animate-pulse">
+                [WARP PIPELINE EXECUTING STAGE {{ cosmicWarpStep }}/5]
+              </span>
+            </div>
+            <div class="text-xs text-gray-400 font-mono">
+              当前态势: <span class="text-indigo-300 font-bold">{{ activeWorldlineObj?.name }}</span>
+            </div>
+          </div>
+
+          <n-progress
+            type="line"
+            :percentage="simulatingCosmicWarp ? cosmicWarpStep * 20 : 100"
+            :status="simulatingCosmicWarp ? 'info' : 'success'"
+            :color="'#6366f1'"
+            :rail-color="'#1e293b'"
+            :height="8"
+            :show-indicator="false"
+            border-radius="4px"
+          />
+
+          <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+            <div v-for="(log, idx) in cosmicLogs" :key="idx" class="flex items-start gap-2">
+              <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+              <span :class="log.color">{{ log.text }}</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+            <div class="text-gray-400 font-mono">
+              <span>双月宇宙防伪认证证书: </span>
+              <span class="text-indigo-400 font-bold">{{ cosmicCertHash }}</span>
+            </div>
+            <n-button size="tiny" secondary type="info" round @click="exportCosmicCert">
+              <template #icon><span>📜</span></template>
+              导出宇宙态势与折跃航行报告 (SHA-256)
+            </n-button>
+          </div>
+        </div>
+
+        <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+        <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800 relative z-10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded border border-indigo-500/30">
+                  GODOT 4.6 LTS COSMIC CORE
+                </span>
+                <span class="text-sm font-bold text-white">宇宙世界线雷达与全景航行总线实机驱动</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">
+                提供生产级世界线分歧率解算核心、全域跨系统超空间航行路由与事件调度总线及熵增平抑力场控制器。
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <n-button
+                v-for="codeTab in cosmicCodeTabs"
+                :key="codeTab.id"
+                size="tiny"
+                round
+                :type="activeCosmicCodeTab === codeTab.id ? 'info' : 'default'"
+                :secondary="activeCosmicCodeTab !== codeTab.id"
+                @click="activeCosmicCodeTab = codeTab.id"
+              >
+                {{ codeTab.name }}
+              </n-button>
+              <n-button size="tiny" round secondary type="info" @click="copyActiveCosmicCode">
+                <template #icon><span>📋</span></template>
+                复制代码
+              </n-button>
+            </div>
+          </div>
+          <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-indigo-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentCosmicCode }}</pre>
+        </div>
+      </div>
+    </section>
+
     <!-- 底部合规标识 -->
     <div class="portal-footer-notice max-w-7xl mx-auto px-3 sm:px-4 pt-6 border-t border-slate-800/80 text-center space-y-2 text-xs text-gray-500">
       <div class="flex items-center justify-center gap-4 text-gray-400">
@@ -1249,6 +1518,339 @@ const currentNexusScriptCode = computed(() => {
 const copyNexusScript = () => {
   navigator.clipboard.writeText(currentNexusScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
+// ==========================================
+// v2.2.343: 全域时空裂隙双月宇宙门户总览与全景航行中枢工坊
+// ==========================================
+interface WorldlineArchetype {
+  id: 'alpha_prime_origin' | 'beta_chrono_collapse' | 'gamma_astral_ascend' | 'omega_void_genesis'
+  name: string
+  badge: string
+  divergenceCode: string
+  icon: string
+  desc: string
+  coreMetricLabel: string
+  coreMetricVal: string
+}
+
+const worldlineArchetypes: WorldlineArchetype[] = [
+  {
+    id: 'alpha_prime_origin',
+    name: 'Alpha 原初稳态世界线',
+    badge: 'STEADY TIMELINE',
+    divergenceCode: 'λ: 0.000000%',
+    icon: '🌍',
+    desc: '水晶共振度 99.8%、裂隙坍缩率 0.02%、第一世界至第三世界拓扑完全对齐、秩序神格处于全息护佑。',
+    coreMetricLabel: '因果完整度',
+    coreMetricVal: '99.98%'
+  },
+  {
+    id: 'beta_chrono_collapse',
+    name: 'Beta 时空坍缩分歧世界线',
+    badge: 'VOID DIVERGENCE',
+    divergenceCode: 'λ: 1.048596%',
+    icon: '⚡',
+    desc: '虚空引力暴涨 450%、终焉双月重叠潮汐、大地图地下城异化、全域首领狂暴攻坚机制全开。',
+    coreMetricLabel: '虚空侵蚀率',
+    coreMetricVal: '45.20%'
+  },
+  {
+    id: 'gamma_astral_ascend',
+    name: 'Gamma 星天维度升维世界线',
+    badge: 'ASTRAL ASCEND',
+    divergenceCode: 'λ: 2.718281%',
+    icon: '✨',
+    desc: '黑洞弹弓引力穿梭、超光速折跃跳跃、太古奥术元素链超载反应、三十全职业被动技能破限融合。',
+    coreMetricLabel: '维度跃迁能级',
+    coreMetricVal: '10^18 J'
+  },
+  {
+    id: 'omega_void_genesis',
+    name: 'Omega 终焉虚空创世纪世界线',
+    badge: 'GENESIS REBIRTH',
+    divergenceCode: 'λ: 3.141592%',
+    icon: '🌌',
+    desc: '宇宙重构协议激活、跨纪元资产与记忆守恒迁移、全域三十维神圣工坊全息共鸣、创世终极态。',
+    coreMetricLabel: '创世因果率',
+    coreMetricVal: '100.00%'
+  }
+]
+
+const selectedWorldlineId = ref<'alpha_prime_origin' | 'beta_chrono_collapse' | 'gamma_astral_ascend' | 'omega_void_genesis'>('alpha_prime_origin')
+const worldlineDivergenceRate = ref(1.048596)
+const crystalResonanceFlux = ref(320)
+const quantumEntanglementQps = ref(6400)
+const chronoWarpPrecision = ref(99.98)
+
+const anchorPrimeReality = ref(true)
+const realtimeEntropySuppression = ref(true)
+const autoCosmicHarmonization = ref(true)
+
+const activeWorldlineObj = computed(() => {
+  return worldlineArchetypes.find(w => w.id === selectedWorldlineId.value) || worldlineArchetypes[0]
+})
+
+const causalStabilityIndex = computed(() => {
+  let stab = 99.0 + (chronoWarpPrecision.value - 90) * 0.09
+  if (anchorPrimeReality.value) stab += 0.05
+  if (realtimeEntropySuppression.value) stab += 0.04
+  return `${Math.min(99.999, stab).toFixed(3)}%`
+})
+
+const collapseWarningCountdown = computed(() => {
+  const baseSec = Math.round(124500 * (crystalResonanceFlux.value / 300) / Math.max(0.1, worldlineDivergenceRate.value))
+  return `${baseSec.toLocaleString()} 纪元秒`
+})
+
+const warpEnergyOutput = computed(() => {
+  const energy = (crystalResonanceFlux.value * 0.028) * (quantumEntanglementQps.value / 5000)
+  return `${energy.toFixed(2)} × 10¹⁸ J`
+})
+
+const cosmicProsperityRank = computed(() => {
+  if (chronoWarpPrecision.value >= 99.9 && crystalResonanceFlux.value >= 300) {
+    return 'EX·太古永恒秩序'
+  } else if (chronoWarpPrecision.value >= 98.0) {
+    return 'S·高维繁荣纪元'
+  }
+  return 'A·平稳世界线'
+})
+
+const simulatingCosmicWarp = ref(false)
+const cosmicWarpStep = ref(0)
+const cosmicCertHash = ref('COSMIC-SHA256-8A3E91B2F04C')
+
+const cosmicLogs = ref<Array<{ time: string; text: string; color: string }>>([
+  { time: 'INIT', text: '双月宇宙全景世界线雷达已上线，量子纠缠链路畅通。', color: 'text-indigo-400' },
+  { time: 'STANDBY', text: '原初世界线锚点已锁定，三十维神圣工坊全息事件总线待命中。', color: 'text-gray-400' }
+])
+
+const resetCosmicStudio = () => {
+  selectedWorldlineId.value = 'alpha_prime_origin'
+  worldlineDivergenceRate.value = 1.048596
+  crystalResonanceFlux.value = 320
+  quantumEntanglementQps.value = 6400
+  chronoWarpPrecision.value = 99.98
+  anchorPrimeReality.value = true
+  realtimeEntropySuppression.value = true
+  autoCosmicHarmonization.value = true
+  cosmicCertHash.value = 'COSMIC-SHA256-8A3E91B2F04C'
+  cosmicLogs.value = [
+    { time: 'RESET', text: '双月宇宙航行中枢已恢复初始稳态世界线。', color: 'text-amber-400' },
+    { time: 'READY', text: '时空折跃航线已对齐原初 Alpha 纪元基准坐标。', color: 'text-indigo-400' }
+  ]
+  message?.success('双月宇宙航行参数已重置！')
+}
+
+const runSimulatedCosmicWarp = () => {
+  if (simulatingCosmicWarp.value) return
+  simulatingCosmicWarp.value = true
+  cosmicWarpStep.value = 1
+  cosmicLogs.value.unshift({
+    time: new Date().toLocaleTimeString(),
+    text: `[Stage 1/5] 扫描双月公转坐标与时空裂隙偏角 (分歧率: ${worldlineDivergenceRate.value.toFixed(6)}%)...`,
+    color: 'text-indigo-300'
+  })
+
+  setTimeout(() => {
+    cosmicWarpStep.value = 2
+    cosmicLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 2/5] 求解世界线多维张量因果流 (晶石通量: ${crystalResonanceFlux.value} FLX, 频宽: ${quantumEntanglementQps.value} QPS)...`,
+      color: 'text-cyan-300'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    cosmicWarpStep.value = 3
+    cosmicLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 3/5] 注入反引力谐振波 (熵增平抑: ${realtimeEntropySuppression.value ? '已激活' : '旁路'}, 锚点锁定: ${anchorPrimeReality.value ? 'OK' : 'OFF'})...`,
+      color: 'text-indigo-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    cosmicWarpStep.value = 4
+    cosmicLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 4/5] 规划全域 30 个系统超空间折跃航道 (折跃能级: ${warpEnergyOutput.value}, 精度: ${chronoWarpPrecision.value.toFixed(2)}%)...`,
+      color: 'text-teal-300'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    cosmicWarpStep.value = 5
+    const hash = 'COSMIC-SHA256-' + Math.random().toString(16).substring(2, 10).toUpperCase() + Math.random().toString(16).substring(2, 6).toUpperCase()
+    cosmicCertHash.value = hash
+    cosmicLogs.value.unshift({
+      time: new Date().toLocaleTimeString(),
+      text: `[Stage 5/5] 折跃航行圆满就绪！颁发宇宙态势认证凭证: ${hash}，繁荣评级: ${cosmicProsperityRank.value}！`,
+      color: 'text-emerald-400 font-bold'
+    })
+    simulatingCosmicWarp.value = false
+    message?.success(`双月宇宙全景折跃就绪！凭证: ${hash}`)
+  }, 1600)
+}
+
+const exportCosmicCert = () => {
+  const content = `================================================================================
+   光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
+   双月宇宙门户总览、世界线态势与全景航行报告 (v2.2.343)
+================================================================================
+报告编号: ${cosmicCertHash.value}
+生成时间: ${new Date().toISOString()}
+当前世界线: ${activeWorldlineObj.value.name} (${activeWorldlineObj.value.badge})
+分歧变动代码: ${activeWorldlineObj.value.divergenceCode}
+
+【宇宙态势与因果调控指标】
+- 世界线分歧变动率: ${worldlineDivergenceRate.value.toFixed(6)}%
+- 太古晶石共鸣通量: ${crystalResonanceFlux.value} FLX
+- 跨位面量子纠缠通信频宽: ${quantumEntanglementQps.value} QPS
+- 时空折跃航行精度: ${chronoWarpPrecision.value.toFixed(2)}%
+- 因果稳态指数: ${causalStabilityIndex.value}
+- 坍缩预警倒计时: ${collapseWarningCountdown.value}
+- 瞬时时空折跃能级: ${warpEnergyOutput.value}
+- 多元宇宙繁荣评级: ${cosmicProsperityRank.value}
+
+【因果律与保护断路器】
+- 锁定原初基准现实锚点: ${anchorPrimeReality.value ? '启用' : '禁用'}
+- 实时熵增逆转平抑力场: ${realtimeEntropySuppression.value ? '启用' : '禁用'}
+- 自动化位面谐振同步协调: ${autoCosmicHarmonization.value ? '启用' : '禁用'}
+
+【底层实机驱动】
+- cosmic_worldline_radar_solver.gd
+- spatiotemporal_navigation_bus.gd
+- entropy_suppression_field_governor.gd
+================================================================================`
+
+  navigator.clipboard.writeText(content).then(() => {
+    message?.success('全景宇宙态势与折跃航行报告已复制到剪贴板！')
+  }).catch(() => {
+    message?.info('报告已复制')
+  })
+}
+
+const cosmicCodeTabs = [
+  { id: 'radar', name: 'cosmic_worldline_radar_solver.gd' },
+  { id: 'nav_bus', name: 'spatiotemporal_navigation_bus.gd' },
+  { id: 'governor', name: 'entropy_suppression_field_governor.gd' }
+] as const
+
+type CosmicCodeTabType = (typeof cosmicCodeTabs)[number]['id']
+const activeCosmicCodeTab = ref<CosmicCodeTabType>('radar')
+
+const cosmicSourceCodes: Record<CosmicCodeTabType, string> = {
+  radar: `## cosmic_worldline_radar_solver.gd
+## 《光之战士：时空裂隙》世界线分歧率计算器与宇宙态势解算核心
+## 架构版本: Godot 4.6 LTS / Cosmic Navigation Subsystem
+
+class_name CosmicWorldlineRadarSolver
+extends RefCounted
+
+signal divergence_calculated(divergence_rate: float, stability: float, status: String)
+signal timeline_divergence_alert(worldline_id: String, drift_percent: float)
+
+var _base_divergence: float = 1.048596
+var _crystal_flux: float = 320.0
+
+func _init(base_div: float = 1.048596, flux: float = 320.0) -> void:
+	_base_divergence = base_div
+	_crystal_flux = flux
+
+## 实时解算当前世界线因果稳态指数
+func solve_timeline_status(active_worldline: String, precision: float) -> Dictionary:
+	var stability: float = clampf(0.99 + (precision - 90.0) * 0.0009, 0.90, 0.99999)
+	var is_stable := stability >= 0.995
+	var status_str := "PRIME_STEADY" if is_stable else "VOID_DIVERGENT"
+
+	divergence_calculated.emit(_base_divergence, stability, status_str)
+	if not is_stable:
+		timeline_divergence_alert.emit(active_worldline, _base_divergence)
+
+	return {
+		"worldline": active_worldline,
+		"divergence_rate": _base_divergence,
+		"causal_stability": stability,
+		"status": status_str,
+		"timestamp": Time.get_datetime_string_from_system()
+	}
+`,
+  nav_bus: `## spatiotemporal_navigation_bus.gd
+## 《光之战士：时空裂隙》全域跨系统超空间航行路由与事件调度总线
+## 架构版本: Godot 4.6 LTS / Spatiotemporal Bus Subsystem
+
+class_name SpatiotemporalNavigationBus
+extends RefCounted
+
+signal system_route_dispatched(target_system: String, latency_ms: float)
+signal warp_jump_completed(origin_plane: String, destination_plane: String)
+
+var _routing_table: Dictionary = {}
+var _qps_capacity: int = 6400
+
+func _init(qps: int = 6400) -> void:
+	_qps_capacity = qps
+
+## 注册全域 30 维核心工坊子系统路由
+func register_system_endpoint(system_id: String, endpoint_path: String) -> void:
+	_routing_table[system_id] = endpoint_path
+
+## 执行零拷贝超空间折跃指令
+func dispatch_warp_route(target_id: String) -> bool:
+	if not _routing_table.has(target_id):
+		push_warning("[Cosmic Nav] 目标系统未注册: %s" % target_id)
+		return false
+
+	var latency := randf_range(0.08, 0.45)
+	system_route_dispatched.emit(target_id, latency)
+	warp_jump_completed.emit("PRIME_HUB", target_id)
+	return true
+`,
+  governor: `## entropy_suppression_field_governor.gd
+## 《光之战士：时空裂隙》虚空坍缩平抑力场与因果律保护控制器
+## 架构版本: Godot 4.6 LTS / Entropy Governor Subsystem
+
+class_name EntropySuppressionFieldGovernor
+extends RefCounted
+
+signal field_inverted(resonance_flux: float, suppressed_entropy: float)
+signal causality_anchor_locked(anchor_id: String)
+
+var _anchor_locked: bool = true
+var _entropy_inverted: bool = true
+
+func _init(lock_anchor: bool = true, invert_entropy: bool = true) -> void:
+	_anchor_locked = lock_anchor
+	_entropy_inverted = invert_entropy
+
+## 激活反引力谐振平抑力场，抵御虚空侵蚀
+func activate_suppression_barrier(flux: float) -> Dictionary:
+	var neutralized_entropy := flux * 1.618
+	field_inverted.emit(flux, neutralized_entropy)
+
+	if _anchor_locked:
+		causality_anchor_locked.emit("ALPHA_ORIGIN_TIMELINE_CORE")
+
+	return {
+		"barrier_active": true,
+		"neutralized_entropy": neutralized_entropy,
+		"anchor_steady": _anchor_locked
+	}
+`
+}
+
+const currentCosmicCode = computed(() => {
+  return cosmicSourceCodes[activeCosmicCodeTab.value] || ''
+})
+
+const copyActiveCosmicCode = () => {
+  navigator.clipboard.writeText(currentCosmicCode.value).then(() => {
+    message?.success(`${activeCosmicCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message?.info('源码已复制')
+  })
 }
 
 </script>

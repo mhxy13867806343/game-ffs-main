@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-home-cosmic-navigation-v343-2026-10-29',
+    version: 'v2.2.343',
+    date: '2026-10-29',
+    title: '全域时空裂隙双月宇宙门户总览、世界线态势雷达与全景航行中枢工坊重磅实装',
+    category: 'ui',
+    categoryName: '宇宙门户',
+    icon: '🌌',
+    tagType: 'info',
+    description: '全面重构升级 HomeView 门户首页：顶部单机发布广播条升级为【v2.2.343 双月宇宙旗舰版】，新增世界线雷达与航行中枢快捷直达；专区重磅实装【全域时空裂隙双月宇宙门户总览、世界线态势雷达与全景航行中枢工坊】（Cosmic Portal Hub & Spatiotemporal Navigation Studio）；覆盖四大宇宙世界线态势预设（Alpha 原初稳态世界线、Beta 时空坍缩分歧世界线、Gamma 星天维度升维世界线、Omega 终焉虚空创世纪世界线）；支持世界线分歧变动率 (0.000%~5.000%)、太古晶石共鸣通量 (50~500 FLX)、跨位面量子纠缠通信频宽 (500~10000 QPS) 与时空折跃航行精度 (90.00%~100.00%) 连续微调；支持锁定原初基准现实锚点、实时逆转熵增平抑力场、自动化位面谐振同步协调；实时解算因果稳态指数 (高达 99.999%)、坍缩预警倒计时 (高达 124,500 纪元秒)、瞬时折跃能级 (高达 8.95 × 10¹⁸ J) 与多元宇宙繁荣评级 (高达 EX·太古永恒秩序)；内置五阶段沙盘推演与离线双月宇宙态势防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：cosmic_worldline_radar_solver.gd、spatiotemporal_navigation_bus.gd 与 entropy_suppression_field_governor.gd。',
+    highlights: [
+      '四大宇宙世界线态势预设：Alpha 原初稳态、Beta 时空坍缩、Gamma 星天升维与 Omega 创世纪',
+      '四维连续多元宇宙调控参数：分歧变动率、晶石共鸣通量、量子纠缠频宽与时空折跃精度',
+      '三重因果律保护机制：锁定原初基准现实锚点、实时逆转熵增平抑力场与自动化位面谐振',
+      '动态深层宇宙指标解算：因果稳态指数、坍缩预警倒计时、瞬时折跃能级与宇宙繁荣评级',
+      '五阶段态势解算折跃流水线：双月宇宙定位、变动率张量求解、平抑力场注入、超空间航道拓扑与证书归档',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源世界线态势解算核心、超空间航行路由总线与熵增平抑力场控制器'
+    ],
+    relatedLinks: [
+      { label: '双月宇宙门户首页', path: '/vble', icon: '🌌' },
+      { label: '时空航行中枢', path: '/vble#cosmic-navigation-studio', icon: '🧭' },
+      { label: '底层系统架构', path: '/vble/systems', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-modifier-gm-hotpatch-v342-2026-10-29',
     version: 'v2.2.342',
     date: '2026-10-29',
