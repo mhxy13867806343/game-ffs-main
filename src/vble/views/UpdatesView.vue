@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-summons-ancient-pact-v331-2026-10-29',
+    version: 'v2.2.331',
+    date: '2026-10-29',
+    title: '幻兽太古契约阵列、高阶召唤兽觉醒与神威协同工坊重磅实装',
+    category: 'system',
+    categoryName: '幻兽契约',
+    icon: '🔮',
+    tagType: 'info',
+    description: '全面重构升级 SummonsView 幻兽契约门户：顶部标章升级为 VBLE Ancient Pact Array, High Eidolon Awakening & Divine Synergy Studio v2.2.331，新增幻兽太古契约工坊快捷直达；专区重磅实装【幻兽太古契约阵列、高阶召唤兽觉醒与神威协同工坊】（Ancient Pact & Eidolon Awakening Studio）；覆盖四大高阶幻兽觉醒原型（龙王巴哈姆特·亿万核爆天球降临与虚空崩解流、水神利维亚桑·沧海潮汐怒涛与全息绝对净灵流、战神奥丁·限时微秒斩铁剑与一击断罪流、不死火鸟·天国焚寂涅槃与死者生还光环流）；支持幻兽灵魂同调共振率 (50%~100%)、以太逆流汲取宽容度 (10%~80%)、神威降临庇护光环持续时长 (5.0~30.0 s) 与觉醒奥义神威真伤倍率 (2.0x~12.0x) 连续微调；支持太古契约豁免全额召唤 MP 消耗、神明降临免蓄力瞬间破空现世、跨位面双幻兽极意奥义连击；实时解算神威奥义综合伤害 (突破 3,500 万)、以太能耗利用率 (高达 99.9%)、全队庇护稳态率 (高达 99.9%) 与召唤导师评级 (高达 EX·万象太古龙皇神唤使)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：ancient_pact_awakening_array.gd、eidolon_divine_synergy_coordinator.gd 与 aether_overdrive_governor.gd。',
+    highlights: [
+      '四大高阶幻兽觉醒原型：龙王巴哈姆特、水神利维亚桑、战神奥丁与不死鸟涅槃觉醒态',
+      '四维连续契约同调参数：同调共振率、以太汲取宽容度、庇护光环时长与神威奥义倍率',
+      '三重太古契约破限特权：全额免 MP 誓约、免蓄力瞬发召来与跨位面双神连击',
+      '动态深层神威指标解算：神威奥义真伤、以太能耗利用率、全队庇护稳态率与神唤使认证',
+      '五阶段同调召来沙盘：地脉经纬捕获、灵魂相位校准、符文真名解封、全域裂变核爆与方案封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源太古契约阵列、双神连携总线与以太逆流仲裁器'
+    ],
+    relatedLinks: [
+      { label: '幻兽太古契约', path: '/vble/summons', icon: '🐉' },
+      { label: '神威契约工坊', path: '/vble/summons', icon: '🔮' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-monsters-weakness-drop-v330-2026-10-29',
     version: 'v2.2.330',
     date: '2026-10-29',

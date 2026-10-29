@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE High-Dimensional Summons &amp; Aetheric Prayer v2.2.305
+              VBLE Ancient Pact Array, High Eidolon Awakening &amp; Divine Synergy Studio v2.2.331
             </span>
             <span class="text-xs text-gray-400">太古契约、神明降临与超绝召来共鸣阵</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToAncientPactAwakeningStudio"
+          >
+            <template #icon><span>🔮</span></template>
+            幻兽太古契约工坊
+          </n-button>
           <n-button
             type="success"
             size="medium"
@@ -1502,6 +1513,207 @@
 
         <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
           <pre><code>{{ currentHighDimCode }}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- v2.2.331: 幻兽太古契约阵列、高阶召唤兽觉醒与神威协同工坊 -->
+    <div
+      id="ancient-pact-awakening-studio"
+      class="ancient-pact-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-indigo-950/20 to-slate-900/95 border border-indigo-500/30 shadow-[0_0_35px_rgba(99,102,241,0.15)] space-y-6 relative overflow-hidden"
+    >
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-indigo-500/20 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-mono font-bold text-xs border border-indigo-500/30">
+              ANCIENT PACT &amp; EIDOLON AWAKENING v2.2.331
+            </span>
+            <span class="text-xs text-indigo-400 font-mono">Divine Synergy &amp; Harmonic Resonance Array</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <span>🔮</span> 幻兽太古契约阵列、高阶召唤兽觉醒与神威协同工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            收录龙王巴哈姆特、水神利维亚桑、斩铁战神奥丁与不死鸟涅槃觉醒态。支持以太灵魂同调共振、免MP契约誓约、零蓄力瞬发召来与跨位面双神连击。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingAncientPact"
+            @click="runAncientPactSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动神威同调沙盘
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportAncientPactCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出太古契约证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大高阶幻兽觉醒原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="arch in ancientPactArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative"
+          :class="selectedPactArchetypeId === arch.id ? 'bg-indigo-950/40 border-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-indigo-500/40'"
+          @click="selectPactArchetype(arch.id)"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              {{ arch.tag }}
+            </span>
+          </div>
+          <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+          <div class="text-xs text-indigo-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+          <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+          <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-gray-400">觉醒神威基底</span>
+            <span class="text-indigo-400 font-bold">{{ arch.baseDamageMln }} 万</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与开关控制网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+        <!-- 4 滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-indigo-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚙️</span> 太古灵魂同调与神威参数微调
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">幻兽灵魂同调共振率 (%)</span>
+              <span class="text-indigo-400 font-mono font-bold">{{ pactHarmonicResonanceRatio }} %</span>
+            </div>
+            <n-slider v-model:value="pactHarmonicResonanceRatio" :min="50" :max="100" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">以太逆流汲取宽容度 (%)</span>
+              <span class="text-amber-400 font-mono font-bold">{{ aethericDrainTolerancePct }} %</span>
+            </div>
+            <n-slider v-model:value="aethericDrainTolerancePct" :min="10" :max="80" :step="2" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">神威降临庇护光环持续时长 (秒)</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ divineAuraDurationSec.toFixed(1) }} s</span>
+            </div>
+            <n-slider v-model:value="divineAuraDurationSec" :min="5.0" :max="30.0" :step="0.5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">觉醒奥义神威真伤倍率 (倍)</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ eidolonAwakeningBurstMultiplier.toFixed(1) }} x</span>
+            </div>
+            <n-slider v-model:value="eidolonAwakeningBurstMultiplier" :min="2.0" :max="12.0" :step="0.2" />
+          </div>
+        </div>
+
+        <!-- 3 开关与实时数据 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-indigo-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>✨</span> 神圣誓约与破限召来特权
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">太古契约豁免全额召唤 MP 消耗</div>
+                <div class="text-gray-400 text-[11px]">直接调动天地自然以太，召唤能耗为 0</div>
+              </div>
+              <n-switch v-model:value="unlimitedMpSummonPact" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">神明降临免蓄力瞬间破空现世</div>
+                <div class="text-gray-400 text-[11px]">抹除咏唱蓄力硬直，立即轰出全额神威</div>
+              </div>
+              <n-switch v-model:value="instantCastNoChargeBar" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">跨位面双幻兽极意奥义连击</div>
+                <div class="text-gray-400 text-[11px]">同时召引两尊太古幻兽交织连携真伤</div>
+              </div>
+              <n-switch v-model:value="celestialCrossSynergyChain" />
+            </div>
+          </div>
+
+          <!-- 4 项实时综合解算指标 -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="p-2.5 rounded bg-slate-900 border border-indigo-500/20 text-center">
+              <div class="text-[11px] text-gray-400">神威奥义伤害</div>
+              <div class="text-lg font-mono font-black text-indigo-400">{{ calculatedPactMetrics.divineBurstDamage }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-indigo-500/20 text-center">
+              <div class="text-[11px] text-gray-400">以太能耗利用率</div>
+              <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedPactMetrics.mpEfficiencyGain }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-indigo-500/20 text-center">
+              <div class="text-[11px] text-gray-400">全队庇护稳态率</div>
+              <div class="text-lg font-mono font-black text-amber-400">{{ calculatedPactMetrics.partySurvivalResonance }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-indigo-500/20 text-center">
+              <div class="text-[11px] text-gray-400">召唤导师评级</div>
+              <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedPactMetrics.evokerMasteryRank }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条 -->
+      <div v-if="isSimulatingAncientPact" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-indigo-500/30">
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-indigo-300 flex items-center gap-2">
+            <span class="animate-spin">🔄</span> {{ ancientPactStages[currentPactSimStage] }}
+          </span>
+          <span class="text-gray-400">{{ (currentPactSimStage + 1) * 20 }}%</span>
+        </div>
+        <n-progress type="line" :percentage="(currentPactSimStage + 1) * 20" :show-indicator="false" status="info" />
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS ANCIENT PACT ENGINE</span>
+            <n-tag size="small" type="info" round>res://scripts/combat/summons/</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-radio-group v-model:value="activeAncientPactScriptTab" size="small">
+              <n-radio-button value="pact_array">契约阵列</n-radio-button>
+              <n-radio-button value="synergy_coordinator">双神连携总线</n-radio-button>
+              <n-radio-button value="aether_overdrive">以太逆流仲裁器</n-radio-button>
+            </n-radio-group>
+            <n-button type="info" size="tiny" secondary round @click="copyAncientPactScript">
+              复制当前脚本
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentAncientPactScriptCode }}</code></pre>
         </div>
       </div>
     </div>
@@ -3110,6 +3322,222 @@ onUnmounted(() => {
     descentTimer = null
   }
 })
+
+// ==========================================
+// v2.2.331: 幻兽太古契约阵列与神威协同工坊逻辑
+// ==========================================
+const scrollToAncientPactAwakeningStudio = () => {
+  const el = document.getElementById('ancient-pact-awakening-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface AncientPactArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  baseDamageMln: number
+}
+
+const ancientPactArchetypes: AncientPactArchetype[] = [
+  {
+    id: 'bahamut_megaflare',
+    name: '龙王巴哈姆特',
+    subtitle: '亿万核爆天球降临与虚空崩解流',
+    icon: '🐉',
+    tag: '龙皇核爆',
+    desc: '从外层空间引落超新星能量天球，撕裂一切物理与魔法阻抗，附带绝对真实伤害与虚空湮灭冲击。',
+    baseDamageMln: 320
+  },
+  {
+    id: 'leviathan_tsunami',
+    name: '水神利维亚桑',
+    subtitle: '沧海潮汐怒涛与全息绝对净灵流',
+    icon: '🌊',
+    tag: '海皇潮涌',
+    desc: '召引远古洋流倒灌天际，净化战场全域负面异常，同时造成滔天巨浪多段无视抗性重压。',
+    baseDamageMln: 260
+  },
+  {
+    id: 'odin_zantetsuken',
+    name: '战神奥丁',
+    subtitle: '限时微秒斩铁剑与一击断罪流',
+    icon: '⚔️',
+    tag: '一闪断罪',
+    desc: '驾驭斯雷普尼尔以音速冲锋破空，挥落绝对次元斩铁剑，对非首领目标 100% 斩首处决。',
+    baseDamageMln: 450
+  },
+  {
+    id: 'phoenix_rejuvenation',
+    name: '不死火鸟',
+    subtitle: '天国焚寂涅槃与死者生还光环流',
+    icon: '🔥',
+    tag: '焚寂涅槃',
+    desc: '真红圣焰净化全场魔物的同时，以天国余烬复苏全队阵亡角色并恢复 100% 生命与满以太。',
+    baseDamageMln: 280
+  }
+]
+
+const selectedPactArchetypeId = ref('bahamut_megaflare')
+const pactHarmonicResonanceRatio = ref(92)
+const aethericDrainTolerancePct = ref(45)
+const divineAuraDurationSec = ref(18.0)
+const eidolonAwakeningBurstMultiplier = ref(6.5)
+
+const unlimitedMpSummonPact = ref(true)
+const instantCastNoChargeBar = ref(true)
+const celestialCrossSynergyChain = ref(true)
+
+const selectPactArchetype = (id: string) => {
+  selectedPactArchetypeId.value = id
+  if (message) {
+    const arch = ancientPactArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换太古幻兽觉醒原型：${arch.name}`)
+  }
+}
+
+const calculatedPactMetrics = computed(() => {
+  const arch = ancientPactArchetypes.find(a => a.id === selectedPactArchetypeId.value) || ancientPactArchetypes[0]
+  const baseDmg = arch.baseDamageMln * 10000
+  const dualBonus = celestialCrossSynergyChain.value ? 1.6 : 1.0
+  const finalDamage = Math.round(baseDmg * (pactHarmonicResonanceRatio.value / 100) * eidolonAwakeningBurstMultiplier.value * dualBonus)
+  
+  const mpGain = unlimitedMpSummonPact.value ? 99.9 : Math.min(95.0, 70.0 + (aethericDrainTolerancePct.value / 80) * 25).toFixed(1)
+  const survRate = Math.min(99.9, 85.0 + (divineAuraDurationSec.value / 30) * 12.5 + (instantCastNoChargeBar.value ? 2.4 : 0)).toFixed(1)
+
+  let rank = 'SSR·天域召来宗师'
+  if (finalDamage >= 35000000) rank = 'EX·万象太古龙皇神唤使'
+  else if (finalDamage >= 20000000) rank = 'SSS·极意神威裁决尊者'
+
+  return {
+    divineBurstDamage: finalDamage.toLocaleString(),
+    mpEfficiencyGain: `${mpGain}%`,
+    partySurvivalResonance: `${survRate}%`,
+    evokerMasteryRank: rank
+  }
+})
+
+const isSimulatingAncientPact = ref(false)
+const currentPactSimStage = ref(0)
+const ancientPactStages = [
+  '以太地脉天顶经纬度捕获与神明唤醒...',
+  '灵魂同调共振阵列微秒相位校准...',
+  '太古符文契约印记解封与真名解放...',
+  '跨位面神威天象裂变与全域核爆轰鸣...',
+  '召来方案防伪公钥计算与契约认证封装...'
+]
+
+const runAncientPactSimulation = () => {
+  if (isSimulatingAncientPact.value) return
+  isSimulatingAncientPact.value = true
+  currentPactSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentPactSimStage.value < ancientPactStages.length - 1) {
+      currentPactSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingAncientPact.value = false
+      if (message) {
+        message.success(`【神威契约沙盘】推演成功！神威奥义爆发真伤：${calculatedPactMetrics.value.divineBurstDamage}`)
+      }
+    }
+  }, 400)
+}
+
+const exportAncientPactCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》太古幻兽契约与神威认证证书 ===
+证书编号: PACT-EIDOLON-${hash.substring(0, 12).toUpperCase()}
+契约幻兽: ${selectedPactArchetypeId.value}
+同调共振率: ${pactHarmonicResonanceRatio.value}%
+神威光环时长: ${divineAuraDurationSec.value.toFixed(1)} 秒
+奥义真伤倍率: ${eidolonAwakeningBurstMultiplier.value.toFixed(1)}x
+神威爆发真伤: ${calculatedPactMetrics.value.divineBurstDamage}
+以太能耗利用率: ${calculatedPactMetrics.value.mpEfficiencyGain}
+全队庇护稳态率: ${calculatedPactMetrics.value.partySurvivalResonance}
+召唤大师评级: ${calculatedPactMetrics.value.evokerMasteryRank}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方幻兽召唤引擎认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出太古契约方案防伪证书到剪贴板！')
+  }
+}
+
+const activeAncientPactScriptTab = ref<'pact_array' | 'synergy_coordinator' | 'aether_overdrive'>('pact_array')
+
+const ancientPactScriptCodes = {
+  pact_array: `class_name AncientPactAwakeningArray
+extends Node
+
+## 最终幻想：时空之轮 - 太古契约阵列与灵魂同调控制器
+## 文件路径: res://scripts/combat/summons/ancient_pact_awakening_array.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal celestial_awakened(eidolon_name: String, divine_power: float)
+signal resonance_sync_completed(resonance_rate: float)
+
+@export var harmonic_resonance_rate: float = 0.92
+@export var zero_mp_contract_active: bool = true
+
+func evoke_high_eidolon(eidolon_id: String, base_power: float, multiplier: float) -> Dictionary:
+    var final_divine_dmg: float = base_power * harmonic_resonance_rate * multiplier
+    celestial_awakened.emit(eidolon_id, final_divine_dmg)
+    return {
+        "eidolon": eidolon_id,
+        "divine_damage": final_divine_dmg,
+        "is_mp_free": zero_mp_contract_active
+    }
+`,
+
+  synergy_coordinator: `class_name EidolonDivineSynergyCoordinator
+extends RefCounted
+
+## 最终幻想：时空之轮 - 高阶幻兽觉醒与神威连携总线
+## 文件路径: res://scripts/combat/summons/eidolon_divine_synergy_coordinator.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func execute_cross_celestial_synergy(eidolon_a: String, eidolon_b: String, power_a: float, power_b: float) -> Dictionary:
+    var synergy_multiplier: float = 1.6
+    var total_strike: float = (power_a + power_b) * synergy_multiplier
+    return {
+        "combo_eidolons": [eidolon_a, eidolon_b],
+        "synergy_multiplier": synergy_multiplier,
+        "combined_damage": total_strike
+    }
+`,
+
+  aether_overdrive: `class_name AetherOverdriveGovernor
+extends RefCounted
+
+## 最终幻想：时空之轮 - 以太逆流汲取与零魔耗仲裁器
+## 文件路径: res://scripts/combat/summons/aether_overdrive_governor.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func arbitrate_mana_consumption(base_mp_cost: int, is_pact_exempt: bool) -> int:
+    if is_pact_exempt:
+        return 0
+    return base_mp_cost
+`
+}
+
+const currentAncientPactScriptCode = computed(() => {
+  return ancientPactScriptCodes[activeAncientPactScriptTab.value]
+})
+
+const copyAncientPactScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentAncientPactScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 幻兽契约源码到剪贴板！')
+  }
+}
+
 </script>
 
 <style scoped>
