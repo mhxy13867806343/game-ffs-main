@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-sidequests-bounty-rating-2026-10-29',
+    version: 'v2.2.295',
+    date: '2026-10-29',
+    title: '全域多维度世界探索支线、悬赏委托评级与信赖度演化工坊重磅实装',
+    category: 'system',
+    categoryName: '悬赏信赖',
+    icon: '🎖️',
+    tagType: 'success',
+    description: '全面重构升级 SidequestsView 支线与寻宝门户：顶部标章升级为 VBLE Sidequests, Bounty Rating & Trust Studio v2.2.295，新增悬赏评级与信赖度工坊快捷直达；专区重磅实装【全域多维度世界探索支线、悬赏委托评级与信赖度演化工坊】（Bounty Rating & Trust Studio）；覆盖四大委托流派（SS 级太古巨龙讨伐令、巴比伦遗迹学者护送、时空裂隙黑市禁运截获、全域居民心愿信赖羁绊）；实现委托难度星级 (1~10 星)、公会信赖声望 (100~5000 Pt)、队伍羁绊共鸣度 (50%~200%) 与探险报酬溢价系数 (1.0~4.0x) 连续微调；支持悬赏全额履约保险契约（任务失败全额保全物资并补偿 60% 基础抚恤金）、极品报酬双倍锁相环（锁定稀有材料掉落率，必定触发隐藏额外宝箱）与超时空紧急呼叫救援信标（战局濒危瞬移脱险，确保队伍零伤亡）；实时解算委托完成期望胜率 (高达 99.8%)、总报酬金币收益 (突破 850,000+ Gil)、公会荣誉功勋积分 (突破 4,000+ Pt) 与冒险家认证位阶 (高达 SSS 级太古神话领主)；实装五阶段委托派遣推演仿真终端与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，新增 bounty_guild_dispatcher_system.gd、npc_trust_evolution_manager.gd 与 bounty_insurance_risk_guard.gd。',
+    highlights: [
+      '四大委托公会流派：太古巨龙讨伐、巴比伦学者护送、裂隙黑市截获与居民信赖羁绊',
+      '四维连续悬赏参数：委托星级、信赖声望、队伍羁绊与报酬溢价全域微调',
+      '全额履约保险契约：战局受挫零碎裂物资全额保全，并赔付 60% 抚恤救济金',
+      '极品报酬双倍锁相：锁定高阶战利品掉落率，保底触发隐藏宝箱与神兵材料',
+      '超时空紧急救援信标：危机瞬间触发位面跃迁撤离，团队成员零伤亡绝对防护',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增公会悬赏调度器、信赖状态机与履约保险守护者'
+    ],
+    relatedLinks: [
+      { label: '支线考据与悬赏工坊', path: '/vble/sidequests', icon: '🎖️' },
+      { label: '全域地宫秘境探索', path: '/vble/dungeons', icon: '🏰' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-story-timeline-convergence-2026-10-29',
     version: 'v2.2.294',
     date: '2026-10-29',

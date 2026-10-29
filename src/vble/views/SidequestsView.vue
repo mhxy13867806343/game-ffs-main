@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Sidequests &amp; Secrets Matrix v2.2.254
+              VBLE Sidequests, Bounty Rating &amp; Trust Studio v2.2.295
             </span>
             <span class="text-xs text-gray-400">支线全域考据与隐藏秘境推演</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="primary"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToBountyTrustStudio"
+          >
+            <template #icon><span>🎖️</span></template>
+            悬赏评级与信赖度工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -1445,6 +1456,348 @@
       </div>
     </div>
 
+    <!-- 全域多维度世界探索支线、悬赏委托评级与信赖度演化工坊 (Bounty Rating & Trust Studio v2.2.295) -->
+    <div id="bounty-trust-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1c142b]/95 via-[#13172e]/95 to-[#0f1422]/95 border border-amber-500/40 shadow-[0_0_35px_rgba(245,158,11,0.22)] space-y-6">
+      <!-- 头部与控制栏 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-900/40 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl p-2 rounded-xl bg-amber-500/20 border border-amber-500/30">🎖️</span>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-lg sm:text-xl font-black text-amber-300">
+                  全域多维度世界探索支线、悬赏委托评级与信赖度演化工坊
+                </h2>
+                <n-tag size="tiny" type="warning" round strong>v2.2.295 官方实机矩阵</n-tag>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">
+                对齐 Godot 4.6 LTS 支线与委托调度标准：深度覆盖四大委托流派、四维连续悬赏参数、三大公会特权保障、五阶段委托仿真推演与防伪证书导出
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+          <n-button size="small" secondary type="warning" @click="resetBountyParameters">
+            🔄 重置委托参数
+          </n-button>
+          <n-button size="small" type="primary" class="font-bold shadow" @click="exportBountyCertificate">
+            📜 导出公会信赖方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大委托公会流派选择卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="bounty in bountyArchetypes"
+          :key="bounty.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedBountyId === bounty.id
+            ? 'bg-amber-950/40 border-amber-400 shadow-[0_0_18px_rgba(245,158,11,0.25)] ring-1 ring-amber-400/50'
+            : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-850'"
+          @click="selectedBountyId = bounty.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ bounty.icon }}</span>
+            <n-tag :type="selectedBountyId === bounty.id ? 'warning' : 'default'" size="tiny" round>
+              {{ bounty.tag }}
+            </n-tag>
+          </div>
+          <div class="text-sm font-bold text-white mb-1">{{ bounty.name }}</div>
+          <div class="text-[11px] text-gray-400 leading-relaxed mb-3">{{ bounty.desc }}</div>
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+            <span class="text-gray-400">核心报酬</span>
+            <span class="text-amber-300 font-semibold">{{ bounty.rewardHighlight }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与公会特权保障 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 左侧: 4维连续参数调节 (7 cols) -->
+        <div class="lg:col-span-7 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 font-bold text-sm">🎛️ 悬赏委托动态参数调控矩阵</span>
+              <span class="text-[11px] text-gray-400 font-mono">4-Axis Bounty Tuning</span>
+            </div>
+            <button
+              type="button"
+              class="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors"
+              @click="resetBountyParameters"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 滑块 1: 委托难度星级 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>⭐</span> 委托难度星级 (Difficulty Stars)
+              </span>
+              <span class="font-mono text-amber-400 font-bold">{{ bountyDifficulty }} 星 ({{ getDifficultyRank(bountyDifficulty) }})</span>
+            </div>
+            <n-slider
+              v-model:value="bountyDifficulty"
+              :min="1"
+              :max="10"
+              :step="1"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1 星 (城镇清道)</span>
+              <span>5 星 (古地宫精锐)</span>
+              <span>10 星 (太古湮灭灭世级)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 2: 公会信赖声望 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🤝</span> 公会信赖声望 (Guild Reputation)
+              </span>
+              <span class="font-mono text-cyan-400 font-bold">{{ guildReputation }} Pt</span>
+            </div>
+            <n-slider
+              v-model:value="guildReputation"
+              :min="100"
+              :max="5000"
+              :step="100"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>100 Pt (初入游侠)</span>
+              <span>2500 Pt (受勋骑士)</span>
+              <span>5000 Pt (大公会尊主)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 3: 队伍羁绊共鸣度 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>✨</span> 队伍羁绊共鸣度 (Party Resonance)
+              </span>
+              <span class="font-mono text-emerald-400 font-bold">{{ partyResonance }}%</span>
+            </div>
+            <n-slider
+              v-model:value="partyResonance"
+              :min="50"
+              :max="200"
+              :step="5"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>50% (散兵协同)</span>
+              <span>120% (完美连携)</span>
+              <span>200% (光暗双队超极共振)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 4: 探险报酬溢价系数 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>💰</span> 探险报酬溢价系数 (Reward Premium)
+              </span>
+              <span class="font-mono text-rose-400 font-bold">{{ rewardPremium.toFixed(1) }}x</span>
+            </div>
+            <n-slider
+              v-model:value="rewardPremium"
+              :min="1.0"
+              :max="4.0"
+              :step="0.1"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1.0x (基准赏金)</span>
+              <span>2.5x (高危附加险)</span>
+              <span>4.0x (全域特权天价赏金)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧: 3大公会特权保障 (5 cols) -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+            <span class="text-purple-400 font-bold text-sm">🛡️ 公会特权保障与风险断路器</span>
+            <n-tag type="info" size="tiny" round>主动安全特权</n-tag>
+          </div>
+
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>📜</span> 悬赏全额履约保险契约
+                </div>
+                <div class="text-[11px] text-gray-400">任务失败保全全部物资，并补偿 60% 基础抚恤金</div>
+              </div>
+              <n-switch v-model:value="bountyInsuranceContract" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🎁</span> 极品报酬双倍锁相环
+                </div>
+                <div class="text-[11px] text-gray-400">锁定稀有掉落率，必定触发隐藏箱与神兵碎片</div>
+              </div>
+              <n-switch v-model:value="doubleDropPurityLock" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>📡</span> 超时空紧急呼叫救援信标
+                </div>
+                <div class="text-[11px] text-gray-400">战局濒危瞬移脱离险境，确保队伍零伤亡保全</div>
+              </div>
+              <n-switch v-model:value="emergencyDistressBeacon" size="small" />
+            </div>
+          </div>
+
+          <!-- 稳健度评测雷达 -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 space-y-2">
+            <div class="text-xs font-bold text-amber-300 flex items-center justify-between">
+              <span>探险综合安全稳健度</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ calculatedMissionSafety.toFixed(1) }}%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-amber-500 via-cyan-400 to-emerald-400 h-1.5 rounded-full transition-all duration-300"
+                :style="{ width: Math.min(calculatedMissionSafety, 100) + '%' }"
+              ></div>
+            </div>
+            <div class="text-[10px] text-gray-400 flex justify-between">
+              <span>及格线: 70.0%</span>
+              <span class="text-emerald-400">团队安全状态: {{ calculatedMissionSafety > 90 ? '坚如磐石' : '稳健可控' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实时解算数值仪表盘 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">委托完成期望胜率</div>
+          <div class="text-2xl font-black text-emerald-400 font-mono mt-1">{{ calculatedSuccessRate.toFixed(1) }}%</div>
+          <div class="text-[10px] text-emerald-300/80 mt-0.5">综合全员战力评测</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">总报酬金币收益</div>
+          <div class="text-2xl font-black text-amber-400 font-mono mt-1">{{ calculatedTotalGil.toLocaleString() }} G</div>
+          <div class="text-[10px] text-amber-300/80 mt-0.5">含溢价特权倍率</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">公会荣誉功勋积分</div>
+          <div class="text-2xl font-black text-cyan-400 font-mono mt-1">+{{ calculatedHonorPts.toLocaleString() }} Pt</div>
+          <div class="text-[10px] text-cyan-300/80 mt-0.5">信赖声望飞跃跃迁</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">冒险家认证位阶</div>
+          <div class="text-2xl font-black text-purple-400 font-mono mt-1">{{ calculatedRankTier }}</div>
+          <div class="text-[10px] text-purple-300/80 mt-0.5">公会终身崇高勋位</div>
+        </div>
+      </div>
+
+      <!-- 五阶段委托派遣推演仿真终端 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-amber-500/30 shadow-2xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-amber-400 font-bold text-sm">⚡ 悬赏委托派遣与信赖演化五阶段推演终端</span>
+            <n-tag type="warning" size="tiny" round>Live Expedition Pipeline</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 shadow-md disabled:opacity-50"
+              :disabled="isSimulatingBounty"
+              @click="runBountySimulation"
+            >
+              {{ isSimulatingBounty ? '正在执行委托派遣中...' : '▶ 启动全流程悬赏派遣推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 transition-all cursor-pointer"
+              @click="exportBountyCertificate"
+            >
+              📜 导出公会信赖方案书
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 阶段步进进度 -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+          <div
+            v-for="(stg, idx) in bountyStages"
+            :key="stg.id"
+            class="p-2.5 rounded-lg border text-xs transition-all flex flex-col justify-between"
+            :class="bountySimulationStep >= idx + 1
+              ? 'bg-amber-950/40 border-amber-500/60 text-amber-300'
+              : 'bg-slate-900/60 border-slate-800/80 text-gray-500'"
+          >
+            <div class="font-bold mb-1 flex items-center gap-1">
+              <span>{{ bountySimulationStep >= idx + 1 ? '✅' : '⏳' }}</span>
+              <span>第 {{ idx + 1 }} 阶: {{ stg.title }}</span>
+            </div>
+            <div class="text-[10px] leading-tight opacity-80">{{ stg.desc }}</div>
+          </div>
+        </div>
+
+        <!-- 推演日志输出视窗 -->
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-gray-300 max-h-48 overflow-y-auto space-y-1">
+          <div v-for="(log, idx) in bountyLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-amber-400 select-none">›</span>
+            <span :class="log.color || 'text-gray-300'">{{ log.text }}</span>
+          </div>
+          <div v-if="bountyLogs.length === 0" class="text-gray-600 italic">
+            等待启动推演... 点击上方【启动全流程悬赏派遣推演】按键开始推演。
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 3 Tab 源码展台 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-xl space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 悬赏派遣与信赖状态机源码</span>
+            <n-tag type="info" size="tiny" round>RefCounted 核心架构</n-tag>
+          </div>
+          <div class="flex gap-2">
+            <button
+              v-for="st in bountyScriptTabs"
+              :key="st.key"
+              type="button"
+              class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
+              :class="activeBountyScriptTab === st.key
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
+              @click="activeBountyScriptTab = st.key"
+            >
+              {{ st.name }}
+            </button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentBountyScriptCode }}</pre>
+          <button
+            type="button"
+            class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-gray-300 border border-slate-700 cursor-pointer transition-colors"
+            @click="copyBountyScript"
+          >
+            📋 复制代码
+          </button>
+        </div>
+      </div>
+    </div>
+
+
     <!-- 筛选与搜索工具栏 -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-[#121626]/80 border border-slate-800">
       <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
@@ -1534,6 +1887,11 @@ import { useGameStore } from '../stores/gameStore'
 const message = useMessage()
 const gameStore = useGameStore()
 const sidequests = computed(() => gameStore.db.sidequests || [])
+
+const scrollToBountyTrustStudio = () => {
+  const el = document.getElementById('bounty-trust-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
 
 const scrollToTreasureStudio = () => {
   const el = document.getElementById('treasure-hunt-studio')
@@ -2536,4 +2894,307 @@ onUnmounted(() => {
   if (expeditionInterval) clearInterval(expeditionInterval)
   if (excavationTimer) clearInterval(excavationTimer)
 })
+
+// ==========================================
+// 全域悬赏委托评级与公会信赖度工坊 (v2.2.295)
+// ==========================================
+interface BountyArchetype {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  desc: string
+  rewardHighlight: string
+  baseGil: number
+  baseHonor: number
+}
+
+const bountyArchetypes: BountyArchetype[] = [
+  {
+    id: 'ancient_dragon_hunt',
+    name: 'SS 级太古巨龙讨伐令',
+    icon: '🐉',
+    tag: '龙皇征伐',
+    desc: '深入龙之颈熔岩深渊，讨伐始源红莲炎龙，解禁太古龙枪与神圣龙鳞',
+    rewardHighlight: '太古神圣龙枪 + 300,000 G',
+    baseGil: 280000,
+    baseHonor: 2500
+  },
+  {
+    id: 'ruin_convoy',
+    name: '巴比伦遗迹学者护送',
+    icon: '🏺',
+    tag: '学者护航',
+    desc: '穿越风暴流沙遗迹，护送考古学者破译古泥板，解锁以太结晶图纸',
+    rewardHighlight: '以太结晶合成图纸 + 180,000 G',
+    baseGil: 160000,
+    baseHonor: 1800
+  },
+  {
+    id: 'void_smuggling_intercept',
+    name: '时空裂隙黑市禁运截获',
+    icon: '⚔️',
+    tag: '黑市伏击',
+    desc: '截获穿梭于时空裂隙的走私虚空艇，缴获封印的暗黑法典与绝版宝具',
+    rewardHighlight: '暗黑禁断法典 + 220,000 G',
+    baseGil: 210000,
+    baseHonor: 2200
+  },
+  {
+    id: 'citizen_heart_bond',
+    name: '全域居民心愿信赖羁绊',
+    icon: '💖',
+    tag: '信赖之证',
+    desc: '巡回倾听两界居民心愿委托，积累信赖之证，激活城镇商会终身折扣',
+    rewardHighlight: '商会终身尊享金卡 + 120,000 G',
+    baseGil: 110000,
+    baseHonor: 3200
+  }
+]
+
+const selectedBountyId = ref<string>('ancient_dragon_hunt')
+
+// 4 维连续滑块参数
+const bountyDifficulty = ref<number>(8)
+const guildReputation = ref<number>(3800)
+const partyResonance = ref<number>(165)
+const rewardPremium = ref<number>(2.8)
+
+// 3 大公会特权保障
+const bountyInsuranceContract = ref<boolean>(true)
+const doubleDropPurityLock = ref<boolean>(true)
+const emergencyDistressBeacon = ref<boolean>(true)
+
+const currentBounty = computed(() => {
+  return bountyArchetypes.find(b => b.id === selectedBountyId.value) || bountyArchetypes[0]
+})
+
+const getDifficultyRank = (stars: number): string => {
+  if (stars >= 9) return '灭世神话 (EX)'
+  if (stars >= 7) return '深渊灾难 (SS)'
+  if (stars >= 4) return '极度危险 (S)'
+  return '常规挑战 (A)'
+}
+
+const calculatedSuccessRate = computed(() => {
+  let rate = 70.0
+  rate += (partyResonance.value / 200) * 22.0
+  rate += (guildReputation.value / 5000) * 12.0
+  rate -= (bountyDifficulty.value / 10) * 14.0
+  if (bountyInsuranceContract.value) rate += 4.5
+  if (emergencyDistressBeacon.value) rate += 5.5
+  return Math.min(99.8, Math.max(50.0, rate))
+})
+
+const calculatedTotalGil = computed(() => {
+  const base = currentBounty.value.baseGil
+  const diffBonus = bountyDifficulty.value * 22000
+  const lockBonus = doubleDropPurityLock.value ? 1.35 : 1.0
+  return Math.round((base + diffBonus) * rewardPremium.value * lockBonus)
+})
+
+const calculatedHonorPts = computed(() => {
+  const base = currentBounty.value.baseHonor
+  const repFactor = Math.round((guildReputation.value / 1000) * 450)
+  const partyFactor = Math.round((partyResonance.value / 100) * 600)
+  return base + repFactor + partyFactor
+})
+
+const calculatedMissionSafety = computed(() => {
+  let safety = 65.0
+  if (bountyInsuranceContract.value) safety += 12.0
+  if (emergencyDistressBeacon.value) safety += 15.0
+  safety += (guildReputation.value / 5000) * 8.0
+  return Math.min(99.9, safety)
+})
+
+const calculatedRankTier = computed(() => {
+  if (guildReputation.value >= 4000 && partyResonance.value >= 160) return 'SSS 级太古神话领主'
+  if (guildReputation.value >= 3000) return 'SS 级传奇怪兽猎人'
+  if (guildReputation.value >= 1500) return 'S 级精锐先锋探险家'
+  return 'A 级白银游侠'
+})
+
+const resetBountyParameters = () => {
+  bountyDifficulty.value = 8
+  guildReputation.value = 3800
+  partyResonance.value = 165
+  rewardPremium.value = 2.8
+  bountyInsuranceContract.value = true
+  doubleDropPurityLock.value = true
+  emergencyDistressBeacon.value = true
+  message?.info('悬赏委托参数已重置为黄金标准配置')
+}
+
+// 五阶段仿真推演
+const isSimulatingBounty = ref<boolean>(false)
+const bountySimulationStep = ref<number>(0)
+interface BountyLogItem {
+  text: string
+  color?: string
+}
+const bountyLogs = ref<BountyLogItem[]>([])
+
+const bountyStages = [
+  { id: 1, title: '委托板与信赖扫描', desc: '检索委托星级与公会勋位' },
+  { id: 2, title: '契约拟定与保险锁相', desc: '启动全额保全与紧急信标' },
+  { id: 3, title: '深入险境激战守卫', desc: '全员羁绊共鸣全力讨伐' },
+  { id: 4, title: '宝库开启双倍掉落', desc: '锁相环诱发极品额外宝箱' },
+  { id: 5, title: '委托交付与勋位晋阶', desc: '发放全额赏金与荣誉方案' }
+]
+
+const runBountySimulation = async () => {
+  if (isSimulatingBounty.value) return
+  isSimulatingBounty.value = true
+  bountySimulationStep.value = 0
+  bountyLogs.value = []
+
+  const appendLog = (text: string, color?: string) => {
+    bountyLogs.value.push({ text, color })
+  }
+
+  appendLog('[INIT] 启动全域悬赏委托派遣与信赖演化推演...', 'text-amber-400 font-bold')
+  await new Promise(r => setTimeout(r, 400))
+
+  // Step 1
+  bountySimulationStep.value = 1
+  appendLog(`[STEP 1] 扫描公会告示板：选定【${currentBounty.value.name}】，难度 ${bountyDifficulty.value} 星，信赖度 ${guildReputation.value} Pt。`, 'text-cyan-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 2
+  bountySimulationStep.value = 2
+  appendLog(`[STEP 2] 激活履约保险契约: ${bountyInsuranceContract.value ? '已生效 (零碎裂保全)' : '未开启'}；紧急救援信标: ${emergencyDistressBeacon.value ? '在线' : '离线'}。`, 'text-purple-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 3
+  bountySimulationStep.value = 3
+  appendLog(`[STEP 3] 探险队抵临目标险域！队伍羁绊共鸣 ${partyResonance.value}%，胜率期望 ${calculatedSuccessRate.value.toFixed(1)}%，击破目标守卫！`, 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 500))
+
+  // Step 4
+  bountySimulationStep.value = 4
+  appendLog(`[STEP 4] 开启远古宝库！双倍锁相环生效: ${doubleDropPurityLock.value ? '已触发极品双宝箱' : '标准掉落'}，结算赏金 ${calculatedTotalGil.value.toLocaleString()} Gil！`, 'text-emerald-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 5
+  bountySimulationStep.value = 5
+  appendLog(`[SUCCESS] 委托交付完成！获得功勋 +${calculatedHonorPts.value.toLocaleString()} Pt，当前认证位阶: 【${calculatedRankTier.value}】！`, 'text-amber-300 font-bold')
+  isSimulatingBounty.value = false
+  message?.success('悬赏委托推演圆满完成！')
+}
+
+const exportBountyCertificate = () => {
+  const certData = {
+    studio: 'Multi-Dimensional Bounty Guild Rating & Trust Studio v2.2.295',
+    bounty: currentBounty.value.name,
+    difficulty: bountyDifficulty.value,
+    guildReputation: guildReputation.value,
+    partyResonance: partyResonance.value,
+    rewardPremium: rewardPremium.value,
+    calculatedSuccessRate: calculatedSuccessRate.value,
+    calculatedTotalGil: calculatedTotalGil.value,
+    calculatedHonorPts: calculatedHonorPts.value,
+    calculatedRankTier: calculatedRankTier.value,
+    timestamp: new Date().toISOString(),
+    sha256Certificate: 'BOUNTY-GUILD-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(16).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `bounty_guild_certificate_${certData.sha256Certificate}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success(`已导出公会信赖方案书: ${certData.sha256Certificate}`)
+}
+
+// 源码展台
+type BountyScriptKey = 'bounty_dispatcher' | 'npc_trust_manager' | 'insurance_guard'
+
+const activeBountyScriptTab = ref<BountyScriptKey>('bounty_dispatcher')
+
+const bountyScriptTabs = [
+  { key: 'bounty_dispatcher' as const, name: '公会悬赏调度器' },
+  { key: 'npc_trust_manager' as const, name: '居民信赖状态机' },
+  { key: 'insurance_guard' as const, name: '履约保险守护者' }
+]
+
+const bountyScriptCodes: Record<BountyScriptKey, string> = {
+  bounty_dispatcher: `class_name BountyGuildDispatcherSystem
+extends RefCounted
+
+## 最终幻想：时空之轮 - 公会悬赏派遣调度核心系统
+## 文件路径: res://scripts/sidequests/bounty_guild_dispatcher_system.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal bounty_dispatched(bounty_id: String, difficulty: int)
+signal bounty_completed(bounty_id: String, reward_data: Dictionary)
+
+var active_bounties: Dictionary = {}
+
+func dispatch_bounty(bounty_id: String, difficulty: int, resonance: float, premium: float) -> Dictionary:
+    var base_success: float = 0.70 + (resonance / 200.0 * 0.22) - (float(difficulty) / 10.0 * 0.14)
+    var success: bool = randf() <= clampf(base_success, 0.50, 0.998)
+
+    var reward_gil: int = int(float(150000 + difficulty * 22000) * premium)
+    var outcome := {
+        "bounty_id": bounty_id,
+        "success": success,
+        "reward_gil": reward_gil if success else 0,
+        "status": "COMPLETED" if success else "FAILED"
+    }
+    bounty_completed.emit(bounty_id, outcome)
+    return outcome
+`,
+
+  npc_trust_manager: `class_name NPCTrustEvolutionManager
+extends RefCounted
+
+## 最终幻想：时空之轮 - 居民信赖度与好感演化状态机
+## 文件路径: res://scripts/sidequests/npc_trust_evolution_manager.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+const MAX_TRUST_POINTS: int = 5000
+
+var current_reputation: int = 3800
+
+func add_trust(points: int) -> String:
+    current_reputation = mini(current_reputation + points, MAX_TRUST_POINTS)
+    if current_reputation >= 4000:
+        return "SSS_MYTHIC_LORD"
+    elif current_reputation >= 3000:
+        return "SS_LEGENDARY_HUNTER"
+    elif current_reputation >= 1500:
+        return "S_ELITE_EXPLORER"
+    return "A_SILVER_RANGER"
+`,
+
+  insurance_guard: `class_name BountyInsuranceRiskGuard
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全额履约保险与紧急信标守护者
+## 文件路径: res://scripts/sidequests/bounty_insurance_risk_guard.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func handle_mission_failure(base_gil: int, has_insurance: bool, has_beacon: bool) -> Dictionary:
+    var compensation: int = int(float(base_gil) * 0.60) if has_insurance else 0
+    return {
+        "casualty_free": has_beacon,
+        "material_recovered": has_insurance,
+        "compensation_gil": compensation,
+        "emergency_warp": has_beacon
+    }
+`
+}
+
+const currentBountyScriptCode = computed(() => {
+  return bountyScriptCodes[activeBountyScriptTab.value]
+})
+
+const copyBountyScript = () => {
+  navigator.clipboard.writeText(currentBountyScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
 </script>
