@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-celestial-slingshot-warp-v337-2026-10-29',
+    version: 'v2.2.337',
+    date: '2026-10-29',
+    title: '全域天体星图编年史、黑洞引力弹弓与光阴裂缝折跃工坊重磅实装',
+    category: 'system',
+    categoryName: '虚空天体',
+    icon: '🪐',
+    tagType: 'info',
+    description: '全面重构升级 CelestialView 虚空天体门户：顶部标章升级为 VBLE Constellation Chronicle, Black Hole Slingshot & Spacetime Rift Warp Studio v2.2.337，新增引力弹弓折跃工坊快捷直达；专区重磅实装【全域天体星图编年史、黑洞引力弹弓与光阴裂缝折跃工坊】（Black Hole Slingshot & Warp Matrix Studio）；覆盖四大天体折跃原型（超大质量黑洞加尔冈天·引力红移视界与光年弹弓流、中子脉冲星灯塔·极端磁星偏振与毫秒级折跃定锚流、时空爱因斯坦-罗森桥·双向虫洞引力坍缩折叠流、太古宇宙弦拓扑·负能量张力切变与光速超越流）；支持引力弹弓曲率加速度 (1.0~50.0 G)、时空裂缝折叠压缩比 (50%~99%)、视界临界安全掠过近心距 (0.1~5.0 AU) 与快子脉冲推进超光速倍率 (2.0x~30.0x) 连续微调；支持能层彭罗斯过程 100% 负能量汲取、柯罗诺斯潮汐阻尼抵消千万重力超载、奇点坍缩时空倒流毫秒级紧急回溯；实时解算折跃折算极速 (突破 60.0c 以上)、引力助推转换能效 (高达 99.9%)、时空曲率稳态率 (高达 99.9%) 与深空航行大师评级 (高达 EX·全域太古星海天象引航官)；内置五阶段沙盘推演与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：blackhole_slingshot_trajectory_solver.gd、spacetime_rift_warp_manifold.gd 与 penrose_energy_extraction_core.gd。',
+    highlights: [
+      '四大天体折跃原型：黑洞加尔冈天、中子脉冲星灯塔、爱因斯坦-罗森桥与太古宇宙弦',
+      '四维连续相对论物理参数：弹弓曲率加速度、时空折叠压缩比、视界近心距与快子倍率',
+      '三重深空折跃特权：能层彭罗斯负能量抽取、柯罗诺斯潮汐阻尼与时空紧急倒流回溯',
+      '动态深层航行指标解算：超光速折跃极速、引力助推转换能效、曲率稳态率与引航官评级',
+      '五阶段相对论推演沙盘：能层轨道捕获、彭罗斯逆流喷射、四维流形折叠、快子弹射与方案封装',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源弹弓轨道解算器、时空裂缝折叠流形与能层彭罗斯核心'
+    ],
+    relatedLinks: [
+      { label: '虚空天体与引力', path: '/vble/celestial', icon: '🪐' },
+      { label: '引力弹弓折跃工坊', path: '/vble/celestial', icon: '🌀' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-teachings-arcana-codex-v336-2026-10-29',
     version: 'v2.2.336',
     date: '2026-10-29',

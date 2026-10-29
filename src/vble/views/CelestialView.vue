@@ -20,6 +20,17 @@
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToSlingshotWarpStudio"
+          >
+            <template #icon><span>🪐</span></template>
+            引力弹弓折跃工坊
+          </n-button>
+          <n-button
             type="error"
             size="medium"
             round
@@ -1582,6 +1593,207 @@
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-purple-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentSingularityCode }}</pre>
       </div>
     </div>
+
+    <!-- v2.2.337: 全域天体星图编年史、黑洞引力弹弓与光阴裂缝折跃工坊 -->
+    <div
+      id="blackhole-slingshot-warp-studio"
+      class="blackhole-slingshot-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-indigo-950/20 to-slate-900/95 border border-indigo-500/30 shadow-[0_0_35px_rgba(99,102,241,0.15)] space-y-6 relative overflow-hidden"
+    >
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-indigo-500/20 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-mono font-bold text-xs border border-indigo-500/30">
+              BLACK HOLE SLINGSHOT &amp; WARP MATRIX v2.2.337
+            </span>
+            <span class="text-xs text-indigo-400 font-mono">Relativistic Orbit &amp; Penrose Energy Extraction</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <span>🪐</span> 全域天体星图编年史、黑洞引力弹弓与光阴裂缝折跃工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            提供旋转克尔黑洞引力弹弓轨道规划、能层彭罗斯能量逆流汲取、时空裂缝四维流形折叠与快子脉冲超越光速航行推演沙盘。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingSlingshot"
+            @click="runSlingshotSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动引力弹弓折跃推演
+          </n-button>
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="exportSlingshotCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出星际航行方案书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大天体折跃原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="arch in celestialSlingshotArchetypes"
+          :key="arch.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative"
+          :class="selectedSlingshotArchetypeId === arch.id ? 'bg-indigo-950/40 border-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.3)]' : 'bg-slate-800/40 border-slate-700/60 hover:border-indigo-500/40'"
+          @click="selectSlingshotArchetype(arch.id)"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ arch.icon }}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              {{ arch.tag }}
+            </span>
+          </div>
+          <div class="font-bold text-sm text-white">{{ arch.name }}</div>
+          <div class="text-xs text-indigo-300 font-mono mt-0.5">{{ arch.subtitle }}</div>
+          <div class="text-[11px] text-gray-400 mt-2 leading-relaxed">{{ arch.desc }}</div>
+          <div class="mt-3 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-gray-400">折跃极限极速</span>
+            <span class="text-indigo-400 font-bold">{{ arch.baseSpeedC }} c</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与开关控制网格 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+        <!-- 4 滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-indigo-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>⚙️</span> 引力弹弓轨道与时空折叠微调
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">引力弹弓曲率加速度 (G)</span>
+              <span class="text-indigo-400 font-mono font-bold">{{ slingshotCurvatureAcceleration.toFixed(1) }} G</span>
+            </div>
+            <n-slider v-model:value="slingshotCurvatureAcceleration" :min="1.0" :max="50.0" :step="0.5" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">时空裂缝折叠压缩比 (%)</span>
+              <span class="text-amber-400 font-mono font-bold">{{ spacetimeRiftFoldCompressionRatio }} %</span>
+            </div>
+            <n-slider v-model:value="spacetimeRiftFoldCompressionRatio" :min="50" :max="99" :step="1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-300">视界临界安全掠过近心距 (AU)</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ eventHorizonSafeApproachDistanceAu.toFixed(2) }} AU</span>
+            </div>
+            <n-slider v-model:value="eventHorizonSafeApproachDistanceAu" :min="0.1" :max="5.0" :step="0.1" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-purple-400">快子脉冲推进超光速倍率 (倍)</span>
+              <span class="text-purple-400 font-mono font-bold">{{ tachyonPulseVelocityFactor.toFixed(1) }} x</span>
+            </div>
+            <n-slider v-model:value="tachyonPulseVelocityFactor" :min="2.0" :max="30.0" :step="0.5" />
+          </div>
+        </div>
+
+        <!-- 3 开关与实时数据 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-indigo-300 tracking-wider font-mono uppercase flex items-center gap-1.5">
+            <span>✨</span> 黑洞特权与时空安全机制
+          </div>
+
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">能层彭罗斯过程 100% 负能量汲取</div>
+                <div class="text-gray-400 text-[11px]">从黑洞自转能中抽取无限清洁曲率动力</div>
+              </div>
+              <n-switch v-model:value="ergosphereNegativeEnergyExtraction" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">柯罗诺斯潮汐阻尼抵消千万重力超载</div>
+                <div class="text-gray-400 text-[11px]">保证乘员与舰体处于 1.0G 绝对舒适稳态</div>
+              </div>
+              <n-switch v-model:value="chronosTidalDampingInertialField" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded bg-slate-900/80 border border-slate-800">
+              <div class="text-xs">
+                <div class="text-white font-medium">奇点坍缩时空倒流毫秒级紧急回溯</div>
+                <div class="text-gray-400 text-[11px]">发生视界吸积撕裂时 100% 倒流至安全锚点</div>
+              </div>
+              <n-switch v-model:value="transcendentWarpEmergencyAbort" />
+            </div>
+          </div>
+
+          <!-- 4 项实时综合解算指标 -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="p-2.5 rounded bg-slate-900 border border-indigo-500/20 text-center">
+              <div class="text-[11px] text-gray-400">折跃折算极速</div>
+              <div class="text-lg font-mono font-black text-indigo-400">{{ calculatedSlingshotMetrics.warpVelocityC }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-indigo-500/20 text-center">
+              <div class="text-[11px] text-gray-400">引力助推转换能效</div>
+              <div class="text-lg font-mono font-black text-cyan-400">{{ calculatedSlingshotMetrics.slingshotGravityAssistEfficiency }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-indigo-500/20 text-center">
+              <div class="text-[11px] text-gray-400">时空曲率稳态率</div>
+              <div class="text-lg font-mono font-black text-emerald-400">{{ calculatedSlingshotMetrics.spatiotemporalStabilityRating }}</div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-indigo-500/20 text-center">
+              <div class="text-[11px] text-gray-400">深空航行评级</div>
+              <div class="text-lg font-mono font-black text-amber-400">{{ calculatedSlingshotMetrics.celestialNavigatorRank }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条 -->
+      <div v-if="isSimulatingSlingshot" class="space-y-2 bg-slate-950/80 p-4 rounded-xl border border-indigo-500/30">
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-indigo-300 flex items-center gap-2">
+            <span class="animate-spin">🔄</span> {{ slingshotStages[currentSlingshotSimStage] }}
+          </span>
+          <span class="text-gray-400">{{ (currentSlingshotSimStage + 1) * 20 }}%</span>
+        </div>
+        <n-progress type="line" :percentage="(currentSlingshotSimStage + 1) * 20" :show-indicator="false" status="info" />
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 -->
+      <div class="space-y-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS CELESTIAL WARP ENGINE</span>
+            <n-tag size="small" type="info" round>res://scripts/combat/celestial/</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-radio-group v-model:value="activeSlingshotScriptTab" size="small">
+              <n-radio-button value="trajectory_solver">弹弓轨道解算器</n-radio-button>
+              <n-radio-button value="warp_manifold">时空裂缝折叠流形</n-radio-button>
+              <n-radio-button value="penrose_core">能层彭罗斯核心</n-radio-button>
+            </n-radio-group>
+            <n-button type="info" size="tiny" secondary round @click="copySlingshotScript">
+              复制当前脚本
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentSlingshotScriptCode }}</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2969,6 +3181,217 @@ const copyActiveSingularityCode = () => {
   }).catch(() => {
     message.info('源码已复制')
   })
+}
+
+
+// ==========================================
+// v2.2.337: 黑洞引力弹弓与时空折跃工坊逻辑
+// ==========================================
+const scrollToSlingshotWarpStudio = () => {
+  const el = document.getElementById('blackhole-slingshot-warp-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+interface CelestialSlingshotArchetype {
+  id: string
+  name: string
+  subtitle: string
+  icon: string
+  tag: string
+  desc: string
+  baseSpeedC: number
+}
+
+const celestialSlingshotArchetypes: CelestialSlingshotArchetype[] = [
+  {
+    id: 'supermassive_gargantua',
+    name: '超大质量黑洞加尔冈天',
+    subtitle: '引力红移视界与光年弹弓流',
+    icon: '🕳️',
+    tag: '黑洞视界',
+    desc: '利用超大质量克尔黑洞之强引力梯度，在事件视界外切圆周实施切向弹射，瞬间实现光年尺度位移。',
+    baseSpeedC: 45
+  },
+  {
+    id: 'neutron_pulsar_lighthouse',
+    name: '中子脉冲星灯塔',
+    subtitle: '极端磁星偏振与毫秒级折跃定锚流',
+    icon: '💫',
+    tag: '脉冲定锚',
+    desc: '捕获脉冲星周期性射电束作为时空全息导航基准，消除折跃迷航风险，将着陆坐标误差降至厘米级。',
+    baseSpeedC: 38
+  },
+  {
+    id: 'spatiotemporal_wormhole_bridge',
+    name: '时空爱因斯坦-罗森桥',
+    subtitle: '双向虫洞引力坍缩折叠流',
+    icon: '🌀',
+    tag: '虫洞折叠',
+    desc: '以负能量密度维持虫洞喉部张开，将起点与终点四维空间曲率直接缝合，实现跨星系零延迟穿行。',
+    baseSpeedC: 60
+  },
+  {
+    id: 'primordial_cosmic_string',
+    name: '太古宇宙弦拓扑',
+    subtitle: '负能量张力切变与光速超越流',
+    icon: '⚡',
+    tag: '宇宙弦切',
+    desc: '宇宙大爆炸遗留之超致密维度纤维，凭借极高张力造成空间闭合时间回环，以阿库别瑞曲速泡超速推进。',
+    baseSpeedC: 52
+  }
+]
+
+const selectedSlingshotArchetypeId = ref('supermassive_gargantua')
+const slingshotCurvatureAcceleration = ref(28.5)
+const spacetimeRiftFoldCompressionRatio = ref(88)
+const eventHorizonSafeApproachDistanceAu = ref(1.2)
+const tachyonPulseVelocityFactor = ref(15.0)
+
+const ergosphereNegativeEnergyExtraction = ref(true)
+const chronosTidalDampingInertialField = ref(true)
+const transcendentWarpEmergencyAbort = ref(true)
+
+const selectSlingshotArchetype = (id: string) => {
+  selectedSlingshotArchetypeId.value = id
+  if (message) {
+    const arch = celestialSlingshotArchetypes.find(a => a.id === id)
+    if (arch) message.success(`已切换天体折跃原型：${arch.name}`)
+  }
+}
+
+const calculatedSlingshotMetrics = computed(() => {
+  const arch = celestialSlingshotArchetypes.find(a => a.id === selectedSlingshotArchetypeId.value) || celestialSlingshotArchetypes[0]
+  const baseC = arch.baseSpeedC
+  const penroseBonus = ergosphereNegativeEnergyExtraction.value ? 1.45 : 1.0
+  const finalC = (baseC * (slingshotCurvatureAcceleration.value / 25) * (spacetimeRiftFoldCompressionRatio.value / 80) * (tachyonPulseVelocityFactor.value / 10) * penroseBonus).toFixed(1)
+  
+  const effRate = Math.min(99.9, 88.0 + (spacetimeRiftFoldCompressionRatio.value / 100) * 11.5 + (chronosTidalDampingInertialField.value ? 0.4 : 0)).toFixed(1)
+  const stabRate = Math.min(99.9, 85.0 + (eventHorizonSafeApproachDistanceAu.value / 5.0) * 14.2 + (transcendentWarpEmergencyAbort.value ? 0.7 : 0)).toFixed(1)
+
+  let rank = 'SSR·星海曲率领航官'
+  if (parseFloat(finalC) >= 60.0) rank = 'EX·全域太古星海天象引航官'
+  else if (parseFloat(finalC) >= 40.0) rank = 'SSS·极星视界先驱尊者'
+
+  return {
+    warpVelocityC: `${finalC} c`,
+    slingshotGravityAssistEfficiency: `${effRate}%`,
+    spatiotemporalStabilityRating: `${stabRate}%`,
+    celestialNavigatorRank: rank
+  }
+})
+
+const isSimulatingSlingshot = ref(false)
+const currentSlingshotSimStage = ref(0)
+const slingshotStages = [
+  '天体克尔黑洞旋转能层轨道捕获...',
+  '彭罗斯能量辐射逆流共振喷射...',
+  '时空裂缝四维流形折叠压缩...',
+  '超光速快子脉冲引力弹弓加速弹射...',
+  '航行星图防伪公钥计算与证书封装...'
+]
+
+const runSlingshotSimulation = () => {
+  if (isSimulatingSlingshot.value) return
+  isSimulatingSlingshot.value = true
+  currentSlingshotSimStage.value = 0
+
+  const interval = setInterval(() => {
+    if (currentSlingshotSimStage.value < slingshotStages.length - 1) {
+      currentSlingshotSimStage.value++
+    } else {
+      clearInterval(interval)
+      isSimulatingSlingshot.value = false
+      if (message) {
+        message.success(`【引力弹弓沙盘】推演成功！超光速折跃速度达：${calculatedSlingshotMetrics.value.warpVelocityC}`)
+      }
+    }
+  }, 400)
+}
+
+const exportSlingshotCertificate = () => {
+  const hash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+  const cert = `=== 《光之战士：时空裂隙》黑洞引力弹弓与折跃方案证书 ===
+证书编号: WARP-SLINGSHOT-${hash.substring(0, 12).toUpperCase()}
+天体原型: ${selectedSlingshotArchetypeId.value}
+曲率加速度: ${slingshotCurvatureAcceleration.value.toFixed(1)} G
+时空折叠压缩比: ${spacetimeRiftFoldCompressionRatio.value}%
+视界近心距: ${eventHorizonSafeApproachDistanceAu.value.toFixed(2)} AU
+折跃折算极速: ${calculatedSlingshotMetrics.value.warpVelocityC}
+引力助推能效: ${calculatedSlingshotMetrics.value.slingshotGravityAssistEfficiency}
+时空曲率稳态率: ${calculatedSlingshotMetrics.value.spatiotemporalStabilityRating}
+深空航行评级: ${calculatedSlingshotMetrics.value.celestialNavigatorRank}
+安全校验哈希: SHA-256:${hash}
+验证状态: 官方相对论引力弹弓与时空折跃引擎认证通过 (Godot 4.6 LTS Verified)
+=======================================================`
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(cert)
+    if (message) message.success('已导出引力弹弓折跃方案防伪证书到剪贴板！')
+  }
+}
+
+const activeSlingshotScriptTab = ref<'trajectory_solver' | 'warp_manifold' | 'penrose_core'>('trajectory_solver')
+
+const slingshotScriptCodes = {
+  trajectory_solver: `class_name BlackholeSlingshotTrajectorySolver
+extends Node
+
+## 最终幻想：时空之轮 - 黑洞引力弹弓轨道与相对论助推解算器
+## 文件路径: res://scripts/combat/celestial/blackhole_slingshot_trajectory_solver.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal warp_slingshot_executed(velocity_c: float, stability: float)
+
+@export var curvature_g: float = 28.5
+
+func solve_slingshot_trajectory(blackhole_mass_solar: float, periapsis_au: float) -> Dictionary:
+    var escape_speed: float = sqrt((2.0 * blackhole_mass_solar) / periapsis_au) * 1.8
+    warp_slingshot_executed.emit(escape_speed, 0.99)
+    return {
+        "periapsis_au": periapsis_au,
+        "calculated_c": escape_speed,
+        "is_safe": periapsis_au > 0.5
+    }
+`,
+
+  warp_manifold: `class_name SpacetimeRiftWarpManifold
+extends RefCounted
+
+## 最终幻想：时空之轮 - 时空裂缝折叠与快子脉冲折跃流形
+## 文件路径: res://scripts/combat/celestial/spacetime_rift_warp_manifold.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func fold_four_dimensional_space(distance_ly: float, compression_ratio: float) -> float:
+    var effective_distance_ly: float = distance_ly * (1.0 - (compression_ratio / 100.0))
+    return maxf(0.01, effective_distance_ly)
+`,
+
+  penrose_core: `class_name PenroseEnergyExtractionCore
+extends RefCounted
+
+## 最终幻想：时空之轮 - 能层彭罗斯能量汲取与潮汐阻尼核心
+## 文件路径: res://scripts/combat/celestial/penrose_energy_extraction_core.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func extract_ergosphere_energy(incoming_mass: float, spin_param_a: float) -> Dictionary:
+    var energy_gain_pct: float = (spin_param_a * spin_param_a) * 29.0
+    return {
+        "energy_gain_pct": energy_gain_pct,
+        "net_output_ratio": 1.0 + (energy_gain_pct / 100.0)
+    }
+`
+}
+
+const currentSlingshotScriptCode = computed(() => {
+  return slingshotScriptCodes[activeSlingshotScriptTab.value]
+})
+
+const copySlingshotScript = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentSlingshotScriptCode.value)
+    if (message) message.success('已复制 Godot 4.6 LTS 引力弹弓源码到剪贴板！')
+  }
 }
 
 </script>
