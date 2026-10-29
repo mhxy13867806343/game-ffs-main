@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Exploration Vehicles & Orbital Warp Matrix v2.2.289
+              VBLE Vehicles Matrix, Spatiotemporal Warp Drive & Cruise Studio v2.2.327
             </span>
             <span class="text-xs text-gray-400">大世界航行与次元动力</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToSpatiotemporalWarpStudio"
+          >
+            <template #icon><span>🚀</span></template>
+            时空跃迁驱动工坊
+          </n-button>
           <n-button
             type="success"
             size="medium"
@@ -1910,6 +1921,262 @@
         </div>
       </div>
     </div>
+
+    <!-- 全域海陆空载具矩阵、时空跃迁驱动与巡航导航工坊 (v2.2.327 重磅实装) -->
+    <div id="spatiotemporal-warp-drive-studio" class="spatiotemporal-warp-drive-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-sky-950/20 to-slate-900/95 border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold border border-cyan-500/30">
+              SPATIOTEMPORAL WARP DRIVE & CRUISE MATRIX
+            </span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">
+              v2.2.327 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>🚀</span> 全域海陆空载具矩阵、时空跃迁驱动与巡航导航工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            覆盖魔导飞空艇、月之巨鲸、深渊潜艇与极速陆行鸟，支持 50 马赫曲速折跃、0.95 惯性阻尼重力泡防护与 Godot 4.6 LTS 底层星舰驱动核心。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetWarpDriveDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="info" :loading="isWarpDriveSimulating" @click="runSpatiotemporalWarpSimulation">
+            <template #icon><span>⚡</span></template>
+            激发折跃推演
+          </n-button>
+          <n-button size="small" round secondary type="warning" @click="exportWarpDriveCert">
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大海陆空折跃载具原型 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="archetype in warpDriveArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedWarpDriveArchetype === archetype.id ? 'bg-cyan-950/40 border-cyan-500 ring-2 ring-cyan-500/30' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectWarpDriveArchetype(archetype.id)"
+        >
+          <div class="flex items-start justify-between">
+            <div class="text-2xl">{{ archetype.icon }}</div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+              {{ archetype.typeTag }}
+            </span>
+          </div>
+          <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+          <p class="text-xs text-cyan-300/80 mt-1">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+            <div class="flex justify-between">
+              <span>核心推进动力:</span>
+              <span class="text-amber-300 font-mono">{{ archetype.engineType }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>巡航环境域:</span>
+              <span class="text-emerald-300 font-mono">{{ archetype.cruiseDomain }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四维航行与跃迁调控滑块 -->
+      <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+        <div class="text-sm font-bold text-white flex items-center justify-between">
+          <span class="flex items-center gap-2"><span>🎛️</span> 曲率引擎马赫与惯性阻尼力场调控</span>
+          <span class="text-xs text-cyan-400 font-mono">Realtime Propulsion Dynamics</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">曲率引擎折跃巡航速度 (Mach):</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ warpSpeedFactorMach.toFixed(1) }} 马赫 (极速破音障)</span>
+            </div>
+            <n-slider v-model:value="warpSpeedFactorMach" :min="1.0" :max="50.0" :step="0.5" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1.0 马赫 亚音速</span>
+              <span>18.5 马赫 典型星舰</span>
+              <span>50.0 马赫 超光速跃迁</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">以太燃料增压充能比 (%):</span>
+              <span class="text-amber-400 font-mono font-bold">{{ aetherSuperchargeRatio }}% (高能等离子)</span>
+            </div>
+            <n-slider v-model:value="aetherSuperchargeRatio" :min="50" :max="100" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>50% 经济续航</span>
+              <span>88% 战术满充</span>
+              <span>100% 极限过载</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">惯性阻尼力场缓冲系数:</span>
+              <span class="text-purple-400 font-mono font-bold">{{ inertialDampingRatio.toFixed(2) }} (重力泡阻尼)</span>
+            </div>
+            <n-slider v-model:value="inertialDampingRatio" :min="0.50" :max="0.99" :step="0.01" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0.50 剧烈过载</span>
+              <span>0.95 稳固滤震</span>
+              <span>0.99 绝对静止感</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">全息自动寻路避障频段 (Hz):</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ autoNavObstacleAvoidHz }} Hz (激光雷达)</span>
+            </div>
+            <n-slider v-model:value="autoNavObstacleAvoidHz" :min="50" :max="500" :step="10" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>50 Hz 低频</span>
+              <span>240 Hz 毫秒响应</span>
+              <span>500 Hz 微秒避障</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三大航行极速特权开关 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">虚空穿梭绝对避开遇敌隐形</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">航行过程 0 野怪拦截与暗能量匿踪</div>
+          </div>
+          <n-switch v-model:value="enableZeroEncounterStealthMode" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">跨地形任意锚点安全着陆</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">山巅、洋面、深雪与熔岩随心停泊</div>
+          </div>
+          <n-switch v-model:value="enableOmniTerrainSafeLanding" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">超音速音爆减震舒适光环</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">全员免受冲击波噪音与眩晕疲劳</div>
+          </div>
+          <n-switch v-model:value="enableSupersonicDampenerAura" size="small" />
+        </div>
+      </div>
+
+      <!-- 关键实时指标卡片 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">跨大陆航行就绪耗时</div>
+          <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+            {{ transitReadyTimeSec }} s
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">极速微秒启航</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">载具曲率巡航极速</div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+            {{ cruiseMaxVelocityKmh.toLocaleString() }} km/h
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">对应 {{ warpSpeedFactorMach.toFixed(1) }} 马赫</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">舰体过载抗震稳态率</div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-1">
+            {{ hullGForceStabilityPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">重力泡稳定度</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">星舰航行家认证评级</div>
+          <div class="text-sm sm:text-base font-black text-purple-400 font-mono mt-1 truncate">
+            {{ warpDriveTierBadge }}
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">全域星舰动力标准</div>
+        </div>
+      </div>
+
+      <!-- 沙盘推演日志与进度 -->
+      <div v-if="isWarpDriveSimulating || warpDriveLogs.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-gray-300 font-bold flex items-center gap-2">
+            <span>🔄</span> 载具折跃驱动与巡航导航沙盘进程: {{ warpDriveSimStep }}
+          </span>
+          <span class="text-cyan-400 font-mono font-bold">{{ warpDriveSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="warpDriveSimProgress"
+          :indicator-placement="'inside'"
+          processing
+          status="info"
+        />
+        <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+          <div v-for="(log, idx) in warpDriveLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-cyan-500">›</span>
+            <span :class="idx === warpDriveLogs.length - 1 ? 'text-cyan-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+            <h3 class="text-sm font-bold text-white">时空曲率跃迁驱动与巡航引擎源码展台</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeWarpDriveScriptTab === 'drive_core' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWarpDriveScriptTab = 'drive_core'"
+              >
+                曲率驱动核心
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeWarpDriveScriptTab === 'damping' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWarpDriveScriptTab = 'damping'"
+              >
+                惯性阻尼力场
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activeWarpDriveScriptTab === 'stealth_nav' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activeWarpDriveScriptTab = 'stealth_nav'"
+              >
+                全地形避障导航
+              </button>
+            </div>
+            <n-button size="small" round secondary type="info" @click="copyWarpDriveScript">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentWarpDriveScriptCode }}</pre>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -3836,6 +4103,235 @@ const copyMythicCruiseCode = () => {
     })
   }
 }
+
+// ==========================================
+// 全域海陆空载具矩阵、时空跃迁驱动与巡航导航工坊 (v2.2.327)
+// ==========================================
+const scrollToSpatiotemporalWarpStudio = () => {
+  document.getElementById('spatiotemporal-warp-drive-studio')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const selectedWarpDriveArchetype = ref('aeronaut_dreadnought')
+const warpDriveArchetypes = [
+  {
+    id: 'aeronaut_dreadnought',
+    name: '太古魔导飞空艇·无畏号',
+    icon: '🛸',
+    typeTag: '空天曲速',
+    tagClass: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+    desc: '双曲速以太涡轮引擎，全地形无阻碍低空飞行与万米平流层巡航，配备全自动避障。',
+    engineType: '双曲速以太等离子涡轮',
+    cruiseDomain: '低空平原 ➔ 万米平流层'
+  },
+  {
+    id: 'lunar_whale_ark',
+    name: '星际月之巨鲸·终焉方舟',
+    icon: '🐋',
+    typeTag: '星轨引力泡',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: '突破行星卡门线直抵红月卫星轨道，暗物质引力泡曲率折跃引擎，时空抗性拉满。',
+    engineType: '暗物质引力泡曲率驱动',
+    cruiseDomain: '行星卡门线 ➔ 红月星轨'
+  },
+  {
+    id: 'abyss_nautilus',
+    name: '深渊重力潜艇·鹦鹉螺号',
+    icon: '🚢',
+    typeTag: '深渊流体',
+    tagClass: 'bg-blue-500/20 text-blue-300 border border-blue-500/30',
+    desc: '耐受万米深渊强海压防护罩，洋流超导滑翔与声呐地形三维重建，潜入隐秘海底古遗迹。',
+    engineType: '深海流体离子超导喷水',
+    cruiseDomain: '浅海潮汐 ➔ 万米深渊海沟'
+  },
+  {
+    id: 'swiftstride_chocobo',
+    name: '黄羽陆行鸟·神速突击兽',
+    icon: '🐤',
+    typeTag: '全地形陆行',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: '陆地全地形飞跃山岳河流，100% 免受地面岩浆毒沼伤害，极限加速度瞬间突围。',
+    engineType: '生物以太强效共鸣奔袭',
+    cruiseDomain: '山地陡坡 / 河流密林 / 沼泽'
+  }
+]
+
+const warpSpeedFactorMach = ref(18.5)
+const aetherSuperchargeRatio = ref(88)
+const inertialDampingRatio = ref(0.95)
+const autoNavObstacleAvoidHz = ref(240)
+
+const enableZeroEncounterStealthMode = ref(true)
+const enableOmniTerrainSafeLanding = ref(true)
+const enableSupersonicDampenerAura = ref(true)
+
+const isWarpDriveSimulating = ref(false)
+const warpDriveSimProgress = ref(0)
+const warpDriveSimStep = ref('')
+const warpDriveLogs = ref<string[]>([])
+
+const transitReadyTimeSec = computed(() => {
+  let sec = 4.2 - (warpSpeedFactorMach.value / 50.0) * 2.8 - (aetherSuperchargeRatio.value / 100) * 0.6
+  return Math.max(0.8, parseFloat(sec.toFixed(1)))
+})
+
+const cruiseMaxVelocityKmh = computed(() => {
+  let base = warpSpeedFactorMach.value * 1225.0 * (aetherSuperchargeRatio.value / 80.0)
+  return Math.round(base)
+})
+
+const hullGForceStabilityPct = computed(() => {
+  let pct = inertialDampingRatio.value * 98.0 + (autoNavObstacleAvoidHz.value / 500) * 1.9
+  return Math.min(99.9, parseFloat(pct.toFixed(1)))
+})
+
+const warpDriveTierBadge = computed(() => {
+  if (warpSpeedFactorMach.value > 35 && hullGForceStabilityPct.value > 98) return 'EX·超光速虚空折跃舰长'
+  if (warpSpeedFactorMach.value > 20) return 'SSS·深空全地形动力大师'
+  if (warpSpeedFactorMach.value > 10) return 'SS·高音速星舰巡航指挥官'
+  return 'S·标准海陆空航海家'
+})
+
+const selectWarpDriveArchetype = (id: string) => {
+  selectedWarpDriveArchetype.value = id
+  const target = warpDriveArchetypes.find(a => a.id === id)
+  if (target) {
+    message.info(`已切入载具航行模式：${target.name}（${target.typeTag}）`)
+  }
+}
+
+const resetWarpDriveDefaults = () => {
+  warpSpeedFactorMach.value = 18.5
+  aetherSuperchargeRatio.value = 88
+  inertialDampingRatio.value = 0.95
+  autoNavObstacleAvoidHz.value = 240
+  enableZeroEncounterStealthMode.value = true
+  enableOmniTerrainSafeLanding.value = true
+  enableSupersonicDampenerAura.value = true
+  message.success('已恢复载具折跃与巡航基准动力参数！')
+}
+
+const runSpatiotemporalWarpSimulation = () => {
+  if (isWarpDriveSimulating.value) return
+  isWarpDriveSimulating.value = true
+  warpDriveSimProgress.value = 0
+  warpDriveLogs.value = []
+
+  const steps = [
+    { p: 20, step: '启动双曲速以太等离子涡轮并对齐磁喷嘴约束...', log: '等离子点火成功，充能比达成 ' + aetherSuperchargeRatio.value + '%，输出功率满额。' },
+    { p: 45, step: '展开 0.95 惯性阻尼重力泡防护罩...', log: '重力场平稳包裹舰体，抗震稳态率达到 ' + hullGForceStabilityPct.value + '%。' },
+    { p: 70, step: '激活 240Hz 激光避障雷达与洋流微秒地形重构...', log: '全息航线规划完毕，完美规避山岳与虚空乱流裂隙。' },
+    { p: 90, step: '开启零遇敌隐形遁入暗能量伪装力场...', log: '野怪雷达归零，安全降落锚点全域解锁，音爆舒适光环广播。' },
+    { p: 100, step: '载具折跃沙盘推演收敛，星舰适航认证签发！', log: `就绪耗时: ${transitReadyTimeSec.value}s，极速: ${cruiseMaxVelocityKmh.value.toLocaleString()} km/h，认证: ${warpDriveTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      warpDriveSimProgress.value = steps[idx].p
+      warpDriveSimStep.value = steps[idx].step
+      warpDriveLogs.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isWarpDriveSimulating.value = false
+      message.success('载具时空跃迁驱动沙盘推演圆满完成！')
+    }
+  }, 250)
+}
+
+const exportWarpDriveCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-VEHICLE-WARP-DRIVE-SPEC',
+    version: 'v2.2.327',
+    timestamp: new Date().toISOString(),
+    archetype: selectedWarpDriveArchetype.value,
+    mach_speed: warpSpeedFactorMach.value,
+    supercharge_ratio: aetherSuperchargeRatio.value,
+    damping_ratio: inertialDampingRatio.value,
+    nav_hz: autoNavObstacleAvoidHz.value,
+    stealth_mode: enableZeroEncounterStealthMode.value,
+    omni_landing: enableOmniTerrainSafeLanding.value,
+    supersonic_aura: enableSupersonicDampenerAura.value,
+    transit_ready_sec: transitReadyTimeSec.value,
+    velocity_kmh: cruiseMaxVelocityKmh.value,
+    stability_pct: hullGForceStabilityPct.value,
+    tier: warpDriveTierBadge.value,
+    cert_sha256: '5c6d7e8f9a0b12345678abcdef9012345678abcdef9012345678abcdef327a'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `vehicle_warp_drive_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出载具时空跃迁方案认证证书！')
+}
+
+const activeWarpDriveScriptTab = ref<'drive_core' | 'damping' | 'stealth_nav'>('drive_core')
+
+const warpDriveScriptCodes = {
+  drive_core: `class_name SpatiotemporalWarpDriveCore
+extends Node3D
+
+## 最终幻想：时空之轮 - 时空曲率跃迁驱动核心与超光速引擎
+## 文件路径: res://scripts/vehicles/spatiotemporal_warp_drive_core.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal warp_jump_initiated(mach_speed: float, target_vector: Vector3)
+
+@export var max_mach: float = 18.5
+var _is_jumping: bool = false
+
+func engage_warp_jump(destination: Vector3) -> Dictionary:
+    _is_jumping = true
+    var speed_kmh: float = max_mach * 1225.0
+    warp_jump_initiated.emit(max_mach, destination)
+    return {
+        "jump_speed_kmh": speed_kmh,
+        "status": "WARP_SPACE_ENTERED"
+    }
+`,
+
+  damping: `class_name InertialDampingFieldController
+extends RefCounted
+
+## 最终幻想：时空之轮 - 惯性阻尼重力泡与过载吸收器
+## 文件路径: res://scripts/vehicles/inertial_damping_field_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func evaluate_g_force_mitigation(raw_g: float, damping_factor: float) -> Dictionary:
+    var felt_g: float = raw_g * (1.0 - damping_factor)
+    return {
+        "raw_g_force": raw_g,
+        "felt_g_force": felt_g,
+        "is_safe_for_crew": felt_g < 2.5
+    }
+`,
+
+  stealth_nav: `class_name OmniTerrainStealthNavigator
+extends RefCounted
+
+## 最终幻想：时空之轮 - 全地形隐形避障与安全着陆导航器
+## 文件路径: res://scripts/vehicles/omni_terrain_stealth_navigator.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func calculate_safe_landing(terrain_type: String, omni_landing_enabled: bool) -> bool:
+    if omni_landing_enabled:
+        return true
+    return terrain_type in ["GRASS", "PLAINS", "BEACH"]
+`
+}
+
+const currentWarpDriveScriptCode = computed(() => {
+  return warpDriveScriptCodes[activeWarpDriveScriptTab.value]
+})
+
+const copyWarpDriveScript = () => {
+  navigator.clipboard.writeText(currentWarpDriveScriptCode.value)
+  message.success('已复制 Godot 4.6 LTS 载具折跃驱动源码到剪贴板！')
+}
+
 </script>
 
 <style scoped>

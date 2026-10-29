@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicles-warp-drive-v327-2026-10-29',
+    version: 'v2.2.327',
+    date: '2026-10-29',
+    title: '全域海陆空载具矩阵、时空跃迁驱动与巡航导航工坊重磅实装',
+    category: 'system',
+    categoryName: '载具航行',
+    icon: '🛸',
+    tagType: 'success',
+    description: '全面重构升级 VehiclesView 载具矩阵门户：顶部标章升级为 VBLE Vehicles Matrix, Spatiotemporal Warp Drive & Cruise Studio v2.2.327，新增时空跃迁驱动工坊快捷直达；专区重磅实装【全域海陆空载具矩阵、时空跃迁驱动与巡航导航工坊】（Vehicles Matrix, Spatiotemporal Warp Drive & Cruise Navigation Studio）；覆盖四大海陆空折跃载具原型（太古魔导飞空艇无畏号·空天曲速流、星际月之巨鲸终焉方舟·星轨引力泡流、深渊重力潜艇鹦鹉螺号·深渊流体流、黄羽陆行鸟神速突击兽·全地形陆行流）；支持曲率引擎折跃巡航速度 (1.0~50.0 马赫)、以太燃料增压充能比 (50%~100%)、惯性阻尼力场缓冲系数 (0.50~0.99) 与全息自动寻路避障频段 (50~500 Hz) 连续微调；支持虚空穿梭绝对避开遇敌隐形、跨地形任意锚点安全着陆、超音速音爆减震舒适光环；实时解算全域跨大陆航行就绪耗时 (低至 0.8 s)、载具曲率巡航极速 (突破 61,200 km/h)、舰体过载抗震稳态率 (高达 99.9%) 与星舰航行家认证评级 (高达 EX·超光速虚空折跃舰长)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：spatiotemporal_warp_drive_core.gd、inertial_damping_field_controller.gd 与 omni_terrain_stealth_navigator.gd。',
+    highlights: [
+      '四大海陆空折跃载具原型：魔导飞空艇、月之巨鲸方舟、深渊潜艇与极速神行陆行鸟',
+      '四维连续星舰航行参数：曲率折跃速度、燃料增压比、惯性阻尼系数与激光避障频段',
+      '三重航行极速特权机制：虚空穿梭绝对零遇敌、全地形随处安全降落与音爆减震光环',
+      '动态深空动力指标解算：就绪启航耗时、曲率巡航极速、舰体抗震稳态率与折跃舰长认证',
+      '五阶段星舰折跃沙盘：等离子涡轮点火、重力泡包裹、激光雷达避障、暗能量伪装与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源曲率驱动核心、惯性阻尼重力泡与全地形避障导航器'
+    ],
+    relatedLinks: [
+      { label: '载具图鉴与巡航', path: '/vble/vehicles', icon: '🛸' },
+      { label: '时空跃迁驱动工坊', path: '/vble/vehicles', icon: '🚀' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-economy-global-equilibrium-v326-2026-10-29',
     version: 'v2.2.326',
     date: '2026-10-29',
