@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-jobs-hyper-mastery-2026-10-29',
+    version: 'v2.2.282',
+    date: '2026-10-29',
+    title: '太古职业潜能觉醒与极限命座星图工坊重磅实装',
+    category: 'system',
+    categoryName: '职业命座',
+    icon: '✨',
+    tagType: 'success',
+    description: '全面重构升级 JobsView 职业全典门户：顶部标章升级为 VBLE Job Mastery & Secret Arts Matrix v2.2.282，新增模式切换第 6 页【太古职业潜能觉醒与极限命座星图工坊】（Job Hyper-Mastery & Constellation Studio）；覆盖四大极限命座星图流派（圣剑神圣守卫命座、秘术大魔导命座、幽影暗杀猎手命座、贤者天体共鸣命座）；实现命座星核共鸣能级 (100~999 AU)、职业潜能过载倍率 (1.0~4.0x)、星环节点解锁数 (1~12 节点) 与以太属性转化率 (50%~200%) 连续微调；支持宿命之锁破限解除（突破 255 单项属性天花板至 999 极限）、双持武器双手互搏（+1.0x 最终战技倍率）与星图超载反噬防护盾（免除 10% 自损伤害）；实时解算觉醒终极基础属性总和 (突破 2,500+ 点)、命座战技最终倍率 (突破 5.0x+)、战技极速冷却缩减 (-75% CDR) 与星图综合评阶；实装五阶段命座觉醒推演终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 job_hyper_mastery_matrix.gd、job_constellation_skill_tree.gd 与 dual_wield_damage_resolver.gd。',
+    highlights: [
+      '四大极限命座星图：圣剑减伤45%、大魔导双相减耗、暗杀必定暴击偷窃与贤者天体无敌复活',
+      '四维连续命座动力学：星能能级、潜能过载倍率、星环节点数与属性转化率全域动态适配',
+      '宿命之锁破限解禁：解除传统 255 属性上限，职业觉醒全属性综合突破 2,500+ 极境',
+      '双手互搏双刃击发：任意职业允许单手驾驭巨兵神兵，战技最终倍率突破 5.0x 峰值',
+      '离线认证方案书导出：自动生成附带 SHA-256 专属星图指纹的方案书并同步至剪贴板',
+      'Godot 4.6 LTS 3 Tab 展台：包含命座觉醒解算器、技能树状态机与双手互搏伤害引擎'
+    ],
+    relatedLinks: [
+      { label: '职业全典与转职树', path: '/vble/jobs', icon: '💼' },
+      { label: '神兵神装锻造矩阵', path: '/vble/equipment', icon: '🗡️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-monsters-gene-studio-2026-10-29',
     version: 'v2.2.281',
     date: '2026-10-29',

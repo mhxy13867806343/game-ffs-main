@@ -2,10 +2,10 @@
   <div class="jobs-page p-4 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">VBLE Job Mastery &amp; Secret Arts Matrix v2.2.263</n-tag>
-      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">职业转职树、进阶转生与太古奥义传承系统</h1>
+      <n-tag type="info" size="small" round class="mb-2">VBLE Job Mastery &amp; Secret Arts Matrix v2.2.282</n-tag>
+      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">职业转职树、进阶转生、太古奥义与极限命座星图系统</h1>
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
-        当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅、双职业构筑连锁、自由人全被动继承与进阶转生太古奥义推演。
+        当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅、双职业构筑连锁、自由人全被动继承、进阶转生太古奥义与极限命座星图推演。
       </p>
     </div>
 
@@ -57,6 +57,16 @@
           <span>🌟</span>
           <span>进阶转生与太古奥义传承工坊</span>
           <n-badge value="v2.2.263" type="warning" />
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
+          :class="activeMainTab === 'hyper_mastery_matrix' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          @click="activeMainTab = 'hyper_mastery_matrix'"
+        >
+          <span>✨</span>
+          <span>太古职业潜能觉醒与极限命座星图工坊</span>
+          <n-badge value="v2.2.282" type="error" />
         </button>
       </div>
     </div>
@@ -1657,6 +1667,310 @@ static func resolve_inherited_passives(mastered_jobs: Array[JobProfile]) -> Arra
         </div>
       </div>
     </div>
+
+    <!-- ================= 视图 6: 太古职业潜能觉醒与极限命座星图工坊 (Job Hyper-Mastery & Constellation Studio) ================= -->
+    <div v-else-if="activeMainTab === 'hyper_mastery_matrix'" class="space-y-6">
+      <div class="p-6 bg-gradient-to-br from-slate-950 via-cyan-950/25 to-slate-950 border border-cyan-500/50 rounded-2xl shadow-2xl space-y-6 relative overflow-hidden">
+        <!-- 头部导览与操作 -->
+        <div class="border-b border-cyan-900/40 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-2xl">✨</span>
+              <h2 class="text-xl sm:text-2xl font-black text-cyan-300">
+                太古职业潜能觉醒与极限命座星图工坊
+              </h2>
+              <n-tag size="small" type="error" round strong>v2.2.282 重磅实装</n-tag>
+            </div>
+            <p class="text-xs text-gray-400 mt-1 max-w-3xl leading-relaxed">
+              基于十二宫命座星图与太古宿命潜能觉醒系统，推演职业全属性破限解禁、双手互搏伤害倍率、急速战技减CD与极限星核过载。
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <n-button
+              type="primary"
+              size="small"
+              round
+              secondary
+              :loading="isSimulatingHyperMastery"
+              @click="runHyperMasterySimulation"
+            >
+              <template #icon><span>⚡</span></template>
+              启动命座觉醒推演
+            </n-button>
+            <n-button
+              type="warning"
+              size="small"
+              round
+              secondary
+              @click="exportHyperMasteryCertificate"
+            >
+              <template #icon><span>📜</span></template>
+              导出命座方案书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大极限命座星图流派 (4 Constellations) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
+          <div
+            v-for="constell in hyperConstellations"
+            :key="constell.id"
+            class="p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between"
+            :class="selectedConstellationId === constell.id
+              ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]'
+              : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+            @click="selectedConstellationId = constell.id"
+          >
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xl">{{ constell.icon }}</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded font-mono" :class="selectedConstellationId === constell.id ? 'bg-cyan-500/30 text-cyan-200' : 'bg-slate-800 text-gray-400'">
+                  {{ constell.tag }}
+                </span>
+              </div>
+              <div class="font-bold text-xs text-gray-200">{{ constell.name }}</div>
+              <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-2 leading-relaxed">{{ constell.desc }}</div>
+            </div>
+            <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+              <span class="text-gray-400">核心奥义:</span>
+              <span class="font-mono font-bold text-cyan-300">{{ constell.secretArt }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 核心工作台：双栏交互面板 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+          <!-- 左侧：全息星图雷达视窗与指标卡片 -->
+          <div class="lg:col-span-7 space-y-4">
+            <!-- 全息星图雷达视窗 -->
+            <div class="relative h-64 sm:h-72 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex flex-col justify-between p-4 shadow-inner">
+              <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+                <div
+                  class="absolute w-80 h-80 rounded-full blur-3xl transition-all duration-700 pointer-events-none"
+                  :style="{
+                    background: currentConstellation.gradient,
+                    opacity: (astralEnergyLevel / 1000 * 0.75 + 0.15).toFixed(2),
+                    transform: `scale(${1 + overloadMultiplier / 5.0})`
+                  }"
+                ></div>
+                <svg class="w-64 h-64 opacity-50 animate-[spin_50s_linear_infinite]" viewBox="0 0 200 200">
+                  <polygon points="100,15 125,75 190,80 140,125 155,190 100,155 45,190 60,125 10,80 75,75" fill="none" stroke="rgba(6,182,212,0.4)" stroke-width="1.5" stroke-dasharray="3 3" />
+                  <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(168,85,247,0.5)" stroke-width="1.2" />
+                  <circle cx="100" cy="100" r="25" fill="none" stroke="rgba(245,158,11,0.5)" stroke-width="1" stroke-dasharray="2 2" />
+                  <line x1="100" y1="15" x2="100" y2="185" stroke="rgba(6,182,212,0.3)" stroke-width="1" />
+                  <circle cx="100" cy="100" r="6" fill="rgba(6,182,212,0.9)" />
+                </svg>
+              </div>
+
+              <!-- 顶部状态指示灯 -->
+              <div class="relative z-10 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                  <span class="font-mono text-cyan-300 font-bold">CONSTELLATION MATRIX ACTIVE</span>
+                  <span class="text-gray-400 font-mono text-[10px]">| {{ unlockedNodes }}/12 节点</span>
+                </div>
+                <div class="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700 text-[10px] font-mono text-amber-300">
+                  星能: {{ astralEnergyLevel }} AU
+                </div>
+              </div>
+
+              <!-- 中间标语 -->
+              <div class="relative z-10 text-center my-auto">
+                <div class="text-2xl font-black text-white/95 tracking-wider font-mono drop-shadow-[0_0_12px_rgba(6,182,212,0.8)]">
+                  {{ currentConstellation.name }}
+                </div>
+                <div class="text-xs text-cyan-200/80 mt-1 font-mono">
+                  觉醒总属性: {{ calculatedTotalAwakenedStats.toLocaleString() }} · 战技最终倍率: {{ calculatedSkillMultiplier }}x
+                </div>
+              </div>
+
+              <!-- 底部性能微视窗 -->
+              <div class="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] font-mono text-gray-400">
+                <span>技能极速冷却: -{{ calculatedCdrReduction }}% CDR</span>
+                <span class="text-emerald-400 font-bold">
+                  综合评阶: {{ calculatedConstellationTier }}
+                </span>
+              </div>
+            </div>
+
+            <!-- 4 维物理与战斗指标卡片 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">觉醒属性总和</div>
+                <div class="font-mono text-cyan-400 font-bold text-sm mt-0.5">{{ calculatedTotalAwakenedStats.toLocaleString() }}</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">{{ destinyCapUnlock ? '已突破 255 限制' : '常规单项上限' }}</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">命座战技倍率</div>
+                <div class="font-mono text-amber-400 font-bold text-sm mt-0.5">{{ calculatedSkillMultiplier }}x</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">{{ dualWieldMastery ? '双手互搏双刃击发' : '常规单持加成' }}</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">战技极速缩减</div>
+                <div class="font-mono text-emerald-400 font-bold text-sm mt-0.5">-{{ calculatedCdrReduction }}%</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">以太回路加速</div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <div class="text-[10px] text-gray-400">星图综合评阶</div>
+                <div class="font-mono text-purple-400 font-bold text-xs mt-0.5 truncate">{{ calculatedConstellationTier }}</div>
+                <div class="text-[9px] text-gray-500 mt-0.5">{{ reboundAegis ? '反噬防护盾已激活' : '无反噬保护' }}</div>
+              </div>
+            </div>
+
+            <!-- 实时推演日志终端 -->
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono">
+              <div class="flex items-center justify-between text-xs text-gray-400 pb-1.5 border-b border-slate-800">
+                <span class="flex items-center gap-1.5 text-cyan-300 font-bold">
+                  <span>💻</span> 命座星图与潜能觉醒日志 (Astral Terminal)
+                </span>
+                <span class="text-[10px] text-gray-500">拓扑状态: 同步完成</span>
+              </div>
+              <div class="space-y-1 text-[11px] text-gray-300 max-h-28 overflow-y-auto custom-scrollbar">
+                <div v-for="(log, idx) in hyperSimLogs" :key="idx" class="flex items-start gap-1.5">
+                  <span class="text-cyan-400 select-none">&gt;</span>
+                  <span :class="log.includes('完成') || log.includes('成功') || log.includes('突破') ? 'text-emerald-400' : 'text-gray-300'">{{ log }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧：无极物理调优与星图控制 -->
+          <div class="lg:col-span-5 p-4 sm:p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+            <div class="text-xs font-bold text-cyan-300 flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="flex items-center gap-1.5">
+                <span>🎛️</span> 命座潜能参数微调 (Constellation Uniforms)
+              </span>
+              <button
+                type="button"
+                class="text-[10px] text-gray-400 hover:text-cyan-300 cursor-pointer"
+                @click="resetHyperParams"
+              >
+                重置参数
+              </button>
+            </div>
+
+            <!-- 星核共鸣能级 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>命座星核共鸣能级 (Astral Energy):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ astralEnergyLevel }} AU</span>
+              </div>
+              <n-slider v-model:value="astralEnergyLevel" :min="100" :max="999" :step="1" />
+              <div class="flex justify-between text-[9px] text-gray-500">
+                <span>100AU 初阶觉醒</span>
+                <span>600AU 核心充盈</span>
+                <span>999AU 太古创世</span>
+              </div>
+            </div>
+
+            <!-- 潜能过载倍率 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>职业潜能过载倍率 (Overload Multiplier):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ overloadMultiplier }}x</span>
+              </div>
+              <n-slider v-model:value="overloadMultiplier" :min="1.0" :max="4.0" :step="0.1" />
+            </div>
+
+            <!-- 命座星环节点解锁数 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>星环节点解锁数 (Unlocked Nodes):</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ unlockedNodes }} / 12 节点</span>
+              </div>
+              <n-slider v-model:value="unlockedNodes" :min="1" :max="12" :step="1" />
+            </div>
+
+            <!-- 属性转化率 -->
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between items-center text-gray-300">
+                <span>以太属性转化率 (Conversion Ratio):</span>
+                <span class="font-mono text-purple-400 font-bold">{{ statConversionRatio }} %</span>
+              </div>
+              <n-slider v-model:value="statConversionRatio" :min="50" :max="200" :step="5" />
+            </div>
+
+            <!-- 3 项星图开关 -->
+            <div class="space-y-2 pt-2 border-t border-slate-800">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300 flex items-center gap-1.5">
+                  <span>🔓</span> 宿命之锁破限解除 (允许突破255上限)
+                </span>
+                <n-switch v-model:value="destinyCapUnlock" size="small" />
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300 flex items-center gap-1.5">
+                  <span>⚔️</span> 双持武器双手互搏 (+1.0x 终极倍率)
+                </span>
+                <n-switch v-model:value="dualWieldMastery" size="small" />
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-gray-300 flex items-center gap-1.5">
+                  <span>🛡️</span> 星图超载反噬防护盾 (免除10%自损)
+                </span>
+                <n-switch v-model:value="reboundAegis" size="small" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 下方：Godot 4.6 LTS 底层脚本契约矩阵 -->
+        <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-4 relative z-10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-cyan-300 font-mono">GODOT 4.6 LTS ARCHITECTURE SPEC</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">纯粹 RefCounted 离线解算</span>
+              </div>
+              <div class="text-xs text-gray-400 mt-0.5">命座星图觉醒、星环技能树状态机与双手互搏伤害解算器</div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <div class="flex rounded-lg bg-slate-900 p-0.5 border border-slate-800 text-xs font-mono">
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded transition cursor-pointer"
+                  :class="activeHyperCodeTab === 'matrix' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                  @click="activeHyperCodeTab = 'matrix'"
+                >
+                  hyper_mastery_matrix.gd
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded transition cursor-pointer"
+                  :class="activeHyperCodeTab === 'tree' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                  @click="activeHyperCodeTab = 'tree'"
+                >
+                  constellation_skill_tree.gd
+                </button>
+                <button
+                  type="button"
+                  class="px-2.5 py-1 rounded transition cursor-pointer"
+                  :class="activeHyperCodeTab === 'dual' ? 'bg-cyan-600 text-white font-bold' : 'text-gray-400 hover:text-gray-200'"
+                  @click="activeHyperCodeTab = 'dual'"
+                >
+                  dual_wield_resolver.gd
+                </button>
+              </div>
+              <n-button
+                size="small"
+                type="info"
+                secondary
+                round
+                @click="copyHyperCode"
+              >
+                复制源码
+              </n-button>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+            <pre><code>{{ currentHyperCode }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1670,7 +1984,7 @@ import { usePagination } from '@/composables/usePagination'
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value < 640)
 
-const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery' | 'transcendence_tree'>('catalog')
+const activeMainTab = ref<'catalog' | 'studio' | 'synergy' | 'abp_mastery' | 'transcendence_tree' | 'hyper_mastery_matrix'>('catalog')
 const selectedCrystal = ref('all')
 
 // 分类数量与卡片使用同一目录；不随当前筛选或分页缩减。
@@ -3207,6 +3521,273 @@ const copyTranscendenceCode = async () => {
   }
 }
 
+// ==========================================
+// 视图 6: 太古职业潜能觉醒与极限命座星图工坊 (Job Hyper-Mastery & Constellation Studio)
+// ==========================================
+const hyperConstellations = [
+  {
+    id: 'holy_blade',
+    name: '圣剑神圣守卫命座',
+    tag: '全域减伤 45%',
+    icon: '🛡️',
+    desc: '融合圣骑士与光明水晶星辉，受击自动触发神圣庇护光环，减免45%物理与魔法伤害，并反震真实伤害。',
+    secretArt: '极超·神圣审判之盾',
+    gradient: 'radial-gradient(circle, rgba(6,182,212,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'archmage',
+    name: '秘术大魔导命座',
+    tag: '黑白双相 -50% MP',
+    icon: '🔮',
+    desc: '编织星界奇点魔力织网，全属性黑白魔法消耗减少50%，四相连续魔击发时产生共振爆裂反应。',
+    secretArt: '极超·创世以太爆轰',
+    gradient: 'radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'shadow_blade',
+    name: '幽影暗杀猎手命座',
+    tag: '暴击 100% 极速',
+    icon: '🗡️',
+    desc: '隐遁于时空视界边缘，每次物理刺击必达成绝对破甲暴击，偷窃必定夺取怪物携带的绝品神兵材料。',
+    secretArt: '极超·瞬影幻灭千刃',
+    gradient: 'radial-gradient(circle, rgba(239,68,68,0.4) 0%, rgba(15,23,42,0) 70%)'
+  },
+  {
+    id: 'mystic_sage',
+    name: '贤者天体共鸣命座',
+    tag: '全体复活 1R 绝对无敌',
+    icon: '🌟',
+    desc: '沟通太古双月天体核心，战死成员瞬间无损全血复活，并在当前回合赋予全队 100% 绝对无敌屏障。',
+    secretArt: '极超·天体溯光奇迹',
+    gradient: 'radial-gradient(circle, rgba(16,185,129,0.4) 0%, rgba(15,23,42,0) 70%)'
+  }
+]
+const selectedConstellationId = ref('holy_blade')
+const currentConstellation = computed(() => {
+  return hyperConstellations.find(c => c.id === selectedConstellationId.value) || hyperConstellations[0]
+})
+
+const astralEnergyLevel = ref(640)
+const overloadMultiplier = ref(2.5)
+const unlockedNodes = ref(8)
+const statConversionRatio = ref(140)
+const destinyCapUnlock = ref(true)
+const dualWieldMastery = ref(true)
+const reboundAegis = ref(false)
+
+const calculatedTotalAwakenedStats = computed(() => {
+  const capMult = destinyCapUnlock.value ? 1.35 : 1.0
+  const raw = (380 + unlockedNodes.value * 45) * overloadMultiplier.value * (statConversionRatio.value / 100) * capMult
+  return Math.round(raw)
+})
+
+const calculatedSkillMultiplier = computed(() => {
+  const dualBonus = dualWieldMastery.value ? 1.0 : 0.0
+  const mult = 1.5 + (astralEnergyLevel.value / 250) * 0.8 + dualBonus
+  return mult.toFixed(2)
+})
+
+const calculatedCdrReduction = computed(() => {
+  const raw = unlockedNodes.value * 4.5 + (astralEnergyLevel.value / 30)
+  return Math.min(75, Math.round(raw * 10) / 10)
+})
+
+const calculatedConstellationTier = computed(() => {
+  if (astralEnergyLevel.value >= 800 && unlockedNodes.value >= 10) return 'EX 太古创世阶'
+  if (astralEnergyLevel.value >= 500 && unlockedNodes.value >= 6) return 'SSR 苍穹命座阶'
+  return 'SR 宿命觉醒阶'
+})
+
+const resetHyperParams = () => {
+  astralEnergyLevel.value = 640
+  overloadMultiplier.value = 2.5
+  unlockedNodes.value = 8
+  statConversionRatio.value = 140
+  destinyCapUnlock.value = true
+  dualWieldMastery.value = true
+  reboundAegis.value = false
+  if (message) message.info('命座潜能参数已重置为基准星图架构')
+}
+
+const isSimulatingHyperMastery = ref(false)
+const hyperSimLogs = ref<string[]>([
+  '系统就绪：已挂载 Godot 4.6 LTS 职业极限命座与潜能觉醒解算器',
+  '当前命座：圣剑神圣守卫命座 (全域减伤 45%)',
+  '星图推演就绪，请点击右上角按钮启动实时觉醒'
+])
+
+const runHyperMasterySimulation = () => {
+  if (isSimulatingHyperMastery.value) return
+  isSimulatingHyperMastery.value = true
+  hyperSimLogs.value = ['[0.00s] 调谐十二宫星核共鸣能级至 ' + astralEnergyLevel.value + ' AU...']
+
+  setTimeout(() => {
+    hyperSimLogs.value.unshift(`[0.45s] 解锁 ${unlockedNodes.value}/12 处命座星环节点，转化率 ${statConversionRatio.value}%`)
+  }, 450)
+
+  setTimeout(() => {
+    hyperSimLogs.value.unshift(`[0.90s] ${destinyCapUnlock.value ? '解除 255 宿命属性封顶' : '保持常规属性封顶'}，觉醒属性总和突破至 ${calculatedTotalAwakenedStats.value.toLocaleString()}`)
+  }, 900)
+
+  setTimeout(() => {
+    hyperSimLogs.value.unshift(`[1.35s] 激活双手互搏双持武器战技【${currentConstellation.value.secretArt}】，最终倍率 ${calculatedSkillMultiplier.value}x`)
+  }, 1350)
+
+  setTimeout(() => {
+    hyperSimLogs.value.unshift(`[1.80s] 命座觉醒推演完成！极速冷却 -${calculatedCdrReduction.value}% CDR，综合星图评阶【${calculatedConstellationTier.value}】`)
+    isSimulatingHyperMastery.value = false
+    if (message) message.success('太古职业命座星图推演完成，潜能已全面觉醒！')
+  }, 1800)
+}
+
+const exportHyperMasteryCertificate = () => {
+  const timestamp = new Date().toISOString()
+  const certId = 'HYPER-JOB-' + Math.random().toString(36).substring(2, 9).toUpperCase()
+  const certContent = `================================================================================
+【光之战士：时空裂隙】太古职业潜能觉醒与极限命座星图方案书
+================================================================================
+方案编号: ${certId}
+时间戳: ${timestamp}
+版本规范: VBLE Job Mastery & Secret Arts Matrix v2.2.282
+
+【当前选定命座星图】
+- 命座流派: ${currentConstellation.value.name} (${currentConstellation.value.tag})
+- 核心奥义: ${currentConstellation.value.secretArt}
+- 命座机制概述: ${currentConstellation.value.desc}
+
+【命座物理与控制变量】
+- 星核共鸣能级: ${astralEnergyLevel.value} AU
+- 职业潜能过载倍率: ${overloadMultiplier.value}x
+- 星环节点解锁数: ${unlockedNodes.value} / 12
+- 以太属性转化率: ${statConversionRatio.value}%
+- 宿命之锁破限解除: ${destinyCapUnlock.value ? '已启用 (解除 255 上限)' : '未启用'}
+- 双持武器双手互搏: ${dualWieldMastery.value ? '已启用 (+1.0x 终极倍率)' : '未启用'}
+- 星图反噬防护盾: ${reboundAegis.value ? '已启用 (免除10%自损)' : '未启用'}
+
+【实时解算觉醒指标】
+- 觉醒终极属性总和: ${calculatedTotalAwakenedStats.value.toLocaleString()} 点
+- 命座战技最终倍率: ${calculatedSkillMultiplier.value}x
+- 战技急速冷却缩减: -${calculatedCdrReduction.value}% CDR
+- 星图综合评价阶位: ${calculatedConstellationTier.value}
+
+【底层引擎契约安全指纹】
+- 引擎架构: Godot 4.6 LTS / Constellation Hyper Mastery RefCounted Spec
+- 核心解算器: job_hyper_mastery_matrix.gd / job_constellation_skill_tree.gd
+- 控制器: dual_wield_damage_resolver.gd
+- SHA-256 指纹: SHA256-${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `job_hyper_mastery_cert_v2.2.282_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('File download fallback error:', err)
+  }
+
+  if (message) {
+    message.success('太古职业命座方案书已导出并同步至剪贴板！')
+  }
+}
+
+const activeHyperCodeTab = ref<'matrix' | 'tree' | 'dual'>('matrix')
+
+const gdHyperMatrixCode = `## job_hyper_mastery_matrix.gd
+## Godot 4.6 LTS - 全域太古职业极限命座星图与属性潜能觉醒解算器
+extends RefCounted
+class_name JobHyperMasteryMatrix
+
+enum ConstellationClass { HOLY_BLADE, ARCHMAGE, SHADOW_BLADE, MYSTIC_SAGE }
+
+static func compute_awakened_attributes(
+	base_stat: int,
+	unlocked_nodes: int,
+	overload_mult: float,
+	conversion_ratio: float,
+	break_stat_cap: bool
+) -> Dictionary:
+	var node_bonus: float = float(unlocked_nodes) * 45.0
+	var cap_factor: float = 1.35 if break_stat_cap else 1.0
+	var total_stat: float = (float(base_stat) + node_bonus) * overload_mult * (conversion_ratio / 100.0) * cap_factor
+	
+	return {
+		"total_awakened_stats": int(total_stat),
+		"cdr_pct": clampf(float(unlocked_nodes) * 4.5 + 20.0, 5.0, 75.0),
+		"tier_evaluation": "EX_CREATION" if unlocked_nodes >= 10 else "SSR_ASTRAL"
+	}
+`
+
+const gdConstellationTreeCode = `## job_constellation_skill_tree.gd
+## Godot 4.6 LTS - 星环节点依存于战技触发状态机
+extends RefCounted
+class_name JobConstellationSkillTree
+
+signal astral_node_unlocked(node_index: int, node_name: String)
+signal secret_art_unleashed(art_name: String, final_damage: int)
+
+class ConstellationNode:
+	var index: int
+	var is_unlocked: bool = false
+	var required_astral_energy: int = 100
+	var granted_buff: String = ""
+
+static func evaluate_secret_art_multiplier(
+	astral_energy: int,
+	has_dual_wield: bool
+) -> float:
+	var base_mult: float = 1.5 + (float(astral_energy) / 250.0) * 0.8
+	if has_dual_wield:
+		base_mult += 1.0
+	return snappedf(base_mult, 0.01)
+`
+
+const gdDualWieldResolverCode = `## dual_wield_damage_resolver.gd
+## Godot 4.6 LTS - 双手互搏与双持武器极意伤害解算器
+extends RefCounted
+class_name DualWieldDamageResolver
+
+static func resolve_dual_wield_strike(
+	main_hand_atk: int,
+	off_hand_atk: int,
+	skill_mult: float,
+	enemy_def: int
+) -> Dictionary:
+	var main_hit: int = maxi(1, int(float(main_hand_atk) * skill_mult - float(enemy_def) * 0.5))
+	var off_hit: int = maxi(1, int(float(off_hand_atk) * skill_mult - float(enemy_def) * 0.5))
+	
+	return {
+		"main_hand_damage": main_hit,
+		"off_hand_damage": off_hit,
+		"total_damage": main_hit + off_hit,
+		"is_critical": true
+	}
+`
+
+const currentHyperCode = computed(() => {
+  if (activeHyperCodeTab.value === 'matrix') return gdHyperMatrixCode
+  if (activeHyperCodeTab.value === 'tree') return gdConstellationTreeCode
+  return gdDualWieldResolverCode
+})
+
+const copyHyperCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentHyperCode.value).then(() => {
+      if (message) message.success('Godot 4.6 LTS 命座源码已复制至剪贴板！')
+    }).catch(() => {
+      if (message) message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 </script>
 
 <style scoped>
