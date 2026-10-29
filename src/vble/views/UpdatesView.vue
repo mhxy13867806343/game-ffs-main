@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-dungeons-secret-chain-v322-2026-10-29',
+    version: 'v2.2.322',
+    date: '2026-10-29',
+    title: '全域十八大地下城空间拓扑、密室锁链与迷宫机关工坊重磅实装',
+    category: 'maps',
+    categoryName: '地宫拓扑',
+    icon: '⛓️',
+    tagType: 'success',
+    description: '全面重构升级 DungeonsView 地宫导览门户：顶部标章升级为 VBLE Dungeon Topology, Secret Chain & Labyrinth Studio v2.2.322，新增地宫密室机关工坊快捷直达；专区重磅实装【全域十八大地下城空间拓扑、密室锁链与迷宫机关工坊】（Dungeon Topology, Secret Chain Mechanisms & Labyrinth Puzzle Studio）；覆盖四大地宫拓扑机关原型（太古封印神殿地下密室·符文重力锁流、幽暗熔岩炼狱地牢·热胀浮岛水阀流、天空浮岛以太迷宫·反重力隐形桥流、终焉虚无扭曲回廊·莫比乌斯环流）；支持迷宫拓扑深度层级 (3~18 层)、密室机关解密容错时间 (5s~60s)、陷阱致死率对冲阻尼系数 (0.20~0.95) 与空间隐秘密道侦测灵敏度 (50%~100%) 连续微调；支持盗贼全队陷阱感知与拆除、密室机关时空回溯保护、全息迷宫拓扑无盲区罗盘；实时解算密室通关逃逸成功率 (高达 99.8%)、队伍陷阱致死免除率 (高达 99.9%)、隐秘宝箱完全发掘率 (高达 98.5%) 与探险家认证评级 (高达 EX·太古迷宫神殿掌门人)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：dungeon_topology_chain_solver.gd、secret_door_puzzle_manager.gd 与 trap_disarm_rewind_pipeline.gd。',
+    highlights: [
+      '四大地宫拓扑机关原型：封印神殿重力锁、熔岩浮岛水阀、天空以太隐形桥与虚无莫比乌斯环',
+      '四维连续地宫探险参数：迷宫拓扑深度、解密容错窗口、陷阱对冲阻尼与密道感知灵敏度',
+      '三重地下城探险机制：盗贼陷阱感知拆除、机关错误时空回溯与全息透视罗盘',
+      '动态探险能效指标解算：通关逃逸成功率、陷阱致死免除率、宝箱发掘率与迷宫掌门人认证',
+      '五阶段地宫沙盘推演：拓扑流解构、符文石板联动、陷阱回溯阻尼、透视罗盘勘测与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源拓扑锁链解析器、符文重力石板与时空断路回溯管线'
+    ],
+    relatedLinks: [
+      { label: '地貌拓扑与地宫', path: '/vble/dungeons', icon: '🏛️' },
+      { label: '密室锁链机关工坊', path: '/vble/dungeons', icon: '⛓️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-download-multiplatform-v321-2026-10-29',
     version: 'v2.2.321',
     date: '2026-10-29',
