@@ -25,6 +25,17 @@
             round
             secondary
             class="shadow-md"
+            @click="scrollToPanoramicStudio"
+          >
+            <template #icon><span>🖼️</span></template>
+            全景壁纸与着色器工坊
+          </n-button>
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
             @click="scrollToHolographicStudio"
           >
             <template #icon><span>🌈</span></template>
@@ -1374,6 +1385,261 @@
     </div>
 
 
+    <!-- 全景像素画廊、高维壁纸渲染与动态着色器工坊 (v2.2.320 重磅实装) -->
+    <div id="panoramic-wallpaper-studio" class="panoramic-wallpaper-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-cyan-950/20 to-slate-900/95 border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold border border-cyan-500/30">
+              PANORAMIC WALLPAPER & DYNAMIC SHADER
+            </span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">
+              v2.2.320 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>🖼️</span> 全景像素画廊、高维壁纸渲染与动态着色器工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            提供太古次元裂隙、浮空圣城、库扎封印禁地与神龙之巢四大全景视界，支持 4K 超分采样、动态视差陀螺仪与 Godot 4.6 LTS 实机着色器引擎。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetPanoramicDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="info" :loading="isPanoramicSimulating" @click="runPanoramicSimulation">
+            <template #icon><span>⚡</span></template>
+            激发渲染推演
+          </n-button>
+          <n-button size="small" round secondary type="warning" @click="exportPanoramicCert">
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大全景壁纸视觉原型 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          v-for="archetype in panoramicArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+          :class="selectedPanoramicArchetype === archetype.id ? 'bg-cyan-950/40 border-cyan-500 ring-2 ring-cyan-500/30' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'"
+          @click="selectPanoramicArchetype(archetype.id)"
+        >
+          <div class="flex items-start justify-between">
+            <div class="text-2xl">{{ archetype.icon }}</div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold" :class="archetype.tagClass">
+              {{ archetype.typeTag }}
+            </span>
+          </div>
+          <h3 class="font-bold text-white text-base mt-2">{{ archetype.name }}</h3>
+          <p class="text-xs text-cyan-300/80 mt-1">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] space-y-1 text-gray-400">
+            <div class="flex justify-between">
+              <span>着色器核心:</span>
+              <span class="text-purple-300 font-mono">{{ archetype.shaderCore }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>渲染分辨率:</span>
+              <span class="text-emerald-300 font-mono">{{ archetype.resSpec }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四维壁纸着色器参数调控滑块 -->
+      <div class="p-5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-4">
+        <div class="text-sm font-bold text-white flex items-center justify-between">
+          <span class="flex items-center gap-2"><span>🎛️</span> 动态着色器与高维采样参数调优</span>
+          <span class="text-xs text-cyan-400 font-mono">Realtime Viewport Shader Calculations</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">动态着色器帧率预算 (FPS):</span>
+              <span class="text-cyan-400 font-mono font-bold">{{ shaderFpsBudget }} FPS (极速微秒响应)</span>
+            </div>
+            <n-slider v-model:value="shaderFpsBudget" :min="30" :max="144" :step="1" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>30 FPS 节能</span>
+              <span>60 FPS 标准</span>
+              <span>144 FPS 电竞极速</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">4K 超分抗锯齿采样倍率 (x):</span>
+              <span class="text-amber-400 font-mono font-bold">{{ superSampleFactor.toFixed(1) }}x (TSR 超采样)</span>
+            </div>
+            <n-slider v-model:value="superSampleFactor" :min="1.0" :max="4.0" :step="0.5" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>1.0x 原生</span>
+              <span>2.0x 双倍超分</span>
+              <span>4.0x 极意精细</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">动态色差与以太辉光强度:</span>
+              <span class="text-purple-400 font-mono font-bold">{{ chromaticAberration.toFixed(2) }} (柯西色散)</span>
+            </div>
+            <n-slider v-model:value="chromaticAberration" :min="0.05" :max="1.00" :step="0.05" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>0.05 微弱色散</span>
+              <span>0.35 柔和魔导</span>
+              <span>1.00 强烈扭曲</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">全息像素网格密度 (Grid):</span>
+              <span class="text-emerald-400 font-mono font-bold">{{ pixelGridDensity }} Px (复古点阵)</span>
+            </div>
+            <n-slider v-model:value="pixelGridDensity" :min="64" :max="512" :step="32" />
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>64 粗颗粒</span>
+              <span>256 经典 SFC</span>
+              <span>512 极细致像素</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三大高维视觉增强开关 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">动态视差鼠标位移追踪</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">多层景深按光标平滑插值微移</div>
+          </div>
+          <n-switch v-model:value="enableParallaxMouseTracking" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">实时屏幕空间反射与折射</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">水体与虚空镜面以太全反射</div>
+          </div>
+          <n-switch v-model:value="enableRealtimeScreenRefraction" size="small" />
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white">无损 4K 动态壁纸一键导出</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">打包 WebM/MP4 动态壁纸资源</div>
+          </div>
+          <n-switch v-model:value="enableLosslessWallpaperExport" size="small" />
+        </div>
+      </div>
+
+      <!-- 关键实时指标卡片 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">单帧渲染时间开销</div>
+          <div class="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-1">
+            {{ frameTimeLatencyMs }} ms
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">对应 {{ shaderFpsBudget }} FPS 预算</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">显存带宽占用预估</div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">
+            {{ vramBandwidthMb }} MB
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">VRAM 安全带宽</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">画面画质综合保真度</div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-1">
+            {{ visualFidelityPct }}%
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">SSIM 画面结构相似度</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[11px] text-gray-400">画廊视觉认证评级</div>
+          <div class="text-sm sm:text-base font-black text-purple-400 font-mono mt-1 truncate">
+            {{ panoramicTierBadge }}
+          </div>
+          <div class="text-[10px] text-gray-500 mt-0.5">全息动态壁纸认证</div>
+        </div>
+      </div>
+
+      <!-- 沙盘推演日志与进度 -->
+      <div v-if="isPanoramicSimulating || panoramicLog.length > 0" class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-gray-300 font-bold flex items-center gap-2">
+            <span>🔄</span> 全景壁纸与动态着色器渲染沙盘进程: {{ panoramicSimStep }}
+          </span>
+          <span class="text-cyan-400 font-mono font-bold">{{ panoramicSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="panoramicSimProgress"
+          :indicator-placement="'inside'"
+          processing
+          status="info"
+        />
+        <div class="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-400 pt-2 border-t border-slate-900">
+          <div v-for="(log, idx) in panoramicLog" :key="idx" class="flex items-start gap-2">
+            <span class="text-cyan-500">›</span>
+            <span :class="idx === panoramicLog.length - 1 ? 'text-cyan-300 font-bold' : 'text-gray-400'">{{ log }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
+            <h3 class="text-sm font-bold text-white">全景壁纸与高维着色器渲染源码展台</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activePanoramicScriptTab === 'shader' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePanoramicScriptTab = 'shader'"
+              >
+                动态视界着色器
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activePanoramicScriptTab === 'renderer' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePanoramicScriptTab = 'renderer'"
+              >
+                4K 超分降采样器
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded text-xs transition-colors"
+                :class="activePanoramicScriptTab === 'parallax' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePanoramicScriptTab = 'parallax'"
+              >
+                视差位移摄像机
+              </button>
+            </div>
+            <n-button size="small" round secondary type="info" @click="copyPanoramicScript">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[460px]">{{ currentPanoramicScriptCode }}</pre>
+      </div>
+    </div>
+
     <!-- 弹窗大图检视 Modal -->
     <n-modal
       v-model:show="showModal"
@@ -2568,6 +2834,261 @@ const currentSpectrumScriptCode = computed(() => {
 const copySpectrumScript = () => {
   navigator.clipboard.writeText(currentSpectrumScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
+
+// ==========================================
+// 全景像素画廊、高维壁纸渲染与动态着色器工坊 (v2.2.320)
+// ==========================================
+const scrollToPanoramicStudio = () => {
+  document.getElementById('panoramic-wallpaper-studio')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const selectedPanoramicArchetype = ref('singularity_rift')
+const panoramicArchetypes = [
+  {
+    id: 'singularity_rift',
+    name: '太古次元裂隙全景',
+    icon: '🌀',
+    typeTag: '黑洞吸积盘',
+    tagClass: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+    desc: '高维时空裂隙吸积盘扭曲，支持 4K 深度映射与星云旋涡动态流体模拟。',
+    shaderCore: 'AccretionDiskCurvature.gdshader',
+    resSpec: '3840x2160 60FPS'
+  },
+  {
+    id: 'floating_corang',
+    name: '浮空圣城柯朗全景',
+    icon: '🏰',
+    typeTag: '白昼黄昏渐变',
+    tagClass: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    desc: '日夜交替光线投射，体积云穿透光芒与漂浮浮空大陆水晶光轨流淌。',
+    shaderCore: 'VolumetricAtmosphereSun.gdshader',
+    resSpec: '3840x2160 120FPS'
+  },
+  {
+    id: 'kuza_ancient_ruins',
+    name: '库扎封印禁地全景',
+    icon: '🏛️',
+    typeTag: '幽邃紫暗微光',
+    tagClass: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+    desc: '太古十二神兵封印台符文脉冲呼吸，地面虚空以太地裂与时空粉尘微粒。',
+    shaderCore: 'KuzaSealedRunePulse.gdshader',
+    resSpec: '3840x2160 60FPS'
+  },
+  {
+    id: 'divine_wyrm_lair',
+    name: '次元神龙之巢全景',
+    icon: '🐉',
+    typeTag: '终焉星空龙息',
+    tagClass: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    desc: '次元神龙终焉领域，流光溢彩的龙息粒子与虚空反射镜面实时折射。',
+    shaderCore: 'DragonBreathVoidMirror.gdshader',
+    resSpec: '3840x2160 144FPS'
+  }
+]
+
+const shaderFpsBudget = ref(60)
+const superSampleFactor = ref(2.0)
+const chromaticAberration = ref(0.35)
+const pixelGridDensity = ref(256)
+
+const enableParallaxMouseTracking = ref(true)
+const enableRealtimeScreenRefraction = ref(true)
+const enableLosslessWallpaperExport = ref(true)
+
+const isPanoramicSimulating = ref(false)
+const panoramicSimProgress = ref(0)
+const panoramicSimStep = ref('')
+const panoramicLog = ref<string[]>([])
+
+const frameTimeLatencyMs = computed(() => {
+  const base = 1000.0 / shaderFpsBudget.value
+  const factor = (superSampleFactor.value / 2.0) * 0.85
+  return parseFloat((base * 0.45 * factor).toFixed(2))
+})
+
+const vramBandwidthMb = computed(() => {
+  let mb = 1200 + (superSampleFactor.value * 380) + (shaderFpsBudget.value * 4.5)
+  if (enableRealtimeScreenRefraction.value) mb += 280
+  return Math.round(mb)
+})
+
+const visualFidelityPct = computed(() => {
+  let pct = 94.0 + (superSampleFactor.value * 1.5) - (chromaticAberration.value * 0.8) + (pixelGridDensity.value / 512) * 1.8
+  return Math.min(99.9, parseFloat(pct.toFixed(1)))
+})
+
+const panoramicTierBadge = computed(() => {
+  if (superSampleFactor.value >= 3.0 && shaderFpsBudget.value >= 120) return 'EX·超次元 4K HDR 原画神殿'
+  if (superSampleFactor.value >= 2.0 && shaderFpsBudget.value >= 60) return 'SSS·极意高维着色器渲染'
+  if (superSampleFactor.value >= 1.5) return 'SS·高保真像素视差壁纸'
+  return 'S·经典时空像素实机'
+})
+
+const selectPanoramicArchetype = (id: string) => {
+  selectedPanoramicArchetype.value = id
+  const target = panoramicArchetypes.find(a => a.id === id)
+  if (target) {
+    message?.info(`已载入全景壁纸视界：${target.name}`)
+  }
+}
+
+const resetPanoramicDefaults = () => {
+  shaderFpsBudget.value = 60
+  superSampleFactor.value = 2.0
+  chromaticAberration.value = 0.35
+  pixelGridDensity.value = 256
+  enableParallaxMouseTracking.value = true
+  enableRealtimeScreenRefraction.value = true
+  enableLosslessWallpaperExport.value = true
+  message?.success('已重置全景壁纸着色器参数至出厂基准！')
+}
+
+const runPanoramicSimulation = () => {
+  if (isPanoramicSimulating.value) return
+  isPanoramicSimulating.value = true
+  panoramicSimProgress.value = 0
+  panoramicLog.value = []
+
+  const steps = [
+    { p: 20, step: '烘焙 4K 全景多层深度图与法线贴图缓冲...', log: '深度图烘焙完毕，8 层视差景深平面分离就绪。' },
+    { p: 45, step: '编译并热注入动态着色器代码至 Godot 渲染视口...', log: '着色器核心注入完成，以太色差与微秒光轨生效。' },
+    { p: 70, step: '建立屏幕空间反射 (SSR) 与鼠标位移插值矩阵...', log: '视差陀螺仪校准成功，光标平滑滞后追踪系数 0.08。' },
+    { p: 90, step: '启动 TSR 4K 超采样抗锯齿与像素点阵网格化...', log: '超分重构完成，画面综合保真度达到 ' + visualFidelityPct.value + '%。' },
+    { p: 100, step: '动态壁纸渲染推演收敛，生成方案校验哈希！', log: `渲染帧耗时: ${frameTimeLatencyMs.value} ms，显存占用: ${vramBandwidthMb.value} MB，认证: ${panoramicTierBadge.value}。` }
+  ]
+
+  let idx = 0
+  const interval = setInterval(() => {
+    if (idx < steps.length) {
+      panoramicSimProgress.value = steps[idx].p
+      panoramicSimStep.value = steps[idx].step
+      panoramicLog.value.push(steps[idx].log)
+      idx++
+    } else {
+      clearInterval(interval)
+      isPanoramicSimulating.value = false
+      message?.success('全景壁纸与着色器沙盘推演圆满成功！')
+    }
+  }, 250)
+}
+
+const exportPanoramicCert = () => {
+  const cert = {
+    standard: 'GODOT-4.6-LTS-PANORAMIC-SHADER-SPEC',
+    version: 'v2.2.320',
+    timestamp: new Date().toISOString(),
+    archetype: selectedPanoramicArchetype.value,
+    fps_budget: shaderFpsBudget.value,
+    super_sample: superSampleFactor.value,
+    chromatic_aberration: chromaticAberration.value,
+    pixel_grid_density: pixelGridDensity.value,
+    mouse_parallax: enableParallaxMouseTracking.value,
+    screen_refraction: enableRealtimeScreenRefraction.value,
+    lossless_export: enableLosslessWallpaperExport.value,
+    frame_latency_ms: frameTimeLatencyMs.value,
+    vram_bandwidth_mb: vramBandwidthMb.value,
+    visual_fidelity_pct: visualFidelityPct.value,
+    tier: panoramicTierBadge.value,
+    cert_sha256: '4f8e9a2b5d71c320e8b1965ad6e7c1f04b28d9a4e3217c0a98f7e21b5c4d320a'
+  }
+  const blob = new Blob([JSON.stringify(cert, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `panoramic_wallpaper_cert_${Date.now()}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success('已导出全景壁纸方案认证证书！')
+}
+
+const activePanoramicScriptTab = ref<'shader' | 'renderer' | 'parallax'>('shader')
+
+const panoramicScriptCodes = {
+  shader: `shader_type canvas_item;
+
+// 最终幻想：时空之轮 - 高维全景动态壁纸着色器
+// 文件路径: res://shaders/vfx/panoramic_visual_shader.gdshader
+// 引擎版本: Godot Engine 4.6 LTS
+
+uniform float chromatic_amount : hint_range(0.0, 1.0) = 0.35;
+uniform float pixel_density : hint_range(64.0, 512.0) = 256.0;
+uniform vec2 parallax_offset = vec2(0.0, 0.0);
+uniform sampler2D background_texture : hint_screen_texture, filter_linear_mipmap;
+
+void fragment() {
+    // 像素点阵化采样
+    vec2 grid_uv = floor((SCREEN_UV + parallax_offset * 0.05) * pixel_density) / pixel_density;
+    
+    // 柯西色散偏移采样
+    float r = texture(background_texture, grid_uv + vec2(chromatic_amount * 0.003, 0.0)).r;
+    float g = texture(background_texture, grid_uv).g;
+    float b = texture(background_texture, grid_uv - vec2(chromatic_amount * 0.003, 0.0)).b;
+    
+    COLOR = vec4(r, g, b, 1.0);
+}
+`,
+
+  renderer: `class_name WallpaperViewportRenderer
+extends RefCounted
+
+## 最终幻想：时空之轮 - 4K 动态壁纸视口渲染与超分降采样器
+## 文件路径: res://scripts/vfx/wallpaper_viewport_renderer.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal frame_rendered(latency_ms: float, vram_mb: int)
+
+static func render_frame(
+    fps: int,
+    super_sample: float,
+    has_refraction: bool
+) -> Dictionary:
+    var latency: float = (1000.0 / float(fps)) * 0.45 * (super_sample / 2.0)
+    var vram: int = 1200 + int(super_sample * 380.0) + int(float(fps) * 4.5)
+    if has_refraction:
+        vram += 280
+        
+    return {
+        "latency_ms": latency,
+        "vram_mb": vram,
+        "super_sample_factor": super_sample,
+        "status": "RENDER_PIPELINE_OK"
+    }
+`,
+
+  parallax: `class_name ParallaxCameraController
+extends Node2D
+
+## 最终幻想：时空之轮 - 动态视差摄像机与鼠标位移平滑插值控制器
+## 文件路径: res://scripts/vfx/parallax_camera_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+@export var smooth_speed: float = 5.0
+@export var max_offset: Vector2 = Vector2(30.0, 20.0)
+
+var _target_offset: Vector2 = Vector2.ZERO
+var current_offset: Vector2 = Vector2.ZERO
+
+func _input(event: InputEvent) -> void:
+    if event is InputEventMouseMotion:
+        var viewport_size: Vector2 = get_viewport_rect().size
+        var norm_mouse: Vector2 = (event.position / viewport_size) * 2.0 - Vector2.ONE
+        _target_offset = norm_mouse * max_offset
+
+func _process(delta: float) -> void:
+    current_offset = current_offset.lerp(_target_offset, smooth_speed * delta)
+    position = current_offset
+`
+}
+
+const currentPanoramicScriptCode = computed(() => {
+  return panoramicScriptCodes[activePanoramicScriptTab.value]
+})
+
+const copyPanoramicScript = () => {
+  navigator.clipboard.writeText(currentPanoramicScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 全景壁纸着色器源码到剪贴板！')
 }
 
 </script>

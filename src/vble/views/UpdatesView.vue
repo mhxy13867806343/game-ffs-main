@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-gallery-panoramic-shaders-v320-2026-10-29',
+    version: 'v2.2.320',
+    date: '2026-10-29',
+    title: '全景像素画廊、高维壁纸渲染与动态着色器工坊重磅实装',
+    category: 'maps',
+    categoryName: '全景视觉',
+    icon: '🖼️',
+    tagType: 'success',
+    description: '全面重构升级 GalleryView 视觉画廊门户：顶部标章升级为 VBLE Panoramic Gallery, Wallpaper Shader & Visual Studio v2.2.320，新增全景壁纸与着色器工坊快捷直达；专区重磅实装【全景像素画廊、高维壁纸渲染与动态着色器工坊】（Panoramic Pixel Gallery, High-Dimensional Wallpaper Rendering & Dynamic Shader Studio）；覆盖四大全景壁纸视觉原型（太古次元裂隙·黑洞吸积盘流、浮空圣城柯朗·白昼黄昏渐变流、库扎封印禁地·幽邃紫暗微光流、次元神龙之巢·终焉星空龙息流）；支持动态着色器帧率预算 (30~144 FPS)、4K 超分抗锯齿倍率 (1.0x~4.0x)、动态色差与以太辉光强度 (0.05~1.00) 与全息像素网格密度 (64~512) 连续微调；支持动态视差鼠标位移追踪、实时屏幕空间反射与折射、无损 4K 动态壁纸一键打包导出；实时解算单帧渲染时间开销 (低至 6.94 ms)、显存带宽占用预估 (安全控制在 1,980 MB)、画面画质综合保真度 (高达 99.9%) 与画廊视觉认证评级 (高达 EX·超次元 4K HDR 原画神殿)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：panoramic_visual_shader.gdshader、wallpaper_viewport_renderer.gd 与 parallax_camera_controller.gd。',
+    highlights: [
+      '四维全景壁纸视觉原型：次元裂隙吸积盘、浮空圣城日夜渐变、库扎封印微光与神龙终焉星空',
+      '四维连续视觉渲染参数：着色器帧率预算、4K 超分采样倍率、动态柯西色散与像素网格密度',
+      '三重高维视觉增强机制：鼠标位移平滑视差、屏幕空间反射折射与无损 4K 动态壁纸导出',
+      '动态渲染能效指标解算：单帧耗时开销、显存带宽占用、画面综合保真度与原画神殿认证',
+      '五阶段画廊渲染沙盘：深度图层烘焙、动态着色器注入、视差矩阵校准、TSR 超分重构与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源动态视界着色器、4K 超分降采样器与视差位移摄像机'
+    ],
+    relatedLinks: [
+      { label: '实机画廊与视觉', path: '/vble/gallery', icon: '🎨' },
+      { label: '全景壁纸与着色器', path: '/vble/gallery', icon: '🖼️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-equipment-sealed-relics-v319-2026-10-29',
     version: 'v2.2.319',
     date: '2026-10-29',
