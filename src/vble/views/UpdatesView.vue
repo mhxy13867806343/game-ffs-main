@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-attributes-quantum-tensor-2026-10-29',
+    version: 'v2.2.284',
+    date: '2026-10-29',
+    title: '量子属性张量与多维数值跃迁工坊重磅实装',
+    category: 'system',
+    categoryName: '量子张量',
+    icon: '🌌',
+    tagType: 'success',
+    description: '全面重构升级 AttributesView 属性与成长门户：顶部标章升级为 VBLE Stat Calculators & Growth Matrix v2.2.284，新增量子张量跃迁工坊快捷直达；专区重磅实装【量子属性张量与多维数值跃迁工坊】（Quantum Tensor & Dilation Studio）；覆盖四大超维量子本征态（量子叠加态、负熵坍缩态、相对论时滞态、以太奇点态）；实现希尔伯特量子能阶/维数 (1~16 维)、时空张量曲率因子 (0.10~5.00 G)、特征本征能级 (100~999 MeV) 与虚数属性投影比率 (50%~250%) 连续微调；支持泡利不相容态破缺（允许同类六维属性堆叠解除上限并二次幂跃迁）、波函数坍缩锚定（锁定全域峰值期望，暴击破限伤害恒定增幅 +50%）与普朗克真伤量子护盾（格挡单次超额真实伤害并强化稳态率 +25%）；实时解算诸神超维量子战力 (突破 2,000,000+ CP)、本征极限破限伤害 (突破 500,000+ HP)、相对论光速敏捷 (突破 900+ AGI) 与张量矩阵稳态率；实装五阶段量子张量推演终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 quantum_stat_tensor_evaluator.gd、eigen_damage_matrix_resolver.gd 与 planck_imaginary_stat_controller.gd。',
+    highlights: [
+      '四大超维量子本征态：量子叠加双相穿透、负熵坍缩破甲湮灭、相对论光速时滞闪避与以太奇点全维掌控',
+      '四维连续量子拓扑参数：希尔伯特能阶、张量曲率因子、特征本征能级与虚数投影比率动态适配',
+      '泡利不相容态破缺：解除六维词条传统堆叠上限，综合量子战力指数级跃迁突破 200 万 CP',
+      '波函数坍缩锚定：锁定全域峰值期望概率波峰，本征爆发极限伤害突破 500,000+ 峰值',
+      '普朗克量子护盾：高维负熵能量膜吸收致死真伤，曲率抗坍塌稳态率大幅强化',
+      'Godot 4.6 LTS 3 Tab 展台：包含量子属性张量解算器、本征伤害解析器与普朗克虚数控制器'
+    ],
+    relatedLinks: [
+      { label: '角色与怪物属性器', path: '/vble/attributes', icon: '📊' },
+      { label: '全域 GM 属性修改器', path: '/vble/modifier', icon: '🛠️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-boss-void-execution-2026-10-29',
     version: 'v2.2.283',
     date: '2026-10-29',

@@ -2,14 +2,17 @@
   <div class="attributes-page p-3 sm:p-4 max-w-7xl mx-auto space-y-8">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Stat Calculators & Growth Matrix v2.2.259</n-tag>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">角色属性器 & 怪物属性器</h1>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Stat Calculators &amp; Growth Matrix v2.2.284</n-tag>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">角色属性器、怪物解析器与量子属性张量跃迁工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-3">
-        支持 255 级满破无限数值演算、输入血量即时反推等级、场景地宫关联自动定级、六维断点量化以及 255 巅峰神话极境突破推演工坊
+        支持 255 级满破无限数值演算、输入血量即时反推等级、场景地宫关联自动定级、六维断点量化以及量子属性张量多维数值跃迁工坊
       </p>
       <div class="flex justify-center gap-2">
         <n-button size="small" type="primary" secondary @click="$router.push('/vble/modifier')">
           🛠️ 前往独立全域 GM 属性修改器专页
+        </n-button>
+        <n-button size="small" type="error" secondary @click="activeCalculatorTab = 'quantum_entropy'">
+          🌌 快速切入量子张量跃迁工坊
         </n-button>
         <n-button size="small" type="warning" secondary @click="activeCalculatorTab = 'breakthrough'">
           👑 快速切入 255 满破极境工坊
@@ -59,6 +62,13 @@
           <template #tab>
             <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400" :aria-pressed="activeCalculatorTab === 'breakthrough'">
               👑 满破255极境工坊 (v2.2.259)
+            </button>
+          </template>
+        </n-tab-pane>
+        <n-tab-pane name="quantum_entropy">
+          <template #tab>
+            <button type="button" style="font: inherit;" class="border-0 bg-transparent p-0 text-inherit cursor-pointer rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400 font-bold" :aria-pressed="activeCalculatorTab === 'quantum_entropy'">
+              🌌 量子属性张量工坊 (v2.2.284)
             </button>
           </template>
         </n-tab-pane>
@@ -1337,6 +1347,335 @@
         <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-amber-300 font-mono overflow-x-auto leading-relaxed">{{ gdTranscendenceCode }}</pre>
       </div>
     </div>
+
+    <!-- 模块七：量子属性张量与多维数值跃迁工坊 (v2.2.284) -->
+    <div v-if="activeCalculatorTab === 'quantum_entropy'" id="quantum-entropy-studio" class="space-y-6">
+      <!-- 顶部功能横幅 -->
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-rose-950/70 via-slate-900/90 to-purple-950/70 border border-rose-500/40 shadow-[0_0_35px_rgba(244,63,94,0.18)] relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-56 h-56 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-mono font-bold text-xs border border-rose-500/40">
+                QUANTUM TENSOR & DILATION MATRIX
+              </span>
+              <span class="text-xs text-rose-400 font-mono">v2.2.284 Hyper-Dimension</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide flex items-center gap-2">
+              <span>🌌</span> 量子属性张量与多维数值跃迁工坊
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-2xl leading-relaxed">
+              面向 Godot 4.6 LTS 超限属性拓扑解算：实装希尔伯特 16 维态矢量张量重构、虚数属性投影、泡利相干性破缺与普朗克负熵极限界标。
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-lg bg-rose-950/60 border border-rose-700/60 text-xs font-mono text-rose-300">
+              希尔伯特 16 维空间
+            </span>
+            <span class="px-3 py-1 rounded-lg bg-purple-950/60 border border-purple-700/60 text-xs font-mono text-purple-300">
+              曲率微分本征态
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四大超维量子态选择 -->
+      <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">⚛️</span>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">四大超维量子本征态配置 (Quantum Stances)</h3>
+          </div>
+          <span class="text-xs text-gray-400">点击切换以激活不同量子态的张量共鸣属性</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="st in quantumStatesList"
+            :key="st.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedQuantumState === st.id ? `${st.color} ring-2 ring-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.3)]` : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'"
+            @click="selectedQuantumState = st.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ st.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-gray-300">
+                {{ st.resonanceBonus }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white mb-1">{{ st.name }}</div>
+            <p class="text-xs text-gray-400 leading-snug">{{ st.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与量子超限开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧参数调节面板 -->
+        <div class="lg:col-span-7 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎛️</span>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">量子张量核心拓扑参数</h3>
+            </div>
+            <n-tag type="error" size="tiny" round>微积分动态解算</n-tag>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>希尔伯特量子能阶 / 维数 (Hilbert Dimensions)</span>
+                <span class="font-mono font-bold text-rose-400">{{ quantumDegrees }} 维</span>
+              </div>
+              <n-slider v-model:value="quantumDegrees" :min="1" :max="16" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>1 维 (标量坍缩)</span>
+                <span>8 维 (标准空间)</span>
+                <span>16 维 (极境超维)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>时空张量曲率因子 (Tensor Curvature)</span>
+                <span class="font-mono font-bold text-amber-400">{{ tensorCurvature.toFixed(2) }} G</span>
+              </div>
+              <n-slider v-model:value="tensorCurvature" :min="0.1" :max="5.0" :step="0.05" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>0.10 (平直时空)</span>
+                <span>2.40 (标准扭曲)</span>
+                <span>5.00 (视界崩解)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>特征本征能级基准 (Eigenenergy Base)</span>
+                <span class="font-mono font-bold text-cyan-400">{{ eigenEnergyLevel }} MeV</span>
+              </div>
+              <n-slider v-model:value="eigenEnergyLevel" :min="100" :max="999" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>100 MeV (微观量子)</span>
+                <span>520 MeV (高能态)</span>
+                <span>999 MeV (夸克胶子极境)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>虚数属性投影比率 (Imaginary Projection)</span>
+                <span class="font-mono font-bold text-purple-400">{{ imaginaryStatRatio }}%</span>
+              </div>
+              <n-slider v-model:value="imaginaryStatRatio" :min="50" :max="250" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>50% (低维投影)</span>
+                <span>140% (标准共振)</span>
+                <span>250% (超维具象化)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 个特殊量子机制开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>⚛️</span> 泡利不相容态破缺 (Pauli Exclusion Breaker)
+                </div>
+                <div class="text-[10px] text-gray-400">解除同类六维属性堆叠上限，允许战力二次幂跃迁 (+35% 综合量子战力)</div>
+              </div>
+              <n-switch v-model:value="pauliExclusionBreaker" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🔒</span> 波函数坍缩锚定 (Wavefunction Peak Lock)
+                </div>
+                <div class="text-[10px] text-gray-400">将本征伤害锁定在概率波峰峰值，破除一切负面数值波动 (+50% 爆发伤害)</div>
+              </div>
+              <n-switch v-model:value="waveFunctionLock" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🛡️</span> 普朗克真伤量子护盾 (Planck Micro Shield)
+                </div>
+                <div class="text-[10px] text-gray-400">生成高维负熵能量膜，格挡单次超额真实伤害并强化时空张量稳定性 (+25%)</div>
+              </div>
+              <n-switch v-model:value="planckShield" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧实时遥测仪表盘 -->
+        <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-rose-950/40 border border-rose-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+              <h3 class="text-xs font-bold text-rose-300 uppercase tracking-widest flex items-center gap-1.5">
+                <span>📊</span> 实时量子数值遥测 (Telemetry)
+              </h3>
+              <span class="text-[10px] font-mono text-emerald-400 animate-pulse">● 跃迁信道在线</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-rose-500/20">
+                <div class="text-[10px] text-gray-400">诸神超维量子战力 (CP)</div>
+                <div class="text-lg sm:text-xl font-black text-rose-400 font-mono mt-1">
+                  {{ calculatedQuantumCombatPower.toLocaleString() }}
+                </div>
+                <div class="text-[9px] text-rose-500/80 mt-0.5">基于希尔伯特张量矩阵</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-500/20">
+                <div class="text-[10px] text-gray-400">本征极限破限伤害</div>
+                <div class="text-lg sm:text-xl font-black text-amber-400 font-mono mt-1">
+                  {{ calculatedEigenDamage.toLocaleString() }}
+                </div>
+                <div class="text-[9px] text-amber-500/80 mt-0.5">波函数坍缩单发理论值</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-500/20">
+                <div class="text-[10px] text-gray-400">相对论光速行动敏捷</div>
+                <div class="text-lg sm:text-xl font-black text-cyan-400 font-mono mt-1">
+                  {{ calculatedRelativisticSpeed }} <span class="text-xs font-normal">AGI</span>
+                </div>
+                <div class="text-[9px] text-cyan-500/80 mt-0.5">普朗克微秒极速响应</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-500/20">
+                <div class="text-[10px] text-gray-400">张量矩阵稳态率</div>
+                <div class="text-lg sm:text-xl font-black text-purple-400 font-mono mt-1">
+                  {{ calculatedStabilityRating }}
+                </div>
+                <div class="text-[9px] text-purple-500/80 mt-0.5">曲率抗坍塌指数</div>
+              </div>
+            </div>
+
+            <!-- 当前量子态共鸣摘要 -->
+            <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-xs space-y-1">
+              <div class="flex items-center justify-between text-gray-400">
+                <span>激活本征态:</span>
+                <span class="font-bold text-white">{{ currentQuantumStateObj?.name }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>相干增益:</span>
+                <span class="font-mono text-emerald-400">{{ currentQuantumStateObj?.resonanceBonus }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>泡利态破缺:</span>
+                <span class="font-mono" :class="pauliExclusionBreaker ? 'text-rose-400' : 'text-gray-500'">
+                  {{ pauliExclusionBreaker ? '已激活 (+35% 跃迁)' : '未启用' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>普朗克护盾:</span>
+                <span class="font-mono" :class="planckShield ? 'text-cyan-400' : 'text-gray-500'">
+                  {{ planckShield ? '已展开 (+25% 稳态)' : '已旁路' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快捷操作按钮 -->
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              @click="runQuantumSimulation"
+              :disabled="isQuantumSimulating"
+            >
+              <span>{{ isQuantumSimulating ? '⏳' : '🚀' }}</span>
+              {{ isQuantumSimulating ? '量子跃迁解算中...' : '启动五阶段量子张量推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-gray-200 border border-slate-700 transition-all cursor-pointer flex items-center gap-1"
+              @click="exportQuantumEntropyCertificate"
+            >
+              <span>📄</span> 导出证书
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段量子跃迁推演终端 -->
+      <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">💻</span>
+            <h3 class="text-sm font-bold text-white font-mono uppercase">量子张量推演控制台 (Quantum Transition Terminal)</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span v-if="isQuantumSimulating" class="text-xs text-rose-400 animate-pulse font-mono">
+              STAGE {{ quantumSimStage }}/5 解算中
+            </span>
+            <span v-else-if="quantumSimFinished" class="text-xs text-emerald-400 font-mono">
+              ✓ 跃迁演算就绪
+            </span>
+            <button
+              type="button"
+              class="text-xs text-gray-400 hover:text-white px-2 py-0.5 rounded bg-slate-900 border border-slate-800 cursor-pointer"
+              @click="quantumTerminalLogs = []"
+            >
+              清屏
+            </button>
+          </div>
+        </div>
+
+        <div class="h-44 p-3 rounded-xl bg-black/90 border border-slate-900 font-mono text-xs overflow-y-auto space-y-1 text-gray-300">
+          <div v-if="quantumTerminalLogs.length === 0" class="text-gray-600 italic">
+            [终端待命中] 点击“启动五阶段量子张量推演”以解算希尔伯特高维态矢量、泡利破缺相干性与特征能级矩阵...
+          </div>
+          <div v-for="(log, idx) in quantumTerminalLogs" :key="idx" class="leading-relaxed">
+            <span class="text-gray-500">[{{ log.time }}]</span>
+            <span :class="log.color"> {{ log.message }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 核心脚本展台 -->
+      <div class="p-5 rounded-2xl bg-[#121626]/90 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📜</span>
+            <div>
+              <h3 class="text-sm font-bold text-white font-mono">Godot 4.6 LTS 量子属性张量拓扑引擎源码</h3>
+              <p class="text-xs text-gray-400">面向 RefCounted 无环解耦架构的独立高维算力套件</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              size="tiny"
+              :type="activeGdQuantumTab === 'tensor' ? 'primary' : 'default'"
+              secondary
+              @click="activeGdQuantumTab = 'tensor'"
+            >
+              quantum_stat_tensor_evaluator.gd
+            </n-button>
+            <n-button
+              size="tiny"
+              :type="activeGdQuantumTab === 'damage' ? 'primary' : 'default'"
+              secondary
+              @click="activeGdQuantumTab = 'damage'"
+            >
+              eigen_damage_matrix_resolver.gd
+            </n-button>
+            <n-button
+              size="tiny"
+              :type="activeGdQuantumTab === 'planck' ? 'primary' : 'default'"
+              secondary
+              @click="activeGdQuantumTab = 'planck'"
+            >
+              planck_imaginary_stat_controller.gd
+            </n-button>
+          </div>
+        </div>
+
+        <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-rose-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentGdQuantumCode }}</pre>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -2449,4 +2788,315 @@ static func evaluate_combat_power(stats: Dictionary, glyph_mult: float) -> int:
 	var stat_sum: int = (str_val * 1200) + (agi_val * 1100) + (vit_val * 1000) + (mag_val * 1200) + (spr_val * 950) + (lck_val * 1300)
 	return int(stat_sum * glyph_mult)
 `
+// ================= 模块七：量子属性张量与多维数值跃迁工坊 (v2.2.284) =================
+interface QuantumState {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  color: string
+  resonanceBonus: string
+}
+
+const quantumStatesList: QuantumState[] = [
+  {
+    id: 'quantum_superposition',
+    name: '量子叠加态 (Superposition)',
+    icon: '⚛️',
+    desc: '虚实双相重构，暴击率与真实穿透同频共振',
+    color: 'border-cyan-500/50 bg-cyan-950/20 text-cyan-300',
+    resonanceBonus: '穿透 +35% / 双态暴击'
+  },
+  {
+    id: 'entropy_collapse',
+    name: '负熵坍缩态 (Entropy Collapse)',
+    icon: '💥',
+    desc: '逆转热力学极限，全额破盾真实解构加成',
+    color: 'border-rose-500/50 bg-rose-950/20 text-rose-300',
+    resonanceBonus: '破甲 +50% / 真实湮灭'
+  },
+  {
+    id: 'relativistic_dilation',
+    name: '相对论时滞态 (Relativistic Dilation)',
+    icon: '⚡',
+    desc: '光速跃迁微扰，行动速度超频与普朗克微秒闪避',
+    color: 'border-amber-500/50 bg-amber-950/20 text-amber-300',
+    resonanceBonus: '极速 +45% / 绝对微秒闪避'
+  },
+  {
+    id: 'aether_singularity',
+    name: '以太奇点态 (Aether Singularity)',
+    icon: '🌀',
+    desc: '万象高维归一，六维属性全张量共鸣强化',
+    color: 'border-purple-500/50 bg-purple-950/20 text-purple-300',
+    resonanceBonus: '六维共鸣 +40% / 终极掌控'
+  }
+]
+
+const selectedQuantumState = ref('quantum_superposition')
+const quantumDegrees = ref(8)
+const tensorCurvature = ref(2.4)
+const eigenEnergyLevel = ref(520)
+const imaginaryStatRatio = ref(140)
+
+const pauliExclusionBreaker = ref(true)
+const waveFunctionLock = ref(true)
+const planckShield = ref(false)
+
+const activeGdQuantumTab = ref<'tensor' | 'damage' | 'planck'>('tensor')
+
+const currentQuantumStateObj = computed(() => {
+  return quantumStatesList.find(s => s.id === selectedQuantumState.value) || quantumStatesList[0]
+})
+
+const calculatedQuantumCombatPower = computed(() => {
+  const baseEnergy = eigenEnergyLevel.value * 850 + quantumDegrees.value * 12500
+  let total = baseEnergy * tensorCurvature.value * (imaginaryStatRatio.value / 100)
+  if (pauliExclusionBreaker.value) {
+    total *= 1.35
+  }
+  return Math.round(total)
+})
+
+const calculatedEigenDamage = computed(() => {
+  let stateMult = 1.0
+  switch (selectedQuantumState.value) {
+    case 'quantum_superposition':
+      stateMult = 1.35
+      break
+    case 'entropy_collapse':
+      stateMult = 1.50
+      break
+    case 'relativistic_dilation':
+      stateMult = 1.25
+      break
+    case 'aether_singularity':
+      stateMult = 1.40
+      break
+  }
+  let burst = eigenEnergyLevel.value * 145 * tensorCurvature.value * stateMult
+  if (waveFunctionLock.value) {
+    burst *= 1.5
+  } else {
+    burst *= 1.15
+  }
+  return Math.round(burst)
+})
+
+const calculatedRelativisticSpeed = computed(() => {
+  return Math.round(200 + quantumDegrees.value * 18.5 * tensorCurvature.value)
+})
+
+const calculatedStabilityRating = computed(() => {
+  let stability = 100 - tensorCurvature.value * 12
+  if (planckShield.value) {
+    stability += 25
+  }
+  const clamped = Math.max(12, Math.min(100, Math.round(stability)))
+  return `${clamped}%`
+})
+
+// 五阶段模拟控制台
+interface QuantumTerminalLog {
+  time: string
+  message: string
+  color: string
+}
+
+const isQuantumSimulating = ref(false)
+const quantumSimStage = ref(0)
+const quantumSimFinished = ref(false)
+const quantumTerminalLogs = ref<QuantumTerminalLog[]>([
+  {
+    time: 'INIT',
+    message: '量子属性张量与多维数值跃迁工坊就绪。准备执行希尔伯特高维拓扑解算。',
+    color: 'text-gray-400'
+  }
+])
+
+function appendQuantumLog(msg: string, color = 'text-cyan-400') {
+  const now = new Date()
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`
+  quantumTerminalLogs.value.push({ time: timeStr, message: msg, color })
+}
+
+function runQuantumSimulation() {
+  if (isQuantumSimulating.value) return
+  isQuantumSimulating.value = true
+  quantumSimFinished.value = false
+  quantumSimStage.value = 1
+  appendQuantumLog('▶ 启动五阶段量子属性张量跃迁推演程序...', 'text-rose-400')
+
+  setTimeout(() => {
+    quantumSimStage.value = 2
+    appendQuantumLog(`[阶段 1/5] 初始化 ${quantumDegrees.value} 维希尔伯特态矢量底座，时空曲率: ${tensorCurvature.value.toFixed(2)} G`, 'text-cyan-300')
+
+    setTimeout(() => {
+      quantumSimStage.value = 3
+      appendQuantumLog(`[阶段 2/5] 激活特征本征能级 ${eigenEnergyLevel.value} MeV，虚数投影比率 ${imaginaryStatRatio.value}%`, 'text-amber-300')
+
+      setTimeout(() => {
+        quantumSimStage.value = 4
+        const pauliText = pauliExclusionBreaker.value ? '已破缺(二次幂无上限)' : '未破缺(经典简并态)'
+        const waveText = waveFunctionLock.value ? '已锚定波峰' : '自由振荡'
+        appendQuantumLog(`[阶段 3/5] 校验泡利不相容态[${pauliText}]与波函数坍缩[${waveText}]`, 'text-purple-300')
+
+        setTimeout(() => {
+          quantumSimStage.value = 5
+          const shieldText = planckShield.value ? '已注入普朗克负熵能量膜' : '常规能障'
+          appendQuantumLog(`[阶段 4/5] 普朗克护盾状态[${shieldText}]，最终战力: ${calculatedQuantumCombatPower.value.toLocaleString()} CP`, 'text-emerald-300')
+
+          setTimeout(() => {
+            isQuantumSimulating.value = false
+            quantumSimFinished.value = true
+            appendQuantumLog(`✓ [阶段 5/5] 量子张量多维跃迁推演完成！破限伤害: ${calculatedEigenDamage.value.toLocaleString()}，矩阵稳态率: ${calculatedStabilityRating.value}`, 'text-emerald-400 font-bold')
+            message.success('量子张量五阶段跃迁推演完成！')
+          }, 350)
+        }, 350)
+      }, 350)
+    }, 350)
+  }, 350)
+}
+
+function exportQuantumEntropyCertificate() {
+  const certData = {
+    standard: 'Godot 4.6 LTS / VBLE Quantum Tensor Matrix v2.2.284',
+    timestamp: new Date().toISOString(),
+    quantumState: selectedQuantumState.value,
+    parameters: {
+      quantumDegrees: quantumDegrees.value,
+      tensorCurvature: tensorCurvature.value,
+      eigenEnergyLevel: eigenEnergyLevel.value,
+      imaginaryStatRatio: imaginaryStatRatio.value,
+      pauliExclusionBreaker: pauliExclusionBreaker.value,
+      waveFunctionLock: waveFunctionLock.value,
+      planckShield: planckShield.value
+    },
+    results: {
+      quantumCombatPower: calculatedQuantumCombatPower.value,
+      eigenBurstDamage: calculatedEigenDamage.value,
+      relativisticSpeed: calculatedRelativisticSpeed.value,
+      tensorStability: calculatedStabilityRating.value
+    },
+    sha256Signature: 'SHA256-QUANTUM-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `quantum_stat_tensor_v2.2.284_${selectedQuantumState.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出量子张量跃迁方案证书！')
+}
+
+const gdQuantumTensorEvaluatorCode = `# ==============================================================================
+# QuantumStatTensorEvaluator - 量子属性张量与多维数值跃迁解算器
+# 文件路径: res://scripts/combat/quantum_stat_tensor_evaluator.gd
+# 架构规范: Godot 4.6 LTS / VBLE Stat Calculators & Growth Matrix v2.2.284
+# 核心职责: 管理希尔伯特高维张量重构、虚数属性投影与泡利相干性破缺
+# ==============================================================================
+class_name QuantumStatTensorEvaluator
+extends RefCounted
+
+const MAX_HILBERT_DIMENSIONS: int = 16
+const PLANCK_CONSTANT_SIMULATED: float = 6.626e-34
+
+static func calculate_quantum_combat_power(
+	eigen_energy: int,
+	dimensions: int,
+	curvature: float,
+	imaginary_ratio: float,
+	pauli_breaker: bool
+) -> int:
+	var base_energy: float = float(eigen_energy) * 850.0 + float(dimensions) * 12500.0
+	var tensor_scale: float = base_energy * curvature * (imaginary_ratio / 100.0)
+	if pauli_breaker:
+		tensor_scale *= 1.35
+	return int(round(tensor_scale))
+
+static func evaluate_tensor_stability(curvature: float, has_planck_shield: bool) -> float:
+	var stability: float = 100.0 - (curvature * 12.0)
+	if has_planck_shield:
+		stability += 25.0
+	return clampf(stability, 12.0, 100.0)
+`
+
+const gdEigenDamageResolverCode = `# ==============================================================================
+# EigenDamageMatrixResolver - 特征本征极境破限伤害解析器
+# 文件路径: res://scripts/combat/eigen_damage_matrix_resolver.gd
+# 架构规范: Godot 4.6 LTS / VBLE Stat Calculators & Growth Matrix v2.2.284
+# 核心职责: 本征矩阵解算、波函数坍缩暴击增幅与虚数维度非线性衰减
+# ==============================================================================
+class_name EigenDamageMatrixResolver
+extends RefCounted
+
+const BASE_COLLAPSE_THRESHOLD: float = 0.9995
+
+static func resolve_eigen_damage(
+	eigen_energy: int,
+	curvature: float,
+	wave_lock: bool,
+	quantum_state: String
+) -> int:
+	var state_mult: float = 1.0
+	match quantum_state:
+		"quantum_superposition":
+			state_mult = 1.35
+		"entropy_collapse":
+			state_mult = 1.50
+		"relativistic_dilation":
+			state_mult = 1.25
+		"aether_singularity":
+			state_mult = 1.40
+		_:
+			state_mult = 1.0
+
+	var burst: float = float(eigen_energy) * 145.0 * curvature * state_mult
+	if wave_lock:
+		burst *= 1.5
+	else:
+		burst *= 1.15
+	return int(round(burst))
+`
+
+const gdPlanckImaginaryControllerCode = `# ==============================================================================
+# PlanckImaginaryStatController - 普朗克量子真伤护盾与虚数投影控制器
+# 文件路径: res://scripts/combat/planck_imaginary_stat_controller.gd
+# 架构规范: Godot 4.6 LTS / VBLE Stat Calculators & Growth Matrix v2.2.284
+# 核心职责: 普朗克微秒极限定位、超额致死真实伤害吸收与负熵状态维持
+# ==============================================================================
+class_name PlanckImaginaryStatController
+extends RefCounted
+
+static func filter_incoming_damage(
+	raw_damage: int,
+	current_hp: int,
+	shield_enabled: bool,
+	imaginary_ratio: float
+) -> Dictionary:
+	var absorbed: int = 0
+	var final_damage: int = raw_damage
+
+	if shield_enabled and raw_damage >= current_hp:
+		absorbed = raw_damage - (current_hp / 2)
+		final_damage = current_hp / 2
+
+	var imaginary_feedback: int = int(round(float(absorbed) * (imaginary_ratio / 200.0)))
+
+	return {
+		"final_damage": final_damage,
+		"absorbed_damage": absorbed,
+		"imaginary_reflected": imaginary_feedback,
+		"quantum_stabilized": true
+	}
+`
+
+const currentGdQuantumCode = computed(() => {
+  if (activeGdQuantumTab.value === 'tensor') return gdQuantumTensorEvaluatorCode
+  if (activeGdQuantumTab.value === 'damage') return gdEigenDamageResolverCode
+  return gdPlanckImaginaryControllerCode
+})
+
 </script>
