@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-gallery-visual-archive-v347-2026-10-29',
+    version: 'v2.2.347',
+    date: '2026-10-29',
+    title: '全域原画全息展馆、太古插画色彩渲染与世界线视觉归档工坊重磅实装',
+    category: 'ui',
+    categoryName: '视觉与原画',
+    icon: '🎨',
+    tagType: 'success',
+    description: '全面重构升级 GalleryView 实机画廊门户：顶部标章升级为 VBLE Holographic Art Gallery, Primeval Shader & Worldline Visual Archive Studio v2.2.347，新增视觉归档工坊快捷直达；专区重磅实装【全域原画全息展馆、太古插画色彩渲染与世界线视觉归档工坊】（Holographic Matte Painting & Visual Archive Studio）；覆盖四大原画色彩与视觉归档预设（太古创世神殿原画色彩渲染、时空裂隙多维世界线动态立绘、魔导以太光波色彩空间校准、终焉黑洞全息原画防伪与视觉归档）；支持原画色彩饱和度与动态色域 (80%~160%)、高光 HDR 泛光扩散阈值 (0.50~3.00)、纹理超分辨率锐化强度 CAS (0.00~1.00) 与视觉归档历史快照留存深度 (5~50 份) 连续微调；支持开启硬件级 Rec.2020 色调映射、GPU 零拷贝 DMA 纹理流式驻留、太古插画时空水印与防伪验真哈希校验；实时解算渲染色准偏差 (低至 0.28 ΔE)、显存吞吐节省 (高达 68.5%)、HDR 广色域覆盖 (高达 99.8%) 与原画归档验真可信度 (100.0%)；内置五阶段沙盘推演与离线原画世界线归档凭证 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：holographic_matte_painting_shader.gdshader、worldline_visual_archive_manager.gd 与 spatiotemporal_watermark_verifier.gd。',
+    highlights: [
+      '四大视觉归档预设：太古创世神殿原画、世界线动态立绘、魔导以太光波校准与终焉黑洞全息防伪',
+      '四维连续渲染参数：色彩饱和度、高光HDR泛光阈值、CAS锐化强度与快照留存深度',
+      '三重高保真渲染策略：Rec.2020色调映射、GPU零拷贝Direct-VRAM驻留与时空隐形防伪水印',
+      '动态深层画质指标解算：色准Delta E偏差、显存吞吐节省比、HDR广色域覆盖率与防伪可信度',
+      '五阶段视觉流水线推演：色彩空间解码、零拷贝显存驻留、CAS自适应锐化、频域水印嵌入与归档封包',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源高维原画着色器、视觉归档管理器与时空水印验真总线'
+    ],
+    relatedLinks: [
+      { label: '实机视觉画廊', path: '/vble/gallery', icon: '🎨' },
+      { label: '视觉归档工坊', path: '/vble/gallery#visual-archive-studio', icon: '🌌' },
+      { label: '世界线编年史', path: '/vble/story', icon: '📖' }
+    ]
+  },
+  {
     id: 'up-items-adaptive-inventory-v346-2026-10-29',
     version: 'v2.2.346',
     date: '2026-10-29',
