@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-items-alchemical-brewing-v318-2026-10-29',
+    version: 'v2.2.318',
+    date: '2026-10-29',
+    title: '太古炼金调合配方、全域道具生态与圣药熔炼工坊重磅实装',
+    category: 'equipment',
+    categoryName: '太古炼金',
+    icon: '🧪',
+    tagType: 'success',
+    description: '全面重构升级 ItemsView 道具生态门户：顶部标章升级为 VBLE Items, Ancient Alchemical Brewing & Elixir Transmutation Studio v2.2.318，新增太古炼金与圣药工坊快捷直达；专区重磅实装【太古炼金调合配方、全域道具生态与圣药熔炼工坊】（Ancient Alchemical Brewing, Item Ecosystem & Elixir Transmutation Studio）；覆盖四大炼金圣药流派原型（终焉巨人之药·霸体强击流、太古万灵圣药·全域净化流、龙血暴走精油·极意狂暴流、以太永恒灵药·法力无穷流）；支持药材草本萃取纯度 (50%~100%)、坩埚以太受热沸点 (80°C~500°C)、调合催化反应时间 (5s~120s) 与全队药效扩散光环半径 (0m~25m) 连续微调；支持巨人之药暴走霸体免控韧性、太古万灵药全负面状态与禁疗即时净化、全队药效光环无衰减同频共振；实时解算圣药综合效价评级 (突破 9,800 点)、暴击与伤害倍率加成 (高达 +185.0%)、调合稳定性与纯度 (高达 99.8%) 与炼金术士认证评级 (高达 EX·太古禁忌贤者之石)；内置五阶段沙盘推演进度与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：alchemical_recipe_engine.gd、elixir_transmutation_reactor.gd 与 party_potion_aura_broadcaster.gd。',
+    highlights: [
+      '四大炼金圣药流派原型：巨人之药霸体流、太古万灵药净化流、龙血暴走狂暴流与以太永恒灵药流',
+      '四维连续炼金工艺参数：药材萃取纯度、坩埚以太沸点、催化反应时间与全队药效扩散半径',
+      '三重炼金禁术机制：霸体免控韧性屏障、全负面即时驱散净化与全队药效无衰减同频扩散',
+      '动态炼金指标解算：圣药综合效价评级、暴伤爆发倍率、调合稳定性纯度与贤者之石认证',
+      '五阶段圣药熔炼沙盘：草药研磨纯化、以太温控沸腾、催化融合对齐、药效光环激活与防伪导出',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源配方匹配引擎、圣药反应堆管线与全队药效扩散广播器'
+    ],
+    relatedLinks: [
+      { label: '道具图鉴与图册', path: '/vble/items', icon: '🧪' },
+      { label: '太古炼金工坊', path: '/vble/items', icon: '⚗️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-characters-grand-oath-v317-2026-10-29',
     version: 'v2.2.317',
     date: '2026-10-29',

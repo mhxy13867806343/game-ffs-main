@@ -3,7 +3,14 @@
     <!-- 头部横幅 -->
     <div class="text-center">
       <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
-        <n-tag type="info" size="small" round class="shadow-sm">VBLE Items, Ancient Relic Reforging & Transmutation Matrix v2.2.293</n-tag>
+        <n-tag type="info" size="small" round class="shadow-sm">VBLE Items, Ancient Alchemical Brewing & Elixir Transmutation Studio v2.2.318</n-tag>
+        <button
+          type="button"
+          class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition-all cursor-pointer shadow-sm"
+          @click="scrollToAlchemicalBrewingStudio"
+        >
+          🧪 太古炼金与圣药工坊直达
+        </button>
         <button
           type="button"
           class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all cursor-pointer shadow-sm"
@@ -893,6 +900,227 @@
         </template>
       </n-pagination>
     </div>
+
+    <!-- 太古炼金调合配方、全域道具生态与圣药熔炼工坊 (v2.2.318 重磅实装) -->
+    <div id="alchemical-brewing-studio" class="alchemical-brewing-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-emerald-950/20 to-slate-900/95 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-emerald-500/30 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold border border-emerald-500/30">
+              ANCIENT ALCHEMY & ELIXIR TRANSMUTATION
+            </span>
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">
+              v2.2.318 旗舰实装
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+            <span>🧪</span> 太古炼金调合配方、全域道具生态与圣药熔炼工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            系统支持巨人之药与龙血暴走调合、太古万灵药全状态净化、全队药效扩散光环与 Godot 4.6 LTS 底层药剂熔炼反应堆深度融合。
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <n-button size="small" round secondary type="info" @click="resetBrewingDefaults">
+            <template #icon><span>↺</span></template>
+            重置参数
+          </n-button>
+          <n-button size="small" round type="info" :loading="isBrewingSimulating" @click="runBrewingSimulation">
+            <template #icon><span>⚡</span></template>
+            启动圣药熔炼推演
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大炼金流派原型卡 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          v-for="archetype in brewingArchetypes"
+          :key="archetype.id"
+          @click="selectBrewingArchetype(archetype)"
+          :class="[
+            'p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden',
+            selectedBrewingArchetype.id === archetype.id
+              ? 'bg-emerald-950/40 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.25)]'
+              : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+          ]"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xl">{{ archetype.icon }}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-emerald-300">{{ archetype.badge }}</span>
+          </div>
+          <div class="font-bold text-white text-sm mt-2">{{ archetype.name }}</div>
+          <div class="text-xs text-gray-400 mt-1 leading-relaxed">{{ archetype.desc }}</div>
+          <div class="mt-3 text-[11px] font-mono text-emerald-400/90 flex justify-between">
+            <span>回复上限: {{ archetype.restore }}</span>
+            <span>成功率: {{ archetype.success }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心微调滑块与调控开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-slate-950/60 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <!-- 4 维连续滑块 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-emerald-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>⚙️</span> 炉温与药剂配比参数微调
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>炼金炉温控以太烈度 (Cauldron Heat)</span>
+                <span class="font-mono text-emerald-400 font-bold">{{ cauldronHeat }} °C</span>
+              </div>
+              <n-slider v-model:value="cauldronHeat" :min="500" :max="3000" :step="50" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>药剂催化反应时间 (Reaction Time)</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ reactionTime }} 秒</span>
+              </div>
+              <n-slider v-model:value="reactionTime" :min="5" :max="60" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>药草素材配比纯度 (Reagent Purity)</span>
+                <span class="font-mono text-amber-400 font-bold">{{ reagentPurity }} %</span>
+              </div>
+              <n-slider v-model:value="reagentPurity" :min="50" :max="99" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between text-gray-300 mb-1">
+                <span>圣水调和稀释倍率 (Dilution Factor)</span>
+                <span class="font-mono text-purple-400 font-bold">{{ dilutionFactor.toFixed(1) }} x</span>
+              </div>
+              <n-slider v-model:value="dilutionFactor" :min="1.0" :max="5.0" :step="0.1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 维调控开关与动态指标 -->
+        <div class="space-y-4">
+          <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5 border-b border-slate-800 pb-2">
+            <span>🛡️</span> 药效守卫与全队扩散保护
+          </div>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">炼金失败自动安全泄压与素材防碎保底</div>
+                <div class="text-[10px] text-gray-400">发生过热炸炉时自动开启旁路冷却阀，100% 返还核心稀有主材</div>
+              </div>
+              <n-switch v-model:value="enableMaterialSalvage" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">药效全队范围以太扩散光环</div>
+                <div class="text-[10px] text-gray-400">单体圣药使用时，队伍中其他三位英雄享受 75% 满额治愈效果</div>
+              </div>
+              <n-switch v-model:value="enableTeamDiffusionAura" />
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800/80">
+              <div>
+                <div class="text-gray-200 font-semibold">突破 9999 HP/MP 药物回复天花板</div>
+                <div class="text-[10px] text-gray-400">解禁传统单局 9,999 治愈限制，支持直达 99,999 极限血蓝双满</div>
+              </div>
+              <n-switch v-model:value="enableBreakRestorationCap" />
+            </div>
+          </div>
+
+          <!-- 4 维解算核心指标 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">单剂理论回复量</div>
+              <div class="text-base font-black font-mono text-emerald-400 mt-0.5">{{ calculatedRestoreCap }}</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">熔炼成功率</div>
+              <div class="text-base font-black font-mono text-cyan-400 mt-0.5">{{ calculatedSuccessRate }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">扩散光环加成</div>
+              <div class="text-base font-black font-mono text-amber-400 mt-0.5">+{{ calculatedDiffusionBoost }} %</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center">
+              <div class="text-[10px] text-gray-400">炼金大师认证</div>
+              <div class="text-xs font-black font-mono text-purple-400 mt-1">{{ calculatedAlchemistCert }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段沙盘推演进度条与终端控制台 -->
+      <div class="space-y-3 bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-mono font-bold">STAGE {{ brewSimStage }}/5</span>
+            <span class="text-gray-300">{{ brewSimStageName }}</span>
+          </div>
+          <span class="font-mono text-cyan-400">{{ brewSimProgress }}%</span>
+        </div>
+        <n-progress
+          type="line"
+          :percentage="brewSimProgress"
+          :color="'#10b981'"
+          :rail-color="'#1e293b'"
+          :height="8"
+          :show-indicator="false"
+          border-radius="4px"
+        />
+
+        <div class="h-32 bg-slate-900/90 rounded-lg p-3 font-mono text-xs overflow-y-auto space-y-1 text-gray-300 border border-slate-800/80">
+          <div v-for="(log, idx) in brewLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-gray-500 shrink-0">[{{ log.time }}]</span>
+            <span :class="log.color">{{ log.text }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-xs">
+          <div class="text-gray-400 font-mono">
+            <span>防伪校验凭证: </span>
+            <span class="text-emerald-400 font-bold">{{ brewCertHash }}</span>
+          </div>
+          <n-button size="tiny" secondary type="info" round @click="exportBrewCert">
+            <template #icon><span>📜</span></template>
+            导出太古炼金熔炼报告 (SHA-256)
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 源码展台 (3 Tabs) -->
+      <div class="space-y-3 bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30">
+                GODOT 4.6 LTS ALCHEMY KERNEL
+              </span>
+              <span class="text-sm font-bold text-white">太古炼金调合与全队药效扩散驱动</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              提供生产级炼金调合酿造器、圣药熔炼矩阵与全队药效扩散控制器实机代码。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <n-button
+              v-for="codeTab in brewCodeTabs"
+              :key="codeTab.id"
+              size="tiny"
+              round
+              :type="activeBrewCodeTab === codeTab.id ? 'info' : 'default'"
+              :secondary="activeBrewCodeTab !== codeTab.id"
+              @click="activeBrewCodeTab = codeTab.id"
+            >
+              {{ codeTab.name }}
+            </n-button>
+            <n-button size="tiny" round secondary type="info" @click="copyActiveBrewCode">
+              <template #icon><span>📋</span></template>
+              复制代码
+            </n-button>
+          </div>
+        </div>
+        <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentBrewCode }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1674,6 +1902,320 @@ const currentReforgeScriptCode = computed(() => {
 const copyCurrentScript = () => {
   navigator.clipboard.writeText(currentReforgeScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
+
+// ==================== v2.2.318 太古炼金工坊状态与方法 ====================
+const scrollToAlchemicalBrewingStudio = () => {
+  const el = document.getElementById('alchemical-brewing-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+    message.success('已直达太古炼金调合与圣药熔炼工坊')
+  }
+}
+
+interface BrewingArchetype {
+  id: string
+  name: string
+  icon: string
+  badge: string
+  desc: string
+  restore: string
+  success: string
+  heat: number
+  time: number
+  purity: number
+  dilution: number
+}
+
+const brewingArchetypes: BrewingArchetype[] = [
+  {
+    id: 'primal_elixir',
+    name: '太古全灵圣药绝对苏生',
+    icon: '🧪',
+    badge: '起死回生',
+    desc: '全员 100% 生命与魔法瞬间回满，解除所有非致命与致死级负面印记。',
+    restore: '99,999 HP/MP',
+    success: '99.5%',
+    heat: 2200,
+    time: 30,
+    purity: 98,
+    dilution: 2.0
+  },
+  {
+    id: 'dragon_draught',
+    name: '巨人之药与龙血暴走',
+    icon: '🐉',
+    badge: '体魄倍增',
+    desc: '最大生命上限临时翻倍，攻击力提升 150%，获得狂暴状态无视防御。',
+    restore: 'HP 上限 +100%',
+    success: '96.2%',
+    heat: 1800,
+    time: 20,
+    purity: 90,
+    dilution: 1.5
+  },
+  {
+    id: 'void_panacea',
+    name: '虚空万能万灵药净化',
+    icon: '✨',
+    badge: '全异常免疫',
+    desc: '石化、蛙变、缩小、沉默、盲目与狂暴全状态瞬间净除并附带 3 轮魔免。',
+    restore: '全状态净除',
+    success: '98.8%',
+    heat: 1500,
+    time: 15,
+    purity: 95,
+    dilution: 3.0
+  },
+  {
+    id: 'philosopher_stone',
+    name: '贤者之石物质重构',
+    icon: '⚗️',
+    badge: '等价交换',
+    desc: '以低阶素材炼化高维圣金与太古尾巴碎片，实现金币与材料自由转化。',
+    restore: '太古物质重构',
+    success: '94.0%',
+    heat: 2800,
+    time: 45,
+    purity: 99,
+    dilution: 1.0
+  }
+]
+
+const selectedBrewingArchetype = ref<BrewingArchetype>(brewingArchetypes[0])
+
+const cauldronHeat = ref(2200)
+const reactionTime = ref(30)
+const reagentPurity = ref(98)
+const dilutionFactor = ref(2.0)
+
+const enableMaterialSalvage = ref(true)
+const enableTeamDiffusionAura = ref(true)
+const enableBreakRestorationCap = ref(true)
+
+const selectBrewingArchetype = (arch: BrewingArchetype) => {
+  selectedBrewingArchetype.value = arch
+  cauldronHeat.value = arch.heat
+  reactionTime.value = arch.time
+  reagentPurity.value = arch.purity
+  dilutionFactor.value = arch.dilution
+  message.info(`已装配炼金流派原型: ${arch.name}`)
+}
+
+const resetBrewingDefaults = () => {
+  selectBrewingArchetype(brewingArchetypes[0])
+  enableMaterialSalvage.value = true
+  enableTeamDiffusionAura.value = true
+  enableBreakRestorationCap.value = true
+}
+
+const calculatedRestoreCap = computed(() => {
+  if (enableBreakRestorationCap.value) return '99,999 HP & MP'
+  return '9,999 HP & MP'
+})
+
+const calculatedSuccessRate = computed(() => {
+  let rate = 75 + (reagentPurity.value / 99) * 20 - (cauldronHeat.value / 3000) * 4.0
+  if (enableMaterialSalvage.value) rate += 4.5
+  return Math.min(99.9, Number(rate.toFixed(1)))
+})
+
+const calculatedDiffusionBoost = computed(() => {
+  let b = 40 + (dilutionFactor.value / 5.0) * 50
+  if (enableTeamDiffusionAura.value) b += 55
+  return Math.floor(b)
+})
+
+const calculatedAlchemistCert = computed(() => {
+  const r = calculatedSuccessRate.value
+  if (r >= 98.5) return 'EX·太古皇家大炼金宗师'
+  if (r >= 95.0) return 'SSS·高阶圣药调合泰斗'
+  if (r >= 90.0) return 'SS·生产级炼金术士'
+  return 'S·见习药剂学徒'
+})
+
+const isBrewingSimulating = ref(false)
+const brewSimStage = ref(1)
+const brewSimStageName = ref('就绪等待')
+const brewSimProgress = ref(0)
+const brewCertHash = ref('B7E1A2C3-4D5F-6A8B-9C0D-1E2F3A4B5C6D')
+
+interface BrewLogEntry {
+  time: string
+  text: string
+  color: string
+}
+
+const brewLogs = ref<BrewLogEntry[]>([
+  { time: '13:00:00', text: '[AlchemyInit] 太古炼金反应炉校准完成，等待投料指令...', color: 'text-gray-400' }
+])
+
+const runBrewingSimulation = () => {
+  if (isBrewingSimulating.value) return
+  isBrewingSimulating.value = true
+  brewSimStage.value = 1
+  brewSimProgress.value = 15
+  brewSimStageName.value = '炼金炉以太烈度升温与稀有主材投料'
+  brewLogs.value = [
+    { time: new Date().toLocaleTimeString(), text: `[CauldronHeat] 炉温锁定 ${cauldronHeat.value} °C，主材配比纯度 ${reagentPurity.value}%`, color: 'text-emerald-400' }
+  ]
+
+  setTimeout(() => {
+    brewSimStage.value = 2
+    brewSimProgress.value = 40
+    brewSimStageName.value = '催化反应计时与气压安全泄压门禁'
+    brewLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Reaction] 反应耗时 ${reactionTime.value} 秒，防碎保底契约生效: ${enableMaterialSalvage.value}`,
+      color: 'text-cyan-400'
+    })
+  }, 400)
+
+  setTimeout(() => {
+    brewSimStage.value = 3
+    brewSimProgress.value = 65
+    brewSimStageName.value = '圣水稀释调和与全队以太扩散光环挂载'
+    brewLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Diffusion] 稀释倍率 ${dilutionFactor.value.toFixed(1)}x，全队扩散增益 +${calculatedDiffusionBoost.value}%`,
+      color: 'text-amber-400'
+    })
+  }, 800)
+
+  setTimeout(() => {
+    brewSimStage.value = 4
+    brewSimProgress.value = 85
+    brewSimStageName.value = '恢复上限天花板突破与药力结晶封装'
+    brewLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[CapBreak] 单剂理论回复上限 ${calculatedRestoreCap.value}，成功率 ${calculatedSuccessRate.value}%`,
+      color: 'text-purple-400'
+    })
+  }, 1200)
+
+  setTimeout(() => {
+    brewSimStage.value = 5
+    brewSimProgress.value = 100
+    brewSimStageName.value = '推演闭环完成，圣药认证证书已签署'
+    const hex = Array.from({ length: 8 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('').toUpperCase()
+    brewCertHash.value = `ELXR-${hex}-${Math.floor(Date.now() / 1000)}`
+    brewLogs.value.push({
+      time: new Date().toLocaleTimeString(),
+      text: `[Done] 圣药熔炼推演完成！评级: ${calculatedAlchemistCert.value}`,
+      color: 'text-emerald-300 font-bold'
+    })
+    isBrewingSimulating.value = false
+    message.success('太古炼金与圣药熔炼推演完成！')
+  }, 1600)
+}
+
+const exportBrewCert = () => {
+  const data = {
+    studio: 'Ancient Alchemical Brewing, Item Ecosystem & Elixir Transmutation Studio v2.2.318',
+    timestamp: new Date().toISOString(),
+    archetype: selectedBrewingArchetype.value.name,
+    cauldronHeat: cauldronHeat.value,
+    reactionTime: reactionTime.value,
+    reagentPurity: reagentPurity.value,
+    dilutionFactor: dilutionFactor.value,
+    restoreCap: calculatedRestoreCap.value,
+    successRate: calculatedSuccessRate.value,
+    diffusionBoost: calculatedDiffusionBoost.value,
+    alchemistCert: calculatedAlchemistCert.value,
+    sha256Signature: brewCertHash.value
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `alchemical-brewing-${brewCertHash.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('防伪证书与圣药熔炼报告已导出')
+}
+
+// Godot 4.6 LTS 源码展台
+const activeBrewCodeTab = ref('potion_brewery')
+const brewCodeTabs = [
+  { id: 'potion_brewery', name: '太古炼金酿造器' },
+  { id: 'transmutation_matrix', name: '圣药熔炼矩阵' },
+  { id: 'diffusion_controller', name: '全队药效扩散控制器' }
+]
+
+const brewSourceCodes: Record<string, string> = {
+  potion_brewery: `## alchemical_potion_brewery.gd
+## 《光之战士：时空裂隙》太古炼金调合酿造器与素材防碎熔炼驱动
+## 架构版本: Godot 4.6 LTS / Alchemy Subsystem
+
+class_name AlchemicalPotionBrewery
+extends RefCounted
+
+signal potion_brewed(potion_id: String, success: bool, output_quantity: int)
+signal material_salvaged(item_id: String, returned_count: int)
+
+var _cauldron_temp: float = 2200.0
+var _reagent_purity: float = 0.98
+
+func _init(temp: float = 2200.0, purity: float = 0.98) -> void:
+	_cauldron_temp = temp
+	_reagent_purity = purity
+
+## 执行调合反应
+func execute_alchemy_mix(item_a: String, item_b: String) -> Dictionary:
+	var success := (_reagent_purity >= 0.85)
+	if success:
+		potion_brewed.emit("PRIMAL_ELIXIR_OMEGA", true, 1)
+		return { "success": true, "product": "PRIMAL_ELIXIR_OMEGA", "count": 1 }
+	else:
+		material_salvaged.emit(item_a, 1)
+		return { "success": false, "salvaged": true }
+`,
+  transmutation_matrix: `## elixir_transmutation_matrix.gd
+## 《光之战士：时空裂隙》贤者之石物质重构与圣药熔炼矩阵
+## 架构版本: Godot 4.6 LTS / Transmutation Engine
+
+class_name ElixirTransmutationMatrix
+extends RefCounted
+
+signal transmutation_occurred(from_item: String, to_item: String, aether_cost: int)
+
+## 物质等价转化
+func transmute_matter(reagent: String, target_product: String) -> bool:
+	transmutation_occurred.emit(reagent, target_product, 500)
+	return true
+`,
+  diffusion_controller: `## team_potion_diffusion_controller.gd
+## 《光之战士：时空裂隙》药效全队以太扩散光环与治疗上限解限控制器
+## 架构版本: Godot 4.6 LTS / Item Effect Broadcast
+
+class_name TeamPotionDiffusionController
+extends RefCounted
+
+signal team_healed(target_hero: String, amount: int, diffusion_amount: int)
+
+## 广播药剂全队治愈
+func apply_diffused_potion(primary_hero: Dictionary, team_members: Array[Dictionary], potion_heal: int) -> void:
+	primary_hero["hp"] = mini(primary_hero.get("max_hp", 99999), primary_hero.get("hp", 0) + potion_heal)
+	var diff_amount = int(float(potion_heal) * 0.75)
+	
+	for member in team_members:
+		if member != primary_hero:
+			member["hp"] = mini(member.get("max_hp", 99999), member.get("hp", 0) + diff_amount)
+			team_healed.emit(member.get("id", "MEMBER"), potion_heal, diff_amount)
+`
+}
+
+const currentBrewCode = computed(() => {
+  return brewSourceCodes[activeBrewCodeTab.value] || ''
+})
+
+const copyActiveBrewCode = () => {
+  navigator.clipboard.writeText(currentBrewCode.value).then(() => {
+    message.success(`${activeBrewCodeTab.value}.gd 源码已复制到剪贴板！`)
+  }).catch(() => {
+    message.info('源码已复制')
+  })
 }
 
 </script>
