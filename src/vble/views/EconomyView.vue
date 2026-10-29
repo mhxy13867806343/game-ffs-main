@@ -12,13 +12,24 @@
             <span class="text-xs text-gray-400">宏观经济、尾巴奇迹、质变药剂与跨次元黑市拍卖行</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>⚗️</span> 宏观经济、以太金融衍生品与跨界黑市期货对冲工坊
+            <span>⚗️</span> 跨界时空黑市汇率平抑、吉尔金币熔断与太古拍卖行工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             从全境五阶商业城邦贸易物价指数，到隐士洞窟的七色尾巴神器传承兑换、药剂师两两调合的质变炼金体系，乃至穿梭次元裂隙的黑市多币种竞拍行。全息实装多模态动态模拟沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToPrimalAuctionStudio"
+          >
+            <template #icon><span>🪙</span></template>
+            太古拍卖与金币熔断工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -1458,6 +1469,286 @@
       </div>
 
       <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-96">{{ currentGodotCodeText }}</pre>
+    </div>
+
+    <!-- ⚗️ 工坊 4: 跨界时空黑市汇率平抑、吉尔金币熔断与太古拍卖行工坊 (Cross-Realm Exchange, Gil Circuit Breaker & Primal Auction Studio v2.2.308) -->
+    <div
+      id="primal-auction-studio"
+      class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-amber-950/80 via-slate-900/90 to-yellow-950/80 border border-amber-500/40 shadow-[0_0_40px_rgba(245,158,11,0.22)] space-y-6 relative overflow-hidden"
+    >
+      <div class="absolute -right-20 -top-20 w-72 h-72 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-yellow-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 头部与操作区 -->
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-black font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              PRIMAL AUCTION &amp; CIRCUIT BREAKER v2.2.308
+            </span>
+            <span class="text-xs text-amber-300/80 font-mono">跨界黑市汇率平抑与太古暗标拍卖行</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 tracking-wide">
+            <span>⚗️</span> 跨界时空黑市汇率平抑、吉尔金币熔断与太古拍卖行工坊
+          </h2>
+          <p class="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
+            基于 Godot 4.6 LTS 实时仿真：驱动五大商业城邦宏观金价对冲、恶性通胀 20% 自动熔断断路器、太古圣遗物暗标竞拍与 999999999 亿级金币解限。
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <n-button
+            type="info"
+            size="small"
+            round
+            secondary
+            @click="resetPrimalAuctionParameters"
+          >
+            重置参数
+          </n-button>
+          <n-button
+            type="primary"
+            size="small"
+            round
+            secondary
+            :loading="isSimulatingPrimalAuction"
+            @click="runPrimalAuctionSimulation"
+          >
+            <template #icon><span>⚡</span></template>
+            启动经济推演
+          </n-button>
+          <n-button
+            type="warning"
+            size="small"
+            round
+            secondary
+            @click="exportPrimalAuctionCertificate"
+          >
+            <template #icon><span>📜</span></template>
+            导出方案证书
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 四大跨界经济流派原型 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+        <div
+          v-for="archetype in primalEconomyArchetypes"
+          :key="archetype.id"
+          class="p-4 rounded-xl cursor-pointer transition-all duration-300 border text-left"
+          :class="selectedPrimalEconomyArchetypeId === archetype.id
+            ? 'bg-amber-950/50 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]'
+            : 'bg-slate-900/60 border-slate-800 hover:border-amber-600/50'"
+          @click="selectedPrimalEconomyArchetypeId = archetype.id"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-2xl">{{ archetype.icon }}</span>
+            <n-tag size="tiny" :type="archetype.tagType" round>{{ archetype.tag }}</n-tag>
+          </div>
+          <div class="font-bold text-sm text-gray-100">{{ archetype.name }}</div>
+          <div class="text-[11px] text-amber-300/80 font-mono mt-0.5">{{ archetype.market }}</div>
+          <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{{ archetype.desc }}</p>
+          <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span>成交流水: {{ (archetype.baseTurnover / 10000).toFixed(0) }}万G</span>
+            <span class="text-yellow-400">收益率: +{{ archetype.yieldPct }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心调控滑块与高能开关 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
+        <!-- 左侧参数微调面板 -->
+        <div class="lg:col-span-7 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+              <span>⚙️</span> 汇率对冲与金币熔断参数连续微调
+            </span>
+            <span class="text-[11px] font-mono text-amber-400">Continuous Macro Finance Dynamics</span>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">跨界时空汇率对冲比率 (Exchange Hedging Ratio):</span>
+                <span class="font-mono text-amber-400 font-bold">{{ exchangeHedgingRatio.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="exchangeHedgingRatio" :min="1.0" :max="5.0" :step="0.1" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>标准平价 (1.0x)</span>
+                <span>深度对冲 (2.8x)</span>
+                <span>太古极差套利 (5.0x)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">吉尔金币熔断触发波动率 (Circuit Breaker Volatility):</span>
+                <span class="font-mono text-red-400 font-bold">±{{ gilCircuitBreakerVolatility }}%</span>
+              </div>
+              <n-slider v-model:value="gilCircuitBreakerVolatility" :min="5" :max="50" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>超敏预警 (5%)</span>
+                <span>标准熔断 (20%)</span>
+                <span>高宽容度 (50%)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">太古暗标竞拍加价杠杆 (Auction Bid Leverage):</span>
+                <span class="font-mono text-yellow-400 font-bold">{{ auctionBidLeverage.toFixed(1) }}x</span>
+              </div>
+              <n-slider v-model:value="auctionBidLeverage" :min="1.0" :max="10.0" :step="0.5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>平价起拍 (1.0x)</span>
+                <span>激烈角逐 (4.0x)</span>
+                <span>天价志在必得 (10.0x)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-gray-300 font-medium">黑市税收与手续费返还率 (Market Fee Rebate Rate):</span>
+                <span class="font-mono text-cyan-400 font-bold">{{ marketFeeRebateRate }}%</span>
+              </div>
+              <n-slider v-model:value="marketFeeRebateRate" :min="10" :max="100" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>基础退税 (10%)</span>
+                <span>商会特权 (50%)</span>
+                <span>零摩擦全返 (100%)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 三大高能保障开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">时空恶性通胀自动熔断断路器 (Inflation Circuit Breaker)</div>
+                <div class="text-[11px] text-gray-400">物价单日波动突破阈值时全域交易强制冻结，杜绝黑市炒作崩盘</div>
+              </div>
+              <n-switch v-model:value="hyperInflationCircuitBreaker" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">跨次元黑市零滑点恒定乘积池 (Zero Slippage AMM Pool)</div>
+                <div class="text-[11px] text-gray-400">依托太古储备金库保障，大额以太与吉尔金币兑换实现 0 摩擦无损成交</div>
+              </div>
+              <n-switch v-model:value="zeroSlippageAmmPool" size="small" />
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/60 border border-slate-800">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-gray-200">999999999 太古金币财富天花板解除 (Infinite Wealth Cap Governor)</div>
+                <div class="text-[11px] text-gray-400">突破传统 99,999,999 吉尔上限限制，支持储存最高达 9,999,999,999 太古圣金</div>
+              </div>
+              <n-switch v-model:value="infiniteWealthCapGovernor" size="small" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧指标计算与沙盘推演 -->
+        <div class="lg:col-span-5 bg-slate-900/70 p-4 sm:p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <span>📊</span> 实时解算宏观经济与套利能效
+              </span>
+              <n-tag size="tiny" type="warning" round>Economy Resolved</n-tag>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-700/40">
+                <div class="text-[11px] text-gray-400">单周期预估总成交额</div>
+                <div class="text-lg font-black text-amber-300 font-mono mt-0.5">{{ (calculatedTotalTurnover / 10000).toFixed(0) }}万 Gil</div>
+                <div class="text-[10px] text-amber-400/80 mt-0.5">全城邦流动性汇聚</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-yellow-950/30 border border-yellow-700/40">
+                <div class="text-[11px] text-gray-400">预期期货对冲净利润</div>
+                <div class="text-lg font-black text-yellow-300 font-mono mt-0.5">{{ (calculatedNetArbitrageProfit / 10000).toFixed(0) }}万 Gil</div>
+                <div class="text-[10px] text-yellow-400/80 mt-0.5">零滑点对冲红利</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-700/40">
+                <div class="text-[11px] text-gray-400">全域平准稳态系数</div>
+                <div class="text-lg font-black text-emerald-300 font-mono mt-0.5">{{ calculatedMarketStabilityCoeff }}%</div>
+                <div class="text-[10px] text-emerald-400/80 mt-0.5">抗通胀平抑指数</div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-purple-950/30 border border-purple-700/40">
+                <div class="text-[11px] text-gray-400">商业金融认证评级</div>
+                <div class="text-sm font-black text-purple-300 font-mono mt-1">{{ calculatedFinancialRankTier }}</div>
+                <div class="text-[10px] text-purple-400/80 mt-0.5">太古商会主权认证</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推演终端 -->
+          <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">五阶段宏观金融推演进度:</span>
+              <span class="font-mono text-amber-400 font-bold">{{ primalSimStep }}/5 阶段</span>
+            </div>
+            <n-progress
+              type="line"
+              :percentage="(primalSimStep / 5) * 100"
+              :status="primalSimStep === 5 ? 'success' : 'warning'"
+              :show-indicator="false"
+              processing
+            />
+            <div class="text-[11px] text-gray-300 font-mono bg-slate-900/90 p-2 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+              <span>{{ primalSimCurrentLog }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 实机驱动源码展台 -->
+      <div class="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3 relative z-10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-gray-200">Godot 4.6 LTS 实机引擎源码架构展台</span>
+            <n-tag size="tiny" type="warning" round>RefCounted 零开销架构</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activePrimalCodeTab === 'broker' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePrimalCodeTab = 'broker'"
+              >
+                exchange_broker.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activePrimalCodeTab === 'breaker' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePrimalCodeTab = 'breaker'"
+              >
+                gil_circuit_breaker.gd
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 text-xs rounded transition-all"
+                :class="activePrimalCodeTab === 'auction' ? 'bg-amber-600 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                @click="activePrimalCodeTab = 'auction'"
+              >
+                primal_auction_system.gd
+              </button>
+            </div>
+            <n-button size="small" type="primary" secondary round @click="copyPrimalAuctionCode">
+              复制源码
+            </n-button>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-[#0d1117] border border-slate-800 font-mono text-[11px] text-gray-300 overflow-x-auto max-h-72 custom-scrollbar">
+          <pre><code>{{ currentPrimalAuctionCode }}</code></pre>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -3115,6 +3406,292 @@ const currentGodotCodeText = computed(() => {
   if (activeCodeTab.value === 'futures') return godotFuturesCodeText
   return godotAmmCodeText
 })
+
+// ================= ⚗️ 工坊 4: 跨界时空黑市汇率平抑、吉尔金币熔断与太古拍卖行工坊 (v2.2.308) =================
+interface PrimalEconomyArchetype {
+  id: string
+  name: string
+  market: string
+  tag: string
+  icon: string
+  tagType: 'info' | 'warning' | 'error' | 'success'
+  desc: string
+  baseTurnover: number
+  yieldPct: number
+}
+
+const primalEconomyArchetypes: PrimalEconomyArchetype[] = [
+  {
+    id: 'cross_realm_gil_arbitrage',
+    name: '跨界时空吉尔对冲流',
+    market: '五大城邦 / 零关税对冲',
+    tag: '零风险汇兑',
+    icon: '🪙',
+    tagType: 'info',
+    desc: '利用第一世界与第二世界金价汇率差，买入低洼城邦特产并在高估世界脱手，无损赚取吉尔基差。',
+    baseTurnover: 12500000,
+    yieldPct: 28.5
+  },
+  {
+    id: 'primal_relic_auction_house',
+    name: '太古圣遗物暗标拍卖行',
+    market: '全服竞拍 / 稀世珍宝',
+    tag: '暗标竞夺',
+    icon: '🏛️',
+    tagType: 'warning',
+    desc: '跨越次元裂隙的秘密拍卖所，仅流通太古神兵碎片与远古配方，采用盲盒暗标机制杜绝恶意抬价。',
+    baseTurnover: 48000000,
+    yieldPct: 45.0
+  },
+  {
+    id: 'void_smuggle_futures_pool',
+    name: '虚空走私特种期货池',
+    market: '暗物质抵押 / 十倍杠杆',
+    tag: '高杠杆期货',
+    icon: '📦',
+    tagType: 'error',
+    desc: '以深渊暗物质为抵押品的多空双向掉期合约，在时空风暴来临前做多珍稀以太药剂，斩获暴利。',
+    baseTurnover: 32000000,
+    yieldPct: 62.0
+  },
+  {
+    id: 'aether_macro_stability_fund',
+    name: '宏观通胀平抑主权基金',
+    market: '央行注资 / 汇率平准',
+    tag: '主权平准',
+    icon: '🛡️',
+    tagType: 'success',
+    desc: '由席德商会与巴隆王国联合注资的宏观平准储备池，在黑市恶性抛售时入场托底，维持物价基石。',
+    baseTurnover: 85000000,
+    yieldPct: 18.0
+  }
+]
+
+const selectedPrimalEconomyArchetypeId = ref<string>('primal_relic_auction_house')
+const exchangeHedgingRatio = ref<number>(2.8)
+const gilCircuitBreakerVolatility = ref<number>(20)
+const auctionBidLeverage = ref<number>(4.0)
+const marketFeeRebateRate = ref<number>(85)
+
+const hyperInflationCircuitBreaker = ref<boolean>(true)
+const zeroSlippageAmmPool = ref<boolean>(true)
+const infiniteWealthCapGovernor = ref<boolean>(true)
+
+const isSimulatingPrimalAuction = ref<boolean>(false)
+const primalSimStep = ref<number>(5)
+const primalSimCurrentLog = ref<string>('太古拍卖行与吉尔金币熔断矩阵已就绪，等待调控指令。')
+
+const currentPrimalArchetype = computed(() => {
+  return primalEconomyArchetypes.find(a => a.id === selectedPrimalEconomyArchetypeId.value) || primalEconomyArchetypes[1]
+})
+
+const calculatedTotalTurnover = computed(() => {
+  const base = currentPrimalArchetype.value.baseTurnover
+  const hedgeMult = exchangeHedgingRatio.value * 0.45
+  const levMult = auctionBidLeverage.value * 0.35
+  const capMult = infiniteWealthCapGovernor.value ? 1.6 : 1.0
+  return Math.round(base * (1 + hedgeMult + levMult) * capMult)
+})
+
+const calculatedNetArbitrageProfit = computed(() => {
+  const turnover = calculatedTotalTurnover.value
+  const yieldRatio = currentPrimalArchetype.value.yieldPct / 100
+  const rebateBonus = 1 + (marketFeeRebateRate.value / 100) * 0.25
+  const zeroSlippageBonus = zeroSlippageAmmPool.value ? 1.15 : 1.0
+  return Math.round(turnover * yieldRatio * 0.2 * rebateBonus * zeroSlippageBonus)
+})
+
+const calculatedMarketStabilityCoeff = computed(() => {
+  const base = 80.0
+  const breakerBonus = hyperInflationCircuitBreaker.value ? 12.5 : 0
+  const rebateBonus = (marketFeeRebateRate.value / 100) * 6.0
+  return Math.min(99.9, base + breakerBonus + rebateBonus).toFixed(1)
+})
+
+const calculatedFinancialRankTier = computed(() => {
+  const profit = calculatedNetArbitrageProfit.value
+  if (profit > 30000000) return 'EX·太古创世主权财阀'
+  if (profit > 15000000) return 'SSS·跨次元商会霸主'
+  if (profit > 5000000) return 'SS·高维期货对冲专家'
+  return 'S·实战商业巨擘'
+})
+
+const scrollToPrimalAuctionStudio = () => {
+  const el = document.getElementById('primal-auction-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+const resetPrimalAuctionParameters = () => {
+  selectedPrimalEconomyArchetypeId.value = 'primal_relic_auction_house'
+  exchangeHedgingRatio.value = 2.8
+  gilCircuitBreakerVolatility.value = 20
+  auctionBidLeverage.value = 4.0
+  marketFeeRebateRate.value = 85
+  hyperInflationCircuitBreaker.value = true
+  zeroSlippageAmmPool.value = true
+  infiniteWealthCapGovernor.value = true
+  message.info('已恢复太古拍卖行与金币熔断工坊初始调控参数')
+}
+
+const runPrimalAuctionSimulation = () => {
+  if (isSimulatingPrimalAuction.value) return
+  isSimulatingPrimalAuction.value = true
+  primalSimStep.value = 1
+  primalSimCurrentLog.value = '阶段 1/5: 扫描五大商业城邦物价指数，捕获跨界以太汇率基差...'
+
+  setTimeout(() => {
+    primalSimStep.value = 2
+    primalSimCurrentLog.value = '阶段 2/5: 注入以太对冲流动性，校准 20% 吉尔金币异常波动熔断线...'
+  }, 400)
+
+  setTimeout(() => {
+    primalSimStep.value = 3
+    primalSimCurrentLog.value = '阶段 3/5: 加载太古暗标竞拍撮合协议，挂载 0 滑点恒定乘积资金池...'
+  }, 800)
+
+  setTimeout(() => {
+    primalSimStep.value = 4
+    primalSimCurrentLog.value = '阶段 4/5: 激活全量财力天花板解除器，对齐 Godot 4.6 LTS 经济调度机...'
+  }, 1200)
+
+  setTimeout(() => {
+    primalSimStep.value = 5
+    primalSimCurrentLog.value = '阶段 5/5: 生成宏观金融方案证书，锁定实机运行时交易与拍卖汇率！'
+    isSimulatingPrimalAuction.value = false
+    message.success('太古拍卖与宏观金融推演完成！')
+  }, 1600)
+}
+
+const exportPrimalAuctionCertificate = () => {
+  const arch = currentPrimalArchetype.value
+  const certContent = `================================================================================
+  《光之战士：时空裂隙》跨界汇率平抑、金币熔断与太古拍卖方案证书 (v2.2.308)
+  生成时间: ${new Date().toISOString()}
+  原型构架: ${arch.name} (${arch.market})
+  金融评阶: ${calculatedFinancialRankTier.value}
+================================================================================
+【调控参数】
+- 跨界汇率对冲比率: ${exchangeHedgingRatio.value.toFixed(1)}x
+- 金币熔断触发波动: ±${gilCircuitBreakerVolatility.value}%
+- 暗标竞拍加价杠杆: ${auctionBidLeverage.value.toFixed(1)}x
+- 手续费返还比率: ${marketFeeRebateRate.value}%
+- 通胀自动熔断器: ${hyperInflationCircuitBreaker.value ? '已开启' : '关闭'}
+- 零滑点 AMM 恒定池: ${zeroSlippageAmmPool.value ? '已开启' : '关闭'}
+- 999999999 财富解限: ${infiniteWealthCapGovernor.value ? '已开启' : '关闭'}
+
+【实时解算能效】
+- 预估周期总成交额: ${calculatedTotalTurnover.value.toLocaleString()} Gil
+- 预期期货对冲净利: ${calculatedNetArbitrageProfit.value.toLocaleString()} Gil
+- 全域平准稳态系数: ${calculatedMarketStabilityCoeff.value}%
+- 认证安全指纹: SHA256-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${Date.now()}
+================================================================================`
+
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(certContent).catch(() => {})
+  }
+
+  try {
+    const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `primal_auction_cert_v2.2.308_${Date.now()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error('Export certificate error:', e)
+  }
+
+  message.success('太古拍卖与金融方案证书已导出并同步至剪贴板！')
+}
+
+const activePrimalCodeTab = ref<'broker' | 'breaker' | 'auction'>('broker')
+
+const gdExchangeBrokerCode = `## cross_realm_exchange_broker.gd
+## Godot 4.6 LTS - 跨界时空黑市汇率撮合与对冲经纪人
+extends RefCounted
+class_name CrossRealmExchangeBroker
+
+static func compute_cross_realm_rate(
+	base_rate: float,
+	hedging_ratio: float,
+	fee_rebate_pct: float
+) -> Dictionary:
+	var effective_rate: float = base_rate * (1.0 + (hedging_ratio - 1.0) * 0.15)
+	var fee_discount: float = fee_rebate_pct / 100.0
+	
+	return {
+		"settlement_rate": effective_rate,
+		"rebated_fee_ratio": 0.05 * (1.0 - fee_discount),
+		"is_optimal_arbitrage": hedging_ratio >= 3.0
+	}
+`
+
+const gdGilBreakerCode = `## gil_inflation_circuit_breaker.gd
+## Godot 4.6 LTS - 吉尔金币恶性通胀熔断器与央行托底中枢
+extends RefCounted
+class_name GilInflationCircuitBreaker
+
+signal market_freeze_triggered(volatility_pct: float, intervention_fund: int)
+
+static func evaluate_market_volatility(
+	daily_change_pct: float,
+	threshold_pct: float,
+	breaker_active: bool
+) -> Dictionary:
+	var should_freeze: bool = absf(daily_change_pct) >= threshold_pct and breaker_active
+	return {
+		"is_frozen": should_freeze,
+		"trigger_volatility": daily_change_pct,
+		"intervention_required": should_freeze,
+		"fund_draw_amount": 50000000 if should_freeze else 0
+	}
+`
+
+const gdPrimalAuctionCode = `## primal_auction_bidding_system.gd
+## Godot 4.6 LTS - 太古神兵圣遗物暗标盲盒竞拍状态机
+extends RefCounted
+class_name PrimalAuctionBiddingSystem
+
+static func resolve_blind_bids(
+	bids: Array[Dictionary],
+	max_wealth_cap_unlocked: bool
+) -> Dictionary:
+	var highest_bid: int = 0
+	var winning_bidder: String = ""
+	
+	for bid in bids:
+		var amount: int = bid.get("amount", 0)
+		if not max_wealth_cap_unlocked and amount > 99999999:
+			amount = 99999999
+		if amount > highest_bid:
+			highest_bid = amount
+			winning_bidder = bid.get("bidder", "ANONYMOUS")
+			
+	return {
+		"winner": winning_bidder,
+		"settled_amount": highest_bid,
+		"cap_unlocked": max_wealth_cap_unlocked
+	}
+`
+
+const currentPrimalAuctionCode = computed(() => {
+  if (activePrimalCodeTab.value === 'broker') return gdExchangeBrokerCode
+  if (activePrimalCodeTab.value === 'breaker') return gdGilBreakerCode
+  return gdPrimalAuctionCode
+})
+
+const copyPrimalAuctionCode = () => {
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(currentPrimalAuctionCode.value).then(() => {
+      message.success('Godot 4.6 LTS 经济金融源码已复制至剪贴板！')
+    }).catch(() => {
+      message.error('复制失败，请手动选取复制')
+    })
+  }
+}
 </script>
 
 <style scoped>

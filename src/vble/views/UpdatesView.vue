@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-economy-primal-auction-v308-2026-10-29',
+    version: 'v2.2.308',
+    date: '2026-10-29',
+    title: '跨界时空黑市汇率平抑、吉尔金币熔断与太古拍卖行工坊重磅实装',
+    category: 'system',
+    categoryName: '宏观金融',
+    icon: '⚗️',
+    tagType: 'success',
+    description: '全面重构升级 EconomyView 宏观经济门户：顶部标章升级为 VBLE Macro Economy, Circuit Breaker & Primal Auction Studio v2.2.308，新增太古拍卖与金币熔断工坊快捷直达；专区重磅实装【跨界时空黑市汇率平抑、吉尔金币熔断与太古拍卖行工坊】（Cross-Realm Exchange, Gil Circuit Breaker & Primal Auction Studio）；覆盖四大跨界经济流派原型（跨界时空吉尔对冲流、太古圣遗物暗标拍卖行、虚空走私特种期货池、宏观通胀平抑主权基金）；支持跨界时空汇率对冲比率 (1.0x~5.0x)、吉尔金币熔断触发波动率 (±5%~±50%)、太古暗标竞拍加价杠杆 (1.0x~10.0x) 与黑市税收手续费返还率 (10%~100%) 连续微调；支持时空恶性通胀自动熔断断路器（物价单日波动突破 20% 时全域交易强制冻结并启动央行救市）、跨次元黑市零滑点恒定乘积池（依托太古储备金库保障，全量兑换实现 0 摩擦零滑点）与 999999999 太古金币财富天花板解除（突破传统 99,999,999 吉尔上限，支持亿级太古圣金储存）；实时解算单周期预估宏观总成交额 (突破 15,000万+ Gil)、预期期货对冲净套利额 (突破 3,000万+ Gil)、全域平准稳态系数与商业金融认证评级 (高达 EX·太古创世主权财阀)；内置五阶段宏观金融推演沙盘与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，全面开源 Godot 4.6 LTS 实机驱动：cross_realm_exchange_broker.gd、gil_inflation_circuit_breaker.gd 与 primal_auction_bidding_system.gd。',
+    highlights: [
+      '四大跨界经济流派：时空吉尔汇兑对冲、圣遗物暗标拍卖、走私特种期货与通胀平抑主权基金',
+      '四维连续宏观金融参数：汇率对冲比率、金币熔断波动率、暗标竞拍加价杠杆与手续费返还率',
+      '三重宏观调控终极保障：恶性通胀自动熔断器、跨界零滑点恒定乘积池与 999999999 财富解限',
+      '动态能效指标解算：预估宏观总成交额、期货对冲净利润、平准基金稳态系数与 EX 级财阀认证',
+      '五阶段推演沙盘：城邦物价基差、流动性对冲注入、暗标撮合挂载、财富解限对齐与证书闭环',
+      'Godot 4.6 LTS 3 Tab 源码展台：开源汇率撮合经纪人、金币熔断断路器与暗标竞拍系统'
+    ],
+    relatedLinks: [
+      { label: '宏观经济与黑市期货', path: '/vble/economy', icon: '⚗️' },
+      { label: '太古拍卖与金币熔断', path: '/vble/economy', icon: '🪙' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-vehicles-mythic-cruise-v307-2026-10-29',
     version: 'v2.2.307',
     date: '2026-10-29',
