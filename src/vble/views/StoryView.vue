@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Story &amp; Chronicle Matrix v2.2.269
+              VBLE Story, Timelines &amp; Causality Convergence Studio v2.2.294
             </span>
             <span class="text-xs text-gray-400">光暗双线叙事、时空因果与创世神纪推演</span>
           </div>
@@ -20,6 +20,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="primary"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="switchToConvergenceStudio"
+          >
+            <template #icon><span>🌀</span></template>
+            世界线收束工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -497,6 +508,351 @@
         </div>
 
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 overflow-x-auto leading-relaxed max-h-[550px]"><code v-if="activeGdTab === 'timeline'">{{ gdScriptCode }}</code><code v-else-if="activeGdTab === 'ending'">{{ gdScriptEndingCode }}</code><code v-else>{{ gdScriptEpilogueCode }}</code></pre>
+      </div>
+    </div>
+
+    <!-- 全域平行世界线因果坍缩与时空收束工坊 (Parallel Timelines & Causality Convergence Studio v2.2.294) -->
+    <div v-if="activeMode === 'timeline_convergence'" id="timeline-convergence-studio" class="space-y-6">
+      <!-- 横幅标头 -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-indigo-950/70 via-slate-900/95 to-purple-950/70 border border-indigo-500/40 shadow-[0_0_35px_rgba(99,102,241,0.22)] space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-indigo-950 pb-5">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                TIMELINE CONVERGENCE &amp; CAUSALITY STUDIO
+              </span>
+              <span class="text-xs text-gray-400 font-mono">v2.2.294 官方实机矩阵</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-1">
+              <span>🌀</span> 全域平行世界线因果坍缩、量子抉择分歧与时空收束工坊
+            </h2>
+            <p class="text-xs text-gray-300 mt-1 max-w-3xl leading-relaxed">
+              对齐 Godot 4.6 LTS 架构标准：深度解算四大平行世界线分支、四维连续时空因果微调、三大时空因果安全护盾、五阶段世界线收束仿真推演与防伪方案书离线导出。
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <n-button size="small" secondary type="warning" @click="resetConvergenceStudio">
+              🔄 重置世界线参数
+            </n-button>
+            <n-button size="small" secondary type="error" @click="triggerWorldlineCollapse">
+              💥 触发量子波态坍缩
+            </n-button>
+            <n-button size="small" type="primary" class="font-bold shadow" @click="exportConvergenceCertificate">
+              📜 导出收束认证证书
+            </n-button>
+          </div>
+        </div>
+
+        <!-- 四大平行世界线选择卡 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="line in timelineArchetypes"
+            :key="line.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedTimelineId === line.id
+              ? 'bg-indigo-950/50 border-indigo-400 shadow-[0_0_18px_rgba(99,102,241,0.3)] ring-1 ring-indigo-400/50'
+              : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-850'"
+            @click="selectedTimelineId = line.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ line.icon }}</span>
+              <n-tag :type="selectedTimelineId === line.id ? 'info' : 'default'" size="tiny" round>
+                {{ line.tag }}
+              </n-tag>
+            </div>
+            <div class="text-sm font-bold text-white mb-1">{{ line.name }}</div>
+            <div class="text-[11px] text-gray-400 leading-relaxed mb-3">{{ line.desc }}</div>
+            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+              <span class="text-gray-400">终局收敛相</span>
+              <span class="text-indigo-300 font-semibold">{{ line.destiny }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数微调滑块与安全保护盾 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 左侧: 4维连续时空因果微调滑块 (7 cols) -->
+        <div class="lg:col-span-7 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-indigo-400 font-bold text-sm">🎛️ 时空世界线因果动力学参数矩阵</span>
+              <span class="text-[11px] text-gray-400 font-mono">4-Axis Spacetime Sliders</span>
+            </div>
+            <button
+              type="button"
+              class="text-[11px] text-cyan-400 hover:text-cyan-300 transition-colors"
+              @click="resetConvergenceStudio"
+            >
+              重置参数
+            </button>
+          </div>
+
+          <!-- 滑块 1: 因果干涉熵值 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>⚡</span> 因果干涉熵值 (Causality Entropy)
+              </span>
+              <span class="font-mono text-indigo-400 font-bold">{{ causalityEntropy.toFixed(2) }} S/k</span>
+            </div>
+            <n-slider
+              v-model:value="causalityEntropy"
+              :min="0.10"
+              :max="5.00"
+              :step="0.05"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>0.10 S/k (绝对决定论)</span>
+              <span>2.50 S/k (经典量子态)</span>
+              <span>5.00 S/k (时空狂暴紊乱)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 2: 世界线收束吸引子半径 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🧲</span> 世界线收束吸引子半径 (Attractor Radius)
+              </span>
+              <span class="font-mono text-cyan-400 font-bold">{{ attractorRadius }} Mpc</span>
+            </div>
+            <n-slider
+              v-model:value="attractorRadius"
+              :min="50"
+              :max="1000"
+              :step="25"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>50 Mpc (局部本星系)</span>
+              <span>450 Mpc (室女超星系团)</span>
+              <span>1000 Mpc (全域宇宙可观测界)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 3: 量子抉择相干度 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>🔬</span> 量子抉择相干度 (Decision Coherence)
+              </span>
+              <span class="font-mono text-emerald-400 font-bold">{{ decisionCoherence }}%</span>
+            </div>
+            <n-slider
+              v-model:value="decisionCoherence"
+              :min="10"
+              :max="100"
+              :step="5"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>10% (退相干混乱)</span>
+              <span>60% (主观意识聚焦)</span>
+              <span>100% (神性绝对同态)</span>
+            </div>
+          </div>
+
+          <!-- 滑块 4: 超时间轴回溯深度 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-300 font-medium flex items-center gap-1.5">
+                <span>⏳</span> 超时间轴回溯深度 (Rewind Depth)
+              </span>
+              <span class="font-mono text-amber-400 font-bold">{{ timelineRewindDepth }} 纪元</span>
+            </div>
+            <n-slider
+              v-model:value="timelineRewindDepth"
+              :min="1"
+              :max="10"
+              :step="1"
+              :tooltip="false"
+            />
+            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+              <span>1 纪元 (短周期修复)</span>
+              <span>5 纪元 (始源水晶分裂期)</span>
+              <span>10 纪元 (太古创世前夜)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧: 3大因果护盾开关与能效雷达 (5 cols) -->
+        <div class="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#111628]/90 border border-slate-800 shadow-xl space-y-4">
+          <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+            <span class="text-purple-400 font-bold text-sm">🛡️ 时空因果律安全护盾与断路器</span>
+            <n-tag type="info" size="tiny" round>主动防护体系</n-tag>
+          </div>
+
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🔒</span> 霍金时序防环护盾
+                </div>
+                <div class="text-[11px] text-gray-400">严禁封闭类时曲线 CTC，彻底消除祖父悖论死锁</div>
+              </div>
+              <n-switch v-model:value="chronologyProtectionField" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>⚓</span> 世界线观测者锚定仪
+                </div>
+                <div class="text-[11px] text-gray-400">主观意志锁定量子波态坍缩，防止世界线震荡漂移</div>
+              </div>
+              <n-switch v-model:value="observerAnchorMatrix" size="small" />
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>⚡</span> 量子纠缠因果断路器
+                </div>
+                <div class="text-[11px] text-gray-400">因果反冲超载瞬间熔断异界扰动，保全主干线</div>
+              </div>
+              <n-switch v-model:value="entanglementCircuitBreaker" size="small" />
+            </div>
+          </div>
+
+          <!-- 能效雷达卡 -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 space-y-2">
+            <div class="text-xs font-bold text-indigo-300 flex items-center justify-between">
+              <span>全域时空因果相干指数</span>
+              <span class="font-mono text-emerald-400 font-bold">{{ calculatedTimelineStability.toFixed(1) }}%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 h-1.5 rounded-full transition-all duration-300"
+                :style="{ width: Math.min(calculatedTimelineStability, 100) + '%' }"
+              ></div>
+            </div>
+            <div class="text-[10px] text-gray-400 flex justify-between">
+              <span>收束阈值: 75.0%</span>
+              <span class="text-indigo-300">因果稳固态: {{ calculatedTimelineStability > 95 ? '绝对超稳' : '高度可控' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 实时解算数值仪表盘 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-indigo-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">世界线稳定性 (Stability)</div>
+          <div class="text-2xl font-black text-indigo-400 font-mono mt-1">{{ calculatedTimelineStability.toFixed(1) }}%</div>
+          <div class="text-[10px] text-indigo-300/80 mt-0.5">杜绝时间线断裂崩解</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">悖论排斥势垒 (Barrier)</div>
+          <div class="text-2xl font-black text-cyan-400 font-mono mt-1">{{ calculatedParadoxBarrier.toLocaleString() }} J</div>
+          <div class="text-[10px] text-cyan-300/80 mt-0.5">因果律防坍缩动能</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">收束吸引力强度 (Pull)</div>
+          <div class="text-2xl font-black text-emerald-400 font-mono mt-1">{{ calculatedAttractorPull.toFixed(1) }} G</div>
+          <div class="text-[10px] text-emerald-300/80 mt-0.5">吸引子大尺度牵引</div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-center shadow-lg">
+          <div class="text-[11px] text-gray-400">世界线认证位阶 (Tier)</div>
+          <div class="text-2xl font-black text-purple-400 font-mono mt-1">{{ timelineCertificationTier }}</div>
+          <div class="text-[10px] text-purple-300/80 mt-0.5">太古神纪唯一真理线</div>
+        </div>
+      </div>
+
+      <!-- 五阶段世界线收束仿真推演终端 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-indigo-500/30 shadow-2xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-indigo-400 font-bold text-sm">⚡ 平行世界线收束与量子因果五阶段推演终端</span>
+            <n-tag type="info" size="tiny" round>Live Simulation Pipeline</n-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-slate-950 shadow-md disabled:opacity-50"
+              :disabled="isSimulatingConvergence"
+              @click="runConvergenceSimulation"
+            >
+              {{ isSimulatingConvergence ? '正在推演收束中...' : '▶ 启动全流程世界线收束推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 transition-all cursor-pointer"
+              @click="exportConvergenceCertificate"
+            >
+              📜 导出收束认证方案书
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 阶段步进进度 -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+          <div
+            v-for="(stg, idx) in convergenceStages"
+            :key="stg.id"
+            class="p-2.5 rounded-lg border text-xs transition-all flex flex-col justify-between"
+            :class="convergenceSimulationStep >= idx + 1
+              ? 'bg-indigo-950/40 border-indigo-500/60 text-indigo-300'
+              : 'bg-slate-900/60 border-slate-800/80 text-gray-500'"
+          >
+            <div class="font-bold mb-1 flex items-center gap-1">
+              <span>{{ convergenceSimulationStep >= idx + 1 ? '✅' : '⏳' }}</span>
+              <span>第 {{ idx + 1 }} 阶: {{ stg.title }}</span>
+            </div>
+            <div class="text-[10px] leading-tight opacity-80">{{ stg.desc }}</div>
+          </div>
+        </div>
+
+        <!-- 推演日志视窗 -->
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-gray-300 max-h-48 overflow-y-auto space-y-1">
+          <div v-for="(log, idx) in convergenceLogs" :key="idx" class="flex items-start gap-2">
+            <span class="text-indigo-400 select-none">›</span>
+            <span :class="log.color || 'text-gray-300'">{{ log.text }}</span>
+          </div>
+          <div v-if="convergenceLogs.length === 0" class="text-gray-600 italic">
+            等待启动推演... 点击上方【启动全流程世界线收束推演】按键开始推演。
+          </div>
+        </div>
+      </div>
+
+      <!-- Godot 4.6 LTS 3 Tab 源码展台 -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-xl space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 平行世界线因果动力学源码展台</span>
+            <n-tag type="info" size="tiny" round>RefCounted 核心系统</n-tag>
+          </div>
+          <div class="flex gap-2">
+            <button
+              v-for="st in convergenceScriptTabs"
+              :key="st.key"
+              type="button"
+              class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
+              :class="activeConvergenceScriptTab === st.key
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
+              @click="activeConvergenceScriptTab = st.key"
+            >
+              {{ st.name }}
+            </button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-cyan-300 font-mono overflow-x-auto leading-relaxed max-h-96">{{ currentConvergenceScriptCode }}</pre>
+          <button
+            type="button"
+            class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-gray-300 border border-slate-700 cursor-pointer transition-colors"
+            @click="copyConvergenceScript"
+          >
+            📋 复制代码
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1057,10 +1413,15 @@ const navModes = [
   { key: 'lore', label: '三十章节史诗编年', icon: '📖' },
   { key: 'radar', label: '44节拍雷达导航', icon: '🧭', badge: 'NEW' },
   { key: 'branches', label: '时空因果沙盘', icon: '🔀' },
+  { key: 'timeline_convergence', label: '平行世界线收束与因果坍缩工坊', icon: '🌀', badge: 'v2.2.294' },
   { key: 'ending_matrix', label: '七大终焉宿命归宿与真结局推演沙盘', icon: '👑', badge: 'HOT' },
   { key: 'multiverse_epilogue', label: '太古多元创世神纪推演工坊', icon: '🌌', badge: 'EX' },
   { key: 'engine_code', label: '主线状态机源码', icon: '🛠️' }
 ]
+
+const switchToConvergenceStudio = () => {
+  activeMode.value = 'timeline_convergence'
+}
 
 const switchToEpilogueStudio = () => {
   activeMode.value = 'multiverse_epilogue'
@@ -1945,6 +2306,288 @@ const copyGdScript = () => {
     message.info('源码已复制')
   })
 }
+
+// ==========================================
+// 平行世界线收束与量子因果坍缩工坊 (v2.2.294)
+// ==========================================
+interface TimelineArchetype {
+  id: string
+  name: string
+  icon: string
+  tag: string
+  desc: string
+  destiny: string
+  stabilityMult: number
+}
+
+const timelineArchetypes: TimelineArchetype[] = [
+  {
+    id: 'alpha_light',
+    name: 'α 纯白光之创生线',
+    icon: '✨',
+    tag: '圣光创世',
+    desc: '水晶完全愈合，光之泛滥被引流注入恒星核，全员光辉圣骑士转生',
+    destiny: '永恒炽阳辉煌盛世',
+    stabilityMult: 1.15
+  },
+  {
+    id: 'beta_void',
+    name: 'β 混沌暗影虚空线',
+    icon: '🌑',
+    tag: '深渊执掌',
+    desc: '虚无暗黑吞噬主物质位面，勇者化身暗之支配者执掌星云生死',
+    destiny: '暗夜静谧无序星界',
+    stabilityMult: 1.05
+  },
+  {
+    id: 'gamma_harmony',
+    name: 'γ 始源双界融合平衡线',
+    icon: '☯️',
+    tag: '两仪归一',
+    desc: '光暗双月完美重合，第一世界与第二世界合二为一缔造神圣联邦',
+    destiny: '全要素调和始源神国',
+    stabilityMult: 1.25
+  },
+  {
+    id: 'delta_tachyon',
+    name: 'δ 快子逆流神化崩塌线',
+    icon: '⏳',
+    tag: '超维升格',
+    desc: '逆转时间之矢直奔大爆炸前夜，凡人肉身升维突破 11 维因果天花板',
+    destiny: '因果律神明超越本体',
+    stabilityMult: 1.20
+  }
+]
+
+const selectedTimelineId = ref<string>('gamma_harmony')
+
+// 4 维连续滑块参数
+const causalityEntropy = ref<number>(1.85)
+const attractorRadius = ref<number>(420)
+const decisionCoherence = ref<number>(92)
+const timelineRewindDepth = ref<number>(3)
+
+// 3 大时空因果护盾
+const chronologyProtectionField = ref<boolean>(true)
+const observerAnchorMatrix = ref<boolean>(true)
+const entanglementCircuitBreaker = ref<boolean>(true)
+
+const currentTimeline = computed(() => {
+  return timelineArchetypes.find(l => l.id === selectedTimelineId.value) || timelineArchetypes[2]
+})
+
+const calculatedTimelineStability = computed(() => {
+  let stability = 75.0
+  stability += (decisionCoherence.value / 100) * 15.0
+  stability += (attractorRadius.value / 1000) * 6.0
+  stability -= (causalityEntropy.value / 5.0) * 8.0
+  stability += chronologyProtectionField.value ? 4.5 : 0
+  stability += observerAnchorMatrix.value ? 5.5 : 0
+  stability += entanglementCircuitBreaker.value ? 3.0 : 0
+  return Math.min(99.9, Math.max(50.0, stability * currentTimeline.value.stabilityMult))
+})
+
+const calculatedParadoxBarrier = computed(() => {
+  const baseBarrier = 280000
+  const coherenceBonus = decisionCoherence.value * 2400
+  const shieldBonus = (chronologyProtectionField.value ? 90000 : 0) + (entanglementCircuitBreaker.value ? 65000 : 0)
+  return Math.round(baseBarrier + coherenceBonus + shieldBonus)
+})
+
+const calculatedAttractorPull = computed(() => {
+  const baseG = 12.0
+  const radiusEffect = (attractorRadius.value / 100) * 2.8
+  const entropyDamping = (causalityEntropy.value / 5.0) * 3.5
+  return Number(Math.max(5.0, baseG + radiusEffect - entropyDamping).toFixed(1))
+})
+
+const timelineCertificationTier = computed(() => {
+  if (calculatedTimelineStability.value >= 98.0) return 'Ω-0 始源超维创世'
+  if (calculatedTimelineStability.value >= 90.0) return 'Ω-1 完备大收束'
+  if (calculatedTimelineStability.value >= 80.0) return 'Ω-2 稳定收敛线'
+  return 'Ω-3 亚稳态漂移线'
+})
+
+const resetConvergenceStudio = () => {
+  causalityEntropy.value = 1.85
+  attractorRadius.value = 420
+  decisionCoherence.value = 92
+  timelineRewindDepth.value = 3
+  chronologyProtectionField.value = true
+  observerAnchorMatrix.value = true
+  entanglementCircuitBreaker.value = true
+  message?.info('平行世界线因果参数已恢复黄金基准')
+}
+
+const triggerWorldlineCollapse = () => {
+  decisionCoherence.value = 100
+  chronologyProtectionField.value = true
+  observerAnchorMatrix.value = true
+  message?.success('量子波态瞬间坍缩！主世界线已锁定在始源最稳态！')
+}
+
+// 五阶段收束推演
+const isSimulatingConvergence = ref<boolean>(false)
+const convergenceSimulationStep = ref<number>(0)
+interface ConvergenceLogItem {
+  text: string
+  color?: string
+}
+const convergenceLogs = ref<ConvergenceLogItem[]>([])
+
+const convergenceStages = [
+  { id: 1, title: '量子引力微扰扫描', desc: '检索因果熵与世界线相干度' },
+  { id: 2, title: '因果防环护盾就绪', desc: '阻止类时回路彻底消除悖论' },
+  { id: 3, title: '波函数坍缩与剪枝', desc: '裁减无序发散量子旁支' },
+  { id: 4, title: '吸引子大引力收敛', desc: '牵引平行世界线向奇点归拢' },
+  { id: 5, title: '终极世界线全域锚定', desc: '生成防伪证书与时空稳态' }
+]
+
+const runConvergenceSimulation = async () => {
+  if (isSimulatingConvergence.value) return
+  isSimulatingConvergence.value = true
+  convergenceSimulationStep.value = 0
+  convergenceLogs.value = []
+
+  const appendLog = (text: string, color?: string) => {
+    convergenceLogs.value.push({ text, color })
+  }
+
+  appendLog('[INIT] 启动全域平行世界线收束与因果坍缩管线...', 'text-indigo-400 font-bold')
+  await new Promise(r => setTimeout(r, 400))
+
+  // Step 1
+  convergenceSimulationStep.value = 1
+  appendLog(`[STEP 1] 扫描世界线【${currentTimeline.value.name}】，因果干涉熵值 ${causalityEntropy.value.toFixed(2)} S/k，微扰频谱锁定。`, 'text-cyan-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 2
+  convergenceSimulationStep.value = 2
+  appendLog(`[STEP 2] 激活霍金时序防环护盾: ${chronologyProtectionField.value ? '已就绪' : '未开启'}；排斥势垒 ${calculatedParadoxBarrier.value.toLocaleString()} J。`, 'text-purple-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 3
+  convergenceSimulationStep.value = 3
+  appendLog(`[STEP 3] 量子抉择相干度 ${decisionCoherence.value}%，观测者锚定仪锁定波态，发散旁支剪枝完成！`, 'text-rose-400 font-bold')
+  await new Promise(r => setTimeout(r, 500))
+
+  // Step 4
+  convergenceSimulationStep.value = 4
+  appendLog(`[STEP 4] 吸引子半径 ${attractorRadius.value} Mpc，释放引力拉力 ${calculatedAttractorPull.value.toFixed(1)} G，世界线大收敛达成！`, 'text-emerald-300')
+  await new Promise(r => setTimeout(r, 450))
+
+  // Step 5
+  convergenceSimulationStep.value = 5
+  appendLog(`[SUCCESS] 平行世界线收束完毕！认证位阶: 【${timelineCertificationTier.value}】，稳态指数 ${calculatedTimelineStability.value.toFixed(1)}%！`, 'text-indigo-300 font-bold')
+  isSimulatingConvergence.value = false
+  message?.success('平行世界线收束推演圆满成功！')
+}
+
+const exportConvergenceCertificate = () => {
+  const certData = {
+    studio: 'Parallel Timelines & Causality Convergence Studio v2.2.294',
+    selectedTimeline: currentTimeline.value.name,
+    causalityEntropy: causalityEntropy.value,
+    attractorRadius: attractorRadius.value,
+    decisionCoherence: decisionCoherence.value,
+    timelineRewindDepth: timelineRewindDepth.value,
+    calculatedTimelineStability: calculatedTimelineStability.value,
+    calculatedParadoxBarrier: calculatedParadoxBarrier.value,
+    calculatedAttractorPull: calculatedAttractorPull.value,
+    timelineCertificationTier: timelineCertificationTier.value,
+    timestamp: new Date().toISOString(),
+    sha256Certificate: 'TIMELINE-CONVERGENCE-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(16).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `timeline_convergence_${certData.sha256Certificate}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message?.success(`已导出收束方案证书: ${certData.sha256Certificate}`)
+}
+
+// 源码展台
+type ConvergenceScriptKey = 'causality_engine' | 'decision_pruner' | 'attractor_controller'
+
+const activeConvergenceScriptTab = ref<ConvergenceScriptKey>('causality_engine')
+
+const convergenceScriptTabs = [
+  { key: 'causality_engine' as const, name: '因果动力学引擎' },
+  { key: 'decision_pruner' as const, name: '量子抉择剪枝器' },
+  { key: 'attractor_controller' as const, name: '吸引子收束控制器' }
+]
+
+const convergenceScriptCodes: Record<ConvergenceScriptKey, string> = {
+  causality_engine: `class_name ParallelTimelineCausalityEngine
+extends RefCounted
+
+## 最终幻想：时空之轮 - 平行世界线因果动力学引擎
+## 文件路径: res://scripts/story/parallel_timeline_causality_engine.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+signal worldline_converged(timeline_id: String, stability: float)
+signal paradox_detected(entropy_level: float, barrier_held: bool)
+
+var causality_entropy: float = 1.85
+var attractor_radius: float = 420.0
+var protection_field_active: bool = true
+
+func evaluate_timeline_stability(decision_coherence: float) -> float:
+    var stability: float = 75.0 + (decision_coherence * 0.15) + (attractor_radius / 1000.0 * 6.0)
+    stability -= (causality_entropy / 5.0) * 8.0
+    if protection_field_active:
+        stability += 4.5
+    return clampf(stability, 50.0, 99.9)
+
+func check_closed_timelike_curve() -> bool:
+    if protection_field_active:
+        paradox_detected.emit(causality_entropy, true)
+        return false # 阻断闭合类时曲线
+    return causality_entropy > 4.2
+`,
+
+  decision_pruner: `class_name QuantumDecisionBranchPruner
+extends RefCounted
+
+## 最终幻想：时空之轮 - 量子抉择剪枝与坍缩器
+## 文件路径: res://scripts/story/quantum_decision_branch_pruner.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func collapse_superposition(branches: Array[Dictionary], observer_anchored: bool) -> Dictionary:
+    if branches.is_empty():
+        return {}
+    if observer_anchored:
+        # 观测者锚定：优先收敛权重最高的主干分支
+        branches.sort_custom(func(a, b): return a.get("coherence", 0.0) > b.get("coherence", 0.0))
+        return branches[0]
+    return branches[randi() % branches.size()]
+`,
+
+  attractor_controller: `class_name AttractorConvergenceController
+extends RefCounted
+
+## 最终幻想：时空之轮 - 吸引子收束引力场控制器
+## 文件路径: res://scripts/story/attractor_convergence_controller.gd
+## 引擎版本: Godot Engine 4.6 LTS
+
+static func calculate_attractor_vector(current_divergence: float, radius: float) -> Vector3:
+    var pull_strength: float = 12.0 + (radius / 100.0 * 2.8)
+    return Vector3(0, 0, -pull_strength * (1.0 / maxf(0.1, current_divergence)))
+`
+}
+
+const currentConvergenceScriptCode = computed(() => {
+  return convergenceScriptCodes[activeConvergenceScriptTab.value]
+})
+
+const copyConvergenceScript = () => {
+  navigator.clipboard.writeText(currentConvergenceScriptCode.value)
+  message?.success('已复制 Godot 4.6 LTS 脚本源码到剪贴板！')
+}
+
 </script>
 
 <style scoped>

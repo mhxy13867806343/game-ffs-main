@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-story-timeline-convergence-2026-10-29',
+    version: 'v2.2.294',
+    date: '2026-10-29',
+    title: '全域平行世界线因果坍缩、量子抉择分歧与时空收束工坊重磅实装',
+    category: 'system',
+    categoryName: '世界线收束',
+    icon: '🌀',
+    tagType: 'success',
+    description: '全面重构升级 StoryView 史诗编年史门户：顶部标章升级为 VBLE Story, Timelines & Causality Convergence Studio v2.2.294，新增平行世界线收束工坊快捷直达；专区重磅实装【全域平行世界线因果坍缩、量子抉择分歧与时空收束工坊】（Parallel Timelines & Causality Convergence Studio）；覆盖四大平行世界线分支（α 纯白光之创生线、β 混沌暗影虚空线、γ 始源双界融合平衡线、δ 快子逆流神化崩塌线）；实现因果干涉熵值 (0.10~5.00 S/k)、世界线收束吸引子半径 (50~1000 Mpc)、量子抉择相干度 (10%~100%) 与超时间轴回溯深度 (1~10 纪元) 连续微调；支持霍金时序防环护盾（严禁封闭类时曲线 CTC，彻底消除祖父悖论死锁）、世界线观测者锚定仪（主观意志锁定量子波态坍缩，防止世界线震荡漂移）与量子纠缠因果断路器（因果反冲超载瞬间熔断异界扰动，保全主干线）；实时解算时空世界线稳定性 (高达 99.9%)、悖论排斥势垒 (突破 480,000+ J)、收束吸引力强度 (高达 40.0+ G) 与世界线认证位阶 (高达 Ω-0 始源超维创世)；实装五阶段世界线收束仿真推演终端与离线方案防伪证书 SHA-256 导出；源码展台升级 3 Tab，新增 parallel_timeline_causality_engine.gd、quantum_decision_branch_pruner.gd 与 attractor_convergence_controller.gd。',
+    highlights: [
+      '四大平行世界线分支：纯白圣光创世、深渊暗影执掌、始源两仪归一与快子超维升格全谱系',
+      '四维连续因果参数：因果干涉熵、吸引子半径、量子相干度与时间轴回溯深度全域微调',
+      '霍金时序防环护盾：杜绝封闭类时曲线 (CTC)，彻底排除因果闭环与祖父悖论逻辑死锁',
+      '世界线观测者锚定仪：主观意志锁相波函数坍缩，防止多维平行分支无序震荡漂移',
+      '量子纠缠因果断路器：瞬时熔断异界因果反冲载荷，保全主宇宙时间轴绝对稳固存续',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增因果动力学引擎、量子抉择剪枝器与吸引子收束控制器'
+    ],
+    relatedLinks: [
+      { label: '史诗编年史与世界线收束', path: '/vble/story', icon: '🌀' },
+      { label: '全域风土与场景矩阵', path: '/vble/scenes', icon: '🗺️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-items-relic-reforge-2026-10-29',
     version: 'v2.2.293',
     date: '2026-10-29',
