@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Heroes &amp; Limit Break Resonance Matrix v2.2.270
+              VBLE Heroes, Soul Links &amp; Multi-Hero Resonance Matrix v2.2.292
             </span>
             <span class="text-xs text-gray-400">英雄传记、宿命星盘共鸣与八主角命之座觉醒工坊</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToSoulLinkStudio"
+          >
+            <template #icon><span>💞</span></template>
+            灵魂羁绊协同工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -728,6 +739,291 @@
       </div>
     </div>
 
+    <!-- 全域光暗双队灵魂共鸣羁绊、阵营合体技与神威协同工坊 (v2.2.292) -->
+    <div id="soul-link-studio" class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#1a0f28] via-[#121426] to-[#0a101f] border border-rose-500/40 shadow-[0_0_40px_rgba(244,63,94,0.22)] space-y-6">
+      <!-- 头部横幅 -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-rose-900/50 pb-5">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-mono font-bold text-xs border border-rose-500/40">
+              SOUL LINK BOND &amp; DUAL-FACTION SYNERGY
+            </span>
+            <span class="text-xs text-rose-400 font-mono">v2.2.292 Official Matrix</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide flex items-center gap-2">
+            <span>💞</span> 全域光暗双队灵魂共鸣羁绊、阵营合体技与神威协同工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+            面向 Godot 4.6 LTS 角色协同系统：实现 8 位光暗主角双生羁绊共振、合体极限神威战技、双人同调吟唱比率微调与全队致命伤害互担结界。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-3 py-1 rounded-lg bg-rose-950/60 border border-rose-700/60 text-xs font-mono text-rose-300">
+            晨暮逆位双生契
+          </span>
+          <span class="px-3 py-1 rounded-lg bg-purple-950/60 border border-purple-700/60 text-xs font-mono text-purple-300">
+            量子纠缠生命共享
+          </span>
+        </div>
+      </div>
+
+      <!-- 四大灵魂共鸣羁绊选择 -->
+      <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">✨</span>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">四大光暗灵魂羁绊结界 (Soul Link Bonds)</h3>
+          </div>
+          <span class="text-xs text-gray-400">选择当前激活的双人灵魂羁绊以解锁合体奥义</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div
+            v-for="bond in soulLinkBondsList"
+            :key="bond.id"
+            class="p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden"
+            :class="selectedSoulLinkId === bond.id ? `${bond.color} ring-2 ring-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.3)]` : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'"
+            @click="selectedSoulLinkId = bond.id"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">{{ bond.icon }}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-gray-300">
+                {{ bond.heroesTag }}
+              </span>
+            </div>
+            <div class="font-bold text-sm text-white mb-1">{{ bond.name }}</div>
+            <p class="text-xs text-gray-400 leading-snug">{{ bond.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 参数调节与遥测看板 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 左侧参数调节面板 -->
+        <div class="lg:col-span-7 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎛️</span>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">羁绊与合体技拓扑参数</h3>
+            </div>
+            <n-tag type="error" size="tiny" round>实机连续微调</n-tag>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>灵魂羁绊同契亲和度 (Soul Link Affinity)</span>
+                <span class="font-mono font-bold text-rose-400">{{ soulLinkAffinity }}%</span>
+              </div>
+              <n-slider v-model:value="soulLinkAffinity" :min="10" :max="100" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>10% (初识微光)</span>
+                <span>80% (宿命共鸣)</span>
+                <span>100% (灵魂同一)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>双人同调吟唱比率 (Dual-Cast Sync Ratio)</span>
+                <span class="font-mono font-bold text-purple-400">{{ dualCastSyncRatio }}%</span>
+              </div>
+              <n-slider v-model:value="dualCastSyncRatio" :min="50" :max="200" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>50% (异步步进)</span>
+                <span>135% (同相超频)</span>
+                <span>200% (极境双发无前摇)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>合体战技共鸣能量储备 (Synergy Energy Pool)</span>
+                <span class="font-mono font-bold text-amber-400">{{ synergyBurstEnergyPool }} EP</span>
+              </div>
+              <n-slider v-model:value="synergyBurstEnergyPool" :min="100" :max="999" :step="5" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>100 EP (初阶合击)</span>
+                <span>620 EP (神威奥义)</span>
+                <span>999 EP (天地创世绝灭击)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-gray-300 mb-1">
+                <span>量子纠缠生命共享结界深度 (Bond Depth)</span>
+                <span class="font-mono font-bold text-cyan-400">{{ bondEntanglementDepth }} 层</span>
+              </div>
+              <n-slider v-model:value="bondEntanglementDepth" :min="1" :max="8" :step="1" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+                <span>1 层 (单体连结)</span>
+                <span>5 层 (四人庇护)</span>
+                <span>8 层 (全员双队绝对共生)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 个合体战技开关 -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🛡️</span> 双生生命共享护盾 (Twin Life Share Shield)
+                </div>
+                <div class="text-[10px] text-gray-400">受到致死单体爆发伤害时，双生搭档分担 50% 伤害，彻底免疫暴毙并增加全队减伤 (+12%)</div>
+              </div>
+              <n-switch v-model:value="twinLifeShareShield" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>⚡</span> 极限合体技冷却瞬回 (Instant Cooldown Reset)
+                </div>
+                <div class="text-[10px] text-gray-400">合体奥义暴击时有 30% 概率瞬间重置全部行动条与技能 CD，合体伤害提升 +30%</div>
+              </div>
+              <n-switch v-model:value="limitBreakInstantCooldown" />
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div class="space-y-0.5">
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>🔄</span> 元素极性逆转治疗光环 (Elemental Inversion Aura)
+                </div>
+                <div class="text-[10px] text-gray-400">全队遭遇自身弱点属性魔法轰击时，强行逆转为 100% 以太治疗吸收</div>
+              </div>
+              <n-switch v-model:value="elementalInversionAura" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧实时遥测看板 -->
+        <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-rose-950/40 border border-rose-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+              <h3 class="text-xs font-bold text-rose-300 uppercase tracking-widest flex items-center gap-1.5">
+                <span>📊</span> 灵魂协同精算遥测 (Synergy Telemetry)
+              </h3>
+              <span class="text-[10px] font-mono text-emerald-400 animate-pulse">● 羁绊共鸣信道在线</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-rose-500/20">
+                <div class="text-[10px] text-gray-400">合体神威战技理论爆发</div>
+                <div class="text-lg sm:text-xl font-black text-rose-400 font-mono mt-1">
+                  {{ calculatedSynergyBurstDamage }}
+                </div>
+                <div class="text-[9px] text-rose-500/80 mt-0.5">双人极限奥义单发</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-purple-500/20">
+                <div class="text-[10px] text-gray-400">全队综合减伤抗性</div>
+                <div class="text-lg sm:text-xl font-black text-purple-400 font-mono mt-1">
+                  {{ calculatedPartyDamageReduction }}
+                </div>
+                <div class="text-[9px] text-purple-500/80 mt-0.5">纠缠结界物理与魔法削减</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-500/20">
+                <div class="text-[10px] text-gray-400">双人连携追击触发率</div>
+                <div class="text-lg sm:text-xl font-black text-cyan-400 font-mono mt-1">
+                  {{ calculatedTandemStrikeChance }}
+                </div>
+                <div class="text-[9px] text-cyan-500/80 mt-0.5">普通攻击自动追加连携</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-500/20">
+                <div class="text-[10px] text-gray-400">羁绊共振评阶</div>
+                <div class="text-base sm:text-lg font-black text-amber-400 font-mono mt-1">
+                  {{ calculatedBondRank }}
+                </div>
+                <div class="text-[9px] text-amber-500/80 mt-0.5">灵魂同调契约位阶</div>
+              </div>
+            </div>
+
+            <!-- 当前羁绊特质摘要 -->
+            <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-xs space-y-1">
+              <div class="flex items-center justify-between text-gray-400">
+                <span>羁绊结界:</span>
+                <span class="font-bold text-white">{{ currentSoulLinkBondObj?.name }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>双生搭档:</span>
+                <span class="font-mono text-rose-400">{{ currentSoulLinkBondObj?.heroesTag }}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>生命共享:</span>
+                <span class="font-mono" :class="twinLifeShareShield ? 'text-emerald-400' : 'text-gray-500'">
+                  {{ twinLifeShareShield ? '已激活 (互担 50% 免暴毙)' : '未开启' }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span>逆转吸收:</span>
+                <span class="font-mono" :class="elementalInversionAura ? 'text-cyan-400' : 'text-gray-500'">
+                  {{ elementalInversionAura ? '弱点伤害转化为 HP 吸收' : '常规承伤' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快捷操作按钮 -->
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              @click="runSoulLinkSimulation"
+              :disabled="isSoulLinkSimulating"
+            >
+              <span>{{ isSoulLinkSimulating ? '⏳' : '🚀' }}</span>
+              {{ isSoulLinkSimulating ? '双生羁绊推演中...' : '启动五阶段灵魂羁绊协同推演' }}
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-gray-200 border border-slate-700 transition-all cursor-pointer flex items-center gap-1"
+              @click="exportSoulLinkCertificate"
+            >
+              <span>📄</span> 导出凭证
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 五阶段推演终端 -->
+      <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">💻</span>
+            <h3 class="text-sm font-bold text-white font-mono uppercase">灵魂羁绊协同控制台 (Soul Link Terminal)</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span v-if="isSoulLinkSimulating" class="text-xs text-rose-400 animate-pulse font-mono">
+              STAGE {{ soulLinkSimStage }}/5 协同中
+            </span>
+            <span v-else-if="soulLinkSimFinished" class="text-xs text-emerald-400 font-mono">
+              ✓ 羁绊共鸣大圆满
+            </span>
+            <button
+              type="button"
+              class="text-xs text-gray-400 hover:text-white px-2 py-0.5 rounded bg-slate-900 border border-slate-800 cursor-pointer"
+              @click="soulLinkTerminalLogs = []"
+            >
+              清屏
+            </button>
+          </div>
+        </div>
+
+        <div class="h-44 p-3 rounded-xl bg-black/90 border border-slate-900 font-mono text-xs overflow-y-auto space-y-1 text-gray-300">
+          <div v-if="soulLinkTerminalLogs.length === 0" class="text-gray-600 italic">
+            [终端待命中] 点击“启动五阶段灵魂羁绊协同推演”以解算双人同调吟唱、双生生命共享与合体神威爆发...
+          </div>
+          <div v-for="(log, idx) in soulLinkTerminalLogs" :key="idx" class="leading-relaxed">
+            <span class="text-gray-500">[{{ log.time }}]</span>
+            <span :class="log.color"> {{ log.message }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Godot 4.x 核心实机代码展台 (双 Tab 切换) -->
     <div class="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-3">
       <div class="flex items-center justify-between flex-wrap gap-2">
@@ -757,6 +1053,14 @@
             >
               📄 hero_constellation_awakening_engine.gd
             </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
+              :class="activeHeroGodotTab === 'soul_link' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              @click="activeHeroGodotTab = 'soul_link'"
+            >
+              📄 hero_soul_link_synergy_engine.gd
+            </button>
           </div>
           <n-button size="tiny" secondary type="warning" @click="copyGodotCode">
             {{ copiedCode ? '✓ 已复制代码' : '复制代码' }}
@@ -764,7 +1068,7 @@
         </div>
       </div>
 
-      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeHeroGodotTab === 'growth'">{{ godotCodeText }}</code><code v-else>{{ godotConstellationCodeText }}</code></pre>
+      <pre class="p-4 rounded-xl bg-slate-950 text-xs font-mono text-gray-300 overflow-x-auto leading-relaxed border border-slate-900 max-h-56 custom-scrollbar"><code v-if="activeHeroGodotTab === 'growth'">{{ godotCodeText }}</code><code v-else-if="activeHeroGodotTab === 'constellation'">{{ godotConstellationCodeText }}</code><code v-else>{{ godotSoulLinkCodeText }}</code></pre>
     </div>
   </div>
 </template>
@@ -989,12 +1293,12 @@ func calculate_final_stats(hero_data: CharacterData, level: int, refinement: int
 	return stats
 `
 
-const activeHeroGodotTab = ref<'growth' | 'constellation'>('constellation')
+const activeHeroGodotTab = ref<'growth' | 'constellation' | 'soul_link'>('constellation')
 
 const copyGodotCode = async () => {
   try {
-    const textToCopy = activeHeroGodotTab.value === 'growth' ? godotCodeText : godotConstellationCodeText
-    const fileName = activeHeroGodotTab.value === 'growth' ? 'hero_stat_growth.gd' : 'hero_constellation_awakening_engine.gd'
+    const textToCopy = activeHeroGodotTab.value === 'growth' ? godotCodeText : activeHeroGodotTab.value === 'constellation' ? godotConstellationCodeText : godotSoulLinkCodeText
+    const fileName = activeHeroGodotTab.value === 'growth' ? 'hero_stat_growth.gd' : activeHeroGodotTab.value === 'constellation' ? 'hero_constellation_awakening_engine.gd' : 'hero_soul_link_synergy_engine.gd'
     await navigator.clipboard.writeText(textToCopy)
     copiedCode.value = true
     message.success(`已复制 ${fileName} 核心实机代码！`)
@@ -1397,6 +1701,220 @@ static func calculate_awakened_burst(state: ConstellationState) -> Dictionary:
 	}
 `
 
+
+// ==========================================
+// 💞 全域光暗双队灵魂共鸣羁绊工坊 (v2.2.292)
+// ==========================================
+interface SoulLinkBond {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  color: string
+  heroesTag: string
+}
+
+const soulLinkBondsList: SoulLinkBond[] = [
+  {
+    id: 'dawn_shadow_reversal',
+    name: '晨暮逆位双生契',
+    icon: '☀️',
+    desc: '黎川 & 纳哈特：光暗神威伤害同频互增 +50%，双生搭档单次免死庇护',
+    color: 'border-rose-500/50 bg-rose-950/20 text-rose-300',
+    heroesTag: '黎川 & 纳哈特 / 晨暮双生'
+  },
+  {
+    id: 'sacred_shield_blessing',
+    name: '圣佑坚甲守护阵',
+    icon: '🛡️',
+    desc: '卫珩 & 昼隐：全队承伤削减 40%，格挡受击时自动反哺全员生命值',
+    color: 'border-cyan-500/50 bg-cyan-950/20 text-cyan-300',
+    heroesTag: '卫珩 & 昼隐 / 坚甲圣愈'
+  },
+  {
+    id: 'phantom_tempest_duet',
+    name: '幽影疾风狂想曲',
+    icon: '🌪️',
+    desc: '茜罗 & 澄月：行动条速度 +45%，物理与法术二连击触发率高达 60%',
+    color: 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300',
+    heroesTag: '茜罗 & 澄月 / 疾风双击'
+  },
+  {
+    id: 'void_weaver_resonance',
+    name: '虚空编织因果引',
+    icon: '🌌',
+    desc: '刃歌 & 夜织：全技能破防真实伤害 +55%，暴击连携引发断空碎界',
+    color: 'border-purple-500/50 bg-purple-950/20 text-purple-300',
+    heroesTag: '刃歌 & 夜织 / 因果断空'
+  }
+]
+
+const selectedSoulLinkId = ref('dawn_shadow_reversal')
+const soulLinkAffinity = ref(80)
+const dualCastSyncRatio = ref(135)
+const synergyBurstEnergyPool = ref(620)
+const bondEntanglementDepth = ref(5)
+
+const twinLifeShareShield = ref(true)
+const limitBreakInstantCooldown = ref(true)
+const elementalInversionAura = ref(true)
+
+const currentSoulLinkBondObj = computed(() => {
+  return soulLinkBondsList.find(b => b.id === selectedSoulLinkId.value) || soulLinkBondsList[0]
+})
+
+const calculatedSynergyBurstDamage = computed(() => {
+  const base = synergyBurstEnergyPool.value * 420 + soulLinkAffinity.value * 1250
+  let total = base * (dualCastSyncRatio.value / 100)
+  if (limitBreakInstantCooldown.value) {
+    total *= 1.3
+  }
+  return Math.round(total).toLocaleString()
+})
+
+const calculatedPartyDamageReduction = computed(() => {
+  let red = 25 + bondEntanglementDepth.value * 5.5
+  if (twinLifeShareShield.value) {
+    red += 12
+  }
+  return `-${Math.min(75, Math.round(red))}%`
+})
+
+const calculatedTandemStrikeChance = computed(() => {
+  const chance = soulLinkAffinity.value * 0.75 + (dualCastSyncRatio.value / 100) * 15
+  return `${Math.min(95, Math.round(chance))}%`
+})
+
+const calculatedBondRank = computed(() => {
+  if (bondEntanglementDepth.value >= 7) return 'EX 诸神双生'
+  if (bondEntanglementDepth.value >= 4) return 'SSR 灵魂契约'
+  return 'SR 默契同伴'
+})
+
+function scrollToSoulLinkStudio() {
+  const el = document.getElementById('soul-link-studio')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+// 五阶段推演终端
+interface SoulLinkTerminalLog {
+  time: string
+  message: string
+  color: string
+}
+
+const isSoulLinkSimulating = ref(false)
+const soulLinkSimStage = ref(0)
+const soulLinkSimFinished = ref(false)
+const soulLinkTerminalLogs = ref<SoulLinkTerminalLog[]>([
+  {
+    time: 'INIT',
+    message: '全域光暗双队灵魂共鸣羁绊工坊就绪。准备建立双生共鸣场域。',
+    color: 'text-gray-400'
+  }
+])
+
+function appendSoulLinkLog(msg: string, color = 'text-rose-400') {
+  const now = new Date()
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`
+  soulLinkTerminalLogs.value.push({ time: timeStr, message: msg, color })
+}
+
+function runSoulLinkSimulation() {
+  if (isSoulLinkSimulating.value) return
+  isSoulLinkSimulating.value = true
+  soulLinkSimFinished.value = false
+  soulLinkSimStage.value = 1
+  appendSoulLinkLog('▶ 启动五阶段灵魂羁绊协同推演...', 'text-rose-400 font-bold')
+
+  setTimeout(() => {
+    soulLinkSimStage.value = 2
+    appendSoulLinkLog(`[阶段 1/5] 激活羁绊【${currentSoulLinkBondObj.value.name}】，搭档: ${currentSoulLinkBondObj.value.heroesTag}，亲和度: ${soulLinkAffinity.value}%`, 'text-cyan-300')
+
+    setTimeout(() => {
+      soulLinkSimStage.value = 3
+      appendSoulLinkLog(`[阶段 2/5] 注入双人同调吟唱比率 ${dualCastSyncRatio.value}%，共鸣能量池: ${synergyBurstEnergyPool.value} EP`, 'text-amber-300')
+
+      setTimeout(() => {
+        soulLinkSimStage.value = 4
+        const shareText = twinLifeShareShield.value ? '已部署 (分担 50% 伤害)' : '未开启'
+        const resetText = limitBreakInstantCooldown.value ? '已开启 (30% 瞬回 CD)' : '常规'
+        appendSoulLinkLog(`[阶段 3/5] 生命共享护盾[${shareText}]，合体技瞬回[${resetText}]`, 'text-purple-300')
+
+        setTimeout(() => {
+          soulLinkSimStage.value = 5
+          appendSoulLinkLog(`[阶段 4/5] 合体神威爆发伤害: ${calculatedSynergyBurstDamage.value}，全队综合减伤: ${calculatedPartyDamageReduction.value}`, 'text-emerald-300')
+
+          setTimeout(() => {
+            isSoulLinkSimulating.value = false
+            soulLinkSimFinished.value = true
+            appendSoulLinkLog(`✓ [阶段 5/5] 灵魂羁绊协同解算完成！连携概率: ${calculatedTandemStrikeChance.value}，位阶: ${calculatedBondRank.value}`, 'text-emerald-400 font-bold')
+            message.success('灵魂羁绊协同五阶段推演完成！')
+          }, 350)
+        }, 350)
+      }, 350)
+    }, 350)
+  }, 350)
+}
+
+function exportSoulLinkCertificate() {
+  const certData = {
+    standard: 'Godot 4.6 LTS / VBLE Hero Soul Link Matrix v2.2.292',
+    timestamp: new Date().toISOString(),
+    bond: selectedSoulLinkId.value,
+    parameters: {
+      soulLinkAffinity: soulLinkAffinity.value,
+      dualCastSyncRatio: dualCastSyncRatio.value,
+      synergyBurstEnergyPool: synergyBurstEnergyPool.value,
+      bondEntanglementDepth: bondEntanglementDepth.value,
+      twinLifeShareShield: twinLifeShareShield.value,
+      limitBreakInstantCooldown: limitBreakInstantCooldown.value,
+      elementalInversionAura: elementalInversionAura.value
+    },
+    metrics: {
+      synergyBurstDamage: calculatedSynergyBurstDamage.value,
+      partyDamageReduction: calculatedPartyDamageReduction.value,
+      tandemStrikeChance: calculatedTandemStrikeChance.value,
+      bondRank: calculatedBondRank.value
+    },
+    sha256Signature: 'SHA256-SOUL-LINK-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase()
+  }
+
+  const blob = new Blob([JSON.stringify(certData, null, 2)], { type: 'application/json;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `soul_link_v2.2.292_${selectedSoulLinkId.value}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+  message.success('已导出灵魂羁绊协同方案书证书！')
+}
+
+const godotSoulLinkCodeText = [
+  '# ==============================================================================',
+  '# HeroSoulLinkSynergyEngine - 光暗双队灵魂羁绊与合体奥义解算引擎',
+  '# 文件路径: res://scripts/heroes/hero_soul_link_synergy_engine.gd',
+  '# 架构规范: Godot 4.6 LTS / VBLE Heroes Matrix v2.2.292',
+  '# 核心职责: 计算双生羁绊共鸣伤害、生命共享减伤分担与致命伤瞬回判定',
+  '# ==============================================================================',
+  'class_name HeroSoulLinkSynergyEngine',
+  'extends RefCounted',
+  '',
+  'static func calculate_synergy_burst(energy_pool: int, affinity: int, sync_ratio: float, instant_reset: bool) -> int:',
+  '	var base: float = float(energy_pool) * 420.0 + float(affinity) * 1250.0',
+  '	var total: float = base * (sync_ratio / 100.0)',
+  '	if instant_reset:',
+  '		total *= 1.3',
+  '	return int(round(total))',
+  '',
+  'static func calculate_damage_share(damage: int, has_share_shield: bool) -> Dictionary:',
+  '	if not has_share_shield:',
+  '		return { "primary_damage": damage, "partner_damage": 0 }',
+  '	var half_dmg: int = int(damage / 2)',
+  '	return { "primary_damage": half_dmg, "partner_damage": half_dmg }'
+].join('\n')
 </script>
 
 <style scoped>

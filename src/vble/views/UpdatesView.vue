@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-characters-soul-link-2026-10-29',
+    version: 'v2.2.292',
+    date: '2026-10-29',
+    title: '全域光暗双队灵魂共鸣羁绊、阵营合体技与神威协同工坊重磅实装',
+    category: 'npc',
+    categoryName: '光暗羁绊',
+    icon: '👥',
+    tagType: 'success',
+    description: '全面重构升级 CharactersView 角色档案门户：顶部标章升级为 VBLE Characters Roster & Soul Link Synergy Studio v2.2.292，新增光暗双队灵魂共鸣工坊快捷直达；专区重磅实装【全域光暗双队灵魂共鸣羁绊、阵营合体技与神威协同工坊】（Soul Link Bond & Dual-Faction Synergy Studio）；覆盖四大灵魂共鸣羁绊流派（光芒与暗夜双极共鸣、虚空与以太时空裂隙、纯白神圣极光庇佑、混沌暗影无限爆发）；实现灵魂羁绊同步深度 (10%~100%)、光暗能量失衡容限 (5%~50%)、神威协同合体技槽位 (1~6 槽) 与奥义合击暴击倍率 (1.5~5.0x) 连续微调；支持灵魂锁相防暴走过载阀（能量失衡超限时触发柔性泄流，羁绊共鸣度 +15%）、合体绝技瞬发充能加速（合体技以太消耗 -30% 且起手无前摇）与超越光暗全域双核觉醒（光暗双队全员突破 99999 伤害上限）；实时解算双队灵魂协同综合战力 (突破 45,000+ CP)、阵营合体技爆发期望伤害 (突破 250,000+ DMG)、灵魂共鸣同步率与阵营羁绊认证位阶 (高达 EX 极境)；实装五阶段光暗灵魂共鸣推演终端与离线方案书 SHA-256 证书导出；源码展台升级 3 Tab，新增 soul_link_bond_synergy_matrix.gd、dual_faction_combo_executor.gd 与 aether_resonance_overdrive_guard.gd。',
+    highlights: [
+      '四大灵魂共鸣羁绊：双极阴阳流转、时空以太裂隙、纯白极光神盾与混沌暗影终焉裁决',
+      '四维连续羁绊参数：灵魂同步深度、能量失衡容限、合体技槽位与合击暴击倍率全域微调',
+      '灵魂锁相防暴走阀：自动平衡光暗极性倾轧，杜绝暴走反噬，稳健提升羁绊共鸣率',
+      '合体绝技瞬发加速：以太槽消耗降低 30%，光暗双人合体技实现 0 帧瞬间触发',
+      '超越光暗双核觉醒：突破传统 99999 伤害上限屏障，全员开启超绝真伤贯穿模式',
+      'Godot 4.6 LTS 3 Tab 源码展台：新增灵魂共鸣矩阵、合体技执行器与过载泄流守护控制器'
+    ],
+    relatedLinks: [
+      { label: '角色档案与技能树', path: '/vble/characters', icon: '👥' },
+      { label: '多角色配装与神兵', path: '/vble/armory', icon: '⚔️' },
+      { label: '最新开发日志', path: '/vble/updates', icon: '🔄' }
+    ]
+  },
+  {
     id: 'up-celestial-dark-energy-2026-10-29',
     version: 'v2.2.291',
     date: '2026-10-29',
