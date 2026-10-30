@@ -74,6 +74,18 @@
             <template #icon><span>🧪</span></template>
             前往调合演练沙盘
           </n-button>
+          <router-link to="/vble/docs/05_EQUIPMENT_ECONOMY">
+            <n-button size="medium" round secondary type="warning" class="shadow-md">
+              <template #icon><span>📖</span></template>
+              神兵与宏观经济 (VOL.05)
+            </n-button>
+          </router-link>
+          <router-link to="/vble/docs/16_TAIL_EXCHANGE">
+            <n-button size="medium" round secondary type="warning" class="shadow-md">
+              <template #icon><span>🦊</span></template>
+              七色尾巴兑换白皮书 (VOL.16)
+            </n-button>
+          </router-link>
           <router-link to="/vble/items">
             <n-button size="medium" round tertiary>
               查看道具图鉴
