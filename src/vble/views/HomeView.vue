@@ -216,7 +216,7 @@
                 <span class="text-base">📜</span>
                 <div class="text-left">
                   <div class="font-bold text-gray-200">架构白皮书</div>
-                  <div class="text-[10px] text-gray-500">16卷文库</div>
+                  <div class="text-[10px] text-gray-500">27卷大典</div>
                 </div>
               </div>
 
@@ -840,7 +840,7 @@
         <router-link to="/vble/docs">
           <n-button size="small" round secondary type="warning">
             <template #icon><span>📜</span></template>
-            十六卷架构白皮书
+            二十七卷架构白皮书
           </n-button>
         </router-link>
       </div>
@@ -1216,7 +1216,7 @@ const galleryPreviews = [
 ]
 
 const allSubsystems = [
-  { title: '十六卷白皮书', icon: '📜', path: '/vble/docs', tag: 'Vol.01~16', desc: '核心规范文库与拓扑' },
+  { title: '二十七卷白皮书', icon: '📜', path: '/vble/docs', tag: 'Vol.01~27', desc: '核心规范文库与拓扑' },
   { title: '全地形载具矩阵', icon: '🛸', path: '/vble/vehicles', tag: '10 Vehicles', desc: '海陆空潜巡航模拟器' },
   { title: '十二召唤兽契约', icon: '🐉', path: '/vble/summons', tag: '12 Summons', desc: '合体极意与真实伤害' },
   { title: '世界首领机制', icon: '⚔️', path: '/vble/boss-tactics', tag: '14 Bosses', desc: '神龙海啸与斩铁试炼' },

@@ -37,7 +37,7 @@
           <router-link to="/vble/docs">
             <n-button type="warning" size="medium" round secondary class="shadow-md">
               <template #icon><span>📜</span></template>
-              十六卷架构白皮书
+              二十七卷架构白皮书
             </n-button>
           </router-link>
           <router-link to="/vble">
@@ -1055,22 +1055,22 @@ const epochList: Epoch[] = [
   {
     id: 'epoch-2',
     code: 'EPOCH 02',
-    title: '十六卷机制与数值革新',
-    subtitle: '实装太古封印、十二召唤兽、全地形载具与宏观炼金',
+    title: '二十七卷机制与架构革新',
+    subtitle: '实装设计总纲、研发规程、全域魔物大典与五层架构依赖拓扑',
     icon: '🔮',
-    versionRange: 'v2.1.0 ~ v2.2.215',
-    timeline: '2026 Q2 ~ 2026 Q3 (当前纪元)',
-    progress: 96,
-    badgeColor: 'text-amber-400',
-    progressColor: '#f59e0b',
-    statusType: 'warning',
-    statusLabel: '96% 攻坚尾声',
-    detailedDesc: '重塑深度战斗与探索机制，引入 28 大进阶职业、50+太古神兵、十二柱召唤兽合体技、十维载具海陆空潜行与十六卷规范白皮书。',
+    versionRange: 'v2.1.0 ~ v2.2.352',
+    timeline: '2026 Q2 ~ 2026 Q4 (全面交付)',
+    progress: 100,
+    badgeColor: 'text-emerald-400',
+    progressColor: '#10b981',
+    statusType: 'success',
+    statusLabel: '100% 完备交付',
+    detailedDesc: '重塑深度战斗与探索机制，引入 28 大进阶职业、50+太古神兵、十二柱召唤兽合体技、十维载具海陆空潜行与二十七卷全域架构白皮书。',
     deliverables: [
       '十二柱召唤兽圣痕契约与极意融合技 (Fusion Artes)',
       '10 维全域载具驾驶矩阵（陆行鸟、飞空艇、黑魔导潜水艇）',
       '深渊首领高难机制相克矩阵（神龙海啸、欧米茄反伤）',
-      '十六卷核心架构白皮书规范文库与依赖拓扑沙盘'
+      '二十七卷核心架构白皮书规范文库与五层依赖拓扑沙盘'
     ],
     techPrereqs: [
       'Godot 4.x NavigationAgent2D 载具智能寻路与离线网格',
@@ -1274,19 +1274,19 @@ const features = ref<FeaturePlan[]>([
   },
   {
     id: 'feat-whitepaper-registry',
-    title: '十六卷核心架构白皮书规范文库与拓扑沙盘',
+    title: '二十七卷核心架构白皮书规范文库与拓扑沙盘',
     icon: '📜',
     status: 'completed',
     statusLabel: '已实装交付',
     statusType: 'success',
-    targetVersion: 'v2.2.215',
-    description: '收纳 16 卷核心架构白皮书，涵盖战斗数值闭环、职业双轨矩阵、七色尾巴宏观经济与时空裂隙全域导航，集成 GDScript 代码与依赖拓扑。',
+    targetVersion: 'v2.2.352',
+    description: '收纳 27 卷核心架构白皮书，涵盖游戏设计总纲、全域研发规程、全域魔物大典、战斗数值闭环、职业双轨矩阵、宏观经济与时空裂隙全域导航，集成 GDScript 代码与依赖拓扑。',
     specs: [
-      '16 卷完整白皮书规范抽屉式阅读与前置依赖拓扑推演',
-      '覆盖 10 大核心子系统与 50+ 技术指标约束',
+      '27 卷完整白皮书规范抽屉与独立阅览室双轨浏览，五层依赖拓扑推演',
+      '覆盖 12 大核心技术领域与 70+ 技术指标约束',
       '配套 whitepaper_registry.gd 底层单例引擎对接'
     ],
-    votes: 185,
+    votes: 218,
     voted: true
   },
   {

@@ -17,7 +17,7 @@ export interface NavItemConfig {
 
 export const navItems: NavItemConfig[] = [
   { title: '首页', name: '首页', path: '/vble', icon: '🏠', category: 'core' },
-  { title: '白皮书', name: '白皮书', path: '/vble/docs', icon: '📜', badge: '24卷', category: 'core' },
+  { title: '白皮书', name: '白皮书', path: '/vble/docs', icon: '📜', badge: '27卷', category: 'core' },
   { title: '编年史', name: '编年史', path: '/vble/story', icon: '📖', badge: '44节拍', category: 'world' },
   { title: '英雄', name: '英雄', path: '/vble/characters', icon: '👥', badge: '4人', category: 'world' },
   { title: '魔物图鉴', name: '魔物图鉴', path: '/vble/monsters', icon: '👾', badge: '147怪', category: 'world' },

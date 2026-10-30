@@ -1089,7 +1089,7 @@ const allIndexedResults = computed(() => {
     }
   })
 
-  // 10. 十七卷架构白皮书
+  // 10. 二十七卷架构白皮书
   whitepapersList.forEach(w => {
     const text = (w.title + w.summary + w.category + w.keyFeatures.join(' ')).toLowerCase()
     if (text.includes(q)) {
@@ -1101,7 +1101,7 @@ const allIndexedResults = computed(() => {
         categoryName: '架构白皮书',
         icon: '📚',
         tagType: 'info',
-        sourcePath: '/vble/docs',
+        sourcePath: `/vble/docs/${w.code}`,
         desc: w.summary,
         extra: `分类: ${w.category} · 核心要点: ${w.keyFeatures.slice(0, 3).join('、')}`,
         raw: w
