@@ -74,6 +74,18 @@
             <template #icon><span>⚔️</span></template>
             前往攻坚推演沙盘
           </n-button>
+          <router-link to="/vble/docs/03_BOSS_TACTICS">
+            <n-button size="medium" round secondary type="error" class="shadow-md">
+              <template #icon><span>📖</span></template>
+              首领攻坚白皮书 (VOL.03)
+            </n-button>
+          </router-link>
+          <router-link to="/vble/docs/18_MULTI_PHASE_BOSS_SKILLS">
+            <n-button size="medium" round secondary type="error" class="shadow-md">
+              <template #icon><span>⚡</span></template>
+              多阶段绝技白皮书 (VOL.18)
+            </n-button>
+          </router-link>
           <router-link to="/vble/monsters">
             <n-button size="medium" round tertiary>
               查看魔物图鉴
