@@ -822,7 +822,7 @@ const enableReverseTrace = ref(true)
 const enableJobSynergyCheck = ref(true)
 const copiedCode = ref(false)
 
-const hotKeywords = ['巴哈姆特', '奥丁', '欧米茄', '神龙', '巨人之药', '诸神黄昏', '粉色尾巴', '魔法剑士', '斩铁剑', '飞空艇', '白皮书']
+const hotKeywords = ['巴哈姆特', '奥丁', '欧米茄', '神龙', '巨人之药', '诸神黄昏', '粉色尾巴', '魔法剑士', '斩铁剑', '飞空艇', '白皮书', '设计总纲', '魔物大典', '研发规程']
 
 watch(
   () => route.query.q,

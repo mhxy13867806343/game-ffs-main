@@ -172,6 +172,13 @@
                   <span>{{ item }}</span>
                 </li>
               </ul>
+              <div v-if="selectedEpoch.id === 'epoch-2'" class="pt-2 border-t border-slate-800">
+                <router-link to="/vble/docs">
+                  <n-button size="tiny" type="success" secondary round class="w-full">
+                    📖 研读 27 卷核心架构白皮书 →
+                  </n-button>
+                </router-link>
+              </div>
             </div>
 
             <!-- 关键技术突破与依赖 -->
