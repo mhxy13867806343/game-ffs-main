@@ -17,6 +17,17 @@
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             探索虚空城堡四层湮灭空间、五大始源元素共鸣，以及九大行星对战场环境的星体引力修正。全息实装引力场动态演算沙盘与奇点坍缩机制。
           </p>
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <span class="text-xs text-purple-300/80 font-medium">相关权威白皮书：</span>
+            <router-link
+              to="/vble/docs/VOID_CASTLE"
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-900/60 text-purple-200 border border-purple-500/40 hover:bg-purple-800/80 hover:text-white transition-all shadow-sm group"
+            >
+              <span>🌌</span>
+              <span>研读虚空城堡机制白皮书 (VOL.09)</span>
+              <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+            </router-link>
+          </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button

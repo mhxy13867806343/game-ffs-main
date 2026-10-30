@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-whitepaper-omni-mesh-v354-2026-10-30',
+    version: 'v2.2.354',
+    date: '2026-10-30',
+    title: '全域 14 大核心系统业务子页面与 27 卷白皮书独立阅览室深度互通直达',
+    category: 'system',
+    categoryName: '文档生态全域互通',
+    icon: '🔗',
+    tagType: 'success',
+    description: '响应持续深化文档与产品全域互联战略：全站 14 大核心子业务页面（首领攻坚、跨界魔物、系统架构、职业成长、神兵矩阵、七色尾巴、载具飞行、地下城拓扑、史诗编年、虚空天体、战斗法则、秘传绝技、支线寻宝、全域场景）全量接入对应 27 卷白皮书独立阅览室直通胶囊导航！形成“业务页面功能操作 -> 技术白皮书原理研读 -> 独立阅览室高光检索”的完整工程化闭环。',
+    highlights: [
+      '全站 14 大核心系统子页面顶部全部增设相关权威白皮书直达入口胶囊',
+      '跨界首领生态与魔物大典 (VOL.27) 深度对接魔物图鉴与跨界狩猎业务',
+      '虚空天体、ATB 时序微秒、四大绝技流派与时空寻宝全面接入专属白皮书直达',
+      '打通从业务沙盘试炼到白皮书源码原理研读的双向极速跳转闭环'
+    ],
+    relatedLinks: [
+      { label: '白皮书全景目录', path: '/vble/docs', icon: '📚' },
+      { label: '跨界魔物大典', path: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC', icon: '🐉' },
+      { label: '战术法则工坊', path: '/vble/battle-tactics', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-whitepaper-reader-ux-v353-2026-10-30',
     version: 'v2.2.353',
     date: '2026-10-30',

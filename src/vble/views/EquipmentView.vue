@@ -18,6 +18,25 @@
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-3xl leading-relaxed">
             收录次元神龙守护的至高超越神兵【诸神之黄昏 (Ragnarok)】、库扎封印城十二太古神兵契约共鸣羁绊、太古符文熔铸与多维词缀萃取工坊、二刀流伤害沙盘与 Godot 4.6 LTS 核心实机引擎。
           </p>
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <span class="text-xs text-amber-300/80 font-medium">相关权威白皮书：</span>
+            <router-link
+              to="/vble/docs/EQUIPMENT_ECONOMY"
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-900/60 text-amber-200 border border-amber-500/40 hover:bg-amber-800/80 hover:text-white transition-all shadow-sm group"
+            >
+              <span>🗡️</span>
+              <span>神兵矩阵与经济架构白皮书 (VOL.05)</span>
+              <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+            </router-link>
+            <router-link
+              to="/vble/docs/TAIL_EXCHANGE"
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-pink-900/60 text-pink-200 border border-pink-500/40 hover:bg-pink-800/80 hover:text-white transition-all shadow-sm group"
+            >
+              <span>🦊</span>
+              <span>七色尾巴兑换白皮书 (VOL.16)</span>
+              <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+            </router-link>
+          </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button

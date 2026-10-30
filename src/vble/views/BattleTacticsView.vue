@@ -17,6 +17,25 @@
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             解析越级宝箱挑战的严苛回合惩罚公式、史莱姆绝对闪避机制、ATB动态微秒时滞时钟调度、以及八大属性元素连锁爆发、四相连续魔与时钟倍频过载推演沙盘。
           </p>
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <span class="text-xs text-cyan-300/80 font-medium">相关权威白皮书：</span>
+            <router-link
+              to="/vble/docs/TURN_LIMIT_SPEC"
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-900/60 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-800/80 hover:text-white transition-all shadow-sm group"
+            >
+              <span>⏱️</span>
+              <span>回合限制与越级宝箱白皮书 (VOL.11)</span>
+              <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+            </router-link>
+            <router-link
+              to="/vble/docs/BATTLE_EVENTS_RPS"
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-900/60 text-blue-200 border border-blue-500/40 hover:bg-blue-800/80 hover:text-white transition-all shadow-sm group"
+            >
+              <span>🎲</span>
+              <span>战斗突发事件与克制博弈白皮书 (VOL.12)</span>
+              <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+            </router-link>
+          </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button

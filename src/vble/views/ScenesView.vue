@@ -30,6 +30,33 @@
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm">
         深度展示各大王国都城、避风海港、机械工坊与隐世黑市；集成四大多元位面拓扑、生态雷达变异抑制与两界商贸平抑工坊
       </p>
+      <div class="mt-3 flex flex-wrap items-center justify-center gap-2">
+        <span class="text-xs text-teal-300/80 font-medium">相关权威白皮书：</span>
+        <router-link
+          to="/vble/docs/SKY_CITY_TOWNS"
+          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-900/60 text-sky-200 border border-sky-500/40 hover:bg-sky-800/80 hover:text-white transition-all shadow-sm group"
+        >
+          <span>🏰</span>
+          <span>天空城与全域城镇生态 (VOL.21)</span>
+          <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+        </router-link>
+        <router-link
+          to="/vble/docs/AMAZON_ECOLOGY"
+          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-900/60 text-emerald-200 border border-emerald-500/40 hover:bg-emerald-800/80 hover:text-white transition-all shadow-sm group"
+        >
+          <span>🌴</span>
+          <span>亚马逊丛林与生态地貌 (VOL.22)</span>
+          <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+        </router-link>
+        <router-link
+          to="/vble/docs/SCENE_GENERATION"
+          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-teal-900/60 text-teal-200 border border-teal-500/40 hover:bg-teal-800/80 hover:text-white transition-all shadow-sm group"
+        >
+          <span>🌐</span>
+          <span>场景生成与碰撞热重载 (VOL.24)</span>
+          <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+        </router-link>
+      </div>
     </div>
 
     <!-- 大陆·北境通路九图互联拓扑图谱 -->

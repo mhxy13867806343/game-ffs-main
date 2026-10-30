@@ -17,6 +17,25 @@
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             涵盖西方王城王冠之托、星界缎带传承、大陆十六环陆行鸟巡礼，乃至四方神殿远古石板与七色彩尾神兵。全新实装全域时空寻宝与隐秘藏宝库推演沙盘。
           </p>
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <span class="text-xs text-amber-300/80 font-medium">相关权威白皮书：</span>
+            <router-link
+              to="/vble/docs/SIDEQUESTS_SECRETS"
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-900/60 text-amber-200 border border-amber-500/40 hover:bg-amber-800/80 hover:text-white transition-all shadow-sm group"
+            >
+              <span>🗝️</span>
+              <span>支线秘闻与时空寻宝白皮书 (VOL.07)</span>
+              <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+            </router-link>
+            <router-link
+              to="/vble/docs/NPC_INTERACTIONS"
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-900/60 text-rose-200 border border-rose-500/40 hover:bg-rose-800/80 hover:text-white transition-all shadow-sm group"
+            >
+              <span>🤝</span>
+              <span>NPC交互与信赖矩阵白皮书 (VOL.20)</span>
+              <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+            </router-link>
+          </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
