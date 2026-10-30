@@ -20,6 +20,11 @@
         <n-button size="tiny" type="warning" secondary @click="scrollToEcologyStudio">
           🌿 前往生态演化与基因突变工坊
         </n-button>
+        <router-link to="/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC">
+          <n-button size="tiny" type="info" secondary>
+            📖 研读跨界魔物大典 (VOL.27)
+          </n-button>
+        </router-link>
       </div>
     </div>
 
