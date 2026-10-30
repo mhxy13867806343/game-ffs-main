@@ -7,6 +7,13 @@
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
         当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅、双职业构筑连锁、自由人全被动继承、进阶转生太古奥义与极限命座星图推演。
       </p>
+      <div class="flex justify-center mt-3">
+        <router-link to="/vble/docs/04_JOB_SYSTEM">
+          <n-button size="tiny" type="warning" secondary round>
+            📖 研读职业体系与转职成长白皮书 (VOL.04)
+          </n-button>
+        </router-link>
+      </div>
     </div>
 
     <!-- 主视图模式切换 Tabs -->
