@@ -53,6 +53,18 @@
             <template #icon><span>🌌</span></template>
             创世神纪推演
           </n-button>
+          <router-link to="/vble/docs/01_WORLD_BIBLE">
+            <n-button type="info" size="medium" round secondary class="shadow-md">
+              <template #icon><span>📖</span></template>
+              世界圣经 (VOL.01)
+            </n-button>
+          </router-link>
+          <router-link to="/vble/docs/10_CRYSTALS_ELEMENTS">
+            <n-button type="warning" size="medium" round secondary class="shadow-md">
+              <template #icon><span>💎</span></template>
+              三十章编年 (VOL.10)
+            </n-button>
+          </router-link>
           <router-link to="/vble/scenes">
             <n-button type="info" size="medium" round secondary class="shadow-md">
               <template #icon><span>🗺️</span></template>
