@@ -231,11 +231,11 @@ const message = useMessage()
 const docCode = computed(() => (route.params.code as string) || '01_WORLD_BIBLE')
 
 const doc = computed<WhitepaperDoc | null>(() => {
-  return whitepapersList.find(w => w.code === docCode.value) || null
+  return whitepapersList.find(w => w.code === docCode.value || w.code.replace(/^\d+_/, '') === docCode.value) || null
 })
 
 const currentIndex = computed(() => {
-  return whitepapersList.findIndex(w => w.code === docCode.value)
+  return whitepapersList.findIndex(w => w.code === docCode.value || w.code.replace(/^\d+_/, '') === docCode.value)
 })
 
 const prevDoc = computed<WhitepaperDoc | null>(() => {

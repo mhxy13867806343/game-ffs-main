@@ -15,13 +15,63 @@
       </div>
 
       <div class="flex flex-wrap items-center gap-3">
-        <!-- Search filter -->
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="检索文档关键词 (如: 擦弹, 赤鳍巨鲸, 掉落)..."
-          class="bg-[#101726] border border-[#22314a] focus:border-amber-400 text-white placeholder-gray-500 text-xs px-3.5 py-2 rounded-xl outline-none w-64 transition-colors"
-        />
+        <!-- Search filter with match count -->
+        <div class="relative">
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="检索文档关键词 (如: 擦弹, 赤鳍巨鲸, 掉落)..."
+            class="bg-[#101726] border border-[#22314a] focus:border-amber-400 text-white placeholder-gray-500 text-xs px-3.5 py-2 pr-20 rounded-xl outline-none w-64 transition-colors"
+          />
+          <span
+            v-if="searchQuery.trim()"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-mono px-1.5 py-0.5 rounded"
+            :class="matchCount > 0 ? 'bg-amber-500/20 text-amber-300' : 'bg-red-500/20 text-red-400'"
+          >
+            {{ matchCount }} 处
+          </span>
+        </div>
+
+        <!-- 字号排版切换 -->
+        <div class="flex items-center bg-[#101726] border border-[#22314a] rounded-xl p-1 gap-1 text-xs">
+          <button
+            type="button"
+            class="px-2 py-1 rounded-lg text-xs transition-colors"
+            :class="fontSizeLevel === 'small' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+            @click="fontSizeLevel = 'small'"
+            title="紧凑排版"
+          >
+            A-
+          </button>
+          <button
+            type="button"
+            class="px-2 py-1 rounded-lg text-xs transition-colors"
+            :class="fontSizeLevel === 'normal' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+            @click="fontSizeLevel = 'normal'"
+            title="标准排版"
+          >
+            A
+          </button>
+          <button
+            type="button"
+            class="px-2 py-1 rounded-lg text-xs transition-colors"
+            :class="fontSizeLevel === 'large' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+            @click="fontSizeLevel = 'large'"
+            title="放大排版"
+          >
+            A+
+          </button>
+        </div>
+
+        <!-- 复制 Markdown 全文 -->
+        <button
+          type="button"
+          class="px-3 py-2 rounded-xl bg-[#141e30] hover:bg-[#1e2d48] border border-[#263753] text-gray-200 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+          @click="copyMarkdown"
+        >
+          <span>📋</span>
+          <span>{{ copied ? '已复制！' : '复制全文' }}</span>
+        </button>
 
         <!-- Download raw md button -->
         <a
@@ -72,7 +122,12 @@
 
         <div
           v-else
-          class="markdown-body"
+          class="markdown-body transition-all"
+          :class="{
+            'text-[0.88rem] leading-[1.65]': fontSizeLevel === 'small',
+            'text-[0.95rem] leading-[1.8]': fontSizeLevel === 'normal',
+            'text-[1.08rem] leading-[1.95]': fontSizeLevel === 'large'
+          }"
           v-html="renderedHtml"
         ></div>
       </main>
@@ -95,7 +150,30 @@ interface TocItem {
 const loading = ref(true)
 const docMarkdown = ref('')
 const searchQuery = ref('')
+const fontSizeLevel = ref<'small' | 'normal' | 'large'>('normal')
+const copied = ref(false)
 const tocList = ref<TocItem[]>([])
+
+const matchCount = computed(() => {
+  if (!searchQuery.value.trim() || !docMarkdown.value) return 0
+  const q = searchQuery.value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const reg = new RegExp(q, 'gi')
+  const matches = docMarkdown.value.match(reg)
+  return matches ? matches.length : 0
+})
+
+const copyMarkdown = async () => {
+  if (!docMarkdown.value) return
+  try {
+    await navigator.clipboard.writeText(docMarkdown.value)
+    copied.value = true
+    setTimeout(() => {
+      copied.value = false
+    }, 2000)
+  } catch (err) {
+    console.error('Failed to copy', err)
+  }
+}
 
 onMounted(() => {
   docMarkdown.value = rawDoc

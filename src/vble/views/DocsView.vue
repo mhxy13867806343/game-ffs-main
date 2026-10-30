@@ -62,6 +62,18 @@
             <template #icon><span>📐</span></template>
             前往架构拓扑沙盘
           </n-button>
+          <router-link to="/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT">
+            <n-button type="info" size="medium" round secondary class="shadow-md">
+              <template #icon><span>🏛️</span></template>
+              设计总纲 (VOL.25)
+            </n-button>
+          </router-link>
+          <router-link to="/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC">
+            <n-button type="error" size="medium" round secondary class="shadow-md">
+              <template #icon><span>🐉</span></template>
+              魔物大典 (VOL.27)
+            </n-button>
+          </router-link>
           <router-link to="/vble/systems">
             <n-button size="medium" round tertiary>
               查看系统架构
