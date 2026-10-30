@@ -85,6 +85,12 @@
             <template #icon><span>🌌</span></template>
             星舰折跃工坊
           </n-button>
+          <router-link to="/vble/docs/06_TRAVEL_VEHICLES">
+            <n-button size="medium" round secondary type="warning" class="shadow-md">
+              <template #icon><span>📖</span></template>
+              载具矩阵白皮书 (VOL.06)
+            </n-button>
+          </router-link>
           <router-link to="/vble/scenes">
             <n-button size="medium" round tertiary>
               查看世界地图
