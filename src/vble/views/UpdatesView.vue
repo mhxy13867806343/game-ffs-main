@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-whitepaper-reader-ux-v353-2026-10-30',
+    version: 'v2.2.353',
+    date: '2026-10-30',
+    title: '白皮书独立阅览室深度体验升级：卷内实时全文高亮检索、三档字体排版与五层架构秒级直达',
+    category: 'system',
+    categoryName: '阅读器体验革新',
+    icon: '🔍',
+    tagType: 'success',
+    description: '响应持续优化阅读与研究体验战略指令：1. 独立白皮书阅览室 (/vble/docs/:code) 正式实装卷内即时搜索过滤栏，支持对数十万字白皮书内的关键词进行实时检索并统计命中匹配数，命中关键词赋予琥珀金高反差高光，大幅提升机制查阅效率；2. 增加紧凑、标准、放大三档专业排版字号与行间距切换按钮，适配不同阅读习惯与长篇研读视力舒适度；3. DocsView 五层架构模型（叙事、关卡、战斗、职业、神兵总纲）每卷右侧新增直接【阅览】跳转按钮，与沙盘推演形成完美双轨协作！',
+    highlights: [
+      '卷内关键词即时搜索与匹配计数：支持正则转义安全检索，高亮标记所有命中词条',
+      '三档字号与排版自适应切换（紧凑 / 标准 / 放大），大幅提升研读舒适度',
+      'DocsView 五层架构依赖矩阵全面集成独立阅览室快捷入口，实现沙盘推演与长卷精读双轨协作',
+      '白皮书阅读器性能优化，全文渲染毫秒级响应'
+    ],
+    relatedLinks: [
+      { label: '白皮书全景目录', path: '/vble/docs', icon: '📚' },
+      { label: '游戏设计总纲', path: '/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT', icon: '🏛️' },
+      { label: '全域研发规程', path: '/vble/docs/26_LATEST_DEV_SPEC', icon: '⚙️' }
+    ]
+  },
+  {
     id: 'up-whitepapers-vol27-master-gdd-v352-2026-10-30',
     version: 'v2.2.352',
     date: '2026-10-30',
