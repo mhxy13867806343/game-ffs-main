@@ -210,6 +210,30 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-whitepapers-vol27-master-gdd-v352-2026-10-30',
+    version: 'v2.2.352',
+    date: '2026-10-30',
+    title: '全域技术白皮书矩阵重磅升级至 27 卷大典，正式实装游戏设计总纲与研发规程大典',
+    category: 'system',
+    categoryName: '文档大典升级',
+    icon: '📚',
+    tagType: 'success',
+    description: '持续深化游戏核心文档体系建设：1. 白皮书大典全面升级为 27 卷全域完备矩阵：正式收录 VOL.25《游戏设计总纲与三大支柱》(Master Game Design Document)、VOL.26《全域研发总规程与任务分工矩阵》(Latest Dev Spec) 及 VOL.27《跨界首领生态与全域魔物全景大典》(Cross-World Bosses & Global Bestiary)；2. 全景架构拓扑工坊深度重构，将全量 27 卷白皮书科学划归入叙事编年层、关卡地貌层、战斗数值层、职业导师层与神兵总纲层五大维度，杜绝任何卷册孤立；3. 白皮书独立阅读室 (/vble/docs/:code) 完备支持 VOL.01~VOL.27 的秒级快速检索、连续翻卷与 Markdown 全文极速渲染，增加优雅文件回退容错机制；4. 白皮书索引页与规范契约校验沙盘全面对齐 27 卷大典体系，支持一键导出完整大纲与架构方案书！',
+    highlights: [
+      '核心白皮书扩容至全域 27 卷：正式编入 VOL.25 设计总纲、VOL.26 研发规程、VOL.27 跨界魔物大典',
+      '重构五层架构依赖拓扑模型，27 卷白皮书全部拥有明确架构层级归属与实机映射脚本',
+      '白皮书独立全息阅览室完整适配 VOL.01~VOL.27 快捷切卷网格与双向连续翻阅',
+      '阅读器内置智能文件名回退解析，确保 Markdown 文档 100% 稳定读取与极速渲染',
+      '规范契约强校验沙盘与 API 演练工坊全面升级为 27 卷规范对齐，支持一键导出工业级架构方案书'
+    ],
+    relatedLinks: [
+      { label: '二十七卷白皮书全景目录', path: '/vble/docs', icon: '📚' },
+      { label: 'VOL.25 游戏设计总纲', path: '/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT', icon: '🏛️' },
+      { label: 'VOL.26 全域研发规程', path: '/vble/docs/26_LATEST_DEV_SPEC', icon: '⚙️' },
+      { label: 'VOL.27 跨界魔物大典', path: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC', icon: '🐉' }
+    ]
+  },
+  {
     id: 'up-whitepaper-detail-reader-v351-2026-10-29',
     version: 'v2.2.351',
     date: '2026-10-29',

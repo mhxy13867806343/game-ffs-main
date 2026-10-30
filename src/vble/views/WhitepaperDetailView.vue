@@ -94,11 +94,11 @@
         </div>
       </div>
 
-      <!-- 24 卷快捷翻阅导航卡片 -->
+      <!-- 27 卷快捷翻阅导航卡片 -->
       <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-700 shadow-md">
         <div class="flex items-center justify-between mb-2">
           <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-            <span>📚</span> 全域 24 卷核心白皮书快速检索切卷
+            <span>📚</span> 全域 27 卷核心架构白皮书快速检索切卷
           </span>
           <span class="text-[10px] text-cyan-400 font-mono">{{ whitepapersList.length }} 卷完整收录</span>
         </div>
@@ -220,7 +220,12 @@ const fetchMarkdownContent = async () => {
   rawMarkdownContent.value = ''
 
   try {
-    const res = await fetch(`./vble-docs/${doc.value.code}.md`)
+    let res = await fetch(`./vble-docs/${doc.value.code}.md`)
+    if (!res.ok) {
+      // 尝试去除前缀数字后的文件名作为备用
+      const fallbackName = doc.value.code.replace(/^\d+_/, '')
+      res = await fetch(`./vble-docs/${fallbackName}.md`)
+    }
     if (!res.ok) {
       throw new Error(`加载白皮书失败 (HTTP ${res.status})`)
     }

@@ -7,15 +7,15 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 font-mono font-bold text-xs border border-teal-500/30">
-              VBLE Whitepaper Semantic Traceability, Contract Validation & Spec Evolution Studio v2.2.341
+              VBLE Whitepaper Semantic Traceability, Contract Validation & Spec Evolution Studio v2.2.352
             </span>
-            <span class="text-xs text-gray-400">十六卷技术白皮书语义溯源、规范契约强校验与架构演进工坊</span>
+            <span class="text-xs text-gray-400">二十七卷核心架构白皮书语义溯源、规范契约强校验与架构演进工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>📚</span> 十六卷核心架构白皮书：语义溯源、契约强校验与架构演进工坊
+            <span>📚</span> 二十七卷核心架构白皮书：语义溯源、契约强校验与架构演进工坊
           </h1>
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
-            系统归纳叙事圣经、地貌拓扑、首领攻坚、职业成长、宏观经济、载具矩阵、底层架构等 16 部核心白皮书。全息实装白皮书交叉依赖拓扑、语义溯源有向无环图与契约校验沙盘。
+            系统归纳叙事圣经、地貌拓扑、首领攻坚、职业成长、宏观经济、载具矩阵、设计总纲、研发规程与跨界魔物等 27 部核心白皮书。全息实装白皮书交叉依赖拓扑、语义溯源有向无环图与契约校验沙盘。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
@@ -76,12 +76,12 @@
       <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
         <div class="text-xs text-gray-400">已收录白皮书</div>
         <div class="text-2xl font-black text-cyan-400 font-mono mt-1">{{ docsList.length }} 卷</div>
-        <div class="text-[10px] text-gray-500 mt-0.5">Vol.01 至 Vol.16 完备大典</div>
+        <div class="text-[10px] text-gray-500 mt-0.5">Vol.01 至 Vol.27 完备大典</div>
       </div>
       <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
         <div class="text-xs text-gray-400">涵盖技术领域</div>
-        <div class="text-2xl font-black text-amber-400 font-mono mt-1">12 大领域</div>
-        <div class="text-[10px] text-gray-500 mt-0.5">底层/数值/叙事/关卡/经济</div>
+        <div class="text-2xl font-black text-amber-400 font-mono mt-1">{{ categories.length - 1 }} 大领域</div>
+        <div class="text-[10px] text-gray-500 mt-0.5">总纲/底层/数值/叙事/关卡/规程</div>
       </div>
       <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
         <div class="text-xs text-gray-400">实机对齐覆盖度</div>
@@ -207,7 +207,7 @@
               SPEC DEPENDENCY TOPOLOGY STUDIO
             </span>
             <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-              <span>📐</span> 十六卷白皮书架构依赖拓扑与规范校验沙盘
+              <span>📐</span> 二十七卷核心架构白皮书依赖拓扑与规范校验沙盘
             </h2>
           </div>
           <p class="text-xs text-gray-400 mt-1">
@@ -336,7 +336,7 @@
               LAYERED SPEC MATRIX
             </span>
             <h3 class="text-lg font-bold text-white flex items-center gap-2">
-              <span>🏛️</span> 十七卷架构五层依赖模型与实机导航
+              <span>🏛️</span> 二十七卷架构五层依赖模型与实机导航
             </h3>
           </div>
           <p class="text-xs text-gray-400 mt-1">
@@ -713,7 +713,7 @@
             <span>📚</span> 全域开发者文档全息检索、多维 API 交互演练与架构白皮书工坊
           </h2>
           <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
-            深度集成十六卷时空白皮书规范契约、实时 API 交互沙盒演练、离线 WebAssembly 倒排向量索引与 Godot 4.6 LTS 实机驱动无缝映射，为开发者提供工业级架构查验基座。
+            深度集成二十七卷时空白皮书规范契约、实时 API 交互沙盒演练、离线 WebAssembly 倒排向量索引与 Godot 4.6 LTS 实机驱动无缝映射，为开发者提供工业级架构查验基座。
           </p>
         </div>
         <div class="flex items-center gap-2">
@@ -918,7 +918,7 @@
       </div>
     </div>
 
-    <!-- 全域十六卷技术白皮书语义溯源、规范契约强校验与架构演进工坊 (v2.2.341 重磅实装) -->
+    <!-- 全域二十七卷技术白皮书语义溯源、规范契约强校验与架构演进工坊 (v2.2.352 重磅升级) -->
     <div id="whitepaper-traceability-studio" class="whitepaper-traceability-studio p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/95 via-teal-950/20 to-slate-900/95 border border-teal-500/40 shadow-[0_0_40px_rgba(20,184,166,0.15)] space-y-6">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-teal-500/30 pb-4">
         <div>
@@ -931,10 +931,10 @@
             </span>
           </div>
           <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide mt-2 flex items-center gap-2">
-            <span>🔬</span> 全域十六卷技术白皮书语义溯源、规范契约强校验与架构演进工坊
+            <span>🔬</span> 全域二十七卷技术白皮书语义溯源、规范契约强校验与架构演进工坊
           </h2>
           <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
-            打通 Vol.01 至 Vol.16 十六卷技术白皮书的有向无环语义溯源网络（DAG）。严格校验跨领域规范强类型调用契约，智能消除循环死锁，支持端到端自动化单元测试桩生成与 SHA-256 架构演进数字证书颁发。
+            打通 Vol.01 至 Vol.27 全域二十七卷核心架构白皮书的有向无环语义溯源网络（DAG）。严格校验跨领域规范强类型调用契约，智能消除循环死锁，支持端到端自动化单元测试桩生成与 SHA-256 架构演进数字证书颁发。
           </p>
         </div>
         <div class="flex items-center gap-2">
@@ -1228,51 +1228,51 @@ const architectureLayers = computed(() => [
     title: '叙事与编年层',
     icon: '📖',
     tagType: 'info' as const,
-    desc: '三大世界宇宙观、水晶演进与光暗三十章节流程总谱',
-    docs: whitepapersList.filter(d => ['01_WORLD_BIBLE', '10_CRYSTALS_ELEMENTS'].includes(d.code))
+    desc: '三大世界宇宙观、水晶演进、NPC交互网与光暗三十章节流程总谱',
+    docs: whitepapersList.filter(d => ['01_WORLD_BIBLE', '10_CRYSTALS_ELEMENTS', '20_NPC_INTERACTIONS'].includes(d.code))
   },
   {
     id: 'layer_spatial',
     title: '关卡与地貌层',
     icon: '🏰',
     tagType: 'success' as const,
-    desc: '18大核心地下城拓扑、虚空湮灭四阶与大世界载具航路',
-    docs: whitepapersList.filter(d => ['02_DUNGEON_TOPOLOGY', '06_TRAVEL_VEHICLES', '09_VOID_CASTLE'].includes(d.code))
+    desc: '18大地下城拓扑、天空之城、雨林生态、星礁遗迹与多维载具航路',
+    docs: whitepapersList.filter(d => ['02_DUNGEON_TOPOLOGY', '06_TRAVEL_VEHICLES', '09_VOID_CASTLE', '21_SKY_CITY_TOWNS', '22_AMAZON_ECOLOGY', '23_RUIN_METEOR_REEF'].includes(d.code))
   },
   {
     id: 'layer_combat',
     title: '战斗与数值层',
     icon: '⚔️',
     tagType: 'error' as const,
-    desc: '首领行动树、回合惩罚、即时猜拳破招与跨界魔物大典',
-    docs: whitepapersList.filter(d => ['03_BOSS_TACTICS', '11_TURN_LIMIT_SPEC', '12_BATTLE_EVENTS_RPS', '17_CROSS_WORLD_BOSSES'].includes(d.code))
+    desc: '首领行动树、多阶段绝技、死神骨王、回合惩罚、即时猜拳与全域魔物大典',
+    docs: whitepapersList.filter(d => ['03_BOSS_TACTICS', '11_TURN_LIMIT_SPEC', '12_BATTLE_EVENTS_RPS', '17_CROSS_WORLD_BOSSES', '18_MULTI_PHASE_BOSS_SKILLS', '19_SKELETON_REAPER_MYTH', '27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC'].includes(d.code))
   },
   {
     id: 'layer_growth',
     title: '职业与导师层',
     icon: '🛡️',
     tagType: 'warning' as const,
-    desc: '26大职业矩阵、勇者圣所、米西迪亚禁术与东洋忍法',
+    desc: '26大职业矩阵、勇者圣所庇护、米西迪亚禁术传承与东洋影之刃忍法',
     docs: whitepapersList.filter(d => ['04_JOB_SYSTEM', '13_HERO_SANCTUARY', '14_MYSIDIA_ACADEMY', '15_NINJA_TEACHING'].includes(d.code))
   },
   {
     id: 'layer_system',
-    title: '神兵与底层层',
+    title: '神兵底层与总纲层',
     icon: '⚙️',
     tagType: 'default' as const,
-    desc: '七色尾巴兑换、神兵矩阵、宏观经济与系统架构持久化',
-    docs: whitepapersList.filter(d => ['05_EQUIPMENT_ECONOMY', '07_SIDEQUESTS_SECRETS', '08_SYSTEM_ARCHITECTURE', '16_TAIL_EXCHANGE'].includes(d.code))
+    desc: '七色尾巴兑换、神兵矩阵、场景流转、设计总纲大纲与全域研发总规程',
+    docs: whitepapersList.filter(d => ['05_EQUIPMENT_ECONOMY', '07_SIDEQUESTS_SECRETS', '08_SYSTEM_ARCHITECTURE', '16_TAIL_EXCHANGE', '24_SCENE_GENERATION', '25_MASTER_GAME_DESIGN_DOCUMENT', '26_LATEST_DEV_SPEC'].includes(d.code))
   }
 ])
 
 const exportArchitectureCatalog = async () => {
   const lines = [
     '================================================================================',
-    '《光之战士：时空裂隙》十七卷核心架构白皮书全景目录与实机映射规范',
+    '《光之战士：时空裂隙》二十七卷核心架构白皮书全景目录与实机映射规范',
     '================================================================================',
-    '规范版本: vble spec v2.2.242 官方正式版',
+    '规范版本: vble spec v2.2.352 官方正式版',
     '引擎环境: Godot Engine 4.6 LTS Standalone (Forward+ / Mobile)',
-    '收录总卷数: 17 卷全部完备',
+    `收录总卷数: ${whitepapersList.length} 卷全部完备 (VOL.01 至 VOL.27)`,
     ''
   ]
 
@@ -1286,7 +1286,7 @@ const exportArchitectureCatalog = async () => {
 
   try {
     await navigator.clipboard.writeText(lines.join('\n'))
-    message.success('已复制十七卷白皮书架构全景目录至剪贴板！')
+    message.success('已复制二十七卷白皮书架构全景目录至剪贴板！')
   } catch {
     message.info('目录已生成，请在拓扑面板查阅')
   }
@@ -1489,7 +1489,7 @@ async function openDocReader(doc: WhitepaperDoc) {
 
 // Godot 核心代码
 const godotCodeText = `## whitepaper_registry.gd
-## 《光之战士：时空裂隙》十六卷白皮书架构规范与依赖注册引擎
+## 《光之战士：时空裂隙》二十七卷白皮书架构规范与依赖注册引擎
 extends Node
 class_name WhitepaperRegistry
 
@@ -1620,14 +1620,14 @@ const calculatedCodexScore = computed(() => {
 })
 
 const codexAuditSummary = computed(() => {
-  if (calculatedCodexScore.value >= 98) return '🌟 架构完备度极高：十六卷核心规范与实机代码无缝双向映射'
+  if (calculatedCodexScore.value >= 98) return '🌟 架构完备度极高：二十七卷核心规范与实机代码无缝双向映射'
   if (calculatedCodexScore.value >= 95) return '🛡️ 架构稳健：规范覆盖率超标准，上下游依赖链条清晰'
   return '⚠️ 架构良好：跨卷依赖已建立，建议进一步校验代码契约'
 })
 
 const codexAuditLogs = ref<string[]>([
   '【T+0.0s】白皮书典籍架构推演台加载完毕：全卷依赖模型就绪。',
-  '【T+0.8s】自动化审计核验：十六卷规范元数据与 Godot 4.6 LTS 契约对齐率 100%。',
+  '【T+0.8s】自动化审计核验：二十七卷规范元数据与 Godot 4.6 LTS 契约对齐率 100%。',
   '【T+1.4s】当前领域已对齐【叙事编年与三界始源】，四层依赖流水线运转顺畅。'
 ])
 
@@ -1645,7 +1645,7 @@ const optimizeCodexTopology = () => {
 }
 
 const runFullCodexAudit = () => {
-  codexAuditLogs.value.unshift(`【⚡ 自动化审计】十六卷白皮书 100% 规则合规，无循环死锁，当前评分: ${calculatedCodexScore.value} Pt！`)
+  codexAuditLogs.value.unshift(`【⚡ 自动化审计】二十七卷白皮书 100% 规则合规，无循环死锁，当前评分: ${calculatedCodexScore.value} Pt！`)
   message.success(`全卷自动化规范审计通过！评分: ${calculatedCodexScore.value} Pt！`)
 }
 
@@ -1667,7 +1667,7 @@ const exportCodexAuditCertificate = () => {
 
   const certContent = `================================================================================
    光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
-   全域时空裂隙典籍、跨卷依赖拓扑与设计规范方案书 (v2.2.268)
+   全域时空裂隙典籍、跨卷依赖拓扑与设计规范方案书 (v2.2.352)
 ================================================================================
 颁发时间: ${timeStr}
 所选领域: ${d.name} (${d.volumeBadge})
@@ -1702,7 +1702,7 @@ ${codexAuditLogs.value.slice(0, 5).map(l => `• ${l}`).join('\n')}
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `codex_architecture_cert_v2.2.268_${Date.now()}.txt`
+    a.download = `codex_architecture_cert_v2.2.352_${Date.now()}.txt`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -1717,7 +1717,7 @@ ${codexAuditLogs.value.slice(0, 5).map(l => `• ${l}`).join('\n')}
 }
 
 const godotOrchestratorCodeText = `## architecture_codex_orchestrator.gd
-## 《光之战士：时空裂隙》十六卷核心架构依赖拓扑与实时契约校验总线
+## 《光之战士：时空裂隙》二十七卷核心架构依赖拓扑与实时契约校验总线
 extends RefCounted
 class_name ArchitectureCodexOrchestrator
 
@@ -1804,7 +1804,7 @@ const docArchetypes: DocArchetype[] = [
     name: '二进制严格契约流',
     icon: '🏛️',
     badge: '严格校验',
-    desc: '十六卷规范全覆盖，严格字节对齐与字段越界拦截，零契约违约容忍。',
+    desc: '二十七卷规范全覆盖，严格字节对齐与字段越界拦截，零契约违约容忍。',
     latency: '2.4 ms',
     strictness: '99.8%',
     tokenDepth: 6,
@@ -1914,9 +1914,9 @@ const runDocApiSimulation = () => {
   isDocSimulating.value = true
   docSimStage.value = 1
   docSimProgress.value = 15
-  docSimStageName.value = '十六卷白皮书交叉拓扑构建与循环引用检测'
+  docSimStageName.value = '二十七卷白皮书交叉拓扑构建与循环引用检测'
   docLogs.value = [
-    { time: new Date().toLocaleTimeString(), text: '[SpecGraph] 开始解析 16 部白皮书交叉契约图谱...', color: 'text-cyan-400' }
+    { time: new Date().toLocaleTimeString(), text: '[SpecGraph] 开始解析 27 部白皮书交叉契约图谱...', color: 'text-cyan-400' }
   ]
 
   setTimeout(() => {
@@ -2264,14 +2264,14 @@ const specCertHash = ref('SPEC-SHA256-7D8E2A91F03C')
 
 const specAuditLogs = ref<Array<{ time: string; text: string; color: string }>>([
   { time: 'INIT', text: '白皮书语义溯源与契约强校验引擎已就绪。', color: 'text-teal-400' },
-  { time: 'STANDBY', text: '16 卷白皮书规范 AST 解析器待命中，输入通道畅通。', color: 'text-gray-400' }
+  { time: 'STANDBY', text: '27 卷白皮书规范 AST 解析器待命中，输入通道畅通。', color: 'text-gray-400' }
 ])
 
 const scrollToWhitepaperTraceabilityStudio = () => {
   const el = document.getElementById('whitepaper-traceability-studio')
   if (el) {
     el.scrollIntoView({ behavior: 'smooth' })
-    message.info('已定位至全域十六卷技术白皮书语义溯源工坊')
+    message.info('已定位至全域二十七卷技术白皮书语义溯源工坊')
   }
 }
 
@@ -2346,7 +2346,7 @@ const runSimulatedSpecAudit = () => {
 const exportSpecCert = () => {
   const content = `================================================================================
    光之战士：时空裂隙 (Final Fantasy: Void & Crystals)
-   全域十六卷技术白皮书语义溯源与规范契约校验架构报告 (v2.2.341)
+   全域二十七卷技术白皮书语义溯源与规范契约校验架构报告 (v2.2.352)
 ================================================================================
 报告编号: ${specCertHash.value}
 生成时间: ${new Date().toISOString()}
@@ -2392,7 +2392,7 @@ const activeSpecCodeTab = ref<SpecCodeTabType>('validator')
 
 const specSourceCodes: Record<SpecCodeTabType, string> = {
   validator: `## whitepaper_spec_contract_validator.gd
-## 《光之战士：时空裂隙》十六卷白皮书静态与动态规范契约强校验器
+## 《光之战士：时空裂隙》二十七卷白皮书静态与动态规范契约强校验器
 ## 架构版本: Godot 4.6 LTS / Architecture Governance Subsystem
 
 class_name WhitepaperSpecContractValidator

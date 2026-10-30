@@ -204,5 +204,29 @@ export const whitepapersList: WhitepaperDoc[] = [
     category: '系统底层',
     summary: 'Godot 节点池动态预加载算法、多层 Parallax 视差滚动与跨区域无缝场景流式加载。',
     keyFeatures: ['无缝流式场景流转', '节点对象池内存零垃圾回收', '多层 Parallax 远景视差', '时空裂缝位面瞬切']
+  },
+  {
+    volume: 25,
+    code: '25_MASTER_GAME_DESIGN_DOCUMENT',
+    title: '游戏设计总纲与三大支柱 (Master Game Design Document)',
+    category: '顶层总纲',
+    summary: '汇聚FF传奇/FF5范本与FF4宇宙双月叙事之核心设计哲学，定调三大支柱、核心玩法主循环与12大主干白皮书编目矩阵。',
+    keyFeatures: ['三大核心设计支柱', '核心游玩主循环DAG', '主干白皮书编目矩阵', '零代码侵入架构承诺']
+  },
+  {
+    volume: 26,
+    code: '26_LATEST_DEV_SPEC',
+    title: '全域研发总规程与任务分工矩阵 (Latest Dev Spec & Task Matrix)',
+    category: '工程规程',
+    summary: '权威规范D01~D13开发域与T01~T02测试域的独占可写生产范围、主线目标追踪、存读档原子写与测试验证矩阵。',
+    keyFeatures: ['D01~D13研发分工', 'T01~T02测试审计', '原子写持久化守恒', '独占可写生产范围']
+  },
+  {
+    volume: 27,
+    code: '27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC',
+    title: '跨界首领生态与全域魔物全景大典 (Cross-World Bosses & Global Bestiary)',
+    category: '首领生态',
+    summary: '130KB 全景大典，覆盖跨次元九大世界首领、荒野巨兽、深海克苏鲁与全量魔物抗性、反击序列与极罕掉落矩阵。',
+    keyFeatures: ['跨界九大首领矩阵', '全域魔物抗性图谱', '反击轴与行动序列', '极罕掉落率与素材表']
   }
 ]

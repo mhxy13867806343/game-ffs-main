@@ -8,6 +8,12 @@
   - 8章48关战役：[https://mhxy13867806343.github.io/game-ffs-main/#/feather/stages](https://mhxy13867806343.github.io/game-ffs-main/#/feather/stages)
   - 策划设计文档：[https://mhxy13867806343.github.io/game-ffs-main/#/feather/doc](https://mhxy13867806343.github.io/game-ffs-main/#/feather/doc)
 - **最终幻想：时空之轮 (子页面)**：[https://mhxy13867806343.github.io/game-ffs-main/#/vble](https://mhxy13867806343.github.io/game-ffs-main/#/vble)
+  - 二十七卷技术白皮书大典：[https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs](https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs)
+  - 游戏设计总纲大纲 (VOL.25)：[https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT](https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT)
+  - 全域研发规程规范 (VOL.26)：[https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/26_LATEST_DEV_SPEC](https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/26_LATEST_DEV_SPEC)
+  - 跨界魔物全景大典 (VOL.27)：[https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC](https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC)
+  - 核心架构与系统机制：[https://mhxy13867806343.github.io/game-ffs-main/#/vble/systems](https://mhxy13867806343.github.io/game-ffs-main/#/vble/systems)
+  - 更新演进与时间线：[https://mhxy13867806343.github.io/game-ffs-main/#/vble/updates](https://mhxy13867806343.github.io/game-ffs-main/#/vble/updates)
 - **AI H5 游戏合集**：[https://mhxy13867806343.github.io/ai-h5-games/](https://mhxy13867806343.github.io/ai-h5-games/)
 
 ---
