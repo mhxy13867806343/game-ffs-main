@@ -74,6 +74,18 @@
             <template #icon><span>🌌</span></template>
             前往迷宫探秘沙盘
           </n-button>
+          <router-link to="/vble/docs/02_DUNGEON_TOPOLOGY">
+            <n-button size="medium" round secondary type="warning" class="shadow-md">
+              <template #icon><span>📖</span></template>
+              地貌拓扑白皮书 (VOL.02)
+            </n-button>
+          </router-link>
+          <router-link to="/vble/docs/23_RUIN_METEOR_REEF">
+            <n-button size="medium" round secondary type="warning" class="shadow-md">
+              <template #icon><span>🌌</span></template>
+              陨星之礁与远古遗迹 (VOL.23)
+            </n-button>
+          </router-link>
           <router-link to="/vble/scenes">
             <n-button size="medium" round tertiary>
               世界区域风土
