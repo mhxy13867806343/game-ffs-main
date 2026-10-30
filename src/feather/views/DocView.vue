@@ -123,13 +123,6 @@ onMounted(() => {
 const renderedHtml = computed(() => {
   if (!docMarkdown.value) return ''
 
-  let content = docMarkdown.value
-  if (searchQuery.value.trim()) {
-    const query = searchQuery.value.trim()
-    const regex = new RegExp(`(${query})`, 'gi')
-    content = content.replace(regex, '==$1==')
-  }
-
   // Configure marked custom renderer to assign IDs to headers for TOC anchor jump
   const renderer = new marked.Renderer()
   renderer.heading = ({ text, depth }: { text: string, depth: number }) => {
@@ -142,6 +135,14 @@ const renderedHtml = computed(() => {
   }
 
   marked.setOptions({ renderer, gfm: true, breaks: true })
-  return marked.parse(content) as string
+  let html = marked.parse(docMarkdown.value) as string
+
+  if (searchQuery.value.trim()) {
+    const q = searchQuery.value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const regex = new RegExp(`(?![^<]*>)(${q})`, 'gi')
+    html = html.replace(regex, '<mark class="bg-amber-400 text-slate-950 px-1 py-0.5 rounded font-bold shadow-sm">$1</mark>')
+  }
+
+  return html
 })
 </script>
