@@ -17,9 +17,14 @@
         <n-button size="small" type="info" secondary @click="scrollToMultithreadStudio">
           🧵 跨线程沙盒工坊
         </n-button>
+        <router-link to="/vble/docs/08_SYSTEM_ARCHITECTURE">
+          <n-button size="small" type="primary" secondary>
+            📖 系统架构白皮书 (VOL.08)
+          </n-button>
+        </router-link>
         <router-link to="/vble/updates">
           <n-button size="small" type="info" secondary>
-            🔄 查看最新开发日志 (v2.2.288)
+            🔄 查看最新开发日志
           </n-button>
         </router-link>
       </div>
