@@ -370,11 +370,14 @@
             <div
               v-for="d in layer.docs"
               :key="d.code"
-              class="text-[11px] text-cyan-300 hover:text-cyan-200 cursor-pointer flex items-center justify-between truncate"
-              @click="selectForTopology(d)"
+              class="text-[11px] text-cyan-300 hover:text-cyan-200 cursor-pointer flex items-center justify-between truncate group/item"
             >
-              <span class="truncate">Vol.{{ String(d.volume).padStart(2, '0') }} {{ d.title.split('(')[0] }}</span>
-              <span class="text-gray-500 text-[10px]">&rarr;</span>
+              <span class="truncate hover:underline" @click="selectForTopology(d)">
+                Vol.{{ String(d.volume).padStart(2, '0') }} {{ d.title.split('(')[0] }}
+              </span>
+              <router-link :to="'/vble/docs/' + d.code" class="text-amber-400 hover:text-amber-300 text-[10px] ml-1 opacity-70 group-hover/item:opacity-100 transition-opacity">
+                阅览
+              </router-link>
             </div>
           </div>
         </div>
