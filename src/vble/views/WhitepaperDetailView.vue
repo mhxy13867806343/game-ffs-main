@@ -119,6 +119,55 @@
 
       <!-- Markdown 正文渲染视窗 -->
       <div class="p-6 sm:p-10 rounded-2xl bg-slate-900/95 border border-slate-700 shadow-xl min-h-[500px]">
+        <!-- 搜索与高亮过滤工具条 -->
+        <div class="mb-6 pb-4 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <n-input
+              v-model:value="searchKeyword"
+              placeholder="在当前白皮书内检索关键词 (如: 弱点、公式、掉落、机制)..."
+              size="small"
+              clearable
+              class="w-full sm:w-80"
+            >
+              <template #prefix><span>🔍</span></template>
+            </n-input>
+            <span v-if="searchKeyword.trim() && matchCount > 0" class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold">
+              找到 {{ matchCount }} 处匹配
+            </span>
+            <span v-else-if="searchKeyword.trim()" class="text-xs text-slate-500">
+              无匹配项
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <span>排版模式:</span>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded transition-colors"
+              :class="fontSizeLevel === 'small' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'"
+              @click="fontSizeLevel = 'small'"
+            >
+              紧凑
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded transition-colors"
+              :class="fontSizeLevel === 'normal' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'"
+              @click="fontSizeLevel = 'normal'"
+            >
+              标准
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded transition-colors"
+              :class="fontSizeLevel === 'large' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'"
+              @click="fontSizeLevel = 'large'"
+            >
+              放大
+            </button>
+          </div>
+        </div>
+
         <!-- 加载中状态 -->
         <div v-if="loadingContent" class="py-24 text-center space-y-3">
           <n-spin size="large" />
@@ -134,7 +183,14 @@
         </div>
 
         <!-- 渲染正文 -->
-        <div v-else class="whitepaper-article-content text-slate-200 leading-relaxed space-y-6">
+        <div
+          class="whitepaper-article-content text-slate-200 leading-relaxed space-y-6"
+          :class="{
+            'text-[0.88rem] leading-[1.65]': fontSizeLevel === 'small',
+            'text-[0.95rem] leading-[1.8]': fontSizeLevel === 'normal',
+            'text-[1.08rem] leading-[1.95]': fontSizeLevel === 'large'
+          }"
+        >
           <div v-html="renderedMarkdown" class="markdown-body"></div>
         </div>
 
@@ -199,10 +255,26 @@ const nextDoc = computed<WhitepaperDoc | null>(() => {
 const rawMarkdownContent = ref('')
 const loadingContent = ref(false)
 const docError = ref('')
+const searchKeyword = ref('')
+const fontSizeLevel = ref<'small' | 'normal' | 'large'>('normal')
+
+const matchCount = computed(() => {
+  if (!searchKeyword.value.trim() || !rawMarkdownContent.value) return 0
+  const q = searchKeyword.value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const reg = new RegExp(q, 'gi')
+  const matches = rawMarkdownContent.value.match(reg)
+  return matches ? matches.length : 0
+})
 
 const renderedMarkdown = computed(() => {
   if (!rawMarkdownContent.value) return ''
-  return marked.parse(rawMarkdownContent.value) as string
+  let html = marked.parse(rawMarkdownContent.value) as string
+  if (searchKeyword.value.trim()) {
+    const q = searchKeyword.value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const reg = new RegExp(`(?![^<]*>)(${q})`, 'gi')
+    html = html.replace(reg, '<mark class="bg-amber-400 text-slate-950 px-1 py-0.5 rounded font-bold shadow-sm">$1</mark>')
+  }
+  return html
 })
 
 const wordCount = computed(() => {
