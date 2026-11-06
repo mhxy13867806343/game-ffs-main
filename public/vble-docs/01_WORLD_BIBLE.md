@@ -137,3 +137,91 @@ graph TD
 1. 射线检测目标落脚点 $(X, Y)$ 的 Tile 属性。
 2. 若为不可通过碰撞体（如山峰或海面），启动以 $(X, Y)$ 为中心的曼哈顿距离网格向外发散搜索。
 3. 锁定距离最近且属于 `0x04`（平原）或安全路面 Tile，将主角坐标无损矫正回弹，严防玩家卡死于世界边缘。
+
+
+---
+
+## 6. 实机 44 节拍主线追踪矩阵（对齐 `mainStoryBeatsConfig.ts` 与 Godot 追踪器）
+
+> **权威实机口径说明**：§2 的「12 章 96 节拍」为早期致敬 FF5 的概念大纲；实机 Godot 引擎（`main_story_tracking_early.gd` 13 节拍、`main_story_tracking_middle.gd` 14 节拍、`main_story_tracking_late.gd` 17 节拍）与站点数据源 `src/vble/config/mainStoryBeatsConfig.ts` 实际运行 **序章 + 12 章共 44 个标准节拍（Beats）**，并与 13 卷古王陵（`ch08_knight_returns`）、14 卷密西迪亚（`ch10_mysidia`）等合同严格绑定：
+
+### 6.1 早期阶段 Early（`ch00` ~ `ch03`，共 13 节拍）
+
+| 节拍 ID | 章节与标题 | 所在地图 ID (`mapId`) | 地图名称 | 绑定 NPC ID | 坐标 |
+| :--- | :--- | :--- | :--- | :--- | :---: |
+| `ch00_king_order` | 序章·王命受诏 | `chen_hui_palace` | 晨辉王城·谒见大厅 | `npc_p_king` | (960, 540) |
+| `ch00_meet_prophet` | 序章·荒野相遇 | `chen_hui_road` | 晨辉郊外·十字路口 | `npc_r_prophet` | (1240, 780) |
+| `ch00_arrive_temple` | 序章·圣域参拜 | `origin_temple` | 始源神殿·前殿大厅 | `npc_t_high_priest` | (960, 620) |
+| `ch01_harmonia_prison` | 第一章·地牢脱困 | `origin_temple` | 始源神殿·底层地牢 | —（地标点） | (480, 920) |
+| `ch01_temple_clash` | 第一章·殿堂冲突 | `origin_temple` | 始源神殿·中央圣坛 | `npc_t_guard_capt` | (960, 420) |
+| `ch01_crystal_shatter` | 第一章·双界裂变 | `origin_temple` | 始源神殿·水晶内室 | —（地标点） | (960, 240) |
+| `ch01_basic_jobs` | 第一章·拂晓天职 | `origin_temple` | 始源神殿·残响祭坛 | `npc_t_high_priest` | (960, 580) |
+| `ch02_crash_deist` | 第二章·天降残骸 | `longqi_ridge` | 龙栖山脉·断崖隘口 | —（地标点） | (640, 720) |
+| `ch02_meet_canglan` | 第二章·龙骑遗孤 | `longqi_nest` | 龙栖高风塔·飞龙巢 | `npc_l_canglan` | (820, 460) |
+| `ch02_restore_trust` | 第二章·山脊恶战 | `longqi_ridge` | 龙栖山脉·主峰祭坛 | —（首领战点） | (960, 320) |
+| `ch03_shipwreck` | 第三章·迷雾哨兵 | `maze_wood` | 迷雾森林·边境哨站 | `npc_m_ranger` | (520, 680) |
+| `ch03_withered_branch` | 第三章·枯枝异象 | `maze_wood` | 迷雾森林·古木深处 | —（地标点） | (1120, 540) |
+| `ch03_false_king` | 第三章·王座假面 | `yggdrasil` | 世界树·腐化根脉 | —（首领战点） | (960, 360) |
+
+### 6.2 中期阶段 Middle（`ch04` ~ `ch07`，共 14 节拍）
+
+| 节拍 ID | 章节与标题 | 所在地图 ID (`mapId`) | 地图名称 | 关键事件 / 门禁联动 |
+| :--- | :--- | :--- | :--- | :--- |
+| `ch04_sea_route` | 第四章·破浪出航 | `cape_town` | 海角港镇·船坞栈桥 | 获取船只航行资格（联动 23 卷 `has_ship()`） |
+| `ch04_night_song` | 第四章·夜咏海潮 | `mermaid_bay` | 人鱼湾·珊瑚浅滩 | 潮汐夜曲事件 |
+| `ch04_tragic_tide` | 第四章·潮声石碑 | `mermaid_undersea` | 人鱼湾·海底神殿 | 水之石碑解封 |
+| `ch05_ash_keep` | 第五章·要塞拾荒 | `ash_keep` | 灰烬要塞·外围废墟 | 突入帝国前线要塞 |
+| `ch05_father_armor` | 第五章·空铠遗言 | `ash_keep` | 灰烬要塞·中庭回廊 | 发现先父遗留空铠 |
+| `ch05_fire_general` | 第五章·熔火之将 | `ash_keep` | 灰烬要塞·熔炉核心 | 击败熔火将军 |
+| `ch05_prophet_missing` | 第五章·战舰谜影 | `empire_airship` | 帝国旗舰·甲板中枢 | 预言者言昭行踪异变 |
+| `ch06_factory_city` | 第六章·齿轮巨城 | `factory_city` | 织造机械城·主街 | 工业魔导核心调查 |
+| `ch06_memory_girl` | 第六章·忆晶之女 | `factory_lab` | 织造城·地下研究所 | 营救忆晶少女 |
+| `ch06_warship_core` | 第六章·核心决战 | `heliogabalus` | 巨型战舰·动力炉 | 摧毁战舰核心 |
+| `ch07_sand_moon` | 第七章·沙海暗巷 | `sand_moon` | 沙月城·自由集市 | 沙漠绿洲情报收集 |
+| `ch07_stage_leader` | 第七章·幕后名伶 | `sand_moon_stage` | 沙月大剧院·后台 | 结识剧团首领 |
+| `ch07_massacre` | 第七章·血洗贫民区 | `sand_moon_slum` | 沙月城·下层贫民窟 | 帝国卫队突袭事件 |
+| `ch07_counterattack` | 第七章·剧院反扑 | `sand_moon_stage` | 沙月大剧院·中央舞台 | 夺回沙月城控制权 |
+
+### 6.3 后期阶段 Late（`ch08` ~ `ch12`，共 17 节拍）
+
+| 节拍 ID | 章节与标题 | 所在地图 ID (`mapId`) | 地图名称 | 关键事件 / 跨卷合同绑定 |
+| :--- | :--- | :--- | :--- | :--- |
+| `ch08_ruined_kingdom` | 第八章·故国废墟 | `old_kingdom` | 古王都遗迹·断壁广场 | **完成后开启古王陵 `ToTomb` 门禁（13 卷 §1）** |
+| `ch08_qianluo_lineage` | 第八章·王脉血统 | `old_temple` | 古王都·宗庙圣堂 | 揭示王室血脉真相 |
+| `ch08_knight_returns` | 第八章·忠誓不灭 | `old_camp` | 古王陵·英灵墓室 | **完成后解锁 `npc_o_ghost_hero` 徽章赠礼与 Cover/圣光斩授课前置（13 卷 §4）** |
+| `ch09_shadow_isle` | 第九章·孤岛暗影 | `shadow_isle` | 暗影孤岛·渡口 | 跨海登陆暗影岛 |
+| `ch09_two_stories` | 第九章·双子镜影 | `shadow_hall` | 暗影圣堂·双生回廊 | 光暗双队记忆交叠 |
+| `ch09_leave_unconfirmed` | 第九章·阵眼破损 | `shadow_isle` | 暗影孤岛·祭坛 | 阵眼崩解撤离 |
+| `ch10_mysidia` | 第十章·秘法之都 | `mysidia_city` | 密西迪亚·学者广场 | **进入密西迪亚高阶课程区域（14 卷）** |
+| `ch10_half_mask` | 第十章·半面假相 | `mysidia_library` | 密西迪亚·古籍秘库 | 揭露言昭半面假相 |
+| `ch10_twilight_reunion` | 第十章·双队共鸣 | `mysidia_tower` | 密西迪亚·观星高塔 | 光暗两队正式合流 |
+| `ch11_eight_rifts` | 第十一章·八重裂隙 | `void_rift` | 次元裂隙·外环回廊 | 突破八重空间裂隙 |
+| `ch11_new_crystal` | 第十一章·新晶重塑 | `void_rift` | 次元裂隙·共鸣祭坛 | 重铸始源水晶辉光 |
+| `ch11_empty_armor` | 第十一章·宿命空铠 | `void_gate` | 虚无之门·断界桥 | 跨越宿命残影 |
+| `ch12_vata_path` | 第十二章·终焉神道 | `void_core` | 终焉虚无核心·神道 | 踏入最终决战回廊 |
+| `ch12_emperor_yan_zhao` | 第十二章·伪神陨落 | `void_throne` | 虚无王座·第一形态 | 击败伪神形态言昭 |
+| `ch12_chaos_yan_zhao` | 第十二章·混沌真身 | `void_core_deep` | 虚无深渊·终焉奇点 | 击败混沌真身言昭 |
+| `ch12_twins_saved` | 第十二章·破晓黎明 | `void_eden` | 始源伊甸·双月交汇 | 拯救双生宿主 |
+| `ch12_epilogue` | 第十二章·双月新生 | `world_rebirth` | 新生晨辉·展望台 | 终局尾声与二周目解锁 |
+
+---
+
+## 7. 跨卷一致性说明
+
+| 编号 | 差异点 | 位置 A | 位置 B | 处理原则 |
+| :--- | :--- | :--- | :--- | :--- |
+| WLD-C01 | 主线节拍体系（96 节拍 FF5 致敬稿 vs 44 节拍实机稿） | 本卷 §2（宁静村/沃鲁斯/卡尔纳克/加拉夫/艾克斯德斯） | 本卷 §6 及 `mainStoryBeatsConfig.ts`（晨辉王城/龙栖岭/灰烬要塞/古王都/密西迪亚/言昭） | 实机 Godot 节拍追踪、存档 `current_beat` 与 NPC 门禁一律以 **§6 的 44 节拍**为唯一真源；§2 作为世界观灵感源流保留 |
+| WLD-C02 | 主角团命名 | 本卷 §1.1 写 `Sol / Sarah / Aigis / Glaive / Nacht` | 05 卷 §1.2 写 `黎川 / 纳哈特 / 卫珩 / 昼隐 / 艾吉斯`，13 卷 §3 写 `塞拉 / 艾吉斯 / 纳哈特` | 需建立统一的「中英角色 ID 映射表」（如 `nahart` = 纳哈特，`aigis` = 艾吉斯，`serah` = 塞拉/昼隐） |
+| WLD-C03 | 地形掩码与 06 卷通行矩阵 | 本卷 §5.1 写帆船可通行浅滩（`0x02`）、黑陆行鸟可越过陡峭山脉（`0x10`） | 06 卷 §5.1 区分「可通行 `○`」与「可停靠 `●`」 | 两者互补：掩码定义「能否经过」，停靠矩阵定义「能否下车」 |
+
+---
+
+## 8. 验收标准 (Acceptance Criteria)
+
+| 编号 | 验收项 | 判定方式 |
+| :--- | :--- | :--- |
+| WLD-AC-01 | 44 个主线节拍按序单向推进，不发生回退或跳节拍丢失门禁 | 从 `ch00_king_order` 逐拍推进至 `ch12_epilogue`，每拍雷达坐标与目标 NPC 均准确匹配 §6 |
+| WLD-AC-02 | `ch00_arrive_temple` 达成前，`loc_wind_altar (720,200)` 保持门禁锁定 | 未达成时靠近风祀台不可进入；达成后立即解禁 |
+| WLD-AC-03 | `ch08_ruined_kingdom` 与 `ch08_knight_returns` 门禁严格联动 13 卷古王陵 | 分别验证陵墓入口与英灵授课前置 |
+| WLD-AC-04 | 剧情演出期间摇杆移动输入被锁定，对白每行中文不超过 36 字 | 触发任意过场演出，方向键不改变主角坐标，文本无越框截断 |
+| WLD-AC-05 | Safe Landing 防卡死回弹算法在非法落点时 100% 回到最近合法平原 Tile | 构造海面/山峰非法读档坐标，加载后角色落于曼哈顿距离最近的 `0x04` 平原格 |
