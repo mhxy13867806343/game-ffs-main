@@ -358,3 +358,58 @@
 - 「你不用一口气说完。」→「传令员：好。我只怕漏字，越急越不顺。有人肯等，我就能把话慢慢理清。」
 
 - 「把话记牢，很费心吧。」→「传令员：费心。心里一遍遍过着，嘴上还得留神，怕自己图快，反倒把话绊住。」
+
+---
+
+## 附录 A：已交付 10 批次（29 位）普通 NPC 可选回应全量台账与会话锁速查表（截至 2026-10-23）
+
+> **[!IMPORTANT] 合同边界声明**  
+> 本附录严格汇总上文第一至第十批已获准实施的 **29 位普通无服务 NPC**（共 **58 条可选回应**）及 `npc_optional_reply_session.gd` 会话锁/来源守卫规范，不新增任何关系值、任务旗标、奖励或时间冻结效果。
+
+### A.1 十批次 29 位普通居民身份、宿主来源与双选项速查总表
+
+| 批次 | 角色名称 | `npc_id`（无全局 ID 者标 `LOCAL`） | `location_key` / `node_name` | 正式宿主场景类型 | 选项 1 文本 | 选项 2 文本 |
+| :---: | :--- | :---: | :--- | :--- | :--- | :--- |
+| **第 1 批** | 守卫雷恩 | `npc_v_guard_gate` | `chen_hui_gate / Guard` | `village_scene.tscn` | 我会先看看同伴的状态。 | 你守门时也多保重。 |
+| **第 1 批** | 守卫老齐 | `npc_v_guard_wall` | `chen_hui_gate / OldGuard` | `village_scene.tscn` | 您最盼望什么？ | 我会记得平安回来。 |
+| **第 1 批** | 老农李伯 | `npc_v_farmer` | `chen_hui_gate / Farmer` | `village_scene.tscn` | 土这么硬，您还要忙吗？ | 您也歇一会儿吧。 |
+| **第 2 批** | 牧羊人 | `npc_r_shepherd` | `chen_hui_road / Shepherd` | `story_map.tscn` | 我会放轻脚步。 | 我也慢慢说。 |
+| **第 2 批** | 酒保查理 | `npc_c_tavern_b` | `house:CapeTavern / Charlie` | `CapeTavern.tscn` (`village_interior.gd`) | 店里收拾得真整齐。 | 你也坐一会儿吧。 |
+| **第 2 批** | 灯塔老人 | `npc_c_lighthouse` | `house:CapeLighthouseTop / LighthouseKeeper` | `CapeLighthouseTop.tscn` (`lighthouse_interior.gd`) | 天天照看灯，很费心吧。 | 我会记得这盏灯。 |
+| **第 3 批** | 村民阿梅 | `npc_v_mother` | `chen_hui_gate / VillageMother` | `village_scene.tscn` | 愿他们都平安。 | 你也要照顾好自己。 |
+| **第 3 批** | 孩童小皮 | `npc_v_boy` | `chen_hui_gate / VillageBoy` | `village_scene.tscn` | 你真爱四处张望。 | 鞋底都磨破了？ |
+| **第 3 批** | 报信修道士 | `npc_r_monk` | `chen_hui_road / TempleMessenger` | `story_map.tscn` | 你先缓口气。 | 你已经把话说清楚了。 |
+| **第 4 批** | 码头吊机领班 | `npc_c_dockworker` | `cape_town / DockForeman` | `story_map.tscn` | 喊号子也讲节奏？ | 你也别急坏了。 |
+| **第 4 批** | 醉倒的老水手 | `npc_c_bard_fan` | `house:CapeTavern / OldSeaman` | `CapeTavern.tscn` | 只记得半句，也还想唱？ | 你先歇口气。 |
+| **第 5 批** | 远征伤兵 | `npc_v_injured` | `house:House1Sickroom / InjuredSoldier` | `House1Sickroom.tscn` | 你躺着就好，别勉强。 | 你还是挂念着外头。 |
+| **第 5 批** | 皇家图书编纂官 | `npc_p_archivist` | `house:PalaceSideHall / RoyalArchivist` | `PalaceSideHall.tscn` | 看不清的地方就留白？ | 你对字句真仔细。 |
+| **第 5 批** | 流亡难民·阿肯 | `npc_w_refugee` | `maze_wood / Aken` | `story_map.tscn` | 家人的手让你安心？ | 愿这片树荫能安宁些。 |
+| **第 6 批** | 宫廷大臣谢礼 | `npc_p_minister` | `chen_hui_palace / Minister` | `story_map.tscn` | 你很在意城外的人。 | 这份担子不好放下。 |
+| **第 6 批** | 神官莫远 | `npc_p_priest` | `chen_hui_palace / RoyalPriest` | `story_map.tscn` | 你也会害怕吗？ | 你也该让自己缓一缓。 |
+| **第 6 批** | 近卫骑士长 | `npc_p_knight_c` | `chen_hui_palace / KnightCaptain` | `story_map.tscn` | 你很看重同伴。 | 你自己也这样操练？ |
+| **第 7 批** | 甲板信号兵 | `npc_airship_decksignalman` | `empire_airship / DeckSignalman` | `story_map.tscn` | 举旗时也会紧张？ | 辛苦了，还要守着这里。 |
+| **第 7 批** | 迷茫的帝国公民 | `npc_em_citizen` | `empire_capital / LostCitizen` | `story_map.tscn` | 你不用急着开口。 | 心里还是很乱？ |
+| **第 7 批** | 造船船坞大师 | `ff1_pravoka_shipwright` | `ff1_pravoka / PravokaShipwright` | `story_map.tscn` | 板缝值得再看一遍？ | 你对手上的活很认真。 |
+| **第 8 批** | 守石侍童甲 | `npc_t_acolyte_1` | `origin_temple / WestAcolyte` | `origin_temple` (Cave 宿主) | 我听着，慢慢说。 | 你很惦记外面的田野。 |
+| **第 8 批** | 守石侍童乙 | `npc_t_acolyte_2` | `origin_temple / EastAcolyte` | `origin_temple` (Cave 宿主) | 我在听你说。 | 不用勉强自己装镇定。 |
+| **第 9 批** | 疏散书记 | `LOCAL`（无 `npc_id`） | `empire_capital / EvacuationClerk` | `story_map.tscn` | 问名字时，你很耐心。 | 你把人放在财产前头。 |
+| **第 9 批** | 停钟看守 | `LOCAL`（无 `npc_id`） | `empire_capital / Clockkeeper` | `story_map.tscn` | 钟停着，你还这么仔细。 | 你很惦记这口钟。 |
+| **第 9 批** | 泥板抄录员 | `LOCAL`（无 `npc_id`） | `house:PalaceSideHall / PalaceCopyist` | `PalaceSideHall.tscn` | 肩膀僵了就歇一歇。 | 字写到末尾也不能含糊。 |
+| **第 10 批** | 卸甲卫兵 | `LOCAL`（无 `npc_id`） | `empire_capital / DisarmedGuard` | `story_map.tscn` | 手还不习惯空着？ | 不用急着逼自己适应。 |
+| **第 10 批** | 分粮人 | `LOCAL`（无 `npc_id`） | `empire_capital / BreadDistributor` | `story_map.tscn` | 你总先顾着别人。 | 你自己也别忘了歇口气。 |
+| **第 10 批** | 宫门传令员 | `LOCAL`（无 `npc_id`） | `empire_capital / PalaceMessenger` | `story_map.tscn` | 你不用一口气说完。 | 把话记牢，很费心吧。 |
+
+### A.2 会话状态机与 `modal_lock_token` 锁交接契约速查
+
+```mermaid
+stateDiagram-v2
+    [*] --> Original_Dialogue: 走近候选普通 NPC 触发原对白
+    Original_Dialogue --> Retired: 中途取消原对白 (不弹选择窗)
+    Original_Dialogue --> Wait_Input_Release: 原对白自然结束 (_on_ended 同步捕获 modal_lock_token)
+    Wait_Input_Release --> Retired: 按取消键 / 换档 / 换图 / 节点离树
+    Wait_Input_Release --> Choice_Panel: 确认/E/鼠标旧按压完全释放 (默认聚焦第 3 项「先告辞」)
+    Choice_Panel --> Retired: 选择「先告辞」或取消关闭
+    Choice_Panel --> Reply_Dialogue: 独立新按压选中回应 1 或 2 (先脱离旧窗，移交锁归属)
+    Reply_Dialogue --> Retired: 单句反馈读完或取消 (不再循环弹窗，释放 modal_lock_token)
+```
+
