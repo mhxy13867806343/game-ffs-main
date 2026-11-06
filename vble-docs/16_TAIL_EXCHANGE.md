@@ -99,3 +99,58 @@ incoming仅据B自身周目和收据核对派生额度，unsealed数量不能超
 只交付合同、29行清单、已决定的设计机器表、三独立审计六原件、587依赖SHA与静态校验；无生产/测试代码改动，无引擎/SQL/profile/存档/战斗/资产操作。源表原ID小数`2086.0`曾使独立离线构建KeyError，写文件前失败后已按`str(int(id))`修脚本、JSON/SHA通过；不是游戏业务红或运行证明。
 
 下一步限本规划范围的静态复核和文档归档。后续若恢复实施，先补上述真实来源绑定，不能把推荐默认当作解除主线、16场、新资产或只规划边界。无需再请真人逐项选本合同已决定的参数。
+
+
+---
+
+## 附录 A：29 项传奇装备身份与 `legendary_acquisition_progress` 规划速查表
+
+> 本附录仅对正文已确定的**只规划合同**（无实施授权、无运行资格）做结构化速查整理；所有未绑定的生产字段保持 `null`，不分配占位 SQL 数字或虚构地图。
+
+### A.1 29 项传奇装备分类与状态总表
+
+| 分类 | 装备 ID 区间 | 数量 | 当前状态与合同规定 | 生产来源绑定 |
+| :--- | :--- | :---: | :--- | :--- |
+| **已确认旧来源（保留）** | `2077` 阿波罗之琴<br/>`2079` 赫尔墨斯靴<br/>`2086` 村正 | 3 | 保持原琴圣整套来源（`piano_master_reward_claimed`）、靴子双渠道（30,000G 商贩 + 鬼宫宝箱）、村正鬼宫 5F 单次宝箱（`chest_oni_tomb_muramasa`） | 已在生产文本确认 |
+| **封印祭坛新神兵** | `2100..2110` | 11 | 四石板逻辑键 `pyramid / island_shrine / great_trench / istory_falls` 额度 **3 / 3 / 3 / 2（总 11）**；阿波罗石台仅作琴圣说明不扣点；当前周目各领 1 次 | `null`（未绑定地图/敌组） |
+| **七色尾巴兑换** | `2113..2119`（粉/灰/红/金/蓝/黄/绿） | 7 | 逻辑币键 `legend_tail_v1_*` 按 **1 尾 → 1 件**、当前周目各换 1 次；银尾仅显示村正鬼宫 5F 只读线索，不建币不发 2086 | `null`（币 ID / 掉落 / 收藏家均 `null`） |
+| **两件终极遗物** | `2111` Ribbon<br/>`2112` Genji | 2 | 规划未来独立试炼 / 源氏挑战后各实际领取 1 件；不复制八场遭遇或额外投放 | `null` |
+| **五件主角专属** | `2120..2124` | 5 | 逻辑试炼 `origin_void / palace_prayer / dragon_peak / dragoon_tomb / light_crystal` 完成后各领 1 件；满包保留资格可重试 | `null` |
+| **暂缓项** | 英雄护身符 | 1 | 尚无正式身份 ID，伤害上限方案继续暂缓 | `null` |
+| **合计** | | **29** | 28 项有正式身份 + 1 项 `null` | |
+
+### A.2 `legendary_acquisition_progress` v1 组件结构草案
+
+```json
+{
+  "format_version": 1,
+  "cycle_index": 1,
+  "tablets": {
+    "pyramid": false,
+    "island_shrine": false,
+    "great_trench": false,
+    "istory_falls": false
+  },
+  "unsealed": {
+    "2100": false, "2101": false, "2102": false, "2103": false,
+    "2104": false, "2105": false, "2106": false, "2107": false,
+    "2108": false, "2109": false, "2110": false
+  },
+  "tail_claims": {
+    "pink": false, "grey": false, "red": false, "gold": false,
+    "blue": false, "yellow": false, "green": false
+  },
+  "relic_claims": {
+    "2111": false, "2112": false
+  },
+  "personal_claims": {
+    "2120": false, "2121": false, "2122": false, "2123": false, "2124": false
+  }
+}
+```
+
+### A.3 严格校验与事务铁律速查
+
+1. **严格类型校验**：`present` 的 v1 组件要求所有集合完整且键精确匹配、值严格为 `bool`；出现 `1`、`_\"true\"_`、`null`、数组、未知键或 `count(unsealed_true) > earned_credits` 时，在写入钱包 / SQL / Story 前**整份拒绝**。
+2. **旧档缺省补齐**：仅在整个 `legendary_acquisition_progress` 组件缺失的旧档上补全 `false` 默认表（`cycle_index` 取该档自身有效周目），不凭库存或旧击杀自动迁移领取状态。
+3. **原子交换与重入锁**：单次兑换在重入锁内校验「币精确 `-1`、奖励精确 `+1`、收据 `false -> true`」，任一步失败则完整恢复快照，不在信号回调中发放半份奖励。
