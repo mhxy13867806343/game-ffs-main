@@ -210,6 +210,29 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-story-vol01-10-24-studio-v369-2026-11-07',
+    version: 'v2.2.369',
+    date: '2026-11-07',
+    title: '史诗编年史工坊实装 VOL.01/24 三十章↔44节拍映射桥、VOL.10 地月正逆五行乘区与切图色盘状态机',
+    category: 'maps',
+    categoryName: '主线节拍桥接与五行法则',
+    icon: '🧭',
+    tagType: 'success',
+    description: '响应《VOL.01 世界圣经》§6-§8、《VOL.10 三十章编年史与五大元素》§6 及《VOL.24 全域场景生成与无缝时空流转》§五-§七 工程附录对齐：在史诗编年史页面 (/vble/story) 实装「VOL.01/24 三十章↔实机 44 节拍双向映射桥、场景切图状态机与 VOL.10 地月正逆五行乘区推演工坊」。完整打通 Ch.01~30 光暗编号与 mainStoryBeatsConfig.ts (ch00_king_order ~ ch12_epilogue) 的双向映射，并提供地球正五行 vs 月球逆五行 (1.50x 克制 / 0.75x 相生 / 五行圣所 25% 回血) 交互推演器。',
+    highlights: [
+      '实装 VOL.01 §6 与 VOL.24 §五「30 章光暗交替编号 ↔ 实机 12 章 44 节拍 (beat_id)」双向映射总表与跨卷门禁注记',
+      '实装 VOL.10 §6 地球母界正五行 vs 双月镜像逆五行伤害乘区推演器（1.50x WEAK 克制、0.75x 相生衰减、Ch.30 五行圣所 25% 滋养回血）',
+      '实装 VOL.24 §六 场景动态实例化 7 步状态机与 PALETTE_CRYSTAL (Ch.27) / PALETTE_EMPIRE (Ch.28) 补充 CanvasModulate 参数卡',
+      '同步验证 WLD-AC-01~05（风祀台门禁、古王陵联动、Safe Landing 平原回弹）与 SCN-AC-01~05（Ch.23 起开放 8 人自由编成）验收标准'
+    ],
+    relatedLinks: [
+      { label: '史诗编年史', path: '/vble/story', icon: '📖' },
+      { label: '世界圣经 (VOL.01)', path: '/vble/docs/01_WORLD_BIBLE', icon: '📜' },
+      { label: '三十章编年 (VOL.10)', path: '/vble/docs/10_CRYSTALS_ELEMENTS', icon: '💎' },
+      { label: '场景生成 (VOL.24)', path: '/vble/docs/24_SCENE_GENERATION', icon: '🎨' }
+    ]
+  },
+  {
     id: 'up-systems-vol08-vol25-studio-v368-2026-11-07',
     version: 'v2.2.368',
     date: '2026-11-07',

@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Story, Thirty Chapters Epic Chronicle & Spacetime Collapse Studio v2.2.325
+              VBLE Story, 30Ch-to-44Beats Bridge &amp; VOL.01/10/24 Contract Studio v2.2.369
             </span>
             <span class="text-xs text-gray-400">光暗双线叙事、时空因果与创世神纪推演</span>
           </div>
@@ -53,6 +53,17 @@
             <template #icon><span>🌌</span></template>
             创世神纪推演
           </n-button>
+          <n-button
+            type="success"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToVol01Vol10Vol24Studio"
+          >
+            <template #icon><span>🧭</span></template>
+            30章↔44节拍与五行色盘契约
+          </n-button>
           <router-link to="/vble/docs/01_WORLD_BIBLE">
             <n-button type="info" size="medium" round secondary class="shadow-md">
               <template #icon><span>📖</span></template>
@@ -63,6 +74,12 @@
             <n-button type="warning" size="medium" round secondary class="shadow-md">
               <template #icon><span>💎</span></template>
               三十章编年 (VOL.10)
+            </n-button>
+          </router-link>
+          <router-link to="/vble/docs/24_SCENE_GENERATION">
+            <n-button type="info" size="medium" round secondary class="shadow-md">
+              <template #icon><span>🎨</span></template>
+              场景生成 (VOL.24)
             </n-button>
           </router-link>
           <router-link to="/vble/scenes">
@@ -82,6 +99,140 @@
               返回首页
             </n-button>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOL.01 §6-§8 · VOL.10 §6 · VOL.24 §5-§7 三十章↔44节拍映射桥、地月正逆五行乘区与色盘状态机工坊 (v2.2.369) -->
+    <div
+      id="vol01-10-24-story-contract-studio"
+      class="rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-slate-950 via-cyan-950/15 to-slate-900 p-4 sm:p-5 space-y-4"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              VOL.01 §6-§8 · VOL.10 §6 · VOL.24 §5-§7
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              30章↔12章44节拍桥接 · 地月正逆五行 1.5x/0.75x · PALETTE_CONFIGS
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            🧭 VOL.01/24 三十章↔实机 44 节拍双向映射桥、场景切图状态机与 VOL.10 地月正逆五行乘区推演工坊
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="volStoryContractTab === 'bridge' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="volStoryContractTab = 'bridge'"
+          >
+            🔗 30章 ↔ 实机12章44节拍映射桥 (VOL.01/24)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="volStoryContractTab === 'wuxing' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="volStoryContractTab = 'wuxing'"
+          >
+            ☯️ VOL.10 地月正逆五行乘区 &amp; VOL.24 色盘状态机
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: 30 章与实机 12 章 44 节拍追踪器映射总表 -->
+      <div v-if="volStoryContractTab === 'bridge'" class="space-y-3 text-xs">
+        <div class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2 overflow-x-auto">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="font-bold text-cyan-300 text-sm">🔗 VOL.24 §五 · 30 章光暗编号与实机 12 章 44 节拍 (mainStoryBeatsConfig.ts) 双向映射总表</span>
+            <span class="font-mono text-[11px] text-amber-300">WLD-AC-01~03 · SCN-AC-01/02/05</span>
+          </div>
+          <table class="w-full text-left border-collapse text-[11px]">
+            <thead>
+              <tr class="border-b border-slate-800 text-gray-400">
+                <th class="py-1.5 pr-2">30章编号</th>
+                <th class="py-1.5 px-2">篇章色盘属性</th>
+                <th class="py-1.5 px-2">实机追踪章节</th>
+                <th class="py-1.5 px-2">对应实机节拍 ID 区间 (beat_id)</th>
+                <th class="py-1.5 px-2">核心共享 map_id</th>
+                <th class="py-1.5 pl-2">跨卷门禁绑定</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vol24ChapterBeatBridge" :key="row.ch30" class="border-b border-slate-900/80">
+                <td class="py-1.5 pr-2 font-mono font-bold text-amber-300">{{ row.ch30 }}</td>
+                <td class="py-1.5 px-2">
+                  <span class="px-1.5 py-0.5 rounded font-mono text-[10px]" :class="row.badgeClass">{{ row.palette }}</span>
+                </td>
+                <td class="py-1.5 px-2 font-bold text-white">{{ row.act }}</td>
+                <td class="py-1.5 px-2 font-mono text-cyan-300">{{ row.beats }}</td>
+                <td class="py-1.5 px-2 font-mono text-gray-300">{{ row.maps }}</td>
+                <td class="py-1.5 pl-2 text-emerald-300">{{ row.gateNote }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: VOL.10 地球正五行 vs 月球逆五行乘区推演 & VOL.24 补充色盘状态机 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-300 text-sm">☯️ VOL.10 §6 地球正五行 vs 月球逆五行生克乘区推演器</span>
+            <span class="px-2 py-0.5 rounded font-mono text-[11px] font-bold bg-amber-500/20 text-amber-300">
+              {{ simWuxingResult.multiplierLabel }}
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="text-gray-400 block mb-1">所在天体法则:</label>
+              <select v-model="simWuxingRealm" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white text-xs">
+                <option value="earth">地球母界·正五行 (Ch.01~22)</option>
+                <option value="moon">双月镜像·逆五行 (Ch.27~29)</option>
+                <option value="void">Ch.30 五行圣所 5体同台</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">攻击五行属性:</label>
+              <select v-model="simAtkElement" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white text-xs">
+                <option v-for="el in wuxingElements" :key="el.id" :value="el.id">{{ el.label }}</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">目标五行属性:</label>
+              <select v-model="simDefElement" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white text-xs">
+                <option v-for="el in wuxingElements" :key="el.id" :value="el.id">{{ el.label }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 text-gray-300">
+            <div><strong>生克判定：</strong>{{ simWuxingResult.relationDesc }}</div>
+            <div><strong>实战结算 (基准 2000 伤)：</strong><span class="font-mono font-bold text-emerald-300">{{ simWuxingResult.damagePreview }}</span></div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2.5">
+          <div class="font-bold text-cyan-300 text-sm">🎨 VOL.24 §六 场景动态实例化状态机 &amp; 补充色盘 (`CRYSTAL` / `EMPIRE`)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div
+              v-for="pal in vol24ExtraPalettes"
+              :key="pal.key"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 font-mono text-[11px]"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-cyan-300">{{ pal.key }}</span>
+                <span class="text-amber-300">{{ pal.chapter }}</span>
+              </div>
+              <div class="text-gray-300">modulate: {{ pal.modulate }}</div>
+              <div class="text-gray-400">ambient: {{ pal.ambient }} · hud: {{ pal.hud }}</div>
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] text-gray-300 space-y-1">
+            <div>• <strong>切图 7 步状态机：</strong><code>RequestTransition → ValidateGate → UnloadPrevious (0.3s) → InstantiateMap → ApplyPalette → SpawnEntities → CrossfadeAudio (0.8s) → Ready (Autosave Slot 0)</code></div>
+            <div>• <strong>SCN-AC-02 / 03：</strong>自 <code>ch10_mysidia</code> (Ch.23) 起解除光暗单队锁定开放 8 人自由编成；一切带 <code>encounter_id</code> 的剧情首领战锁定 <code>can_escape = false</code>。</div>
+          </div>
         </div>
       </div>
     </div>
@@ -3105,6 +3256,87 @@ const copyEpicChronicleScript = () => {
   navigator.clipboard.writeText(currentEpicChronicleScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 编年史源码到剪贴板！')
 }
+
+// VOL.01 §6-§8 · VOL.10 §6 · VOL.24 §5-§7 三十章↔44节拍映射桥、地月正逆五行与色盘契约工坊 (v2.2.369)
+const scrollToVol01Vol10Vol24Studio = () => {
+  document.getElementById('vol01-10-24-story-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const volStoryContractTab = ref<'bridge' | 'wuxing'>('bridge')
+
+const vol24ChapterBeatBridge = [
+  { ch30: 'Ch.01', palette: 'LIGHT (1光)', badgeClass: 'bg-amber-500/20 text-amber-300', act: '序章 ~ 第一章', beats: 'ch00_king_order ~ ch01_basic_jobs (7拍)', maps: 'chen_hui_palace, origin_temple', gateNote: 'ch00_arrive_temple 解锁风祀台 (WLD-AC-02)' },
+  { ch30: 'Ch.02~03', palette: 'DARK (2暗)', badgeClass: 'bg-purple-500/20 text-purple-300', act: '第一章暗线延伸', beats: 'ch01_harmonia_prison', maps: 'harmonia, harmonia_airship', gateNote: '激活暗之队前排视点 (SCN-AC-01)' },
+  { ch30: 'Ch.04~05', palette: 'LIGHT (2光)', badgeClass: 'bg-amber-500/20 text-amber-300', act: '第二章·天降残骸', beats: 'ch02_crash_deist ~ ch02_restore_trust (3拍)', maps: 'longqi_ridge, longqi_nest', gateNote: '地面·风之水晶与飞龙孤雏前置' },
+  { ch30: 'Ch.06~07', palette: 'DARK (2暗)', badgeClass: 'bg-purple-500/20 text-purple-300', act: '第三章·迷雾哨兵', beats: 'ch03_shipwreck ~ ch03_false_king (3拍)', maps: 'maze_wood, yggdrasil', gateNote: '天空·木之水晶与世界树腐化根脉' },
+  { ch30: 'Ch.08~09', palette: 'LIGHT (2光)', badgeClass: 'bg-amber-500/20 text-amber-300', act: '第四章·破浪出航', beats: 'ch04_sea_route ~ ch04_tragic_tide (3拍)', maps: 'cape_town, mermaid_bay, mermaid_undersea', gateNote: '解锁 has_ship() 联动 VOL.23 陨星之礁' },
+  { ch30: 'Ch.10~12', palette: 'DARK/LIGHT', badgeClass: 'bg-cyan-500/20 text-cyan-300', act: '第五章·要塞与战舰', beats: 'ch05_ash_keep ~ ch05_prophet_missing (4拍)', maps: 'ash_keep, empire_airship', gateNote: '地面·火之水晶与言昭战舰异变' },
+  { ch30: 'Ch.13~18', palette: '光/暗交替', badgeClass: 'bg-cyan-500/20 text-cyan-300', act: '第六~七章·机械城与沙海', beats: 'ch06_factory_city ~ ch07_counterattack (7拍)', maps: 'factory_city, heliogabalus, sand_moon', gateNote: '地球·金之阵眼与沙月大剧院反扑' },
+  { ch30: 'Ch.19~20', palette: 'DARK (2暗)', badgeClass: 'bg-purple-500/20 text-purple-300', act: '第八章·故国废墟', beats: 'ch08_ruined_kingdom ~ ch08_knight_returns (3拍)', maps: 'old_kingdom, old_kingdom_tomb', gateNote: '联动 VOL.13 古王陵 ToTomb 与 Cover/圣光斩 (WLD-AC-03)' },
+  { ch30: 'Ch.21~25', palette: 'TWILIGHT 合流', badgeClass: 'bg-emerald-500/20 text-emerald-300', act: '第九~十章·暗影岛与秘法都', beats: 'ch09_shadow_isle ~ ch10_twilight_reunion (6拍)', maps: 'shadow_isle, mysidia_city, mysidia_tower', gateNote: '联动 VOL.14 密西迪亚 4 课 & 开放 8 人自由编队 (SCN-AC-02)' },
+  { ch30: 'Ch.26~30', palette: 'CRYSTAL/VOID', badgeClass: 'bg-rose-500/20 text-rose-300', act: '第十一~十二章·裂隙与终焉', beats: 'ch11_eight_rifts ~ ch12_epilogue (8拍)', maps: 'void_rift, void_core, world_rebirth', gateNote: '联动 VOL.09 虚空城 23 首领与双月新生尾声' }
+]
+
+const wuxingElements = [
+  { id: 'metal', label: '金 (Metal)' },
+  { id: 'wood', label: '木 (Wood)' },
+  { id: 'water', label: '水 (Water)' },
+  { id: 'fire', label: '火 (Fire)' },
+  { id: 'earth', label: '土/地 (Earth)' }
+]
+
+const simWuxingRealm = ref<'earth' | 'moon' | 'void'>('earth')
+const simAtkElement = ref('metal')
+const simDefElement = ref('wood')
+
+const simWuxingResult = computed(() => {
+  const atk = simAtkElement.value
+  const def = simDefElement.value
+
+  // 地球正五行相克: 金->木, 木->土, 土->水, 水->火, 火->金
+  const earthCounter: Record<string, string> = { metal: 'wood', wood: 'earth', earth: 'water', water: 'fire', fire: 'metal' }
+  // 地球正五行相生: 金->水, 水->木, 木->火, 火->土, 土->金
+  const earthGenerate: Record<string, string> = { metal: 'water', water: 'wood', wood: 'fire', fire: 'earth', earth: 'metal' }
+
+  const isEarthCounter = earthCounter[atk] === def
+  const isEarthGenerate = earthGenerate[atk] === def
+
+  // 月球逆五行颠倒正五行生克方向
+  const isCounter = simWuxingRealm.value === 'moon' ? earthCounter[def] === atk : isEarthCounter
+  const isGenerate = simWuxingRealm.value === 'moon' ? earthGenerate[def] === atk : isEarthGenerate
+
+  if (isCounter) {
+    return {
+      multiplierLabel: '1.50x 弱点克制 (WEAK)',
+      relationDesc: `${simWuxingRealm.value === 'moon' ? '【双月逆五行倒悬】' : '【地球正五行】'}触发五行相克乘区 (1.50x)，伤害跳字附加金色 WEAK 徽章。`,
+      damagePreview: '2000 × 1.50 = 3,000 弱点伤害'
+    }
+  }
+  if (isGenerate) {
+    if (simWuxingRealm.value === 'void') {
+      return {
+        multiplierLabel: '-0.25x 相生回血 (五行圣所)',
+        relationDesc: '【Ch.30 五行圣所 (void_five_phases) 5体同台】攻击属性生助目标灵神，转化为恢复目标 25% 伤害值的 HP！',
+        damagePreview: '目标灵神恢复 +500 HP (2000 × 25%)'
+      }
+    }
+    return {
+      multiplierLabel: '0.75x 同源相生衰减',
+      relationDesc: `${simWuxingRealm.value === 'moon' ? '【双月逆五行】' : '【地球正五行】'}攻击属性滋养目标属性，伤害衰减为 0.75x。`,
+      damagePreview: '2000 × 0.75 = 1,500 衰减伤害'
+    }
+  }
+  return {
+    multiplierLabel: '1.00x 标准中性乘区',
+    relationDesc: '当前攻击与目标五行不构成直接相克或相生关系，按 1.00x 标准倍率结算。',
+    damagePreview: '2000 × 1.00 = 2,000 标准伤害'
+  }
+})
+
+const vol24ExtraPalettes = [
+  { key: 'PALETTE_CRYSTAL', chapter: 'Ch.27 新晶重铸', modulate: '(1.12, 1.10, 1.18, 1.0)', ambient: '1.20 (vignette: false)', hud: 'crystal_radiant' },
+  { key: 'PALETTE_EMPIRE', chapter: 'Ch.28 空甲帝都', modulate: '(0.85, 0.62, 0.55, 1.0)', ambient: '0.75 (vignette: true)', hud: 'empire_iron' }
+]
 
 </script>
 
