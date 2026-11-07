@@ -1725,6 +1725,126 @@
         </div>
       </div>
     </div>
+
+    <!-- VOL.04 §3 跨职业融合技全谱系 × VOL.07 §5 SQ-01 西尔多拉 (v2.2.377) -->
+    <div id="vol04-fusion-sq01-studio" class="mt-8 p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-violet-950/50 via-slate-900/95 to-sky-950/45 border border-violet-500/40 shadow-[0_0_35px_rgba(139,92,246,0.14)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-violet-500/25 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/40 text-xs font-mono font-bold">
+              VOL.04 §3 FUSION ABILITIES MATRIX × VOL.07 §5 SQ-01
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🌀</span> 跨职业融合技 6 式觉醒条件推演台 & 海龙西尔多拉支线卡
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 leading-relaxed">
+            对齐 <code class="text-violet-300 font-mono">04_JOB_SYSTEM.md §3</code>：特定职业达到指定等级并在战斗中同时触发特定技能时，自动觉醒终极融合技。勾选两侧前置并输入可用资源，实时判定能否觉醒；含倍率的融合技可推演伤害。
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <router-link to="/vble/docs/04_JOB_SYSTEM">
+            <n-button size="small" type="primary" secondary round>📘 VOL.04 职业白皮书</n-button>
+          </router-link>
+          <router-link to="/vble/docs/07_SIDEQUESTS_SECRETS">
+            <n-button size="small" type="info" secondary round>📗 VOL.07 支线白皮书</n-button>
+          </router-link>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <button
+          v-for="f in vol04FusionAbilities"
+          :key="f.id"
+          type="button"
+          class="text-left p-3.5 rounded-xl border transition-all"
+          :class="selectedFusionId === f.id
+            ? 'bg-violet-950/60 border-violet-400 shadow-[0_0_18px_rgba(139,92,246,0.2)]'
+            : 'bg-slate-900/80 border-slate-800 hover:border-violet-500/40'"
+          @click="selectFusion(f.id)"
+        >
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 font-mono text-[10px] font-bold">{{ f.id }}</span>
+            <span class="text-[10px] font-mono text-amber-300">{{ f.costLabel }}</span>
+          </div>
+          <div class="text-sm font-bold text-white">{{ f.name }}</div>
+          <div class="text-[11px] font-mono text-cyan-300 mt-1">{{ f.prereqA }} + {{ f.prereqB }}</div>
+          <p class="text-[11px] text-gray-300 mt-1.5 leading-relaxed">{{ f.effect }}</p>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-violet-500/30 space-y-3">
+          <h3 class="text-sm font-bold text-violet-300">⚙️ 觉醒条件判定：{{ currentFusion.name }}</h3>
+          <label class="flex items-center gap-2 p-2.5 rounded bg-slate-900 border border-slate-800 cursor-pointer text-xs">
+            <input v-model="fusionCondA" type="checkbox" class="accent-violet-400" />
+            <span>前置 A：{{ currentFusion.prereqA }}</span>
+          </label>
+          <label class="flex items-center gap-2 p-2.5 rounded bg-slate-900 border border-slate-800 cursor-pointer text-xs">
+            <input v-model="fusionCondB" type="checkbox" class="accent-violet-400" />
+            <span>前置 B：{{ currentFusion.prereqB }}（同场战斗触发）</span>
+          </label>
+          <div v-if="currentFusion.mpCost !== null" class="space-y-1 text-xs">
+            <div class="flex justify-between">
+              <span class="text-gray-400">施放者当前 MP</span>
+              <span class="font-mono text-sky-300">{{ fusionCurrentMp }} / 需 {{ currentFusion.mpCost }}</span>
+            </div>
+            <input v-model.number="fusionCurrentMp" type="range" min="0" max="120" step="1" class="w-full accent-sky-400 cursor-pointer" />
+          </div>
+          <label v-else class="flex items-center gap-2 p-2.5 rounded bg-slate-900 border border-slate-800 cursor-pointer text-xs">
+            <input v-model="fusionHasItems" type="checkbox" class="accent-amber-400" />
+            <span>背包持有 圣水 ×1 + 龙牙 ×1</span>
+          </label>
+          <div
+            class="p-2.5 rounded-lg border text-xs font-mono"
+            :class="fusionVerdict.ok ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-300' : 'bg-rose-950/50 border-rose-500/40 text-rose-300'"
+          >
+            {{ fusionVerdict.message }}
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-sky-500/30 space-y-3">
+          <h3 class="text-sm font-bold text-sky-300">📈 倍率伤害推演</h3>
+          <template v-if="currentFusion.multiplier !== null">
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between">
+                <span class="text-gray-400">基准单次伤害（1.0x）</span>
+                <span class="font-mono text-white">{{ fusionBaseDamage.toLocaleString() }}</span>
+              </div>
+              <input v-model.number="fusionBaseDamage" type="range" min="100" max="9999" step="100" class="w-full accent-sky-400 cursor-pointer" />
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 text-center">
+              <div class="text-[11px] text-gray-400">{{ currentFusion.name }} · {{ currentFusion.multiplier }}x</div>
+              <div class="text-2xl font-black font-mono text-sky-300 mt-1">{{ Math.round(fusionBaseDamage * currentFusion.multiplier).toLocaleString() }}</div>
+              <div class="text-[10px] text-gray-500 mt-1">推演值 = 基准伤害 × 白皮书倍率；未计入防御、属性抗性与伤害上限</div>
+            </div>
+          </template>
+          <div v-else class="p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs text-gray-400 leading-relaxed">
+            白皮书未给出本融合技的数值倍率，仅定义效果：{{ currentFusion.effect }}
+          </div>
+        </div>
+      </div>
+
+      <!-- SQ-01 -->
+      <div class="p-4 rounded-xl bg-slate-950/85 border border-cyan-500/30">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">SQ-01</span>
+              <span class="text-sm font-bold text-white">海龙西尔多拉的长眠 (Dragon's Requiescat)</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">在第三世界前往海盗密窟深处吊唁，海龙灵魂显现化为最高阶水属性召唤兽「西尔多拉（Syldra）」。</p>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center shrink-0">
+            <div v-for="cell in sq01Sheet" :key="cell.label" class="px-2.5 py-1.5 rounded bg-slate-900 border border-slate-800">
+              <div class="text-[10px] text-gray-500">{{ cell.label }}</div>
+              <div class="text-[11px] font-mono font-bold text-cyan-200">{{ cell.value }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -3545,6 +3665,62 @@ const copyAncientPactScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 幻兽契约源码到剪贴板！')
   }
 }
+
+
+// VOL.04 §3 跨职业融合技 × VOL.07 §5 SQ-01 (v2.2.377)
+interface Vol04Fusion {
+  id: string
+  name: string
+  prereqA: string
+  prereqB: string
+  mpCost: number | null
+  costLabel: string
+  multiplier: number | null
+  effect: string
+}
+
+const vol04FusionAbilities: Vol04Fusion[] = [
+  { id: 'FUS-01', name: '魔法剑·核爆乱打', prereqA: '魔剑士 L4', prereqB: '游侠「乱打」', mpCost: 40, costLabel: '40 MP', multiplier: 8.0, effect: '连续 4 发无视防御的无属性核爆利刃，单体总倍率 8.0x。' },
+  { id: 'FUS-02', name: '至高终焉核爆 (Grand Flare)', prereqA: '黑魔法师 L6', prereqB: '时魔「重力」', mpCost: 64, costLabel: '64 MP', multiplier: null, effect: '引爆全屏空间坍塌，敌全员受到无属性特大真伤并附带 100% 减速。' },
+  { id: 'FUS-03', name: "天使圣灵洗礼 (Angel's Grace)", prereqA: '白魔法师 L6', prereqB: '诗人「英雄歌」', mpCost: 50, costLabel: '50 MP', multiplier: null, effect: '全员满血复活，恢复 100% HP/MP 并附加 3 回合自动回血与护盾。' },
+  { id: 'FUS-04', name: '虚空百裂居合 (Void Slash)', prereqA: '武士「居合斩」', prereqB: '忍者「影分身」', mpCost: 0, costLabel: '0 MP', multiplier: null, effect: '8 个分身全屏拔刀，对全场目标进行 70% 概率即死判定，不死免疫者受 9999 物理贯穿伤。' },
+  { id: 'FUS-05', name: "龙王破灭击 (Dragon's Ruin)", prereqA: '龙骑士「跳跃」', prereqB: '召唤士「巴哈姆特」', mpCost: 75, costLabel: '75 MP', multiplier: 5.5, effect: '化身巨龙自九天直击，造成全场火与光复合 5.5x 爆裂伤害。' },
+  { id: 'FUS-06', name: '神丹破限 (Limit Break Potion)', prereqA: '药师「调合」', prereqB: '武僧「查克拉」', mpCost: null, costLabel: '1 圣水 + 1 龙牙', multiplier: null, effect: '单体队员 HP 上限永久翻倍至 99999，攻击力提升 100%，持续 5 回合。' }
+]
+
+const selectedFusionId = ref('FUS-05')
+const fusionCondA = ref(true)
+const fusionCondB = ref(true)
+const fusionCurrentMp = ref(80)
+const fusionHasItems = ref(true)
+const fusionBaseDamage = ref(2000)
+
+const currentFusion = computed(() => vol04FusionAbilities.find(f => f.id === selectedFusionId.value) ?? vol04FusionAbilities[0])
+
+const selectFusion = (id: string) => {
+  selectedFusionId.value = id
+}
+
+const fusionVerdict = computed(() => {
+  const f = currentFusion.value
+  if (!fusionCondA.value) return { ok: false, message: `⛔ 未觉醒：缺少前置 A「${f.prereqA}」` }
+  if (!fusionCondB.value) return { ok: false, message: `⛔ 未觉醒：前置 B「${f.prereqB}」未在同场战斗触发` }
+  if (f.mpCost !== null && fusionCurrentMp.value < f.mpCost) {
+    return { ok: false, message: `⛔ 资源不足：当前 ${fusionCurrentMp.value} MP < 消耗 ${f.mpCost} MP` }
+  }
+  if (f.mpCost === null && !fusionHasItems.value) {
+    return { ok: false, message: '⛔ 资源不足：需消耗 圣水 ×1 + 龙牙 ×1' }
+  }
+  return { ok: true, message: `✅ 觉醒成立：【${f.name}】可施放（消耗 ${f.costLabel}）` }
+})
+
+const sq01Sheet = [
+  { label: '开放条件', value: '第三世界 + 帆船' },
+  { label: '推荐等级', value: 'Lv.38' },
+  { label: '关键步骤', value: '3 步' },
+  { label: '主奖励', value: '召唤兽「西尔多拉」' },
+  { label: '可错过', value: '✘ 否' }
+]
 
 </script>
 

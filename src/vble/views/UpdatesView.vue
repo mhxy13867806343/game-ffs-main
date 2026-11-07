@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-summons-vol04-fusion-sq01-v377-2026-11-07',
+    version: 'v2.2.377',
+    date: '2026-11-07',
+    title: '召唤兽页实装 VOL.04 跨职业融合技 6 式觉醒推演台与 SQ-01 西尔多拉支线卡，并按原文校正 v2.2.375 调合/青魔法数据',
+    category: 'system',
+    categoryName: '融合技与数据校正',
+    icon: '🌀',
+    tagType: 'info',
+    description:
+      '依据《04_JOB_SYSTEM.md》§3 与《07_SIDEQUESTS_SECRETS.md》§5，在召唤兽页（/vble/summons#vol04-fusion-sq01-studio）新增 6 式跨职业融合技卡片、前置 A/B + MP/道具消耗觉醒判定，以及魔法剑·核爆乱打 8.0x、龙王破灭击 5.5x 的倍率伤害推演；附 SQ-01 海龙西尔多拉支线数据卡。同时逐条比对 VOL.05 §2 与 VOL.04 §4 原文，校正 v2.2.375 工坊中与原文不符的内容：mixRecipes.ts 实为 6 条且名称素材不同、生命祝福/生铁硬化/黑暗之光效果、移除无出处的 Lv.255 与 19,998 上限、青魔法规则改为「装备学习的队员亲身受击 + 当前行动结算后存活 + 辅助类须魔兽使操纵」，并移除无出处的来源怪物与「吸血」条目。',
+    highlights: [
+      'VOL.04 §3 融合技 6 式：前置、消耗与效果逐字对齐白皮书表格',
+      '仅对白皮书给出倍率的 2 式做伤害推演，其余标注「未给出数值倍率」',
+      'v2.2.375 数据校正：调合双源对照改为真实 mixRecipes.ts 条目，青魔法规则与名称对齐 §4.1/§4.2'
+    ],
+    relatedLinks: [
+      { label: '融合技觉醒推演台', path: '/vble/summons#vol04-fusion-sq01-studio', icon: '🌀' },
+      { label: '调合与青魔法工坊（已校正）', path: '/vble/items#vol04-vol05-alchemy-bluemagic-studio', icon: '⚗️' },
+      { label: 'VOL.04 职业白皮书', path: '/vble/docs/04_JOB_SYSTEM', icon: '📘' }
+    ]
+  },
+  {
     id: 'up-attributes-vol08-damage-badge-contract-v376-2026-11-07',
     version: 'v2.2.376',
     date: '2026-11-07',
