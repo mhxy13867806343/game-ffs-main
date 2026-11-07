@@ -2,12 +2,15 @@
   <div class="monsters-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary, Weakness Radar &amp; Rare Drop Studio v2.2.330</n-tag>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物大图鉴、深渊变异遗传谱系与世界首领狂暴破限工坊</h1>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary, B0001-B0650 Cross-World Index &amp; Rare Drop Studio v2.2.356</n-tag>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物大图鉴、B0001-B0650 跨界 14 章总目与世界首领狂暴破限工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-2">
-        门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、以及 {{ coliseumCount }} 种斗技场霸主，全生态链演化、抗性图谱与弱点基因逆向工程沙盘
+        门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、{{ coliseumCount }} 种斗技场霸主，并全量对齐《VOL.17/27》14 章 B0001~B0650 跨界魔物总目索引
       </p>
       <div class="flex justify-center flex-wrap gap-2">
+        <n-button size="tiny" type="info" @click="scrollToCrossWorldIndexStudio">
+          🐉 B0001-B0650 跨界14章总目沙盘
+        </n-button>
         <n-button size="tiny" type="success" secondary @click="scrollToWeaknessDropStudio">
           🎯 前往弱点雷达与稀有掉落工坊
         </n-button>
@@ -25,6 +28,69 @@
             📖 研读跨界魔物大典 (VOL.27)
           </n-button>
         </router-link>
+      </div>
+    </div>
+
+    <!-- 🐉 B0001~B0650 跨界 650 全量魔物 14 主题章总目索引与跨卷映射沙盘 -->
+    <div id="cross-world-index-studio" class="bg-gradient-to-br from-[#0e1726]/95 via-[#131d33]/95 to-[#0b1120]/95 border border-cyan-500/40 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-cyan-500/20 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">🐉</span>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 class="text-base sm:text-lg font-extrabold text-cyan-300">
+                B0001~B0650 跨界 650 全量魔物 14 主题章总目索引与跨卷映射沙盘
+              </h2>
+              <n-tag size="tiny" type="info" round>VOL.17 / VOL.27 附录D对齐</n-tag>
+            </div>
+            <p class="text-xs text-gray-400 mt-0.5">
+              精确检索 14 大主题章、650 条跨界魔物与首领编号区间（B0001~B0650），支持一键定位编号所属章节及《VOL.03 / 10 / 19 / 21 / 22》跨卷映射契约
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <n-input
+            v-model:value="bestiaryChapterFilter"
+            placeholder="输入 B0029 / 刑天 / 亚马逊 / VOL.22..."
+            size="small"
+            clearable
+            class="w-60"
+          >
+            <template #prefix><span>🔍</span></template>
+          </n-input>
+          <router-link to="/vble/docs/17_CROSS_WORLD_BOSSES">
+            <n-button size="tiny" type="warning" secondary>VOL.17 跨界生态</n-button>
+          </router-link>
+          <router-link to="/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC">
+            <n-button size="tiny" type="primary" secondary>VOL.27 全景大典</n-button>
+          </router-link>
+        </div>
+      </div>
+
+      <!-- 14章网格卡片 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div
+          v-for="ch in filteredBestiaryChapters"
+          :key="ch.chapter"
+          class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between gap-2.5"
+        >
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
+                CH.{{ ch.chapter }} · {{ ch.range }}
+              </span>
+              <span class="text-[11px] font-mono text-amber-300 font-bold">{{ ch.count }} 条目</span>
+            </div>
+            <div class="text-sm font-bold text-white">{{ ch.title }}</div>
+            <p class="text-xs text-slate-300 leading-relaxed">{{ ch.highlights }}</p>
+          </div>
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
+            <span class="text-[10px] font-mono text-emerald-300 truncate">{{ ch.crossVolumeTag }}</span>
+            <router-link :to="ch.docPath">
+              <n-button size="tiny" type="info" secondary>{{ ch.docLabel }} →</n-button>
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3904,6 +3970,168 @@ const copyDropScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 魔物生态源码到剪贴板！')
   }
 }
+
+const scrollToCrossWorldIndexStudio = () => {
+  const el = document.getElementById('cross-world-index-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const bestiaryChapterFilter = ref('')
+
+const bestiary14Chapters = [
+  {
+    chapter: '01',
+    title: '真实地球：从早期动物到史前巨兽',
+    range: 'B0001 ~ B0082',
+    count: 82,
+    highlights: '含 B0002 奇虾、B0010 邓氏鱼、B0014 异齿龙、B0029 霸王龙、B0077 大地懒（映射《VOL.22》马平瓜里原型）',
+    crossVolumeTag: '联动 VOL.22 亚马逊生态',
+    docLabel: 'VOL.22 亚马逊',
+    docPath: '/vble/docs/22_AMAZON_ECOLOGY'
+  },
+  {
+    chapter: '02',
+    title: '今天仍存在的猛兽、巨兽与深海动物',
+    range: 'B0083 ~ B0112',
+    count: 30,
+    highlights: '含 B0085 美洲豹、B0100 绿森蚺、B0102 电鳗；严格区分现实动物习性与影视夸张误区',
+    crossVolumeTag: '联动 VOL.22 10生物参数表',
+    docLabel: 'VOL.22 亚马逊',
+    docPath: '/vble/docs/22_AMAZON_ECOLOGY'
+  },
+  {
+    chapter: '03',
+    title: '中国上古神话：蚩尤、刑天与创世诸神',
+    range: 'B0113 ~ B0139',
+    count: 27,
+    highlights: '含 B0113 蚩尤、B0116 刑天、B0117 共工、B0119 相柳；区分古籍传说、先祖信仰与游戏战神原型',
+    crossVolumeTag: '联动 VOL.27 东方上古篇',
+    docLabel: 'VOL.27 全景大典',
+    docPath: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC'
+  },
+  {
+    chapter: '04',
+    title: '山海经异兽、四凶与传统神兽',
+    range: 'B0140 ~ B0184',
+    count: 45,
+    highlights: '四凶（饕餮、穷奇、梼杌、混沌）与祥瑞神兽并列；神兽/瑞兽不等于天生邪恶反派',
+    crossVolumeTag: '联动 VOL.27 山海异兽篇',
+    docLabel: 'VOL.27 全景大典',
+    docPath: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC'
+  },
+  {
+    chapter: '05',
+    title: '中国古典神魔文学：西游记与封神演义',
+    range: 'B0185 ~ B0241',
+    count: 57,
+    highlights: '区分《西游记》（5.1）与《封神演义》（5.2）文学角色谱系与民间宗教神祇',
+    crossVolumeTag: '联动 VOL.27 古典神魔篇',
+    docLabel: 'VOL.27 全景大典',
+    docPath: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC'
+  },
+  {
+    chapter: '06',
+    title: '中国地狱、冥府、鬼神与僵尸传说',
+    range: 'B0242 ~ B0272',
+    count: 31,
+    highlights: '十殿阎王、黑白无常、钟馗及僵尸/死灵分类；联动《VOL.19 骷髅与死神》《VOL.21 公墓六层地宫》',
+    crossVolumeTag: '联动 VOL.19 / VOL.21',
+    docLabel: 'VOL.19 冥界骨王',
+    docPath: '/vble/docs/19_SKELETON_REAPER_MYTH'
+  },
+  {
+    chapter: '07',
+    title: '世界神话：希腊、北欧、埃及、两河、印度、日本等',
+    range: 'B0273 ~ B0361',
+    count: 89,
+    highlights: '覆盖泰坦、芬里尔、耶梦加得、阿佩普、提亚马特、八岐大蛇等跨文化神话原型',
+    crossVolumeTag: '联动 VOL.09 次元虚空城',
+    docLabel: 'VOL.09 虚空天体',
+    docPath: '/vble/docs/09_VOID_CASTLE'
+  },
+  {
+    chapter: '08',
+    title: '世界地狱、冥界、恶魔与历史恶魔学',
+    range: 'B0362 ~ B0409',
+    count: 48,
+    highlights: '区分宗教典籍、神话冥神（如哈迪斯）与近世欧洲恶魔学（所罗门七十二柱魔神等）',
+    crossVolumeTag: '联动 VOL.19 死神与深渊',
+    docLabel: 'VOL.19 冥界骨王',
+    docPath: '/vble/docs/19_SKELETON_REAPER_MYTH'
+  },
+  {
+    chapter: '09',
+    title: '中国历史、世界历史与传奇人物原型',
+    range: 'B0410 ~ B0435',
+    count: 26,
+    highlights: '含秦始皇、项羽、吕布、亚历山大、织田信长等；严格标明“历史人物原型而非真实怪物”',
+    crossVolumeTag: '联动 VOL.13 勇者圣所',
+    docLabel: 'VOL.13 勇者圣所',
+    docPath: '/vble/docs/13_HERO_SANCTUARY'
+  },
+  {
+    chapter: '10',
+    title: '月球专章：神话月宫、FF4与月之归还',
+    range: 'B0436 ~ B0474',
+    count: 39,
+    highlights: '区分神话月宫、FF4 月球（泽罗姆斯）、《月之归还》真月（造物主 / Maenad）与现实月球',
+    crossVolumeTag: '联动 VOL.10 地月五行矩阵',
+    docLabel: 'VOL.10 元素与双月',
+    docPath: '/vble/docs/10_CRYSTALS_ELEMENTS'
+  },
+  {
+    chapter: '11',
+    title: '最终幻想：经典Boss、怪物与召唤兽',
+    range: 'B0475 ~ B0521',
+    count: 47,
+    highlights: '联动《VOL.03 首领战术》16 大实装首领（加兰德、卡奥斯、艾克斯德斯、欧米茄、神龙等）及经典幻兽',
+    crossVolumeTag: '联动 VOL.03 16首领参数表',
+    docLabel: 'VOL.03 首领战术',
+    docPath: '/vble/docs/03_BOSS_TACTICS'
+  },
+  {
+    chapter: '12',
+    title: '其他游戏：怪物猎人、魂系、地狱与沙盒',
+    range: 'B0522 ~ B0569',
+    count: 48,
+    highlights: '涵盖古龙种、魂系薪王/外神、迪亚波罗、巫妖王、泰拉瑞亚月球领主等游戏史经典强敌',
+    crossVolumeTag: '联动 VOL.17 跨界生态',
+    docLabel: 'VOL.17 跨界生态',
+    docPath: '/vble/docs/17_CROSS_WORLD_BOSSES'
+  },
+  {
+    chapter: '13',
+    title: '动漫：尾兽、鬼、咒灵、使徒与宇宙强敌',
+    range: 'B0570 ~ B0614',
+    count: 45,
+    highlights: '涵盖龙珠、火影尾兽/大筒木、一拳超人、鬼灭、咒术、死神、EVA 使徒、美少女战士反派谱系',
+    crossVolumeTag: '联动 VOL.18 多阶段连携',
+    docLabel: 'VOL.18 多阶段技',
+    docPath: '/vble/docs/18_MULTI_PHASE_BOSS_SKILLS'
+  },
+  {
+    chapter: '14',
+    title: '宇宙、电影、特摄与恐怖奇幻文学',
+    range: 'B0615 ~ B0650',
+    count: 36,
+    highlights: '涵盖克苏鲁神话外神/旧日支配者、哥斯拉与特摄怪兽、异形/铁血战士、行星吞噬者、索伦等',
+    crossVolumeTag: '联动 VOL.23 陨星古神遗迹',
+    docLabel: 'VOL.23 陨星之礁',
+    docPath: '/vble/docs/23_RUIN_METEOR_REEF'
+  }
+]
+
+const filteredBestiaryChapters = computed(() => {
+  if (!bestiaryChapterFilter.value.trim()) return bestiary14Chapters
+  const q = bestiaryChapterFilter.value.trim().toLowerCase()
+  return bestiary14Chapters.filter(c =>
+    c.chapter.includes(q) ||
+    c.title.toLowerCase().includes(q) ||
+    c.range.toLowerCase().includes(q) ||
+    c.highlights.toLowerCase().includes(q) ||
+    c.crossVolumeTag.toLowerCase().includes(q)
+  )
+})
 
 </script>
 

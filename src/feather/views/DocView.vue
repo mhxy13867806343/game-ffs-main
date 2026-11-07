@@ -88,28 +88,77 @@
     <!-- 社交一键全平台分享横幅 -->
     <SocialShareBar mode="banner" />
 
+    <!-- 移动端折叠目录抽屉 -->
+    <div class="lg:hidden mb-6 p-4 rounded-2xl bg-[#0b101c] border border-[#1b273e] text-xs space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="font-bold text-amber-400 flex items-center gap-1.5">
+          <span>📑</span>
+          <span>文档目录索引 ({{ filteredTocList.length }} 节)</span>
+        </div>
+        <button
+          type="button"
+          class="px-2.5 py-1 rounded bg-[#141e30] text-amber-300 border border-[#263753] font-mono cursor-pointer"
+          @click="mobileTocOpen = !mobileTocOpen"
+        >
+          {{ mobileTocOpen ? '收起目录 ▲' : '展开目录 ▼' }}
+        </button>
+      </div>
+      <div v-if="mobileTocOpen" class="space-y-2 pt-2 border-t border-[#1b273e]">
+        <input
+          v-model="tocFilterQuery"
+          type="text"
+          placeholder="过滤章节标题..."
+          class="w-full bg-[#101726] border border-[#22314a] focus:border-amber-400 text-white placeholder-gray-500 text-xs px-3 py-1.5 rounded-lg outline-none"
+        />
+        <div class="max-h-60 overflow-y-auto space-y-1">
+          <button
+            v-for="item in filteredTocList"
+            :key="item.id"
+            type="button"
+            class="w-full text-left block py-1 px-2 rounded hover:bg-white/5 transition-colors truncate cursor-pointer"
+            :class="[
+              activeTocId === item.id ? 'bg-amber-500/20 text-amber-300 font-bold' : '',
+              item.level === 1 ? 'text-amber-300 font-bold' : item.level === 2 ? 'text-cyan-300 pl-4' : 'text-gray-400 pl-6 text-[11px]'
+            ]"
+            @click="scrollToTocHeading(item.id)"
+          >
+            {{ item.title }}
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Layout: Sidebar TOC + Main Markdown Content -->
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
       <!-- Sticky Sidebar TOC -->
-      <aside class="hidden lg:block lg:col-span-1 sticky top-20 max-h-[calc(100vh-100px)] overflow-y-auto p-4 rounded-2xl bg-[#0b101c] border border-[#1b273e] text-xs">
-        <div class="font-bold text-amber-400 mb-3 flex items-center gap-1.5">
-          <span>📑</span>
-          <span>文档目录索引 (快速定位)</span>
+      <aside class="hidden lg:block lg:col-span-1 sticky top-20 max-h-[calc(100vh-100px)] overflow-y-auto p-4 rounded-2xl bg-[#0b101c] border border-[#1b273e] text-xs space-y-3">
+        <div class="font-bold text-amber-400 flex items-center justify-between">
+          <span class="flex items-center gap-1.5">
+            <span>📑</span>
+            <span>文档目录索引</span>
+          </span>
+          <span class="text-[10px] font-mono text-gray-400">{{ filteredTocList.length }} 节</span>
         </div>
+        <input
+          v-model="tocFilterQuery"
+          type="text"
+          placeholder="检索目录章节..."
+          class="w-full bg-[#101726] border border-[#22314a] focus:border-amber-400 text-white placeholder-gray-500 text-xs px-2.5 py-1.5 rounded-lg outline-none transition-colors"
+        />
         <div class="space-y-1">
-          <a
-            v-for="item in tocList"
+          <button
+            v-for="item in filteredTocList"
             :key="item.id"
-            :href="`#${item.id}`"
-            class="block py-1 px-2 rounded hover:bg-white/5 transition-colors truncate"
-            :class="{
-              'text-amber-300 font-bold': item.level === 1,
-              'text-cyan-300 pl-4': item.level === 2,
-              'text-gray-400 pl-6 text-[11px]': item.level === 3
-            }"
+            type="button"
+            class="w-full text-left block py-1 px-2 rounded hover:bg-white/5 transition-colors truncate cursor-pointer"
+            :class="[
+              activeTocId === item.id ? 'bg-amber-500/20 text-amber-300 font-bold border-l-2 border-amber-400' : '',
+              item.level === 1 ? 'text-amber-300 font-bold' : item.level === 2 ? 'text-cyan-300 pl-4' : 'text-gray-400 pl-6 text-[11px]'
+            ]"
+            @click="scrollToTocHeading(item.id)"
           >
             {{ item.title }}
-          </a>
+          </button>
         </div>
       </aside>
 
@@ -150,9 +199,26 @@ interface TocItem {
 const loading = ref(true)
 const docMarkdown = ref('')
 const searchQuery = ref('')
+const tocFilterQuery = ref('')
+const mobileTocOpen = ref(false)
+const activeTocId = ref('')
 const fontSizeLevel = ref<'small' | 'normal' | 'large'>('normal')
 const copied = ref(false)
 const tocList = ref<TocItem[]>([])
+
+const filteredTocList = computed(() => {
+  if (!tocFilterQuery.value.trim()) return tocList.value
+  const q = tocFilterQuery.value.trim().toLowerCase()
+  return tocList.value.filter(item => item.title.toLowerCase().includes(q))
+})
+
+const scrollToTocHeading = (id: string) => {
+  activeTocId.value = id
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 
 const matchCount = computed(() => {
   if (!searchQuery.value.trim() || !docMarkdown.value) return 0
@@ -178,19 +244,22 @@ const copyMarkdown = async () => {
 onMounted(() => {
   docMarkdown.value = rawDoc
 
-  // Parse Headers for TOC
+  // Parse Headers for TOC (skipping fenced code blocks)
   const lines = rawDoc.split('\n')
   const tocs: TocItem[] = []
+  let inCodeBlock = false
+  let idx = 0
   lines.forEach((line: string) => {
+    if (line.trim().startsWith('```')) {
+      inCodeBlock = !inCodeBlock
+      return
+    }
+    if (inCodeBlock) return
     const match = line.match(/^(#{1,3})\s+(.+)$/)
     if (match) {
       const level = match[1].length
-      const title = match[2].trim()
-      // Generate url-safe id
-      const id = title
-        .toLowerCase()
-        .replace(/[\s\.\·\/\(\)\,\#]+/g, '-')
-        .replace(/^-+|-+$/g, '')
+      const title = match[2].replace(/[`*_~]/g, '').trim()
+      const id = `feather-toc-${idx++}`
       tocs.push({ id, title, level })
     }
   })
@@ -201,19 +270,12 @@ onMounted(() => {
 const renderedHtml = computed(() => {
   if (!docMarkdown.value) return ''
 
-  // Configure marked custom renderer to assign IDs to headers for TOC anchor jump
-  const renderer = new marked.Renderer()
-  renderer.heading = ({ text, depth }: { text: string, depth: number }) => {
-    const cleanText = text.replace(/<[^>]+>/g, '')
-    const id = cleanText
-      .toLowerCase()
-      .replace(/[\s\.\·\/\(\)\,\#]+/g, '-')
-      .replace(/^-+|-+$/g, '')
-    return `<h${depth} id="${id}">${text}</h${depth}>`
-  }
-
-  marked.setOptions({ renderer, gfm: true, breaks: true })
   let html = marked.parse(docMarkdown.value) as string
+  let headingIdx = 0
+  html = html.replace(/<h([123])([^>]*)>/gi, (_full, level, attrs) => {
+    const id = `feather-toc-${headingIdx++}`
+    return `<h${level}${attrs} id="${id}" class="scroll-mt-24">`
+  })
 
   if (searchQuery.value.trim()) {
     const q = searchQuery.value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')

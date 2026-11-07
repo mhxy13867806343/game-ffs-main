@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-bestiary-b0650-feather-toc-v356-2026-11-07',
+    version: 'v2.2.356',
+    date: '2026-11-07',
+    title: '全域魔物图鉴实装 B0001~B0650 跨界 14 章总目映射沙盘，修复《裂空之羽》文档目录 Hash 路由冲突',
+    category: 'system',
+    categoryName: '图鉴总目与阅读器优化',
+    icon: '🐉',
+    tagType: 'success',
+    description: '1. 在全域魔物图鉴 (/vble/monsters) 顶部实装「B0001~B0650 跨界 650 全量魔物 14 主题章总目索引与跨卷映射沙盘」，完整对齐《VOL.17 / VOL.27》附录 D 的 14 大主题章编号区间、代表物种及《VOL.03 / 09 / 10 / 13 / 18 / 19 / 22 / 23》跨卷联动入口；2. 重构《裂空之羽》策划文档阅读器 (/feather/doc) 的目录索引机制，采用平滑锚点滚动替代原生 #hash 链接避免触发 Vue Hash 路由跳出，并新增目录章节实时搜索与移动端折叠目录抽屉。',
+    highlights: [
+      '魔物图鉴新增 B0001~B0650 十四主题章 650 条目总目检索卡片与跨卷直达按钮',
+      '支持按编号区间（如 B0029、B0436）、物种名称或关联白皮书卷号即时过滤 14 大生态章节',
+      '修复《裂空之羽》2688 行策划文档点击目录锚点导致 Hash 路由跳转丢失页面的问题',
+      '《裂空之羽》文档阅读器新增章节目录关键词过滤框与移动端自适应折叠目录抽屉'
+    ],
+    relatedLinks: [
+      { label: '全域魔物图鉴', path: '/vble/monsters', icon: '👾' },
+      { label: '跨界魔物大典 (VOL.27)', path: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC', icon: '🐉' },
+      { label: '裂空之羽策划文档', path: '/feather/doc', icon: '🪶' }
+    ]
+  },
+  {
     id: 'up-whitepaper-toc-appendix-v355-2026-11-07',
     version: 'v2.2.355',
     date: '2026-11-07',
