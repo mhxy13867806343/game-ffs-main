@@ -1886,6 +1886,152 @@
       </div>
     </div>
 
+
+    <!-- VOL.08 §1 / §4.3 2026-10-22 跳字徽章契约推演工坊 (v2.2.376) -->
+    <div id="vol08-damage-badge-contract-studio" class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-amber-950/45 via-slate-900/95 to-rose-950/40 border border-amber-500/40 shadow-[0_0_35px_rgba(245,158,11,0.14)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-amber-500/25 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              VOL.08 §1 / §4.3 · 2026-10-22 DAMAGE-NUMBER BADGES
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-xs font-mono font-bold">
+              STRICT CRIT 150% · FINITE WEAK · SHARED LIFECYCLE
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>💥</span> 跳字徽章首段契约推演台：暴击 150% 金轮廓 × WEAK 弱点标签 × 同根生命周期
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 leading-relaxed">
+            严格对齐 <code class="text-amber-300 font-mono">08_SYSTEM_ARCHITECTURE.md</code> §1 跳字系统与 §4.3 下 2026-10-22 实装记录：仅「逐 hit 正 HP 结果」具备徽章资格；<code class="text-rose-300 font-mono">strict critical</code> 放大 150% 并附金轮廓，<code class="text-cyan-300 font-mono">finite element_multiplier &gt; 1</code> 附 WEAK；徽章与根数字共享生命周期；<code class="text-gray-200 font-mono">calculated</code> 显示值不作实伤资格。
+          </p>
+        </div>
+        <router-link to="/vble/docs/08_SYSTEM_ARCHITECTURE">
+          <n-button size="small" type="warning" secondary round>📖 VOL.08 系统架构白皮书</n-button>
+        </router-link>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        <!-- 输入面板 -->
+        <div class="lg:col-span-2 p-4 rounded-xl bg-slate-950/85 border border-amber-500/30 space-y-3">
+          <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2"><span>🎛️</span> 单 hit 结果输入</h3>
+          <div class="text-[11px] text-gray-400">预设样例：</div>
+          <div class="flex flex-wrap gap-1.5">
+            <button
+              v-for="preset in badgeHitPresets"
+              :key="preset.id"
+              type="button"
+              class="px-2 py-1 rounded text-[11px] font-mono border transition-all"
+              :class="badgeActivePreset === preset.id
+                ? 'bg-amber-500/25 border-amber-400 text-amber-200 font-bold'
+                : 'bg-slate-900 border-slate-800 text-gray-400 hover:border-amber-500/40'"
+              @click="applyBadgePreset(preset.id)"
+            >
+              {{ preset.label }}
+            </button>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-gray-400">结果来源 (source)</span>
+              <select v-model="badgeHitSource" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-gray-200 font-mono text-[11px]">
+                <option value="hit">逐 hit 实伤结果</option>
+                <option value="calculated">calculated 显示值</option>
+              </select>
+            </div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-gray-400">HP 变化值 (正=伤害, 负=吸收/回复)</span>
+              <input v-model.number="badgeHitValue" type="number" class="w-28 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-gray-200 font-mono text-[11px] text-right" />
+            </div>
+            <label class="flex items-center justify-between gap-2 cursor-pointer">
+              <span class="text-gray-400">strict critical === true</span>
+              <input v-model="badgeStrictCritical" type="checkbox" class="accent-amber-400" />
+            </label>
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-gray-400">element_multiplier</span>
+              <select v-model="badgeElementMode" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-gray-200 font-mono text-[11px]">
+                <option value="finite">有限数值</option>
+                <option value="infinity">Infinity</option>
+                <option value="nan">NaN</option>
+                <option value="missing">缺省 (undefined)</option>
+              </select>
+            </div>
+            <div v-if="badgeElementMode === 'finite'" class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-500">倍率</span>
+                <span class="font-mono text-cyan-300">{{ badgeElementValue.toFixed(2) }}x</span>
+              </div>
+              <input v-model.number="badgeElementValue" type="range" min="0" max="2" step="0.25" class="w-full accent-cyan-400 cursor-pointer" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 预览与判定 -->
+        <div class="lg:col-span-3 p-4 rounded-xl bg-slate-950/85 border border-rose-500/30 space-y-3">
+          <h3 class="text-sm font-bold text-rose-300 flex items-center gap-2"><span>🔍</span> 跳字渲染预览与资格判定</h3>
+          <div class="relative h-36 rounded-xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 flex items-center justify-center overflow-hidden">
+            <div class="flex flex-col items-center" :style="{ transform: `scale(${badgeVerdict.scale})` }">
+              <span
+                v-if="badgeVerdict.weak"
+                class="px-1.5 py-0.5 mb-1 rounded bg-cyan-500/90 text-[10px] font-black text-slate-950 tracking-widest"
+              >WEAK</span>
+              <span
+                class="text-3xl font-black font-mono"
+                :class="badgeVerdict.colorClass"
+                :style="badgeVerdict.crit ? { textShadow: '0 0 2px #facc15, 1px 1px 0 #ca8a04, -1px -1px 0 #ca8a04, 1px -1px 0 #ca8a04, -1px 1px 0 #ca8a04' } : {}"
+              >{{ badgeVerdict.text }}</span>
+            </div>
+            <span class="absolute bottom-2 right-3 text-[10px] font-mono text-gray-500">scale = {{ (badgeVerdict.scale * 100).toFixed(0) }}%</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
+            <div
+              v-for="check in badgeVerdict.checks"
+              :key="check.label"
+              class="p-2.5 rounded-lg border"
+              :class="check.pass ? 'bg-emerald-950/40 border-emerald-500/30' : 'bg-slate-900 border-slate-800'"
+            >
+              <div class="font-bold" :class="check.pass ? 'text-emerald-300' : 'text-gray-400'">
+                {{ check.pass ? '✅' : '⛔' }} {{ check.label }}
+              </div>
+              <div class="text-gray-400 mt-1 leading-relaxed">{{ check.reason }}</div>
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] font-mono text-amber-200">
+            {{ badgeVerdict.lifecycle }}
+          </div>
+        </div>
+      </div>
+
+      <!-- 范围边界 & 验证证据 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2">
+          <h4 class="text-xs font-bold text-emerald-300">🔒 未改动接口（零侵入）</h4>
+          <ul class="space-y-1 text-[11px] text-gray-300">
+            <li v-for="item in badgeContractUnchanged" :key="item" class="flex gap-1.5"><span class="text-emerald-400">•</span>{{ item }}</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2">
+          <h4 class="text-xs font-bold text-amber-300">🚧 尚未扩展范围</h4>
+          <ul class="space-y-1 text-[11px] text-gray-300">
+            <li v-for="item in badgeContractNotExtended" :key="item" class="flex gap-1.5"><span class="text-amber-400">•</span>{{ item }}</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2">
+          <h4 class="text-xs font-bold text-cyan-300">🧾 验证证据（如实记录）</h4>
+          <div class="space-y-1.5">
+            <div v-for="ev in badgeContractEvidence" :key="ev.label" class="flex items-start justify-between gap-2 text-[11px]">
+              <span class="text-gray-400">{{ ev.label }}</span>
+              <span class="font-mono font-bold shrink-0" :class="ev.ok ? 'text-emerald-300' : 'text-rose-300'">{{ ev.value }}</span>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-gray-500">
+            docs/verification/damage-number-badges-20261022
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -3527,5 +3673,116 @@ const copyArmorPenScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 穿透衰减源码到剪贴板！')
   }
 }
+
+
+// VOL.08 §1 / §4.3 2026-10-22 跳字徽章契约 (v2.2.376)
+type BadgeElementMode = 'finite' | 'infinity' | 'nan' | 'missing'
+interface BadgeHitPreset {
+  id: string
+  label: string
+  source: 'hit' | 'calculated'
+  value: number
+  crit: boolean
+  mode: BadgeElementMode
+  mult: number
+}
+
+const badgeHitPresets: BadgeHitPreset[] = [
+  { id: 'crit-weak', label: '暴击+弱点', source: 'hit', value: 4820, crit: true, mode: 'finite', mult: 1.5 },
+  { id: 'crit-only', label: '纯暴击', source: 'hit', value: 2610, crit: true, mode: 'finite', mult: 1 },
+  { id: 'weak-only', label: '纯弱点', source: 'hit', value: 1740, crit: false, mode: 'finite', mult: 2 },
+  { id: 'resist', label: '抗性 0.5x', source: 'hit', value: 380, crit: false, mode: 'finite', mult: 0.5 },
+  { id: 'inf', label: 'Infinity 倍率', source: 'hit', value: 999, crit: false, mode: 'infinity', mult: 1 },
+  { id: 'absorb', label: '吸收回复', source: 'hit', value: -650, crit: true, mode: 'finite', mult: 1.5 },
+  { id: 'calc', label: 'calculated 预估', source: 'calculated', value: 3300, crit: true, mode: 'finite', mult: 1.5 }
+]
+
+const badgeActivePreset = ref('crit-weak')
+const badgeHitSource = ref<'hit' | 'calculated'>('hit')
+const badgeHitValue = ref(4820)
+const badgeStrictCritical = ref(true)
+const badgeElementMode = ref<BadgeElementMode>('finite')
+const badgeElementValue = ref(1.5)
+
+const applyBadgePreset = (id: string) => {
+  const p = badgeHitPresets.find(x => x.id === id)
+  if (!p) return
+  badgeActivePreset.value = id
+  badgeHitSource.value = p.source
+  badgeHitValue.value = p.value
+  badgeStrictCritical.value = p.crit
+  badgeElementMode.value = p.mode
+  badgeElementValue.value = p.mult
+}
+
+const badgeVerdict = computed(() => {
+  const isHit = badgeHitSource.value === 'hit'
+  const value = Number(badgeHitValue.value) || 0
+  const positiveHp = isHit && value > 0
+  const mult = badgeElementMode.value === 'finite'
+    ? badgeElementValue.value
+    : badgeElementMode.value === 'infinity'
+      ? Infinity
+      : badgeElementMode.value === 'nan' ? NaN : undefined
+  const finiteWeak = typeof mult === 'number' && Number.isFinite(mult) && mult > 1
+  const crit = positiveHp && badgeStrictCritical.value === true
+  const weak = positiveHp && finiteWeak
+
+  const eligibilityReason = !isHit
+    ? 'calculated 显示值不作实伤资格，不挂任何徽章'
+    : value > 0 ? '逐 hit 正 HP 结果，具备徽章资格' : '非正 HP（吸收/回复/0），首段不挂徽章'
+
+  return {
+    crit,
+    weak,
+    scale: crit ? 1.5 : 1,
+    text: value < 0 ? `+${Math.abs(value)}` : `${value}`,
+    colorClass: value < 0 ? 'text-emerald-400' : !isHit ? 'text-gray-400' : crit ? 'text-yellow-200' : 'text-white',
+    checks: [
+      { label: '徽章资格', pass: positiveHp, reason: eligibilityReason },
+      {
+        label: 'CRIT 150% + 金轮廓',
+        pass: crit,
+        reason: crit ? 'strict critical === true，根数字放大 150% 并描金' : '需同时满足正 HP 与 strict critical === true'
+      },
+      {
+        label: 'WEAK 标签',
+        pass: weak,
+        reason: weak
+          ? `element_multiplier = ${mult} 为有限值且 > 1`
+          : `element_multiplier = ${String(mult)}，需正 HP 且 Number.isFinite(m) && m > 1`
+      }
+    ],
+    lifecycle: crit || weak
+      ? '♻️ 同根生命周期：徽章作为根数字子节点生成，随根数字共享浮动计时与销毁，不新增独立计时器。'
+      : '♻️ 无徽章挂载：根数字按原有接口与计时正常浮动、销毁。'
+  }
+})
+
+const badgeContractUnchanged = [
+  '原跳字数字接口',
+  '跳字浮动计时',
+  '伤害计算公式',
+  '敌方 AI 决策',
+  'ATB 行动条',
+  'random 随机序列'
+]
+
+const badgeContractNotExtended = [
+  '正伤反击路径缺原数字，未挂徽章',
+  '状态异常跳字未扩展',
+  '反射魔法跳字未扩展',
+  '合批放电跳字未扩展'
+]
+
+const badgeContractEvidence = [
+  { label: '新增用例', value: '4/4', ok: true },
+  { label: '回归套件', value: '467 通过', ok: true },
+  { label: '邻域套件 A', value: '30/31', ok: false },
+  { label: '邻域套件 B', value: '1026/1027', ok: false },
+  { label: '引擎诊断', value: '0 条', ok: true },
+  { label: '旧吸魔结算 hits 空项 (改前 baseline 同败)', value: '3/4', ok: false },
+  { label: '自然战斗 / 真人视觉验收', value: '未进行', ok: false }
+]
 
 </script>

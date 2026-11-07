@@ -1410,14 +1410,14 @@
             <span>⚗️</span> 药剂师【调合】六大禁忌灵药双源对账与青魔法 30 技黄金三法则习得工坊
           </h2>
           <p class="text-xs sm:text-sm text-gray-300 mt-1 leading-relaxed">
-            严格对齐 <code class="text-emerald-300 font-mono">05_EQUIPMENT_AND_ECONOMY.md (§2 / §7 ECO-C03)</code> 与 <code class="text-cyan-300 font-mono">04_JOB_AND_ABILITY_SYSTEM.md (§4)</code>：完整收录白皮书六大核心禁忌调合秘方与 <code class="text-amber-300 font-mono">mixRecipes.ts</code> 双源对照、青魔法习得黄金三法则验证器，以及【黑冲击 Lv/2 → 5级即死】必杀连携推演器。
+            严格对齐 <code class="text-emerald-300 font-mono">05_EQUIPMENT_ECONOMY.md (§2 / §7 ECO-C03)</code> 与 <code class="text-cyan-300 font-mono">04_JOB_SYSTEM.md (§4)</code>：完整收录白皮书六大核心禁忌调合秘方与 <code class="text-amber-300 font-mono">mixRecipes.ts</code> 双源对照、青魔法习得黄金三法则验证器，以及【黑冲击 Lv/2 → 5级即死】必杀连携推演器。
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-          <router-link to="/vble/docs/05_EQUIPMENT_AND_ECONOMY">
+          <router-link to="/vble/docs/05_EQUIPMENT_ECONOMY">
             <n-button size="small" type="success" secondary round>📖 VOL.05 调合白皮书</n-button>
           </router-link>
-          <router-link to="/vble/docs/04_JOB_AND_ABILITY_SYSTEM">
+          <router-link to="/vble/docs/04_JOB_SYSTEM">
             <n-button size="small" type="info" secondary round>📘 VOL.04 青魔法专卷</n-button>
           </router-link>
         </div>

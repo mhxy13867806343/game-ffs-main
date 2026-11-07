@@ -210,6 +210,27 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-attributes-vol08-damage-badge-contract-v376-2026-11-07',
+    version: 'v2.2.376',
+    date: '2026-11-07',
+    title: '属性计算页实装 VOL.08 跳字徽章首段契约推演台：strict critical 150% 金轮廓、finite WEAK 标签与同根生命周期',
+    category: 'ui',
+    categoryName: '跳字徽章契约',
+    icon: '💥',
+    tagType: 'warning',
+    description:
+      '严格对齐《08_SYSTEM_ARCHITECTURE.md》§1 跳字系统与 §4.3 下 2026-10-22 实装记录，在属性计算页（/vble/attributes#vol08-damage-badge-contract-studio）新增跳字徽章契约推演台：可切换逐 hit / calculated 来源、正负 HP 值、strict critical 与 element_multiplier（有限值 / Infinity / NaN / 缺省），实时预览 150% 放大金轮廓与 WEAK 标签并逐条给出资格判定；同时如实列出零侵入接口、未扩展范围与验证证据（新 4/4、467，邻域 30/31、1026/1027，未进行自然战斗与真人视觉验收）。同步修正 v2.2.375 中 VOL.04 / VOL.05 白皮书跳转链接。',
+    highlights: [
+      '徽章资格判定：仅逐 hit 正 HP 结果可挂徽章，calculated 显示值与吸收/回复跳字不挂',
+      'CRIT 需 strict critical === true，WEAK 需 Number.isFinite(m) && m > 1，Infinity / NaN / 缺省一律不挂',
+      '验证证据面板如实展示邻域非全过项与旧吸魔结算 baseline 3/4 同败，不夸大验收结论'
+    ],
+    relatedLinks: [
+      { label: '跳字徽章契约推演台', path: '/vble/attributes#vol08-damage-badge-contract-studio', icon: '💥' },
+      { label: 'VOL.08 系统架构白皮书', path: '/vble/docs/08_SYSTEM_ARCHITECTURE', icon: '📖' }
+    ]
+  },
+  {
     id: 'up-items-vol04-vol05-alchemy-bluemagic-v375-2026-11-07',
     version: 'v2.2.375',
     date: '2026-11-07',
@@ -219,7 +240,7 @@ const updateList: UpdateRecord[] = [
     icon: '⚗️',
     tagType: 'success',
     description:
-      '严格对齐《05_EQUIPMENT_AND_ECONOMY.md》§2/§7 ECO-C03 与《04_JOB_AND_ABILITY_SYSTEM.md》§4，在道具与炼金页（/vble/items#vol04-vol05-alchemy-bluemagic-studio）新增药剂师六大战斗内禁忌调合秘方（生体龙之灵药 HP上限+100%、龙之力 Lv+20、生命祝福 Reraise、法力超频 MP上限+100%、生铁硬化 DEF+200%、黑暗之光 80%三封锁）与 mixRecipes.ts 双源对照矩阵、青魔法 30 技黄金三法则 + 训兽师【控制】习得验证器，以及【黑冲击 Lv/2 × 龙之力 +20 → 5级即死】跨等级操控必杀推演器。',
+      '严格对齐《05_EQUIPMENT_ECONOMY.md》§2/§7 ECO-C03 与《04_JOB_SYSTEM.md》§4，在道具与炼金页（/vble/items#vol04-vol05-alchemy-bluemagic-studio）新增药剂师六大战斗内禁忌调合秘方（生体龙之灵药 HP上限+100%、龙之力 Lv+20、生命祝福 Reraise、法力超频 MP上限+100%、生铁硬化 DEF+200%、黑暗之光 80%三封锁）与 mixRecipes.ts 双源对照矩阵、青魔法 30 技黄金三法则 + 训兽师【控制】习得验证器，以及【黑冲击 Lv/2 × 龙之力 +20 → 5级即死】跨等级操控必杀推演器。',
     highlights: [
       'VOL.05 §2 & ECO-C03 禁忌调合双源矩阵：6 大战中突破秘方与门户 MIX-01~15 配方双向映射，支持实时推演 HP 19,998 突破与 Lv.255 调频',
       'VOL.04 §4 青魔法黄金三法则验证器：验证「青魔/学习在场 + 承受怪物实弹命中 + 存活至战斗结算」与训兽师【控制】引导白风/全能防御习得',
@@ -227,8 +248,8 @@ const updateList: UpdateRecord[] = [
     ],
     relatedLinks: [
       { label: '禁忌调合与青魔法工坊', path: '/vble/items#vol04-vol05-alchemy-bluemagic-studio', icon: '⚗️' },
-      { label: 'VOL.05 装备与经济白皮书', path: '/vble/docs/05_EQUIPMENT_AND_ECONOMY', icon: '📖' },
-      { label: 'VOL.04 职业与技能白皮书', path: '/vble/docs/04_JOB_AND_ABILITY_SYSTEM', icon: '📘' }
+      { label: 'VOL.05 装备与经济白皮书', path: '/vble/docs/05_EQUIPMENT_ECONOMY', icon: '📖' },
+      { label: 'VOL.04 职业与技能白皮书', path: '/vble/docs/04_JOB_SYSTEM', icon: '📘' }
     ]
   },
   {
