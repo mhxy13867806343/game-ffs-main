@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Vehicles Matrix, Spatiotemporal Warp Drive & Cruise Studio v2.2.327
+              VBLE Vehicles Matrix, Terrain Passability &amp; Boarding State-Machine Studio v2.2.366
             </span>
             <span class="text-xs text-gray-400">大世界航行与次元动力</span>
           </div>
@@ -85,6 +85,17 @@
             <template #icon><span>🌌</span></template>
             星舰折跃工坊
           </n-button>
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToVol06ContractStudio"
+          >
+            <template #icon><span>🧭</span></template>
+            VOL.06 地形停靠与状态机
+          </n-button>
           <router-link to="/vble/docs/06_TRAVEL_VEHICLES">
             <n-button size="medium" round secondary type="warning" class="shadow-md">
               <template #icon><span>📖</span></template>
@@ -96,6 +107,154 @@
               查看世界地图
             </n-button>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOL.06 §5-§7 七大载具参数总表、9×7 地形通行/停靠矩阵与乘降状态机契约工坊 (v2.2.366) -->
+    <div
+      id="vol06-vehicle-contract-studio"
+      class="rounded-2xl border border-amber-500/30 bg-gradient-to-br from-slate-950 via-amber-950/15 to-slate-900 p-4 sm:p-5 space-y-4"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              VOL.06 §5-§7 VEHICLE CONTRACT
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              9×7 地形通行矩阵 · Boarding 状态机 · VH-01~06
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            🧭 VOL.06 七大载具参数总表、9×7 地形停靠判定 (LandingCheck) 与乘降状态机验算工坊
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol06StudioTab === 'matrix' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol06StudioTab = 'matrix'"
+          >
+            🗺️ 七大载具参数与 9×7 地形矩阵 (§5)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol06StudioTab === 'landing' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol06StudioTab = 'landing'"
+          >
+            ⚓ LandingCheck 停靠判定与 VH-01~06 验收 (§6-§7)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: 七大载具参数总表与 9×7 地形通行矩阵 -->
+      <div v-if="vol06StudioTab === 'matrix'" class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2 overflow-x-auto">
+          <div class="font-bold text-amber-300 text-sm">📊 §5 载具数值参数总表 (基准步行速度 = 1.0x / 4格每秒)</div>
+          <table class="w-full text-left border-collapse text-[11px]">
+            <thead>
+              <tr class="border-b border-slate-800 text-gray-400">
+                <th class="py-1.5 pr-2">载具</th>
+                <th class="py-1.5 px-2">章节</th>
+                <th class="py-1.5 px-2">速度</th>
+                <th class="py-1.5 px-2">遇敌率</th>
+                <th class="py-1.5 px-2">可停靠地形</th>
+                <th class="py-1.5 pl-2">舱内存档</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="v in vol06VehicleSheet" :key="v.id" class="border-b border-slate-900/80">
+                <td class="py-1.5 pr-2 font-bold text-white">{{ v.name }}</td>
+                <td class="py-1.5 px-2 font-mono text-gray-400">{{ v.chapter }}</td>
+                <td class="py-1.5 px-2 font-mono text-cyan-300">{{ v.speed }}</td>
+                <td class="py-1.5 px-2 font-mono" :class="v.encounter === '0%' ? 'text-emerald-300' : 'text-amber-300'">{{ v.encounter }}</td>
+                <td class="py-1.5 px-2 text-gray-300">{{ v.landable }}</td>
+                <td class="py-1.5 pl-2 font-mono">{{ v.canSave }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2 overflow-x-auto">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300 text-sm">🧭 §5.1 9×7 地形通行矩阵</span>
+            <span class="text-[11px] font-mono text-gray-400">● 可停靠 · ○ 仅穿越 · ✘ 禁行</span>
+          </div>
+          <table class="w-full text-center border-collapse text-[11px] font-mono">
+            <thead>
+              <tr class="border-b border-slate-800 text-gray-400">
+                <th class="py-1.5 text-left">地形 \ 载具</th>
+                <th>徒步</th>
+                <th>黄鸟</th>
+                <th>帆船</th>
+                <th>黑鸟</th>
+                <th>潜艇</th>
+                <th>飞空艇</th>
+                <th>星际艇</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in vol06TerrainMatrix" :key="row.terrain" class="border-b border-slate-900/80">
+                <td class="py-1.5 text-left font-sans font-bold text-gray-200">{{ row.terrain }}</td>
+                <td v-for="(cell, idx) in row.cells" :key="idx" :class="cell === '●' ? 'text-emerald-400 font-bold' : cell.startsWith('○') ? 'text-amber-300' : 'text-rose-400/70'">
+                  {{ cell }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: LandingCheck 停靠判定模拟器与 VH-01~06 验收标准 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300 text-sm">⚓ §6 LandingCheck 实时地形停靠与返巢判定模拟器</span>
+            <span
+              class="px-2 py-0.5 rounded font-mono text-[11px] font-bold"
+              :class="simLandingResult.status === '●' ? 'bg-emerald-500/20 text-emerald-300' : simLandingResult.status === '○' ? 'bg-amber-500/20 text-amber-300' : 'bg-rose-500/20 text-rose-300'"
+            >
+              {{ simLandingResult.badge }}
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-gray-400 block mb-1">当前骑乘载具:</label>
+              <select v-model="simVehicleIdx" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white text-xs">
+                <option v-for="(v, idx) in vol06VehicleCols" :key="v" :value="idx">{{ v }}</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">脚下 Tile 地形 (terrain_type):</label>
+              <select v-model="simTerrainIdx" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white text-xs">
+                <option v-for="(row, idx) in vol06TerrainMatrix" :key="row.terrain" :value="idx">{{ row.terrain }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 text-gray-300">
+            <div><strong>状态机流转：</strong>{{ simLandingResult.fsmTransition }}</div>
+            <div><strong>下车后载具行为 (§6.1)：</strong>{{ simLandingResult.afterDisembark }}</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2">
+          <div class="font-bold text-amber-300 text-sm">✅ §7 VH-01 ~ VH-06 载具系统验收标准清单</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div
+              v-for="ac in vol06AcceptanceList"
+              :key="ac.code"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-0.5"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-cyan-300">{{ ac.code }}</span>
+                <span class="text-[11px] font-bold text-white">{{ ac.title }}</span>
+              </div>
+              <div class="text-[11px] text-gray-400">{{ ac.rule }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -4337,6 +4496,81 @@ const copyWarpDriveScript = () => {
   navigator.clipboard.writeText(currentWarpDriveScriptCode.value)
   message.success('已复制 Godot 4.6 LTS 载具折跃驱动源码到剪贴板！')
 }
+
+// VOL.06 §5-§7 七大载具参数总表、9×7 地形通行矩阵与乘降状态机工坊 (v2.2.366)
+const scrollToVol06ContractStudio = () => {
+  document.getElementById('vol06-vehicle-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol06StudioTab = ref<'matrix' | 'landing'>('matrix')
+
+const vol06VehicleSheet = [
+  { id: 'foot', name: '徒步 (OnFoot)', chapter: '序章', speed: '1.0x', encounter: '100%', landable: '全部陆地', canSave: '仅存档点' },
+  { id: 'chocobo_yellow', name: '黄色陆行鸟', chapter: '第 2 章', speed: '2.0x', encounter: '0%', landable: '平原 / 草地 / 沙漠', canSave: '✘' },
+  { id: 'ship', name: '龙首帆船', chapter: '第 4 章', speed: '2.5x', encounter: '60% (海域)', landable: '港口 / 沿岸浅滩', canSave: '✘' },
+  { id: 'chocobo_black', name: '黑色陆行鸟', chapter: '第 7 章', speed: '3.0x', encounter: '0%', landable: '仅密林 (VH-02)', canSave: '✘' },
+  { id: 'submarine', name: '潜水艇', chapter: '第 12 章', speed: '2.0x', encounter: '80% (深海)', landable: '深海浮标点', canSave: '✘' },
+  { id: 'airship', name: '魔导飞空艇', chapter: '第 15 章', speed: '4.0x', encounter: '0%', landable: '平原 / 草地', canSave: '✔ (舱内)' },
+  { id: 'lunar_ship', name: '双月星际飞空艇', chapter: '第 24 章', speed: '5.0x', encounter: '0%', landable: '平原 / 月面着陆场', canSave: '✔' }
+]
+
+const vol06VehicleCols = ['徒步', '黄色陆行鸟', '龙首帆船', '黑色陆行鸟', '潜水艇', '魔导飞空艇', '双月星际艇']
+
+const vol06TerrainMatrix = [
+  { terrain: '平原 / 草地', cells: ['●', '●', '✘', '○', '✘', '●', '●'] },
+  { terrain: '沙漠', cells: ['●', '●', '✘', '○', '✘', '○', '○'] },
+  { terrain: '密林', cells: ['●', '✘', '✘', '●', '✘', '○', '○'] },
+  { terrain: '低山', cells: ['✘', '✘', '✘', '○', '✘', '○', '○'] },
+  { terrain: '高山禁飞区', cells: ['✘', '✘', '✘', '✘', '✘', '✘', '○'] },
+  { terrain: '河流', cells: ['✘', '✘', '✘', '○', '✘', '○', '○'] },
+  { terrain: '浅滩', cells: ['●', '✘', '●', '○', '✘', '○', '○'] },
+  { terrain: '外海', cells: ['✘', '✘', '○', '✘', '●', '○', '○'] },
+  { terrain: '深海海沟', cells: ['✘', '✘', '✘', '✘', '○', '✘', '✘'] }
+]
+
+const simVehicleIdx = ref(3) // 黑色陆行鸟
+const simTerrainIdx = ref(2) // 密林
+
+const simLandingResult = computed(() => {
+  const row = vol06TerrainMatrix[simTerrainIdx.value] || vol06TerrainMatrix[0]
+  const vName = vol06VehicleCols[simVehicleIdx.value] || vol06VehicleCols[0]
+  const status = row.cells[simVehicleIdx.value] || '✘'
+  const isChocobo = simVehicleIdx.value === 1 || simVehicleIdx.value === 3
+
+  if (status === '●') {
+    return {
+      status,
+      badge: '● 允许通行并停靠 (Disembark)',
+      fsmTransition: `Riding (${vName}) -> 按下确认键触发 LandingCheck(${row.terrain}) == ● -> 0.4s 淡出进入 Disembark -> OnFoot。`,
+      afterDisembark: isChocobo
+        ? '黄色 / 黑色陆行鸟下车后 3 秒自动跑回 / 飞回出生森林（VH-06 返巢契约）。'
+        : '帆船 / 潜艇 / 飞空艇留在当前下车坐标，写入存档 vehicle_positions 并在世界地图标记 ⚓ / ✈ 图标 (VH-04/05)。'
+    }
+  }
+  if (status === '○') {
+    return {
+      status,
+      badge: '○ 仅允许飞越/航行，禁止停靠',
+      fsmTransition: `Riding (${vName}) -> LandingCheck(${row.terrain}) == ○ -> 播放拒绝音效并在 HUD 闪烁「此处无法降落」 -> 保持 Riding 状态。`,
+      afterDisembark: '未发生下车；请移动至矩阵标记为 ● 的地形（如黑色陆行鸟需寻觅密林，飞空艇需寻觅平原/草地）再按确认键。'
+    }
+  }
+  return {
+    status: '✘',
+    badge: '✘ 地形阻断不可通行 (Blocked)',
+    fsmTransition: `${vName} 碰撞到【${row.terrain}】边缘即被物理碰撞体拦截（如 VH-03 飞空艇无法飞越高山禁飞区），不穿模。`,
+    afterDisembark: '无法进入该地形格。'
+  }
+})
+
+const vol06AcceptanceList = [
+  { code: 'VH-01', title: '陆行鸟/飞空艇 0 遇敌', rule: '骑乘黄鸟、黑鸟、魔导飞空艇或星际艇连续移动 2000 步，随机遇敌计数 = 0' },
+  { code: 'VH-02', title: '黑陆行鸟仅密林降落', rule: '在除密林外的其余 8 类地形尝试下车，LandingCheck 全部拒绝并提示无法降落' },
+  { code: 'VH-03', title: '高山禁飞区硬碰撞', rule: '魔导飞空艇触碰高山禁飞区停在边缘不穿模，唯有双月星际飞空艇可飞越' },
+  { code: 'VH-04', title: '存档/读档零坐标误差', rule: 'vehicle_positions 持久化记录 ship / airship 坐标，冷启动读档后误差 = 0 格' },
+  { code: 'VH-05', title: '剧情强制下车可找回', rule: 'Riding -> Cutscene 强制下车时自动写入坐标，剧情结束后世界地图图标正常交互' },
+  { code: 'VH-06', title: '陆行鸟 3 秒自动返巢', rule: '黄鸟/黑鸟下车 3 秒后从原坐标消失，返回出生森林刷新点供再次捕捉' }
+]
 
 </script>
 

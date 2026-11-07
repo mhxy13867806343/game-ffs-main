@@ -210,6 +210,27 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-vehicles-vol06-contract-studio-v366-2026-11-07',
+    version: 'v2.2.366',
+    date: '2026-11-07',
+    title: '载具矩阵工坊实装 VOL.06 七大载具参数总表、9×7 地形停靠矩阵与乘降状态机模拟器',
+    category: 'maps',
+    categoryName: '全地形载具与停靠契约',
+    icon: '🧭',
+    tagType: 'success',
+    description: '响应《VOL.06 大世界航行与全地形载具矩阵》§5-§7 工程附录对齐：在全地形载具矩阵页面 (/vble/vehicles) 实装「VOL.06 七大载具参数总表、9×7 地形停靠判定 (LandingCheck) 与乘降状态机验算工坊」。完整收录徒步、黄陆行鸟、龙首帆船、黑陆行鸟、潜水艇、魔导飞空艇与双月星际飞空艇的速度倍率、遇敌率与舱内存档能力，并提供 9×7 地形通行/停靠矩阵与实时 LandingCheck 状态机推演器。',
+    highlights: [
+      '实装 VOL.06 §5 七大载具参数总表（1.0x~5.0x 移速、0%/60%/80% 遇敌率及舱内存档权限对照）',
+      '实装 §5.1 9 类地形 × 7 类载具通行矩阵（● 可停靠 / ○ 仅穿越 / ✘ 不可通行）全量可视化表格',
+      '实装 §6 Boarding -> Riding -> LandingCheck -> Disembark 实时停靠模拟器（含黑陆行鸟仅密林降落与 3s 返巢规则）',
+      '完整呈现 §7 VH-01~VH-06 六项载具系统验收标准清单与 vehicle_positions 存档字段契约'
+    ],
+    relatedLinks: [
+      { label: '全地形载具矩阵', path: '/vble/vehicles', icon: '🛸' },
+      { label: '载具白皮书 (VOL.06)', path: '/vble/docs/06_TRAVEL_VEHICLES', icon: '📖' }
+    ]
+  },
+  {
     id: 'up-jobs-vol04-contract-studio-v365-2026-11-07',
     version: 'v2.2.365',
     date: '2026-11-07',
