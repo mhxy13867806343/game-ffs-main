@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-armory-vol04-vol15-dualwield-jobswitch-v378-2026-11-07',
+    version: 'v2.2.378',
+    date: '2026-11-07',
+    title: '配装沙盘实装 VOL.04 §8.3/§9 与 VOL.15 §3 真双持首版四武器校验与转职装备自动卸入背包推演台',
+    category: 'equipment',
+    categoryName: '真双持与转职机制',
+    icon: '🗡️',
+    tagType: 'warning',
+    description:
+      '严格对齐《04_JOB_SYSTEM.md》§8.3（二刀流须空置盾槽）、§9（转职不兼容装备自动卸入背包不丢失、HP/MP 按比例换算且向下取整≥1、剧情锁定入口置灰）与《15_NINJA_TEACHING.md》§3（真双持首版仅开放 2003/2004/2005/2053 四 ID，两手独立结算不加总），在配装模拟器（/vble/armory#vol04-vol15-dualwield-jobswitch-studio）新增双持校验与转职装备自动卸入背包推演台。',
+    highlights: [
+      'VOL.15 §3 真双持首版四武器白名单校验：主副手必须同属 2003/2004/2005/2053，普攻逐手结算不加总',
+      'VOL.04 §8.3 盾槽互斥铁律：offhand_weapon 与盾互斥，必须空置盾槽方可装备副手',
+      'VOL.04 §9 转职规则推演：非战斗状态切换，不兼容装备（如骑士转黑魔时巨盾）自动退回背包不丢失，HP 比例折算向下取整不回满'
+    ],
+    relatedLinks: [
+      { label: '双持与转职推演台', path: '/vble/armory#vol04-vol15-dualwield-jobswitch-studio', icon: '🗡️' },
+      { label: 'VOL.04 职业白皮书', path: '/vble/docs/04_JOB_SYSTEM', icon: '📘' },
+      { label: 'VOL.15 忍者奥义白皮书', path: '/vble/docs/15_NINJA_TEACHING', icon: '📗' }
+    ]
+  },
+  {
     id: 'up-summons-vol04-fusion-sq01-v377-2026-11-07',
     version: 'v2.2.377',
     date: '2026-11-07',

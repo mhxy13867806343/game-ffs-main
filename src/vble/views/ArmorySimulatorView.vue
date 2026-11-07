@@ -2583,6 +2583,120 @@
     </div>
 
     </n-modal>
+
+    <!-- VOL.04 §8.3 / §9 / VOL.15 §3 双持前置与转职卸装推演台 (v2.2.378) -->
+    <div id="vol04-vol15-dualwield-jobswitch-studio" class="mt-8 p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-orange-950/45 via-slate-900/95 to-teal-950/45 border border-orange-500/40 shadow-[0_0_35px_rgba(249,115,22,0.12)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-orange-500/25 pb-4">
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/40 text-xs font-mono font-bold">
+            VOL.04 §8.3 / §9 / §10 JOB-AC-05·06 × VOL.15 §3
+          </span>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2 mt-2">
+            <span>🗡️</span> 真双持首版四武器校验 & 转职装备自动卸入背包推演台
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 leading-relaxed">
+            对齐 <code class="text-orange-300 font-mono">04_JOB_SYSTEM.md</code>（二刀流须空置盾槽；转职不兼容装备卸入背包不丢失；HP/MP 按比例换算、向下取整且 ≥1）与 <code class="text-teal-300 font-mono">15_NINJA_TEACHING.md §3</code>（主副手须同在 2003/2004/2005/2053 四 ID 内）。
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <router-link to="/vble/docs/04_JOB_SYSTEM"><n-button size="small" type="warning" secondary round>📘 VOL.04</n-button></router-link>
+          <router-link to="/vble/docs/15_NINJA_TEACHING"><n-button size="small" type="success" secondary round>📗 VOL.15</n-button></router-link>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- 双持校验 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-orange-500/30 space-y-3">
+          <h3 class="text-sm font-bold text-orange-300">⚔️ 双持装配校验</h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="space-y-1">
+              <div class="text-gray-400">主手</div>
+              <select v-model="dwMainId" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-gray-200 font-mono text-[11px]">
+                <option v-for="w in dualWieldWeaponPool" :key="w.id" :value="w.id">{{ w.label }}</option>
+              </select>
+            </div>
+            <div class="space-y-1">
+              <div class="text-gray-400">副手</div>
+              <select v-model="dwOffId" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-gray-200 font-mono text-[11px]">
+                <option v-for="w in dualWieldWeaponPool" :key="w.id" :value="w.id">{{ w.label }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center gap-2 p-2 rounded bg-slate-900 border border-slate-800 cursor-pointer">
+              <input v-model="dwHasPassive" type="checkbox" class="accent-orange-400" /><span>已习得【二刀流】</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 rounded bg-slate-900 border border-slate-800 cursor-pointer">
+              <input v-model="dwShieldEquipped" type="checkbox" class="accent-rose-400" /><span>盾槽已装备盾牌</span>
+            </label>
+          </div>
+          <div class="space-y-1.5">
+            <div
+              v-for="c in dualWieldVerdict.checks"
+              :key="c.label"
+              class="flex items-start gap-2 text-[11px] p-2 rounded border"
+              :class="c.pass ? 'bg-emerald-950/40 border-emerald-500/30 text-emerald-200' : 'bg-rose-950/40 border-rose-500/30 text-rose-200'"
+            >
+              <span>{{ c.pass ? '✅' : '⛔' }}</span><span><b>{{ c.label }}</b> — {{ c.reason }}</span>
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] font-mono text-gray-300">
+            <template v-if="dualWieldVerdict.ok">
+              普攻逐手独立结算（各 1.0）：主手 ATK {{ dualWieldVerdict.mainAtk }} / 副手 ATK {{ dualWieldVerdict.offAtk }} —— 两刀<b class="text-amber-300">不加总</b>为单一攻击力。
+            </template>
+            <template v-else>装配被拒绝，维持单持。</template>
+          </div>
+        </div>
+
+        <!-- 转职推演 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-teal-500/30 space-y-3">
+          <h3 class="text-sm font-bold text-teal-300">🔄 转职推演（§9）</h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="space-y-1">
+              <div class="text-gray-400">当前职业</div>
+              <select v-model="jsFromJob" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-gray-200 text-[11px]">
+                <option v-for="j in jobSwitchJobs" :key="j.key" :value="j.key">{{ j.label }}（HP上限 {{ j.maxHp }}）</option>
+              </select>
+            </div>
+            <div class="space-y-1">
+              <div class="text-gray-400">目标职业</div>
+              <select v-model="jsToJob" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-gray-200 text-[11px]">
+                <option v-for="j in jobSwitchJobs" :key="j.key" :value="j.key">{{ j.label }}（HP上限 {{ j.maxHp }}）</option>
+              </select>
+            </div>
+          </div>
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between"><span class="text-gray-400">当前 HP 比例</span><span class="font-mono text-teal-300">{{ jsHpPercent }}%</span></div>
+            <input v-model.number="jsHpPercent" type="range" min="1" max="100" step="1" class="w-full accent-teal-400 cursor-pointer" />
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center gap-2 p-2 rounded bg-slate-900 border border-slate-800 cursor-pointer">
+              <input v-model="jsInBattle" type="checkbox" class="accent-rose-400" /><span>处于战斗中</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 rounded bg-slate-900 border border-slate-800 cursor-pointer">
+              <input v-model="jsStoryLocked" type="checkbox" class="accent-rose-400" /><span>剧情段落锁定职业</span>
+            </label>
+          </div>
+          <div
+            class="p-3 rounded-lg border text-[11px] space-y-1.5"
+            :class="jobSwitchResult.ok ? 'bg-slate-900 border-teal-500/30' : 'bg-rose-950/40 border-rose-500/30 text-rose-200'"
+          >
+            <div class="font-mono font-bold">{{ jobSwitchResult.headline }}</div>
+            <template v-if="jobSwitchResult.ok">
+              <div class="font-mono text-gray-300">HP：{{ jobSwitchResult.oldHp }} / {{ jobSwitchResult.oldMax }} → <b class="text-teal-300">{{ jobSwitchResult.newHp }} / {{ jobSwitchResult.newMax }}</b>（floor，≥1，不回满）</div>
+              <div v-for="row in jobSwitchResult.gear" :key="row.name" class="flex justify-between gap-2">
+                <span class="text-gray-300">{{ row.slot }} · {{ row.name }}</span>
+                <span class="font-mono" :class="row.kept ? 'text-emerald-300' : 'text-amber-300'">{{ row.kept ? '保留装备' : '卸入背包 🎒' }}</span>
+              </div>
+              <div class="text-gray-500">AP 按职业独立保存；无金币代价。</div>
+            </template>
+          </div>
+          <div class="text-[10px] text-gray-500">注：职业 HP 上限与装备可用职业为推演示例数据（巨盾/骑士案例取自 JOB-AC-05，2003 取自 VOL.15 §3 job_limit 为空）。</div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
@@ -4693,5 +4807,100 @@ const copyAffixScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 配装沙盘源码到剪贴板！')
   }
 }
+
+
+
+// VOL.04 §8.3 / §9 × VOL.15 §3 双持与转职推演 (v2.2.378)
+interface DualWieldWeapon {
+  id: string
+  label: string
+  atk: number
+  inPolicy: boolean
+  twoHand: boolean
+}
+
+const dualWieldWeaponPool: DualWieldWeapon[] = [
+  { id: '2003', label: '2003 秘银匕首 (ATK 10)', atk: 10, inPolicy: true, twoHand: false },
+  { id: '2004', label: '2004 波刃匕首 (ATK 24)', atk: 24, inPolicy: true, twoHand: false },
+  { id: '2005', label: '2005 空气匕首 (ATK 26)', atk: 26, inPolicy: true, twoHand: false },
+  { id: '2053', label: '2053 短剑 (ATK 7)', atk: 7, inPolicy: true, twoHand: false },
+  { id: 'other', label: '其他单手武器（非首版名单）', atk: 0, inPolicy: false, twoHand: false },
+  { id: '2010', label: '2010 双手武器 (two_hand=true)', atk: 0, inPolicy: false, twoHand: true }
+]
+
+const dwMainId = ref('2005')
+const dwOffId = ref('2004')
+const dwHasPassive = ref(true)
+const dwShieldEquipped = ref(false)
+
+const dualWieldVerdict = computed(() => {
+  const main = dualWieldWeaponPool.find(w => w.id === dwMainId.value) ?? dualWieldWeaponPool[0]
+  const off = dualWieldWeaponPool.find(w => w.id === dwOffId.value) ?? dualWieldWeaponPool[0]
+  const checks = [
+    { label: '二刀流被动', pass: dwHasPassive.value, reason: dwHasPassive.value ? '已习得' : '未习得二刀流，无法装配副手武器' },
+    { label: '盾槽空置', pass: !dwShieldEquipped.value, reason: dwShieldEquipped.value ? 'offhand_weapon 与盾互斥，须先卸下盾牌' : '盾槽为空' },
+    {
+      label: '首版四 ID 名单',
+      pass: main.inPolicy && off.inPolicy,
+      reason: main.inPolicy && off.inPolicy
+        ? '主副手均在 2003/2004/2005/2053 内'
+        : `${!main.inPolicy ? '主手' : '副手'}不在首版名单；不得按名称/类型或 two_hand=false 自动纳入`
+    }
+  ]
+  return { ok: checks.every(c => c.pass), checks, mainAtk: main.atk, offAtk: off.atk }
+})
+
+interface JobSwitchJob {
+  key: string
+  label: string
+  maxHp: number
+}
+
+const jobSwitchJobs: JobSwitchJob[] = [
+  { key: 'knight', label: '骑士', maxHp: 1800 },
+  { key: 'blackmage', label: '黑魔导士', maxHp: 1100 },
+  { key: 'ninja', label: '忍者', maxHp: 1500 },
+  { key: 'whitemage', label: '白魔法师', maxHp: 1200 }
+]
+
+const jobSwitchGear = [
+  { slot: '盾', name: '巨盾', jobs: ['knight'] },
+  { slot: '武器', name: '骑士剑', jobs: ['knight'] },
+  { slot: '武器', name: '2003 秘银匕首', jobs: ['knight', 'blackmage', 'ninja', 'whitemage'] },
+  { slot: '身体', name: '布衣', jobs: ['knight', 'blackmage', 'ninja', 'whitemage'] }
+]
+
+const jsFromJob = ref('knight')
+const jsToJob = ref('blackmage')
+const jsHpPercent = ref(50)
+const jsInBattle = ref(false)
+const jsStoryLocked = ref(false)
+
+const jobSwitchResult = computed(() => {
+  const from = jobSwitchJobs.find(j => j.key === jsFromJob.value) ?? jobSwitchJobs[0]
+  const to = jobSwitchJobs.find(j => j.key === jsToJob.value) ?? jobSwitchJobs[1]
+  if (jsInBattle.value) {
+    return { ok: false, headline: '⛔ 拒绝：仅可在非战斗状态下于菜单「职业」页转职', oldHp: 0, oldMax: 0, newHp: 0, newMax: 0, gear: [] }
+  }
+  if (jsStoryLocked.value) {
+    return { ok: false, headline: '⛔ 入口置灰：当前剧情段落强制锁定职业（菜单提示原因）', oldHp: 0, oldMax: 0, newHp: 0, newMax: 0, gear: [] }
+  }
+  const oldHp = Math.max(1, Math.floor(from.maxHp * jsHpPercent.value / 100))
+  const newHp = Math.max(1, Math.floor(oldHp * to.maxHp / from.maxHp))
+  // 仅列出原职业可装备的物品（即转职前实际穿戴中的装备）
+  const gear = jobSwitchGear
+    .filter(g => g.jobs.includes(from.key))
+    .map(g => ({ slot: g.slot, name: g.name, kept: g.jobs.includes(to.key) }))
+  return {
+    ok: true,
+    headline: `✅ ${from.label} → ${to.label} 转职成功`,
+    oldHp,
+    oldMax: from.maxHp,
+    newHp,
+    newMax: to.maxHp,
+    gear
+  }
+})
+
 
 </script>
