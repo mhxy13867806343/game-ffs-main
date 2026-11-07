@@ -3,7 +3,14 @@
     <!-- 头部横幅 -->
     <div class="text-center">
       <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
-        <n-tag type="info" size="small" round class="shadow-sm">VBLE World Topology Stream, Scene Collision Hot-Reload & Waypoint Warp Studio v2.2.345</n-tag>
+        <n-tag type="info" size="small" round class="shadow-sm">VBLE World Topology, Sky City 15-Scene Matrix &amp; 29-Resident Ledger Studio v2.2.358</n-tag>
+        <button
+          type="button"
+          class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all cursor-pointer shadow-sm"
+          @click="scrollToSkyCityNpcStudio"
+        >
+          ☁️ 天空城15景与29居民台账直达
+        </button>
         <button
           type="button"
           class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40 hover:bg-teal-500/30 transition-all cursor-pointer shadow-sm"
@@ -33,6 +40,14 @@
       <div class="mt-3 flex flex-wrap items-center justify-center gap-2">
         <span class="text-xs text-teal-300/80 font-medium">相关权威白皮书：</span>
         <router-link
+          to="/vble/docs/20_NPC_INTERACTIONS"
+          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-900/60 text-amber-200 border border-amber-500/40 hover:bg-amber-800/80 hover:text-white transition-all shadow-sm group"
+        >
+          <span>🏘️</span>
+          <span>全域NPC双选与29居民台账 (VOL.20)</span>
+          <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+        </router-link>
+        <router-link
           to="/vble/docs/SKY_CITY_TOWNS"
           class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-900/60 text-sky-200 border border-sky-500/40 hover:bg-sky-800/80 hover:text-white transition-all shadow-sm group"
         >
@@ -56,6 +71,94 @@
           <span>场景生成与碰撞热重载 (VOL.24)</span>
           <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
         </router-link>
+      </div>
+    </div>
+
+    <!-- ☁️ VOL.21 天空之城 15 景拓扑交付矩阵 & VOL.20 全域 10 批次 29 位居民双选回复台账工作台 -->
+    <div id="sky-city-npc-studio" class="bg-gradient-to-br from-[#0e172a]/95 via-[#131e36]/95 to-[#0b1222]/95 border border-amber-500/40 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-amber-500/20 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/30">
+              VOL.20 &amp; VOL.21 AUTHORIZED DELIVERY LEDGER
+            </span>
+            <h2 class="text-base sm:text-lg font-extrabold text-white">
+              ☁️ 天空之城 15 景拓扑交付矩阵 &amp; 全域 10 批次 29 居民双选交互台账
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            对齐《VOL.21》天空之城 15 景 14 双向边（30/30、110,923 断言通过）与《VOL.20》10 批次 29 位居民 <code>modal_lock_token</code> 模态锁双选回复台账
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="skyNpcStudioTab === 'sky15'
+              ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="skyNpcStudioTab = 'sky15'"
+          >
+            🏰 天空之城 15 景交付矩阵 (15)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="skyNpcStudioTab === 'npc29'
+              ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="skyNpcStudioTab = 'npc29'"
+          >
+            🏘️ 10 批次 29 居民双选台账 (29)
+          </button>
+          <n-input
+            v-model:value="skyNpcSearch"
+            placeholder="过滤景名 / npc_id / 台词 / 场景..."
+            size="small"
+            clearable
+            class="w-56"
+          >
+            <template #prefix><span>🔍</span></template>
+          </n-input>
+        </div>
+      </div>
+
+      <!-- Tab 1: 天空之城 15 景拓扑交付矩阵 -->
+      <div v-if="skyNpcStudioTab === 'sky15'" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div
+          v-for="sc in filteredSkyCity15Scenes"
+          :key="sc.id"
+          class="p-3 rounded-xl bg-slate-950/85 border border-slate-800 hover:border-cyan-500/40 transition-all space-y-1.5"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-bold text-cyan-300">{{ sc.name }}</span>
+            <span class="px-1.5 py-0.5 rounded bg-slate-900 text-amber-300 font-mono text-[10px] border border-slate-700">{{ sc.metrics }}</span>
+          </div>
+          <div class="text-[11px] font-mono text-slate-400">{{ sc.id }}</div>
+          <p class="text-xs text-slate-300 leading-relaxed">{{ sc.status }}</p>
+        </div>
+      </div>
+
+      <!-- Tab 2: 10 批次 29 位居民双选回复台账 -->
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[420px] overflow-y-auto pr-1">
+        <div
+          v-for="npc in filteredResident29Ledger"
+          :key="npc.batch + '-' + npc.name"
+          class="p-3 rounded-xl bg-slate-950/85 border border-slate-800 hover:border-amber-500/40 transition-all space-y-1.5 text-xs"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-bold text-amber-300">{{ npc.name }}</span>
+            <span class="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-200 font-mono text-[10px] border border-amber-500/30">
+              {{ npc.batch }} · {{ npc.npcId }}
+            </span>
+          </div>
+          <div class="text-[11px] font-mono text-cyan-300 truncate">📍 {{ npc.location }} ({{ npc.host }})</div>
+          <div class="text-[11px] text-slate-300 space-y-0.5 pt-1 border-t border-slate-800/80">
+            <div class="truncate"><span class="text-emerald-400 font-mono">[选项1]</span> {{ npc.opt1 }}</div>
+            <div class="truncate"><span class="text-sky-400 font-mono">[选项2]</span> {{ npc.opt2 }}</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3105,6 +3208,89 @@ const copyActiveTopologyCode = () => {
     message.info('源码已复制')
   })
 }
+
+const scrollToSkyCityNpcStudio = () => {
+  const el = document.getElementById('sky-city-npc-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const skyNpcStudioTab = ref<'sky15' | 'npc29'>('sky15')
+const skyNpcSearch = ref('')
+
+const skyCity15Scenes = [
+  { id: 'sky_city_port', name: '天空港码头', metrics: '正式入口已验', status: '正式入口与来源保存已整包批准实现 (7ea243143)，双向安全往返' },
+  { id: 'sky_city_market', name: '云上海市', metrics: '55 云界 / 36 路线', status: '四店已实现 (a36a8cc33)：24项既有商品、门头交易、白黑魔法选系与西南楼100G住宿' },
+  { id: 'sky_city_central_plaza', name: '中央光之广场', metrics: '14 双向边枢纽', status: '四向石台 + 四白金柱 + 两花坛，天空之城十五景核心互联枢纽' },
+  { id: 'sky_city_residential', name: '云霄民居街', metrics: '60 身体 / 36 路线', status: '三栋原蓝瓦住宅与花庭静态组件已验' },
+  { id: 'sky_city_temple_foyer', name: '天空圣殿前厅', metrics: '72 身体 / 44 路线', status: '八段原石墙与六白金柱静态组件已验' },
+  { id: 'sky_city_temple_altar', name: '圣殿大祭坛', metrics: '63 身体 / 32 路线', status: '晶簇台座与四白金柱静态组件已验' },
+  { id: 'sky_city_observatory', name: '星辰观测台', metrics: '59 身体 / 36 路线', status: '圆顶楼与星仪、连接桥、南观景台静态组件已验' },
+  { id: 'sky_city_gear_dock', name: '齿轮动力坞', metrics: '62 身体 / 36 路线', status: '两原锅炉、两封闭货箱与机械台地静态组件已验' },
+  { id: 'sky_city_aether_core', name: '以太动力核心', metrics: '61 身体 / 36 路线', status: '原仪表与两导管场地静态组件已验' },
+  { id: 'sky_city_storm_corridor', name: '暴风回廊', metrics: '65 身体 / 10 路线', status: '折线石廊、七实墙与两原壁柱静态组件已验' },
+  { id: 'sky_city_cloud_garden', name: '云端浮空花园', metrics: '66 身体 / 44 路线', status: '原草地、六花坛与两松树静态组件已验' },
+  { id: 'sky_city_dragon_roost', name: '飞龙栖息圣所', metrics: '62 身体 / 36 路线', status: '四灰石柱与空场静态组件已验' },
+  { id: 'sky_city_archive', name: '天界失落大图书馆', metrics: '68 身体 / 20 路线', status: '四书架、木桌、木地板与五实墙（南口单入口室内景）' },
+  { id: 'sky_city_council_chamber', name: '长老议事厅', metrics: '68 身体 / 20 路线', status: '普通桌、四白金柱、木地板与五墙（南口单入口室内景）' },
+  { id: 'sky_city_zenith_throne', name: '苍穹之巅御座', metrics: '96×64 宝座 + 四柱', status: '御座厅静态组件已验（十五景 30/30、110,923 断言全通过）' }
+]
+
+const resident29Ledger = [
+  { batch: '第1批', name: '守卫雷恩', npcId: 'npc_v_guard_gate', location: 'chen_hui_gate / Guard', host: 'village_scene.tscn', opt1: '我会先看看同伴的状态。', opt2: '你守门时也多保重。' },
+  { batch: '第1批', name: '守卫老齐', npcId: 'npc_v_guard_wall', location: 'chen_hui_gate / OldGuard', host: 'village_scene.tscn', opt1: '您最盼望什么？', opt2: '我会记得平安回来。' },
+  { batch: '第1批', name: '老农李伯', npcId: 'npc_v_farmer', location: 'chen_hui_gate / Farmer', host: 'village_scene.tscn', opt1: '土这么硬，您还要忙吗？', opt2: '您也歇一会儿吧。' },
+  { batch: '第2批', name: '牧羊人', npcId: 'npc_r_shepherd', location: 'chen_hui_road / Shepherd', host: 'story_map.tscn', opt1: '我会放轻脚步。', opt2: '我也慢慢说。' },
+  { batch: '第2批', name: '酒保查理', npcId: 'npc_c_tavern_b', location: 'house:CapeTavern / Charlie', host: 'CapeTavern.tscn', opt1: '店里收拾得真整齐。', opt2: '你也坐一会儿吧。' },
+  { batch: '第2批', name: '灯塔老人', npcId: 'npc_c_lighthouse', location: 'house:CapeLighthouseTop / LighthouseKeeper', host: 'CapeLighthouseTop.tscn', opt1: '天天照看灯，很费心吧。', opt2: '我会记得这盏灯。' },
+  { batch: '第3批', name: '村民阿梅', npcId: 'npc_v_mother', location: 'chen_hui_gate / VillageMother', host: 'village_scene.tscn', opt1: '愿他们都平安。', opt2: '你也要照顾好自己。' },
+  { batch: '第3批', name: '孩童小皮', npcId: 'npc_v_boy', location: 'chen_hui_gate / VillageBoy', host: 'village_scene.tscn', opt1: '你真爱四处张望。', opt2: '鞋底都磨破了？' },
+  { batch: '第3批', name: '报信修道士', npcId: 'npc_r_monk', location: 'chen_hui_road / TempleMessenger', host: 'story_map.tscn', opt1: '你先缓口气。', opt2: '你已经把话说清楚了。' },
+  { batch: '第4批', name: '码头吊机领班', npcId: 'npc_c_dockworker', location: 'cape_town / DockForeman', host: 'story_map.tscn', opt1: '喊号子也讲节奏？', opt2: '你也别急坏了。' },
+  { batch: '第4批', name: '醉倒的老水手', npcId: 'npc_c_bard_fan', location: 'house:CapeTavern / OldSeaman', host: 'CapeTavern.tscn', opt1: '只记得半句，也还想唱？', opt2: '你先歇口气。' },
+  { batch: '第5批', name: '远征伤兵', npcId: 'npc_v_injured', location: 'house:House1Sickroom / InjuredSoldier', host: 'House1Sickroom.tscn', opt1: '你躺着就好，别勉强。', opt2: '你还是挂念着外头。' },
+  { batch: '第5批', name: '皇家图书编纂官', npcId: 'npc_p_archivist', location: 'house:PalaceSideHall / RoyalArchivist', host: 'PalaceSideHall.tscn', opt1: '看不清的地方就留白？', opt2: '你对字句真仔细。' },
+  { batch: '第5批', name: '流亡难民·阿肯', npcId: 'npc_w_refugee', location: 'maze_wood / Aken', host: 'story_map.tscn', opt1: '家人的手让你安心？', opt2: '愿这片树荫能安宁些。' },
+  { batch: '第6批', name: '宫廷大臣谢礼', npcId: 'npc_p_minister', location: 'chen_hui_palace / Minister', host: 'story_map.tscn', opt1: '你很在意城外的人。', opt2: '这份担子不好放下。' },
+  { batch: '第6批', name: '神官莫远', npcId: 'npc_p_priest', location: 'chen_hui_palace / RoyalPriest', host: 'story_map.tscn', opt1: '你也会害怕吗？', opt2: '你也该让自己缓一缓。' },
+  { batch: '第6批', name: '近卫骑士长', npcId: 'npc_p_knight_c', location: 'chen_hui_palace / KnightCaptain', host: 'story_map.tscn', opt1: '你很看重同伴。', opt2: '你自己也这样操练？' },
+  { batch: '第7批', name: '甲板信号兵', npcId: 'npc_airship_decksignalman', location: 'empire_airship / DeckSignalman', host: 'story_map.tscn', opt1: '举旗时也会紧张？', opt2: '辛苦了，还要守着这里。' },
+  { batch: '第7批', name: '迷茫的帝国公民', npcId: 'npc_em_citizen', location: 'empire_capital / LostCitizen', host: 'story_map.tscn', opt1: '你不用急着开口。', opt2: '心里还是很乱？' },
+  { batch: '第7批', name: '造船船坞大师', npcId: 'ff1_pravoka_shipwright', location: 'ff1_pravoka / PravokaShipwright', host: 'story_map.tscn', opt1: '板缝值得再看一遍？', opt2: '你对手上的活很认真。' },
+  { batch: '第8批', name: '守石侍童甲', npcId: 'npc_t_acolyte_1', location: 'origin_temple / WestAcolyte', host: 'origin_temple (Cave)', opt1: '我听着，慢慢说。', opt2: '你很惦记外面的田野。' },
+  { batch: '第8批', name: '守石侍童乙', npcId: 'npc_t_acolyte_2', location: 'origin_temple / EastAcolyte', host: 'origin_temple (Cave)', opt1: '我在听你说。', opt2: '不用勉强自己装镇定。' },
+  { batch: '第9批', name: '疏散书记', npcId: 'LOCAL', location: 'empire_capital / EvacuationClerk', host: 'story_map.tscn', opt1: '问名字时，你很耐心。', opt2: '你把人放在财产前头。' },
+  { batch: '第9批', name: '停钟看守', npcId: 'LOCAL', location: 'empire_capital / Clockkeeper', host: 'story_map.tscn', opt1: '钟停着，你还这么仔细。', opt2: '你很惦记这口钟。' },
+  { batch: '第9批', name: '泥板抄录员', npcId: 'LOCAL', location: 'house:PalaceSideHall / PalaceCopyist', host: 'PalaceSideHall.tscn', opt1: '肩膀僵了就歇一歇。', opt2: '字写到末尾也不能含糊。' },
+  { batch: '第10批', name: '卸甲卫兵', npcId: 'LOCAL', location: 'empire_capital / DisarmedGuard', host: 'story_map.tscn', opt1: '手还不习惯空着？', opt2: '不用急着逼自己适应。' },
+  { batch: '第10批', name: '分粮人', npcId: 'LOCAL', location: 'empire_capital / BreadDistributor', host: 'story_map.tscn', opt1: '你总先顾着别人。', opt2: '你自己也别忘了歇口气。' },
+  { batch: '第10批', name: '宫门传令员', npcId: 'LOCAL', location: 'empire_capital / PalaceMessenger', host: 'story_map.tscn', opt1: '你不用一口气说完。', opt2: '把话记牢，很费心吧。' },
+  { batch: '第4批补', name: '海角老船匠', npcId: 'npc_c_shipwright', location: 'cape_town / OldShipwright', host: 'story_map.tscn', opt1: '木料闻着还有海风味。', opt2: '这艘船一定很结实。' }
+]
+
+const filteredSkyCity15Scenes = computed(() => {
+  if (!skyNpcSearch.value.trim()) return skyCity15Scenes
+  const q = skyNpcSearch.value.trim().toLowerCase()
+  return skyCity15Scenes.filter(s =>
+    s.id.toLowerCase().includes(q) ||
+    s.name.toLowerCase().includes(q) ||
+    s.metrics.toLowerCase().includes(q) ||
+    s.status.toLowerCase().includes(q)
+  )
+})
+
+const filteredResident29Ledger = computed(() => {
+  if (!skyNpcSearch.value.trim()) return resident29Ledger
+  const q = skyNpcSearch.value.trim().toLowerCase()
+  return resident29Ledger.filter(n =>
+    n.batch.toLowerCase().includes(q) ||
+    n.name.toLowerCase().includes(q) ||
+    n.npcId.toLowerCase().includes(q) ||
+    n.location.toLowerCase().includes(q) ||
+    n.host.toLowerCase().includes(q) ||
+    n.opt1.toLowerCase().includes(q) ||
+    n.opt2.toLowerCase().includes(q)
+  )
+})
 
 </script>
 

@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-scenes-sky15-npc29-studio-v358-2026-11-07',
+    version: 'v2.2.358',
+    date: '2026-11-07',
+    title: '世界场景名录实装 VOL.21 天空之城 15 景交付矩阵与 VOL.20 全域 29 居民双选交互台账工作台',
+    category: 'maps',
+    categoryName: '天空城拓扑与居民台账',
+    icon: '☁️',
+    tagType: 'success',
+    description: '响应《VOL.20 全域 NPC 深度交互》与《VOL.21 王城建筑群与天空之城》工程附录对齐：在全域世界场景名录 (/vble/scenes) 实装「天空之城 15 景拓扑交付矩阵 & 全域 10 批次 29 居民双选交互台账」双模工作台，支持按场景 ID、身体/路线指标、NPC 批次、宿主场景 (.tscn) 与双选对话文本进行实时检索。',
+    highlights: [
+      '实装 VOL.21 天空之城 15 景（天空港码头、云上海市四店、中央光之广场至苍穹之巅御座）交付矩阵检索',
+      '实装 VOL.20 全域 10 批次 29 位核心居民双选回复台账，完整呈现 npc_id、宿主场景与选项 1/2 文本',
+      '世界场景页顶部新增 VOL.20 全域 NPC 双选与 29 居民台账白皮书直通胶囊入口',
+      '支持一键切换「天空之城 15 景」与「10 批次 29 居民」视图并实时关键词过滤'
+    ],
+    relatedLinks: [
+      { label: '全域世界场景', path: '/vble/scenes', icon: '🗺️' },
+      { label: 'NPC交互白皮书 (VOL.20)', path: '/vble/docs/20_NPC_INTERACTIONS', icon: '🏘️' },
+      { label: '天空之城白皮书 (VOL.21)', path: '/vble/docs/21_SKY_CITY_TOWNS', icon: '🏰' }
+    ]
+  },
+  {
     id: 'up-boss-drain-reaper-studio-v357-2026-11-07',
     version: 'v2.2.357',
     date: '2026-11-07',
