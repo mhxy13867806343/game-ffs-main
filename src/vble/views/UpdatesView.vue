@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-celestial-void23-bosses-v360-2026-11-07',
+    version: 'v2.2.360',
+    date: '2026-11-07',
+    title: '虚空天体星象仪实装 VOL.09 虚空城核心四阶段 23 大首领完整参数总表与日核真终局对账沙盘',
+    category: 'system',
+    categoryName: '虚空天体与23首领总表',
+    icon: '☀️',
+    tagType: 'success',
+    description: '响应《VOL.09 虚空天体与终焉空间》第 9 章工程附录对齐：在虚空天体页面 (/vble/celestial) 实装「虚空城核心四阶段 23 大首领完整数值总表与日核真终局对账沙盘」。全量收录第一阶段八大水晶、第二阶段五行圣所（金木水火土五灵同台）、第三阶段九大行星守卫（墨丘利至普路托）与第四阶段真终局根源首领「太阳·终焉神威 (boss_sol_invictus, HP 360,000)」SQLite 注册数值与 VOID-C01/C02 跨卷一致性说明。',
+    highlights: [
+      '实装虚空城核心四阶段 23 大首领（8 水晶 + 5 五行灵神 + 9 行星守卫 + 太阳·终焉神威）HP/ATK/DEF/MDEF/SPD 与奖励检索',
+      '支持按四大阶段分类筛选与首领 ID / AI 脚本标识实时关键词过滤',
+      '内置 VOID-C01（东方五行 vs 西方四元加虚空）与 VOID-C02（表层终局 Neo Exdeath vs 日核真终局 Sol Invictus）跨卷口径说明',
+      '虚空天体顶部补充《VOL.10 三十章水晶与地月正逆五行》白皮书直通胶囊入口'
+    ],
+    relatedLinks: [
+      { label: '虚空天体星象仪', path: '/vble/celestial', icon: '🪐' },
+      { label: '虚空城堡白皮书 (VOL.09)', path: '/vble/docs/09_VOID_CASTLE', icon: '🌌' },
+      { label: '水晶与正逆五行 (VOL.10)', path: '/vble/docs/10_CRYSTALS_ELEMENTS', icon: '🔮' }
+    ]
+  },
+  {
     id: 'up-roadmap-vol26-15thread-ledger-v359-2026-11-07',
     version: 'v2.2.359',
     date: '2026-11-07',

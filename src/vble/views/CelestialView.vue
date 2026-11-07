@@ -7,9 +7,9 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VBLE Celestial Singularity, Aetheric Gravitational Waves & Black Hole Reactor Studio v2.2.316
+              VBLE Celestial Singularity, 23 Void Castle Bosses &amp; Sol Invictus Studio v2.2.360
             </span>
-            <span class="text-xs text-gray-400">虚空城堡与终焉星体引力矩阵</span>
+            <span class="text-xs text-gray-400">虚空城堡23首领参数总表与终焉星体引力矩阵</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>🪐</span> 虚空天体：次元之隙四阶与九大星体引力工坊
@@ -24,12 +24,30 @@
               class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-900/60 text-purple-200 border border-purple-500/40 hover:bg-purple-800/80 hover:text-white transition-all shadow-sm group"
             >
               <span>🌌</span>
-              <span>研读虚空城堡机制白皮书 (VOL.09)</span>
+              <span>虚空城堡机制白皮书 (VOL.09)</span>
+              <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
+            </router-link>
+            <router-link
+              to="/vble/docs/10_CRYSTALS_ELEMENTS"
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-900/60 text-cyan-200 border border-cyan-500/40 hover:bg-cyan-800/80 hover:text-white transition-all shadow-sm group"
+            >
+              <span>🔮</span>
+              <span>三十章水晶与地月正逆五行 (VOL.10)</span>
               <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
             </router-link>
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            class="shadow-md font-bold"
+            @click="scrollToVoid23BossStudio"
+          >
+            <template #icon><span>☀️</span></template>
+            虚空城23首领参数总表
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -114,6 +132,103 @@
         <div class="text-xs text-gray-400">引力场计算核心</div>
         <div class="text-2xl font-black text-emerald-400 font-mono mt-1">Godot 4.x</div>
         <div class="text-[10px] text-gray-500 mt-0.5">celestial_gravity.gd</div>
+      </div>
+    </div>
+
+    <!-- ☀️ VOL.09 虚空城核心四阶段 23 大首领完整参数总表与日核真终局沙盘 -->
+    <div id="void-castle-23boss-studio" class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-[#17112a]/95 via-[#12162d]/95 to-[#0d1122]/95 border border-purple-500/40 shadow-[0_0_30px_rgba(168,85,247,0.16)] space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-purple-500/20 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/30">
+              VOL.09 §9.2 SQLITE REGISTERED 23-BOSS PARAMETER SHEET
+            </span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <span>☀️</span> 虚空城核心四阶段 23 大首领完整数值总表与日核真终局对账沙盘
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            完整收录《VOL.09》八大水晶、五行圣所、九大行星守卫与真终局根源首领「太阳·终焉神威 (`boss_sol_invictus`, HP 360,000, 25形态5动)」SQLite 注册参数
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            v-for="tab in void23StageTabs"
+            :key="tab.key"
+            type="button"
+            class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="selectedVoid23Stage === tab.key
+              ? 'bg-purple-500 text-white border-purple-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="selectedVoid23Stage = tab.key"
+          >
+            {{ tab.label }} ({{ tab.count }})
+          </button>
+          <n-input
+            v-model:value="void23Filter"
+            placeholder="过滤首领名 / ID / AI脚本..."
+            size="small"
+            clearable
+            class="w-48"
+          >
+            <template #prefix><span>🔍</span></template>
+          </n-input>
+        </div>
+      </div>
+
+      <!-- 23首领参数网格 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[420px] overflow-y-auto pr-1">
+        <div
+          v-for="b in filteredVoid23Bosses"
+          :key="b.id"
+          class="p-3.5 rounded-xl bg-slate-950/85 border transition-all space-y-2 text-xs"
+          :class="b.stage === 'sol' ? 'border-amber-500/60 bg-amber-950/15' : 'border-slate-800 hover:border-purple-500/40'"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-bold text-sm" :class="b.stage === 'sol' ? 'text-amber-300' : 'text-white'">{{ b.name }}</span>
+            <span class="px-2 py-0.5 rounded font-mono text-[10px] bg-purple-500/15 text-purple-300 border border-purple-500/30">
+              {{ b.stageName }}
+            </span>
+          </div>
+          <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+            <span>ID: {{ b.id }}</span>
+            <span class="text-cyan-300">{{ b.ai }}</span>
+          </div>
+          <div class="grid grid-cols-5 gap-1 text-center bg-slate-900/90 p-2 rounded-lg border border-slate-800 font-mono text-[11px]">
+            <div>
+              <div class="text-[9px] text-gray-500">HP</div>
+              <div class="font-bold text-rose-300">{{ b.hp.toLocaleString() }}</div>
+            </div>
+            <div>
+              <div class="text-[9px] text-gray-500">ATK</div>
+              <div class="font-bold text-amber-300">{{ b.atk }}</div>
+            </div>
+            <div>
+              <div class="text-[9px] text-gray-500">DEF</div>
+              <div class="font-bold text-emerald-300">{{ b.def }}</div>
+            </div>
+            <div>
+              <div class="text-[9px] text-gray-500">MDEF</div>
+              <div class="font-bold text-sky-300">{{ b.mdef }}</div>
+            </div>
+            <div>
+              <div class="text-[9px] text-gray-500">SPD</div>
+              <div class="font-bold text-purple-300">{{ b.spd }}</div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] font-mono text-amber-300/90 pt-1 border-t border-slate-800/80">
+            <span>奖励 EXP/Gold/AP:</span>
+            <span>{{ b.rewards }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 跨卷口径一致性提示 -->
+      <div class="p-3 rounded-xl bg-purple-950/25 border border-purple-500/30 text-[11px] text-gray-300 space-y-1">
+        <div class="font-bold text-purple-300">📌 VOL.09 §9.3 跨卷与跨配置一致性口径说明 (VOID-C01 / VOID-C02)：</div>
+        <div>• <strong>VOID-C01（五行 vs 四元虚空）</strong>：虚空城第二阶段 SQLite 阵眼群战严格采用东方五行 <code>element_metal / wood / water / fire / earth</code> 五灵同台；门户星象仪则展示西方四元素加虚空（风/水/火/土/虚）。</div>
+        <div>• <strong>VOID-C02（双层终局首领）</strong>：第 4 阶表层终局为 <code>neo_exdeath</code>（HP 500,000），击败虚空法则后的日核真终局根源首领为 <code>boss_sol_invictus</code>（太阳·终焉神威，HP 360,000，25 形态轮换 + 拟态心控）。</div>
       </div>
     </div>
 
@@ -3404,6 +3519,63 @@ const copySlingshotScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 引力弹弓源码到剪贴板！')
   }
 }
+
+const scrollToVoid23BossStudio = () => {
+  const el = document.getElementById('void-castle-23boss-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const selectedVoid23Stage = ref<'all' | 'crystals' | 'elements' | 'planets' | 'sol'>('all')
+const void23Filter = ref('')
+
+const void23StageTabs = [
+  { key: 'all' as const, label: '全部阶段', count: 23 },
+  { key: 'crystals' as const, label: '一阶·八大水晶', count: 8 },
+  { key: 'elements' as const, label: '二阶·五行圣所', count: 5 },
+  { key: 'planets' as const, label: '三阶·九大行星', count: 9 },
+  { key: 'sol' as const, label: '四阶·终焉日核', count: 1 }
+]
+
+const void23BossesList = [
+  { stage: 'crystals', stageName: '第一阶段：八大水晶', id: 'crystal_water', name: '水之水晶', hp: 72000, atk: 160, def: 65, mdef: 80, spd: 55, rewards: '5,000 / 8,000 / 30', ai: 'ai_crystal_omni' },
+  { stage: 'crystals', stageName: '第一阶段：八大水晶', id: 'crystal_fire', name: '火之水晶', hp: 75000, atk: 175, def: 60, mdef: 75, spd: 58, rewards: '5,000 / 8,000 / 30', ai: 'ai_crystal_omni' },
+  { stage: 'crystals', stageName: '第一阶段：八大水晶', id: 'crystal_earth', name: '土之水晶', hp: 88000, atk: 190, def: 90, mdef: 60, spd: 42, rewards: '5,000 / 8,000 / 30', ai: 'ai_crystal_omni' },
+  { stage: 'crystals', stageName: '第一阶段：八大水晶', id: 'crystal_wood', name: '木之水晶', hp: 70000, atk: 150, def: 55, mdef: 85, spd: 50, rewards: '5,000 / 8,000 / 30', ai: 'ai_crystal_omni' },
+  { stage: 'crystals', stageName: '第一阶段：八大水晶', id: 'crystal_light', name: '光明水晶', hp: 80000, atk: 165, def: 75, mdef: 95, spd: 60, rewards: '5,000 / 8,000 / 30', ai: 'ai_crystal_omni' },
+  { stage: 'crystals', stageName: '第一阶段：八大水晶', id: 'crystal_dark', name: '黑暗水晶', hp: 82000, atk: 185, def: 70, mdef: 70, spd: 62, rewards: '5,000 / 8,000 / 30', ai: 'ai_crystal_omni' },
+  { stage: 'crystals', stageName: '第一阶段：八大水晶', id: 'crystal_wind', name: '风之水晶', hp: 68000, atk: 155, def: 50, mdef: 65, spd: 75, rewards: '5,000 / 8,000 / 30', ai: 'ai_crystal_omni' },
+  { stage: 'crystals', stageName: '第一阶段：八大水晶', id: 'crystal_thunder', name: '雷之水晶', hp: 76000, atk: 180, def: 62, mdef: 70, spd: 65, rewards: '5,000 / 8,000 / 30', ai: 'ai_crystal_omni' },
+  { stage: 'elements', stageName: '第二阶段：五行圣所', id: 'element_metal', name: '金行灵神', hp: 95000, atk: 200, def: 120, mdef: 60, spd: 48, rewards: '6,000 / 10,000 / 35', ai: 'ai_element_metal' },
+  { stage: 'elements', stageName: '第二阶段：五行圣所', id: 'element_wood', name: '木行灵神', hp: 85000, atk: 150, def: 70, mdef: 110, spd: 52, rewards: '6,000 / 10,000 / 35', ai: 'ai_element_wood' },
+  { stage: 'elements', stageName: '第二阶段：五行圣所', id: 'element_water', name: '水行灵神', hp: 90000, atk: 165, def: 80, mdef: 100, spd: 56, rewards: '6,000 / 10,000 / 35', ai: 'ai_element_water' },
+  { stage: 'elements', stageName: '第二阶段：五行圣所', id: 'element_fire', name: '火行灵神', hp: 92000, atk: 220, def: 75, mdef: 75, spd: 64, rewards: '6,000 / 10,000 / 35', ai: 'ai_element_fire' },
+  { stage: 'elements', stageName: '第二阶段：五行圣所', id: 'element_earth', name: '土行灵神', hp: 105000, atk: 210, def: 110, mdef: 70, spd: 40, rewards: '6,000 / 10,000 / 35', ai: 'ai_element_earth' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_mercury', name: '水星守卫·墨丘利', hp: 95000, atk: 205, def: 75, mdef: 85, spd: 95, rewards: '12,000 / 15,000 / 50', ai: 'ai_planet_mercury' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_venus', name: '金星守卫·维纳斯', hp: 102000, atk: 185, def: 80, mdef: 110, spd: 72, rewards: '12,000 / 15,000 / 50', ai: 'ai_planet_venus' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_earth', name: '地球守卫·盖亚', hp: 120000, atk: 215, def: 115, mdef: 95, spd: 60, rewards: '12,000 / 15,000 / 50', ai: 'ai_planet_earth' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_mars', name: '火星守卫·阿瑞斯', hp: 115000, atk: 245, def: 85, mdef: 70, spd: 78, rewards: '12,000 / 15,000 / 50', ai: 'ai_planet_mars' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_jupiter', name: '木星守卫·朱庇特', hp: 135000, atk: 225, def: 95, mdef: 115, spd: 68, rewards: '15,000 / 20,000 / 60', ai: 'ai_planet_jupiter' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_saturn', name: '土星守卫·萨图恩', hp: 128000, atk: 210, def: 125, mdef: 100, spd: 55, rewards: '15,000 / 20,000 / 60', ai: 'ai_planet_saturn' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_uranus', name: '天王星守卫·乌拉诺斯', hp: 122000, atk: 195, def: 90, mdef: 120, spd: 74, rewards: '15,000 / 20,000 / 60', ai: 'ai_planet_uranus' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_neptune', name: '海王星守卫·涅普顿', hp: 130000, atk: 200, def: 95, mdef: 125, spd: 76, rewards: '15,000 / 20,000 / 60', ai: 'ai_planet_neptune' },
+  { stage: 'planets', stageName: '第三阶段：九大行星', id: 'planet_pluto', name: '冥王星守卫·普路托', hp: 140000, atk: 230, def: 105, mdef: 130, spd: 70, rewards: '18,000 / 25,000 / 75', ai: 'ai_planet_pluto' },
+  { stage: 'sol', stageName: '第四阶段：终焉日核', id: 'boss_sol_invictus', name: '太阳·终焉神威', hp: 360000, atk: 260, def: 130, mdef: 130, spd: 88, rewards: '50,000 / 99,999 / 100', ai: 'ai_sol_invictus' }
+]
+
+const filteredVoid23Bosses = computed(() => {
+  return void23BossesList.filter(b => {
+    const matchStage = selectedVoid23Stage.value === 'all' || b.stage === selectedVoid23Stage.value
+    if (!matchStage) return false
+    if (!void23Filter.value.trim()) return true
+    const q = void23Filter.value.trim().toLowerCase()
+    return (
+      b.name.toLowerCase().includes(q) ||
+      b.id.toLowerCase().includes(q) ||
+      b.stageName.toLowerCase().includes(q) ||
+      b.ai.toLowerCase().includes(q)
+    )
+  })
+})
 
 </script>
 
