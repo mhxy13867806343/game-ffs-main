@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-home-27vol-omni-contract-hub-v372-2026-11-07',
+    version: 'v2.2.372',
+    date: '2026-11-07',
+    title: '门户首页实装全域 27 卷权威白皮书 × 15 大实机契约交互沙盘五层 DAG 双向领航中枢',
+    category: 'ui',
+    categoryName: '27卷契约全景总成',
+    icon: '🏛️',
+    tagType: 'success',
+    description: '完成《VOL.01》至《VOL.27》全 27 卷白皮书工程附录与全站 15 大核心视图交互契约工坊的终极会师：在门户首页 (/vble) 顶部实装「全域 27 卷权威白皮书 × 15 大实机契约交互沙盘双向领航中枢」。支持按《VOL.25》五层架构依赖有向无环图（L0 顶层总纲、L1 叙事编年、L2 关卡地貌、L3 职业神装、L4 战斗生态）一键筛选，每卷均提供「白皮书原文」与「对应实机契约沙盘」双向直达入口。',
+    highlights: [
+      '在门户首页 (/vble) 实装 VOL.01~VOL.27 全 27 卷工程契约总览矩阵，实现文档与实机交互沙盘 100% 闭环映射',
+      '支持按 VOL.25 五层架构依赖 DAG（L0 顶层总纲 4 卷 / L1 叙事编年 5 卷 / L2 关卡地貌 6 卷 / L3 职业神装 6 卷 / L4 战斗生态 6 卷）分类检阅',
+      '每张契约卡片浓缩呈现核心验收编号（如 WLD-AC-01~05、DNG-AC-01~06、BOS-AC-01~06、JOB-AC-01~07、VH-01~06、RMR-T01~T09）',
+      '顶部发布广播条同步升级至 v2.2.372 全域 27 卷契约总成版，支持一键平滑滚动定位至 27 卷契约中枢'
+    ],
+    relatedLinks: [
+      { label: '门户首页 (27卷中枢)', path: '/vble', icon: '🏛️' },
+      { label: '白皮书大典总览', path: '/vble/docs', icon: '📚' },
+      { label: '游戏设计总纲 (VOL.25)', path: '/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT', icon: '📜' }
+    ]
+  },
+  {
     id: 'up-bosses-vol03-contract-studio-v371-2026-11-07',
     version: 'v2.2.371',
     date: '2026-11-07',

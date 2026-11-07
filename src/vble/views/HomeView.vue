@@ -4,17 +4,79 @@
     <div class="portal-marquee flex items-center justify-between px-3 md:px-4 py-2 bg-gradient-to-r from-amber-950/40 via-purple-950/50 to-cyan-950/40 border-y border-amber-500/20 text-xs">
       <div class="flex items-center gap-2 overflow-hidden">
         <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] md:text-[11px] animate-pulse flex-shrink-0">RELEASE</span>
-        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.343 双月宇宙旗舰版】</span>
+        <span class="text-amber-300 font-semibold flex-shrink-0">【v2.2.372 全域27卷契约总成版】</span>
         <span class="text-gray-300 truncate text-[11px] md:text-xs">
-          【全域时空裂隙双月宇宙门户总览、世界线态势雷达与全景航行中枢工坊重磅实装！Godot 4.6 LTS 离线运行引擎矩阵】
+          【27卷权威白皮书 (VOL.01~VOL.27) × 15大交互契约沙盘工坊全量打通！五层架构 DAG (L0~L4) 一键双向直达】
         </span>
       </div>
       <div class="hidden lg:flex items-center gap-4 text-gray-400 flex-shrink-0">
         <span>单机运行引擎: <strong class="text-cyan-400 font-mono">Godot 4.6 (Offline)</strong></span>
         <span class="text-slate-600">|</span>
+        <button type="button" class="text-cyan-300 hover:text-cyan-200 font-bold cursor-pointer" @click="scrollToPortal27VolHub">
+          27卷契约中枢 &darr;
+        </button>
+        <span class="text-slate-600">|</span>
         <router-link to="/vble/docs" class="text-amber-400 hover:text-amber-300 transition-colors">版本白皮书 &rarr;</router-link>
       </div>
     </div>
+
+    <!-- 🏛️ 全域 27 卷权威白皮书 × 交互契约工坊五层 DAG 领航中枢 (v2.2.372) -->
+    <section id="portal-27vol-contract-hub" class="max-w-7xl mx-auto px-3 sm:px-4">
+      <div class="rounded-2xl border border-cyan-500/35 bg-gradient-to-br from-slate-950 via-cyan-950/15 to-slate-900 p-4 sm:p-6 shadow-2xl space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+                VOL.01 ~ VOL.27 OMNI CONTRACT MATRIX v2.2.372
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+                五层依赖 DAG (L0→L4) · 100% 工程附录对齐
+              </span>
+            </div>
+            <h2 class="text-base sm:text-xl font-extrabold text-white">
+              🏛️ 全域 27 卷权威白皮书 × 15 大实机契约交互沙盘双向领航中枢
+            </h2>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button
+              v-for="layer in portalDagLayers"
+              :key="layer.id"
+              type="button"
+              class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer"
+              :class="selectedPortalDagLayer === layer.id ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700 hover:text-white'"
+              @click="selectedPortalDagLayer = layer.id"
+            >
+              {{ layer.label }}
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+          <div
+            v-for="vol in filteredPortal27Volumes"
+            :key="vol.vol"
+            class="p-3 rounded-xl bg-slate-950/85 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between gap-2"
+          >
+            <div class="space-y-1">
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-mono font-bold text-cyan-300">{{ vol.vol }} · {{ vol.layer }}</span>
+                <span class="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[10px]">{{ vol.badge }}</span>
+              </div>
+              <div class="font-bold text-white text-xs sm:text-sm">{{ vol.title }}</div>
+              <div class="text-[11px] text-gray-400 leading-relaxed">{{ vol.contractSummary }}</div>
+            </div>
+            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
+              <router-link :to="vol.docPath" class="text-amber-300 hover:text-amber-200 font-mono text-[11px]">
+                📖 白皮书原文 →
+              </router-link>
+              <router-link :to="vol.studioPath" class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-200 hover:bg-cyan-500/30 font-bold text-[11px]">
+                ⚡ {{ vol.studioLabel }} →
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- 核心第一屏：网易旗舰门户双栏大视窗 (轮播焦点 + 资讯看板 VS 客户端极速入口) -->
     <section class="portal-hero-grid max-w-7xl mx-auto px-3 sm:px-4">
@@ -1852,5 +1914,56 @@ const copyActiveCosmicCode = () => {
     message?.info('源码已复制')
   })
 }
+
+// 全域 27 卷权威白皮书 × 15 大实机契约交互沙盘双向领航中枢 (v2.2.372)
+const scrollToPortal27VolHub = () => {
+  document.getElementById('portal-27vol-contract-hub')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const portalDagLayers = [
+  { id: 'ALL', label: '全部 27 卷' },
+  { id: 'L0', label: 'L0 顶层总纲 (4卷)' },
+  { id: 'L1', label: 'L1 叙事编年 (5卷)' },
+  { id: 'L2', label: 'L2 关卡地貌 (6卷)' },
+  { id: 'L3', label: 'L3 职业神装 (6卷)' },
+  { id: 'L4', label: 'L4 战斗生态 (6卷)' }
+]
+
+const selectedPortalDagLayer = ref('ALL')
+
+const portal27VolumesList = [
+  { vol: 'VOL.01', layer: 'L1', badge: '44节拍真源', title: '世界圣经与叙事世界观', contractSummary: '序章+12章共44节拍追踪矩阵、Safe Landing 平原回弹与 WLD-AC-01~05', docPath: '/vble/docs/01_WORLD_BIBLE', studioPath: '/vble/story', studioLabel: '编年史44节拍工坊' },
+  { vol: 'VOL.02', layer: 'L2', badge: 'DNG-AC-01~06', title: '迷宫拓扑与特殊地宫状态机', contractSummary: 'Karnak 600s逃脱、Fork Tower双塔隔离、沉没塔420s氧气、大海沟熔岩与冥界魂火', docPath: '/vble/docs/02_DUNGEON_TOPOLOGY', studioPath: '/vble/dungeons', studioLabel: '地宫状态机工坊' },
+  { vol: 'VOL.03', layer: 'L4', badge: '16首领总表', title: '首领攻坚全书与反击熔断', contractSummary: 'T1~T4 16首领参数、死神判官天平断头台、3层反击熔断与吉尔伽美什6战源氏偷盗', docPath: '/vble/docs/03_BOSS_TACTICS', studioPath: '/vble/bosses', studioLabel: '16首领攻坚工坊' },
+  { vol: 'VOL.04', layer: 'L3', badge: '21职业对齐', title: '职业体系与水晶解锁批次', contractSummary: '1+6+5+4+4+1=21职水晶批次、Lv.8=400 AP、继承池max()与转职HP等比换算', docPath: '/vble/docs/04_JOB_SYSTEM', studioPath: '/vble/jobs', studioLabel: '水晶职业契约工坊' },
+  { vol: 'VOL.05', layer: 'L3', badge: '掷金击/50%回购', title: '神兵矩阵与宏观经济', contractSummary: '武士掷金击 (GilSpent=Lv×50) 分摊算式、50%向下取整回购与关键神兵禁售保护', docPath: '/vble/docs/05_EQUIPMENT_ECONOMY', studioPath: '/vble/economy', studioLabel: '宏观经济工坊' },
+  { vol: 'VOL.06', layer: 'L2', badge: '9×7地形矩阵', title: '多维载具与乘降状态机', contractSummary: '7大载具参数、9×7地形停靠矩阵 (LandingCheck)、黑鸟密林降落与3秒返巢', docPath: '/vble/docs/06_TRAVEL_VEHICLES', studioPath: '/vble/vehicles', studioLabel: '全地形载具工坊' },
+  { vol: 'VOL.07', layer: 'L1', badge: 'SQ-01~10', title: '十大史诗支线与娱乐设施', contractSummary: 'SQ-01~10支线总表、SQ-04第18章截止状态机、斗技场置换与赛鸟赔率 (≥1.2x)', docPath: '/vble/docs/07_SIDEQUESTS_SECRETS', studioPath: '/vble/sidequests', studioLabel: '支线与赛鸟工坊' },
+  { vol: 'VOL.08', layer: 'L0', badge: 'v1→v5迁移', title: '系统架构与三层持久化', contractSummary: 'schema_version v1→v5逐级迁移、Slot 0 30s节流、SAVE-E01~05与通关S级计分器', docPath: '/vble/docs/08_SYSTEM_ARCHITECTURE', studioPath: '/vble/systems', studioLabel: '系统架构工坊' },
+  { vol: 'VOL.09', layer: 'L2', badge: '23首领SQLite', title: '虚空天体与终焉空间', contractSummary: '虚空城4阶段23首领SQLite参数表（8水晶+5五行灵神+9行星守护者+太阳神360,000 HP）', docPath: '/vble/docs/09_VOID_CASTLE', studioPath: '/vble/celestial', studioLabel: '虚空23首领工坊' },
+  { vol: 'VOL.10', layer: 'L1', badge: '地月正逆五行', title: '三十章编年史与五大元素', contractSummary: '地面/地下八水晶分布、地球正五行 vs 月球逆五行 (1.50x克制/0.75x相生) 矩阵', docPath: '/vble/docs/10_CRYSTALS_ELEMENTS', studioPath: '/vble/story', studioLabel: '地月五行工坊' },
+  { vol: 'VOL.11', layer: 'L4', badge: '限回合公式', title: '首领与宝箱怪回合限制专规', contractSummary: 'T_limit = max(2, T_base - floor(max(0,AvgLv-RecLv)/3)*2) 与神龙20/3回合双档', docPath: '/vble/docs/11_TURN_LIMIT_SPEC', studioPath: '/vble/battle-tactics', studioLabel: '限回合战术工坊' },
+  { vol: 'VOL.12', layer: 'L4', badge: '320穿透/猜拳', title: '突发抉择、猜拳与史莱姆克制', contractSummary: '首批3只史莱姆 (ff1_pr_027/029/044) >=320物穿破防、古王陵与神将三局两胜猜拳', docPath: '/vble/docs/12_BATTLE_EVENTS_RPS', studioPath: '/vble/battle-tactics', studioLabel: '猜拳与史莱姆工坊' },
+  { vol: 'VOL.13', layer: 'L3', badge: '已实现合同', title: '英灵圣所：Cover 与圣光斩', contractSummary: '古王陵 B3F 英灵导师、Cover (掩护) 与圣光斩 (1.45x 圣属性物理) 传授契约', docPath: '/vble/docs/13_HERO_SANCTUARY', studioPath: '/vble/teachings', studioLabel: '名师传道工坊' },
+  { vol: 'VOL.14', layer: 'L3', badge: '已实现合同', title: '密西迪亚高阶课程合同', contractSummary: '首批4门课程 (神圣/核爆/陨石/连续魔) SAVEPOINT 原子扣费与 player_magic 共享表', docPath: '/vble/docs/14_MYSIDIA_ACADEMY', studioPath: '/vble/teachings', studioLabel: '密西迪亚学府工坊' },
+  { vol: 'VOL.15', layer: 'L3', badge: '已实现合同', title: '东洋忍者遁术秘传契约', contractSummary: 'v1 双持 4 短剑白名单 (2003/2004/2005/2053) 逐手结算与 5 门永久忍术传授', docPath: '/vble/docs/15_NINJA_TEACHING', studioPath: '/vble/teachings', studioLabel: '忍者双持工坊' },
+  { vol: 'VOL.16', layer: 'L3', badge: '已实现合同', title: '七色尾巴兑换与29传奇藏品', contractSummary: 'legendary_acquisition_progress v1 Schema、四石板 3/3/3/2=11 额度与7色尾巴兑换', docPath: '/vble/docs/16_TAIL_EXCHANGE', studioPath: '/vble/economy', studioLabel: '29传奇校验工坊' },
+  { vol: 'VOL.17', layer: 'L4', badge: 'B0001~B0650', title: '跨界首领生态与魔物大典', contractSummary: '14主题章 650 跨界魔物编号体系与跨卷映射总表', docPath: '/vble/docs/17_CROSS_WORLD_BOSSES', studioPath: '/vble/monsters', studioLabel: 'B0001-B0650总目' },
+  { vol: 'VOL.18', layer: 'L4', badge: '复利削减契约', title: '多阶段首领与剧情削减技', contractSummary: 'BattleAttributeDrain 复利衰减 V_next=max(1,floor(V_cur*(1-r))) 与Lv.3破甲附加', docPath: '/vble/docs/18_MULTI_PHASE_BOSS_SKILLS', studioPath: '/vble/bosses', studioLabel: '复利削减模拟器' },
+  { vol: 'VOL.19', layer: 'L1', badge: '亡语殉爆公式', title: '冥界骨王与死神系列设计', contractSummary: '死神亡语殉爆 (0.40*HeroHP + 1.20*BossMATK)、护盾×0.6与和解/死战/封印三抉择', docPath: '/vble/docs/19_SKELETON_REAPER_MYTH', studioPath: '/vble/bosses', studioLabel: '死神殉爆工坊' },
+  { vol: 'VOL.20', layer: 'L1', badge: '10批次29居民', title: '全域 NPC 交互与抉择分支', contractSummary: '10批次29位核心居民可选回复台账与 modal_lock_token 模态锁状态机', docPath: '/vble/docs/20_NPC_INTERACTIONS', studioPath: '/vble/scenes', studioLabel: '29居民交互工坊' },
+  { vol: 'VOL.21', layer: 'L2', badge: '15场景矩阵', title: '王城建筑群、圣墓与天空之城', contractSummary: '天空之城 15 场景交付矩阵 (sky_city_port ~ zenith_throne) 与 30 城镇招牌台账', docPath: '/vble/docs/21_SKY_CITY_TOWNS', studioPath: '/vble/scenes', studioLabel: '天空之城15景工坊' },
+  { vol: 'VOL.22', layer: 'L2', badge: 'AMZ-01~10', title: '亚马逊雨林原始生态与巨兽', contractSummary: '10大雨林生物参数、电影误区辟谣 (AMZ-AC-01) 与库鲁皮拉 Eco_Damage 戒律状态机', docPath: '/vble/docs/22_AMAZON_ECOLOGY', studioPath: '/vble/monsters', studioLabel: '亚马逊生态工坊' },
+  { vol: 'VOL.23', layer: 'L2', badge: 'RMR-T01~T09', title: '陨星之礁探索区域首版方案', contractSummary: '(2428,320) 航海船靠岸登礁/南侧返海还原船态与 RMR-T01~T09 验收测试集', docPath: '/vble/docs/23_RUIN_METEOR_REEF', studioPath: '/vble/dungeons', studioLabel: '陨星之礁登礁工坊' },
+  { vol: 'VOL.24', layer: 'L0', badge: '切图7步状态机', title: '全域场景生成与无缝流转', contractSummary: 'Ch.01~30 ↔ 44节拍映射桥、PALETTE_CRYSTAL/EMPIRE 色盘与 Ch.23 开放8人编成', docPath: '/vble/docs/24_SCENE_GENERATION', studioPath: '/vble/story', studioLabel: '场景流转色盘工坊' },
+  { vol: 'VOL.25', layer: 'L0', badge: '五层依赖DAG', title: '游戏设计总纲与三大支柱', contractSummary: '27卷主目录矩阵、L0→L4五层依赖DAG、三级优先级裁决铁律与跨卷一致性总账', docPath: '/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT', studioPath: '/vble/systems', studioLabel: '五层DAG裁决工坊' },
+  { vol: 'VOL.26', layer: 'L0', badge: '15线程提交审计', title: '全域研发总规程与分工矩阵', contractSummary: 'D01~D13 / T01~T02 15线程提交台账与 north_cave vs wind_altar_in 空间契约对比', docPath: '/vble/docs/26_LATEST_DEV_SPEC', studioPath: '/vble/roadmap', studioLabel: '15线程研发工坊' },
+  { vol: 'VOL.27', layer: 'L4', badge: '130KB全景大典', title: '跨界首领与全域魔物全景大典', contractSummary: '14章 B0001~B0650 全量主索引、跨界九大首领反击轴与极罕掉落矩阵', docPath: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC', studioPath: '/vble/monsters', studioLabel: '跨界大典工坊' }
+]
+
+const filteredPortal27Volumes = computed(() => {
+  if (selectedPortalDagLayer.value === 'ALL') return portal27VolumesList
+  return portal27VolumesList.filter(v => v.layer === selectedPortalDagLayer.value)
+})
 
 </script>
