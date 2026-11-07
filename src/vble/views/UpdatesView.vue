@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-roadmap-vol26-15thread-ledger-v359-2026-11-07',
+    version: 'v2.2.359',
+    date: '2026-11-07',
+    title: '架构路线图实装 VOL.26 十五线程 (D01~D13 / T01~T02) 提交审计台账与北窟/风祀台空间门禁合同工作台',
+    category: 'system',
+    categoryName: '研发规程与提交台账',
+    icon: '⚙️',
+    tagType: 'success',
+    description: '响应《VOL.26 全域研发总规程》附录 A 对齐：在游戏架构路线图 (/vble/roadmap) 实装「D01~D13 / T01~T02 十五线程协同提交审计台账与北窟三层 / 风祀台接线合同」工作台。支持按提交 SHA、模块 Owner、验收指标检索全部 12 组核心合并批次，并直观对比 north_cave (1F~3F) 与 wind_altar_in 的区域等级、Gate 门禁、返场坐标及闭门安全撤离规则。',
+    highlights: [
+      '实装 D01~D13 开发域与 T01~T02 测试域 12 组关键提交 SHA、交付内容与 exit0 独验记录检索',
+      '实装北窟三层 (north_cave ~ north_cave_3) 与风祀台 (wind_altar_in) 空间坐标、门禁与冷读安全合同对照表',
+      '路线图顶部新增「全域研发规程 (VOL.26)」白皮书直通按钮与工作台平滑锚点定位',
+      '支持按提交哈希、负责模块 (如 D06、T02) 或功能关键词实时过滤审计记录'
+    ],
+    relatedLinks: [
+      { label: '架构演进路线图', path: '/vble/roadmap', icon: '🚀' },
+      { label: '全域研发规程 (VOL.26)', path: '/vble/docs/26_LATEST_DEV_SPEC', icon: '⚙️' },
+      { label: '白皮书全景目录', path: '/vble/docs', icon: '📚' }
+    ]
+  },
+  {
     id: 'up-scenes-sky15-npc29-studio-v358-2026-11-07',
     version: 'v2.2.358',
     date: '2026-11-07',

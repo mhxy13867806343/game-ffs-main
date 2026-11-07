@@ -8,9 +8,9 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Roadmap, Milestone Gantt & Epoch Sandbox v2.2.310
+              VBLE Roadmap, D01-D13/T01-T02 15-Thread Ledger &amp; Epoch Sandbox v2.2.359
             </span>
-            <span class="text-xs text-gray-400">里程碑推进与架构推演沙盘</span>
+            <span class="text-xs text-gray-400">里程碑推进、十五线程协同审计与架构推演沙盘</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>🚀</span> 游戏架构路线图与里程碑演练工坊
@@ -26,6 +26,10 @@
               查看更新日志
             </n-button>
           </router-link>
+          <n-button type="success" size="medium" round class="shadow-md font-bold" @click="scrollToVol26LedgerStudio">
+            <template #icon><span>⚙️</span></template>
+            VOL.26 十五线程台账与门禁合同
+          </n-button>
           <n-button type="info" size="medium" round class="shadow-md font-bold text-black bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400" @click="scrollToEpochVotingStudio">
             <template #icon><span>🗳️</span></template>
             纪元演化与共创工坊
@@ -34,6 +38,12 @@
             <template #icon><span>🚀</span></template>
             甘特拓扑与路线图工坊
           </n-button>
+          <router-link to="/vble/docs/26_LATEST_DEV_SPEC">
+            <n-button type="error" size="medium" round secondary class="shadow-md">
+              <template #icon><span>⚙️</span></template>
+              全域研发规程 (VOL.26)
+            </n-button>
+          </router-link>
           <router-link to="/vble/docs">
             <n-button type="warning" size="medium" round secondary class="shadow-md">
               <template #icon><span>📜</span></template>
@@ -70,6 +80,102 @@
         <div class="text-xs text-gray-400">社区心愿与交互热度</div>
         <div class="text-2xl font-black text-pink-400 font-mono mt-1">{{ totalVotes }} 票</div>
         <div class="text-[10px] text-gray-500 mt-0.5">驱动排期权重倾斜</div>
+      </div>
+    </div>
+
+    <!-- ⚙️ VOL.26 十五线程（D01~D13 / T01~T02）本地收录提交审计台账 & 北窟三层/风祀台空间门禁合同工作台 -->
+    <div id="dev-spec-vol26-studio" class="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#0e1726]/95 via-[#131d32]/95 to-[#0b111e]/95 border border-emerald-500/40 shadow-[0_0_28px_rgba(16,185,129,0.14)] space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-emerald-500/20 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold border border-emerald-500/30">
+              VOL.26 APPENDIX A · 15-THREAD COMMIT &amp; ROUTE CONTRACT
+            </span>
+            <h2 class="text-base sm:text-lg font-extrabold text-white">
+              ⚙️ D01~D13 / T01~T02 十五线程协同提交审计台账与北窟三层 / 风祀台接线合同
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            权威对齐《VOL.26 全域研发总规程》附录 A：13 开发域 + 2 测试域独占写范围提交记录，以及 <code>north_cave (1F~3F)</code> 与 <code>wind_altar_in</code> 门禁/返场/冷读合同
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="vol26Tab === 'commits'
+              ? 'bg-emerald-500 text-slate-950 border-emerald-400'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="vol26Tab = 'commits'"
+          >
+            📋 15 线程提交审计台账 ({{ filteredVol26Commits.length }})
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="vol26Tab === 'routes'
+              ? 'bg-cyan-500 text-slate-950 border-cyan-400'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="vol26Tab = 'routes'"
+          >
+            🧭 北窟三层 vs 风祀台合同对照
+          </button>
+          <n-input
+            v-if="vol26Tab === 'commits'"
+            v-model:value="vol26Filter"
+            placeholder="过滤 SHA / D01 / T02 / 北窟..."
+            size="small"
+            clearable
+            class="w-48"
+          >
+            <template #prefix><span>🔍</span></template>
+          </n-input>
+        </div>
+      </div>
+
+      <!-- Tab 1: 15线程提交台账 -->
+      <div v-if="vol26Tab === 'commits'" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[380px] overflow-y-auto pr-1">
+        <div
+          v-for="item in filteredVol26Commits"
+          :key="item.sha"
+          class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 hover:border-emerald-500/40 transition-all space-y-1.5 text-xs"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-mono font-bold border border-emerald-500/30">
+              {{ item.sha }}
+            </span>
+            <span class="px-2 py-0.5 rounded bg-slate-900 text-amber-300 font-mono text-[11px] border border-slate-700">
+              Owner: {{ item.owners }}
+            </span>
+          </div>
+          <div class="text-white font-semibold leading-snug">{{ item.deliverable }}</div>
+          <div class="text-[11px] text-cyan-300 font-mono pt-1 border-t border-slate-800/80">
+            ✅ {{ item.verification }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: 北窟三层 vs 风祀台空间坐标及门禁合同对照 -->
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+        <div
+          v-for="row in vol26RouteContracts"
+          :key="row.dimension"
+          class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2"
+        >
+          <div class="font-bold text-amber-300 border-b border-slate-800 pb-1 flex items-center justify-between">
+            <span>📌 {{ row.dimension }}</span>
+            <span class="text-[10px] font-mono text-slate-400">VOL.26 A.2</span>
+          </div>
+          <div class="space-y-1">
+            <div class="text-emerald-300">
+              <strong class="font-mono">[北窟三层 north_cave~_3]</strong> {{ row.northCave }}
+            </div>
+            <div class="text-cyan-300">
+              <strong class="font-mono">[风祀台 wind_altar_in]</strong> {{ row.windAltar }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2381,6 +2487,63 @@ const copyEpochScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 路线图源码到剪贴板！')
   }
 }
+
+const scrollToVol26LedgerStudio = () => {
+  const el = document.getElementById('dev-spec-vol26-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol26Tab = ref<'commits' | 'routes'>('commits')
+const vol26Filter = ref('')
+
+const vol26CommitLedger = [
+  { sha: '264b8dbbd', owners: 'D01 / D02 / D06 / D11', deliverable: '主线居民 marker 新方位、机关练习增量、任务焦点、地理百科拖移首项', verification: 'T01 规则 21/21、任务焦点 16/16、地区拖移 15/15 全 exit0' },
+  { sha: '45496ba72', owners: 'D03', deliverable: '怪物百科物理/全状态免疫展示', verification: '保留未发现遮蔽规则，独验通过' },
+  { sha: '637dc376f', owners: 'D04 / D05 / D08 / D09 / D10 / D12', deliverable: '首项功能增量及 SAVE_LOAD_AND_PERSISTENCE_SPEC 30 条真实槽位同步', verification: 'T02 六项独验 8/9/9/7/7/8 各自 exit0' },
+  { sha: '550b6f6e4', owners: 'D07 / D11', deliverable: '酒馆首购收据 120px 拆两对白事件修复、地理百科画布右缘父框修复', verification: 'T01 收据修复 28 与地区新框 14 各 exit0' },
+  { sha: 'e5c1937d2', owners: 'D08', deliverable: '职业页技能说明导航及 popup.show 同步切人关闭修复', verification: 'T02 最终 fix 7/7、exit0 零诊断' },
+  { sha: 'd2f36032f', owners: 'D09', deliverable: '道具页内显式目标切换（切塞拉仅治该人并扣 1）', verification: 'T02 16/16、exit0 零诊断' },
+  { sha: '0020cf7a7', owners: 'D04 / D12', deliverable: '正式装备比较拒绝原因及悬赏预览消费安全回退', verification: '最终 guard 8/8、exit0 零诊断（未知 status/key 不回显任意字串）' },
+  { sha: '5bc606791 → df5f73165', owners: 'D13 / D02 / D11 / D01', deliverable: '北窟 5 独立组件与中央 7 源及作者证据 (a1b8a25ea)', verification: '12 源 SHA 冻结；D01 失败回滚 delta 7/7 exit0' },
+  { sha: '7f7efc76d', owners: 'D03', deliverable: '怪物招式阅读同步 hide 边界修复（三源及完整证据）', verification: 'T01 opensync 6/6 与 close/back 9/9 各 exit0 零诊断' },
+  { sha: 'bd69679be → 03898da79', owners: 'D04 / T02', deliverable: '王冠委托接取 ff1_crown_quest.gd 修复与 T02 独验', verification: 'T02 王冠独验 14/14、exit0 零诊断，28 表 SQL/金币/库存守恒' },
+  { sha: 'c5148acbb', owners: 'D06', deliverable: '北境路线查询三 ID（north_cave / _2 / _3）白名单增量', verification: 'Headless / Metal 各 29/29 零诊断通过' },
+  { sha: '671259492 / 63169aebd', owners: 'T01 / T02', deliverable: '北窟三层实机 6 门往返 + 3 处调查 (T01) 与真实 SavePage + 双进程冷读独验 (T02)', verification: '全链路实机门户往返与双进程冷读验证通过' }
+]
+
+const filteredVol26Commits = computed(() => {
+  if (!vol26Filter.value.trim()) return vol26CommitLedger
+  const q = vol26Filter.value.trim().toLowerCase()
+  return vol26CommitLedger.filter(c =>
+    c.sha.toLowerCase().includes(q) ||
+    c.owners.toLowerCase().includes(q) ||
+    c.deliverable.toLowerCase().includes(q) ||
+    c.verification.toLowerCase().includes(q)
+  )
+})
+
+const vol26RouteContracts = [
+  {
+    dimension: '地图 ID 集合与区域等级',
+    northCave: 'north_cave (1F) / north_cave_2 (2F) / north_cave_3 (3F)，区域等级 [7, 10]',
+    windAltar: 'wind_altar_in（单室室内），复用 origin_temple 同组区域等级 [3, 5]'
+  },
+  {
+    dimension: '开放前置 (is_open Gate) 与大世界返场坐标',
+    northCave: '需 ch02_restore_trust 完成；世界门 (1200,180)，返大陆坐标 WORLD_RETURN = (1232,268)',
+    windAltar: '需序章 ch00_arrive_temple 完成；世界门 (720,200)，候选返大陆坐标 (800,180)'
+  },
+  {
+    dimension: '层间门户与出生坐标拓扑',
+    northCave: '1F出生(640,800)南口(640,880)返大陆，(1080,360)→2F(272,520)；2F(1080,280)→3F(640,800)',
+    windAltar: '单室出生 (640,780)，南口 (640,880) 返大陆，仅隐藏未接方向'
+  },
+  {
+    dimension: '景物调查与冷读闭门撤离安全合同',
+    northCave: '三层各1处晶簇纯文本调查写 encyclopedia_place_north_cave*；Gate关闭时已在场档仍可由 3F→2F→1F→大陆 安全撤离',
+    windAltar: '(640,512)调查晶石台触发 draft1.ogg (-20dB, 最长2秒)；合法旧在场档在 closed gate 下仍可由南口返回大陆'
+  }
+]
 
 </script>
 
