@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-teachings-vol13-15-contract-v362-2026-11-07',
+    version: 'v2.2.362',
+    date: '2026-11-07',
+    title: '秘传绝技研习院实装 VOL.13~15 三大流派 v1 传授合同与忍者真双持四匕首逐手结算模拟器',
+    category: 'system',
+    categoryName: '秘传合同与真双持工坊',
+    icon: '🥷',
+    tagType: 'success',
+    description: '响应《VOL.13 勇者圣所》《VOL.14 米西迪亚学院》《VOL.15 东洋忍者秘传》工程附录对齐：在秘传绝技研习院 (/vble/teachings) 实装「三大秘传流派 v1 实机传授合同、共享教材事务与忍者真双持逐手结算工坊」。支持测试真双持首版四匕首白名单 (2003/2004/2005/2053) 的主副手独立投影、波刃匕首 10% 回避去重规则、五门永久忍术 (威力90/18MP) 参数，以及米西迪亚首版四课与勇者圣所圣光斩 1.45x 合同。',
+    highlights: [
+      '实装 VOL.15 忍者真双持四匕首白名单（秘银/波刃/空气/短剑）逐手独立攻击投影与波刃 10% 回避去重模拟器',
+      '完整收录五门永久忍术（火/水/风/土/雷遁术，威力90、18MP、独立于消耗品卷轴 item 31/32）与严格 bool 旗标',
+      '实装 VOL.14 米西迪亚首版四课（大回复/神圣/核爆/陨石）SAVEPOINT 全队共享 player_magic 事务规则对照',
+      '实装 VOL.13 勇者圣所舍身掩护 (Cover) 与圣光斩 (Holy Slash 1.45x 圣属性不叠武器元素) v1 合同明细'
+    ],
+    relatedLinks: [
+      { label: '秘传绝技研习院', path: '/vble/teachings', icon: '✨' },
+      { label: '忍者秘传合同 (VOL.15)', path: '/vble/docs/15_NINJA_TEACHING', icon: '🥷' },
+      { label: '米西迪亚合同 (VOL.14)', path: '/vble/docs/14_MYSIDIA_ACADEMY', icon: '🔮' }
+    ]
+  },
+  {
     id: 'up-battle-vol11-vol12-studio-v361-2026-11-07',
     version: 'v2.2.361',
     date: '2026-11-07',

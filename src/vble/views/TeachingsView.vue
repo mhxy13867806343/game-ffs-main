@@ -8,9 +8,9 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Teachings, Novice Onboarding & Master Mentorship Studio v2.2.312
+              VBLE Teachings, VOL.13-15 v1 Contract &amp; Ninja Dual-Wield Studio v2.2.362
             </span>
-            <span class="text-xs text-gray-400">四大流派秘传与魔物拟态研习</span>
+            <span class="text-xs text-gray-400">四大流派秘传、v1实机传授契约与真双持结算工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>✨</span> 秘传绝技研习院：四大流派、青魔法与太古导师试炼工坊
@@ -47,6 +47,16 @@
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            class="shadow-md font-bold"
+            @click="scrollToVol13To15ContractStudio"
+          >
+            <template #icon><span>🥷</span></template>
+            VOL.13-15 传授合同与真双持工坊
+          </n-button>
           <n-button
             type="info"
             size="medium"
@@ -107,6 +117,168 @@
               返回首页
             </n-button>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🥷 VOL.13 勇者圣所 / VOL.14 米西迪亚四课 / VOL.15 忍者真双持与五遁永久忍术 v1 实机传授合同工作台 -->
+    <div id="vol13-15-teaching-contract-studio" class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-[#0d1829]/95 via-[#131d35]/95 to-[#0b1322]/95 border border-teal-500/40 shadow-[0_0_30px_rgba(20,184,166,0.16)] space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-teal-500/20 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded bg-teal-500/20 text-teal-300 font-mono text-xs font-bold border border-teal-500/30">
+              VOL.13 / VOL.14 / VOL.15 IMPLEMENTED V1 CONTRACTS
+            </span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <span>🥷</span> 三大秘传流派 v1 实机传授合同、共享教材事务与忍者真双持逐手结算工坊
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            严格对齐《VOL.13》圣光斩 1.45x / 舍身掩护、《VOL.14》首版四课全队共享 SAVEPOINT 事务与《VOL.15》真双持四匕首白名单及五门 90 威力 18 MP 永久忍术合同
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="teachingContractTab === 'vol15'
+              ? 'bg-teal-500 text-slate-950 border-teal-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="teachingContractTab = 'vol15'"
+          >
+            🥷 VOL.15 忍者真双持与五遁
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="teachingContractTab === 'vol14'
+              ? 'bg-purple-500 text-white border-purple-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="teachingContractTab = 'vol14'"
+          >
+            🔮 VOL.14 米西迪亚首版四课
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="teachingContractTab === 'vol13'
+              ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="teachingContractTab = 'vol13'"
+          >
+            🛡️ VOL.13 勇者圣所双技合同
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: VOL.15 忍者真双持四武器白名单与五门永久忍术 -->
+      <div v-if="teachingContractTab === 'vol15'" class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-teal-300 text-sm">🗡️ 真双持首版四匕首白名单逐手独立结算模拟器</span>
+            <span class="font-mono text-[11px] text-amber-300">与盾槽严格互斥 · 绝不两手相加打两次</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div>
+              <label class="text-gray-400 block mb-1">共同裸基础+非武攻击:</label>
+              <n-slider v-model:value="ninjaBaseNonWeaponAtk" :min="20" :max="200" :step="5" />
+              <div class="font-mono text-cyan-300 mt-0.5">{{ ninjaBaseNonWeaponAtk }} ATK</div>
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">主手白名单匕首:</label>
+              <select
+                v-model="ninjaMainHandId"
+                class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs"
+              >
+                <option v-for="w in ninjaAllowedDaggers" :key="w.id" :value="w.id">
+                  {{ w.id }} {{ w.name }} (+{{ w.atk }})
+                </option>
+              </select>
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">副手白名单匕首 (offhand):</label>
+              <select
+                v-model="ninjaOffHandId"
+                class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs"
+              >
+                <option v-for="w in ninjaAllowedDaggers" :key="w.id" :value="w.id">
+                  {{ w.id }} {{ w.name }} (+{{ w.atk }})
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 font-mono">
+            <div>
+              <div class="text-[10px] text-gray-400">主手独立投影 (Hit 1)</div>
+              <div class="text-sm font-black text-emerald-300">{{ ninjaDualCalc.mainAtk }} ATK</div>
+              <div class="text-[10px] text-gray-500">元素: {{ ninjaDualCalc.mainElem }}</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-gray-400">副手独立投影 (Hit 2)</div>
+              <div class="text-sm font-black text-cyan-300">{{ ninjaDualCalc.offAtk }} ATK</div>
+              <div class="text-[10px] text-gray-500">元素: {{ ninjaDualCalc.offElem }}</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-gray-400">物理回避率 (按effect去重)</div>
+              <div class="text-sm font-black text-amber-300">+{{ ninjaDualCalc.evasionBonus }}%</div>
+              <div class="text-[10px] text-gray-500">双波刃仍为10%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2.5">
+          <div class="font-bold text-amber-300 text-sm flex items-center justify-between">
+            <span>🔥 五门永久忍术合同表 (独立于卷轴 item 31/32)</span>
+            <span class="font-mono text-[11px] text-teal-300">威力 90 · 18 MP · 单体存活敌方</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div
+              v-for="art in ninjaFivePermanentArts"
+              :key="art.id"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between"
+            >
+              <div>
+                <div class="font-bold text-white">{{ art.name }} <span class="text-teal-300 font-mono text-[10px]">({{ art.element }})</span></div>
+                <div class="font-mono text-[10px] text-gray-400">{{ art.id }}</div>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-teal-500/15 text-teal-300 font-mono text-[10px] border border-teal-500/30">
+                {{ art.flag }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: VOL.14 米西迪亚首版四课合同 -->
+      <div v-else-if="teachingContractTab === 'vol14'" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+        <div
+          v-for="course in mysidiaFourCourses"
+          :key="course.npcId"
+          class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2"
+        >
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-purple-300 text-sm">{{ course.npcName }}</span>
+            <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-purple-500/15 text-purple-200 border border-purple-500/30">{{ course.map }}</span>
+          </div>
+          <div class="text-[11px] font-mono text-cyan-300">新增教材: {{ course.newCourses }}</div>
+          <div class="text-[11px] text-amber-300 font-mono">价格/消耗: {{ course.priceMp }}</div>
+          <div class="text-[11px] text-slate-300 pt-1 border-t border-slate-800/80">{{ course.rule }}</div>
+        </div>
+      </div>
+
+      <!-- Tab 3: VOL.13 勇者圣所双技合同 -->
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2">
+          <div class="font-bold text-amber-300 text-sm">🛡️ 舍身掩护 (Cover) · 守护换位 (`hero_teaching_v1_cover`)</div>
+          <div class="text-slate-300">• <strong>目标与消耗</strong>：指定一名<strong>其他</strong>存活同伴，0 MP，正常一次行动，无低 HP 门槛。</div>
+          <div class="text-slate-300">• <strong>拦截与存档边界</strong>：替目标承受下一次可拦截单体攻击后清除；无额外减伤；战斗中 <code>covering_index</code> 为临时状态不写存档。</div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2">
+          <div class="font-bold text-cyan-300 text-sm">⚔️ 圣光斩 (Holy Slash) · 圣属性物理斩 (`hero_teaching_v1_holy_slash`)</div>
+          <div class="text-slate-300">• <strong>倍率与属性</strong>：单个敌人，0 MP，倍率 <strong>1.45x</strong>，本次攻击属性固定为「圣」（不与武器元素叠算，无额外必中/暴击/对不死加成）。</div>
+          <div class="text-slate-300">• <strong>严格真值表</strong>：仅 <code>Story.flags[flag] === true</code>（布尔真）视为已掌握，字符串 <code>"true"</code> 或数字 <code>1</code> 均视为未学。</div>
         </div>
       </div>
     </div>
@@ -3453,6 +3625,71 @@ const copyArcanaScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 奥术法典源码到剪贴板！')
   }
 }
+
+const scrollToVol13To15ContractStudio = () => {
+  const el = document.getElementById('vol13-15-teaching-contract-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const teachingContractTab = ref<'vol15' | 'vol14' | 'vol13'>('vol15')
+const ninjaBaseNonWeaponAtk = ref(85)
+const ninjaMainHandId = ref('2004')
+const ninjaOffHandId = ref('2005')
+
+const ninjaAllowedDaggers = [
+  { id: '2003', name: '秘银匕首', atk: 10, elem: '无属性', evasion: 0 },
+  { id: '2004', name: '波刃匕首', atk: 24, elem: '水属性', evasion: 10 },
+  { id: '2005', name: '空气匕首', atk: 26, elem: '风属性', evasion: 0 },
+  { id: '2053', name: '短剑', atk: 7, elem: '无属性', evasion: 0 }
+]
+
+const ninjaDualCalc = computed(() => {
+  const mainW = ninjaAllowedDaggers.find(w => w.id === ninjaMainHandId.value) || ninjaAllowedDaggers[0]
+  const offW = ninjaAllowedDaggers.find(w => w.id === ninjaOffHandId.value) || ninjaAllowedDaggers[1]
+  const hasWaveDagger = mainW.id === '2004' || offW.id === '2004'
+  return {
+    mainAtk: ninjaBaseNonWeaponAtk.value + mainW.atk,
+    mainElem: mainW.elem,
+    offAtk: ninjaBaseNonWeaponAtk.value + offW.atk,
+    offElem: offW.elem,
+    evasionBonus: hasWaveDagger ? 10 : 0
+  }
+})
+
+const ninjaFivePermanentArts = [
+  { id: 'tech_ninja_fire_art', name: '火遁术', element: 'fire', flag: 'ninja_teaching_v1_fire' },
+  { id: 'tech_ninja_water_art', name: '水遁术', element: 'water', flag: 'ninja_teaching_v1_water' },
+  { id: 'tech_ninja_wind_art', name: '风遁术', element: 'wind', flag: 'ninja_teaching_v1_wind' },
+  { id: 'tech_ninja_earth_art', name: '土遁术', element: 'earth', flag: 'ninja_teaching_v1_earth' },
+  { id: 'tech_ninja_thunder_art', name: '雷遁术', element: 'thunder', flag: 'ninja_teaching_v1_thunder' }
+]
+
+const mysidiaFourCourses = [
+  {
+    npcId: 'npc_my_white',
+    npcName: '白眉导师 (npc_my_white)',
+    map: 'mysidia',
+    newCourses: 'curaga (大回复) / mirage_holy (神圣)',
+    priceMp: '300G·20MP·3阶 / 45,000G·45MP·5阶',
+    rule: '白魔法体系；保留 cure/esuna 基础货架，与精灵之里/幻影后店同 ID 共享已购状态'
+  },
+  {
+    npcId: 'npc_my_black',
+    npcName: '黑袍导师 (npc_my_black)',
+    map: 'mysidia',
+    newCourses: 'mirage_flare (核爆)',
+    priceMp: '45,000G · 45MP · 5阶',
+    rule: '黑魔法体系；保留 fire/hail 基础货架，SAVEPOINT 事务保障扣款与写共享资格原子一致'
+  },
+  {
+    npcId: 'npc_my_time',
+    npcName: '星术师 (npc_my_time)',
+    map: 'mysidia_observatory',
+    newCourses: 'mirage_meteor (陨石)',
+    priceMp: '60,000G · 60MP · 5阶',
+    rule: '沿现黑系 (magic_type=1) 规则；保留观测线索与原对白，一次购买全队共享 player_magic'
+  }
+]
 
 </script>
 
