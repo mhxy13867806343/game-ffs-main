@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-characters-wldc02-memorist-post255-v374-2026-11-07',
+    version: 'v2.2.374',
+    date: '2026-11-07',
+    title: '英雄传记工坊实装 WLD-C02 跨卷角色 ID 映射表、纳哈特【回忆士】128 碎片池与 Lv>255 超限成长推演台',
+    category: 'system',
+    categoryName: '角色ID统一与超限成长',
+    icon: '🧬',
+    tagType: 'success',
+    description: '响应《VOL.01 世界圣经》§7 WLD-C02、《VOL.04 职业体系》§5-§6 及《VOL.13 英灵圣所》§3 工程附录对齐：在英雄传记页面 (/vble/characters) 实装「WLD-C02 主角团跨卷中英 ID 映射台账、纳哈特【回忆士】128 碎片点数池与 Lv>255 超限成长模拟器」。彻底统一 Sol/黎川、Sarah/塞拉/昼隐、Aigis/艾吉斯、Glaive/卫珩、Nacht/纳哈特五大核心角色内部 ID，并提供 128×5=640 点自由属性池与 Stat(L) = Stat(255) + max(1, Δ_last) × (L - 255) 超限线性延伸计算器。',
+    highlights: [
+      '实装 WLD-C02 主角团跨卷中英 ID 权威映射表（sol / serah / aigis / glaive / nahart），打通 VOL.01、VOL.05 与 VOL.13/16 命名口径',
+      '实装 VOL.04 §5 失忆战士纳哈特专属终极职业【回忆士 (Memorist)】128 枚世界记忆碎片（每枚 5 点，满额 640 自由分配点）模拟器',
+      '实装 VOL.04 §6 突破 255 级硬上限平滑成长公式 Stat(L) = Stat(255) + max(1, Δ_last) × (L - 255)，废除 9999/65535 强制截断',
+      '在英雄传记头部新增一键跳转「WLD-C02 角色ID与Lv>255超限」锚点按钮'
+    ],
+    relatedLinks: [
+      { label: '英雄传记与命座', path: '/vble/characters', icon: '👥' },
+      { label: '世界圣经 (VOL.01)', path: '/vble/docs/01_WORLD_BIBLE', icon: '📖' },
+      { label: '职业体系 (VOL.04)', path: '/vble/docs/04_JOB_SYSTEM', icon: '💎' }
+    ]
+  },
+  {
     id: 'up-equipment-vol05-relic-contract-v373-2026-11-07',
     version: 'v2.2.373',
     date: '2026-11-07',

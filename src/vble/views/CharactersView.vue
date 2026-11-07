@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Heroes, Soul Resonant Matrix & Grand Oath Synergy Studio v2.2.317
+              VBLE Heroes, WLD-C02 Canonical IDs &amp; Memorist / Post-255 Growth Studio v2.2.374
             </span>
             <span class="text-xs text-gray-400">英雄传记、宿命星盘共鸣与八主角命之座觉醒工坊</span>
           </div>
@@ -19,6 +19,17 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToVol01Vol04HeroStudio"
+          >
+            <template #icon><span>🧬</span></template>
+            WLD-C02 角色ID与Lv>255超限
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -103,6 +114,122 @@
         <div class="text-xs text-gray-400">成长算法核心</div>
         <div class="text-2xl font-black text-purple-400 font-mono mt-1">Godot 4.x</div>
         <div class="text-[10px] text-gray-500 mt-0.5">hero_stat_growth.gd</div>
+      </div>
+    </div>
+
+    <!-- 🧬 VOL.01 WLD-C02 主角中英 ID 映射表、VOL.04 §5 回忆士 128 碎片分配与 §6 Lv>255 超限成长推演工坊 (v2.2.374) -->
+    <div
+      id="vol01-vol04-hero-contract-studio"
+      class="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-indigo-950/20 to-slate-900 border border-cyan-500/35 shadow-xl space-y-4"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              VOL.01 WLD-C02 · VOL.04 §5-§6 · VOL.13 §3
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              跨卷角色ID统一映射 · 回忆士 128×5=640 点 · Lv&gt;255 不截断线性延伸
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            🧬 WLD-C02 主角团跨卷中英 ID 映射台账、纳哈特【回忆士】128 碎片点数池与 Lv&gt;255 超限成长模拟器
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="volHeroStudioTab === 'mapping' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="volHeroStudioTab = 'mapping'"
+          >
+            🆔 WLD-C02 跨卷角色 ID 映射表 (VOL.01/05/13)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="volHeroStudioTab === 'growth' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="volHeroStudioTab = 'growth'"
+          >
+            📈 回忆士 128 碎片池 &amp; Lv&gt;255 超限成长公式 (VOL.04 §5-§6)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: WLD-C02 主角团跨卷中英 ID 映射表 -->
+      <div v-if="volHeroStudioTab === 'mapping'" class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 overflow-x-auto text-xs">
+        <table class="w-full text-left border-collapse text-[11px]">
+          <thead>
+            <tr class="border-b border-slate-800 text-gray-400">
+              <th class="py-1.5 pr-2">内部角色 ID</th>
+              <th class="py-1.5 px-2">VOL.01 §1.1 命名</th>
+              <th class="py-1.5 px-2">VOL.05 §1.2 命名</th>
+              <th class="py-1.5 px-2">VOL.13 / 16 合同命名</th>
+              <th class="py-1.5 px-2">阵营与宿命定位</th>
+              <th class="py-1.5 pl-2">绑定专属神兵 / 传授特权</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="h in wldC02HeroMappings" :key="h.id" class="border-b border-slate-900/80">
+              <td class="py-1.5 pr-2 font-mono font-bold text-cyan-300">{{ h.id }}</td>
+              <td class="py-1.5 px-2 text-white font-semibold">{{ h.vol01Name }}</td>
+              <td class="py-1.5 px-2 text-amber-300">{{ h.vol05Name }}</td>
+              <td class="py-1.5 px-2 text-emerald-300 font-mono">{{ h.contractName }}</td>
+              <td class="py-1.5 px-2 text-gray-300">{{ h.role }}</td>
+              <td class="py-1.5 pl-2 text-gray-200">{{ h.relicAndPrivilege }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab 2: 回忆士 128 碎片点数池 & Lv>255 超限平滑成长推演 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-300 text-sm">🧩 VOL.04 §5 纳哈特专属【回忆士 (Memorist)】128 记忆碎片分配器</span>
+            <span class="font-mono font-bold text-cyan-300">可用自由点: {{ simMemoristFreePoints }} pts</span>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-gray-400">已收集世界记忆碎片 (0 ~ 128 枚):</span>
+              <span class="font-mono font-bold text-white">{{ simCollectedFragments }} / 128 枚 (×5 pts)</span>
+            </div>
+            <n-slider v-model:value="simCollectedFragments" :min="0" :max="128" :step="1" />
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 text-[11px] text-gray-300">
+            <div>• <strong>五维分配预览 (按均衡/极限流自动折算)：</strong>STR <strong class="text-amber-300">+{{ Math.floor(simMemoristFreePoints * 0.35) }}</strong> · AGI <strong class="text-cyan-300">+{{ Math.floor(simMemoristFreePoints * 0.30) }}</strong> · VIT/SPR/MAG <strong class="text-emerald-300">+{{ simMemoristFreePoints - Math.floor(simMemoristFreePoints * 0.35) - Math.floor(simMemoristFreePoints * 0.30) }}</strong></div>
+            <div>• <strong>二周目继承 (VOL.08 §4.3)：</strong>已收集的记忆碎片在 New Game+ 中 100% 完整继承，无需重复搜寻。</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300 text-sm">📈 VOL.04 §6 Lv&gt;255 超限不截断线性延伸推算器</span>
+            <span class="font-mono text-[11px] text-emerald-300">Stat(L) = Stat(255) + max(1, Δ_last) × (L - 255)</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">超限目标等级 L (&gt;255):</span>
+                <span class="font-mono font-bold text-amber-300">Lv.{{ simPost255Level }}</span>
+              </div>
+              <n-slider v-model:value="simPost255Level" :min="255" :max="500" :step="5" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">末步增量 Δ_last (Lv255-Lv254):</span>
+                <span class="font-mono font-bold text-cyan-300">+{{ simDeltaLast }} / 级</span>
+              </div>
+              <n-slider v-model:value="simDeltaLast" :min="1" :max="80" :step="1" />
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 font-mono text-[11px] space-y-1">
+            <div>Lv.255 基准标称属性 = <code>9,999</code> (HP 标称 <code>65,535</code>)，废除 9999 硬截断：</div>
+            <div class="text-emerald-300 font-bold">
+              Lv.{{ simPost255Level }} 实算主属性 = {{ simPost255StatResult.stat.toLocaleString() }} · 实算 HP = {{ simPost255StatResult.hp.toLocaleString() }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2901,6 +3028,36 @@ const copyConstellationScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 英雄命座源码到剪贴板！')
   }
 }
+
+// VOL.01 WLD-C02 主角中英 ID 映射表、VOL.04 §5 回忆士 128 碎片分配与 §6 Lv>255 超限成长推演工坊 (v2.2.374)
+const scrollToVol01Vol04HeroStudio = () => {
+  document.getElementById('vol01-vol04-hero-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const volHeroStudioTab = ref<'mapping' | 'growth'>('mapping')
+
+const wldC02HeroMappings = [
+  { id: 'sol', vol01Name: 'Sol (索尔)', vol05Name: '黎川 (Li Chuan)', contractName: 'sol / 晨辉骑士', role: '光之队领袖 · 圣剑骑士', relicAndPrivilege: '晨辉圣剑 (Excalibur Prime) · 圣光斩 (1.45x) / Cover 适格者' },
+  { id: 'serah', vol01Name: 'Sarah (塞拉)', vol05Name: '昼隐 (Diana)', contractName: 'serah / 塞拉', role: '光之队神官 · 白魔导/贤者', relicAndPrivilege: '全知贤者之杖 (Sage Staff) · VOL.13 圣所授课核心成员' },
+  { id: 'aigis', vol01Name: 'Aigis (艾吉斯)', vol05Name: '艾吉斯 (Aegis)', contractName: 'aigis / 艾吉斯', role: '光暗交汇龙骑 · 苍穹枪主', relicAndPrivilege: '龙王极枪 (Dragon Whisker) · 神圣跳跃对龙 400%~500% 贯穿' },
+  { id: 'glaive', vol01Name: 'Glaive (格莱夫)', vol05Name: '卫珩 (Wei Heng)', contractName: 'glaive / 卫珩', role: '重装守护者 · 泰空圣盾', relicAndPrivilege: '泰空神盾 (Aegis Bastion, ECO-C05消歧) · Cover 减伤70%+反伤30%' },
+  { id: 'nahart', vol01Name: 'Nacht (纳哈特)', vol05Name: '纳哈特 (Nacht)', contractName: 'nahart / 纳哈特', role: '暗之队领袖 · 暗黑剑士/回忆士', relicAndPrivilege: '终焉诸神之黄昏·改 (ATK+200) · 专属【回忆士】128碎片自由加点' }
+]
+
+const simCollectedFragments = ref(128)
+const simMemoristFreePoints = computed(() => simCollectedFragments.value * 5)
+
+const simPost255Level = ref(320)
+const simDeltaLast = ref(42)
+
+const simPost255StatResult = computed(() => {
+  const overLevels = Math.max(0, simPost255Level.value - 255)
+  const delta = Math.max(1, simDeltaLast.value)
+  return {
+    stat: 9999 + delta * overLevels,
+    hp: 65535 + delta * 6 * overLevels
+  }
+})
 
 </script>
 
