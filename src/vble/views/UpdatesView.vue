@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-battle-vol11-vol12-studio-v361-2026-11-07',
+    version: 'v2.2.361',
+    date: '2026-11-07',
+    title: '战斗法则工坊实装 VOL.11 十六首领动态回合上限矩阵与 VOL.12 首发三软泥 320 穿透及双场景猜拳合同',
+    category: 'system',
+    categoryName: '战斗回合与猜拳合同',
+    icon: '⏱️',
+    tagType: 'success',
+    description: '响应《VOL.11 首领宝箱回合限制》与《VOL.12 即时抉择与剪刀石头布》工程附录对齐：在战斗法则工坊 (/vble/battle-tactics) 实装「16 大首领动态回合上限递减矩阵 & 首发三软泥 320 穿透与双场景猜拳合同工坊」。支持滑动调节开战瞬间队伍平均等级 (Lv.1~150) 实时验算 16 位首领的阶梯扣减回合数与 2 回合硬保底线，并内置神龙 20 回合/3 回合双轨切换及三软泥 (ff1_pr_027/029/044) 320 物理穿透判定测试器。',
+    highlights: [
+      '实装 VOL.11 全域 16 大首领基准回合与越级递减动态计算器（每超 3 级扣 2 回合，硬保底 2 回合）',
+      '支持神龙宝箱默认 20 回合超神规则与「真·深渊硬核 3 回合速杀模式」一键切换对比',
+      '实装 VOL.12 首发三软泥（绿软泥/灰软泥/黄果冻）有效物理攻击 ≥320 穿透阈值与专属 3.0x 弱点法术测试器',
+      '完整呈现古王陵 (old_kingdom_tomb) 与第 28 章神将左右卫 (divine_generals) 突发问答/猜拳获胜与惩罚矩阵'
+    ],
+    relatedLinks: [
+      { label: '战斗法则工坊', path: '/vble/battle-tactics', icon: '⚔️' },
+      { label: '回合限制白皮书 (VOL.11)', path: '/vble/docs/11_TURN_LIMIT_SPEC', icon: '⏱️' },
+      { label: '即时抉择与猜拳 (VOL.12)', path: '/vble/docs/12_BATTLE_EVENTS_RPS', icon: '🎲' }
+    ]
+  },
+  {
     id: 'up-celestial-void23-bosses-v360-2026-11-07',
     version: 'v2.2.360',
     date: '2026-11-07',

@@ -7,9 +7,9 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs border border-cyan-500/30">
-              VBLE Omni ATB Synergy Matrix, Formation Tactics & Damage Uncap Studio v2.2.328
+              VBLE Omni ATB Synergy, 16-Boss Turn Limit &amp; Slime/RPS Contract Studio v2.2.361
             </span>
-            <span class="text-xs text-gray-400">实战战术法则、动态ATB时序微秒解算、四相连续魔与时钟过载工坊</span>
+            <span class="text-xs text-gray-400">实战战术法则、16首领回合上限、三软泥320穿透与ATB时序工坊</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>⚔️</span> 全域 ATB 动态时间流逝、连携技帧数对齐与极限破防战术工坊
@@ -38,6 +38,16 @@
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="primary"
+            size="medium"
+            round
+            class="shadow-md font-bold"
+            @click="scrollToVol11Vol12ContractStudio"
+          >
+            <template #icon><span>⏱️</span></template>
+            16首领回合与软泥/猜拳合同
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -103,6 +113,141 @@
               返回首页
             </n-button>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⏱️ VOL.11 16 大首领基准回合递减测算台 & VOL.12 首发三软泥 320 穿透与双场景问答猜拳合同工坊 -->
+    <div id="vol11-vol12-contract-studio" class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-[#0d192b]/95 via-[#121c34]/95 to-[#0b1322]/95 border border-cyan-500/40 shadow-[0_0_30px_rgba(6,182,212,0.16)] space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-cyan-500/20 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold border border-cyan-500/30">
+              VOL.11 §8 &amp; VOL.12 §9 AUTHORIZED COMBAT CONTRACTS
+            </span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <span>⏱️</span> 16 大首领动态回合上限递减矩阵 &amp; 首发三软泥 320 穿透与双场景猜拳合同工坊
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            严格对齐《VOL.11》16 首领阶梯递减公式（每超 3 级扣 2 回合，硬保底 2 回合；神龙双轨裁定）与《VOL.12》2026-10-11 授权三软泥 / 双场景突发事件合同
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="vol11Vol12Tab === 'turn16'
+              ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="vol11Vol12Tab = 'turn16'"
+          >
+            ⏱️ VOL.11 16首领动态回合矩阵
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="vol11Vol12Tab === 'rpsSlime'
+              ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="vol11Vol12Tab = 'rpsSlime'"
+          >
+            🎲 VOL.12 三软泥320穿透与双场景猜拳
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: VOL.11 16首领回合上限动态推演 -->
+      <div v-if="vol11Vol12Tab === 'turn16'" class="space-y-4">
+        <div class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="space-y-1 flex-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-cyan-300">🎚️ 开战瞬间出战队伍算术平均等级 floor(Party.AvgLevel):</span>
+              <span class="font-mono font-black text-amber-300 text-sm">Lv.{{ partyAvgLevelSim }}</span>
+            </div>
+            <n-slider v-model:value="partyAvgLevelSim" :min="1" :max="150" :step="1" />
+            <div class="text-[11px] text-gray-400">
+              公式：<code>T_limit = max(2, T_base - floor(max(0, AvgLv - RecLv) / 3) * 2)</code> · 战中饮用「龙之力」或受「黑之冲击」不重算上限；时魔 Quick 额外行动不扣回合。
+            </div>
+          </div>
+          <div class="flex items-center gap-3 text-xs bg-slate-900/90 px-3.5 py-2.5 rounded-lg border border-slate-800">
+            <span>🐉 神龙宝箱硬核 3 回合速杀挑战:</span>
+            <n-switch v-model:value="shinryuHardcore3Turn" size="small" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-h-[380px] overflow-y-auto pr-1">
+          <div
+            v-for="b in computedBoss16Turns"
+            :key="b.id"
+            class="p-3 rounded-xl bg-slate-950/85 border transition-all space-y-1.5 text-xs"
+            :class="b.isFloorTriggered ? 'border-rose-500/50 bg-rose-950/15' : 'border-slate-800 hover:border-cyan-500/40'"
+          >
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-bold text-white truncate">{{ b.name }}</span>
+              <span class="px-1.5 py-0.5 rounded font-mono text-[10px]" :class="b.isFloorTriggered ? 'bg-rose-500/20 text-rose-300' : 'bg-cyan-500/20 text-cyan-300'">
+                限 {{ b.effectiveTurnLimit }} 回合
+              </span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] font-mono text-gray-400">
+              <span>推荐 Lv.{{ b.recLevel }}</span>
+              <span>基准 {{ b.baseTurn }} 回合</span>
+            </div>
+            <div class="text-[11px] text-slate-300 pt-1 border-t border-slate-800/80 truncate" :title="b.note">
+              {{ b.note }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: VOL.12 首发三软泥与双场景突发事件合同 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="font-bold text-amber-300 text-sm flex items-center justify-between">
+            <span>💧 首发三软泥 (ff1_pr_027 / 029 / 044) 物理穿透测试器</span>
+            <span class="text-[11px] font-mono text-cyan-300">穿透阈值 &ge; 320</span>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-gray-400">角色有效物理攻击 (attack + bonus + hero_stat_bonus):</span>
+              <span class="font-mono font-bold" :class="slimeTestAttack >= 320 ? 'text-emerald-400' : 'text-rose-400'">
+                {{ slimeTestAttack }} ({{ slimeTestAttack >= 320 ? '✅ 已破阈值正常命中' : '⚠️ 未达320：99%胶质滑移MISS' }})
+              </span>
+            </div>
+            <n-slider v-model:value="slimeTestAttack" :min="50" :max="500" :step="5" />
+          </div>
+          <div class="space-y-2">
+            <div
+              v-for="s in slime3Contracts"
+              :key="s.id"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-2"
+            >
+              <div>
+                <div class="font-bold text-white">{{ s.name }} <span class="font-mono text-cyan-300 text-[11px]">({{ s.id }})</span></div>
+                <div class="text-[11px] text-gray-400">专属 3.0x 倍率法术: <code class="text-amber-300">{{ s.magic }}</code> ({{ s.weakness }})</div>
+              </div>
+              <span class="px-2 py-0.5 rounded font-mono text-[11px]" :class="slimeTestAttack >= 320 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'">
+                物理命中率 {{ slimeTestAttack >= 320 ? '100%常规' : '1% (99% MISS)' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="font-bold text-cyan-300 text-sm">🎲 2026-10-11 授权双场景突发问答 / 猜拳合同对照</div>
+          <div class="space-y-2.5">
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1">
+              <div class="font-bold text-emerald-300">1. 普通地图首发：古王陵 (old_kingdom_tomb)</div>
+              <div class="text-gray-300">• <strong>触发步频</strong>：本次访问首场必出问答；其后每 5 场 35% 概率候选，事件后 3 场静默，问答/猜拳严格交替。</div>
+              <div class="text-gray-300">• <strong>温和惩罚矩阵</strong>：前五存活出战者当前 HP/MP 减半（保底 1 HP）、六维减半持续 3 次本人有效行动；首存活者混乱 2 次本人行动；不接即死或毒。</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1">
+              <div class="font-bold text-amber-300">2. 显式非波次剧情白名单：第 28 章神将左右卫 (divine_generals)</div>
+              <div class="text-gray-300">• <strong>我方猜拳获胜</strong>：左卫扣当前 HP 40%（保底 1 HP），跳过 2 次本人充能行动，期间整项有效物理防御为 0；右卫不动。</div>
+              <div class="text-gray-300">• <strong>我方猜拳失败</strong>：执行温和矩阵后，对首存活者判即死（尊重免疫与一次不屈），随后存活前五判中毒。</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -4535,5 +4680,61 @@ const copyOmniAtbScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 全息 ATB 战术源码到剪贴板！')
   }
 }
+
+const scrollToVol11Vol12ContractStudio = () => {
+  const el = document.getElementById('vol11-vol12-contract-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol11Vol12Tab = ref<'turn16' | 'rpsSlime'>('turn16')
+const partyAvgLevelSim = ref(35)
+const shinryuHardcore3Turn = ref(false)
+const slimeTestAttack = ref(280)
+
+const boss16BaseTable = [
+  { id: 'wing-raptor', name: '翼手龙', recLevel: 4, baseTurn: 12, note: '闭翼回合同样计入总回合' },
+  { id: 'siren', name: '塞壬', recLevel: 8, baseTurn: 14, note: '生死形态切换不重置回合' },
+  { id: 'magissa-forza', name: '玛吉莎 & 弗鲁扎', recLevel: 11, baseTurn: 15, note: '弗鲁扎入场共享同一回合池' },
+  { id: 'liquid-flame', name: '液态火焰', recLevel: 18, baseTurn: 15, note: '受卡尔纳克 10 分钟实表双重约束' },
+  { id: 'gilgamesh', name: '吉尔伽美什(6战)', recLevel: 22, baseTurn: 14, note: '偷取源氏装备需在限回合内完成' },
+  { id: 'archaeoavis', name: '古代始祖龙', recLevel: 28, baseTurn: 22, note: '5 形态(含复活)共享 22 回合总池' },
+  { id: 'amazon-leviathan-drake', name: '远古翠绿羽蛇神', recLevel: 34, baseTurn: 18, note: '高空盘旋回合正常计次' },
+  { id: 'exdeath', name: '艾克斯德斯', recLevel: 42, baseTurn: 24, note: '二阶段切换不重置回合' },
+  { id: 'bounty-a-king-chimera', name: '强化奇美拉', recLevel: 45, baseTurn: 16, note: '悬赏首领沿用剧情 Boss 递减公式' },
+  { id: 'abyssal-kraken-cthulhu', name: '深渊海怪·克拉肯', recLevel: 50, baseTurn: 20, note: '清触手与本体共享回合池' },
+  { id: 'cross-world-skeleton-king', name: '冥界骨王·奥尔克斯', recLevel: 58, baseTurn: 24, note: '三波骷髅近卫计入总回合' },
+  { id: 'bounty-s-death-eye', name: '死神之眼', recLevel: 62, baseTurn: 18, note: '酒馆悬赏 S · 二周目限定' },
+  { id: 'shinryu', name: '神龙 (Shinryu)', recLevel: 75, baseTurn: 20, note: '默认 20 回合超神规则；硬核模式锁 3 回合' },
+  { id: 'omega', name: '欧米茄 (Omega)', recLevel: 80, baseTurn: 25, note: '巡逻遇敌标记 is_story_boss: true' },
+  { id: 'cross-world-reaper-judge', name: '深渊死神判官', recLevel: 85, baseTurn: 30, note: '每 5 回合触发一次【天平倾斜】' },
+  { id: 'neo-exdeath', name: '新·艾克斯德斯', recLevel: 90, baseTurn: 40, note: '四部位全灭前共用 40 回合上限' }
+]
+
+const computedBoss16Turns = computed(() => {
+  return boss16BaseTable.map(b => {
+    if (b.id === 'shinryu' && shinryuHardcore3Turn.value) {
+      return {
+        ...b,
+        effectiveTurnLimit: 3,
+        isFloorTriggered: true
+      }
+    }
+    const overLevel = Math.max(0, partyAvgLevelSim.value - b.recLevel)
+    const steps = Math.floor(overLevel / 3)
+    const reduced = b.baseTurn - steps * 2
+    const effectiveTurnLimit = Math.max(2, reduced)
+    return {
+      ...b,
+      effectiveTurnLimit,
+      isFloorTriggered: effectiveTurnLimit <= 2
+    }
+  })
+})
+
+const slime3Contracts = [
+  { id: 'ff1_pr_027', name: '绿软泥', magic: 'fire / hail / fira', weakness: '弱火、冰 → 3.0x' },
+  { id: 'ff1_pr_029', name: '灰软泥', magic: 'thundara', weakness: '弱雷 → 3.0x' },
+  { id: 'ff1_pr_044', name: '黄果冻', magic: 'fire / hail / fira', weakness: '弱火、冰 → 3.0x' }
+]
 
 </script>
