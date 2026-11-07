@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-items-vol04-vol05-alchemy-bluemagic-v375-2026-11-07',
+    version: 'v2.2.375',
+    date: '2026-11-07',
+    title: '道具炼金工坊实装 VOL.05 药剂师【调合】六大禁忌灵药双源对账台与 VOL.04 青魔法黄金三法则习得推演器',
+    category: 'equipment',
+    categoryName: '禁忌调合与青魔专卷',
+    icon: '⚗️',
+    tagType: 'success',
+    description:
+      '严格对齐《05_EQUIPMENT_AND_ECONOMY.md》§2/§7 ECO-C03 与《04_JOB_AND_ABILITY_SYSTEM.md》§4，在道具与炼金页（/vble/items#vol04-vol05-alchemy-bluemagic-studio）新增药剂师六大战斗内禁忌调合秘方（生体龙之灵药 HP上限+100%、龙之力 Lv+20、生命祝福 Reraise、法力超频 MP上限+100%、生铁硬化 DEF+200%、黑暗之光 80%三封锁）与 mixRecipes.ts 双源对照矩阵、青魔法 30 技黄金三法则 + 训兽师【控制】习得验证器，以及【黑冲击 Lv/2 × 龙之力 +20 → 5级即死】跨等级操控必杀推演器。',
+    highlights: [
+      'VOL.05 §2 & ECO-C03 禁忌调合双源矩阵：6 大战中突破秘方与门户 MIX-01~15 配方双向映射，支持实时推演 HP 19,998 突破与 Lv.255 调频',
+      'VOL.04 §4 青魔法黄金三法则验证器：验证「青魔/学习在场 + 承受怪物实弹命中 + 存活至战斗结算」与训兽师【控制】引导白风/全能防御习得',
+      '黑冲击 × 龙之力 → 5级即死必杀推演台：交互调整初始等级、龙之力(+20)投掷次数与黑冲击(÷2)折半次数，实时验证 Lv % 5 === 0 秒杀阈值'
+    ],
+    relatedLinks: [
+      { label: '禁忌调合与青魔法工坊', path: '/vble/items#vol04-vol05-alchemy-bluemagic-studio', icon: '⚗️' },
+      { label: 'VOL.05 装备与经济白皮书', path: '/vble/docs/05_EQUIPMENT_AND_ECONOMY', icon: '📖' },
+      { label: 'VOL.04 职业与技能白皮书', path: '/vble/docs/04_JOB_AND_ABILITY_SYSTEM', icon: '📘' }
+    ]
+  },
+  {
     id: 'up-characters-wldc02-memorist-post255-v374-2026-11-07',
     version: 'v2.2.374',
     date: '2026-11-07',

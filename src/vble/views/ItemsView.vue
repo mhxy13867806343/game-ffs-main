@@ -1393,6 +1393,271 @@
         <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs font-mono text-teal-300 overflow-x-auto leading-relaxed max-h-[420px]">{{ currentInventoryCode }}</pre>
       </div>
     </div>
+
+    <!-- VOL.05 §2 & §7 ECO-C03 药剂师调合双源矩阵 & VOL.04 §4 青魔法 30 技黄金三法则推演工坊 (v2.2.375) -->
+    <div id="vol04-vol05-alchemy-bluemagic-studio" class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-emerald-950/55 via-slate-900/95 to-cyan-950/50 border border-emerald-500/40 shadow-[0_0_35px_rgba(16,185,129,0.14)] space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-emerald-500/25 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold">
+              VOL.05 §2 / ECO-C03 × VOL.04 §4 ALCHEMY &amp; BLUE MAGIC STUDIO
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              6 FORBIDDEN ELIXIRS · 30 BLUE SPELLS · 3 GOLDEN RULES
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>⚗️</span> 药剂师【调合】六大禁忌灵药双源对账与青魔法 30 技黄金三法则习得工坊
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 leading-relaxed">
+            严格对齐 <code class="text-emerald-300 font-mono">05_EQUIPMENT_AND_ECONOMY.md (§2 / §7 ECO-C03)</code> 与 <code class="text-cyan-300 font-mono">04_JOB_AND_ABILITY_SYSTEM.md (§4)</code>：完整收录白皮书六大核心禁忌调合秘方与 <code class="text-amber-300 font-mono">mixRecipes.ts</code> 双源对照、青魔法习得黄金三法则验证器，以及【黑冲击 Lv/2 → 5级即死】必杀连携推演器。
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <router-link to="/vble/docs/05_EQUIPMENT_AND_ECONOMY">
+            <n-button size="small" type="success" secondary round>📖 VOL.05 调合白皮书</n-button>
+          </router-link>
+          <router-link to="/vble/docs/04_JOB_AND_ABILITY_SYSTEM">
+            <n-button size="small" type="info" secondary round>📘 VOL.04 青魔法专卷</n-button>
+          </router-link>
+        </div>
+      </div>
+
+      <!-- 1. VOL.05 §2 & §7 ECO-C03 药剂师六大禁忌调合秘方双源对账矩阵 -->
+      <div class="p-4 sm:p-5 rounded-xl bg-slate-950/85 border border-emerald-500/30 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-emerald-300 flex items-center gap-2">
+              <span>🧪</span> VOL.05 §2 药剂师【调合 (Mix)】六大禁忌秘方与 ECO-C03 双源消歧账本
+            </h3>
+            <p class="text-xs text-gray-400 mt-0.5">
+              无视常规属性上限与等级上限的六大战斗内禁忌调合配方，支持点击任意秘方实时推演战中角色属性突破效果。
+            </p>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-mono text-emerald-300">
+            ECO-C03 · 白皮书 §2 ⇄ mixRecipes.ts 15 条全配方互通
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <button
+            v-for="mix in vol05ForbiddenMixes"
+            :key="mix.id"
+            type="button"
+            class="text-left p-3.5 rounded-xl border transition-all"
+            :class="selectedForbiddenMixId === mix.id
+              ? 'bg-emerald-950/60 border-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.2)]'
+              : 'bg-slate-900/80 border-slate-800 hover:border-emerald-500/40'"
+            @click="selectedForbiddenMixId = mix.id"
+          >
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">{{ mix.id }}</span>
+              <span class="text-[10px] font-mono text-amber-300">{{ mix.tag }}</span>
+            </div>
+            <div class="text-xs font-bold text-white">{{ mix.product }}</div>
+            <div class="text-[11px] font-mono text-cyan-300 mt-1">{{ mix.matA }} + {{ mix.matB }}</div>
+            <p class="text-[11px] text-gray-300 mt-1.5 leading-relaxed">{{ mix.effect }}</p>
+            <div class="mt-2 pt-2 border-t border-slate-800/80 text-[10px] font-mono text-gray-400 flex items-center justify-between">
+              <span>mixRecipes.ts 对应:</span>
+              <span class="text-emerald-300">{{ mix.portalMirror }}</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- 选中禁忌秘方实时战斗突破模拟器 -->
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 grid grid-cols-1 lg:grid-cols-3 gap-4 items-center">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">受调合目标基础等级 (Lv)</span>
+              <span class="font-mono font-bold text-amber-300">Lv.{{ mixSimBaseLv }}</span>
+            </div>
+            <input v-model.number="mixSimBaseLv" type="range" min="1" max="99" step="1" class="w-full accent-emerald-400 cursor-pointer" />
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">基础最大 HP / MP</span>
+              <span class="font-mono text-cyan-300">{{ mixSimBaseHp }} HP / {{ mixSimBaseMp }} MP</span>
+            </div>
+            <input v-model.number="mixSimBaseHp" type="range" min="1000" max="9999" step="250" class="w-full accent-cyan-400 cursor-pointer" />
+          </div>
+
+          <div class="lg:col-span-2 p-3.5 rounded-xl bg-slate-950/90 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="text-xs font-mono text-emerald-300 font-bold">
+                当前激活秘方：{{ currentForbiddenMix.product }} ({{ currentForbiddenMix.matA }} + {{ currentForbiddenMix.matB }})
+              </div>
+              <div class="text-xs text-gray-300">{{ currentForbiddenMix.simSummary }}</div>
+              <div class="text-[11px] font-mono text-amber-300">{{ currentForbiddenMix.ecoNote }}</div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 shrink-0 text-center">
+              <div class="p-2 rounded-lg bg-slate-900 border border-slate-800">
+                <div class="text-[10px] text-gray-400">战中生效 Lv</div>
+                <div class="text-sm font-black font-mono text-amber-300">Lv.{{ mixSimResult.effectiveLv }}</div>
+              </div>
+              <div class="p-2 rounded-lg bg-slate-900 border border-slate-800">
+                <div class="text-[10px] text-gray-400">战中 HP 上限</div>
+                <div class="text-sm font-black font-mono text-emerald-400">{{ mixSimResult.effectiveHp }}</div>
+              </div>
+              <div class="p-2 rounded-lg bg-slate-900 border border-slate-800">
+                <div class="text-[10px] text-gray-400">战中 DEF 倍率</div>
+                <div class="text-sm font-black font-mono text-cyan-300">{{ mixSimResult.defMultiplier }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. VOL.04 §4 青魔道士 30 大青魔法黄金三法则习得验证器 & 黑冲击 Lv/2 -> 5级即死连携台 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="p-4 sm:p-5 rounded-xl bg-slate-950/85 border border-cyan-500/30 space-y-4">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-cyan-300 flex items-center gap-2">
+                <span>📘</span> VOL.04 §4 青魔法习得黄金三法则验证器 (30 技全收录)
+              </h3>
+              <p class="text-xs text-gray-400 mt-0.5">
+                验证「装备学习/青魔在场 + 承受怪物实弹命中 + 战斗存活结算」三大铁律与训兽师【控制】前置。
+              </p>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">
+              BLUE MAGIC 3-RULE GATE
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button
+              v-for="spell in blueMagicCoreSpells"
+              :key="spell.id"
+              type="button"
+              class="text-left p-2.5 rounded-lg border transition-all"
+              :class="selectedBlueSpellId === spell.id
+                ? 'bg-cyan-950/60 border-cyan-400 text-white'
+                : 'bg-slate-900/75 border-slate-800 text-gray-300 hover:border-cyan-500/40'"
+              @click="selectedBlueSpellId = spell.id"
+            >
+              <div class="flex items-center justify-between text-[11px] font-mono">
+                <span class="text-cyan-300 font-bold">{{ spell.id }} · {{ spell.name }}</span>
+                <span :class="spell.requiresControl ? 'text-amber-300' : 'text-emerald-300'">
+                  {{ spell.requiresControl ? '需训兽师【控制】' : '常规受击习得' }}
+                </span>
+              </div>
+              <div class="text-[11px] text-gray-400 mt-1">来源怪物：{{ spell.monsterSource }}</div>
+              <div class="text-[11px] text-gray-200 mt-0.5">{{ spell.effect }}</div>
+            </button>
+          </div>
+
+          <!-- 三黄金法则开关验证 -->
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2.5">
+            <div class="text-xs font-bold text-white">黄金三法则 + 训兽师控制判定开关：</div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <label class="flex items-center gap-2 p-2 rounded bg-slate-950 border border-slate-800 cursor-pointer">
+                <input v-model="blueRuleEquipped" type="checkbox" class="accent-cyan-400" />
+                <span>① 青魔在场或佩戴【学习】被动</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded bg-slate-950 border border-slate-800 cursor-pointer">
+                <input v-model="blueRuleHitBySkill" type="checkbox" class="accent-cyan-400" />
+                <span>② 被怪物该技能正面命中</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded bg-slate-950 border border-slate-800 cursor-pointer">
+                <input v-model="blueRuleSurvived" type="checkbox" class="accent-cyan-400" />
+                <span>③ 存活至战斗胜利结算</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded bg-slate-950 border border-slate-800 cursor-pointer">
+                <input v-model="blueRuleBeastControl" type="checkbox" class="accent-amber-400" />
+                <span>④ 训兽师【控制】强行引导施放</span>
+              </label>
+            </div>
+            <div
+              class="p-2.5 rounded-lg border text-xs font-mono"
+              :class="blueLearnValidation.ok
+                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-300'
+                : 'bg-rose-950/50 border-rose-500/40 text-rose-300'"
+            >
+              {{ blueLearnValidation.message }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 黑冲击 Lv/2 -> 5级即死 跨职业逃课连携推演器 -->
+        <div class="p-4 sm:p-5 rounded-xl bg-slate-950/85 border border-purple-500/30 space-y-4">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-purple-300 flex items-center gap-2">
+                <span>💀</span> VOL.04 §4.2 青魔法跨等级操控：【黑冲击 → 5级即死】必杀推演器
+              </h3>
+              <p class="text-xs text-gray-400 mt-0.5">
+                模拟【黑冲击 (Black Shock)】将目标等级折半（向下取整）或药剂师【龙之力 (Lv+20)】调频后，是否踏入 <code class="text-purple-300">Lv % 5 === 0</code> 必死阈值。
+              </p>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">
+              LV MANIPULATION COMBO
+            </span>
+          </div>
+
+          <div class="space-y-3 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-300">敌方 Boss / 精英怪初始等级 (Initial Lv)</span>
+              <span class="font-mono font-bold text-purple-300">Lv.{{ blueComboEnemyLv }}</span>
+            </div>
+            <input v-model.number="blueComboEnemyLv" type="range" min="10" max="99" step="1" class="w-full accent-purple-400 cursor-pointer" />
+
+            <div class="grid grid-cols-2 gap-2">
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+                <div class="text-[11px] text-gray-400 mb-1">青魔法【黑冲击】折半次数 (0~3次)</div>
+                <div class="flex items-center gap-1.5">
+                  <button
+                    v-for="cnt in [0, 1, 2, 3]"
+                    :key="cnt"
+                    type="button"
+                    class="px-2.5 py-1 rounded text-xs font-mono border"
+                    :class="blueComboBlackShockCount === cnt
+                      ? 'bg-purple-500/25 border-purple-400 text-purple-200 font-bold'
+                      : 'bg-slate-900 border-slate-800 text-gray-400'"
+                    @click="blueComboBlackShockCount = cnt"
+                  >
+                    {{ cnt }}次
+                  </button>
+                </div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+                <div class="text-[11px] text-gray-400 mb-1">药剂师【龙之力】对敌投掷 (+20 Lv/次)</div>
+                <div class="flex items-center gap-1.5">
+                  <button
+                    v-for="cnt in [0, 1, 2]"
+                    :key="cnt"
+                    type="button"
+                    class="px-2.5 py-1 rounded text-xs font-mono border"
+                    :class="blueComboDragonPowerCount === cnt
+                      ? 'bg-emerald-500/25 border-emerald-400 text-emerald-200 font-bold'
+                      : 'bg-slate-900 border-slate-800 text-gray-400'"
+                    @click="blueComboDragonPowerCount = cnt"
+                  >
+                    +{{ cnt * 20 }} Lv
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-purple-500/30 space-y-2">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="text-gray-400">等级演变轨迹：</span>
+                <span class="text-cyan-300 font-bold">{{ blueComboResult.chainText }}</span>
+              </div>
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="text-gray-400">最终判定等级：</span>
+                <span class="text-base font-black text-white">Lv.{{ blueComboResult.finalLv }} (Lv mod 5 = {{ blueComboResult.finalLv % 5 }})</span>
+              </div>
+              <div
+                class="p-2.5 rounded-lg border text-xs font-mono font-bold"
+                :class="blueComboResult.level5DeathHit
+                  ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+                  : 'bg-amber-950/50 border-amber-500/40 text-amber-300'"
+              >
+                {{ blueComboResult.verdict }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2850,6 +3115,230 @@ const copyActiveInventoryCode = () => {
     message.info('源码已复制')
   })
 }
+
+// VOL.05 §2 & §7 ECO-C03 六大禁忌调合秘方与 VOL.04 §4 青魔法黄金三法则 (v2.2.375)
+interface Vol05ForbiddenMix {
+  id: string
+  matA: string
+  matB: string
+  product: string
+  tag: string
+  effect: string
+  portalMirror: string
+  simSummary: string
+  ecoNote: string
+}
+
+const vol05ForbiddenMixes: Vol05ForbiddenMix[] = [
+  {
+    id: 'MIX-F01',
+    matA: '恢复药 (Potion)',
+    matB: '龙牙 (Dragon Fang)',
+    product: '生体龙之灵药 (Giant\'s Drink)',
+    tag: 'HP 上限 +100% 突破',
+    effect: '目标本场战斗最大 HP 翻倍（最高突破至 19,998），并瞬间补满全部生命值。',
+    portalMirror: 'MIX-03 巨灵神药 + MIX-10 龙王护盾',
+    simSummary: '无视 9,999 常规生命上限，将战中 HP 上限翻倍至 200%（最高 19,998 HP），是硬抗死神审判官与虚空巴哈姆特百万核爆的核心屏障。',
+    ecoNote: 'ECO-C03 消歧：白皮书 §2 禁忌秘方 1 与门户 MIX-03（双圣灵药）共同构成突破上限双路径。'
+  },
+  {
+    id: 'MIX-F02',
+    matA: '圣水 (Holy Water)',
+    matB: '龙牙 (Dragon Fang)',
+    product: '龙之力 (Dragon Power)',
+    tag: '战中 Lv +20 突破',
+    effect: '目标本场战斗等级直接 +20（最高可突破 99 级上限达到 Lv.255，可叠加投掷）。',
+    portalMirror: 'MIX-11 龙威霸体 (狂暴药+龙之牙)',
+    simSummary: '每次投掷使目标战中有效等级 +20（最高可叠加至 Lv.255），既能倍增己方等级倍率技能伤害，也可改变敌方等级使其踏入 5 的倍数！',
+    ecoNote: 'ECO-C03 消歧：白皮书 §2 禁忌秘方 2 为等级调频核心，与青魔法【5级即死】形成跨职业必杀闭环。'
+  },
+  {
+    id: 'MIX-F03',
+    matA: '凤凰尾 (Phoenix Down)',
+    matB: '圣水 (Holy Water)',
+    product: '生命祝福 (Life Blessing)',
+    tag: '自动复活 + 50% HP',
+    effect: '目标附加【自动复活 (Reraise)】状态，且当场恢复 50% 最大 HP。',
+    portalMirror: 'MIX-08 涅槃圣灰 (不死鸟之尾×2)',
+    simSummary: '在承受深渊死神亡语自爆（VOL.19）或死神审判官灵魂断头台前预先挂上 Reraise，倒地瞬间自动满状态起身。',
+    ecoNote: 'ECO-C03 消歧：白皮书 §2 禁忌秘方 3 提供低成本圣水+凤凰尾复生方案。'
+  },
+  {
+    id: 'MIX-F04',
+    matA: '以太 (Ether)',
+    matB: '龙牙 (Dragon Fang)',
+    product: '法力超频 (Mana Overclock)',
+    tag: 'MP 上限 +100% & 减半消耗',
+    effect: '目标本场战斗最大 MP 翻倍，且所有魔法与召唤术 MP 消耗减半。',
+    portalMirror: 'MIX-02 大以太涡流 + MIX-14 贤者秘药',
+    simSummary: 'MP 上限翻倍并自带 50% MP 消耗减免，配合【连续魔法 × 至高终焉核爆】可实现零断档火力倾泻。',
+    ecoNote: 'ECO-C03 消歧：白皮书 §2 禁忌秘方 4 专为高耗蓝融合技与双倍施法打造。'
+  },
+  {
+    id: 'MIX-F05',
+    matA: '解毒药 (Antidote)',
+    matB: '龟壳 (Turtle Shell)',
+    product: '生铁硬化 (Iron Skin)',
+    tag: '物理防御 DEF +200%',
+    effect: '目标本场战斗物理防御力提升 200%，持续整场战斗不衰减。',
+    portalMirror: 'MIX-09 铁壁龟甲散 (恢复药+龟甲壳)',
+    simSummary: '仅需随处可得的解毒药与龟壳即可换取 300% 物理护甲，完美克制牛头人米诺陶洛斯等纯物理狂暴 Boss。',
+    ecoNote: 'ECO-C03 消歧：白皮书 §2 禁忌秘方 5 与门户 MIX-09 同属龟甲系硬减伤秘方。'
+  },
+  {
+    id: 'MIX-F06',
+    matA: '眼药 (Eyedrop)',
+    matB: '龙牙 (Dragon Fang)',
+    product: '黑暗之光 (Dark Breath)',
+    tag: '80% 强控 黑暗/沉默/减速',
+    effect: '对敌方单体无视常规抗性，以 80% 概率同时附加【黑暗 + 沉默 + 减速】三大封锁状态。',
+    portalMirror: 'MIX-07 暗黑毒雾 (解毒药+眼药水)',
+    simSummary: '集致盲、禁魔、减速于一体的高命中压制弹药，可瞬间废除高威胁施法型与高频连击型精英怪。',
+    ecoNote: 'ECO-C03 消歧：白皮书 §2 禁忌秘方 6 注入龙牙催化，命中率提升至 80%。'
+  }
+]
+
+const selectedForbiddenMixId = ref('MIX-F01')
+const mixSimBaseLv = ref(52)
+const mixSimBaseHp = ref(6500)
+const mixSimBaseMp = computed(() => Math.round(mixSimBaseHp.value * 0.14))
+
+const currentForbiddenMix = computed(() => {
+  return vol05ForbiddenMixes.find(m => m.id === selectedForbiddenMixId.value) ?? vol05ForbiddenMixes[0]
+})
+
+const mixSimResult = computed(() => {
+  const id = selectedForbiddenMixId.value
+  const effectiveLv = id === 'MIX-F02' ? Math.min(255, mixSimBaseLv.value + 20) : mixSimBaseLv.value
+  const effectiveHp = id === 'MIX-F01' ? Math.min(19998, mixSimBaseHp.value * 2) : mixSimBaseHp.value
+  const defMultiplier = id === 'MIX-F05' ? '3.00x (+200%)' : '1.00x (基准)'
+  return {
+    effectiveLv,
+    effectiveHp: `${effectiveHp.toLocaleString()} HP`,
+    defMultiplier
+  }
+})
+
+interface BlueMagicCoreSpell {
+  id: string
+  name: string
+  monsterSource: string
+  effect: string
+  requiresControl: boolean
+}
+
+const blueMagicCoreSpells: BlueMagicCoreSpell[] = [
+  {
+    id: 'BM-01',
+    name: '白风 (White Wind)',
+    monsterSource: '风之神殿·白风精 / 浮空城白翼鸟',
+    effect: '恢复全队等同于施法者【当前 HP 数值】的生命，无视精神属性与魔防反射。',
+    requiresControl: true
+  },
+  {
+    id: 'BM-02',
+    name: '全能防御 (Mighty Guard)',
+    monsterSource: '海沟深渊·刺鳐 / 水晶塔守护兽',
+    effect: '全队同时附加【物理护盾 + 魔法护盾 + 浮空】，减伤与回避地脉灾害一体成型。',
+    requiresControl: true
+  },
+  {
+    id: 'BM-03',
+    name: '千针刺 (1000 Needles)',
+    monsterSource: '沙漠仙人掌 (Cactuar)',
+    effect: '无视 320 物理防御的金属史莱姆护甲，造成雷打不动的 1,000 点真实固定伤害。',
+    requiresControl: false
+  },
+  {
+    id: 'BM-04',
+    name: '黑冲击 (Black Shock)',
+    monsterSource: '虚空城·暗黑魔导士 / 黑焰妖',
+    effect: '将单体目标当前等级瞬间折半 (floor(Lv / 2))，用于构造 5 级即死前置。',
+    requiresControl: false
+  },
+  {
+    id: 'BM-05',
+    name: '5级即死 (Level 5 Death)',
+    monsterSource: '古代图书馆·64页书怪 (Page 64)',
+    effect: '凡当前等级为 5 的倍数 (Lv % 5 === 0) 的目标，无视即死抗性 100% 瞬间暴毙。',
+    requiresControl: false
+  },
+  {
+    id: 'BM-06',
+    name: '吸血 (Vampire)',
+    monsterSource: '北山洞窟·血翼蝙蝠 / 洞穴吸血魔',
+    effect: '汲取等同于（自身最大 HP - 当前 HP）/ 2 的生命值，残血反杀神技。',
+    requiresControl: false
+  }
+]
+
+const selectedBlueSpellId = ref('BM-01')
+const blueRuleEquipped = ref(true)
+const blueRuleHitBySkill = ref(true)
+const blueRuleSurvived = ref(true)
+const blueRuleBeastControl = ref(true)
+
+const currentBlueSpell = computed(() => {
+  return blueMagicCoreSpells.find(s => s.id === selectedBlueSpellId.value) ?? blueMagicCoreSpells[0]
+})
+
+const blueLearnValidation = computed(() => {
+  const spell = currentBlueSpell.value
+  if (!blueRuleEquipped.value) {
+    return {
+      ok: false,
+      message: `❌ 习得失败：【${spell.name}】违反黄金法则 ① —— 队伍中无青魔道士在场且未佩戴【学习 (Learning)】被动！`
+    }
+  }
+  if (spell.requiresControl && !blueRuleBeastControl.value) {
+    return {
+      ok: false,
+      message: `⚠️ 无法触发受击：【${spell.name}】属于怪物增益/自愈技，怪物默认只对自己施放；必须由训兽师【控制 (Control)】强行调转枪口对己方施放！`
+    }
+  }
+  if (!blueRuleHitBySkill.value) {
+    return {
+      ok: false,
+      message: `❌ 习得失败：【${spell.name}】违反黄金法则 ② —— 角色闪避或免疫了该技能，未完成实弹受击判定！`
+    }
+  }
+  if (!blueRuleSurvived.value) {
+    return {
+      ok: false,
+      message: `❌ 习得失败：【${spell.name}】违反黄金法则 ③ —— 受击者未能存活至战斗胜利结算画面！`
+    }
+  }
+  return {
+    ok: true,
+    message: `✅ 习得成功：黄金三法则全部满足${spell.requiresControl ? '（含训兽师【控制】引导）' : ''}，战斗结算后永久解锁青魔法【${spell.name}】！`
+  }
+})
+
+const blueComboEnemyLv = ref(62)
+const blueComboBlackShockCount = ref(1)
+const blueComboDragonPowerCount = ref(1)
+
+const blueComboResult = computed(() => {
+  const steps: string[] = [`初始 Lv.${blueComboEnemyLv.value}`]
+  let lv = blueComboEnemyLv.value
+  for (let i = 0; i < blueComboDragonPowerCount.value; i++) {
+    lv = Math.min(255, lv + 20)
+    steps.push(`龙之力(+20) → Lv.${lv}`)
+  }
+  for (let i = 0; i < blueComboBlackShockCount.value; i++) {
+    lv = Math.max(1, Math.floor(lv / 2))
+    steps.push(`黑冲击(÷2) → Lv.${lv}`)
+  }
+  const hit = lv % 5 === 0
+  return {
+    chainText: steps.join(' ➔ '),
+    finalLv: lv,
+    level5DeathHit: hit,
+    verdict: hit
+      ? `🎯 必杀成立！最终等级 Lv.${lv} 满足 Lv % 5 === 0，青魔法【5级即死】无视抗性 100% 秒杀目标！`
+      : `🛡️ 尚未命中 5 的倍数（当前 Lv.${lv}，余数 ${lv % 5}），请调整【黑冲击】折半次数或【龙之力】投掷次数！`
+  }
+})
 
 </script>
 
