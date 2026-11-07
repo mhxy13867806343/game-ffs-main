@@ -210,6 +210,27 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-sidequests-vol07-contract-studio-v367-2026-11-07',
+    version: 'v2.2.367',
+    date: '2026-11-07',
+    title: '支线考据工坊实装 VOL.07 十大史诗支线总表 (SQ-01~10)、斗技场置换与陆行鸟赛跑赔率推演台',
+    category: 'maps',
+    categoryName: '支线状态机与博彩契约',
+    icon: '🏇',
+    tagType: 'success',
+    description: '响应《VOL.07 支线秘闻、世界寻宝与娱乐设施》§5-§7 工程附录对齐：在支线全域考据页面 (/vble/sidequests) 实装「VOL.07 十大史诗支线总表 (SQ-01~10)、斗技场下注置换表与陆行鸟赛跑赔率 (0.9 抽水) 验算工坊」。完整收录 SQ-01~SQ-10 开放条件与主奖励，支持拖动主线章节进度实时验证 SQ-04 飞龙孤雏第 18 章截止 (Expired) 状态机，并内置斗技场 AI 1v1 五大置换表与陆行鸟赛跑赔率下限 (≥1.2x) 模拟器。',
+    highlights: [
+      '实装 VOL.07 §5 十大史诗支线数据总表 (SQ-01~SQ-10) 与 SQ-AC-02 第 18 章截止过期状态实时切换器',
+      '实装 §6.1 斗技场 AI 托管 1v1 下注置换表（伪石中剑→圣剑、源氏之盔→终极缎带等）与 ★5 唯一道具禁注规则 (SQ-AC-05)',
+      '实装 §6.2 陆行鸟赛跑赔率公式推演器 Power = (0.6S + 0.4E) × C，验证 0.9 抽水系数与 1.2x 最低赔率保底 (SQ-AC-06)',
+      '同步梳理 §6.3 赌场代币兑换表（猫耳帽 30,000 代币魔防+500%）及 16 封莫古利信件 / 8 阶钢琴顺序提升契约'
+    ],
+    relatedLinks: [
+      { label: '支线全域考据', path: '/vble/sidequests', icon: '🗺️' },
+      { label: '支线白皮书 (VOL.07)', path: '/vble/docs/07_SIDEQUESTS_SECRETS', icon: '🗝️' }
+    ]
+  },
+  {
     id: 'up-vehicles-vol06-contract-studio-v366-2026-11-07',
     version: 'v2.2.366',
     date: '2026-11-07',

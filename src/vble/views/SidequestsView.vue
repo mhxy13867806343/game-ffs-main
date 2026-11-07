@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Sidequests, Cross-Epoch Chains & Relic Vault Studio v2.2.324
+              VBLE Sidequests, SQ-01~10 State-Machine &amp; Coliseum/Casino Studio v2.2.367
             </span>
             <span class="text-xs text-gray-400">支线全域考据与隐藏秘境推演</span>
           </div>
@@ -71,6 +71,17 @@
             <template #icon><span>💎</span></template>
             前往时空寻宝沙盘
           </n-button>
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToVol07ContractStudio"
+          >
+            <template #icon><span>🏇</span></template>
+            VOL.07 十支线与赛鸟赔率
+          </n-button>
           <router-link to="/vble/dungeons">
             <n-button size="medium" round tertiary>
               查看全域地宫
@@ -81,6 +92,173 @@
               返回首页
             </n-button>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOL.07 §5-§7 十大史诗支线 (SQ-01~10)、可错过截止状态机与斗技场/赛鸟赔率契约工坊 (v2.2.367) -->
+    <div
+      id="vol07-sidequest-contract-studio"
+      class="rounded-2xl border border-amber-500/30 bg-gradient-to-br from-slate-950 via-amber-950/15 to-slate-900 p-4 sm:p-5 space-y-4"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              VOL.07 §5-§7 SIDEQUEST &amp; CASINO CONTRACT
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              SQ-01~SQ-10 · SQ-04 第18章截止 · 赛鸟赔率 ≥1.2 · SQ-AC-01~06
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            🏇 VOL.07 十大史诗支线总表 (SQ-01~10)、斗技场下注置换表与陆行鸟赛跑赔率 (0.9 抽水) 验算工坊
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol07StudioTab === 'quests' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol07StudioTab = 'quests'"
+          >
+            📜 SQ-01~SQ-10 支线总表与 SQ-04 截止校验 (§5)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol07StudioTab === 'casino' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol07StudioTab = 'casino'"
+          >
+            🏇 斗技场置换与陆行鸟赛跑赔率模拟器 (§6-§7)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: SQ-01~SQ-10 支线总表与 SQ-04 第18章截止状态机 -->
+      <div v-if="vol07StudioTab === 'quests'" class="space-y-4 text-xs">
+        <div class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2 overflow-x-auto">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="font-bold text-amber-300 text-sm">📜 §5 十大史诗支线数据总表 (SQ-01 ~ SQ-10)</span>
+            <div class="flex items-center gap-2">
+              <span class="text-gray-400">测试主线章节进度 (验证 SQ-AC-02 第18章截止):</span>
+              <span class="font-mono font-bold text-cyan-300">第 {{ simCurrentChapter }} 章</span>
+              <div class="w-32">
+                <n-slider v-model:value="simCurrentChapter" :min="1" :max="25" :step="1" />
+              </div>
+            </div>
+          </div>
+          <table class="w-full text-left border-collapse text-[11px]">
+            <thead>
+              <tr class="border-b border-slate-800 text-gray-400">
+                <th class="py-1.5 pr-2">ID</th>
+                <th class="py-1.5 px-2">支线名称</th>
+                <th class="py-1.5 px-2">开放条件</th>
+                <th class="py-1.5 px-2">推荐等级</th>
+                <th class="py-1.5 px-2">步骤数</th>
+                <th class="py-1.5 px-2">核心主奖励</th>
+                <th class="py-1.5 pl-2">实时状态判定</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="q in vol07QuestSheet" :key="q.id" class="border-b border-slate-900/80">
+                <td class="py-1.5 pr-2 font-mono font-bold text-amber-300">{{ q.id }}</td>
+                <td class="py-1.5 px-2 font-bold text-white">{{ q.name }}</td>
+                <td class="py-1.5 px-2 text-gray-300">{{ q.unlock }}</td>
+                <td class="py-1.5 px-2 font-mono text-cyan-300">Lv.{{ q.recLv }}</td>
+                <td class="py-1.5 px-2 font-mono text-gray-300">{{ q.steps }}</td>
+                <td class="py-1.5 px-2 text-emerald-300 font-semibold">{{ q.reward }}</td>
+                <td class="py-1.5 pl-2 font-mono">
+                  <span
+                    v-if="q.missable && simCurrentChapter >= 18"
+                    class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                  >
+                    Expired (已超第18章截止)
+                  </span>
+                  <span
+                    v-else-if="q.missable"
+                    class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                  >
+                    ⏳ 可错过 (截止第18章前)
+                  </span>
+                  <span v-else class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300">
+                    常驻可完成 (✘不流产)
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: 斗技场下注置换与陆行鸟赛跑赔率计算器 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="font-bold text-amber-300 text-sm">⚔️ §6.1 斗技场 AI 1v1 下注置换表 &amp; §6.3 赌场兑换表</div>
+          <div class="space-y-1.5">
+            <div
+              v-for="bet in vol07ColiseumBets"
+              :key="bet.betItem"
+              class="p-2 rounded bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-2 text-[11px]"
+            >
+              <div>
+                <span class="font-bold text-white">{{ bet.betItem }}</span>
+                <span class="text-gray-400 mx-1">vs {{ bet.opponent }}</span>
+              </div>
+              <div class="font-mono">
+                <span class="text-emerald-300 font-bold">胜: {{ bet.winReward }}</span>
+                <span class="text-rose-400 ml-2">败: 道具消失</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] text-gray-300 space-y-1">
+            <div>• <strong>SQ-AC-05 禁注规则：</strong>稀有度 ★5 以上的唯一道具（全游戏仅 1 件）柜台直接拒收；出战角色低于对手 15 级以上弹出红色警告。</div>
+            <div>• <strong>赌场代币兑换 (§6.3)：</strong>万灵药 = <code>500</code> 代币（无限） · 赌徒飞镖 = <code>3,000</code> 代币（限 1） · 猫耳帽 (魔防+500%) = <code>30,000</code> 代币（限 1）。</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300 text-sm">🏇 §6.2 陆行鸟赛跑实时赔率推演器 (SQ-AC-06 下限 1.2x)</span>
+            <span class="font-mono text-[11px] text-amber-300">Power = (0.6S + 0.4E) × C</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">1号鸟速度 S:</span>
+                <span class="font-mono text-white">{{ simChocoboSpeed }}</span>
+              </div>
+              <n-slider v-model:value="simChocoboSpeed" :min="40" :max="120" :step="5" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">1号鸟耐力 E:</span>
+                <span class="font-mono text-white">{{ simChocoboStamina }}</span>
+              </div>
+              <n-slider v-model:value="simChocoboStamina" :min="40" :max="120" :step="5" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">状态系数 C:</span>
+                <span class="font-mono text-cyan-300">{{ simChocoboCondition.toFixed(2) }}</span>
+              </div>
+              <n-slider v-model:value="simChocoboCondition" :min="0.8" :max="1.2" :step="0.05" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div
+              v-for="racer in simChocoboRaceOdds"
+              :key="racer.name"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-center space-y-0.5"
+            >
+              <div class="font-bold text-white text-[11px]">{{ racer.name }}</div>
+              <div class="font-mono text-[10px] text-gray-400">Power {{ racer.power }}</div>
+              <div class="font-mono font-black text-sm text-emerald-300">{{ racer.odds }}x</div>
+            </div>
+          </div>
+          <div class="text-[11px] text-gray-400">
+            • <strong>SQ-AC-03 / 04 收集联动：</strong>16 封莫古利信件全送达仅触发 1 次传奇邮差徽章；8 架钢琴必须按 Tier 1→8 顺序提升，跳弹不跳级。
+          </div>
         </div>
       </div>
     </div>
@@ -3729,5 +3907,58 @@ const copyEpochQuestScript = () => {
   navigator.clipboard.writeText(currentEpochQuestScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 支线任务源码到剪贴板！')
 }
+
+// VOL.07 §5-§7 十大史诗支线总表、斗技场置换与陆行鸟赛跑赔率契约工坊 (v2.2.367)
+const scrollToVol07ContractStudio = () => {
+  document.getElementById('vol07-sidequest-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol07StudioTab = ref<'quests' | 'casino'>('quests')
+const simCurrentChapter = ref(15)
+
+const vol07QuestSheet = [
+  { id: 'SQ-01', name: '海龙西尔多拉的长眠', unlock: '进入第三世界 + 持有帆船', recLv: 38, steps: '3 步', reward: '召唤兽「西尔多拉」', missable: false },
+  { id: 'SQ-02', name: '矮人锻造大师的遗愿', unlock: '第 9 章后 + 精金矿石 ×4', recLv: 30, steps: '5 步', reward: '符文之斧', missable: false },
+  { id: 'SQ-03', name: '古代贤者吉多的预言', unlock: '持有潜水艇', recLv: 42, steps: '4 步', reward: '时空魔法「流星群」', missable: false },
+  { id: 'SQ-04', name: '飞龙最后的孤雏', unlock: '第 10 章后 + 飞龙草', recLv: 35, steps: '3 步', reward: '圣白飞龙坐骑', missable: true },
+  { id: 'SQ-05', name: '幻影之村环球马拉松', unlock: '黄色陆行鸟 + 幻影之村开放', recLv: 25, steps: '1 步 (限时)', reward: '极速之靴', missable: false },
+  { id: 'SQ-06', name: '狼人凯鲁卡的故乡誓言', unlock: '凯鲁卡入队记录', recLv: 45, steps: '3 步', reward: '暗黑剑圣心法', missable: false },
+  { id: 'SQ-07', name: '莫古利村庄大营救', unlock: '第 6 章后', recLv: 20, steps: '4 步', reward: '莫古利通信网解锁', missable: false },
+  { id: 'SQ-08', name: '沉睡的欧米茄遗骸', unlock: '电路板碎片 ×3', recLv: 55, steps: '4 步', reward: '欧米茄弱点数据 (首领伤+15%)', missable: false },
+  { id: 'SQ-09', name: '神龙封印的真相', unlock: '飞空艇 + 天空圣所', recLv: 50, steps: '2 步', reward: '水神项圈 (水属性吸收)', missable: false },
+  { id: 'SQ-10', name: '大图书馆禁断十四卷', unlock: '学者职业解锁', recLv: 48, steps: '14 步 (每卷1战)', reward: '学者特技「深度解析」', missable: false }
+]
+
+const vol07ColiseumBets = [
+  { betItem: '伪石中剑', opponent: '吉尔伽美什（幻影）', winReward: '圣剑 (Excalibur)' },
+  { betItem: '源氏之盔', opponent: '铁巨人 (Iron Giant)', winReward: '终极缎带 (Ribbon)' },
+  { betItem: '火炎盾', opponent: '炎之巨人', winReward: '冰之盾 (Ice Shield)' },
+  { betItem: '万灵药 ×1', opponent: '仙人掌王 (Cactuar King)', winReward: '万灵药 ×3' },
+  { betItem: '精灵之弓', opponent: '黑暗骑士', winReward: '毁灭之弓 (Yoichi Bow)' }
+]
+
+const simChocoboSpeed = ref(85)
+const simChocoboStamina = ref(75)
+const simChocoboCondition = ref(1.05)
+
+const simChocoboRaceOdds = computed(() => {
+  const p1 = (0.6 * simChocoboSpeed.value + 0.4 * simChocoboStamina.value) * simChocoboCondition.value
+  const racers = [
+    { name: '1号·黄金闪电 (可调)', powerRaw: p1 },
+    { name: '2号·赤红疾风', powerRaw: (0.6 * 78 + 0.4 * 72) * 1.0 },
+    { name: '3号·苍蓝海燕', powerRaw: (0.6 * 70 + 0.4 * 80) * 0.95 },
+    { name: '4号·暗夜黑羽', powerRaw: (0.6 * 65 + 0.4 * 68) * 1.1 }
+  ]
+  const totalPower = racers.reduce((sum, r) => sum + r.powerRaw, 0)
+  return racers.map(r => {
+    const rawOdds = (totalPower / r.powerRaw) * 0.9
+    const clampedOdds = Math.max(1.2, rawOdds)
+    return {
+      name: r.name,
+      power: r.powerRaw.toFixed(1),
+      odds: clampedOdds.toFixed(2)
+    }
+  })
+})
 
 </script>
