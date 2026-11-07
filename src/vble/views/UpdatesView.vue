@@ -210,6 +210,27 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-jobs-vol04-contract-studio-v365-2026-11-07',
+    version: 'v2.2.365',
+    date: '2026-11-07',
+    title: '水晶职业工坊实装 VOL.04 四水晶解锁批次 (1+6+5+4+4+1=21)、AP 等级阈值与转职 HP 比例换算验算台',
+    category: 'system',
+    categoryName: '水晶批次与转职契约',
+    icon: '💎',
+    tagType: 'success',
+    description: '响应《VOL.04 职业体系与转职成长》§7-§10 工程附录对齐：在水晶职业树页面 (/vble/jobs) 实装「VOL.04 四水晶批次 (1+6+5+4+4+1=21)、AP 等级阈值与转职 HP/继承池最大值验算工坊」。支持查阅与 jobsConfig.ts 严格对齐的 21 职业水晶解锁批次、Lv.1~Lv.8 (0/10/30/60/100/160/250/400 AP) 升级阶梯，并提供 JOB-AC-02/03 AP 注入与 K.O. 归零验算、JOB-AC-04 自由人/模仿士继承池 max() 取最大值不叠加、以及 JOB-AC-05/06 转职 HP 等比换算交互沙盒。',
+    highlights: [
+      '实装 VOL.04 §7 四块水晶解锁批次表（初始 1 + 风 6 + 水 5 + 火 4 + 土 4 + 沉没塔 1 = 21 职业），严格对齐 jobsConfig.ts',
+      '实装 §8.2 标准职业 Lv.1~Lv.8 (Master = 400 AP，模仿士 999 AP) 阈值校验器与 JOB-AC-03 K.O. 角色 0 AP 判定开关',
+      '实装 §8.3 Master 继承池 max() 取最大值不叠加模拟器（如骑士 STR+42 与狂战士 STR+48 组合取 max = +48）',
+      '实装 §9 转职 HP 按新旧上限比例向下取整换算器 (max(1, floor(OldCur/OldMax * NewMax))) 与不兼容装备自动回背包契约说明'
+    ],
+    relatedLinks: [
+      { label: '水晶职业树', path: '/vble/jobs', icon: '💎' },
+      { label: '职业体系白皮书 (VOL.04)', path: '/vble/docs/04_JOB_SYSTEM', icon: '📖' }
+    ]
+  },
+  {
     id: 'up-dungeons-vol02-vol23-studio-v364-2026-11-07',
     version: 'v2.2.364',
     date: '2026-11-07',

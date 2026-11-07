@@ -2,17 +2,177 @@
   <div class="jobs-page p-4 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">VBLE Crystal Tree, Passive Fusion &amp; Secret Rebirth Studio v2.2.332</n-tag>
-      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">二十八大职业双轨觉醒、天梯极意流转与万能先驱者矩阵工坊</h1>
+      <n-tag type="info" size="small" round class="mb-2">VBLE Crystal Batches, AP Thresholds &amp; Job-Switch Contract Studio v2.2.365</n-tag>
+      <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">二十一职业水晶批次、AP 阈值继承与转职契约矩阵工坊</h1>
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
         当前目录收录 {{ jobsList.length }} 个职业，其中水晶职业 {{ jobsList.filter(j => j.crystal !== 'special').length }} 个；支持多维分类查阅、双职业构筑连锁、自由人全被动继承、进阶转生太古奥义与极限命座星图推演。
       </p>
-      <div class="flex justify-center mt-3">
+      <div class="flex flex-wrap justify-center gap-2 mt-3">
         <router-link to="/vble/docs/04_JOB_SYSTEM">
           <n-button size="tiny" type="warning" secondary round>
             📖 研读职业体系与转职成长白皮书 (VOL.04)
           </n-button>
         </router-link>
+        <n-button size="tiny" type="info" secondary round @click="scrollToVol04ContractStudio">
+          💎 直达 VOL.04 水晶批次 / AP 阈值 / 转职比例换算工坊
+        </n-button>
+      </div>
+    </div>
+
+    <!-- VOL.04 §7-§10 水晶解锁批次、AP 职业等级阈值与转职比例换算契约工坊 (v2.2.365) -->
+    <div
+      id="vol04-job-contract-studio"
+      class="rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-slate-950 via-cyan-950/15 to-slate-900 p-4 sm:p-5 space-y-4"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              VOL.04 §7-§10 JOB CONTRACT
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              jobsConfig 21 职业对齐 · Lv.8=400 AP · JOB-AC-01~07
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            💎 VOL.04 四水晶批次 (1+6+5+4+4+1=21)、AP 等级阈值与转职 HP/继承池最大值验算工坊
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol04StudioTab === 'batches' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol04StudioTab = 'batches'"
+          >
+            🔮 水晶解锁批次与Lv.1~8阈值 (JOB-AC-01/02)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol04StudioTab === 'calculator' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol04StudioTab = 'calculator'"
+          >
+            ⚖️ AP 等级 / 继承池 max() / 转职 HP 比例模拟器 (JOB-AC-03~07)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: 水晶解锁批次与 Lv.1~8 AP 阈值表 -->
+      <div v-if="vol04StudioTab === 'batches'" class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2.5">
+          <div class="font-bold text-cyan-300 text-sm">🔮 §7 四水晶解锁批次与 jobsConfig.ts 21 职业严格对齐表</div>
+          <div class="space-y-2">
+            <div
+              v-for="batch in vol04CrystalBatches"
+              :key="batch.batch"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-start justify-between gap-3"
+            >
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="font-bold text-white">{{ batch.batch }} · {{ batch.source }}</span>
+                  <span class="px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 font-mono text-[10px]">
+                    {{ batch.count }} 职 (累计 {{ batch.cumulative }})
+                  </span>
+                </div>
+                <div class="text-gray-300 font-mono text-[11px] leading-relaxed">{{ batch.jobs }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2.5">
+          <div class="font-bold text-amber-300 text-sm">📊 §8.2 标准职业 Lv.1 ~ Lv.8 (Master) AP 阈值阶梯</div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div
+              v-for="lv in vol04ApThresholds"
+              :key="lv.level"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-cyan-300">{{ lv.level }}</span>
+                <span class="font-mono text-[11px] text-amber-300">{{ lv.ap }} AP</span>
+              </div>
+              <div class="text-[11px] text-gray-300">{{ lv.unlock }}</div>
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] text-gray-300 space-y-1">
+            <div>• <strong>特殊职业例外：</strong>自由人 (`freelancer`) 无职业等级；模仿士 (`mime`) Lv.8 Master 门槛为 <code class="text-amber-300">999 AP</code>；青魔导士 (`blue-mage`) 技能由亲身受击存活研习 (§4)，不由 AP 解锁。</div>
+            <div>• <strong>AP 获取档位：</strong>普通杂兵 1~3 AP · 迷宫深层杂兵 4~6 AP · 首领战 10~30 AP · 逃跑/团灭/K.O. 角色获得 <code class="text-rose-300">0 AP</code> (JOB-AC-03)。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: AP 注入 / 继承池 max() / 转职 HP 比例换算模拟器 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-xs">
+        <!-- AP 注入与 K.O. 判定 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="font-bold text-cyan-300 text-sm">⚡ JOB-AC-02 / 03：AP 阈值与 K.O. 结算验算</div>
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-gray-400">当前累计 AP (测试点 9/10/399/400):</span>
+              <span class="font-mono font-bold text-cyan-300">{{ simJobAp }} AP</span>
+            </div>
+            <n-slider v-model:value="simJobAp" :min="0" :max="450" :step="1" />
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-gray-400">战斗结束时角色是否 K.O.：</span>
+            <n-switch v-model:value="simIsKO" size="small" />
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 font-mono">
+            <div>当前职业等级: <strong class="text-amber-300">{{ simJobLevelResult.levelLabel }}</strong></div>
+            <div>本级解锁项: <span class="text-gray-300">{{ simJobLevelResult.unlock }}</span></div>
+            <div>本场首领战 (+20 AP) 实得: <strong :class="simIsKO ? 'text-rose-400' : 'text-emerald-300'">{{ simIsKO ? '0 AP (JOB-AC-03 K.O.不获AP)' : '+20 AP' }}</strong></div>
+          </div>
+        </div>
+
+        <!-- 继承池取最大值不叠加 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="font-bold text-amber-300 text-sm">🏆 JOB-AC-04：Master 继承池取最大值 (不叠加)</div>
+          <div class="space-y-1.5">
+            <label
+              v-for="mJob in vol04MasteryPoolCandidates"
+              :key="mJob.id"
+              class="flex items-center justify-between p-2 rounded bg-slate-900/90 border border-slate-800 cursor-pointer"
+            >
+              <span class="font-bold text-white">{{ mJob.name }}</span>
+              <span class="font-mono text-[11px] text-gray-400">STR+{{ mJob.str }} / MAG+{{ mJob.mag }} / AGI+{{ mJob.agi }}</span>
+              <input v-model="selectedMasteredIds" type="checkbox" :value="mJob.id" class="accent-amber-400" />
+            </label>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 font-mono text-[11px]">
+            自由人/模仿士继承加成 = <code>max()</code>:
+            <div class="text-emerald-300 font-bold mt-1">
+              STR +{{ simInheritedMaxBonus.str }} · MAG +{{ simInheritedMaxBonus.mag }} · AGI +{{ simInheritedMaxBonus.agi }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 转职 HP 按比例换算与装备自动回背包 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="font-bold text-emerald-300 text-sm">🔄 JOB-AC-05 / 06：转职 HP 比例换算与卸装</div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <span class="text-gray-400 block mb-1">原职业当前/最大 HP:</span>
+              <div class="font-mono text-white">{{ simOldCurHp }} / {{ simOldMaxHp }} ({{ Math.round((simOldCurHp / simOldMaxHp) * 100) }}%)</div>
+              <n-slider v-model:value="simOldCurHp" :min="1" :max="simOldMaxHp" :step="10" />
+            </div>
+            <div>
+              <span class="text-gray-400 block mb-1">新职业最大 HP 上限:</span>
+              <div class="font-mono text-cyan-300">{{ simNewMaxHp }} HP</div>
+              <n-slider v-model:value="simNewMaxHp" :min="400" :max="4000" :step="50" />
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 text-[11px]">
+            <div class="font-mono">
+              转职后 HP = <code>max(1, floor({{ simOldCurHp }}/{{ simOldMaxHp }} × {{ simNewMaxHp }}))</code> =
+              <strong class="text-emerald-300">{{ simConvertedHp }} / {{ simNewMaxHp }} HP</strong>
+            </div>
+            <div class="text-gray-400">
+              • <strong>JOB-AC-05 卸装规则：</strong>骑士持巨盾转黑魔导士时，不兼容的巨盾与重甲自动卸入背包，绝不丢失。
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -4791,6 +4951,74 @@ const copyRebirthScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 水晶转生源码到剪贴板！')
   }
 }
+
+// VOL.04 §7-§10 水晶批次、AP 阈值与转职比例换算契约工坊 (v2.2.365)
+const scrollToVol04ContractStudio = () => {
+  document.getElementById('vol04-job-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol04StudioTab = ref<'batches' | 'calculator'>('batches')
+
+const vol04CrystalBatches = [
+  { batch: '初始批次', source: '开局默认', count: 1, cumulative: 1, jobs: '自由人 (freelancer)' },
+  { batch: '第一批 (JOB-AC-01)', source: '风之水晶', count: 6, cumulative: 7, jobs: '骑士 (knight) · 武僧 (monk) · 盗贼 (thief) · 白魔导士 (white-mage) · 黑魔导士 (black-mage) · 青魔导士 (blue-mage)' },
+  { batch: '第二批 (JOB-AC-01)', source: '水之水晶', count: 5, cumulative: 12, jobs: '时空魔导士 (time-mage) · 召唤士 (summoner) · 魔法剑士 (mystic-knight) · 狂战士 (berserker) · 红魔导士 (red-mage)' },
+  { batch: '第三批 (JOB-AC-01)', source: '火之水晶', count: 4, cumulative: 16, jobs: '忍者 (ninja) · 魔兽使 (beastmaster) · 猎人 (hunter) · 风水士 (geomancer)' },
+  { batch: '第四批 (JOB-AC-01)', source: '土之水晶', count: 4, cumulative: 20, jobs: '武士 (samurai) · 龙骑士 (dragoon) · 舞者 (dancer) · 药剂师 (chemist)' },
+  { batch: '特殊批次', source: '深渊沉没塔 (Gogo试炼)', count: 1, cumulative: 21, jobs: '模仿士 (mime)' }
+]
+
+const vol04ApThresholds = [
+  { level: 'Lv 1', ap: 0, unlock: '本职固定指令' },
+  { level: 'Lv 2', ap: 10, unlock: '第 1 个可装配特技' },
+  { level: 'Lv 3', ap: 30, unlock: '第 2 个可装配特技' },
+  { level: 'Lv 4', ap: 60, unlock: '被动特性 1' },
+  { level: 'Lv 5', ap: 100, unlock: '第 3 个可装配特技' },
+  { level: 'Lv 6', ap: 160, unlock: '被动特性 2' },
+  { level: 'Lv 7', ap: 250, unlock: '第 4 个可装配特技' },
+  { level: 'Lv 8 ★', ap: 400, unlock: 'Master 精通写入继承池' }
+]
+
+const simJobAp = ref(399)
+const simIsKO = ref(false)
+
+const simJobLevelResult = computed(() => {
+  const ap = simJobAp.value
+  if (ap >= 400) return { levelLabel: 'Lv 8 (★MASTER)', unlock: '职业精通：属性加成写入自由人/模仿士继承池' }
+  if (ap >= 250) return { levelLabel: 'Lv 7', unlock: '第 4 个可装配特技' }
+  if (ap >= 160) return { levelLabel: 'Lv 6', unlock: '被动特性 2' }
+  if (ap >= 100) return { levelLabel: 'Lv 5', unlock: '第 3 个可装配特技' }
+  if (ap >= 60) return { levelLabel: 'Lv 4', unlock: '被动特性 1' }
+  if (ap >= 30) return { levelLabel: 'Lv 3', unlock: '第 2 个可装配特技' }
+  if (ap >= 10) return { levelLabel: 'Lv 2', unlock: '第 1 个可装配特技' }
+  return { levelLabel: 'Lv 1', unlock: '本职固定指令' }
+})
+
+const vol04MasteryPoolCandidates = [
+  { id: 'knight', name: '骑士 Master', str: 42, mag: 0, agi: 8 },
+  { id: 'berserker', name: '狂战士 Master', str: 48, mag: 0, agi: 4 },
+  { id: 'black-mage', name: '黑魔导士 Master', str: 0, mag: 52, agi: 12 },
+  { id: 'ninja', name: '忍者 Master', str: 28, mag: 18, agi: 45 }
+]
+
+const selectedMasteredIds = ref<string[]>(['knight', 'berserker', 'black-mage'])
+
+const simInheritedMaxBonus = computed(() => {
+  const active = vol04MasteryPoolCandidates.filter(c => selectedMasteredIds.value.includes(c.id))
+  return {
+    str: active.reduce((max, c) => Math.max(max, c.str), 0),
+    mag: active.reduce((max, c) => Math.max(max, c.mag), 0),
+    agi: active.reduce((max, c) => Math.max(max, c.agi), 0)
+  }
+})
+
+const simOldCurHp = ref(1000)
+const simOldMaxHp = ref(2000)
+const simNewMaxHp = ref(1200)
+
+const simConvertedHp = computed(() => {
+  return Math.max(1, Math.floor((simOldCurHp.value / simOldMaxHp.value) * simNewMaxHp.value))
+})
 
 </script>
 
