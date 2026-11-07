@@ -7,9 +7,9 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-xs border border-purple-500/30">
-              VBLE Dungeon Topology, Secret Chain & Labyrinth Studio v2.2.322
+              VBLE Dungeon Topology, Special State-Machines &amp; Ruin Meteor Reef Studio v2.2.364
             </span>
-            <span class="text-xs text-gray-400">全域空间解构、多元秘境迷宫机制与多维裂隙重力坍缩逃逸</span>
+            <span class="text-xs text-gray-400">全域空间解构、五大秘境特例状态机与陨星之礁登礁返海合同</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>🏛️</span> 全域地貌拓扑与地宫导览：秘境机制、隐秘通道与多维裂隙坍缩工坊
@@ -19,6 +19,16 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="info"
+            size="medium"
+            round
+            class="shadow-md font-bold"
+            @click="scrollToVol02Vol23Studio"
+          >
+            <template #icon><span>☄️</span></template>
+            秘境状态机与陨星礁登船合同
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -96,6 +106,124 @@
               返回首页
             </n-button>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- ☄️ VOL.02 五大核心地宫特例状态机 & VOL.23 陨星之礁 (2428,320) 船态登礁/返海协议与 RMR-T01~T09 验收沙盘 -->
+    <div id="vol02-vol23-dungeon-contract-studio" class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-[#141129]/95 via-[#10182d]/95 to-[#0b1020]/95 border border-cyan-500/40 shadow-[0_0_30px_rgba(6,182,212,0.16)] space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-cyan-500/20 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold border border-cyan-500/30">
+              VOL.02 §5-§7 &amp; VOL.23 APPENDIX B/C AUTHORIZED CONTRACTS
+            </span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <span>☄️</span> 五大核心地宫特殊机制状态机 &amp; 陨星之礁 (2428,320) 登礁/返海安全协议沙盘
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            严格对齐《VOL.02》卡尔纳克 600s 倒计时、双子塔物理/魔法分流、高托 120s 静置试炼、大海沟熔岩步损及《VOL.23》船态唯一登礁与返海免二次等级门禁合同
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="vol02Vol23Tab === 'vol02'
+              ? 'bg-purple-500 text-white border-purple-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="vol02Vol23Tab = 'vol02'"
+          >
+            🏛️ VOL.02 五大地宫特例状态机与验收
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
+            :class="vol02Vol23Tab === 'vol23'
+              ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-sm'
+              : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
+            @click="vol02Vol23Tab = 'vol23'"
+          >
+            ☄️ VOL.23 陨星之礁登礁/返海与 RMR-T01~T09
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: VOL.02 五大地宫特殊机制状态机与大海沟步损推演 -->
+      <div v-if="vol02Vol23Tab === 'vol02'" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div
+            v-for="rule in vol02SpecialDungeonRules"
+            :key="rule.code"
+            class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 hover:border-purple-500/40 transition-all space-y-1.5"
+          >
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-bold text-purple-300">{{ rule.title }}</span>
+              <span class="px-2 py-0.5 rounded bg-purple-500/15 text-purple-200 font-mono text-[10px] border border-purple-500/30">
+                {{ rule.code }}
+              </span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">{{ rule.mechanic }}</p>
+            <div class="text-[11px] font-mono text-amber-300 pt-1 border-t border-slate-800/80">
+              ✅ 验收: {{ rule.acceptance }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: VOL.23 陨星之礁 (2428,320) 登礁/返海门禁模拟器与 RMR-T01~T09 用例 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300 text-sm">⛵ 陨星之礁 (2428,320) 载具登礁与返海准入模拟器</span>
+            <span
+              class="px-2 py-0.5 rounded font-mono text-[11px] font-bold"
+              :class="reefBoardingResult.allowed ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'"
+            >
+              {{ reefBoardingResult.badge }}
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-gray-400 block mb-1">当前靠近载具状态:</label>
+              <select
+                v-model="reefVehicleMode"
+                class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white font-mono text-xs"
+              >
+                <option value="ship">航海船态 (has_ship = true)</option>
+                <option value="foot">徒步 / 黄色陆行鸟</option>
+                <option value="airship">飞空艇 / 黑色陆行鸟</option>
+              </select>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">当前队伍等级:</span>
+                <span class="font-mono font-bold text-amber-300">Lv.{{ reefPartyLevel }}</span>
+              </div>
+              <n-slider v-model:value="reefPartyLevel" :min="1" :max="60" :step="1" />
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 text-slate-300">
+            <div><strong>登礁判定：</strong>{{ reefBoardingResult.enterMsg }}</div>
+            <div><strong>返海判定 (RMR-T06)：</strong>{{ reefBoardingResult.returnMsg }}</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2 max-h-[240px] overflow-y-auto">
+          <div class="font-bold text-amber-300 text-sm">📋 VOL.23 附录 C：RMR-T01 ~ RMR-T09 标准验收测试集</div>
+          <div
+            v-for="tc in reefTestCases"
+            :key="tc.id"
+            class="p-2 rounded bg-slate-900/90 border border-slate-800 flex items-start justify-between gap-2"
+          >
+            <div>
+              <span class="font-mono font-bold text-cyan-300 mr-1.5">{{ tc.id }}</span>
+              <span class="font-bold text-white">{{ tc.name }}：</span>
+              <span class="text-gray-300">{{ tc.expected }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -4161,6 +4289,86 @@ const copySecretChainScript = () => {
   navigator.clipboard.writeText(currentSecretChainScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 地宫拓扑源码到剪贴板！')
 }
+
+// VOL.02 Special Dungeon State-Machines & VOL.23 Ruin Meteor Reef Studio (v2.2.364)
+const scrollToVol02Vol23Studio = () => {
+  document.getElementById('vol02-vol23-dungeon-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol02Vol23Tab = ref<'vol02' | 'vol23'>('vol02')
+
+const vol02SpecialDungeonRules = [
+  {
+    code: 'DNG-AC-01 / 02',
+    title: 'Karnak 蒸汽城 10 分钟自毁逃脱',
+    mechanic: '火之水晶碎裂触发 600 秒倒计时；打开 12 个上锁宝箱任意一个强制触发 Sergeant + 3 IronClaw 遭遇战（倒计时不暂停），出口前强制遭遇 LiquidFlame / IronClaw 守卫。',
+    acceptance: 'timer == 0 时触发 Game Over 并回滚至水晶房前最近自动存档点；倒计时期间禁用 Teleport。'
+  },
+  {
+    code: 'DNG-AC-03',
+    title: '分叉塔 (Fork Tower) 双队物理/魔法硬隔离',
+    mechanic: '队伍拆分为左塔（魔之塔）2 人 + 右塔（力之塔）2 人同步登顶；左塔禁用物理（Omniscient 受物理立即施放 Reset 重置战斗），右塔全层静音场禁用一切魔法。',
+    acceptance: '两队分别击败 Minotaur 与 Omniscient 并在 10 秒内同步摘除封印后解锁 Holy 与 Flare。'
+  },
+  {
+    code: 'DNG-AC-04',
+    title: '沉没沃尔斯塔 420s 氧气与 Gogo 无为试炼',
+    mechanic: '潜水艇水下对接进入开启 420 秒水下呼吸倒计时（战斗不暂停）；底层水晶碎片守护者 Gogo 战需连续 120 秒（或 3 回合全员不攻击）通过「无为」试炼。',
+    acceptance: '若对 Gogo 发起攻击则触发连续 3 发 Meteor 反击；通过无为试炼后直接解锁隐藏职业 Mime（模仿师）。'
+  },
+  {
+    code: 'DNG-AC-05',
+    title: '大海沟 (Great Trench) 熔岩地形与正宗封印',
+    mechanic: '持有正统石板碎片潜入海底海沟，全图熔岩地板在无浮空状态下每走 1 步全员扣除 50 HP（最低保留 1 HP 不致死）；全图杂兵均为 Undead 死灵系。',
+    acceptance: '施放 Float（浮空术）或装备被动 Light Step（轻步）可 100% 免疫熔岩步数伤害。'
+  },
+  {
+    code: 'DNG-AC-06',
+    title: '冥界 (Netherworld) 魂火不死再生契约',
+    mechanic: '次元裂缝前段连接冥界回廊，普通死灵怪携带 Soulfire Buff，常规物理或元素击杀后进入 3 回合「魂火倒计时」，倒计时结束若战斗未结束则以 50% HP 复活。',
+    acceptance: '使用 Holy（神圣）、Arise（完全复活反噬）或 Phoenix Down（凤凰尾）击杀可彻底抹除魂火标记，跳过再生。'
+  }
+]
+
+const reefVehicleMode = ref<'ship' | 'foot' | 'airship'>('ship')
+const reefPartyLevel = ref(38)
+
+const reefBoardingResult = computed(() => {
+  if (reefVehicleMode.value === 'ship') {
+    return {
+      allowed: true,
+      badge: '允许登礁 (Ship -> Ruin Meteor Reef)',
+      enterMsg: `world_map 航海船靠近 (2428, 320) 触发 RMR-T01 校验通过，停泊海船并进入 ruin_meteor_reef 浅滩入口（当前 Lv.${reefPartyLevel.value}${reefPartyLevel.value < 22 ? '，弹出低等级高危警告但允许进入' : '，满足推荐等级区间'}）。`,
+      returnMsg: '从 ruin_meteor_reef 浅滩南侧返海触发区离开时，自动切回大地图 (2428, 320) 并恢复航海船乘骑态 (RMR-T06)。'
+    }
+  }
+  if (reefVehicleMode.value === 'airship') {
+    return {
+      allowed: false,
+      badge: '空域气旋阻断 (Airship Blocked)',
+      enterMsg: '陨星之礁上方环绕高空星陨磁暴，飞空艇与黑色陆行鸟无法直接垂直降落，必须先在邻近海域换乘航海船 (has_ship = true) 靠岸登礁。',
+      returnMsg: '未发生登礁切换，保持大地图空域悬停状态。'
+    }
+  }
+  return {
+    allowed: false,
+    badge: '深海阻隔 (Foot Unreachable)',
+    enterMsg: '陨星之礁 (2428, 320) 四周被外海深水 Tile 包围，徒步或黄色陆行鸟无法跨越深海触达触发器。',
+    returnMsg: '请先在海盗洞窟/托尔纳运河线解锁航海船后再前往 (2428, 320)。'
+  }
+})
+
+const reefTestCases = [
+  { id: 'RMR-T01', name: '航海船靠岸准入', expected: '驾驶航海船触碰 (2428, 320) 触发器，校验 has_ship == true 通过并加载 ruin_meteor_reef' },
+  { id: 'RMR-T02', name: '非船态靠近拦截', expected: '徒步或飞空艇悬停无法直接触发浅滩登礁，确保载具状态机一致性' },
+  { id: 'RMR-T03', name: '软等级门槛非硬锁', expected: '低等级队伍乘船仍可正常登礁，仅在 UI 顶层给出推荐等级风险提示' },
+  { id: 'RMR-T04', name: '礁内三段动态遇敌', expected: '浅滩外环、星陨中庭、核心坑底三段遇敌池独立权重结算且战斗背景匹配' },
+  { id: 'RMR-T05', name: '星核遗物一次性拾取', expected: '首次调查核心陨石坑写入持久化 Flag 并发放奖励，重返副本不再重复刷出' },
+  { id: 'RMR-T06', name: '南侧浅滩返海还原船态', expected: '踩中返海出口触发器后回到 world_map (2428, 320) 且角色自动处于航海船乘骑态' },
+  { id: 'RMR-T07', name: 'Teleport / 脱离魔法联动', expected: '在礁内施放 Teleport 正常退回大地图船只停泊点 (2428, 320)，不丢失船只锚点' },
+  { id: 'RMR-T08', name: '礁内全灭回滚契约', expected: '在陨星之礁战斗全灭后回滚至最近存档点，不污染大地图载具坐标' },
+  { id: 'RMR-T09', name: '礁内存档与冷启动读档', expected: '在礁内保存后冷启动读档，准确恢复副本坐标与外部 (2428, 320) 停船绑定关系' }
+]
 
 </script>
 

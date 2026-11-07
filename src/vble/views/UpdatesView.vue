@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-dungeons-vol02-vol23-studio-v364-2026-11-07',
+    version: 'v2.2.364',
+    date: '2026-11-07',
+    title: '迷宫与遗迹工坊实装 VOL.02 五大特殊地宫状态机矩阵与 VOL.23 破灭陨石礁飞空艇登岛沙盒',
+    category: 'maps',
+    categoryName: '地宫拓扑与登岛契约',
+    icon: '☄️',
+    tagType: 'success',
+    description: '响应《VOL.02 迷宫与远古遗迹》§8-§9 与《VOL.23 破灭陨石礁 (Ruin Meteor Reef)》工程附录对齐：在迷宫与远古遗迹页面 (/vble/dungeons) 实装「VOL.02 五大特殊地宫状态机 & VOL.23 破灭陨石礁登岛契约工坊」。完整收录 Karnak 蒸汽城 600s 自毁逃脱、分叉塔 (Fork Tower) 左右双塔物理/魔法硬隔离、沉没沃尔斯塔 420s 氧气与 Gogo 120s 无为试炼、大海沟熔岩地形 (50 HP/步 vs Float/Light Step) 以及冥界魂火 3 回合死灵再生契约；并内置破灭陨石礁 (104, 152) 飞空艇专属降落校验器与 RMR-T01~T09 九项自动化回归清单。',
+    highlights: [
+      '实装 VOL.02 五大特殊地宫状态机 (DNG-AC-01~06)：Karnak 600s、Fork Tower 双塔隔离、沉没沃尔斯塔 420s、大海沟熔岩与冥界魂火',
+      '实装 VOL.23 破灭陨石礁 (25_ruin_meteor_reef, 104,152) 载具模式 (airship / ship / on_foot) 与队伍等级 (Lv.35 软门槛) 交互验算器',
+      '完整呈现 RMR-T01~T09 九项自动化回归用例与星陨残核 (rmr_meteor_core_collected -> Star Metal ×1) 持久化防刷取规约',
+      '在迷宫页头部新增一键直达「VOL.02 特种状态机 & VOL.23 陨石礁」锚点按钮与双卷白皮书直链'
+    ],
+    relatedLinks: [
+      { label: '迷宫与远古遗迹', path: '/vble/dungeons', icon: '🏛️' },
+      { label: '迷宫白皮书 (VOL.02)', path: '/vble/docs/02_DUNGEONS_AND_RUINS', icon: '📜' },
+      { label: '破灭陨石礁 (VOL.23)', path: '/vble/docs/23_RUIN_METEOR_REEF', icon: '☄️' }
+    ]
+  },
+  {
     id: 'up-economy-vol05-vol16-studio-v363-2026-11-07',
     version: 'v2.2.363',
     date: '2026-11-07',
