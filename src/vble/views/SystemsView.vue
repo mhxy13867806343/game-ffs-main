@@ -2,12 +2,15 @@
   <div class="systems-page p-4 max-w-7xl mx-auto space-y-8">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="info" size="small" round class="mb-2">VBLE Core Systems, ECS Entity Architecture & Zero-Copy Bus v2.2.309</n-tag>
+      <n-tag type="info" size="small" round class="mb-2">VBLE Core Systems, Save Migration v1-v5 &amp; VOL.25 Precedence DAG Studio v2.2.368</n-tag>
       <h1 class="text-3xl font-extrabold text-glow-cyan mb-2">全域游戏架构白皮书、底层 ECS 实体组件与零拷贝总线工坊</h1>
       <p class="text-gray-400 max-w-2xl mx-auto text-sm">
         系统解析 49 层深渊斗技场规则、三层防崩溃持久化架构、音频总线 DSP 滤波器、ATB 动态调度管线、零拷贝环形跨线程调度与内存防泄漏沙盒体系
       </p>
-      <div class="flex justify-center gap-2 mt-3">
+      <div class="flex flex-wrap justify-center gap-2 mt-3">
+        <n-button size="small" type="warning" secondary @click="scrollToVol08Vol25Studio">
+          🏛️ VOL.08 存档迁移/通关计分 &amp; VOL.25 裁决总纲
+        </n-button>
         <n-button size="small" type="success" secondary @click="scrollToMicrosecondMainLoopStudio">
           ⚡ 微秒主循环与内存稳态工坊
         </n-button>
@@ -22,11 +25,175 @@
             📖 系统架构白皮书 (VOL.08)
           </n-button>
         </router-link>
+        <router-link to="/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT">
+          <n-button size="small" type="warning" secondary>
+            🏛️ 游戏设计总纲 (VOL.25)
+          </n-button>
+        </router-link>
         <router-link to="/vble/updates">
           <n-button size="small" type="info" secondary>
             🔄 查看最新开发日志
           </n-button>
         </router-link>
+      </div>
+    </div>
+
+    <!-- VOL.08 §5-§8 存档版本迁移链 (v1->v5)、通关 S/A/B/C 计分器与 VOL.25 五层架构裁决总纲工坊 (v2.2.368) -->
+    <div
+      id="vol08-vol25-contract-studio"
+      class="rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-slate-950 via-cyan-950/15 to-slate-900 p-4 sm:p-5 space-y-4"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              VOL.08 §5-§8 &amp; VOL.25 §5-§7 CONTRACT
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              schema_version v1→v5 · SAVE-E01~05 · 五层依赖 DAG
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            🏛️ VOL.08 存档迁移链 (v1→v5) / 通关 S 级计分器 &amp; VOL.25 五层架构裁决优先级与跨卷一致性总账
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol08Vol25Tab === 'vol08' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol08Vol25Tab = 'vol08'"
+          >
+            💾 VOL.08 存档迁移 (v1→v5) 与通关评级计分器
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol08Vol25Tab === 'vol25' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol08Vol25Tab = 'vol25'"
+          >
+            🏛️ VOL.25 五层架构 DAG 与跨卷一致性总账
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: VOL.08 存档版本迁移链、错误码与通关评级计分器 -->
+      <div v-if="vol08Vol25Tab === 'vol08'" class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="font-bold text-cyan-300 text-sm">💾 §5.1 存档版本逐级迁移链 (v1→v5) &amp; §7 SAVE-E01~05 错误码</div>
+          <div class="space-y-1.5">
+            <div
+              v-for="step in vol08SaveMigrations"
+              :key="step.step"
+              class="p-2 rounded bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-2 text-[11px]"
+            >
+              <span class="font-mono font-bold text-cyan-300 shrink-0">{{ step.step }}</span>
+              <span class="text-white">{{ step.rule }}</span>
+              <span class="text-gray-400 text-[10px] shrink-0">{{ step.fallback }}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
+            <div
+              v-for="err in vol08SaveErrors"
+              :key="err.code"
+              class="p-2 rounded bg-slate-900/80 border border-slate-800 text-[11px]"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-rose-300">{{ err.code }}</span>
+                <span class="text-amber-300">{{ err.toast }}</span>
+              </div>
+              <div class="text-gray-400 text-[10px] mt-0.5">{{ err.action }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-300 text-sm">🏆 §6 通关评级计分公式推演器 (SYS-AC-06)</span>
+            <span class="px-2.5 py-0.5 rounded font-mono font-black text-sm bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              {{ simClearRankResult.rank }} 级 ({{ simClearRankResult.score }} 分)
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">通关耗时 (hours):</span>
+                <span class="font-mono text-white">{{ simClearHours }}h</span>
+              </div>
+              <n-slider v-model:value="simClearHours" :min="15" :max="75" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">宝箱收集率 (R_chest):</span>
+                <span class="font-mono text-cyan-300">{{ simChestRate }}%</span>
+              </div>
+              <n-slider v-model:value="simChestRate" :min="0" :max="100" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">四大图鉴完成率 (R_codex):</span>
+                <span class="font-mono text-emerald-300">{{ simCodexRate }}%</span>
+              </div>
+              <n-slider v-model:value="simCodexRate" :min="0" :max="100" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">团灭次数 (wipes):</span>
+                <span class="font-mono text-rose-300">{{ simWipeCount }} 次</span>
+              </div>
+              <n-slider v-model:value="simWipeCount" :min="0" :max="15" :step="1" />
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 font-mono text-[11px]">
+            <div>Score = 30·T ({{ simClearRankResult.tPart }}) + 30·R_chest ({{ simClearRankResult.cPart }}) + 30·R_codex ({{ simClearRankResult.xPart }}) + 10·W ({{ simClearRankResult.wPart }})</div>
+            <div class="text-emerald-300 font-sans">
+              🎁 <strong>二周目与彩蛋奖励：</strong>{{ simClearRankResult.reward }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: VOL.25 五层架构依赖 DAG、三级优先级裁决铁律与跨卷一致性总账 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2.5">
+          <div class="font-bold text-amber-300 text-sm">🏛️ VOL.25 §6 五层架构依赖有向无环图 (L0 → L4) &amp; 裁决铁律</div>
+          <div class="space-y-1.5">
+            <div
+              v-for="layer in vol25ArchitectureLayers"
+              :key="layer.code"
+              class="p-2 rounded bg-slate-900/90 border border-slate-800"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-cyan-300">{{ layer.code }} · {{ layer.name }}</span>
+                <span class="text-[10px] font-mono text-amber-300">{{ layer.volumes }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] text-gray-300 space-y-1">
+            <div class="font-bold text-white">⚖️ §6.1 规范优先级裁决铁律 (Precedence Rules)：</div>
+            <div>1. <strong>P1 最高权：</strong>已批准并带运行验证证据的专项数据合同（VOL.13/14/15/16/23/26）。</div>
+            <div>2. <strong>P2 次高权：</strong>实机 Godot 数据表与门户同源配置（<code>mainStoryBeatsConfig.ts</code>、<code>jobsConfig.ts</code> 等）。</div>
+            <div>3. <strong>P3 基准权：</strong>主干设计白皮书与专规（VOL.01~12、VOL.17~22、VOL.24）。</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2">
+          <div class="font-bold text-cyan-300 text-sm">📋 VOL.25 §7 全域跨卷一致性待裁定总账 (Global Consistency Ledger)</div>
+          <div class="space-y-1.5 max-h-[265px] overflow-y-auto">
+            <div
+              v-for="item in vol25ConsistencyLedger"
+              :key="item.code"
+              class="p-2.5 rounded bg-slate-900/90 border border-slate-800 space-y-1 text-[11px]"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-amber-300">{{ item.code }} ({{ item.vols }})</span>
+                <span class="px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 text-[10px]">{{ item.domain }}</span>
+              </div>
+              <div class="text-gray-300">{{ item.diff }}</div>
+              <div class="text-emerald-300 font-mono text-[10px]">✔ 当前兜底: {{ item.fallback }}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3828,5 +3995,79 @@ const copyMicroLoopScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 底层架构源码到剪贴板！')
   }
 }
+
+// VOL.08 §5-§8 存档版本迁移链、通关评级计分器与 VOL.25 五层架构裁决总纲工坊 (v2.2.368)
+const scrollToVol08Vol25Studio = () => {
+  document.getElementById('vol08-vol25-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol08Vol25Tab = ref<'vol08' | 'vol25'>('vol08')
+
+const vol08SaveMigrations = [
+  { step: 'v1 → v2', rule: '计算并补写 SHA-256 checksum 校验段', fallback: '备份 slot_N.v1.bak' },
+  { step: 'v2 → v3', rule: '注入 quest_progress 字典（缺省为 {}）', fallback: '备份 slot_N.v2.bak' },
+  { step: 'v3 → v4', rule: '写入 vehicle_positions 已解锁载具默认停靠坐标', fallback: '缺失时回退最近城镇' },
+  { step: 'v4 → v5', rule: '补齐 mognet_letters_delivered = 0 与 piano_tier = 0', fallback: '当前最新 schema_version = 5' }
+]
+
+const vol08SaveErrors = [
+  { code: 'SAVE-E01', toast: '存档数据已损坏', action: 'checksum 不匹配，自动读取 .bak 备份恢复' },
+  { code: 'SAVE-E02', toast: '存档来自更新版本', action: 'schema_version > 5 拒绝降级读取 (SYS-AC-03)' },
+  { code: 'SAVE-E03', toast: '保存失败，请检查存储空间', action: '磁盘写失败，保留 .tmp 不覆盖原档 (SYS-AC-01)' },
+  { code: 'SAVE-E04', toast: '静默安全区回弹', action: '坐标处于非法碰撞块，触发 Safe Landing Fallback' }
+]
+
+const simClearHours = ref(28)
+const simChestRate = ref(100)
+const simCodexRate = ref(100)
+const simWipeCount = ref(0)
+
+const simClearRankResult = computed(() => {
+  const tVal = Math.max(0, Math.min(1, (60 - simClearHours.value) / 30))
+  const cVal = simChestRate.value / 100
+  const xVal = simCodexRate.value / 100
+  const wVal = Math.max(0, 1 - simWipeCount.value / 10)
+  const total = 30 * tVal + 30 * cVal + 30 * xVal + 10 * wVal
+  const score = Math.round(total * 10) / 10
+
+  let rank = 'C'
+  let reward = '标准二周目继承权限（无额外金币倍率）'
+  if (score >= 90) {
+    rank = 'S'
+    reward = '开启幻影之村后院【隐藏开发者客房 (Dev Room)】+ 纪念神器 + 全继承特权'
+  } else if (score >= 75) {
+    rank = 'A'
+    reward = '二周目 (New Game+) 初始金币 ×2.0 倍率加成'
+  } else if (score >= 50) {
+    rank = 'B'
+    reward = '二周目 (New Game+) 初始金币 ×1.5 倍率加成'
+  }
+
+  return {
+    score: score.toFixed(1),
+    rank,
+    reward,
+    tPart: (30 * tVal).toFixed(1),
+    cPart: (30 * cVal).toFixed(1),
+    xPart: (30 * xVal).toFixed(1),
+    wPart: (10 * wVal).toFixed(1)
+  }
+})
+
+const vol25ArchitectureLayers = [
+  { code: 'L0 顶层总纲与工程规程层', name: '架构根基', volumes: 'VOL.25 设计总纲 · VOL.26 研发规程 · VOL.08 系统架构 · VOL.24 场景生成' },
+  { code: 'L1 叙事编年与世界观层', name: '世界脉络', volumes: 'VOL.01 世界圣经 · VOL.07 支线秘闻 · VOL.10 三十章编年 · VOL.19 骨王死神 · VOL.20 NPC交互' },
+  { code: 'L2 关卡地貌与立体交通层', name: '空间拓扑', volumes: 'VOL.02 地宫拓扑 · VOL.06 载具探索 · VOL.09 虚空天体 · VOL.21 天空之城 · VOL.22 亚马逊 · VOL.23 坠星礁' },
+  { code: 'L3 职业导师与神装经济层', name: '养成矩阵', volumes: 'VOL.04 职业成长 · VOL.05 神兵经济 · VOL.13 英灵圣所 · VOL.14 密西迪亚 · VOL.15 忍者秘传 · VOL.16 七色尾巴' },
+  { code: 'L4 战斗数值与首领生态层', name: '战术终端', volumes: 'VOL.03 首领攻坚 · VOL.11 回合限制 · VOL.12 突发抉择 · VOL.17/27 跨界魔物大典 · VOL.18 多阶段首领' }
+]
+
+const vol25ConsistencyLedger = [
+  { code: 'WLD-C01', vols: 'VOL.01 / VOL.10 / VOL.24', domain: '叙事节拍', diff: '12章96节拍 (初稿) vs 30章编年 (VOL.10) vs 实机 12章44节拍 (mainStoryBeatsConfig.ts)', fallback: '实机门禁与推进以 44 节拍为唯一真源' },
+  { code: 'WLD-C02', vols: 'VOL.01 / VOL.05 / VOL.13', domain: '角色命名', diff: 'Sol/黎川、Nacht/纳哈特、Sarah/塞拉/昼隐、Aigis/艾吉斯中英混用', fallback: '底层统一映射内部角色 ID (nahart / serah / aigis)' },
+  { code: 'JOB-C01', vols: 'VOL.04 / VOL.14', domain: '职业总数', diff: '文档中存在 48 类、49 职、26 大注释与 jobsConfig.ts 21 职实录差异', fallback: '以 jobsConfig.ts 21 职业及四水晶 1+6+5+4+4+1 批次为准' },
+  { code: 'ECO-C01~05', vols: 'VOL.05 / VOL.07 / VOL.16', domain: '神兵经济', diff: '诸神之黄昏通用/专属同名、纳哈特 50% vs 40% 加成、万灵药商店与赌场双渠道', fallback: '遵循 VOL.16 二十九件传奇藏品 v1 Schema 与 VOL.05 §7 裁定' },
+  { code: 'BOS-C01~03', vols: 'VOL.03 / VOL.23', domain: '首领与坠星礁', diff: '吉尔伽美什 8 战 vs 6 战；克拉肯水下大殿属远期规划', fallback: 'VOL.23 首版严格维持 (2428,320) 航海船登礁陆地探索方案' }
+]
 
 </script>

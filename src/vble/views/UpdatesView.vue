@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-systems-vol08-vol25-studio-v368-2026-11-07',
+    version: 'v2.2.368',
+    date: '2026-11-07',
+    title: '系统架构工坊实装 VOL.08 存档版本迁移链 (v1→v5) / 通关评级计分器与 VOL.25 五层架构裁决总纲',
+    category: 'system',
+    categoryName: '存档迁移与总纲裁决',
+    icon: '🏛️',
+    tagType: 'success',
+    description: '响应《VOL.08 游戏系统架构与三层持久化》§5-§8 与《VOL.25 游戏设计总纲与三大支柱》§5-§7 工程附录对齐：在核心系统架构页面 (/vble/systems) 实装「VOL.08 存档迁移链 (v1→v5) / 通关 S 级计分器 & VOL.25 五层架构裁决优先级与跨卷一致性总账工坊」。涵盖 schema_version v1→v5 逐级迁移与 SAVE-E01~05 错误码处理、通关 S/A/B/C 评级公式 (30T + 30R_chest + 30R_codex + 10W) 交互推演器，以及 27 卷五层依赖有向无环图 (L0→L4) 与跨卷一致性总账 (WLD-C01~BOS-C03)。',
+    highlights: [
+      '实装 VOL.08 §5 存档版本逐级迁移链 (v1→v5 含 .bak 备份策略)、Slot 0 自动存档 30s 节流规则与 SAVE-E01~05 错误码字典',
+      '实装 §6 通关评级计分器 Score = 30·T + 30·R_chest + 30·R_codex + 10·W，实时验证 S 级（≥90 分解锁幻影之村开发者客房）边界 (SYS-AC-06)',
+      '实装 VOL.25 §6 五层架构依赖 DAG (L0 顶层总纲 → L4 战斗数值) 与 P1 专项合同 > P2 实机同源配置 > P3 主干设计三级裁决铁律',
+      '完整收录 VOL.25 §7 全域跨卷一致性待裁定总账 (WLD-C01/02、JOB-C01、ECO-C01~05、BOS-C01~03) 与当前生产兜底规则'
+    ],
+    relatedLinks: [
+      { label: '核心系统架构室', path: '/vble/systems', icon: '⚙️' },
+      { label: '系统架构白皮书 (VOL.08)', path: '/vble/docs/08_SYSTEM_ARCHITECTURE', icon: '📖' },
+      { label: '游戏设计总纲 (VOL.25)', path: '/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT', icon: '🏛️' }
+    ]
+  },
+  {
     id: 'up-sidequests-vol07-contract-studio-v367-2026-11-07',
     version: 'v2.2.367',
     date: '2026-11-07',
