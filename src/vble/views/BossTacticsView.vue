@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono font-bold text-xs border border-red-500/30">
-              VBLE World Bosses, BattleAttributeDrain &amp; Reaper Death-Throes Studio v2.2.357
+              VBLE World Bosses, VOL.03 16-Boss Sheet &amp;VOL.18/19 Reaper Studio v2.2.371
             </span>
             <span class="text-xs text-gray-400">首领攻坚全鉴、复利削减契约、冥界死神殉爆与终焉首领破限处决</span>
           </div>
@@ -19,6 +19,16 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="info"
+            size="medium"
+            round
+            class="shadow-md font-bold"
+            @click="scrollToVol03BossContractStudio"
+          >
+            <template #icon><span>🛡️</span></template>
+            VOL.03 16首领总表与源氏偷盗
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -132,6 +142,128 @@
         <div class="text-xs text-gray-400">实机攻坚算法</div>
         <div class="text-2xl font-black text-emerald-400 font-mono mt-1">Godot 4.x</div>
         <div class="text-[10px] text-gray-500 mt-0.5">boss_tactics_battle.gd</div>
+      </div>
+    </div>
+
+    <!-- 🛡️ VOL.03 §7-§10 全域 16 首领参数总表、天平断头台/3层反击熔断与吉尔伽美什源氏四件套偷盗工坊 (v2.2.371) -->
+    <div
+      id="vol03-boss-contract-studio"
+      class="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-red-950/15 to-slate-900 border border-cyan-500/35 shadow-xl space-y-4"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              VOL.03 §7-§10 BOSS CONTRACT STUDIO
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              bossTactics.ts 16 首领对齐 · 3层反击熔断 · 源氏四件套偷盗 (BOS-AC-01~06)
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            🛡️ VOL.03 全域 16 大首领数值总表、死神判官天平裁决 (`ΔHP/MP > 30%`) 与吉尔伽美什 6 战源氏偷盗矩阵
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol03StudioTab === 'sheet' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol03StudioTab = 'sheet'"
+          >
+            📋 全域 16 大首领参数总表 (§7)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol03StudioTab === 'mechanics' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol03StudioTab = 'mechanics'"
+          >
+            ⚖️ 天平断头台 / 3层反击熔断 / 源氏偷盗 (§8-§10)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: 全域 16 大首领数值总表 -->
+      <div v-if="vol03StudioTab === 'sheet'" class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 overflow-x-auto text-xs">
+        <table class="w-full text-left border-collapse text-[11px]">
+          <thead>
+            <tr class="border-b border-slate-800 text-gray-400">
+              <th class="py-1.5 pr-2">阶位</th>
+              <th class="py-1.5 px-2">站点 ID</th>
+              <th class="py-1.5 px-2">首领名称</th>
+              <th class="py-1.5 px-2">遭遇地点</th>
+              <th class="py-1.5 px-2">标称 HP</th>
+              <th class="py-1.5 px-2">阶段数</th>
+              <th class="py-1.5 px-2">弱点 / 吸收</th>
+              <th class="py-1.5 pl-2">核心掉落 / 偷盗</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="b in vol03BossSheet" :key="b.id" class="border-b border-slate-900/80">
+              <td class="py-1.5 pr-2 font-mono font-bold text-amber-300">{{ b.tier }}</td>
+              <td class="py-1.5 px-2 font-mono text-cyan-300">{{ b.id }}</td>
+              <td class="py-1.5 px-2 font-bold text-white">{{ b.name }}</td>
+              <td class="py-1.5 px-2 text-gray-300">{{ b.location }}</td>
+              <td class="py-1.5 px-2 font-mono text-rose-300 font-bold">{{ b.hp }}</td>
+              <td class="py-1.5 px-2 font-mono text-gray-300">{{ b.phases }}</td>
+              <td class="py-1.5 px-2 text-amber-200">{{ b.weakness }}</td>
+              <td class="py-1.5 pl-2 text-emerald-300">{{ b.loot }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab 2: 死神判官天平断头台、3层反击熔断与吉尔伽美什 6 战偷盗矩阵 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300 text-sm">⚖️ §8.1 深渊死神判官：第 5 回合天平断头台 (`ΔHP/MP > 30%`)</span>
+            <span
+              class="px-2 py-0.5 rounded font-mono text-[11px] font-bold"
+              :class="simReaperJudgeTriggered ? 'bg-rose-500/20 text-rose-300' : 'bg-emerald-500/20 text-emerald-300'"
+            >
+              {{ simReaperJudgeTriggered ? '⚠️ 触发【灵魂断头台】' : '✔ 天平平衡安全' }}
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">全队存活 HP% 最大差值 (ΔHP):</span>
+                <span class="font-mono font-bold text-rose-300">{{ simDeltaHpPct }}%</span>
+              </div>
+              <n-slider v-model:value="simDeltaHpPct" :min="0" :max="95" :step="5" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">全队存活 MP% 最大差值 (ΔMP):</span>
+                <span class="font-mono font-bold text-cyan-300">{{ simDeltaMpPct }}%</span>
+              </div>
+              <n-slider v-model:value="simDeltaMpPct" :min="0" :max="95" :step="5" />
+            </div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 text-[11px] text-gray-300">
+            <div>• <strong>天平判定 (`turn % 5 == 0`)：</strong><code>max(ΔHP={{ simDeltaHpPct }}%, ΔMP={{ simDeltaMpPct }}%) = {{ Math.max(simDeltaHpPct, simDeltaMpPct) }}%</code> {{ simReaperJudgeTriggered ? '> 30% → 立即对差值偏离最大者降下【灵魂断头台】！' : '<= 30% → 全队血魔比例均衡，跳过断头台处决。' }}</div>
+            <div>• <strong>BOS-AC-04 反击堆栈熔断：</strong>单次主动行动初始化 <code>counter_depth = 0</code>，双方互反达到 <code>counter_depth == 3</code> 时强制输出 <code>COUNTER_STACK_CAP_REACHED</code> 终止死锁。</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2.5">
+          <div class="font-bold text-amber-300 text-sm">🗡️ BOS-AC-06：吉尔伽美什 6 战进程与源氏四件套偷盗矩阵</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div
+              v-for="enc in vol03GilgameshBattles"
+              :key="enc.battle"
+              class="p-2 rounded bg-slate-900/90 border border-slate-800 text-[11px] space-y-0.5"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white">{{ enc.battle }} · {{ enc.place }}</span>
+                <span class="font-mono text-rose-300">{{ enc.hp }}</span>
+              </div>
+              <div class="font-mono text-emerald-300">🎁 偷盗: {{ enc.steal }}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3896,6 +4028,48 @@ const reaperExplosionDamage = computed(() => {
   }
   return dmg
 })
+
+// VOL.03 §7-§10 全域 16 首领参数总表、天平断头台与吉尔伽美什源氏四件套偷盗工坊 (v2.2.371)
+const scrollToVol03BossContractStudio = () => {
+  document.getElementById('vol03-boss-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol03StudioTab = ref<'sheet' | 'mechanics'>('sheet')
+
+const vol03BossSheet = [
+  { tier: 'T1', id: 'wing-raptor', name: '翼手龙 (Wing Raptor)', location: '风之神殿 顶部祭坛', hp: '250', phases: '2', weakness: '弱雷 / 闭翼100%反击 (BOS-AC-01)', loot: '不死鸟之尾、风之水晶残片' },
+  { tier: 'T1', id: 'siren', name: '塞壬 (Siren)', location: '船之坟场 沉船甲板', hp: '900', phases: '2', weakness: '生体弱火 / 亡灵弱圣与回复药', loot: '青铜盾、静默之杖' },
+  { tier: 'T1', id: 'magissa-forza', name: '玛吉莎 & 弗鲁扎', location: '北之山 悬崖古道', hp: '650 + 850', phases: '2', weakness: '弱沉默、弱睡眠', loot: '战斧、皮铠' },
+  { tier: 'T1', id: 'liquid-flame', name: '液态火焰 (Liquid Flame)', location: '卡尔纳克火力船 动力核心', hp: '3,000', phases: '3', weakness: '弱冰 / 吸火 (BOS-AC-02)', loot: '炎之水晶残片、炎之戒' },
+  { tier: 'T2', id: 'archaeoavis', name: '古代始祖龙 (Archaeoavis)', location: '朗卡浮空遗迹 核心中枢', hp: '6,400 + 2,500', phases: '5', weakness: '四形态轮换 + 亡灵第5形态 (BOS-AC-03)', loot: '飞空艇部件、金发饰' },
+  { tier: 'T2', id: 'amazon-leviathan-drake', name: '远古翠绿羽蛇神', location: '亚马逊丛林 雨林古树冠', hp: '28,000', phases: '2', weakness: '弱冰、弱风', loot: '翠羽长弓、蛇神鳞甲、24,000G' },
+  { tier: 'T2~T4', id: 'gilgamesh', name: '吉尔伽美什', location: '大桥 / 舰队 / 要塞 / 次元之隙', hp: '2,000 ~ 55,000', phases: '6 (6战)', weakness: '无元素弱点 / 4战可偷源氏套', loot: '源氏护手/盔/盾/铠、伪石中剑' },
+  { tier: 'T3', id: 'bounty-a-king-chimera', name: '强化奇美拉', location: '混沌神殿 南侧中央通道', hp: '18,500', phases: '2', weakness: '弱水、弱冰', loot: '耐火斗篷、护盾指环、35,000G' },
+  { tier: 'T3', id: 'exdeath', name: '艾克斯德斯 (Exdeath)', location: '艾克斯德斯要塞 虚空王座', hp: '32,768', phases: '3', weakness: '弱圣 (神圣属性)', loot: '次元之隙传送门开启' },
+  { tier: 'T3', id: 'abyssal-kraken-cthulhu', name: '深渊海怪·克拉肯', location: '陨星之礁 水下大殿 (远期)', hp: '52,000', phases: '3', weakness: '极弱雷、弱冰 (BOS-C03)', loot: '海皇三叉戟、克拉肯墨囊、42,000G' },
+  { tier: 'T3', id: 'cross-world-skeleton-king', name: '冥界骨王·奥尔克斯', location: '古代圣墓 B3F 唤魂祭坛', hp: '68,000', phases: '3', weakness: '极弱圣与圣水 / 吸暗', loot: '亡者法冠、冥府唤魂石、50,000G' },
+  { tier: 'T4', id: 'bounty-s-death-eye', name: '死神之眼 (Death Eye)', location: '混沌神殿 深处暗廊 (NG+)', hp: '42,000', phases: '2', weakness: '弱圣与圣水 (不死系)', loot: '钻石胸甲、盗贼小手、100,000G' },
+  { tier: 'T4', id: 'shinryu', name: '神龙 (Shinryu)', location: '次元之隙 宝箱怪陷阱', hp: '55,500', phases: '1', weakness: '弱龙特攻 / 开局大海啸 (BOS-AC-05)', loot: '龙之纹章、诸神之黄昏' },
+  { tier: 'T4', id: 'omega', name: '欧米茄 (Omega)', location: '次元之隙 机械瀑布洞窟', hp: '55,537', phases: '1', weakness: '弱雷 / 吸收其余全元素', loot: '欧米茄勋章' },
+  { tier: 'T4', id: 'cross-world-reaper-judge', name: '深渊死神判官', location: '虚无裂隙 灵魂审判之秤', hp: '135,000', phases: '3', weakness: '弱物理贯穿、每5回合天平裁决', loot: '死神大镰、裁决圣袍、80,000G' },
+  { tier: 'T4', id: 'neo-exdeath', name: '新·艾克斯德斯', location: '次元之隙 终焉虚无核心', hp: '220,000 (4部位)', phases: '2', weakness: '4部位弱点各异', loot: '通关殿堂、二周目真·深渊解锁' }
+]
+
+const simDeltaHpPct = ref(35)
+const simDeltaMpPct = ref(20)
+
+const simReaperJudgeTriggered = computed(() => {
+  return Math.max(simDeltaHpPct.value, simDeltaMpPct.value) > 30
+})
+
+const vol03GilgameshBattles = [
+  { battle: '第 1 战', place: '艾克斯德斯城地牢', hp: '2,000 HP', steal: '★ 源氏护手 (Genji Gloves)' },
+  { battle: '第 2 战', place: '大桥死斗 (Big Bridge)', hp: '6,500 HP', steal: '英雄药 (Hero Drink)' },
+  { battle: '第 3 战', place: '泽扎船队甲板 (与恩奇都)', hp: '12,000 HP', steal: '★ 源氏之盔 (Genji Helm)' },
+  { battle: '第 4 战', place: '艾克斯德斯要塞顶层', hp: '24,000 HP', steal: '伪石中剑 (Excalipoor)' },
+  { battle: '第 5 战', place: '次元之隙·幻影回廊', hp: '38,000 HP', steal: '★ 源氏之盾 (Genji Shield)' },
+  { battle: '第 6 战', place: '次元之隙·死灵法师战协战', hp: '55,000 HP', steal: '★ 源氏之铠 (Genji Armor)' }
+]
 
 </script>
 

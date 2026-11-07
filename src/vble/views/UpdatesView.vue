@@ -210,6 +210,27 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-bosses-vol03-contract-studio-v371-2026-11-07',
+    version: 'v2.2.371',
+    date: '2026-11-07',
+    title: '首领攻坚工坊实装 VOL.03 全域 16 首领参数总表、死神判官天平断头台与吉尔伽美什源氏偷盗矩阵',
+    category: 'system',
+    categoryName: '首领参数与反击熔断契约',
+    icon: '🛡️',
+    tagType: 'success',
+    description: '响应《VOL.03 首领攻坚全书与生态大典》§7-§10 工程附录对齐：在首领战术攻坚库页面 (/vble/bosses) 实装「VOL.03 全域 16 大首领数值总表、死神判官天平裁决 (ΔHP/MP > 30%) 与吉尔伽美什 6 战源氏偷盗矩阵工坊」。完整收录与 bossTactics.ts 严格对齐的 T1~T4 共 16 尊首领参数，并提供深渊死神判官每 5 回合天平断头台触发模拟器、3 层反击熔断堆栈 (counter_depth >= 3) 规范与吉尔伽美什第 1/3/5/6 战源氏四件套偷盗对照。',
+    highlights: [
+      '实装 VOL.03 §7 全域 16 大首领数值总表（从 T1 翼手龙 250 HP 到 T4 新·艾克斯德斯 220,000 HP 四部位全覆盖）',
+      '实装 §8.1 深渊死神判官第 5 回合天平裁决推演器：实时校验 max(ΔHP%, ΔMP%) > 30% 触发【灵魂断头台】阈值',
+      '实装 §8.2 反击反应熔断堆栈规则 (counter_depth >= 3 输出 COUNTER_STACK_CAP_REACHED) 与古代始祖龙第 5 亡灵形态无缝切换契约 (BOS-AC-03/04)',
+      '实装 BOS-AC-06 吉尔伽美什 6 战演进与第 1/3/5/6 战源氏护手/盔/盾/铠 100% 独立偷盗矩阵'
+    ],
+    relatedLinks: [
+      { label: '首领战术攻坚库', path: '/vble/bosses', icon: '👹' },
+      { label: '首领攻坚白皮书 (VOL.03)', path: '/vble/docs/03_BOSS_TACTICS', icon: '📖' }
+    ]
+  },
+  {
     id: 'up-monsters-vol22-amazon-studio-v370-2026-11-07',
     version: 'v2.2.370',
     date: '2026-11-07',
