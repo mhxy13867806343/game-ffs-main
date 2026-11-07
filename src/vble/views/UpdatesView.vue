@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-monsters-vol22-amazon-studio-v370-2026-11-07',
+    version: 'v2.2.370',
+    date: '2026-11-07',
+    title: '魔物图鉴工坊实装 VOL.22 亚马逊十大生境生物 (AMZ-01~10)、电影误区辟谣与库鲁皮拉戒律状态机',
+    category: 'maps',
+    categoryName: '亚马逊生态与戒律状态机',
+    icon: '🌴',
+    tagType: 'success',
+    description: '响应《VOL.22 热带雨林原始生态与远古巨兽》§7-§8 工程附录对齐：在全域魔物图鉴页面 (/vble/monsters) 实装「VOL.22 亚马逊四大雨林生境 10 生物参数表、电影误区辟谣 (AMZ-AC-01) 与库鲁皮拉自然戒律状态机工坊」。完整收录电鳗 (B0102)、红腹食人鱼、巨骨舌鱼、绿森蚺 (B0100)、黑凯门鳄、美洲豹 (B0085)、巨人食鸟蛛、箭毒蛙、马平瓜里 (B0077 原型) 与库鲁皮拉 (AMZ-01~10)，并提供 Eco_Damage 戒律状态机、巨骨舌鱼第 3 回合换气破绽与箭毒蛙接触毒实时推演器。',
+    highlights: [
+      '实装 VOL.22 §7 四大雨林生境 10 生物参数卡 (AMZ-01~10)，精确映射 VOL.17 跨界编号 B0077 / B0085 / B0100 / B0102',
+      '严格落实 AMZ-AC-01 科学事实红线：为全部 10 种生物与传说配备「电影误区 vs 现实事实」对照栏',
+      '实装 §8.1 库鲁皮拉 (Curupira) 生态破坏值 (Eco_Damage 0~140) 三阶状态机（Harmony 中立赐福 → Warning 敲树警告 → Curupira_Punish 反向脚印迷踪）',
+      '实装 AMZ-AC-02 巨骨舌鱼每 3 回合【浮水换气】0% 减伤破绽窗口与 AMZ-AC-03 箭毒蛙近战接触生物碱反噬校验器'
+    ],
+    relatedLinks: [
+      { label: '全域魔物图鉴库', path: '/vble/monsters', icon: '👾' },
+      { label: '亚马逊生态白皮书 (VOL.22)', path: '/vble/docs/22_AMAZON_ECOLOGY', icon: '🌴' },
+      { label: '跨界魔物大典 (VOL.27)', path: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC', icon: '🐉' }
+    ]
+  },
+  {
     id: 'up-story-vol01-10-24-studio-v369-2026-11-07',
     version: 'v2.2.369',
     date: '2026-11-07',

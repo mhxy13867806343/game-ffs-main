@@ -2,7 +2,7 @@
   <div class="monsters-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
     <!-- 头部横幅 -->
     <div class="text-center">
-      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary, B0001-B0650 Cross-World Index &amp; Rare Drop Studio v2.2.356</n-tag>
+      <n-tag type="warning" size="small" round class="mb-2">VBLE Bestiary, B0001-B0650 Cross-World Index &amp; VOL.22 Amazon Ecology Studio v2.2.370</n-tag>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-glow-amber mb-2">👾 全域魔物大图鉴、B0001-B0650 跨界 14 章总目与世界首领狂暴破限工坊</h1>
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm mb-2">
         门户目录收录 {{ normalCount }} 种原野常规怪、{{ bossCount }} 种剧情守关首领、{{ coliseumCount }} 种斗技场霸主，并全量对齐《VOL.17/27》14 章 B0001~B0650 跨界魔物总目索引
@@ -10,6 +10,9 @@
       <div class="flex justify-center flex-wrap gap-2">
         <n-button size="tiny" type="info" @click="scrollToCrossWorldIndexStudio">
           🐉 B0001-B0650 跨界14章总目沙盘
+        </n-button>
+        <n-button size="tiny" type="success" @click="scrollToVol22AmazonStudio">
+          🌴 VOL.22 亚马逊10生物与库鲁皮拉戒律工坊
         </n-button>
         <n-button size="tiny" type="success" secondary @click="scrollToWeaknessDropStudio">
           🎯 前往弱点雷达与稀有掉落工坊
@@ -89,6 +92,122 @@
             <router-link :to="ch.docPath">
               <n-button size="tiny" type="info" secondary>{{ ch.docLabel }} →</n-button>
             </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🌴 VOL.22 §7-§8 亚马逊雨林十大生境生物 (AMZ-01~10)、电影误区辟谣与库鲁皮拉 Eco_Damage 状态机工坊 (v2.2.370) -->
+    <div id="vol22-amazon-ecology-studio" class="bg-gradient-to-br from-emerald-950/40 via-slate-950 to-slate-900 border border-emerald-500/40 p-4 sm:p-6 rounded-2xl shadow-2xl space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-emerald-500/20 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold">
+              VOL.22 §7-§8 AMAZON ECOLOGY CONTRACT
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              AMZ-01~10 · B0077/B0085/B0100/B0102 映射 · AMZ-AC-01~04
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            🌴 VOL.22 亚马逊四大雨林生境 10 生物参数表、电影误区辟谣 (AMZ-AC-01) 与库鲁皮拉自然戒律状态机
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol22StudioTab === 'creatures' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol22StudioTab = 'creatures'"
+          >
+            🐊 AMZ-01~10 雨林生物参数与科学辟谣 (§7)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol22StudioTab === 'mechanics' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol22StudioTab = 'mechanics'"
+          >
+            🌿 库鲁皮拉 Eco_Damage 状态机与巨骨舌鱼/箭毒蛙推演 (§8)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: AMZ-01~AMZ-10 十大生物参数与电影误区 vs 现实事实 -->
+      <div v-if="vol22StudioTab === 'creatures'" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+        <div
+          v-for="item in vol22AmazonCreatures"
+          :key="item.code"
+          class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800 hover:border-emerald-500/40 transition-all space-y-1.5"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <span class="font-mono font-bold text-emerald-300 mr-1.5">{{ item.code }}</span>
+              <span class="font-bold text-white">{{ item.name }}</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-200 font-mono text-[10px] border border-emerald-500/30">
+              {{ item.mapping }}
+            </span>
+          </div>
+          <div class="text-[11px] text-amber-300 font-semibold">{{ item.habitat }} · {{ item.passive }}</div>
+          <p class="text-slate-300 text-[11px] leading-relaxed">{{ item.skill }}</p>
+          <div class="p-2 rounded bg-slate-900/90 border border-slate-800 text-[11px] text-cyan-200/90">
+            🔬 <strong>AMZ-AC-01 误区辟谣：</strong>{{ item.factCheck }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: 库鲁皮拉 Eco_Damage 戒律状态机 & 巨骨舌鱼换气/箭毒蛙接触毒模拟器 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-emerald-300 text-sm">🌿 AMZ-AC-04：库鲁皮拉 (Curupira) 生态破坏值 (`Eco_Damage`) 状态机</span>
+            <span
+              class="px-2 py-0.5 rounded font-mono text-[11px] font-bold"
+              :class="simEcoDamage >= 100 ? 'bg-rose-500/20 text-rose-300' : simEcoDamage >= 50 ? 'bg-amber-500/20 text-amber-300' : 'bg-emerald-500/20 text-emerald-300'"
+            >
+              {{ simCurupiraState.badge }}
+            </span>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-gray-400">当前雨林生态破坏值 (`Eco_Damage`):</span>
+              <span class="font-mono font-bold text-amber-300">{{ simEcoDamage }} / 100</span>
+            </div>
+            <n-slider v-model:value="simEcoDamage" :min="0" :max="140" :step="5" />
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 text-gray-300">
+            <div><strong>当前状态节点：</strong>{{ simCurupiraState.stateName }}</div>
+            <div><strong>机制响应：</strong>{{ simCurupiraState.effectDesc }}</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3">
+          <div class="font-bold text-amber-300 text-sm">🐟 AMZ-AC-02 巨骨舌鱼换气破绽 &amp; 🐸 AMZ-AC-03 箭毒蛙接触毒验算</div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">巨骨舌鱼当前战斗回合:</span>
+                <span class="font-mono font-bold text-cyan-300">第 {{ simArapaimaTurn }} 回合</span>
+              </div>
+              <n-slider v-model:value="simArapaimaTurn" :min="1" :max="9" :step="1" />
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">对箭毒蛙攻击方式:</label>
+              <select v-model="simFrogAttackType" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-white text-xs">
+                <option value="melee">近战劈砍 / 徒手搏击 (接触)</option>
+                <option value="ranged">弓箭射击 / 投掷飞镖 (非接触)</option>
+                <option value="magic">黑魔法 / 召唤术 (非接触)</option>
+              </select>
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1.5 font-mono text-[11px]">
+            <div :class="simArapaimaTurn % 3 === 0 ? 'text-emerald-300 font-bold' : 'text-gray-300'">
+              • 巨骨舌鱼 (Turn {{ simArapaimaTurn }}): {{ simArapaimaTurn % 3 === 0 ? '【浮水换气破绽期】物理减伤 = 0% (集中爆发窗口！)' : '【致密硬鳞常态】物理减伤 = +50%' }}
+            </div>
+            <div :class="simFrogAttackType === 'melee' ? 'text-rose-300 font-bold' : 'text-emerald-300'">
+              • 箭毒蛙反噬判定: {{ simFrogAttackType === 'melee' ? '触发【生物碱反噬】！攻击者叠加 1 层神经剧毒 (-8% HP/回合)' : '非接触攻击安全清除，0 层中毒反噬 (AMZ-AC-03)' }}
+            </div>
           </div>
         </div>
       </div>
@@ -4131,6 +4250,132 @@ const filteredBestiaryChapters = computed(() => {
     c.highlights.toLowerCase().includes(q) ||
     c.crossVolumeTag.toLowerCase().includes(q)
   )
+})
+
+// VOL.22 §7-§8 亚马逊雨林十大生境生物 (AMZ-01~10) 参数表、科学辟谣与库鲁皮拉状态机工坊 (v2.2.370)
+const scrollToVol22AmazonStudio = () => {
+  document.getElementById('vol22-amazon-ecology-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol22StudioTab = ref<'creatures' | 'mechanics'>('creatures')
+
+const vol22AmazonCreatures = [
+  {
+    code: 'AMZ-01',
+    name: '电鳗 (Electric Eel)',
+    mapping: '映射 VOL.17 B0102',
+    habitat: '深水河流与泛滥湖泊',
+    passive: '【弱电声呐】破除 6 格内隐匿',
+    skill: '【高压放电】受近战物理攻击 45% 概率触发雷属性 120 倍率反伤并附加 1 回合麻痹；弱绝缘/远程/土木法术。',
+    factCheck: '电影误以为能令整条大河持续带电；现实中为近距离脉冲自卫与捕食。'
+  },
+  {
+    code: 'AMZ-02',
+    name: '红腹食人鱼 (Piranha)',
+    mapping: '群聚巡游怪 (3~6只)',
+    habitat: '深水河流与泛滥湖泊',
+    passive: '【血腥嗅觉】流血/低血目标在场 SPD+35%',
+    skill: '【交错撕咬】单体物理连击，对流血态目标暴击率额外 +40%；可用群体雷/冰法术驱散。',
+    factCheck: '电影误以为几秒将活人啃成白骨；现实中多为枯水期洼地受惊自卫或食腐。'
+  },
+  {
+    code: 'AMZ-03',
+    name: '巨骨舌鱼 (Arapaima)',
+    mapping: '水体巨型重甲怪',
+    habitat: '深水河流与泛滥湖泊',
+    passive: '【致密硬鳞】常态物理减伤 +50%',
+    skill: '【负压吞吸】拉拽全体前排；每 3 回合强制执行【浮水换气】，换气当回合物理减伤归零 (AMZ-AC-02)。',
+    factCheck: '非主动吃人的史前水怪，而是依赖空气呼吸、需定期浮水换气的淡水巨鱼。'
+  },
+  {
+    code: 'AMZ-04',
+    name: '绿森蚺 (Green Anaconda)',
+    mapping: '映射 VOL.17 B0100',
+    habitat: '水陆浅滩与沼泽湿地',
+    passive: '【泥沼潜伏】开场隐匿，首击命中+50%',
+    skill: '【无毒死亡缠绕】单体窒息压制（每回合损失 18% 最大 HP，不含毒素）；单次受 >8% HP 重击可强制打断。',
+    factCheck: '绿森蚺完全无毒，依靠肌肉绞杀窒息，现实中极少主动追击吞食成年人类。'
+  },
+  {
+    code: 'AMZ-05',
+    name: '黑凯门鳄 (Black Caiman)',
+    mapping: '参考 VOL.17 B0096/0097',
+    habitat: '水陆浅滩与沼泽湿地',
+    passive: '【暗鳞半潜】夜间/浅水闪避+25%',
+    skill: '【死亡翻滚】无视 25% 护甲高倍率咬合 + 3 回合重度撕裂流血；火/光照明可破除半潜加成。',
+    factCheck: '体长超 5 米的顶级捕食者，靠近巢穴与近岸浅水区确有真实伤人风险，须保持安全距离。'
+  },
+  {
+    code: 'AMZ-06',
+    name: '美洲豹 (Jaguar)',
+    mapping: '映射 VOL.17 B0085',
+    habitat: '地面落叶层与密林树冠',
+    passive: '【水陆树三栖】无视水域/沼泽/林冠惩罚',
+    skill: '【颅骨粉碎之咬】从树冠隐身跃下造成 220% 穿甲物理伤害（无视护盾/龟甲增益）。',
+    factCheck: '咬合力冠绝大型猫科（可咬穿龟甲与鳄鱼头骨），但对人类保持高度戒心而非无脑扑杀。'
+  },
+  {
+    code: 'AMZ-07',
+    name: '巨人食鸟蛛 (Goliath Spider)',
+    mapping: '地穴陷阱伏击怪',
+    habitat: '地面落叶层与密林树冠',
+    passive: '【泥洞伏击】夜间攻速+20%，日间防翻倍',
+    skill: '【刺激刚毛踢射】扇形附加 2 回合致盲（命中-40%）与过敏减速；佩戴护目镜饰品可 100% 免疫。',
+    factCheck: '“食鸟”仅属偶发，毒液对人多为局部肿痛，真正的防御武器是踢出腹部倒钩刺激刚毛。'
+  },
+  {
+    code: 'AMZ-08',
+    name: '箭毒蛙 (Poison Dart Frog)',
+    mapping: '微型警戒生物碱毒物',
+    habitat: '地面落叶层与密林树冠',
+    passive: '【警戒色生物碱】物理闪避+40%',
+    skill: '【生物碱反噬】任何近战/徒手接触攻击者必定叠加 1 层神经剧毒（-8% HP/回合）；远程/魔法无伤清除 (AMZ-AC-03)。',
+    factCheck: '野外毒性源于摄食特定有毒蚁螨的食物链积累，严禁徒手触碰野生箭毒蛙。'
+  },
+  {
+    code: 'AMZ-09',
+    name: '马平瓜里 (Mapinguari)',
+    mapping: '原型映射 VOL.17 B0077 大地懒',
+    habitat: '密林禁区与远古迷域',
+    passive: '【厚皮长毛】正面钝击/穿刺减免 65%',
+    skill: '【腐臭恶风】全场命中/攻击-25%；【腹口吞噬】张开腹部巨口造成真实伤害，此时集中攻击独眼/腹口可破防瘫痪。',
+    factCheck: '亚马逊民间传说巨兽，民俗学者推测源于远古人类对晚更新世巨型地懒的集体记忆。'
+  },
+  {
+    code: 'AMZ-10',
+    name: '库鲁皮拉 (Curupira)',
+    mapping: '森林守护灵 / 戒律机制 Boss',
+    habitat: '密林禁区与远古迷域',
+    passive: '【自然戒律】Eco_Damage < 100 时中立观察',
+    skill: '【反向脚印迷踪】反转十字键方向 15 秒并混淆小地图；【林间兽潮】召唤百兽惩戒贪婪采伐者 (AMZ-AC-04)。',
+    factCheck: '脚掌朝后的红发森林守护神，专门惩戒滥砍林木与猎杀幼兽者，体现对自然法则的敬畏。'
+  }
+]
+
+const simEcoDamage = ref(35)
+const simArapaimaTurn = ref(3)
+const simFrogAttackType = ref<'melee' | 'ranged' | 'magic'>('melee')
+
+const simCurupiraState = computed(() => {
+  if (simEcoDamage.value >= 100) {
+    return {
+      badge: 'Curupira_Punish -> Lost_In_Forest (敌对惩戒)',
+      stateName: '【自然惩戒态 (Eco_Damage >= 100)】',
+      effectDesc: '贪婪采伐突破阈值！库鲁皮拉现身施加【反向脚印迷踪】（十字键反转 15s）并召唤【林间兽潮】；需承受惩戒或缴纳生态赎罪贡品重置 Eco_Damage = 0。'
+    }
+  }
+  if (simEcoDamage.value >= 50) {
+    return {
+      badge: 'Warning (林间异响警告 50~99)',
+      stateName: '【森林戒律警告态 (50 <= Eco_Damage < 100)】',
+      effectDesc: '远方传来库鲁皮拉敲击树干的警示声！停止滥砍滥伐或进行植树献祭即可回落至 Harmony 和谐态。'
+    }
+  }
+  return {
+    badge: 'Harmony (中立赐福 0~49)',
+    stateName: '【自然和谐态 (Eco_Damage < 50)】',
+    effectDesc: '库鲁皮拉保持非敌对中立观察（不可被恶意锁血攻击），并在迷雾雨林岔路口为守序队伍提供指路赐福。'
+  }
 })
 
 </script>
