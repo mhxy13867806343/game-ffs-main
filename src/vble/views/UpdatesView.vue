@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-economy-vol05-vol16-studio-v363-2026-11-07',
+    version: 'v2.2.363',
+    date: '2026-11-07',
+    title: '宏观经济工坊实装 VOL.16 二十九件传奇藏品 v1 进度 Schema 校验器与 VOL.05 武士掷金击推演台',
+    category: 'equipment',
+    categoryName: '神兵校验与经济公式',
+    icon: '🦊',
+    tagType: 'success',
+    description: '响应《VOL.05 神兵矩阵与宏观经济》及《VOL.16 七色尾巴兑换与神兵认证》工程附录对齐：在宏观经济页面 (/vble/economy) 实装「29 件传奇神兵 v1 进度 Schema 原子校验器 & 武士掷金击 (Gil Toss) 伤害推演工坊」。支持交互切换四块石板 (pyramid / island_shrine / great_trench / istory_falls) 实时验算 3/3/3/2 累计解封额度与 count(unsealed_true) <= earned_credits 强校验，并内置武士掷金击 (GilSpent = Lv×50) 与 50% 商店向下取整回购计算器。',
+    highlights: [
+      '实装 VOL.16 四石板 3/3/3/2（总 11 点）解封额度与 legendary_acquisition_progress v1 原子校验模拟器',
+      '完整梳理 29 件传奇藏品四大批次（旧来源3件 + 封印神兵11件 + 七色尾巴7件 + 终极遗物/主角专属8件）生产边界',
+      '实装 VOL.05 武士【掷金击 (Gil Toss)】消耗与多目标分摊伤害计算器（上限 9999，金币不足自动置灰）',
+      '内置 ECO-AC-01 商店 50% 向下取整回购折算器与 ECO-AC-02 关键神兵禁售保护规则说明'
+    ],
+    relatedLinks: [
+      { label: '宏观经济与贸易', path: '/vble/economy', icon: '🪙' },
+      { label: '七色尾巴合同 (VOL.16)', path: '/vble/docs/16_TAIL_EXCHANGE', icon: '🦊' },
+      { label: '神兵与经济 (VOL.05)', path: '/vble/docs/05_EQUIPMENT_ECONOMY', icon: '⚔️' }
+    ]
+  },
+  {
     id: 'up-teachings-vol13-15-contract-v362-2026-11-07',
     version: 'v2.2.362',
     date: '2026-11-07',

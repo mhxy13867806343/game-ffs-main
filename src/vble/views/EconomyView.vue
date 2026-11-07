@@ -7,9 +7,9 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Global Economy Equilibrium, Merchant Guild Trade & Inflation Studio v2.2.326
+              VBLE Economy, 29-Legendary v1 Schema &amp; Gil Toss Contract Studio v2.2.363
             </span>
-            <span class="text-xs text-gray-400">宏观经济、尾巴奇迹、质变药剂与跨次元黑市拍卖行</span>
+            <span class="text-xs text-gray-400">宏观经济、29件传奇藏品v1校验、掷金击公式与黑市拍卖行</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>⚗️</span> 跨界时空黑市汇率平抑、吉尔金币熔断与太古拍卖行工坊
@@ -19,6 +19,16 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="error"
+            size="medium"
+            round
+            class="shadow-md font-bold"
+            @click="scrollToVol05Vol16Studio"
+          >
+            <template #icon><span>🦊</span></template>
+            29传奇v1校验与掷金击工坊
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -91,6 +101,145 @@
               查看道具图鉴
             </n-button>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🦊 VOL.16 29件传奇藏品 v1 进度 Schema 原子校验器 & VOL.05 掷金击 (Gil Toss) / 回购折算工作台 -->
+    <div id="vol05-vol16-contract-studio" class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-[#1b140d]/95 via-[#13182a]/95 to-[#0d111e]/95 border border-amber-500/40 shadow-[0_0_30px_rgba(245,158,11,0.16)] space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-amber-500/20 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/30">
+              VOL.05 §6 &amp; VOL.16 APPENDIX A AUTHORIZED CONTRACTS
+            </span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <span>🦊</span> 29 件传奇神兵 v1 进度 Schema 原子校验器 &amp; 武士掷金击 (Gil Toss) 伤害推演工坊
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">
+            严格对齐《VOL.16》<code>legendary_acquisition_progress</code> v1 四石板 3/3/3/2 额度校验铁律与《VOL.05》武士掷金击消耗公式（<code>GilSpent = Lv × 50</code>）
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <router-link to="/vble/docs/05_EQUIPMENT_ECONOMY">
+            <n-button size="tiny" type="warning" secondary>VOL.05 经济与掷金击 →</n-button>
+          </router-link>
+          <router-link to="/vble/docs/16_TAIL_EXCHANGE">
+            <n-button size="tiny" type="error" secondary>VOL.16 29传奇v1合同 →</n-button>
+          </router-link>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
+        <!-- 左栏：VOL.16 四石板 3/3/3/2 额度校验与 29 件传奇藏品分类总表 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-300 text-sm">🗿 VOL.16 四石板解封额度与 v1 Schema 原子校验模拟</span>
+            <span
+              class="px-2 py-0.5 rounded font-mono text-[11px] font-bold"
+              :class="isUnsealSchemaValid ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'"
+            >
+              {{ isUnsealSchemaValid ? `✅ 校验通过 (${unsealedClaimedCount}/${earnedTabletCredits} 额度)` : `❌ 整份拒绝: 解封数(${unsealedClaimedCount}) > 额度(${earnedTabletCredits})` }}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button
+              v-for="tab in tabletConfigs"
+              :key="tab.key"
+              type="button"
+              class="p-2 rounded-lg border text-left transition-all cursor-pointer font-mono"
+              :class="activeTablets[tab.key] ? 'bg-amber-500/20 border-amber-400 text-amber-200' : 'bg-slate-900 border-slate-800 text-gray-500'"
+              @click="activeTablets[tab.key] = !activeTablets[tab.key]"
+            >
+              <div class="text-[11px] font-bold">{{ tab.name }}</div>
+              <div class="text-[10px]">{{ activeTablets[tab.key] ? `已持 (+${tab.credit}额度)` : `未持 (+0)` }}</div>
+            </button>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-gray-400">当前存档 unsealed 已领神兵数 (2100..2110 共11件):</span>
+              <span class="font-mono font-bold text-cyan-300">{{ unsealedClaimedCount }} 件</span>
+            </div>
+            <n-slider v-model:value="unsealedClaimedCount" :min="0" :max="11" :step="1" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+            <div
+              v-for="cat in legendary29Categories"
+              :key="cat.title"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-0.5"
+            >
+              <div class="flex items-center justify-between font-bold text-white">
+                <span>{{ cat.title }}</span>
+                <span class="text-amber-300 font-mono text-[11px]">{{ cat.count }} 件</span>
+              </div>
+              <div class="text-[10px] font-mono text-cyan-300">{{ cat.range }}</div>
+              <div class="text-[11px] text-gray-400 leading-snug">{{ cat.rule }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右栏：VOL.05 掷金击 (Gil Toss) 伤害与商店 50% 回购测算台 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300 text-sm">🪙 VOL.05 武士【掷金击 (Gil Toss)】与 50% 回购测算器</span>
+            <span class="font-mono text-[11px] text-emerald-300">单目标上限 9,999 · 无视防御不可暴击</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">施术者等级 (Lv):</span>
+                <span class="font-mono font-bold text-amber-300">Lv.{{ gilTossLevel }}</span>
+              </div>
+              <n-slider v-model:value="gilTossLevel" :min="1" :max="99" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">敌方目标数 (N):</span>
+                <span class="font-mono font-bold text-cyan-300">{{ gilTossTargets }} 体</span>
+              </div>
+              <n-slider v-model:value="gilTossTargets" :min="1" :max="6" :step="1" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">当前持有金币:</span>
+                <span class="font-mono font-bold text-emerald-300">{{ gilTossWallet.toLocaleString() }} G</span>
+              </div>
+              <n-slider v-model:value="gilTossWallet" :min="0" :max="10000" :step="250" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2.5 text-center font-mono bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+            <div>
+              <div class="text-[10px] text-gray-400">单次消耗 (Lv×50)</div>
+              <div class="text-sm font-black text-amber-300">{{ gilTossSpent.toLocaleString() }} G</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-gray-400">单目标真实伤害</div>
+              <div class="text-sm font-black text-cyan-300">{{ gilTossDamagePerTarget.toLocaleString() }}</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-gray-400">指令可用状态 (ECO-AC-05)</div>
+              <div class="text-xs font-bold mt-0.5" :class="gilTossCanCast ? 'text-emerald-400' : 'text-rose-400'">
+                {{ gilTossCanCast ? '✅ 允许释放' : '🚫 金币不足置灰' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-300 font-bold">🏪 商店 50% 向下取整回购铁律 (ECO-AC-01):</span>
+              <span class="font-mono text-amber-300">购入价 {{ shopSamplePrice.toLocaleString() }} G → 回购价 {{ Math.floor(shopSamplePrice * 0.5).toLocaleString() }} G</span>
+            </div>
+            <n-slider v-model:value="shopSamplePrice" :min="15" :max="60000" :step="15" />
+            <div class="text-[11px] text-gray-400">
+              • <strong>ECO-AC-02 禁售保护</strong>：关键道具、十二封印神兵 (2100..2110)、五大主角专属神兵 (2120..2124) 严禁出现在出售列表中；★4 以上稀有道具出售需二次弹窗确认。
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -4203,6 +4352,54 @@ const copyEquilibriumScript = () => {
   navigator.clipboard.writeText(currentEquilibriumScriptCode.value)
   message.success('已复制 Godot 4.6 LTS 宏观金融源码到剪贴板！')
 }
+
+const scrollToVol05Vol16Studio = () => {
+  const el = document.getElementById('vol05-vol16-contract-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const activeTablets = reactive<Record<'pyramid' | 'island_shrine' | 'great_trench' | 'istory_falls', boolean>>({
+  pyramid: true,
+  island_shrine: true,
+  great_trench: true,
+  istory_falls: false
+})
+
+const tabletConfigs = [
+  { key: 'pyramid' as const, name: '1.金字塔石板', credit: 3 },
+  { key: 'island_shrine' as const, name: '2.孤岛神殿石板', credit: 3 },
+  { key: 'great_trench' as const, name: '3.大海沟石板', credit: 3 },
+  { key: 'istory_falls' as const, name: '4.伊斯托利石板', credit: 2 }
+]
+
+const unsealedClaimedCount = ref(6)
+
+const earnedTabletCredits = computed(() => {
+  return tabletConfigs.reduce((sum, t) => sum + (activeTablets[t.key] ? t.credit : 0), 0)
+})
+
+const isUnsealSchemaValid = computed(() => {
+  return unsealedClaimedCount.value <= earnedTabletCredits.value
+})
+
+const legendary29Categories = [
+  { title: '已确认旧来源保留', range: '2077 / 2079 / 2086', count: 3, rule: '阿波罗之琴(琴圣)、赫尔墨斯靴(30,000G+鬼宫)、村正(鬼宫5F单次宝箱)' },
+  { title: '封印祭坛新神兵', range: '2100 .. 2110', count: 11, rule: '四石板额度 3/3/3/2 (总11)；阿波罗石台仅作琴圣说明不扣点' },
+  { title: '七色尾巴专属兑换', range: '2113 .. 2119', count: 7, rule: '粉/灰/红/金/蓝/黄/绿 1尾→1件；银尾仅显示村正鬼宫5F只读线索' },
+  { title: '主角专属与终极遗物', range: '2111..2112 / 2120..2124', count: 8, rule: 'Ribbon/Genji 2件 + 五主角试炼专属5件 + 英雄护身符1件(暂缓)' }
+]
+
+const gilTossLevel = ref(80)
+const gilTossTargets = ref(3)
+const gilTossWallet = ref(5000)
+const shopSamplePrice = ref(45000)
+
+const gilTossSpent = computed(() => gilTossLevel.value * 50)
+const gilTossCanCast = computed(() => gilTossWallet.value >= gilTossSpent.value)
+const gilTossDamagePerTarget = computed(() => {
+  if (!gilTossCanCast.value) return 0
+  return Math.min(9999, Math.floor(gilTossSpent.value / gilTossTargets.value))
+})
 
 </script>
 
