@@ -7,9 +7,9 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 font-mono font-bold text-xs border border-red-500/30">
-              VBLE World Bosses, Dawn Stagger &amp; Mechanics Countdown Studio v2.2.329
+              VBLE World Bosses, BattleAttributeDrain &amp; Reaper Death-Throes Studio v2.2.357
             </span>
-            <span class="text-xs text-gray-400">首领攻坚全鉴、双核协同试炼与终焉虚空首领破限处决</span>
+            <span class="text-xs text-gray-400">首领攻坚全鉴、复利削减契约、冥界死神殉爆与终焉首领破限处决</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>👹</span> 十四柱世界首领 AI 状态机、多阶段转相机制与狂暴绝境断路工坊
@@ -19,6 +19,16 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="warning"
+            size="medium"
+            round
+            class="shadow-md font-bold"
+            @click="scrollToDrainReaperStudio"
+          >
+            <template #icon><span>💀</span></template>
+            削减契约与死神殉爆工坊
+          </n-button>
           <n-button
             type="error"
             size="medium"
@@ -86,6 +96,12 @@
               多阶段绝技白皮书 (VOL.18)
             </n-button>
           </router-link>
+          <router-link to="/vble/docs/19_SKELETON_REAPER_MYTH">
+            <n-button size="medium" round secondary type="warning" class="shadow-md">
+              <template #icon><span>💀</span></template>
+              冥界骨王与死神 (VOL.19)
+            </n-button>
+          </router-link>
           <router-link to="/vble/monsters">
             <n-button size="medium" round tertiary>
               查看魔物图鉴
@@ -116,6 +132,183 @@
         <div class="text-xs text-gray-400">实机攻坚算法</div>
         <div class="text-2xl font-black text-emerald-400 font-mono mt-1">Godot 4.x</div>
         <div class="text-[10px] text-gray-500 mt-0.5">boss_tactics_battle.gd</div>
+      </div>
+    </div>
+
+    <!-- 💀 VOL.18 剧情技能【削减 (BattleAttributeDrain)】复利衰减 & VOL.19 冥界骨王/死神亡语殉爆与三向抉择联合测算工坊 -->
+    <div id="drain-reaper-studio" class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-[#181124]/95 via-[#121629]/95 to-[#0f1322]/95 border border-rose-500/40 shadow-[0_0_30px_rgba(244,63,94,0.15)] space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-rose-500/20 pb-4">
+        <div class="space-y-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-xs font-bold border border-rose-500/30">
+              VOL.18 &amp; VOL.19 AUTHORIZED CONTRACT STUDIO
+            </span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <span>💀</span> 剧情技能【削减 (BattleAttributeDrain)】复利衰减与冥界死神亡语殉爆联合推演工坊
+            </h2>
+          </div>
+          <p class="text-xs text-gray-400">
+            严格对齐《VOL.18》第 8 章复利衰减正值保底 1 公式与《VOL.19》第 15 章死神六形态弱点加价、HP&lt;20% 绝境 500% 超载及亡语临界殉爆结算契约
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <router-link to="/vble/docs/18_MULTI_PHASE_BOSS_SKILLS">
+            <n-button size="tiny" type="error" secondary>VOL.18 削减契约附录 →</n-button>
+          </router-link>
+          <router-link to="/vble/docs/19_SKELETON_REAPER_MYTH">
+            <n-button size="tiny" type="warning" secondary>VOL.19 死神公式总表 →</n-button>
+          </router-link>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 左栏：VOL.18 BattleAttributeDrain 复利衰减模拟器 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+              <span>🩸</span> VOL.18 【削减 (ATTR_DRAIN)】复利衰减推演器
+            </span>
+            <span class="text-[11px] font-mono text-amber-300">升级累计消耗: {{ drainSppCost }} SPP</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div>
+              <label class="text-gray-400 block mb-1">技能等级 (Lv.1 ~ Lv.3):</label>
+              <div class="flex gap-1.5">
+                <button
+                  v-for="lv in ([1, 2, 3] as const)"
+                  :key="lv"
+                  type="button"
+                  class="flex-1 py-1.5 rounded font-mono font-bold border transition-all cursor-pointer"
+                  :class="drainSkillLevel === lv ? 'bg-rose-500 text-white border-rose-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
+                  @click="drainSkillLevel = lv"
+                >
+                  Lv.{{ lv }}
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">施放目标类型:</label>
+              <div class="flex gap-1.5">
+                <button
+                  type="button"
+                  class="flex-1 py-1.5 rounded font-mono font-bold border transition-all cursor-pointer"
+                  :class="drainTargetType === 'boss' ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
+                  @click="drainTargetType = 'boss'"
+                >
+                  首领 ({{ (drainRate * 100).toFixed(0) }}%)
+                </button>
+                <button
+                  type="button"
+                  class="flex-1 py-1.5 rounded font-mono font-bold border transition-all cursor-pointer"
+                  :class="drainTargetType === 'normal' ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
+                  @click="drainTargetType = 'normal'"
+                >
+                  普通敌 ({{ (drainRate * 100).toFixed(0) }}%)
+                </button>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">目标当前属性值 (V_cur):</span>
+                <span class="font-mono font-bold text-cyan-300">{{ drainInitialValue.toLocaleString() }}</span>
+              </div>
+              <n-slider v-model:value="drainInitialValue" :min="1" :max="120000" :step="100" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">连续施放次数 (Cast Count):</span>
+                <span class="font-mono font-bold text-rose-300">{{ drainCastCount }} 次</span>
+              </div>
+              <n-slider v-model:value="drainCastCount" :min="1" :max="10" :step="1" />
+            </div>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-400">复利衰减序列 (V_next = max(1, floor(V_cur * (1 - r)))):</span>
+              <span class="font-mono font-bold text-emerald-400">最终剩余: {{ drainSequence[drainSequence.length - 1]?.toLocaleString() }}</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5 font-mono text-[11px]">
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">初始 {{ drainInitialValue.toLocaleString() }}</span>
+              <template v-for="(val, idx) in drainSequence" :key="idx">
+                <span class="text-slate-500">→</span>
+                <span class="px-2 py-0.5 rounded bg-rose-950/60 text-rose-300 border border-rose-500/30">
+                  #{{ idx + 1 }}: {{ val.toLocaleString() }}
+                </span>
+              </template>
+            </div>
+            <div class="text-[11px] text-amber-300 pt-1 border-t border-slate-800">
+              {{ drainSkillLevel === 3
+                ? '⚡ Lv.3 满级专属：当指定削减属性为 HP 时，额外附加 20% 破甲（防御降低 20%），持续目标自身 2 次有效行动；StatusPage 面板不显示虚构 Lv.4。'
+                : `📌 当前 Lv.${drainSkillLevel}：StatusPage 显示当前比例并标明 Lv.${drainSkillLevel + 1}（未取得）下级预览；最小保底值为 1，绝不直接致死。` }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 右栏：VOL.19 冥界骨王与死神亡语殉爆 & 三向抉择结算器 -->
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+              <span>⚖️</span> VOL.19 死神亡语临界殉爆与战中三向抉择推演器
+            </span>
+            <span class="text-[11px] font-mono text-cyan-300">后备队员共享 50% AP</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">我方英雄最大生命 (Hero.MaxHP):</span>
+                <span class="font-mono font-bold text-emerald-300">{{ reaperHeroMaxHp }}</span>
+              </div>
+              <n-slider v-model:value="reaperHeroMaxHp" :min="1500" :max="9999" :step="100" />
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">死神魔攻面板 (Boss.MATK):</span>
+                <span class="font-mono font-bold text-purple-300">{{ reaperBossMatk }}</span>
+              </div>
+              <n-slider v-model:value="reaperBossMatk" :min="400" :max="3500" :step="50" />
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">HP&lt;20% 战中三向抉择分支:</label>
+              <div class="flex gap-1.5">
+                <button
+                  v-for="opt in reaperChoiceOptions"
+                  :key="opt.key"
+                  type="button"
+                  class="flex-1 py-1.5 px-2 rounded font-mono text-[11px] font-bold border transition-all cursor-pointer"
+                  :class="reaperChoice === opt.key ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
+                  @click="reaperChoice = opt.key"
+                >
+                  {{ opt.label }}
+                </button>
+              </div>
+            </div>
+            <div class="flex items-center justify-between bg-slate-900/70 px-3 py-2 rounded-lg border border-slate-800">
+              <span class="text-gray-300">挂载护盾 (Protect / Shell ×0.6):</span>
+              <n-switch v-model:value="reaperHasShield" size="small" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2.5 text-center text-xs">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-rose-500/30">
+              <div class="text-[10px] text-gray-400">亡语殉爆单人承伤</div>
+              <div class="text-base font-black text-rose-400 font-mono mt-0.5">{{ reaperExplosionDamage }}</div>
+              <div class="text-[10px] text-gray-500">占最大HP {{ ((reaperExplosionDamage / reaperHeroMaxHp) * 100).toFixed(1) }}%</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-cyan-500/30">
+              <div class="text-[10px] text-gray-400">抉择奖励 (SPP / AP)</div>
+              <div class="text-sm font-black text-cyan-300 font-mono mt-0.5">+{{ currentReaperChoice.spp }} SPP / +{{ currentReaperChoice.ap }} AP</div>
+              <div class="text-[10px] text-gray-500">后备 +{{ currentReaperChoice.ap / 2 }} AP</div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-amber-500/30">
+              <div class="text-[10px] text-gray-400">经验与金币结算</div>
+              <div class="text-sm font-black text-amber-300 font-mono mt-0.5">{{ currentReaperChoice.exp.toLocaleString() }} EXP</div>
+              <div class="text-[10px] text-gray-500">{{ currentReaperChoice.gold.toLocaleString() }} G</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3640,6 +3833,69 @@ const copyDawnScript = () => {
     if (message) message.success('已复制 Godot 4.6 LTS 首领攻坚源码到剪贴板！')
   }
 }
+
+const scrollToDrainReaperStudio = () => {
+  const el = document.getElementById('drain-reaper-studio')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const drainSkillLevel = ref<1 | 2 | 3>(3)
+const drainTargetType = ref<'boss' | 'normal'>('boss')
+const drainInitialValue = ref(50000)
+const drainCastCount = ref(5)
+
+const drainSppCost = computed(() => {
+  if (drainSkillLevel.value === 1) return 10
+  if (drainSkillLevel.value === 2) return 55
+  return 160
+})
+
+const drainRate = computed(() => {
+  const table = {
+    1: { normal: 0.25, boss: 0.05 },
+    2: { normal: 0.35, boss: 0.08 },
+    3: { normal: 0.50, boss: 0.12 }
+  }
+  return table[drainSkillLevel.value][drainTargetType.value]
+})
+
+const drainSequence = computed(() => {
+  const seq: number[] = []
+  let cur = drainInitialValue.value
+  const r = drainRate.value
+  for (let i = 0; i < drainCastCount.value; i++) {
+    cur = Math.max(1, Math.floor(cur * (1 - r)))
+    seq.push(cur)
+  }
+  return seq
+})
+
+const reaperHeroMaxHp = ref(4500)
+const reaperBossMatk = ref(1200)
+const reaperChoice = ref<'reconcile' | 'fight' | 'seal'>('fight')
+const reaperHasShield = ref(true)
+
+const reaperChoiceOptions = [
+  { key: 'reconcile' as const, label: '1.和解(免爆)', spp: 40, ap: 80, exp: 12000, gold: 5000 },
+  { key: 'fight' as const, label: '2.死战(全爆)', spp: 20, ap: 160, exp: 30000, gold: 15000 },
+  { key: 'seal' as const, label: '3.封印(半爆)', spp: 30, ap: 120, exp: 20000, gold: 8000 }
+]
+
+const currentReaperChoice = computed(() => {
+  return reaperChoiceOptions.find(o => o.key === reaperChoice.value) || reaperChoiceOptions[1]
+})
+
+const reaperExplosionDamage = computed(() => {
+  if (reaperChoice.value === 'reconcile') return 0
+  let dmg = Math.floor(0.40 * reaperHeroMaxHp.value) + Math.floor(1.20 * reaperBossMatk.value)
+  if (reaperHasShield.value) {
+    dmg = Math.floor(dmg * 0.60)
+  }
+  if (reaperChoice.value === 'seal') {
+    dmg = Math.floor(dmg * 0.50)
+  }
+  return dmg
+})
 
 </script>
 

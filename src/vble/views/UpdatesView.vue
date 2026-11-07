@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-boss-drain-reaper-studio-v357-2026-11-07',
+    version: 'v2.2.357',
+    date: '2026-11-07',
+    title: '首领攻坚库实装 VOL.18【削减】复利衰减与 VOL.19 冥界死神亡语殉爆及三向抉择联合推演工坊',
+    category: 'system',
+    categoryName: '首领契约与数值沙盘',
+    icon: '💀',
+    tagType: 'success',
+    description: '响应《VOL.18 多阶段首领与剧情连携技》及《VOL.19 冥界骨王与死神》工程附录对齐：在首领攻坚全鉴 (/vble/bosses & /vble/boss-tactics) 实装「剧情技能【削减 (BattleAttributeDrain)】复利衰减与冥界死神亡语殉爆联合推演工坊」。支持 Lv.1~Lv.3 削减比例（普通敌 25%/35%/50%、首领 5%/8%/12%）连续施放复利序列与正值保底 1 实时验算，以及死神 HP<20% 战中三向抉择（和解/死战/封印）的 SPP/AP/EXP/G 奖励倾斜与亡语殉爆承伤公式推演。',
+    highlights: [
+      '实装 VOL.18 BattleAttributeDrain 复利衰减模拟器，支持 1~10 次连续施放序列推演与正值保底 1 验证',
+      '精准呈现 Lv.1(10 SPP) / Lv.2(55 SPP) / Lv.3(160 SPP) 升级消耗及 Lv.3 专属 HP 20% 破甲规则',
+      '实装 VOL.19 死神亡语临界殉爆伤害计算器（0.40×Hero.MaxHP + 1.20×Boss.MATK，护盾×0.6、封印×0.5）',
+      '支持战中三向抉择（和解/死战/封印）SPP、全队 AP、后备 50% AP 共享及金币经验实时对比'
+    ],
+    relatedLinks: [
+      { label: '首领攻坚全鉴', path: '/vble/bosses', icon: '👹' },
+      { label: '多阶段绝技 (VOL.18)', path: '/vble/docs/18_MULTI_PHASE_BOSS_SKILLS', icon: '⚡' },
+      { label: '冥界骨王与死神 (VOL.19)', path: '/vble/docs/19_SKELETON_REAPER_MYTH', icon: '💀' }
+    ]
+  },
+  {
     id: 'up-bestiary-b0650-feather-toc-v356-2026-11-07',
     version: 'v2.2.356',
     date: '2026-11-07',
