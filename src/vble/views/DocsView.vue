@@ -7,7 +7,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 font-mono font-bold text-xs border border-teal-500/30">
-              VBLE Whitepaper Semantic Traceability, Contract Validation & Spec Evolution Studio v2.2.352
+              VBLE Whitepaper Semantic Traceability, Contract Validation & Spec Evolution Studio v2.2.355
             </span>
             <span class="text-xs text-gray-400">二十七卷核心架构白皮书语义溯源、规范契约强校验与架构演进工坊</span>
           </div>
@@ -191,7 +191,13 @@
             <span>📐 拓扑沙盘推演</span>
           </button>
 
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <router-link v-if="doc.relatedRoute" :to="doc.relatedRoute.path">
+              <n-button size="small" type="success" round secondary class="shadow-sm">
+                <template #icon><span>{{ doc.relatedRoute.icon }}</span></template>
+                {{ doc.relatedRoute.label }}
+              </n-button>
+            </router-link>
             <router-link :to="'/vble/docs/' + doc.code">
               <n-button size="small" type="primary" round secondary class="shadow-sm">
                 <template #icon><span>📖</span></template>

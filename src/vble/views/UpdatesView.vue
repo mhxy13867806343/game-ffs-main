@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-whitepaper-toc-appendix-v355-2026-11-07',
+    version: 'v2.2.355',
+    date: '2026-11-07',
+    title: '白皮书独立阅览室章节大纲与实机契约附录速查导航上线，27 卷全量参数表与业务工坊双向互通',
+    category: 'system',
+    categoryName: '阅读器与附录速查',
+    icon: '🧭',
+    tagType: 'success',
+    description: '响应白皮书 27 卷全量参数总表、状态机协议、跨卷映射与验收准则深度扩充（累计新增 1,720+ 行工程附录），独立阅览室 (/vble/docs/:code) 正式实装「卷内章节大纲与实机契约附录速查导航条」：自动提取 Markdown 二三级标题并生成锚点跳转，智能识别参数表/状态机/契约/验收附录支持一键过滤定位；同时全量 27 卷配置双向绑定对应业务交互工坊直通入口，实现从长卷附录速查到实机沙盘演练的毫秒级往返。',
+    highlights: [
+      '白皮书独立阅览室新增卷内章节大纲 (H2/H3) 自动解析与平滑锚点滚动定位',
+      '智能标记「附录/速查/状态机/参数表/验收准则」章节，支持一键过滤仅看核心工程契约附录',
+      '27 卷白皮书卡片与独立阅览室顶部全量接入对应业务工坊（剧情/地城/首领/职业/经济/载具等）反向直达入口',
+      '同步更新 VOL.01 至 VOL.27 摘要与核心模块标签，对齐 44 节拍矩阵、B0001-B0650 全量魔物索引与 15 线程提交台账'
+    ],
+    relatedLinks: [
+      { label: '白皮书全景目录', path: '/vble/docs', icon: '📚' },
+      { label: '游戏设计总纲 (VOL.25)', path: '/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT', icon: '🏛️' },
+      { label: '跨界魔物大典 (VOL.27)', path: '/vble/docs/27_CROSS_WORLD_BOSSES_AND_MONSTERS_SPEC', icon: '🐉' }
+    ]
+  },
+  {
     id: 'up-whitepaper-omni-mesh-v354-2026-10-30',
     version: 'v2.2.354',
     date: '2026-10-30',

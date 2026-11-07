@@ -16,7 +16,13 @@
           VOL.{{ String(doc?.volume || 0).padStart(2, '0') }} {{ doc?.title?.split('(')[0]?.trim() || docCode }}
         </span>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2">
+        <router-link v-if="doc?.relatedRoute" :to="doc.relatedRoute.path">
+          <n-button size="small" round secondary type="success">
+            <template #icon><span>{{ doc.relatedRoute.icon }}</span></template>
+            直达业务工坊: {{ doc.relatedRoute.label }}
+          </n-button>
+        </router-link>
         <n-button size="small" round secondary type="warning" @click="copyMarkdown">
           <template #icon><span>📋</span></template>
           复制全文 Markdown
@@ -114,6 +120,66 @@
           >
             VOL.{{ String(w.volume).padStart(2, '0') }}
           </router-link>
+        </div>
+      </div>
+
+      <!-- 章节大纲与速查附录锚点导航条 -->
+      <div v-if="tocHeadings.length > 0" class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 shadow-md space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>🧭</span> 卷内章节大纲与实机契约附录速查 ({{ filteredTocHeadings.length }}/{{ tocHeadings.length }} 节)
+            </span>
+            <span v-if="appendixCount > 0" class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              含 {{ appendixCount }} 节参数表/状态机/验收附录
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              v-if="appendixCount > 0"
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono transition-colors cursor-pointer border"
+              :class="showOnlyAppendix
+                ? 'bg-amber-500 text-slate-950 font-bold border-amber-400'
+                : 'bg-slate-950 text-amber-300 border-amber-500/40 hover:bg-slate-800'"
+              @click="showOnlyAppendix = !showOnlyAppendix"
+            >
+              {{ showOnlyAppendix ? '⚡ 显示全部章节' : '⚡ 仅看附录/参数表/验收' }}
+            </button>
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded text-xs font-mono bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer"
+              @click="tocExpanded = !tocExpanded"
+            >
+              {{ tocExpanded ? '收起目录 ▲' : '展开全部 ▼' }}
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-wrap gap-1.5 overflow-y-auto transition-all"
+          :class="tocExpanded ? 'max-h-80' : 'max-h-24'"
+        >
+          <button
+            v-for="h in filteredTocHeadings"
+            :key="h.id"
+            type="button"
+            class="px-2.5 py-1 rounded text-xs transition-all text-left flex items-center gap-1.5 cursor-pointer border"
+            :class="[
+              activeHeadingId === h.id
+                ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400 shadow-sm'
+                : h.isAppendix
+                  ? 'bg-amber-950/40 text-amber-300 border-amber-500/40 hover:bg-amber-900/50'
+                  : h.level === 2
+                    ? 'bg-slate-950 text-cyan-200 border-slate-700 hover:bg-slate-800 hover:text-white font-semibold'
+                    : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:bg-slate-800 hover:text-slate-200 pl-3'
+            ]"
+            @click="scrollToHeading(h.id)"
+          >
+            <span v-if="h.isAppendix" class="text-[10px]">📌</span>
+            <span v-else-if="h.level === 2" class="text-[10px] text-cyan-400">§</span>
+            <span class="truncate max-w-[260px]">{{ h.text }}</span>
+          </button>
         </div>
       </div>
 
@@ -257,6 +323,67 @@ const loadingContent = ref(false)
 const docError = ref('')
 const searchKeyword = ref('')
 const fontSizeLevel = ref<'small' | 'normal' | 'large'>('normal')
+const showOnlyAppendix = ref(false)
+const tocExpanded = ref(false)
+const activeHeadingId = ref('')
+
+interface TocHeading {
+  id: string
+  level: 2 | 3
+  text: string
+  isAppendix: boolean
+}
+
+const isAppendixHeading = (text: string) => {
+  return /(附录|速查|状态机|参数|对账|验收|映射|契约|公式|一致性|矩阵|台账)/.test(text)
+}
+
+const tocHeadings = computed<TocHeading[]>(() => {
+  if (!rawMarkdownContent.value) return []
+  const lines = rawMarkdownContent.value.split('\n')
+  const list: TocHeading[] = []
+  let inCodeBlock = false
+  let idx = 0
+
+  for (const line of lines) {
+    if (line.trim().startsWith('```')) {
+      inCodeBlock = !inCodeBlock
+      continue
+    }
+    if (inCodeBlock) continue
+
+    const m = line.match(/^(#{2,3})\s+(.+?)\s*$/)
+    if (m) {
+      const level = m[1].length as 2 | 3
+      const cleanText = m[2].replace(/[`*_~]/g, '').trim()
+      const id = `wp-heading-${idx++}`
+      list.push({
+        id,
+        level,
+        text: cleanText,
+        isAppendix: isAppendixHeading(cleanText)
+      })
+    }
+  }
+  return list
+})
+
+const appendixCount = computed(() => tocHeadings.value.filter(h => h.isAppendix).length)
+
+const filteredTocHeadings = computed(() => {
+  if (showOnlyAppendix.value) {
+    return tocHeadings.value.filter(h => h.isAppendix)
+  }
+  return tocHeadings.value
+})
+
+const scrollToHeading = (id: string) => {
+  activeHeadingId.value = id
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 
 const matchCount = computed(() => {
   if (!searchKeyword.value.trim() || !rawMarkdownContent.value) return 0
@@ -269,6 +396,11 @@ const matchCount = computed(() => {
 const renderedMarkdown = computed(() => {
   if (!rawMarkdownContent.value) return ''
   let html = marked.parse(rawMarkdownContent.value) as string
+  let headingIdx = 0
+  html = html.replace(/<h([23])([^>]*)>/gi, (_full, level, attrs) => {
+    const id = `wp-heading-${headingIdx++}`
+    return `<h${level}${attrs} id="${id}" class="scroll-mt-24">`
+  })
   if (searchKeyword.value.trim()) {
     const q = searchKeyword.value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const reg = new RegExp(`(?![^<]*>)(${q})`, 'gi')
