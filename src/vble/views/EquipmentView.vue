@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-center gap-2 mb-2">
             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
-              VBLE Mythic Weapons, Sealed Relic Breakthrough & Set Synergy Studio v2.2.319
+              VBLE Mythic Weapons, VOL.05 Superboss/Protagonist Relics &amp; Set Synergy Studio v2.2.373
             </span>
             <span class="text-xs text-gray-400">至高超越神兵、太古十二圣器、符文熔铸与多维词缀萃取</span>
           </div>
@@ -39,6 +39,17 @@
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <n-button
+            type="info"
+            size="medium"
+            round
+            secondary
+            class="shadow-md"
+            @click="scrollToVol05EquipmentStudio"
+          >
+            <template #icon><span>🗡️</span></template>
+            VOL.05 超越神兵与主角圣器
+          </n-button>
           <n-button
             type="warning"
             size="medium"
@@ -100,6 +111,129 @@
               返回首页
             </n-button>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🗡️ VOL.05 §1.1/§1.2/§5/§7 五大超越神兵、五大主角专属圣器与 ECO-C01~05 跨卷口径对齐工坊 (v2.2.373) -->
+    <div
+      id="vol05-equipment-contract-studio"
+      class="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-amber-950/15 to-slate-900 border border-amber-500/35 shadow-xl space-y-4"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold">
+              VOL.05 §1 / §5 / §7 EQUIPMENT CONTRACT
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold">
+              5大超越神兵 · 5大主角专属神兵 · WLD-C02 / ECO-C01~05 对齐
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-extrabold text-white">
+            🗡️ VOL.05 终焉超越神兵、五大主角专属传说圣器与 T1~T5 商店价格带 / ECO-C01~05 消歧工坊
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol05EquipTab === 'relics' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol05EquipTab = 'relics'"
+          >
+            ⚔️ 五大超越神兵 &amp; 五大主角专属圣器 (§1.1-§1.2)
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            :class="vol05EquipTab === 'shops' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            @click="vol05EquipTab = 'shops'"
+          >
+            🏪 T1~T5 商店价格带 &amp; ECO-C01~05 消歧规则 (§5-§7)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: 五大超越神兵 & 五大主角专属圣器 -->
+      <div v-if="vol05EquipTab === 'relics'" class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2.5">
+          <div class="font-bold text-amber-300 text-sm">👑 §1.1 终焉超越神兵系列 (Ultimate Superboss Relics)</div>
+          <div class="space-y-2">
+            <div
+              v-for="item in vol05SuperbossRelics"
+              :key="item.name"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white">{{ item.name }}</span>
+                <span class="font-mono text-amber-300 font-bold text-[11px]">{{ item.stats }}</span>
+              </div>
+              <div class="text-[11px] text-cyan-300 font-mono">获取: {{ item.source }}</div>
+              <div class="text-[11px] text-gray-300">{{ item.effect }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2.5">
+          <div class="font-bold text-cyan-300 text-sm">🌟 §1.2 五大主角个人专属传说神兵 (对齐 WLD-C02 角色 ID)</div>
+          <div class="space-y-2">
+            <div
+              v-for="pw in vol05ProtagonistWeapons"
+              :key="pw.heroId"
+              class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white">{{ pw.hero }} <code class="text-cyan-300 text-[10px]">({{ pw.heroId }})</code></span>
+                <span class="font-mono text-emerald-300 font-bold text-[11px]">{{ pw.weapon }}</span>
+              </div>
+              <div class="text-[11px] text-amber-200 font-mono">试炼地宫: {{ pw.dungeon }} · {{ pw.type }}</div>
+              <div class="text-[11px] text-gray-300">{{ pw.effect }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: T1~T5 商店价格带 & ECO-C01~05 跨文档消歧 -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2 overflow-x-auto">
+          <div class="font-bold text-cyan-300 text-sm">🏪 §5.1 五阶城镇商店价格带 (T1 宁静村 ~ T5 幻影之村黑市)</div>
+          <table class="w-full text-left border-collapse text-[11px]">
+            <thead>
+              <tr class="border-b border-slate-800 text-gray-400">
+                <th class="py-1.5 pr-2">阶位</th>
+                <th class="py-1.5 px-2">代表城镇</th>
+                <th class="py-1.5 px-2">武器价格带</th>
+                <th class="py-1.5 px-2">防具价格带</th>
+                <th class="py-1.5 pl-2">常备消耗品规则</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="shop in vol05ShopTiers" :key="shop.tier" class="border-b border-slate-900/80">
+                <td class="py-1.5 pr-2 font-mono font-bold text-amber-300">{{ shop.tier }}</td>
+                <td class="py-1.5 px-2 font-bold text-white">{{ shop.town }}</td>
+                <td class="py-1.5 px-2 font-mono text-cyan-300">{{ shop.weaponRange }}</td>
+                <td class="py-1.5 px-2 font-mono text-gray-300">{{ shop.armorRange }}</td>
+                <td class="py-1.5 pl-2 text-emerald-300">{{ shop.consumables }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/85 border border-slate-800 space-y-2">
+          <div class="font-bold text-amber-300 text-sm">⚖️ §7 ECO-C01 ~ ECO-C05 跨卷命名与配方消歧规范</div>
+          <div class="space-y-1.5">
+            <div
+              v-for="c in vol05Disambiguations"
+              :key="c.code"
+              class="p-2 rounded bg-slate-900/90 border border-slate-800 text-[11px] space-y-0.5"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-amber-300">{{ c.code }}</span>
+                <span class="font-bold text-white">{{ c.topic }}</span>
+              </div>
+              <div class="text-gray-300">{{ c.resolution }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -3176,6 +3310,45 @@ const copyRelicScript = () => {
   navigator.clipboard.writeText(currentRelicScriptCode.value)
   message?.success('已复制 Godot 4.6 LTS 太古神兵源码到剪贴板！')
 }
+
+// VOL.05 §1.1/§1.2/§5/§7 五大超越神兵、五大主角专属圣器与 ECO-C01~05 消歧工坊 (v2.2.373)
+const scrollToVol05EquipmentStudio = () => {
+  document.getElementById('vol05-equipment-contract-studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const vol05EquipTab = ref<'relics' | 'shops'>('relics')
+
+const vol05SuperbossRelics = [
+  { name: '诸神之黄昏 (Ragnarok)', stats: 'ATK +180 · 全属性+10 · 暴击+30%', source: '次元之隙神龙守护宝箱 / 月之溪谷 B7F', effect: '圣/暗双属性自由共鸣；平砍 20% 触发 Flare；无视 50% 物防，对龙与恶魔 300% 灭绝暴击。' },
+  { name: '终焉诸神之黄昏·改', stats: 'ATK +200 · 敏捷+15 · 吸血+20%', source: '49层倒序深渊竞技场 终极通关奖励', effect: '纳哈特专属暗黑巨剑 (ECO-C01)；暗黑战技伤害 +50%，平砍 100% 等量生命汲取，暴击触发虚无湮灭波。' },
+  { name: '诸神之杖 (Rune Staff)', stats: 'MATK +175 · 魔力+15 · 咏唱加速+30%', source: '孤岛斗技场 12,000 BP 终极大奖', effect: '全白魔法与时空禁术效能 ×1.5；普攻消耗 5 MP 自动转化为圣属性穿甲真实伤害。' },
+  { name: '诸神之铠 (Ragnarok Armor)', stats: 'DEF +75 · MDEF +60', source: '次元之隙 机械瀑布宝箱 (欧米茄巡逻区)', effect: '常驻白刃战减伤 30% 与全异常免疫；受到火/水/雷/冰伤害吸收 20% 转化为 HP。' },
+  { name: '正宗 (Masamune)', stats: 'ATK +168 · 敏捷+20', source: '月之地下溪谷 8F 祭坛守护战', effect: '战斗先制先攻特权（开局必定最先行动，甚至先于神龙大海啸）；使用道具指令自动施放 Haste。' }
+]
+
+const vol05ProtagonistWeapons = [
+  { hero: '黎川 / Sol', heroId: 'sol', weapon: '晨辉圣剑 (Excalibur Prime)', type: '单手圣剑', dungeon: '晨辉王都始源圣所', effect: '天翔闪光斩追加破甲贯穿；全属性 +8；对不死系与恶魔伤害 ×2.0。' },
+  { hero: '纳哈特 / Nacht', heroId: 'nahart', weapon: '终焉诸神之黄昏 (Ragnarok)', type: '漆黑大剑', dungeon: '始源虚无深渊试炼', effect: '暗黑战技伤害提升 40%~50% (ECO-C02)，平砍附带吸魂，攻击必定破除物理护盾。' },
+  { hero: '卫珩 / Glaive', heroId: 'glaive', weapon: '泰空神盾 (Aegis Bastion)', type: '巨神之盾', dungeon: '泰空古陵墓守关战', effect: '舍身守护 (Cover) 触发时自身减伤 70%，并反弹 30% 伤害给攻击者。' },
+  { hero: '昼隐 / 塞拉 / Sarah', heroId: 'serah', weapon: '全知贤者之杖 (Sage Staff)', type: '祭祀长杖', dungeon: '密西迪亚大魔道院', effect: '施展治疗魔法时自动向全队施加【神圣护盾】；复活术变为 100% 满血复生。' },
+  { hero: '艾吉斯 / Aigis', heroId: 'aigis', weapon: '龙王极枪 (Dragon Whisker)', type: '双手长枪', dungeon: '龙栖岭天界之巅', effect: '跳跃滞空时间减半，下坠落枪造成 400% 龙属贯穿暴击。' }
+]
+
+const vol05ShopTiers = [
+  { tier: 'T1', town: '宁静村 (新手村)', weaponRange: '50 ~ 300 Gil', armorRange: '30 ~ 250 Gil', consumables: '回复药 30G · 解毒草 20G' },
+  { tier: 'T2', town: '沃鲁斯城 / 海港', weaponRange: '400 ~ 1,500 Gil', armorRange: '300 ~ 1,200 Gil', consumables: '以太 300G · 凤凰尾羽 500G' },
+  { tier: 'T3', town: '卡尔纳克 (蒸汽城)', weaponRange: '1,800 ~ 5,000 Gil', armorRange: '1,500 ~ 4,500 Gil', consumables: '高级回复药 360G · 3阶魔法' },
+  { tier: 'T4', town: '穆亚森林 / 帝国都市', weaponRange: '6,000 ~ 15,000 Gil', armorRange: '5,000 ~ 12,000 Gil', consumables: '万灵药 ✘ (不售卖，仅掉落/赌场 500代币)' },
+  { tier: 'T5', town: '幻影之村禁忌黑市', weaponRange: '20,000 ~ 60,000 Gil', armorRange: '18,000 ~ 50,000 Gil', consumables: '高级以太 1,500G · 5~6阶至高黑白魔法' }
+]
+
+const vol05Disambiguations = [
+  { code: 'ECO-C01', topic: '诸神之黄昏通用版 vs 纳哈特专属版', resolution: '拆分为次元神龙掉落的通用版 Ragnarok (ATK+180) 与 49 层深渊奖励的纳哈特专属「终焉诸神之黄昏·改 (ATK+200)」。' },
+  { code: 'ECO-C02', topic: '纳哈特暗黑战技加成 40% vs 50%', resolution: '深渊初始试炼态为 +40%，完成 49 层倒序深渊突破为「·改」后升格为 +50%。' },
+  { code: 'ECO-C03', topic: '药师调合配方表与 mixRecipes.ts 同源', resolution: '合并 VOL.05 §2 六大禁忌灵药（生体龙之灵药、龙之力 Lv+20、生命祝福 Reraise 等）与站点配方库。' },
+  { code: 'ECO-C04', topic: '万灵药 (Elixir) 获取渠道限制', resolution: 'T4 常规商店不直接售卖万灵药，统一收口于首领掉落、斗技场 1→3 置换与娱乐城 500 代币兑换。' },
+  { code: 'ECO-C05', topic: '防火之盾 Aegis Shield 与主角艾吉斯命名区分', resolution: '库扎 W11 封印盾使用 Flame/Aegis Ward 标识，卫珩专属巨盾定名「泰空神盾 (Aegis Bastion)」，主角龙骑定名「艾吉斯 (aigis)」。' }
+]
 
 </script>
 

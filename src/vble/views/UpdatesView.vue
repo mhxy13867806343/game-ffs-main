@@ -210,6 +210,28 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-equipment-vol05-relic-contract-v373-2026-11-07',
+    version: 'v2.2.373',
+    date: '2026-11-07',
+    title: '神兵矩阵工坊实装 VOL.05 五大超越神兵、五大主角专属圣器与 T1~T5 商店价格带 / ECO-C01~05 消歧台',
+    category: 'equipment',
+    categoryName: '超越神兵与主角圣器契约',
+    icon: '🗡️',
+    tagType: 'success',
+    description: '响应《VOL.05 神兵矩阵、炼金调合与宏观经济》§1.1/§1.2/§5/§7 工程附录对齐：在神兵矩阵页面 (/vble/equipment) 实装「VOL.05 终焉超越神兵、五大主角专属传说圣器与 T1~T5 商店价格带 / ECO-C01~05 消歧工坊」。完整收录诸神之黄昏 (ATK+180)、终焉诸神之黄昏·改 (ATK+200)、诸神之杖、诸神之铠与正宗（开局先制特权），对齐黎川/纳哈特/卫珩/昼隐/艾吉斯 (`sol/nahart/glaive/serah/aigis`) 五大主角专属武器，并明确 T1~T5 商店价格带与 ECO-C01~05 跨文档消歧方案。',
+    highlights: [
+      '实装 VOL.05 §1.1 五大终焉超越神兵参数卡（含正宗 ATB 满格先攻特权与诸神之铠 20% 四元素吸收）',
+      '实装 §1.2 五大主角个人专属神兵（晨辉圣剑、终焉诸神之黄昏、泰空神盾、全知贤者之杖、龙王极枪）并映射 WLD-C02 标准角色 ID',
+      '实装 §5.1 T1（宁静村）至 T5（幻影之村禁忌黑市）五阶城镇商店武器/防具价格带与消耗品规范表',
+      '完整梳理 §7 ECO-C01~ECO-C05 五项跨文档命名、万灵药渠道与调合配方消歧裁定说明'
+    ],
+    relatedLinks: [
+      { label: '神兵矩阵工坊', path: '/vble/equipment', icon: '🗡️' },
+      { label: '神兵与经济白皮书 (VOL.05)', path: '/vble/docs/05_EQUIPMENT_ECONOMY', icon: '📖' },
+      { label: '宏观经济与贸易', path: '/vble/economy', icon: '🪙' }
+    ]
+  },
+  {
     id: 'up-home-27vol-omni-contract-hub-v372-2026-11-07',
     version: 'v2.2.372',
     date: '2026-11-07',
