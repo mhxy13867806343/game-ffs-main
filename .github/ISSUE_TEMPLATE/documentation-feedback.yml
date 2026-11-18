@@ -1,0 +1,155 @@
+name: 📚 文档反馈
+description: 报告文档问题或提出文档改进建议
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您帮助改进项目文档！无论是错别字、不清晰的说明，还是缺失的内容，您的反馈都很有价值。
+        
+  - type: dropdown
+    id: feedback-type
+    attributes:
+      label: 反馈类型
+      description: 您的反馈属于哪种类型？
+      options:
+        - 文档错误（错别字、语法错误、技术错误）
+        - 内容不清晰或令人困惑
+        - 缺失的文档或主题
+        - 文档改进建议
+        - 文档结构优化
+        - 示例代码问题
+        - 其他
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: doc-section
+    attributes:
+      label: 相关文档
+      description: 此反馈涉及哪部分文档？
+      options:
+        - 项目 README
+        - 《裂空之羽》策划设计文档
+        - 技术白皮书 - 游戏设计总纲 (VOL.25)
+        - 技术白皮书 - 研发规程规范 (VOL.26)
+        - 技术白皮书 - 跨界魔物大典 (VOL.27)
+        - 技术白皮书 - 其他卷
+        - 核心架构与系统机制文档
+        - 更新演进与时间线
+        - 其他在线文档
+    validations:
+      required: true
+      
+  - type: input
+    id: doc-url
+    attributes:
+      label: 文档链接
+      description: 请提供具体的文档页面链接
+      placeholder: https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/...
+    validations:
+      required: false
+      
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: 问题描述
+      description: 请详细描述文档中存在的问题或需要改进的地方
+      placeholder: |
+        在 VOL.26 研发规程规范的第 3.2 节中，关于组件命名规范的说明与实际代码实现不一致...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: current-content
+    attributes:
+      label: 当前内容
+      description: 如果适用，请引用或粘贴当前的文档内容
+      placeholder: |
+        > 组件命名应使用 kebab-case 格式
+      render: markdown
+    validations:
+      required: false
+      
+  - type: textarea
+    id: suggested-content
+    attributes:
+      label: 建议的内容
+      description: 请提供您建议的改进内容或修正后的文本
+      placeholder: |
+        建议修改为：
+        > 组件命名应使用 PascalCase 格式，如 GameCard.vue、FeatherHeader.vue
+        
+        并补充说明：
+        - 组件文件名使用 PascalCase
+        - 组件注册和使用时可以使用 kebab-case
+    validations:
+      required: false
+      
+  - type: textarea
+    id: missing-content
+    attributes:
+      label: 缺失的内容
+      description: 如果您认为文档缺少某些重要内容，请说明应该添加什么
+      placeholder: |
+        建议在技术白皮书中添加关于以下主题的文档：
+        - 游戏状态管理的最佳实践
+        - 性能优化指南
+        - 本地开发环境配置详解
+    validations:
+      required: false
+      
+  - type: textarea
+    id: code-examples
+    attributes:
+      label: 代码示例
+      description: 如果适用，请提供代码示例来说明问题或建议
+      placeholder: |
+        ```typescript
+        // 建议添加此类型定义的说明
+        interface GameState {
+          level: number;
+          score: number;
+        }
+        ```
+      render: markdown
+    validations:
+      required: false
+      
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重程度
+      description: 这个文档问题对用户的影响程度
+      options:
+        - 低 - 小的改进或优化
+        - 中 - 影响理解但有变通方法
+        - 高 - 严重的错误或缺失关键信息
+    validations:
+      required: true
+      
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 附加信息
+      description: 提供任何其他有助于理解此文档反馈的信息
+      placeholder: |
+        - 您是在什么场景下发现这个问题的？
+        - 这个问题给您的使用带来了什么困扰？
+        - 有没有其他项目的文档可以作为参考？
+    validations:
+      required: false
+      
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 确认事项
+      description: 在提交之前，请确认以下内容
+      options:
+        - label: 我已经搜索过现有的文档反馈 Issues，确认这不是重复报告
+          required: true
+        - label: 我已经仔细阅读了相关的文档内容
+          required: true
+        - label: 如果是技术错误，我已经验证了正确的做法
+          required: false
