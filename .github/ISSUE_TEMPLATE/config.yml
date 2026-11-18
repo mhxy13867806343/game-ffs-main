@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 技术白皮书大典
+    url: https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs
+    about: 查看二十七卷技术白皮书，包含游戏设计总纲、研发规程规范等详细文档
+  - name: 🎮 在线预览体验
+    url: https://mhxy13867806343.github.io/game-ffs-main/#/
+    about: 访问游戏首页门户，体验《裂空之羽》和《最终幻想：时空之轮》
+  - name: 📝 游戏设计总纲大纲
+    url: https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/25_MASTER_GAME_DESIGN_DOCUMENT
+    about: 查看 VOL.25 游戏设计总纲大纲，了解核心设计理念
+  - name: 🔧 全域研发规程规范
+    url: https://mhxy13867806343.github.io/game-ffs-main/#/vble/docs/26_LATEST_DEV_SPEC
+    about: 查看 VOL.26 全域研发规程规范，了解技术实现标准
