@@ -24,7 +24,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '世界圣经与叙事世界观 (World Bible & Narrative Design)',
     category: '叙事架构',
     summary: '奠定泰空、巴尔、第三融合世界以及虚无次元的宇宙观与三大世代历史编年史，含 44 节拍主线追踪矩阵。',
-    keyFeatures: ['四大始源水晶法则', '艾克斯德斯千年起源', '44节拍主线追踪矩阵', '虚空裂隙坍缩原理'],
+    keyFeatures: ['四大始源水晶法则', '艾克斯德斯千年起源', '44节拍主线追踪矩阵', '虚空裂隙坍缩原理', 'WLD-C02 命名台账（未裁定）'],
     relatedRoute: { label: '史诗剧情编年史', path: '/vble/story', icon: '📜' }
   },
   {
@@ -51,7 +51,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '职业体系与转职成长 (Job System & Growth)',
     category: '角色成长',
     summary: '26 大职业矩阵、四水晶解锁批次、熟练度 AP 递增模型、自由人/模仿士全能力继承协议。',
-    keyFeatures: ['四水晶碎片解锁批次', 'AP职业等级成长表', '二刀流与乱打双持', '自由人/模仿士继承法则'],
+    keyFeatures: ['四水晶碎片解锁批次', 'AP职业等级成长表', '二刀流与乱打双持', '自由人/模仿士继承法则', '门户对照：双持/融合/回忆士超限'],
     relatedRoute: { label: '职业转职矩阵', path: '/vble/jobs', icon: '🛡️' }
   },
   {
@@ -60,7 +60,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '神兵矩阵与宏观经济 (Equipment & Macro Economy)',
     category: '装备数值',
     summary: '十二封印神兵解封、七色尾巴神器兑换、五阶城邦物价价格带、BaseGold 阶梯与掷钱公式。',
-    keyFeatures: ['十二封印神兵解封', '五阶商店价格带矩阵', '回购折算与BaseGold', '钱投Gil Toss伤害公式'],
+    keyFeatures: ['十二封印神兵解封', '五阶商店价格带矩阵', '回购折算与BaseGold', '钱投Gil Toss伤害公式', '门户对照：禁忌调合双源'],
     relatedRoute: { label: '宏观经济与贸易', path: '/vble/economy', icon: '🪙' }
   },
   {
@@ -78,7 +78,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '十大支线、迷你游戏与秘宝 (Sidequests & Secrets)',
     category: '隐藏探索',
     summary: '莫古利网络、八大名琴试炼、蜃气楼幻村、支线状态机与金碟赌场/斗技场数值法则。',
-    keyFeatures: ['十大支线完整数据表', '支线推进状态机', '斗技场与金碟赌场公式', '奥丁 1 分钟限时斩铁'],
+    keyFeatures: ['十大支线完整数据表', '支线推进状态机', '斗技场与金碟赌场公式', '奥丁 1 分钟限时斩铁', '门户对照：SQ-01 只读资料卡'],
     relatedRoute: { label: '支线寻宝与秘闻', path: '/vble/sidequests', icon: '🧭' }
   },
   {
@@ -87,7 +87,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '游戏系统架构与三层持久化 (System Architecture)',
     category: '系统底层',
     summary: 'Godot 4.x 状态机、ATB 战斗循环调度、存档 Schema 迁移链、通关评级公式与错误码规范。',
-    keyFeatures: ['ATB 动态蓄力管线', '存档Schema迁移链', '通关评级计分公式', '持久化错误码与恢复'],
+    keyFeatures: ['ATB 动态蓄力管线', '存档Schema迁移链', '通关评级计分公式', '持久化错误码与恢复', '门户对照：跳字徽章推演'],
     relatedRoute: { label: '核心系统架构室', path: '/vble/systems', icon: '⚙️' }
   },
   {
@@ -132,7 +132,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '勇者圣所庇护法与神圣绝技 (Hero Sanctuary Contract)',
     category: '导师秘传',
     summary: '圣骑士 25% 舍身庇护机制与神圣十字斩净化法则及实机传授契约速查附录。',
-    keyFeatures: ['红血舍身绝对援护', '神圣十字斩净化契约', '圣水药水双倍增幅', '骑士誓约光环'],
+    keyFeatures: ['红血舍身绝对援护', '神圣十字斩净化契约', '圣水药水双倍增幅', '骑士誓约光环', 'WLD-C02 命名对照指针'],
     relatedRoute: { label: '四大导师秘传馆', path: '/vble/teachings', icon: '🏛️' }
   },
   {
@@ -150,7 +150,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '东洋忍者遁术秘传契约 (Ninja Teaching Contract)',
     category: '忍术流派',
     summary: '影之刃首领传承的 v1 二刀流与 5 大永久忍术契约、影分身绝对闪避与金蝉脱壳退避。',
-    keyFeatures: ['5大永久忍术契约表', '影分身 2 次物理免疫', '手里剑极速投掷', 'v1二刀流双持协议'],
+    keyFeatures: ['5大永久忍术契约表', '影分身 2 次物理免疫', '手里剑极速投掷', 'v1二刀流双持协议', '门户双持对照（非引擎 v1）'],
     relatedRoute: { label: '四大导师秘传馆', path: '/vble/teachings', icon: '🥷' }
   },
   {

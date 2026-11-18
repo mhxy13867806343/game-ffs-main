@@ -210,6 +210,35 @@ interface UpdateRecord {
 
 const updateList: UpdateRecord[] = [
   {
+    id: 'up-docs-portal-crosswalk-2026-11-18',
+    version: 'docs-2026-11-18',
+    date: '2026-11-18',
+    title: '白皮书补登官网推演对照：记录已上线门户台账，不新增玩法或引擎实现',
+    category: 'system',
+    categoryName: '白皮书文档更新',
+    icon: '📖',
+    tagType: 'info',
+    description:
+      '本条是文档更新，不是新的游戏版本，也不是新的引擎或玩法实装。2026-11-18 已把既有官网推演台的对照说明写入相关白皮书，用来区分已上线门户推演、设计合同与仍待裁定的口径（包括 WLD-C02 命名映射、48 对 21 职业等）。未改业务模拟器，也未把推演台特有算法写成合同。阅览室使用 Hash 路由，章节标题只有页内目录跳转，本条只链到各卷文档页，不造章级锚点。',
+    highlights: [
+      'VOL.01：新增 WLD-C02 候选命名台账（§9），冲突仍未关闭',
+      'VOL.04：§11–§13 记录真双持/转职、融合技与青魔法、回忆士 128 碎片与 Lv>255 推演对照；35/30 预览和 HP×6 只存在于推演台',
+      'VOL.05：禁忌调合双源台账；ECO-C03 仍未裁定',
+      'VOL.07 / VOL.08：SQ-01 只读资料卡与跳字徽章推演对照',
+      'VOL.13 / VOL.15：仅保留指针或附录，分别指向命名台账与门户双持对照（并非把引擎 v1 改写成官网规则）'
+    ],
+    relatedLinks: [
+      { label: '白皮书目录', path: '/vble/docs', icon: '📚' },
+      { label: 'VOL.01 世界圣经', path: '/vble/docs/01_WORLD_BIBLE', icon: '📖' },
+      { label: 'VOL.04 职业体系', path: '/vble/docs/04_JOB_SYSTEM', icon: '💎' },
+      { label: 'VOL.05 神兵与经济', path: '/vble/docs/05_EQUIPMENT_ECONOMY', icon: '🪙' },
+      { label: 'VOL.07 支线秘宝', path: '/vble/docs/07_SIDEQUESTS_SECRETS', icon: '🧭' },
+      { label: 'VOL.08 系统架构', path: '/vble/docs/08_SYSTEM_ARCHITECTURE', icon: '⚙️' },
+      { label: 'VOL.13 英灵圣所', path: '/vble/docs/13_HERO_SANCTUARY', icon: '🏛️' },
+      { label: 'VOL.15 忍者秘传', path: '/vble/docs/15_NINJA_TEACHING', icon: '🥷' }
+    ]
+  },
+  {
     id: 'up-armory-vol04-vol15-dualwield-jobswitch-v378-2026-11-07',
     version: 'v2.2.378',
     date: '2026-11-07',
