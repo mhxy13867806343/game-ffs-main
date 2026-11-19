@@ -24,7 +24,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '世界圣经与叙事世界观 (World Bible & Narrative Design)',
     category: '叙事架构',
     summary: '奠定泰空、巴尔、第三融合世界以及虚无次元的宇宙观与三大世代历史编年史，含 44 节拍主线追踪矩阵。',
-    keyFeatures: ['四大始源水晶法则', '艾克斯德斯千年起源', '44节拍主线追踪矩阵', '虚空裂隙坍缩原理', 'WLD-C02 命名台账（未裁定）'],
+    keyFeatures: ['四大始源水晶法则', '艾克斯德斯千年起源', '44节拍主线追踪矩阵', '虚空裂隙坍缩原理', '门户对照：WLD-C02 命名台账（未裁定）'],
     relatedRoute: { label: '史诗剧情编年史', path: '/vble/story', icon: '📜' }
   },
   {
@@ -150,7 +150,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '东洋忍者遁术秘传契约 (Ninja Teaching Contract)',
     category: '忍术流派',
     summary: '影之刃首领传承的 v1 二刀流与 5 大永久忍术契约、影分身绝对闪避与金蝉脱壳退避。',
-    keyFeatures: ['5大永久忍术契约表', '影分身 2 次物理免疫', '手里剑极速投掷', 'v1二刀流双持协议', '门户双持对照（非引擎 v1）'],
+    keyFeatures: ['5大永久忍术契约表', '影分身 2 次物理免疫', '手里剑极速投掷', 'v1二刀流双持协议', '门户对照：双持对照（非引擎 v1）'],
     relatedRoute: { label: '四大导师秘传馆', path: '/vble/teachings', icon: '🥷' }
   },
   {
@@ -240,7 +240,7 @@ export const whitepapersList: WhitepaperDoc[] = [
     title: '游戏设计总纲与三大支柱 (Master Game Design Document)',
     category: '顶层总纲',
     summary: '汇聚 27 卷主目录总表、5 层架构有向无环图 (DAG)、裁决优先级法则与全域一致性台账。',
-    keyFeatures: ['27卷主目录全景矩阵', '5层架构依赖DAG', '冲突裁决优先级法则', '全域数值一致性台账'],
+    keyFeatures: ['27卷主目录全景矩阵', '5层架构依赖DAG', '冲突裁决优先级法则', '全域数值一致性台账', '门户对照：阅览室检索与跳转说明'],
     relatedRoute: { label: '核心系统架构室', path: '/vble/systems', icon: '🏛️' }
   },
   {
