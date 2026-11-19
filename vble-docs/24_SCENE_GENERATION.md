@@ -170,6 +170,8 @@ const PALETTE_CONFIGS := {
 | Ch.26 ~ 27 | 综合（决战） | 第十一章·八重裂隙 | `ch11_eight_rifts` ~ `ch11_empty_armor` | `void_rift`, `new_crystal`, `void_gate` |
 | Ch.28 ~ 30 | 综合（终焉） | 第十二章·终焉神道 | `ch12_vata_path` ~ `ch12_epilogue` | `void_core`, `void_throne`, `world_rebirth` |
 
+> 官网三十章↔44 节拍映射桥对照见本卷 **八**。那是压缩后的静态表，**不**替代本表，也不关闭《01_WORLD_BIBLE.md》WLD-C01。WLD-C02 命名台账仍见该卷 §9，此处不涉及。
+
 ---
 
 ## 六、场景动态实例化与切图状态机
@@ -196,6 +198,8 @@ stateDiagram-v2
 | `PALETTE_CRYSTAL` | Ch.27 新晶重铸 | `(1.12, 1.10, 1.18, 1.0)` | `(0.12, 0.18, 0.30, 0.35)` | `1.20` | `false` | `crystal_radiant` |
 | `PALETTE_EMPIRE` | Ch.28 空甲帝都 | `(0.85, 0.62, 0.55, 1.0)` | `(0.15, 0.05, 0.05, 0.75)` | `0.75` | `true` | `empire_iron` |
 
+> 官网补充色盘与切图步骤条文对照见本卷 **八**。展示不等于切图或色盘运行时，也不能写成 SCN-AC-01～05 已通过。
+
 ---
 
 ## 七、验收标准 (Acceptance Criteria)
@@ -207,3 +211,40 @@ stateDiagram-v2
 | SCN-AC-03 | 剧情 Boss 遭遇战（带 `encounter_id`）100% 禁止逃跑 | 在任意剧情首领战尝试执行逃跑指令或烟雾弹，返回「无法逃离」提示 |
 | SCN-AC-04 | 场景切换黑幕过渡与音频交叉淡入无泄漏、无残留旧图触发器 | 连续切换 `story_map.tscn` 50 次，节点树中无孤儿触发器，内存占用稳定 |
 | SCN-AC-05 | 30 章编号与 44 节拍追踪 ID 按 §五 映射一致 | 任意节拍推进时，世界地图 HUD 显示的篇章色盘与目标地图完全吻合 |
+
+> 官网页签虽列出 SCN-AC-01 / 02 / 05 与 WLD-AC，对照见 **八**：映射被合并成 10 行，色盘与切图只是卡片和条文，不能写成验收已通过。
+
+
+---
+
+## 八、门户站点对照：三十章↔44 节拍桥与补充色盘（非引擎运行时）
+
+> 官网剧情页工坊（v2.2.369，`#vol01-10-24-story-contract-studio`）对照本卷第五～七节。映射页签是静态表，色盘是两张参数卡，切图状态机只是条文，**不是**节拍推进、切图或渲染运行时。页签上的 WLD-AC / SCN-AC 编号**不能**写成已通过。地月五行乘区推演见《10_CRYSTALS_ELEMENTS.md》**§8**。主角命名 WLD-C02 仍以《01_WORLD_BIBLE.md》**§9** 为准，本工坊不涉及，此处不重复。
+
+- **入口**：[`/vble/story#vol01-10-24-story-contract-studio`](https://mhxy13867806343.github.io/game-ffs-main/#/vble/story#vol01-10-24-story-contract-studio)
+- **实现位置**：`src/vble/views/StoryView.vue`（`vol24ChapterBeatBridge` / `vol24ExtraPalettes`）
+
+### 8.1 已实现（官网展示）
+
+| 合同 | 官网行为 | 说明 |
+| :--- | :--- | :--- |
+| 第五节 30 章↔44 节拍映射 | 可见 Ch.01 至 Ch.30 的分组、部分 `act` / `beat_id` 起讫与若干共享 `map_id` | **不在此重复本表**。台上把第五节的 14 行压成 10 行：Ch.10～11 与 Ch.12 合成「DARK/LIGHT」；Ch.13～15 与 16～18、Ch.21～22 与 23～25、Ch.26～27 与 28～30 同样被合并。权威分组、色盘属性与地图仍以本节为准 |
+| 未写入本表的台上增补 | 部分行加了「N拍」和「跨卷门禁绑定」 | 拍数括注不是对本表的重新计数（Ch.01 写成 7 拍，若把区间当闭区间会与下一行单独列出的 `ch01_harmonia_prison` 重叠，第五节本身也是「区间 + 暗线分支」并列）。门禁句如「`has_ship()` 联动 VOL.23」、风祀台 / 古王陵 / 8 人编队等只是标注，不能当成新的门禁合同，也不能写成 WLD-AC-02 / 03 或 SCN-AC-02 已通过 |
+| 地图 ID 缩写或更名 | 部分合并行少列或改写了地图 | 例如 Ch.04～05 未列 `gaofeng_tower`；Ch.10～12 未列 `ash_keep_inner`；Ch.13～18 未列 `factory_lab`、`sand_moon_stage`、`sand_moon_slum`；Ch.21～25 写成 `mysidia_city` / `mysidia_tower`，本表是 `mysidia`、`lufenia_ruins`、`twilight_world`，且未列 `shadow_hall`；Ch.26～30 未列 `new_crystal`、`void_gate`、`void_throne`。一律以本节原文为准 |
+| 6.1 补充色盘 | `PALETTE_CRYSTAL` / `PALETTE_EMPIRE` 的章节、`modulate`、`ambient_light`、`vignette`、`hud_theme` 与本表一致 | 卡片没有列出 `shadow_color`。这不是 §2.2 全 30 章 `PALETTE_CONFIGS` 巡检，不能写成 SCN-AC-01 已通过 |
+| 第六节切图状态机 | 文案列出 RequestTransition 至 Ready（含 0.3s 卸图、0.8s 交叉淡入、Autosave Slot 0） | 没有可跑的状态机。省略了 Rejected 分支、0.3s 画面淡入，以及存档节流。SCN-AC-03 / 04 没有对应交互 |
+
+### 8.2 未纳入或不得误读
+
+| 对象 | 出处 | 当前状态 |
+| :--- | :--- | :--- |
+| 96 节拍概念大纲 vs 44 节拍实机稿 | 《01_WORLD_BIBLE.md》WLD-C01 | 工坊按 44 节拍陈列，冲突未关闭；§2 灵感稿仍保留 |
+| WLD-C02 主角命名 | 《01_WORLD_BIBLE.md》§9 | 本工坊不涉及，不重复台账 |
+| 同页 44 节拍雷达等其他模式 | `activeMode === 'radar'` 等 | **不属于**本契约工坊 |
+
+### 8.3 门户展示验收对照
+
+| 编号 | 验收项 | 判定方式（针对官网剧情工坊映射/色盘页签，不是引擎，亦不替代第五节） |
+| :--- | :--- | :--- |
+| SCN-PORTAL-01 | 映射桥覆盖 Ch.01～30 与 44 节拍起讫的大段对应 | 可见 10 行分组；核对细节必须回到第五节 14 行原文，不得以合并行或门禁括注改写合同 |
+| SCN-PORTAL-02 | 两张补充色盘的已列参数与 6.1 一致 | 可见 CRYSTAL / EMPIRE 的 modulate、环境光、vignette 与 HUD 键；缺 `shadow_color` 不以卡片为准 |

@@ -930,5 +930,7 @@ func try_unlock_vault_gate(selected_key_slot: int, party_members: Array[Node]) -
 - **SKR-AC-04（亡语自爆全灭与护盾减伤判定）**：在选项 2（死战）路线击杀 Boss 触发 `execute_death_throes_explosion` 时，挂有 `protect` 或 `shell` 的角色承伤精确乘以 `0.6`；若自爆后我方存活人数为 `0`，必须发出 `party_wiped_out` 信号而非判定胜利。
 - **SKR-AC-05（五匙随机洗牌与陷阱触发验证）**：多次生成战利品时，`is_genuine == true` 的钥匙在 `0..4` 槽位间均匀随机分布且每次恰有 `1` 把为真；使用假钥匙开锁时必定扣除存活队员 `35% MaxHP`、挂载 3 回合中毒并触发伏兵。
 
+> **门户对照短指针（非本卷重复正文）**：官网 `#drain-reaper-studio` 右栏对亡语公式与三向奖励的展示对照，写在《18_MULTI_PHASE_BOSS_SKILLS.md》**§9**（DRS-PORTAL-01–02）。那是单人承伤与奖励数字预览，不是战役运行时，也不能写成 SKR-AC 已通过。§9.2「自爆伤害削减 60%」与 §15.1「伤害减半」仍并存，本批不裁定。本工坊不是 VOL.03 天平裁决。六形态、分身、五匙不在该工坊。
+
 ---
 *本文档由策划与系统工程组联合归档，技术细节修改须经主程与主策会签。*
