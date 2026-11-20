@@ -96,7 +96,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="skyNpcStudioTab === 'sky15'
-              ? 'bg-cyan-500 text-white border-cyan-400 shadow-sm'
+              ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-sm'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="skyNpcStudioTab = 'sky15'"
           >
@@ -106,7 +106,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="skyNpcStudioTab === 'npc29'
-              ? 'bg-amber-500 text-white border-amber-400 shadow-sm'
+              ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="skyNpcStudioTab = 'npc29'"
           >
@@ -645,7 +645,7 @@
               type="button"
               class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
               :class="activePlanarScriptTab === st.key
-                ? 'bg-cyan-500 text-white border-cyan-400 font-bold'
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
                 : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
               @click="activePlanarScriptTab = st.key"
             >

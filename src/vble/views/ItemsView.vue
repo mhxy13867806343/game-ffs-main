@@ -41,13 +41,13 @@
           :aria-pressed="activeTab === tab.id"
           class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer border select-none flex items-center gap-1.5"
           :class="activeTab === tab.id
-            ? 'bg-cyan-500 text-white border-cyan-400 font-bold shadow-md shadow-cyan-500/20'
+            ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold shadow-md shadow-cyan-500/20'
             : 'bg-transparent text-gray-300 border-transparent hover:(text-white bg-slate-800)'"
           @click="activeTab = tab.id"
         >
           <span>{{ tab.icon }}</span>
           <span>{{ tab.name }}</span>
-          <span class="text-[10px] font-mono px-1.5 py-0.2 rounded-full" :class="activeTab === tab.id ? 'bg-cyan-900/40 text-white font-bold' : 'bg-slate-800 text-cyan-300'">
+          <span class="text-[10px] font-mono px-1.5 py-0.2 rounded-full" :class="activeTab === tab.id ? 'bg-cyan-900/40 text-slate-950 font-bold' : 'bg-slate-800 text-cyan-300'">
             {{ tab.count }}
           </span>
         </button>
@@ -469,7 +469,7 @@
               :key="cat"
               type="button"
               class="px-2 py-0.5 rounded text-[11px] transition-all"
-              :class="recipeFilter === cat ? 'bg-emerald-500 text-white font-bold' : 'bg-slate-900 text-gray-400 hover:text-white border border-slate-800'"
+              :class="recipeFilter === cat ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-gray-400 hover:text-white border border-slate-800'"
               @click="recipeFilter = cat"
             >
               {{ cat }}
@@ -844,7 +844,7 @@
               type="button"
               class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
               :class="activeScriptTab === st.key
-                ? 'bg-cyan-500 text-white border-cyan-400 font-bold'
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
                 : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
               @click="activeScriptTab = st.key"
             >

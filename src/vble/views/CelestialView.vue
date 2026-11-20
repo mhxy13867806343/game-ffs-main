@@ -1460,7 +1460,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeCelestialGodotTab === 'gravity' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCelestialGodotTab === 'gravity' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCelestialGodotTab = 'gravity'"
             >
               📄 celestial_gravity.gd
@@ -1468,7 +1468,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeCelestialGodotTab === 'singularity' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCelestialGodotTab === 'singularity' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCelestialGodotTab = 'singularity'"
             >
               📄 singularity_collapse_resolver.gd
@@ -1476,7 +1476,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeCelestialGodotTab === 'tidal_inversion' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCelestialGodotTab === 'tidal_inversion' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCelestialGodotTab = 'tidal_inversion'"
             >
               📄 void_tidal_inversion_engine.gd
@@ -1484,7 +1484,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeCelestialGodotTab === 'dark_energy' ? 'bg-rose-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCelestialGodotTab === 'dark_energy' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCelestialGodotTab = 'dark_energy'"
             >
               📄 dark_energy_tachyon_horizon.gd

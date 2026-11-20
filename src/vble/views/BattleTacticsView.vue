@@ -139,7 +139,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="vol11Vol12Tab === 'turn16'
-              ? 'bg-cyan-500 text-white border-cyan-400 shadow-sm'
+              ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-sm'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="vol11Vol12Tab = 'turn16'"
           >
@@ -149,7 +149,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="vol11Vol12Tab === 'rpsSlime'
-              ? 'bg-amber-500 text-white border-amber-400 shadow-sm'
+              ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="vol11Vol12Tab = 'rpsSlime'"
           >
@@ -600,7 +600,7 @@
                 <span v-if="hasWeakHit" class="px-2 py-0.5 rounded text-xs font-black bg-rose-600 text-white animate-bounce shadow">
                   WEAK!
                 </span>
-                <span v-if="hasCritHit" class="px-2 py-0.5 rounded text-xs font-black bg-amber-500 text-white shadow">
+                <span v-if="hasCritHit" class="px-2 py-0.5 rounded text-xs font-black bg-amber-500 text-slate-950 shadow">
                   CRIT!
                 </span>
               </div>

@@ -622,7 +622,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeDocGodotTab === 'registry' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeDocGodotTab === 'registry' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeDocGodotTab = 'registry'"
             >
               📄 whitepaper_registry.gd
@@ -630,7 +630,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeDocGodotTab === 'orchestrator' ? 'bg-amber-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeDocGodotTab === 'orchestrator' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeDocGodotTab = 'orchestrator'"
             >
               📄 architecture_codex_orchestrator.gd

@@ -105,7 +105,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="vol26Tab === 'commits'
-              ? 'bg-emerald-500 text-white border-emerald-400'
+              ? 'bg-emerald-500 text-slate-950 border-emerald-400'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="vol26Tab = 'commits'"
           >
@@ -115,7 +115,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="vol26Tab === 'routes'
-              ? 'bg-cyan-500 text-white border-cyan-400'
+              ? 'bg-cyan-500 text-slate-950 border-cyan-400'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="vol26Tab = 'routes'"
           >
@@ -377,7 +377,7 @@
                   type="button"
                   class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all text-center"
                   :class="simActiveMode === mode.id
-                    ? 'bg-amber-500 text-white border-amber-400 font-bold shadow'
+                    ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow'
                     : 'bg-slate-900 text-gray-300 border-slate-700 hover:bg-slate-800'"
                   @click="simActiveMode = mode.id"
                 >
@@ -455,7 +455,7 @@
           type="button"
           class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer border flex items-center gap-1.5 whitespace-nowrap select-none"
           :class="activeStatus === status.key
-            ? 'bg-amber-500 text-white border-amber-400 font-bold shadow-[0_0_12px_rgba(245,158,11,0.45)]'
+            ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow-[0_0_12px_rgba(245,158,11,0.45)]'
             : 'bg-slate-800 text-gray-200 border-slate-700 hover:bg-slate-700 hover:text-white'"
           @click="activeStatus = status.key"
         >
@@ -463,7 +463,7 @@
           <span>{{ status.label }}</span>
           <span
             class="text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold"
-            :class="activeStatus === status.key ? 'bg-amber-900/30 text-white' : 'bg-slate-900 text-amber-300 border border-slate-700'"
+            :class="activeStatus === status.key ? 'bg-amber-900/30 text-slate-950' : 'bg-slate-900 text-amber-300 border border-slate-700'"
           >
             {{ getStatusCount(status.key) }}
           </span>

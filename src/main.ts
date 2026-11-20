@@ -3,10 +3,10 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-// 引入 UnoCSS 虚拟模块
-import 'virtual:uno.css'
-// 引入全局定制样式
+// 引入全局定制样式（包含reset）
 import './assets/styles/global.css'
+// 引入 UnoCSS 虚拟模块（必须在reset之后，才能覆盖reset的button样式）
+import 'virtual:uno.css'
 import './assets/styles/vble.css'
 import './assets/styles/feather.css'
 

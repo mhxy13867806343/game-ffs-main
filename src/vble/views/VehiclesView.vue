@@ -134,7 +134,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol06StudioTab === 'matrix' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol06StudioTab === 'matrix' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol06StudioTab = 'matrix'"
           >
             🗺️ 七大载具参数与 9×7 地形矩阵 (§5)
@@ -142,7 +142,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol06StudioTab === 'landing' ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol06StudioTab === 'landing' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol06StudioTab = 'landing'"
           >
             ⚓ LandingCheck 停靠判定与 VH-01~06 验收 (§6-§7)
@@ -348,7 +348,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
-            :class="selectedVehicleId === veh.id ? 'bg-amber-400 text-white font-bold shadow-md' : 'bg-slate-800 text-amber-300 hover:bg-slate-750 border border-slate-700'"
+            :class="selectedVehicleId === veh.id ? 'bg-amber-400 text-slate-950 font-bold shadow-md' : 'bg-slate-800 text-amber-300 hover:bg-slate-750 border border-slate-700'"
             @click="selectForSimulation(veh.id)"
           >
             <span>{{ selectedVehicleId === veh.id ? '✓ 正在推演' : '🚀 载入巡航沙盘' }}</span>
@@ -1760,7 +1760,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'nav' ? 'bg-amber-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'nav' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'nav'"
             >
               vehicle_navigation_system.gd
@@ -1768,7 +1768,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'breeding' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'breeding' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'breeding'"
             >
               chocobo_breeding_system.gd
@@ -1776,7 +1776,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'warp' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'warp' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'warp'"
             >
               starship_warp_navigator.gd
@@ -1784,7 +1784,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'overdrive' ? 'bg-rose-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'overdrive' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'overdrive'"
             >
               vehicle_hyper_overdrive_engine.gd
@@ -1792,7 +1792,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'orbital' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'orbital' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'orbital'"
             >
               orbital_gravity_slingshot_engine.gd

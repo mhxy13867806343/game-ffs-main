@@ -460,7 +460,7 @@
               <div class="flex gap-2 pt-1">
                 <button
                   type="button"
-                  class="flex-1 py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-white font-bold text-xs transition-all cursor-pointer shadow"
+                  class="flex-1 py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-all cursor-pointer shadow"
                   @click="rollDropSimulation(currentTailDef.id)"
                 >
                   击杀并结算 (单抽)
@@ -840,7 +840,7 @@
               <div class="flex gap-2">
                 <button
                   type="button"
-                  class="flex-1 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-white font-bold text-xs transition-all disabled:opacity-50 cursor-pointer"
+                  class="flex-1 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-all disabled:opacity-50 cursor-pointer"
                   :disabled="isAuctionWon || playerGil < currentBidPrice + 500"
                   @click="bidAuction(500)"
                 >
@@ -1066,7 +1066,7 @@
               </button>
               <button
                 type="button"
-                class="py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-white font-black transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                class="py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 :disabled="isMarketLotSold || playerVault.gil < 20000"
                 @click="placePlayerBid(20000)"
               >
@@ -1588,7 +1588,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'alchemy' ? 'bg-amber-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'alchemy' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'alchemy'"
             >
               alchemist_mix_system.gd
@@ -1596,7 +1596,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'tail' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'tail' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'tail'"
             >
               tail_exchange_system.gd
@@ -1604,7 +1604,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'auction' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'auction' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'auction'"
             >
               black_market_auction_engine.gd
@@ -1612,7 +1612,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'finance' ? 'bg-rose-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'finance' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'finance'"
             >
               aether_macro_finance_engine.gd
@@ -1620,7 +1620,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'futures' ? 'bg-emerald-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'futures' ? 'bg-emerald-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'futures'"
             >
               spacetime_futures_settlement.gd
@@ -1628,7 +1628,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'amm' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'amm' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'amm'"
             >
               anti_inflation_liquidity_amm.gd

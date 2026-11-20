@@ -119,7 +119,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol07StudioTab === 'quests' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol07StudioTab === 'quests' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol07StudioTab = 'quests'"
           >
             📜 SQ-01~SQ-10 支线总表与 SQ-04 截止校验 (§5)
@@ -127,7 +127,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol07StudioTab === 'casino' ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol07StudioTab === 'casino' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol07StudioTab = 'casino'"
           >
             🏇 斗技场置换与陆行鸟赛跑赔率模拟器 (§6-§7)
@@ -1983,7 +1983,7 @@
               type="button"
               class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
               :class="activeBountyScriptTab === st.key
-                ? 'bg-cyan-500 text-white border-cyan-400 font-bold'
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
                 : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
               @click="activeBountyScriptTab = st.key"
             >
@@ -2015,7 +2015,7 @@
           type="button"
           class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer border select-none whitespace-nowrap"
           :class="activeFilter === cat.key
-            ? 'bg-cyan-500 text-white border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.45)]'
+            ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.45)]'
             : 'bg-slate-800 text-gray-200 border-slate-700 hover:(bg-slate-700 text-white)'"
           @click="activeFilter = cat.key"
         >

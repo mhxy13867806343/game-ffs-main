@@ -115,7 +115,7 @@
             :to="'/vble/docs/' + w.code"
             class="px-2.5 py-1 rounded text-xs transition-all font-mono"
             :class="w.code === doc.code
-              ? 'bg-cyan-500 text-white font-bold shadow-md shadow-cyan-500/20'
+              ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20'
               : 'bg-slate-950 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800'"
           >
             VOL.{{ String(w.volume).padStart(2, '0') }}
@@ -140,7 +140,7 @@
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-colors cursor-pointer border"
               :class="showOnlyAppendix
-                ? 'bg-amber-500 text-white font-bold border-amber-400'
+                ? 'bg-amber-500 text-slate-950 font-bold border-amber-400'
                 : 'bg-slate-950 text-amber-300 border-amber-500/40 hover:bg-slate-800'"
               @click="showOnlyAppendix = !showOnlyAppendix"
             >
@@ -167,7 +167,7 @@
             class="px-2.5 py-1 rounded text-xs transition-all text-left flex items-center gap-1.5 cursor-pointer border"
             :class="[
               activeHeadingId === h.id
-                ? 'bg-cyan-500 text-white font-bold border-cyan-400 shadow-sm'
+                ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400 shadow-sm'
                 : h.isAppendix
                   ? 'bg-amber-950/40 text-amber-300 border-amber-500/40 hover:bg-amber-900/50'
                   : h.level === 2

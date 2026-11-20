@@ -103,7 +103,7 @@
         type="button"
         class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap"
         :class="activeMode === mode.key
-          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_15px_rgba(6,182,212,0.35)]'
+          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(6,182,212,0.35)]'
           : 'bg-slate-900 text-gray-300 hover:bg-slate-800 hover:text-white border border-slate-800'"
         @click="activeMode = mode.key"
       >
@@ -111,7 +111,7 @@
         <span>{{ mode.label }}</span>
         <span
           v-if="mode.badge"
-          class="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-amber-500 text-white font-bold"
+          class="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-amber-500 text-slate-950 font-bold"
         >
           {{ mode.badge }}
         </span>
@@ -258,14 +258,14 @@
             :aria-pressed="activeCategory === cat.id"
             class="news-action px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer border flex items-center gap-1.5 whitespace-nowrap select-none"
             :class="activeCategory === cat.id
-              ? 'bg-cyan-500 text-white border-cyan-400 font-black shadow-[0_0_15px_rgba(6,182,212,0.5)]'
+              ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-[0_0_15px_rgba(6,182,212,0.5)]'
               : 'bg-slate-800/90 text-gray-200 border-slate-700 hover:bg-slate-700 hover:text-white'"
             @click="handleCategoryChange(cat.id)"
           >
             <span>{{ cat.name }}</span>
             <span
               class="text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold"
-              :class="activeCategory === cat.id ? 'bg-cyan-900/30 text-white' : 'bg-slate-900/90 text-cyan-300 border border-slate-700'"
+              :class="activeCategory === cat.id ? 'bg-cyan-900/30 text-slate-950' : 'bg-slate-900/90 text-cyan-300 border border-slate-700'"
             >
               {{ getCategoryCount(cat.id) }}
             </span>
@@ -1224,7 +1224,7 @@
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-                :class="activeCodeTab === 'bulletin' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeCodeTab === 'bulletin' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeCodeTab = 'bulletin'"
               >
                 game_event_bulletin_manager.gd
@@ -1232,7 +1232,7 @@
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-                :class="activeCodeTab === 'patch' ? 'bg-amber-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeCodeTab === 'patch' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeCodeTab = 'patch'"
               >
                 save_migration_patch_resolver.gd
@@ -1240,7 +1240,7 @@
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-                :class="activeCodeTab === 'chronicle' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeCodeTab === 'chronicle' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeCodeTab = 'chronicle'"
               >
                 world_chronicle_evolution_simulator.gd
@@ -1248,7 +1248,7 @@
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-                :class="activeCodeTab === 'broadcast' ? 'bg-emerald-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeCodeTab === 'broadcast' ? 'bg-emerald-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeCodeTab = 'broadcast'"
               >
                 spatiotemporal_broadcast_engine.gd

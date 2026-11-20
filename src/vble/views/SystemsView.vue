@@ -61,7 +61,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol08Vol25Tab === 'vol08' ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol08Vol25Tab === 'vol08' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol08Vol25Tab = 'vol08'"
           >
             💾 VOL.08 存档迁移 (v1→v5) 与通关评级计分器
@@ -69,7 +69,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol08Vol25Tab === 'vol25' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol08Vol25Tab === 'vol25' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol08Vol25Tab = 'vol25'"
           >
             🏛️ VOL.25 五层架构 DAG 与跨卷一致性总账

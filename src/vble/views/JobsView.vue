@@ -42,7 +42,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol04StudioTab === 'batches' ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol04StudioTab === 'batches' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol04StudioTab = 'batches'"
           >
             🔮 水晶解锁批次与Lv.1~8阈值 (JOB-AC-01/02)
@@ -50,7 +50,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol04StudioTab === 'calculator' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol04StudioTab === 'calculator' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol04StudioTab = 'calculator'"
           >
             ⚖️ AP 等级 / 继承池 max() / 转职 HP 比例模拟器 (JOB-AC-03~07)
@@ -182,7 +182,7 @@
         <button
           type="button"
           class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all"
-          :class="activeMainTab === 'catalog' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30' : 'text-gray-400 hover:text-white'"
+          :class="activeMainTab === 'catalog' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'catalog'"
         >
           📜 职业全典与精通继承 ({{ jobsList.length }}职)
@@ -190,7 +190,7 @@
         <button
           type="button"
           class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
-          :class="activeMainTab === 'studio' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30' : 'text-gray-400 hover:text-white'"
+          :class="activeMainTab === 'studio' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'studio'"
         >
           <span>⚡</span>
@@ -199,7 +199,7 @@
         <button
           type="button"
           class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
-          :class="activeMainTab === 'synergy' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          :class="activeMainTab === 'synergy' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'synergy'"
         >
           <span>🔮</span>
@@ -209,7 +209,7 @@
         <button
           type="button"
           class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
-          :class="activeMainTab === 'abp_mastery' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          :class="activeMainTab === 'abp_mastery' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'abp_mastery'"
         >
           <span>💎</span>
@@ -218,7 +218,7 @@
         <button
           type="button"
           class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
-          :class="activeMainTab === 'transcendence_tree' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          :class="activeMainTab === 'transcendence_tree' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'transcendence_tree'"
         >
           <span>🌟</span>
@@ -228,7 +228,7 @@
         <button
           type="button"
           class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
-          :class="activeMainTab === 'hyper_mastery_matrix' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          :class="activeMainTab === 'hyper_mastery_matrix' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'hyper_mastery_matrix'"
         >
           <span>✨</span>
@@ -238,7 +238,7 @@
         <button
           type="button"
           class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
-          :class="activeMainTab === 'omni_pioneer_matrix' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          :class="activeMainTab === 'omni_pioneer_matrix' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'omni_pioneer_matrix'"
         >
           <span>🌌</span>
@@ -248,7 +248,7 @@
         <button
           type="button"
           class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-1.5"
-          :class="activeMainTab === 'crystal_passive_rebirth' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
+          :class="activeMainTab === 'crystal_passive_rebirth' ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30 font-black' : 'text-gray-400 hover:text-white'"
           @click="activeMainTab = 'crystal_passive_rebirth'"
         >
           <span>🔮</span>
@@ -268,7 +268,7 @@
           :aria-pressed="selectedCrystal === c.id"
           class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold transition-all duration-200 border cursor-pointer select-none"
           :class="selectedCrystal === c.id
-            ? 'bg-cyan-500 text-white border-cyan-400 shadow-md shadow-cyan-500/30 font-black'
+            ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-md shadow-cyan-500/30 font-black'
             : 'bg-slate-800 text-gray-200 border-slate-700 hover:bg-slate-700 hover:text-white'"
           @click="selectedCrystal = c.id"
         >
@@ -1556,7 +1556,7 @@ static func resolve_battle_commands(hero: HeroData) -> Array[BattleAction]:
               <button
                 type="button"
                 class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-                :class="activeJobGodotTab === 'job_system' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeJobGodotTab === 'job_system' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeJobGodotTab = 'job_system'"
               >
                 📄 job_system.gd
@@ -1564,7 +1564,7 @@ static func resolve_battle_commands(hero: HeroData) -> Array[BattleAction]:
               <button
                 type="button"
                 class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-                :class="activeJobGodotTab === 'freelancer_passive' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeJobGodotTab === 'freelancer_passive' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeJobGodotTab = 'freelancer_passive'"
               >
                 📄 freelancer_passive_resolver.gd
