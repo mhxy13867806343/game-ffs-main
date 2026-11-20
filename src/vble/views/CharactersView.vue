@@ -1436,7 +1436,7 @@
               提供生产级宿命大誓约协同总线、灵魂共鸣管线与替补瞬登系统实机代码。
             </p>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
             <n-button
               v-for="codeTab in heroOathCodeTabs"
               :key="codeTab.id"
