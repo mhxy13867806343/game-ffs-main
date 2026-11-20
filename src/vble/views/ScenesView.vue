@@ -1762,7 +1762,7 @@
         <div class="font-bold text-teal-300 mb-1.5 flex items-center gap-1.5">
           <span>🚀</span> Godot功能更新（据开发通知）
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
           <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
             <div class="font-semibold text-amber-300">🏟️ 斗技场心支路</div>
             <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告从世界地图进入，场内可见冠军桂冠战旗界桩，从西口退出回安全落点</div>
@@ -1770,6 +1770,10 @@
           <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
             <div class="font-semibold text-cyan-300">⚙️ 蒸汽机舱支路</div>
             <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告从世界地图进入，上方检修长廊有黄铜压力检修界标，从西口回安全落点</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
+            <div class="font-semibold text-blue-300">⚓ 海角湾清剿场景</div>
+            <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告在船上按E开始清剿后，缺少探索快照时显示专属甲板背景；覆盖登船、战后回原船位、胜利清除标记和旧档重新开战</div>
           </div>
         </div>
         <div class="text-[10px] text-gray-500 italic">注：开发通知报告28条支路集成回归测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
