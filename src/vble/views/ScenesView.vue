@@ -1762,7 +1762,7 @@
         <div class="font-bold text-teal-300 mb-1.5 flex items-center gap-1.5">
           <span>🚀</span> Godot功能更新（据开发通知）
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5">
           <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
             <div class="font-semibold text-amber-300">🏟️ 斗技场心支路</div>
             <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告从世界地图进入，场内可见冠军桂冠战旗界桩，从西口退出回安全落点</div>
@@ -1775,8 +1775,24 @@
             <div class="font-semibold text-blue-300">⚓ 海角湾清剿场景</div>
             <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告在船上按E开始清剿后，缺少探索快照时显示专属甲板背景；覆盖登船、战后回原船位、胜利清除标记和旧档重新开战</div>
           </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
+            <div class="font-semibold text-purple-300">⚔️ 深渊竞技场训练</div>
+            <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告接待处发起训练单挑时，缺少探索快照时显示封闭石厅；退出和胜利均回到接待点，训练保持无奖励</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
+            <div class="font-semibold text-orange-300">🔥 蒸汽动力核心支路</div>
+            <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告已接入世界地图入口和安全返回，新增重型蒸汽动力熔炉界标桩</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
+            <div class="font-semibold text-emerald-300">🌊 沃水之塔支路</div>
+            <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告已接入世界地图进出和安全返回，新增碧海潮泉界标桩</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
+            <div class="font-semibold text-amber-300">⚓ 沉舟滩南跳板返船</div>
+            <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告南跳板现显示返船木标，沿原路线按E仍返回同一船位</div>
+          </div>
         </div>
-        <div class="text-[10px] text-gray-500 italic">注：开发通知报告28条支路集成回归测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
+        <div class="text-[10px] text-gray-500 italic">注：开发通知报告30条支路集成回归、返船专项、旧档冷读测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
       </div>
 
       <!-- 4 维世界拓扑与航标预设卡片 -->
