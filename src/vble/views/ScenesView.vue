@@ -1799,8 +1799,12 @@
             <div class="font-semibold text-cyan-300">🏛️ 海底神殿支路</div>
             <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告已接入世界地图进出与安全返回，新增深海潮汐神殿界标桩</div>
           </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
+            <div class="font-semibold text-teal-300">🌊 露莎排洪口支路</div>
+            <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告已接通世界地图出入与安全返回，新增潮位水文标尺桩</div>
+          </div>
         </div>
-        <div class="text-[10px] text-gray-500 italic">注：开发通知报告32条支路无头集成回归测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
+        <div class="text-[10px] text-gray-500 italic">注：开发通知先后报告海底神殿时点32条（e0c8bdb30）、露莎排洪口时点33条（71be8e046）支路无头集成回归测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
       </div>
 
       <!-- 小游戏与场景确认交互说明 -->
