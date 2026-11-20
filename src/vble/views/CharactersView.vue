@@ -1200,9 +1200,9 @@
           </span>
           <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
         </div>
-        <div class="flex items-center gap-2">
-          <!-- 双 Tab 切换 -->
-          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+        <div class="flex items-center gap-2 flex-wrap">
+          <!-- 三 Tab 切换 -->
+          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800 flex-wrap max-w-full">
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"

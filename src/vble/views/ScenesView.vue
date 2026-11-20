@@ -3,7 +3,7 @@
     <!-- 头部横幅 -->
     <div class="text-center">
       <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
-        <n-tag type="info" size="small" round class="shadow-sm">VBLE World Topology, Sky City 15-Scene Matrix &amp; 29-Resident Ledger Studio v2.2.358</n-tag>
+        <n-tag type="info" size="small" round class="shadow-sm max-w-full">VBLE World Topology, Sky City 15-Scene Matrix &amp; 29-Resident Ledger Studio v2.2.358</n-tag>
         <button
           type="button"
           class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all cursor-pointer shadow-sm"

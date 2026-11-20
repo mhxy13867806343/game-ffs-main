@@ -33,6 +33,9 @@ const { isCrtFilterActive } = useCrtFilter()
   flex-direction: column;
   background-color: #0b101d;
   color: #e5e7eb;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .vble-main-content {

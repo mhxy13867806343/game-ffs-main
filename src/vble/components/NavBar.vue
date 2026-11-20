@@ -1,6 +1,6 @@
 <template>
-  <header class="sticky top-0 z-[1000] bg-[#0b101d]/95 backdrop-blur-md border-b border-cyan-500/25 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-    <div class="max-w-[1560px] mx-auto px-3 py-1.5 md:(px-4 py-2 flex-row items-center justify-between gap-3) flex flex-col gap-1.5">
+  <header class="sticky top-0 z-[1000] bg-[#0b101d]/95 backdrop-blur-md border-b border-cyan-500/25 shadow-[0_4px_20px_rgba(0,0,0,0.5)] overflow-x-hidden">
+    <div class="max-w-[1560px] mx-auto px-3 py-1.5 md:(px-4 py-2 flex-row items-center justify-between gap-3) flex flex-col gap-1.5 min-w-0">
       <!-- 第一行（移动端品牌与右侧搜索）/ 桌面端左侧品牌 -->
       <div class="flex items-center justify-between w-full md:(w-auto flex-shrink-0)">
         <div class="flex items-center gap-2 flex-shrink-0">
@@ -69,7 +69,7 @@
       </div>
 
       <!-- 左右平滑滚动导航区域 (带渐变边缘遮罩、拖拽滑动与点击即刻居中) -->
-      <div class="w-full md:(flex-1 w-auto mx-2.5) flex items-center min-w-0 relative bg-slate-900/70 rounded-xl px-1.5 py-1 border border-cyan-500/15">
+      <div class="w-full md:(flex-1 w-auto mx-2.5) flex items-center min-w-0 relative bg-slate-900/70 rounded-xl px-1.5 py-1 border border-cyan-500/15 overflow-x-hidden">
         <!-- 左滚动按钮 (有可滚内容时高亮) -->
         <button
           class="w-7 h-[30px] flex items-center justify-center rounded-md cursor-pointer text-xl leading-none transition-all flex-shrink-0 p-0 z-2 select-none border"
