@@ -1072,7 +1072,8 @@
       </div>
 
       <!-- 场景三柱核心分页器：NPC 居民名录 VS 城镇商铺与货物 VS 出没生态怪物 VS 官方风土志 -->
-      <n-tabs v-model:value="activeContentTab" type="segment" class="bg-[#121626]/80 p-1 rounded-xl">
+      <div class="overflow-x-auto">
+        <n-tabs v-model:value="activeContentTab" type="segment" class="bg-[#121626]/80 p-1 rounded-xl min-w-0">
         <n-tab-pane name="npcs">
           <template #tab>
             <button type="button" class="scene-content-tab" :aria-pressed="activeContentTab === 'npcs'">
@@ -1101,8 +1102,10 @@
             </button>
           </template>
         </n-tab-pane>
-      </n-tabs>
+        </n-tabs>
+      </div>
 
+      <!-- 场景卡片全景窗（根据 activeContentTab 条件渲染）-->
       <!-- ================= 栏目一：常驻 NPC 居民名录 ================= -->
       <div v-if="activeContentTab === 'npcs'" class="space-y-4">
         <div class="flex items-center justify-between">
