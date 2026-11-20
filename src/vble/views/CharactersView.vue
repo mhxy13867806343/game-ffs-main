@@ -20,10 +20,10 @@
           <!-- NPC对话功能说明（按Godot实现报告）-->
           <div class="mt-3 p-2.5 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs text-gray-300 max-w-2xl">
             <div class="font-bold text-cyan-300 mb-1 flex items-center gap-1.5">
-              <span>💬</span> NPC对话肖像实装（Godot引擎实现）
+              <span>💬</span> Godot功能更新（据开发通知）
             </div>
             <div class="leading-relaxed">
-              宁静村村长阿鲁诺在序章主线完成后的重访日常回话中正式显示专属中性肖像；无头复谈与序章原首谈回归测试已通过
+              阿鲁诺在原村庄复谈时显示专属肖像；开发通知报告复谈与序章原首谈回归通过
             </div>
           </div>
         </div>
