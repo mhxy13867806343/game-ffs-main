@@ -212,7 +212,7 @@ stateDiagram-v2
 
 ## 8. 门户站点对照：特殊地宫机制卡片（非引擎运行时）
 
-> 官网地宫页工坊（v2.2.364，`#vol02-vol23-dungeon-contract-studio`）VOL.02 页签对照本卷 §2 / §5 / §7。它是五张静态说明卡，**没有** 600 秒倒计时、120 秒静置或熔岩步数滑杆，**不是**地宫或战斗运行时。卡片上印着「✅ 验收」并写上 DNG-AC 编号，**不能**据此写成验收已通过。DNG-C01 / C02 仍按 §6 待裁定。两座隐藏地宫与 `dungeonProgression.ts` 的差异仍以 **§4** 为准，本工坊未涉及，本批也不重开或裁定。陨星之礁对照见《23_RUIN_METEOR_REEF.md》附录 D。
+> 官网地宫页工坊（v2.2.364，`#vol02-vol23-dungeon-contract-studio`）VOL.02 页签对照本卷 §2 / §5 / §7。它是五张静态说明卡，**没有** 600 秒倒计时、120 秒静置或熔岩步数滑杆，**不是**地宫或战斗运行时。卡片上印着「✅ 验收」并写上 DNG-AC 编号，**不能**据此写成验收已通过。DNG-C01 / C02 仍按 §6 待裁定。两座隐藏地宫与 `dungeonProgression.ts` 的差异仍以 **§4** 为准，本工坊未涉及，本批也不重开或裁定。陨星之礁对照见 [《23_RUIN_METEOR_REEF.md》附录 D](#/vble/docs/23_RUIN_METEOR_REEF)。
 
 - **入口**：[`/vble/dungeons#vol02-vol23-dungeon-contract-studio`](https://mhxy13867806343.github.io/game-ffs-main/#/vble/dungeons#vol02-vol23-dungeon-contract-studio)
 - **实现位置**：`src/vble/views/DungeonsView.vue`（`vol02SpecialDungeonRules`）
@@ -239,5 +239,5 @@ stateDiagram-v2
 
 | 编号 | 验收项 | 判定方式（针对官网地宫工坊 VOL.02 页签，不是引擎，亦不关闭 DNG 清单） |
 | :--- | :--- | :--- |
-| DNG-PORTAL-01 | 五张卡覆盖卡尔纳克、分歧之塔、沉没水塔、大海沟、奈落主题 | 可见对应标题与 DNG-AC 编号；不得因印有「✅ 验收」视为 AC 通过 |
+| DNG-PORTAL-01 | 五张卡覆盖 Karnak 蒸汽城、分叉塔、沉没沃尔斯塔、大海沟、冥界主题 | 可见标题「Karnak 蒸汽城 10 分钟自毁逃脱」「分叉塔 (Fork Tower) 双队物理/魔法硬隔离」「沉没沃尔斯塔 420s 氧气与 Gogo 无为试炼」「大海沟 (Great Trench) 熔岩地形与正宗封印」「冥界 (Netherworld) 魂火不死再生契约」及对应 DNG-AC 编号；不得因印有「✅ 验收」视为 AC 通过；不以标题用词改写 §2 / §5 / §7 原文合同 |
 | DNG-PORTAL-02 | 本页签没有可跑的状态机 | 看不到 600 秒/120 秒计时或熔岩步数滑杆；上述偏离口径仍按 §2 / §5 / §7 原文，不以卡片为准 |
