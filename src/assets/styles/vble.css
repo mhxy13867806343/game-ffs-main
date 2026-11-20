@@ -41,7 +41,6 @@ body {
     color: var(--text-primary) !important;
     font-family: var(--font-body);
     min-height: 100vh;
-    overflow-x: hidden;
     position: relative;
     background-image: 
         radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.18) 0%, transparent 40%),

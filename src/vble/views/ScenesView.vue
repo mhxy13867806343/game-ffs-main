@@ -1,9 +1,9 @@
 <template>
-  <div class="scenes-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6">
+  <div class="scenes-page p-3 sm:p-5 max-w-7xl mx-auto space-y-6 min-w-0">
     <!-- 头部横幅 -->
     <div class="text-center">
       <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
-        <n-tag type="info" size="small" round class="shadow-sm">VBLE World Topology, Sky City 15-Scene Matrix &amp; 29-Resident Ledger Studio v2.2.358</n-tag>
+        <n-tag type="info" size="small" round class="shadow-sm" style="max-width: 100%; white-space: normal; text-align: center;">VBLE World Topology, Sky City 15-Scene Matrix &amp; 29-Resident Ledger Studio v2.2.358</n-tag>
         <button
           type="button"
           class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all cursor-pointer shadow-sm"
@@ -638,7 +638,7 @@
             <span class="text-cyan-400 font-bold text-sm">💻 Godot 4.6 LTS 位面拓扑与生态雷达实机脚本</span>
             <n-tag type="info" size="tiny" round>RefCounted 核心架构</n-tag>
           </div>
-          <div class="flex gap-2">
+          <div class="flex flex-wrap gap-2 min-w-0 max-w-full">
             <button
               v-for="st in planarScriptTabs"
               :key="st.key"
@@ -1072,7 +1072,8 @@
       </div>
 
       <!-- 场景三柱核心分页器：NPC 居民名录 VS 城镇商铺与货物 VS 出没生态怪物 VS 官方风土志 -->
-      <n-tabs v-model:value="activeContentTab" type="segment" class="bg-[#121626]/80 p-1 rounded-xl">
+      <div class="overflow-x-auto">
+        <n-tabs v-model:value="activeContentTab" type="segment" class="bg-[#121626]/80 p-1 rounded-xl min-w-0">
         <n-tab-pane name="npcs">
           <template #tab>
             <button type="button" class="scene-content-tab" :aria-pressed="activeContentTab === 'npcs'">
@@ -1101,8 +1102,10 @@
             </button>
           </template>
         </n-tab-pane>
-      </n-tabs>
+        </n-tabs>
+      </div>
 
+      <!-- 场景卡片全景窗（根据 activeContentTab 条件渲染）-->
       <!-- ================= 栏目一：常驻 NPC 居民名录 ================= -->
       <div v-if="activeContentTab === 'npcs'" class="space-y-4">
         <div class="flex items-center justify-between">
@@ -1483,7 +1486,7 @@
             覆盖雷暴极光、荒漠沙暴、霜冻暴雪与幽冥以太雨四大气候，支持 24 小时昼夜光影烘焙、气候属性动态共振与 Godot 4.6 LTS 底层漫游摄像机。
           </p>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
           <n-button size="small" round secondary type="info" @click="resetWeatherDefaults">
             <template #icon><span>↺</span></template>
             重置参数
@@ -1682,8 +1685,8 @@
             <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-xs font-mono font-bold">GODOT 4.6 LTS</span>
             <h3 class="text-sm font-bold text-white">场景昼夜光影与世界漫游引擎源码展台</h3>
           </div>
-          <div class="flex items-center gap-2">
-            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+          <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
+            <div class="flex flex-wrap bg-slate-900 rounded-lg p-0.5 border border-slate-800 min-w-0">
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs transition-colors"
@@ -1738,7 +1741,7 @@
             打通大陆原野、深渊地宫、深海以太与终焉裂隙四大拓扑场景。支持场景分块无缝流式双缓冲加载、BVH 层次包围盒碰撞实时重构、视锥体遮挡剔除与航标有向图防死锁折跃。
           </p>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
           <n-button size="small" round secondary type="info" @click="resetTopologyStudio">
             <template #icon><span>🔄</span></template>
             重置参数
@@ -2017,7 +2020,7 @@
               提供生产级大地图世界拓扑流式加载总监、场景多边形碰撞 BVH 树动态构建引擎与全域传送航标拓扑调度总线。
             </p>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
             <n-button
               v-for="codeTab in topologyCodeTabs"
               :key="codeTab.id"

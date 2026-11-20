@@ -1,5 +1,5 @@
 <template>
-  <div class="characters-page p-3 sm:p-6 max-w-7xl mx-auto space-y-8 text-gray-200">
+  <div class="characters-page p-3 sm:p-6 max-w-7xl mx-auto space-y-8 text-gray-200 min-w-0">
     <!-- 头部横幅 -->
     <div class="header-card p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900/90 to-indigo-950/80 border border-amber-500/30 shadow-[0_0_35px_rgba(245,158,11,0.18)] relative overflow-hidden">
       <div class="absolute -right-16 -top-16 w-56 h-56 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -1200,9 +1200,9 @@
           </span>
           <n-tag size="tiny" type="info">纯读安全 · 零内存泄漏</n-tag>
         </div>
-        <div class="flex items-center gap-2">
-          <!-- 双 Tab 切换 -->
-          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+        <div class="flex items-center gap-2 flex-wrap">
+          <!-- 三 Tab 切换 -->
+          <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800 flex-wrap max-w-full">
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
@@ -1436,7 +1436,7 @@
               提供生产级宿命大誓约协同总线、灵魂共鸣管线与替补瞬登系统实机代码。
             </p>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
             <n-button
               v-for="codeTab in heroOathCodeTabs"
               :key="codeTab.id"
@@ -1641,8 +1641,8 @@
             <span class="text-xs font-bold text-gray-300 font-mono">GODOT 4.6 LTS CONSTELLATION ENGINE</span>
             <n-tag size="small" type="info" round>res://scripts/combat/characters/</n-tag>
           </div>
-          <div class="flex items-center gap-2">
-            <n-radio-group v-model:value="activeConstellationScriptTab" size="small">
+          <div class="flex items-center gap-2 flex-wrap">
+            <n-radio-group v-model:value="activeConstellationScriptTab" size="small" class="flex-shrink min-w-0">
               <n-radio-button value="constellation_orbit">命座星轨引擎</n-radio-button>
               <n-radio-button value="bond_resonance">光暗羁绊总线</n-radio-button>
               <n-radio-button value="awakening_controller">超新星觉醒控制器</n-radio-button>

@@ -42,6 +42,7 @@ const { isCrtFilterActive } = useCrtFilter()
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
+  min-width: 0;
 }
 
 @media (min-width: 768px) {

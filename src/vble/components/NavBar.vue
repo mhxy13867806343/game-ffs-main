@@ -86,7 +86,7 @@
         <!-- 滚动轨道 (支持滚轮 + 触摸滑动 + 鼠标抓取拖拽) -->
         <div
           ref="scrollTrackRef"
-          class="flex-1 overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth flex items-center mx-1.5 cursor-grab [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mask-[linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)]"
+          class="flex-1 overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth flex items-center mx-1.5 cursor-grab min-w-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mask-[linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)]"
           :class="{ '!cursor-grabbing !scroll-auto select-none': isMouseDown }"
           @scroll.passive="updateScrollButtons"
           @wheel.passive="handleWheel"
