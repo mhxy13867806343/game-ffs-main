@@ -26,6 +26,8 @@
           <div>• <strong class="text-amber-300">炮手装填窗口</strong>：开发通知报告方向键焦点保持在装填选项内，不跳转至背后技能说明面板</div>
           <div>• <strong class="text-purple-300">忍者投掷复核</strong>：开发通知报告方向键留在当前选择层</div>
           <div>• <strong class="text-teal-300">职业操作层</strong>：开发通知报告上下键仅切换当前职业的操作选项；装备复核取消后先返回操作层，再次取消才恢复原职业卡片焦点</div>
+          <div>• <strong class="text-rose-300">禁逃战快捷菜单</strong>：开发通知报告跳过禁用逃跑键，普通可逃战仍可用</div>
+          <div>• <strong class="text-blue-300">回忆点分配方向键</strong>：开发通知报告留在当前可用控件不跳露营页</div>
         </div>
       </div>
     </div>

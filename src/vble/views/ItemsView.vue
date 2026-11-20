@@ -32,11 +32,13 @@
       </p>
       <!-- 键盘交互功能说明（按Godot实现报告）-->
       <div class="mt-3 p-3 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs text-gray-300 max-w-4xl mx-auto">
-        <div class="font-bold text-emerald-300 mb-1.5 flex items-center gap-1.5">
+        <div class="font-bold text-emerald-300 mb-2 flex items-center gap-1.5">
           <span>⌨️</span> Godot功能更新（据开发通知）
         </div>
-        <div class="leading-relaxed">
-          调合配方窗口内，开发通知报告左右方向键焦点保持在当前配方选项窗口内移动，不跳转至背后战斗菜单；配方阅读与战斗调合取消操作焦点守卫通过
+        <div class="space-y-1.5 leading-relaxed">
+          <div>• <strong class="text-cyan-300">调合配方窗口</strong>：开发通知报告左右方向键焦点保持在当前配方选项窗口内移动，不跳转至背后战斗菜单；配方阅读与战斗调合取消操作焦点守卫通过</div>
+          <div>• <strong class="text-amber-300">商店数量编辑</strong>：开发通知报告保留改绑为取消的数字，编辑框外仍可取消</div>
+          <div>• <strong class="text-purple-300">云上海市装备对比</strong>：开发通知报告跳过禁用购买和切换队员按钮</div>
         </div>
       </div>
     </div>

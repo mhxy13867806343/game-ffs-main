@@ -1795,6 +1795,19 @@
         <div class="text-[10px] text-gray-500 italic">注：开发通知报告30条支路集成回归、返船专项、旧档冷读测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
       </div>
 
+      <!-- 小游戏与场景确认交互说明 -->
+      <div class="p-3.5 rounded-lg bg-slate-900/70 border border-amber-600/40 text-xs text-gray-300 space-y-2">
+        <div class="font-bold text-amber-300 mb-1.5 flex items-center gap-1.5">
+          <span>🎲</span> Godot小游戏与场景确认（据开发通知）
+        </div>
+        <div class="space-y-1.5 leading-relaxed">
+          <div>• <strong class="text-yellow-300">金牙猜拳收手确认</strong>：开发通知报告支持项目取消键和手柄B</div>
+          <div>• <strong class="text-cyan-300">暴风绝壁校准和天空接驳确认</strong>：开发通知报告支持项目取消键和手柄B</div>
+          <div>• <strong class="text-orange-300">金牙双骰底注编辑</strong>：开发通知报告保留改绑为取消的数字</div>
+          <div>• <strong class="text-pink-300">金牙猜拳底注</strong>：开发通知报告同样保留数字</div>
+        </div>
+      </div>
+
       <!-- 4 维世界拓扑与航标预设卡片 -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div
