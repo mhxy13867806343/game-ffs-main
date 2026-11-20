@@ -32,6 +32,15 @@
           </n-button>
         </router-link>
       </div>
+      <!-- 键盘交互功能说明（按Godot实现报告）-->
+      <div class="mt-3 p-3 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs text-gray-300 max-w-4xl mx-auto">
+        <div class="font-bold text-amber-300 mb-1.5 flex items-center gap-1.5">
+          <span>⌨️</span> Godot功能更新（据开发通知）
+        </div>
+        <div class="leading-relaxed">
+          怪物图鉴详情窗口按取消键（尊重用户改绑）时，先返回图鉴列表并恢复原怪物卡片焦点，再次按取消键才退出图鉴；开发通知报告800×900窗口及F6改绑检查通过
+        </div>
+      </div>
     </div>
 
     <!-- 🐉 B0001~B0650 跨界 650 全量魔物 14 主题章总目索引与跨卷映射沙盘 -->
