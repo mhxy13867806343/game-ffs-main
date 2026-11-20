@@ -1787,8 +1787,12 @@
             <div class="font-semibold text-emerald-300">🌊 沃水之塔支路</div>
             <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告已接入世界地图进出和安全返回，新增碧海潮泉界标桩</div>
           </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
+            <div class="font-semibold text-amber-300">⚓ 沉舟滩南跳板返船</div>
+            <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告南跳板现显示返船木标，沿原路线按E仍返回同一船位</div>
+          </div>
         </div>
-        <div class="text-[10px] text-gray-500 italic">注：开发通知报告30条支路集成回归测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
+        <div class="text-[10px] text-gray-500 italic">注：开发通知报告30条支路集成回归、返船专项、旧档冷读测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
       </div>
 
       <!-- 4 维世界拓扑与航标预设卡片 -->
