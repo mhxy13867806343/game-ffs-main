@@ -38,6 +38,20 @@
       </div>
     </div>
 
+    <!-- Godot功能更新区域 -->
+    <div class="p-3.5 rounded-lg bg-slate-900/70 border border-cyan-600/40 text-xs text-gray-300 space-y-2">
+      <div class="font-bold text-cyan-300 mb-2 flex items-center gap-1.5">
+        <span>⌨️</span> Godot功能更新（据开发通知）
+      </div>
+      <div class="space-y-1.5 leading-relaxed">
+        <div>• <strong class="text-amber-300">存档重命名</strong>：开发通知报告保留改绑为取消的可打印字符</div>
+        <div>• <strong class="text-blue-300">标题读档导出邮箱框</strong>：开发通知报告保留可打印的取消改绑键</div>
+        <div>• <strong class="text-purple-300">标题读档和大陆保存搜索框</strong>：开发通知报告保留可打印取消改绑键</div>
+        <div>• <strong class="text-emerald-300">机关记录和练习选择器搜索</strong>：开发通知报告保留可打印取消改绑键</div>
+        <div>• <strong class="text-pink-300">标题中断存档确认窗</strong>：开发通知报告将焦点留在当前两个按钮</div>
+      </div>
+    </div>
+
     <!-- VOL.08 §5-§8 存档版本迁移链 (v1->v5)、通关 S/A/B/C 计分器与 VOL.25 五层架构裁决总纲工坊 (v2.2.368) -->
     <div
       id="vol08-vol25-contract-studio"

@@ -37,6 +37,14 @@
               <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition-transform">→</span>
             </router-link>
           </div>
+          <div class="mt-3 p-2.5 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs text-gray-300 max-w-2xl">
+            <div class="font-bold text-amber-300 mb-1.5 flex items-center gap-1.5">
+              <span>⌨️</span> Godot功能更新（据开发通知）
+            </div>
+            <div class="leading-relaxed">
+              空装备方案Tab跳过禁用操作，回已保存方案恢复编辑入口；开发通知报告焦点守卫与方案切换通过
+            </div>
+          </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
