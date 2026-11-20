@@ -30,6 +30,15 @@
       <p class="text-gray-400 max-w-3xl mx-auto text-xs sm:text-sm">
         系统归纳探险补给、稀有防具头盔、白魔法、黑魔法、时空魔法与青魔法全谱系；集成太古神兵残简重铸、遗迹远古炼金合成与时空黑市汇率对冲工坊
       </p>
+      <!-- 键盘交互功能说明（按Godot实现报告）-->
+      <div class="mt-3 p-3 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs text-gray-300 max-w-4xl mx-auto">
+        <div class="font-bold text-emerald-300 mb-1.5 flex items-center gap-1.5">
+          <span>⌨️</span> 调合配方窗口键盘焦点优化（Godot引擎实现）
+        </div>
+        <div class="leading-relaxed">
+          调合配方窗口内，左右方向键焦点保持在当前配方选项窗口内移动，不跳转至背后战斗菜单；配方阅读与战斗调合取消操作焦点守卫已验证
+        </div>
+      </div>
     </div>
 
     <!-- 顶部分类标签切换 (夜间高对比度) -->

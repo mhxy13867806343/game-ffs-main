@@ -17,6 +17,15 @@
           <p class="text-xs sm:text-sm text-gray-300 mt-2 max-w-2xl leading-relaxed">
             晨辉骑士黎川、卫珩、白魔导昼隐、以及暗之死囚纳哈特等英雄的核心属性、宿命、官方对话立绘与终极职能。全息实装角色六维潜能成长、四重极限连携与八主角命之座觉醒沙盘。
           </p>
+          <!-- NPC对话功能说明（按Godot实现报告）-->
+          <div class="mt-3 p-2.5 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs text-gray-300 max-w-2xl">
+            <div class="font-bold text-cyan-300 mb-1 flex items-center gap-1.5">
+              <span>💬</span> NPC对话肖像实装（Godot引擎实现）
+            </div>
+            <div class="leading-relaxed">
+              宁静村村长阿鲁诺在序章主线完成后的重访日常回话中正式显示专属中性肖像；无头复谈与序章原首谈回归测试已通过
+            </div>
+          </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
           <n-button
