@@ -77,7 +77,7 @@
         type="button"
         class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer border flex items-center gap-1.5 whitespace-nowrap select-none"
         :class="activeCategory === cat.key
-          ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.45)]'
+          ? 'bg-cyan-500 text-white border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.45)]'
           : 'bg-slate-800 text-gray-200 border-slate-700 hover:(bg-slate-700 text-white border-slate-500)'"
         @click="handleCategoryChange(cat.key)"
       >
@@ -85,7 +85,7 @@
         <span>{{ cat.label }}</span>
         <span
           class="text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold"
-          :class="activeCategory === cat.key ? 'bg-cyan-900/30 text-slate-950' : 'bg-slate-900 text-cyan-300 border border-slate-700'"
+          :class="activeCategory === cat.key ? 'bg-cyan-900/30 text-white' : 'bg-slate-900 text-cyan-300 border border-slate-700'"
         >
           {{ getCategoryCount(cat.key) }}
         </span>

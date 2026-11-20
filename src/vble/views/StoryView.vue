@@ -126,7 +126,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="volStoryContractTab === 'bridge' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="volStoryContractTab === 'bridge' ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="volStoryContractTab = 'bridge'"
           >
             🔗 30章 ↔ 实机12章44节拍映射桥 (VOL.01/24)
@@ -134,7 +134,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="volStoryContractTab === 'wuxing' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="volStoryContractTab === 'wuxing' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="volStoryContractTab = 'wuxing'"
           >
             ☯️ VOL.10 地月正逆五行乘区 &amp; VOL.24 色盘状态机
@@ -245,7 +245,7 @@
         type="button"
         class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap"
         :class="activeMode === mode.key
-          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(6,182,212,0.35)]'
+          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_15px_rgba(6,182,212,0.35)]'
           : 'bg-slate-900 text-gray-300 hover:bg-slate-800 hover:text-white border border-slate-800'"
         @click="activeMode = mode.key"
       >
@@ -357,7 +357,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer border select-none whitespace-nowrap"
             :class="activeStageFilter === st.key
-              ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow-[0_0_12px_rgba(245,158,11,0.45)]'
+              ? 'bg-amber-500 text-white border-amber-400 font-bold shadow-[0_0_12px_rgba(245,158,11,0.45)]'
               : 'bg-slate-800 text-gray-200 border-slate-700 hover:(bg-slate-700 text-white)'"
             @click="activeStageFilter = st.key"
           >
@@ -1016,7 +1016,7 @@
               type="button"
               class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
               :class="activeConvergenceScriptTab === st.key
-                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                ? 'bg-cyan-500 text-white border-cyan-400 font-bold'
                 : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
               @click="activeConvergenceScriptTab = st.key"
             >

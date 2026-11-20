@@ -142,7 +142,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="vol02Vol23Tab === 'vol23'
-              ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-sm'
+              ? 'bg-cyan-500 text-white border-cyan-400 shadow-sm'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="vol02Vol23Tab = 'vol23'"
           >
@@ -261,7 +261,7 @@
           :aria-pressed="selectedTier === t.id"
           class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold transition-all duration-200 border cursor-pointer select-none"
           :class="selectedTier === t.id
-            ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-md shadow-cyan-500/30 font-black'
+            ? 'bg-cyan-500 text-white border-cyan-400 shadow-md shadow-cyan-500/30 font-black'
             : 'bg-slate-800 text-gray-200 border-slate-700 hover:bg-slate-700 hover:text-white'"
           @click="selectedTier = t.id"
         >
@@ -453,7 +453,7 @@
                     <span class="text-xl sm:text-2xl drop-shadow-[0_0_10px_rgba(34,211,238,0.9)] animate-bounce">
                       {{ playerIcon }}
                     </span>
-                    <span v-if="floatDuration > 0" class="absolute -top-1 -right-1 text-[9px] bg-cyan-500 text-slate-950 px-1 rounded-full font-black">
+                    <span v-if="floatDuration > 0" class="absolute -top-1 -right-1 text-[9px] bg-cyan-500 text-white px-1 rounded-full font-black">
                       羽
                     </span>
                   </template>
@@ -1535,7 +1535,7 @@
               </div>
               <button
                 type="button"
-                class="w-full py-2 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition cursor-pointer"
+                class="w-full py-2 rounded bg-amber-500 hover:bg-amber-400 text-white font-black text-xs transition cursor-pointer"
                 :disabled="chestOpened"
                 @click="openChest"
               >
@@ -2200,7 +2200,7 @@
               type="button"
               class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
               :class="activeGuardianScriptTab === st.key
-                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                ? 'bg-cyan-500 text-white border-cyan-400 font-bold'
                 : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
               @click="activeGuardianScriptTab = st.key"
             >

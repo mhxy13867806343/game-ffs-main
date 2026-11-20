@@ -201,7 +201,7 @@
             <button
               type="button"
               class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
-              :class="selectedSummonId === s.id ? 'bg-cyan-500 text-slate-950 font-bold shadow-md' : 'bg-slate-800 text-cyan-400 hover:bg-slate-700 border border-slate-700'"
+              :class="selectedSummonId === s.id ? 'bg-cyan-500 text-white font-bold shadow-md' : 'bg-slate-800 text-cyan-400 hover:bg-slate-700 border border-slate-700'"
               @click="selectForSimulation(s.id)"
             >
               <span>{{ selectedSummonId === s.id ? '✓ 正在推演' : '🎯 载入沙盘' }}</span>
@@ -1206,7 +1206,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'transcendence' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'transcendence' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'transcendence'"
             >
               celestial_transcendence_evocation_engine.gd
@@ -1214,7 +1214,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'descent' ? 'bg-indigo-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'descent' ? 'bg-indigo-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'descent'"
             >
               celestial_descent_engine.gd
@@ -1222,7 +1222,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'odin' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'odin' ? 'bg-amber-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'odin'"
             >
               odin_trial_engine.gd
@@ -1230,7 +1230,7 @@
             <button
               type="button"
               class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-              :class="activeCodeTab === 'summon' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeCodeTab === 'summon' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeCodeTab = 'summon'"
             >
               summon_system.gd

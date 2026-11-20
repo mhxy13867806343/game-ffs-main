@@ -1489,7 +1489,7 @@
             <button
               type="button"
               class="px-3 py-1 rounded-lg text-xs font-semibold transition-all border cursor-pointer"
-              :class="activeEngineScript === 'bootloader' ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
+              :class="activeEngineScript === 'bootloader' ? 'bg-cyan-500 text-white border-cyan-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
               @click="activeEngineScript = 'bootloader'"
             >
               启动器内核
@@ -1497,7 +1497,7 @@
             <button
               type="button"
               class="px-3 py-1 rounded-lg text-xs font-semibold transition-all border cursor-pointer"
-              :class="activeEngineScript === 'verifier' ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
+              :class="activeEngineScript === 'verifier' ? 'bg-amber-500 text-white border-amber-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
               @click="activeEngineScript = 'verifier'"
             >
               哈希验签工具
@@ -1505,7 +1505,7 @@
             <button
               type="button"
               class="px-3 py-1 rounded-lg text-xs font-semibold transition-all border cursor-pointer"
-              :class="activeEngineScript === 'p2p_swarm' ? 'bg-purple-500 text-slate-950 border-purple-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
+              :class="activeEngineScript === 'p2p_swarm' ? 'bg-purple-500 text-white border-purple-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
               @click="activeEngineScript = 'p2p_swarm'"
             >
               P2P 蜂窝引擎
@@ -1513,7 +1513,7 @@
             <button
               type="button"
               class="px-3 py-1 rounded-lg text-xs font-semibold transition-all border cursor-pointer"
-              :class="activeEngineScript === 'delta_pipeline' ? 'bg-emerald-500 text-slate-950 border-emerald-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
+              :class="activeEngineScript === 'delta_pipeline' ? 'bg-emerald-500 text-white border-emerald-400 font-bold' : 'bg-slate-800 text-gray-300 border-slate-700 hover:text-white'"
               @click="activeEngineScript = 'delta_pipeline'"
             >
               差量热修流水线

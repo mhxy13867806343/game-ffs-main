@@ -397,7 +397,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer select-none flex items-center gap-1.5"
             :class="selectedCrtPresetId === preset.id
-              ? 'bg-amber-600 text-slate-950 border-amber-400 font-black shadow-lg shadow-amber-500/30 ring-2 ring-amber-400/50'
+              ? 'bg-amber-600 text-white border-amber-400 font-black shadow-lg shadow-amber-500/30 ring-2 ring-amber-400/50'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:bg-slate-800 hover:text-white'"
             @click="applyCrtPreset(preset.id)"
           >
@@ -458,7 +458,7 @@
                   :key="idx"
                   type="button"
                   class="px-2 py-0.5 rounded text-[10px] border cursor-pointer"
-                  :class="selectedCrtSampleIndex === idx ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold' : 'bg-stone-800 text-stone-300 border-stone-700'"
+                  :class="selectedCrtSampleIndex === idx ? 'bg-amber-500 text-white border-amber-400 font-bold' : 'bg-stone-800 text-stone-300 border-stone-700'"
                   @click="selectedCrtSampleIndex = idx"
                 >
                   图 {{ idx + 1 }}
@@ -628,7 +628,7 @@
                   :key="idx"
                   type="button"
                   class="px-2 py-0.5 rounded text-[10px] border cursor-pointer"
-                  :class="selectedGradingSampleIndex === idx ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold' : 'bg-slate-900 text-slate-300 border-slate-700'"
+                  :class="selectedGradingSampleIndex === idx ? 'bg-cyan-500 text-white border-cyan-400 font-bold' : 'bg-slate-900 text-slate-300 border-slate-700'"
                   @click="selectedGradingSampleIndex = idx"
                 >
                   场景 {{ idx + 1 }}
@@ -1014,7 +1014,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeGalleryGodotTab === 'volumetric' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeGalleryGodotTab === 'volumetric' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeGalleryGodotTab = 'volumetric'"
             >
               📄 volumetric_raymarching.gdshader
@@ -1022,7 +1022,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeGalleryGodotTab === 'orchestrator' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeGalleryGodotTab === 'orchestrator' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeGalleryGodotTab = 'orchestrator'"
             >
               📄 vfx_particle_pipeline_orchestrator.gd
@@ -1030,7 +1030,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeGalleryGodotTab === 'vfx' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeGalleryGodotTab === 'vfx' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeGalleryGodotTab = 'vfx'"
             >
               📄 vfx_particle_controller.gd
@@ -1038,7 +1038,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeGalleryGodotTab === 'grading' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeGalleryGodotTab === 'grading' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeGalleryGodotTab = 'grading'"
             >
               📄 color_grading_post_process.gd
@@ -1373,7 +1373,7 @@
               type="button"
               class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
               :class="activeSpectrumScriptTab === st.key
-                ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                ? 'bg-cyan-500 text-white border-cyan-400 font-bold'
                 : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
               @click="activeSpectrumScriptTab = st.key"
             >

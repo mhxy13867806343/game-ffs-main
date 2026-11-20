@@ -168,7 +168,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol03StudioTab === 'sheet' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol03StudioTab === 'sheet' ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol03StudioTab = 'sheet'"
           >
             📋 全域 16 大首领参数总表 (§7)
@@ -176,7 +176,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol03StudioTab === 'mechanics' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol03StudioTab === 'mechanics' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol03StudioTab = 'mechanics'"
           >
             ⚖️ 天平断头台 / 3层反击熔断 / 源氏偷盗 (§8-§10)
@@ -325,7 +325,7 @@
                 <button
                   type="button"
                   class="flex-1 py-1.5 rounded font-mono font-bold border transition-all cursor-pointer"
-                  :class="drainTargetType === 'boss' ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
+                  :class="drainTargetType === 'boss' ? 'bg-amber-500 text-white border-amber-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
                   @click="drainTargetType = 'boss'"
                 >
                   首领 ({{ (drainRate * 100).toFixed(0) }}%)
@@ -333,7 +333,7 @@
                 <button
                   type="button"
                   class="flex-1 py-1.5 rounded font-mono font-bold border transition-all cursor-pointer"
-                  :class="drainTargetType === 'normal' ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
+                  :class="drainTargetType === 'normal' ? 'bg-cyan-500 text-white border-cyan-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
                   @click="drainTargetType = 'normal'"
                 >
                   普通敌 ({{ (drainRate * 100).toFixed(0) }}%)
@@ -410,7 +410,7 @@
                   :key="opt.key"
                   type="button"
                   class="flex-1 py-1.5 px-2 rounded font-mono text-[11px] font-bold border transition-all cursor-pointer"
-                  :class="reaperChoice === opt.key ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
+                  :class="reaperChoice === opt.key ? 'bg-amber-500 text-white border-amber-400' : 'bg-slate-900 text-gray-400 border-slate-700'"
                   @click="reaperChoice = opt.key"
                 >
                   {{ opt.label }}
@@ -1333,7 +1333,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeBossGodotTab === 'tactics' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeBossGodotTab === 'tactics' ? 'bg-rose-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeBossGodotTab = 'tactics'"
             >
               📄 boss_tactics_battle.gd
@@ -1341,7 +1341,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeBossGodotTab === 'stagger' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeBossGodotTab === 'stagger' ? 'bg-rose-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeBossGodotTab = 'stagger'"
             >
               📄 boss_stagger_enrage_resolver.gd
@@ -1349,7 +1349,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeBossGodotTab === 'dual_raid' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeBossGodotTab === 'dual_raid' ? 'bg-amber-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeBossGodotTab = 'dual_raid'"
             >
               📄 void_dual_superboss_raid_engine.gd

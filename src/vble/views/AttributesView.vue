@@ -1010,7 +1010,7 @@
                   :key="spd"
                   type="button"
                   class="px-1.5 py-0.5 rounded text-[10px] font-mono"
-                  :class="atbSimSpeed === spd ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                  :class="atbSimSpeed === spd ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
                   @click="atbSimSpeed = spd"
                 >
                   {{ spd }}x
@@ -1042,7 +1042,7 @@
                   <button
                     type="button"
                     class="px-2 py-0.5 rounded text-[10px] border transition-all"
-                    :class="member.status === 'haste' ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'bg-slate-950 text-gray-400 border-slate-800 hover:text-amber-300'"
+                    :class="member.status === 'haste' ? 'bg-amber-500 text-white border-amber-400 font-bold shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'bg-slate-950 text-gray-400 border-slate-800 hover:text-amber-300'"
                     @click="setMemberStatus(idx, member.status === 'haste' ? 'normal' : 'haste')"
                   >
                     ⏩ 加速(Haste 2x)
@@ -1050,7 +1050,7 @@
                   <button
                     type="button"
                     class="px-2 py-0.5 rounded text-[10px] border transition-all"
-                    :class="member.status === 'slow' ? 'bg-blue-500 text-slate-950 border-blue-400 font-bold shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-slate-950 text-gray-400 border-slate-800 hover:text-blue-300'"
+                    :class="member.status === 'slow' ? 'bg-blue-500 text-white border-blue-400 font-bold shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-slate-950 text-gray-400 border-slate-800 hover:text-blue-300'"
                     @click="setMemberStatus(idx, member.status === 'slow' ? 'normal' : 'slow')"
                   >
                     ⏳ 减速(Slow 0.5x)
@@ -1973,7 +1973,7 @@
             <div class="flex flex-col items-center" :style="{ transform: `scale(${badgeVerdict.scale})` }">
               <span
                 v-if="badgeVerdict.weak"
-                class="px-1.5 py-0.5 mb-1 rounded bg-cyan-500/90 text-[10px] font-black text-slate-950 tracking-widest"
+                class="px-1.5 py-0.5 mb-1 rounded bg-cyan-500/90 text-[10px] font-black text-white tracking-widest"
               >WEAK</span>
               <span
                 class="text-3xl font-black font-mono"

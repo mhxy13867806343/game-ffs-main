@@ -140,7 +140,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="volHeroStudioTab === 'mapping' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="volHeroStudioTab === 'mapping' ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="volHeroStudioTab = 'mapping'"
           >
             🆔 WLD-C02 跨卷角色 ID 映射表 (VOL.01/05/13)
@@ -148,7 +148,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="volHeroStudioTab === 'growth' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="volHeroStudioTab === 'growth' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="volHeroStudioTab = 'growth'"
           >
             📈 回忆士 128 碎片池 &amp; Lv&gt;255 超限成长公式 (VOL.04 §5-§6)
@@ -242,7 +242,7 @@
           :aria-pressed="selectedParty === p.id"
           class="px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer border select-none flex items-center gap-1.5"
           :class="selectedParty === p.id
-            ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow-md shadow-amber-500/20'
+            ? 'bg-amber-500 text-white border-amber-400 font-bold shadow-md shadow-amber-500/20'
             : 'bg-transparent text-gray-300 border-transparent hover:(text-white bg-slate-800)'"
           @click="selectedParty = p.id"
         >
@@ -250,7 +250,7 @@
           <span>{{ p.name }}</span>
           <span
             class="text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold"
-            :class="selectedParty === p.id ? 'bg-amber-900/40 text-slate-950' : 'bg-slate-800 text-amber-300 border border-slate-700'"
+            :class="selectedParty === p.id ? 'bg-amber-900/40 text-white' : 'bg-slate-800 text-amber-300 border border-slate-700'"
           >
             {{ getPartyCount(p.id) }}
           </span>
@@ -357,7 +357,7 @@
             <button
               type="button"
               class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
-              :class="selectedHeroId === char.id ? 'bg-amber-400 text-slate-950 font-bold shadow-md' : 'bg-slate-800 text-amber-300 hover:bg-slate-700 border border-slate-700'"
+              :class="selectedHeroId === char.id ? 'bg-amber-400 text-white font-bold shadow-md' : 'bg-slate-800 text-amber-300 hover:bg-slate-700 border border-slate-700'"
               @click="selectHeroForSimulation(char.id)"
             >
               <span>{{ selectedHeroId === char.id ? '✓ 正在推演' : '📊 载入沙盘' }}</span>
@@ -1196,7 +1196,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeHeroGodotTab === 'growth' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeHeroGodotTab === 'growth' ? 'bg-amber-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeHeroGodotTab = 'growth'"
             >
               📄 hero_stat_growth.gd
@@ -1204,7 +1204,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeHeroGodotTab === 'constellation' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeHeroGodotTab === 'constellation' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeHeroGodotTab = 'constellation'"
             >
               📄 hero_constellation_awakening_engine.gd
@@ -1212,7 +1212,7 @@
             <button
               type="button"
               class="px-2.5 py-1 text-xs rounded-md transition cursor-pointer"
-              :class="activeHeroGodotTab === 'soul_link' ? 'bg-rose-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+              :class="activeHeroGodotTab === 'soul_link' ? 'bg-rose-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
               @click="activeHeroGodotTab = 'soul_link'"
             >
               📄 hero_soul_link_synergy_engine.gd

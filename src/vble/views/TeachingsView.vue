@@ -143,7 +143,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="teachingContractTab === 'vol15'
-              ? 'bg-teal-500 text-slate-950 border-teal-400 shadow-sm'
+              ? 'bg-teal-500 text-white border-teal-400 shadow-sm'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="teachingContractTab = 'vol15'"
           >
@@ -163,7 +163,7 @@
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border"
             :class="teachingContractTab === 'vol13'
-              ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm'
+              ? 'bg-amber-500 text-white border-amber-400 shadow-sm'
               : 'bg-slate-900 text-gray-300 border-slate-700 hover:text-white'"
             @click="teachingContractTab = 'vol13'"
           >
@@ -291,7 +291,7 @@
         type="button"
         class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap"
         :class="activeViewTab === tab.key
-          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(6,182,212,0.35)]'
+          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_15px_rgba(6,182,212,0.35)]'
           : 'bg-slate-900 text-gray-300 hover:bg-slate-800 hover:text-white border border-slate-800'"
         @click="activeViewTab = tab.key"
       >
@@ -299,7 +299,7 @@
         <span>{{ tab.label }}</span>
         <span
           v-if="tab.badge"
-          class="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-amber-500 text-slate-950 font-bold"
+          class="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-amber-500 text-white font-bold"
         >
           {{ tab.badge }}
         </span>

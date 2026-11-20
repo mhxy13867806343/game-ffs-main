@@ -117,7 +117,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol22StudioTab === 'creatures' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol22StudioTab === 'creatures' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol22StudioTab = 'creatures'"
           >
             🐊 AMZ-01~10 雨林生物参数与科学辟谣 (§7)
@@ -125,7 +125,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol22StudioTab === 'mechanics' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol22StudioTab === 'mechanics' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol22StudioTab = 'mechanics'"
           >
             🌿 库鲁皮拉 Eco_Damage 状态机与巨骨舌鱼/箭毒蛙推演 (§8)

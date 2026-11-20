@@ -43,7 +43,7 @@
               :key="layer.id"
               type="button"
               class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer"
-              :class="selectedPortalDagLayer === layer.id ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700 hover:text-white'"
+              :class="selectedPortalDagLayer === layer.id ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700 hover:text-white'"
               @click="selectedPortalDagLayer = layer.id"
             >
               {{ layer.label }}
@@ -128,9 +128,9 @@
                   type="button"
                   class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border select-none whitespace-nowrap"
                   :class="activeNewsTab === tab.id
-                    ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.45)]'
+                    ? 'bg-cyan-500 text-white border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.45)]'
                     : 'bg-slate-800 text-gray-200 border-slate-700 hover:(bg-slate-700 text-white border-slate-500)'"
-                  @click="activeNewsTab = tab.id"
+                  @click="activeNewsTab === tab.id"
                 >
                   {{ tab.name }}
                 </button>
@@ -861,7 +861,7 @@
                 type="button"
                 class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
                 :class="activeNexusScriptTab === st.key
-                  ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                  ? 'bg-cyan-500 text-white border-cyan-400 font-bold'
                   : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
                 @click="activeNexusScriptTab = st.key"
               >

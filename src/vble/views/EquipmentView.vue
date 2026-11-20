@@ -138,7 +138,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol05EquipTab === 'relics' ? 'bg-amber-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol05EquipTab === 'relics' ? 'bg-amber-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol05EquipTab = 'relics'"
           >
             ⚔️ 五大超越神兵 &amp; 五大主角专属圣器 (§1.1-§1.2)
@@ -146,7 +146,7 @@
           <button
             type="button"
             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
-            :class="vol05EquipTab === 'shops' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-900 text-gray-300 border border-slate-700'"
+            :class="vol05EquipTab === 'shops' ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-gray-300 border border-slate-700'"
             @click="vol05EquipTab = 'shops'"
           >
             🏪 T1~T5 商店价格带 &amp; ECO-C01~05 消歧规则 (§5-§7)
@@ -456,7 +456,7 @@
                   type="button"
                   class="p-2 rounded-lg text-xs font-semibold border transition-all text-center"
                   :class="dwState.stance === 'normal'
-                    ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold'
+                    ? 'bg-amber-500 text-white border-amber-400 font-bold'
                     : 'bg-slate-900 text-gray-300 border-slate-800 hover:bg-slate-800'"
                   @click="dwState.stance = 'normal'"
                 >
@@ -466,7 +466,7 @@
                   type="button"
                   class="p-2 rounded-lg text-xs font-semibold border transition-all text-center"
                   :class="dwState.stance === 'rapid_fire'
-                    ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold'
+                    ? 'bg-amber-500 text-white border-amber-400 font-bold'
                     : 'bg-slate-900 text-gray-300 border-slate-800 hover:bg-slate-800'"
                   @click="dwState.stance = 'rapid_fire'"
                 >
@@ -1443,7 +1443,7 @@
                 type="button"
                 class="px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer border"
                 :class="activeEssenceScriptTab === st.key
-                  ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'
+                  ? 'bg-cyan-500 text-white border-cyan-400 font-bold'
                   : 'bg-slate-900 text-gray-400 border-slate-800 hover:text-white'"
                 @click="activeEssenceScriptTab = st.key"
               >
@@ -1737,7 +1737,7 @@
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-                :class="activeCodeScriptTab === 'stats' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeCodeScriptTab === 'stats' ? 'bg-amber-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeCodeScriptTab = 'stats'"
               >
                 equipment_stats_resolver.gd
@@ -1745,7 +1745,7 @@
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-                :class="activeCodeScriptTab === 'forge' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeCodeScriptTab === 'forge' ? 'bg-cyan-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeCodeScriptTab = 'forge'"
               >
                 relic_resonance_forge_engine.gd
@@ -1753,7 +1753,7 @@
               <button
                 type="button"
                 class="px-2.5 py-1 rounded text-xs font-mono transition-all cursor-pointer"
-                :class="activeCodeScriptTab === 'rune' ? 'bg-purple-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-white'"
+                :class="activeCodeScriptTab === 'rune' ? 'bg-purple-500 text-white font-bold' : 'text-gray-400 hover:text-white'"
                 @click="activeCodeScriptTab = 'rune'"
               >
                 relic_rune_infusion_engine.gd
