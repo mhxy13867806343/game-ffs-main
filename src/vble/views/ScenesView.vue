@@ -1795,8 +1795,12 @@
             <div class="font-semibold text-indigo-300">🌫️ 面纱之塔支路</div>
             <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告已接通世界地图入口和安全返回，新增幻影障光秘银界标桩</div>
           </div>
+          <div class="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
+            <div class="font-semibold text-cyan-300">🏛️ 海底神殿支路</div>
+            <div class="text-[11px] leading-relaxed text-gray-400">开发通知报告已接入世界地图进出与安全返回，新增深海潮汐神殿界标桩</div>
+          </div>
         </div>
-        <div class="text-[10px] text-gray-500 italic">注：开发通知报告31条支路无头集成回归测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
+        <div class="text-[10px] text-gray-500 italic">注：开发通知报告32条支路无头集成回归测试通过；具体坐标、解锁条件、敌人配置等细节以游戏实际实装为准</div>
       </div>
 
       <!-- 小游戏与场景确认交互说明 -->
