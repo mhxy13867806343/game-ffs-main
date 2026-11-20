@@ -19,11 +19,12 @@
           </p>
           <!-- NPC对话功能说明（按Godot实现报告）-->
           <div class="mt-3 p-2.5 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs text-gray-300 max-w-2xl">
-            <div class="font-bold text-cyan-300 mb-1 flex items-center gap-1.5">
+            <div class="font-bold text-cyan-300 mb-1.5 flex items-center gap-1.5">
               <span>💬</span> Godot功能更新（据开发通知）
             </div>
-            <div class="leading-relaxed">
-              阿鲁诺在原村庄复谈时显示专属肖像；开发通知报告复谈与序章原首谈回归通过
+            <div class="space-y-1.5 leading-relaxed">
+              <div>• 阿鲁诺在原村庄复谈时显示专属肖像；开发通知报告复谈与序章原首谈回归通过</div>
+              <div>• 疏散书记使用新生成的专属透明站姿，保留原肖像；开发通知报告42项检查覆盖原入口进城、两次选答和排水道回城，画面待人工确认</div>
             </div>
           </div>
         </div>
